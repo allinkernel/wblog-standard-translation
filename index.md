@@ -1,5 +1,7 @@
 # linux世界的兼容性
 
+> TODO: (重写)多数内容由deepseek生成，行文上可能有割裂感，因为是不同地方摘抄过来的
+
 兼容性区分**源码级兼容性**（即代码拷贝到其他平台的编译器下能否编译通过）和**二进制兼容性**（代码编译生成的二进制拷贝到其他平台下能否正常工作）。
 Linux兼容posix标准，而在二进制层面由不同层级的标准来保证。这里简单做介绍
 
@@ -40,7 +42,7 @@ gABI 最核心的贡献是定义了 ELF（Executable and Linkable Format，可�
 System V ABI（System V 应用程序二进制接口）。这是最权威的 gABI 规范，几乎所有 Unix 和 Linux 系统都以此为基础。
 在线版本参考地址：
 
-- [sco-gabi](www.sco.com/developers/gabi/)
+- [sco-gabi](https://www.sco.com/developers/gabi/)
 - [linux-elf](https://refspecs.linuxbase.org/elf/index.html)
 
 #### 二、psABI（Processor-Specific ABI，处理器补充 ABI）
@@ -59,6 +61,7 @@ psABI 为特定架构定义了如下内容：
 - 处理器特定的 ELF 补充：如重定位类型、特殊段定义。
 
 常见规范名称：
+
 - x86-64 psABI：用于 64 位 x86 架构（即 AMD64 / Intel 64）。
   文档地址：[x86-64-ABI](https://gitlab.com/x86-psABIs/x86-64-ABI)
 - i386 psABI：用于 32 位 x86 架构。
@@ -81,6 +84,7 @@ OS ABI 标识了该 ELF 文件所针对的目标操作系统，以及该文件�
 这个字段是实现跨操作系统二进制兼容性的重要门槛。
 
 常见取值（`e_ident[EI_OSABI]` 的值）：
+
 - `ELFOSABI_NONE`（值为 0）：表示遵循标准的 gABI / psABI，无特定操作系统扩展。这是最通用的取值。
 - `ELFOSABI_LINUX`（值为 3）：表示该 ELF 文件针对 Linux 操作系统，可能使用了 Linux 特有的 ELF 扩展。
 - `ELFOSABI_FREEBSD`（值为 9）：针对 FreeBSD 操作系统。
@@ -141,24 +145,17 @@ OS ABI 的运行时接口层，定义了用户态程序如何向操作系统内�
 
 > 由deepseek根据上述兼容性层级理论生成
 
-好的，我们按你设计的六层递进模型，逐层生成对应的汇编代码，并说明每一层新增的兼容性标准以及如何验证失败。
-
----
-
 #### 📌 模型回顾
 
-|     层级      | 形态                | 新增标准                   | 对钩数 |
-| :-----------: | :------------------ | :------------------------- | :----: |
-|  ① 裸机器码   | 纯指令流            | psABI                      |   1    |
-|   ② ELF格式   | 有ELF头，无系统调用 | + gABI                     |   2    |
-|  ③ 可加载ELF  | ELF被OS加载器识别   | + ELF OS识别（`EI_OSABI`） |   3    |
-|  ④ 可执行ELF  | 执行系统调用        | + OS ABI（系统调用号）     |   4    |
-| ⑤ 动态链接ELF | 依赖共享库          | + 标准库实现ABI            |   5    |
-|  ⑥ 跨发行版   | 在不同发行版间部署  | + FHS + 发行版路径         |   6    |
+|     层级      | 形态                | 新增标准                   |
+| :-----------: | :------------------ | :------------------------- |
+|  ① 裸机器码   | 纯指令流            | psABI                      |
+|   ② ELF格式   | 有ELF头，无系统调用 | + gABI                     |
+|  ③ 可加载ELF  | ELF被OS加载器识别   | + ELF OS识别（`EI_OSABI`） |
+|  ④ 可执行ELF  | 执行系统调用        | + OS ABI（系统调用号）     |
+| ⑤ 动态链接ELF | 依赖共享库          | + 标准库实现ABI            |
+|  ⑥ 跨发行版   | 在不同发行版间部署  | + FHS + 发行版路径         |
 
-所有代码均使用 **x86-64 Linux** 环境（AT&T 汇编语法，`gas`）。
-
----
 
 #### ① 裸机器码（仅依赖 psABI）
 
@@ -219,7 +216,7 @@ qemu-system-i386 -drive file=hello.bin,format=raw,index=0,media=disk
 
 如果使用arm虚拟机执行，就不会打印出来，指令都是`undefined`指令
 
-![image-20260824222746619](.pic/x86指令在aarch64虚拟机上无法运行.png)
+![x86指令在aarch64虚拟机上无法运行](.pic/x86指令在aarch64虚拟机上无法运行.png)
 
 这里是简单举例，类似的场景其实很多，比如x8664上的专有寄存器（比如`R8`）在x86上就无法访问。
 

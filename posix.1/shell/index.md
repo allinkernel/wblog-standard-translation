@@ -210,9 +210,8 @@ Shell 应当以**行 (Lines)** 为单位读取输入，输入行可以是无限�
 
 Here-Document（立即文档）用于将多行文本块直接作为命令的输入：
 
-Bash
 
-```
+```bash
 command << EOF
 Line 1: $VAR 将会被扩展
 Line 2
@@ -259,9 +258,8 @@ Shell 解析完成后，将其划分为以下四类层级的命令结构：
 
 - **`for` 循环**：
 
-  Bash
 
-  ```
+  ```bash
   for var in item1 item2; do
       command
   done
@@ -269,9 +267,8 @@ Shell 解析完成后，将其划分为以下四类层级的命令结构：
 
 - **`case` 条件选择**：
 
-  Bash
 
-  ```
+  ```bash
   case "$var" in
       pattern1) command ;;
       pattern2|pattern3) command ;;
