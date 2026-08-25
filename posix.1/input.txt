@@ -1,0 +1,115 @@
+1. 你是一个精通英文和中文书面语言的专家。同时也是一名精通posix标准的计算机科学家，更是一名通达估计的计算机发展史学家。
+2. 你的工作目录仅限当前目录，但不要改我的git仓库（git add/git commit/git push/git pull等修改命令不要执行），可以看我的git仓库（git diff、git log等）
+3. 每一次回答完问题后，请将你本次学习到的知识点和吸取的教训记录到你自己找得到的skill中。
+4. 每个目录下都有一个index.md，这个md中要用到的图片保存在.pic目录下。目录名字就是文章的名字，子目录名字就是当前文章的子文章的名字，子目录下也有index.md，其他同父目录一致。也就是这是一个递归向下的目录树结构，用来组织文章，使其成树形结构。
+以上要求是我们每次沟通的前提，你务必记录。
+
+接下来是我给你的需求，请你帮我解决。
+0. 请理解下边的需求，帮助我翻译对应的文档的各个章节到各个目录下。
+1. 翻译的源文档来源于下边的几个链接
+
+> 	posix.1 2024标准首页
+> 	https://pubs.opengroup.org/onlinepubs/9799919799/mindex.html
+> 
+> 	POSIX.1-2024 标准主要包含以下四个部分：
+> 	1. Base Definitions（XBD - 基础定义卷）：统一术语、通用概念、环境变量、正则表达式规范及 C 语言头文件定义。
+> 		链接： https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/toc.html 
+> 	2. System Interfaces（XSH - 系统接口卷）：定义核心系统调用（System Calls）与 C 标准库函数。
+> 		链接： https://pubs.opengroup.org/onlinepubs/9799919799/functions/toc.html
+> 	3. Shell and Utilities（XCU - Shell 与实用程序卷）：定义标准的 Shell 命令语言和 100 多个核心命令行工具。
+> 		链接： https://pubs.opengroup.org/onlinepubs/9799919799/utilities/toc.html 
+> 	4. Rationale（XRAT - 原理阐述卷，参考补充）：解释各项条款的设计历史、废弃原因及技术决策，供开发者和实现者参考。
+> 		链接： https://pubs.opengroup.org/onlinepubs/9799919799/xrat/toc.html
+
+1. 在 /home/mindul/self/wblog_new/std/posix.1/vol.3.shell/2.shell/index.md 中，是gemini翻译输出的文档，用来给你作为参考。翻译的源文档来自于以下链接路径（就是浏览器中直接点击链接，一个一个点击过去得到的路径就是链接路径）
+> https://pubs.opengroup.org/onlinepubs/9799919799/utilities/toc.html
+> https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html
+
+也就是，这个2.shell/index.md翻译自https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html
+它有一点做的很好，源html文档中，有如下内容：
+
+> The shell operates according to the following general overview of operations. The specific details are included in the cited sections of this chapter.
+> 
+> 	1. The shell reads its input from a file (see sh), from the -c option or from the system() and popen() functions defined in the System Interfaces volume of POSIX.1-2024. If the first line of a file of shell commands starts with the characters "#!", the results are unspecified.
+> 
+> 	2. The shell breaks the input into tokens: words and operators; see 2.3 Token Recognition.
+> 
+> 	3. The shell parses the input into simple commands (see 2.9.1 Simple Commands) and compound commands (see 2.9.4 Compound Commands).
+> 
+> 	4. For each word within a command, the shell processes <backslash>-escape sequences inside dollar-single-quotes (see 2.2.4 Dollar-Single-Quotes) and then performs various word expansions (see 2.6 Word Expansions). In the case of a simple command, the results usually include a list of pathnames and fields to be treated as a command name and arguments; see 2.9 Shell Commands.
+> 
+> 	5. The shell performs redirection (see 2.7 Redirection) and removes redirection operators and their operands from the parameter list.
+> 
+> 	6. The shell executes a function (see 2.9.5 Function Definition Command), built-in (see 2.15 Special Built-In Utilities), executable file, or script, giving the names of the arguments as positional parameters numbered 1 to n, and the name of the command (or in the case of a function within a script, the name of the script) as special parameter 0 (see 2.9.1.4 Command Search and Execution).
+> 
+> 	7. The shell optionally waits for the command to complete and collects the exit status (see 2.8.2 Exit Status for Commands).
+
+然后它翻译出来的内容，如下：
+> 1. **读取输入 (Read Input)**：
+>    - 从文件、`-c` 字符串选项输入、交互式终端，或通过 `system()` / `popen()` 函数读取命令输入。
+>    - **`#!` (Hash-Bang) 处理机制**：如果 Shell 脚本文件的第一行的前两个字节是 `#!`，其后续解释器的行为属于未指定行为（Unspecified）。系统可能将其作为可执行文件的路径并传递参数，但这超出了 POSIX 标准规范的约束范畴。
+> 2. **标记识别与词法拆分 (Token Recognition)**：
+>    - 输入流被逐字符扫描，并根据 2.2 节（引用）和 2.3 节（Token 识别）的规则拆分为词法标记（Tokens）。Token 分为两类：**单词 (Words)** 与 **运算符 (Operators)**。
+> 3. **语法解析 (Parsing)**：
+>    - 根据 2.10 节（Shell 语法）的 BNF 规则，将 Token 序列解析为简单命令（Simple Commands）与复合命令（Compound Commands），构建语法树。
+> 4. **处理扩展 (Expansions)**：
+>    - 处理 `$''` 内的反斜杠转义序列。
+>    - 对各种语法成分按严格规定的顺序执行 2.6 节定义的 7 种**单词扩展 (Word Expansions)**。
+> 5. **处理重定向 (Redirection)**：
+>    - 解析并执行 2.7 节定义的重定向操作。
+>    - 成功建立文件描述符映射后，将重定向运算符及其相关操作数从命令参数列表中移除。
+> 6. **命令执行 (Command Execution)**：
+>    - 按照 2.9.1.4 节定义的搜索顺序，执行函数（Functions）、内置命令（Built-in Utilities）、内部脚本或外部可执行程序。
+>    - 向被执行的实体传递扩展后的位置参数（Positional Parameters）与环境变量。
+> 7. **收集退出状态 (Exit Status Collection)**：
+>    - 可选地等待同步命令执行完成，收集其**退出状态码 (Exit Status)**；对于后台/异步命令，立刻返回并继续读取下一个输入。
+
+就是说，在翻译的时候，gemini没有死板的原文直翻，而是基于自己对于posix shell的理解，做出了调整，用粗体标注出了重点，同时保留了原文档1.2.3.4.5.6.7这种列表格式。这是它最值得你借鉴的地方，他不是机械古板的翻译怪，他是个懂技术懂英语和中文的计算机科学家。
+
+此外，对于有特殊含义的代码，绝对不能将其翻译成中文，比如这里的WORD，代表的就是普通的单词token
+
+> ### 2.10.1 Shell 语法词法约定 (Shell Grammar Lexical Conventions)
+> 
+> 词法分析器（Lexer）在将字符流转换为文法终结符（Terminal Symbols）时，遵循以下命名约定：
+> 
+> - **`WORD`**：普通单词 Token。
+> - **`NAME`**：合法的标示符名称（用于变量名或函数名）。
+> - **`ASSIGNMENT_WORD`**：形如 `NAME=VALUE` 的变量赋值 Token。
+> - **`IO_NUMBER`**：紧跟重定向运算符的无符号十进制数字字符串（如 `2>` 中的 `2`）。
+> - **运算符终结符**：
+>   - `AND_IF` : `&&`
+>   - `OR_IF` : `||`
+>   - `DSEMI` : `;;`
+>   - `DLESS` : `<<`
+>   - `DGREAT` : `>>`
+>   - `LESSAND` : `<&`
+>   - `GREATAND` : `>&`
+>   - `LESSGREAT` : `<>`
+>   - `DLESSDASH` : `<<-`
+>   - `CLOBBER` : `>|`
+
+在上下文中，gemini自己是认识word这个单词对于shell的意义的，所以它没有去除掉关键的word这个关键字，而是如下：
+
+> 2. **标记识别与词法拆分 (Token Recognition)**：
+>   - 输入流被逐字符扫描，并根据 2.2 节（引用）和 2.3 节（Token 识别）的规则拆分为词法标记（Tokens）。Token 分为两类：**单词 (Words)** 与 **运算符 (Operators)**。
+
+虽然她做的还是不够好，这里的单词后边圆括号中的words应该是WORD才好。你在翻译时要努力识别出这些内容。
+
+
+2. 综上，我现在的目录结构如下：
+# mindul @ mindul-win11 in ~/self/wblog_new/std/posix.1/vol.3.shell on git:7457855 x [12:54:50]
+$ tree
+.
+├── 1.introduction
+│   └── index.md
+├── 2.shell
+│   └── index.md
+├── 3.utilities
+│   └── index.md
+└── index.md
+
+你现在要做的工作就是，将整个
+https://pubs.opengroup.org/onlinepubs/9799919799/utilities/toc.html 
+中讨论的内容，翻译到 ~/self/wblog_new/std/posix.1/vol.3.shell 下各个层级的index.md中，你可以修改我的index.md，对于 2.shell/index.md，这自然是你需要借鉴的文档，这次动作你先不要动他。
+
+3. 翻译完毕后，请务必将本次输入的要求和你翻译过程中遇到的问题、总结的技巧记录下来，放到你的skill中。
