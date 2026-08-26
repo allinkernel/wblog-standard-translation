@@ -1,0 +1,957 @@
+<h1 id="utilities实用程序-xcu-第-3-章">Utilities（实用程序）— XCU 第 3
+章</h1>
+<blockquote>
+<p>官方目录：https://pubs.opengroup.org/onlinepubs/9799919799/utilities/contents.html
+说明：本文列出来自 POSIX.1-2024（Issue 8）《Shell &amp;
+Utilities》卷的全部 155 个标准实用程序。 每个工具将建立子目录
+<code>N.工具名</code>（英文原文）、<code>N.工具名-translate</code>（中文直译）、<code>N.工具名-AI-guide</code>（导读），当前已建：6.awk、109.sed。</p>
+</blockquote>
+<h2 id="工具清单">工具清单</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>序号</th>
+<th>工具名</th>
+<th>工具简介</th>
+<th>ubuntu24 默认带？</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>admin</td>
+<td>创建和管理 SCCS 文件</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>alias</td>
+<td>定义或显示别名</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>ar</td>
+<td>创建和维护库归档</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>asa</td>
+<td>解释回车控制字符</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>at</td>
+<td>在稍后时间执行命令</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>awk</td>
+<td>模式扫描与处理语言</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>basename</td>
+<td>返回路径名的非目录部分</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>batch</td>
+<td>调度命令在批处理队列中执行</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>bc</td>
+<td>任意精度算术语言</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>bg</td>
+<td>在后台运行作业</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>c17</td>
+<td>编译标准 C 程序</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>cal</td>
+<td>打印日历</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>cat</td>
+<td>连接并打印文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>cd</td>
+<td>更改工作目录</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>cflow</td>
+<td>生成 C 语言流程图</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>chgrp</td>
+<td>更改文件组所有权</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>chmod</td>
+<td>更改文件模式</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>chown</td>
+<td>更改文件所有权</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>cksum</td>
+<td>写文件校验和与大小</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>cmp</td>
+<td>比较两个文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>comm</td>
+<td>选择或拒绝两个文件共有的行</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>command</td>
+<td>执行一条简单命令</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td>compress</td>
+<td>压缩和解压数据</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>cp</td>
+<td>复制文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>crontab</td>
+<td>调度周期性的后台工作</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>26</td>
+<td>csplit</td>
+<td>基于上下文拆分文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>27</td>
+<td>ctags</td>
+<td>创建标签文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td>cut</td>
+<td>剪切文件中每行的选定字段</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>29</td>
+<td>cxref</td>
+<td>生成 C 语言程序交叉引用表</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>date</td>
+<td>写日期和时间</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>31</td>
+<td>dd</td>
+<td>转换并复制文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>32</td>
+<td>delta</td>
+<td>对 SCCS 文件做一次变更（delta）</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>33</td>
+<td>df</td>
+<td>报告空闲磁盘空间</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>34</td>
+<td>diff</td>
+<td>比较两个文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>35</td>
+<td>dirname</td>
+<td>返回路径名的目录部分</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>36</td>
+<td>du</td>
+<td>估算文件空间使用</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>37</td>
+<td>echo</td>
+<td>将参数写到标准输出</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>38</td>
+<td>ed</td>
+<td>编辑文本</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>39</td>
+<td>env</td>
+<td>为命令调用设置环境</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td>ex</td>
+<td>文本编辑器</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>41</td>
+<td>expand</td>
+<td>将制表符转换为空格</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>42</td>
+<td>expr</td>
+<td>将参数作为表达式求值</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>43</td>
+<td>false</td>
+<td>返回假值</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>44</td>
+<td>fc</td>
+<td>处理命令历史列表</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>45</td>
+<td>fg</td>
+<td>在前台运行作业</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>46</td>
+<td>file</td>
+<td>确定文件类型</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>47</td>
+<td>find</td>
+<td>查找文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>48</td>
+<td>fold</td>
+<td>折行过滤</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>49</td>
+<td>fuser</td>
+<td>列出使用一个或多个命名文件的所有进程 ID</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>50</td>
+<td>gencat</td>
+<td>生成格式化消息目录</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>51</td>
+<td>get</td>
+<td>获取 SCCS 文件的某个版本</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>52</td>
+<td>getconf</td>
+<td>获取配置值</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>53</td>
+<td>getopts</td>
+<td>解析实用程序选项</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>54</td>
+<td>gettext</td>
+<td>从消息对象中取回文本字符串</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>55</td>
+<td>grep</td>
+<td>在文件中搜索模式</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>56</td>
+<td>hash</td>
+<td>记住或报告实用程序位置</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>57</td>
+<td>head</td>
+<td>复制文件的开头部分</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>58</td>
+<td>iconv</td>
+<td>字符集转换</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>59</td>
+<td>id</td>
+<td>返回用户身份</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>60</td>
+<td>ipcrm</td>
+<td>移除 XSI 消息队列、信号量集或共享内存段标识符</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>61</td>
+<td>ipcs</td>
+<td>报告 XSI 进程间通信设施状态</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>62</td>
+<td>jobs</td>
+<td>显示当前 shell 执行环境中的作业状态</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>63</td>
+<td>join</td>
+<td>关系数据库运算符</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>64</td>
+<td>kill</td>
+<td>终止或发信号给进程</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>65</td>
+<td>lex</td>
+<td>为词法任务生成程序</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>66</td>
+<td>link</td>
+<td>调用 link 函数</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>67</td>
+<td>ln</td>
+<td>链接文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>68</td>
+<td>locale</td>
+<td>获取区域设置相关信息</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>69</td>
+<td>localedef</td>
+<td>定义区域设置环境</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>70</td>
+<td>logger</td>
+<td>记录消息</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>71</td>
+<td>logname</td>
+<td>返回用户的登录名</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>72</td>
+<td>lp</td>
+<td>发送文件到打印机</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>73</td>
+<td>ls</td>
+<td>列出目录内容</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>74</td>
+<td>m4</td>
+<td>宏处理器</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>75</td>
+<td>mailx</td>
+<td>处理消息</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>76</td>
+<td>make</td>
+<td>维护、更新和重新生成文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>77</td>
+<td>man</td>
+<td>显示系统文档</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>78</td>
+<td>mesg</td>
+<td>允许或拒绝消息</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>79</td>
+<td>mkdir</td>
+<td>创建目录</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>80</td>
+<td>mkfifo</td>
+<td>创建 FIFO 特殊文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>81</td>
+<td>more</td>
+<td>分页显示文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>82</td>
+<td>msgfmt</td>
+<td>从便携消息对象源文件创建消息对象</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>83</td>
+<td>mv</td>
+<td>移动文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>84</td>
+<td>newgrp</td>
+<td>切换到新组</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>85</td>
+<td>ngettext</td>
+<td>从消息对象中取回文本字符串</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>86</td>
+<td>nice</td>
+<td>以调整后的 nice 值调用实用程序</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>87</td>
+<td>nl</td>
+<td>行号过滤</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>88</td>
+<td>nm</td>
+<td>写目标文件的名称表</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>89</td>
+<td>nohup</td>
+<td>调用对挂断免疫的实用程序</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>90</td>
+<td>od</td>
+<td>以各种格式转储文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>91</td>
+<td>paste</td>
+<td>合并文件的对应或后续行</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>92</td>
+<td>patch</td>
+<td>对文件应用更改</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>93</td>
+<td>pathchk</td>
+<td>检查路径名</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>94</td>
+<td>pax</td>
+<td>可移植归档交换</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>95</td>
+<td>pr</td>
+<td>打印文件</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>96</td>
+<td>printf</td>
+<td>写格式化输出</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>97</td>
+<td>prs</td>
+<td>打印 SCCS 文件</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>98</td>
+<td>ps</td>
+<td>报告进程状态</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>99</td>
+<td>pwd</td>
+<td>返回工作目录名</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>read</td>
+<td>从标准输入读取到 shell 变量</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>101</td>
+<td>readlink</td>
+<td>显示符号链接的内容</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>102</td>
+<td>realpath</td>
+<td>解析路径名</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>103</td>
+<td>renice</td>
+<td>设置运行中进程的 nice 值</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>104</td>
+<td>rm</td>
+<td>移除目录项</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>105</td>
+<td>rmdel</td>
+<td>从 SCCS 文件移除一个 delta</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>106</td>
+<td>rmdir</td>
+<td>移除目录</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>107</td>
+<td>sact</td>
+<td>打印当前 SCCS 文件编辑活动</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>108</td>
+<td>sccs</td>
+<td>SCCS 子系统的前端</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>109</td>
+<td>sed</td>
+<td>流编辑器</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>110</td>
+<td>sh</td>
+<td>shell，标准命令语言解释器</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>111</td>
+<td>sleep</td>
+<td>挂起执行一段时间</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>112</td>
+<td>sort</td>
+<td>排序、合并或序列检查文本文件</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>113</td>
+<td>split</td>
+<td>把文件分成若干块</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>114</td>
+<td>strings</td>
+<td>在文件中查找可打印字符串</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>115</td>
+<td>strip</td>
+<td>从可剥离文件移除不必要信息</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>116</td>
+<td>stty</td>
+<td>设置终端选项</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>117</td>
+<td>tabs</td>
+<td>设置终端制表位</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>118</td>
+<td>tail</td>
+<td>复制文件的结尾部分</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>119</td>
+<td>talk</td>
+<td>与其他用户交谈</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>120</td>
+<td>tee</td>
+<td>复制标准输入</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>121</td>
+<td>test</td>
+<td>求值表达式</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>122</td>
+<td>time</td>
+<td>给简单命令计时</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>123</td>
+<td>timeout</td>
+<td>带时间限制执行实用程序</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>124</td>
+<td>touch</td>
+<td>更改文件访问和修改时间</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>125</td>
+<td>tput</td>
+<td>更改终端特性</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>126</td>
+<td>tr</td>
+<td>翻译字符</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>127</td>
+<td>true</td>
+<td>返回真值</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>128</td>
+<td>tsort</td>
+<td>拓扑排序</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>129</td>
+<td>tty</td>
+<td>返回用户的终端名</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>130</td>
+<td>type</td>
+<td>写命令类型描述</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>131</td>
+<td>ulimit</td>
+<td>报告或设置资源限制</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>132</td>
+<td>umask</td>
+<td>获取或设置文件模式创建掩码</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>133</td>
+<td>unalias</td>
+<td>移除别名定义</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>134</td>
+<td>uname</td>
+<td>返回系统名</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>135</td>
+<td>uncompress</td>
+<td>压缩和解压数据</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>136</td>
+<td>unexpand</td>
+<td>将空格转换为制表符</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>137</td>
+<td>unget</td>
+<td>撤销先前对 SCCS 文件的 get</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>138</td>
+<td>uniq</td>
+<td>报告或过滤文件中的重复行</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>139</td>
+<td>unlink</td>
+<td>调用 unlink 函数</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>140</td>
+<td>uucp</td>
+<td>系统间复制</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>141</td>
+<td>uudecode</td>
+<td>解码二进制文件</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>142</td>
+<td>uuencode</td>
+<td>编码二进制文件</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>143</td>
+<td>uustat</td>
+<td>uucp 状态查询与作业控制</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>144</td>
+<td>uux</td>
+<td>远程命令执行</td>
+<td>不带</td>
+</tr>
+<tr class="odd">
+<td>145</td>
+<td>val</td>
+<td>验证 SCCS 文件</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>146</td>
+<td>vi</td>
+<td>面向屏幕（可视）显示编辑器</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>147</td>
+<td>wait</td>
+<td>等待进程完成</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>148</td>
+<td>wc</td>
+<td>字数、行数和字节或字符计数</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>149</td>
+<td>what</td>
+<td>识别 SCCS 文件</td>
+<td>不带</td>
+</tr>
+<tr class="even">
+<td>150</td>
+<td>who</td>
+<td>显示谁在系统上</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>151</td>
+<td>write</td>
+<td>写给另一个用户</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>152</td>
+<td>xargs</td>
+<td>构造参数列表并调用实用程序</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>153</td>
+<td>xgettext</td>
+<td>从 C 语言源文件提取 gettext 调用字符串</td>
+<td>带</td>
+</tr>
+<tr class="even">
+<td>154</td>
+<td>yacc</td>
+<td>又一个编译器编译器</td>
+<td>带</td>
+</tr>
+<tr class="odd">
+<td>155</td>
+<td>zcat</td>
+<td>压缩和解压数据</td>
+<td>带</td>
+</tr>
+</tbody>
+</table>

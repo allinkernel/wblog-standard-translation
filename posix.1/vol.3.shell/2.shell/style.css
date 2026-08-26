@@ -1,0 +1,212 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --heading-color: #00667F;
+  --heading-alt: #006666;
+  --link-color: #0000FF;
+  --link-visited: #6666FF;
+  --link-hover: #FF0000;
+  --border-color: #488CAF;
+  --box-bg: rgb(204,204,255);
+  --breadcrumb-color: #666666;
+  --top-text: #333333;
+}
+
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --heading-color: #4db6d6;
+  --heading-alt: #4db6d6;
+  --link-color: #82aaff;
+  --link-visited: #b388ff;
+  --link-hover: #ff8a80;
+  --border-color: #6fa8dc;
+  --box-bg: #2a2a40;
+  --breadcrumb-color: #bbbbbb;
+  --top-text: #cccccc;
+}
+
+/* Links */
+A:link    { COLOR: var(--link-color); }
+A:visited { COLOR: var(--link-visited); }
+A:active  { COLOR: var(--link-visited); }
+A:hover   {
+    COLOR: var(--link-hover);
+    TEXT-DECORATION: underline;
+}
+
+/* Headings */
+H1{
+    FONT-FAMILY: Arial, Helvetica, sans-serif;
+    COLOR: var(--heading-color);
+    BACKGROUND-COLOR: var(--bg-color);
+    FONT-SIZE: 20pt;
+}
+H2{
+    FONT-FAMILY: Arial, Helvetica, sans-serif;
+    COLOR: var(--heading-color);
+    BACKGROUND-COLOR: var(--bg-color);
+    FONT-SIZE: 15pt;
+}
+H3{
+    FONT-FAMILY: Arial, Helvetica, sans-serif;
+    COLOR: var(--heading-color);
+    BACKGROUND-COLOR: var(--bg-color);
+    FONT-SIZE: 14pt;
+}
+H4{
+    FONT-FAMILY: Arial, Helvetica, sans-serif;
+    COLOR: var(--heading-color);
+    BACKGROUND-COLOR: var(--bg-color);
+    FONT-Style: italic;
+    FONT-SIZE: 12pt;
+}
+H5{
+    FONT-FAMILY: Arial, Helvetica, sans-serif;
+    COLOR: var(--heading-color);
+    BACKGROUND-COLOR: var(--bg-color);
+    FONT-SIZE: 11pt;
+}
+H6{
+    FONT-FAMILY: Arial, Helvetica, sans-serif;
+    COLOR: var(--heading-alt);
+    BACKGROUND-COLOR: var(--bg-color);
+    FONT-SIZE: 10pt;
+    font-weight : bold;
+}
+
+/* Body */
+BODY {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    FONT-SIZE: 10pt;
+    MARGIN-LEFT: 3pt;
+    MARGIN-TOP: 2pt;
+    COLOR: var(--text-color);
+    BACKGROUND-COLOR: var(--bg-color);
+}
+
+/* Text blocks */
+BLOCKQUOTE.synopsis {
+    FONT-SIZE: 11pt;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+}
+
+BLOCKQUOTE.body {
+    FONT-SIZE: 10pt;
+    MARGIN-BOTTOM: 0pt;
+    MARGIN-LEFT: 0pt;
+    MARGIN-TOP: 0pt;
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    TEXT-INDENT: 10px;
+}
+
+/* Tables */
+TABLE {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    FONT-SIZE: 10pt;
+    COLOR: var(--text-color);
+    BACKGROUND-COLOR: var(--bg-color);
+}
+
+table {
+   border-collapse: collapse;
+   width: 75%;
+}
+
+table.nav {
+   width: 100%;
+}
+
+tr.nav, td.nav {
+   border: none;
+}
+
+/* Paragraphs */
+P.tent {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    FONT-SIZE: 10pt;
+}
+
+/* Lists */
+UL, LI {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    FONT-SIZE: 10pt;
+    COLOR: var(--text-color);
+}
+
+/* Horizontal rule */
+HR {
+    COLOR: var(--heading-color);
+}
+
+/* Box */
+div.box {
+    border: none;
+    border-width: thin;
+    background: var(--box-bg);
+    font-size: 11pt;
+}
+
+/* Preformatted */
+pre {
+    FONT-SIZE: 11pt;
+    font-family: monospace;
+}
+
+/* Top of page */
+.topOfPage {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: var(--top-text);
+    background-image: url(../images/up-arrow.gif);
+    background-repeat: no-repeat;
+    padding-left: 15px;
+}
+
+/* Breadcrumb */
+.youAreHere {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: var(--text-color);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--border-color);
+    font-weight: bold;
+}
+
+.breadcrumb {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--breadcrumb-color);
+}
+
+.breadcrumb a:link {
+    color: var(--breadcrumb-color);
+    text-decoration: none;
+}
+.breadcrumb a:visited {
+    color: var(--heading-color);
+    text-decoration: none;
+}
+.breadcrumb a:hover {
+    color: var(--border-color);
+    text-decoration: none;
+}
+.breadcrumb a:active {
+    color: var(--breadcrumb-color);
+    text-decoration: none;
+}
+
+/* Table headings */
+th {
+   padding: 0.5em;
+   text-align: center;
+}
+
+/* Caption */
+.caption {
+    font-style: italic;
+    text-align: center;
+    COLOR: var(--heading-color);
+}

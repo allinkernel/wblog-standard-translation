@@ -1,0 +1,1138 @@
+<h1 id="shell-命令语言-导读ai-guide">2. Shell 命令语言 · 导读（AI
+Guide）</h1>
+<h2 id="shell-命令语言-shell-command-language">2. Shell 命令语言 (Shell
+Command Language)</h2>
+<blockquote>
+<p>本文是 POSIX.1-2024《Shell &amp; Utilities》卷 <strong>第 2 章 Shell
+Command Language</strong> 的<strong>导读</strong>。 配套阅读： -
+<strong>英文原文</strong>：<a href="../2.shell/index.md">2.shell/index.md</a> -
+<strong>中文直译</strong>：<a href="../2.shell-translate/index.md">2.shell-translate/index.md</a></p>
+<p>导读的目标不是逐句翻译，而是把规范的<strong>机制</strong>讲清楚：这一节在说什么、为什么要这样规定、关键规则之间的逻辑关系、以及阅读规范时常踩的坑。章节编号与原文一一对应，方便对照。</p>
+<p>导读深度约定：<strong>机制层 +
+延伸阅读</strong>。每节末尾给出「延伸阅读」，指向规范中值得精读的具体小节。</p>
+</blockquote>
+<p><strong>如何使用本文</strong></p>
+<ul>
+<li><strong>入门读者</strong>：按顺序读 2.1 → 2.6 → 2.9 →
+2.15，先建立”读取 → 解析 → 扩展 →
+执行”的整体心智模型，再回头补细节。</li>
+<li><strong>进阶读者</strong>：重点看 2.6（单词扩展的 7
+个阶段）、2.10（形式文法）、2.13（执行环境）——这三节是 shell
+语义中最容易出偏差的地方。</li>
+<li><strong>查手册</strong>：遇到具体工具（break/set/trap/unset
+等）直接跳到 2.16–2.30 的速查。</li>
+</ul>
+<hr />
+<h3 id="shell-简介shell-introduction">2.1 Shell 简介（Shell
+Introduction）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>Shell 是<strong>命令语言解释器</strong>。第 2
+章整章就是这部命令语言的”语法书 + 语义书”——它同时约束三个使用方：</p>
+<ol type="1">
+<li><code>sh</code> 实用程序（交互式 shell 与脚本解释器）；</li>
+<li>C 语言接口 <code>system()</code>（把字符串交给 shell 执行）；</li>
+<li>C 语言接口 <code>popen()</code>（把命令的输出接到管道上）。</li>
+</ol>
+<p><strong>核心机制：七步操作流程</strong></p>
+<p>规范给出一份<strong>总览</strong>，shell
+对每一条命令循环执行七个阶段，理解这个顺序是理解全章的地图：</p>
+<ol type="1">
+<li><strong>读取输入</strong>：从文件、<code>-c</code>
+字符串、标准输入或 <code>system()</code>/<code>popen()</code>
+取输入。注意第一条规则里的细节：如果脚本文件第一行以 <code>#!</code>
+开头，结果<strong>未指定</strong>（这个由内核的 shebang 机制处理，不属于
+shell 语言本身）。</li>
+<li><strong>拆成
+token</strong>：把输入字符流切成”词（word）“和”运算符（operator）“（2.3）。</li>
+<li><strong>解析</strong>：把 token
+序列组织成<strong>简单命令</strong>（2.9.1）和<strong>复合命令</strong>（2.9.4）的语法结构（2.10）。</li>
+<li><strong>单词扩展</strong>：先处理 <code>$&#39;...&#39;</code>
+里的反斜杠转义，再按严格顺序执行 2.6
+定义的各类扩展——参数扩展、命令替换、算术扩展等。</li>
+<li><strong>重定向</strong>：执行重定向，并把重定向运算符和它的操作数从参数列表里<strong>移除</strong>（它们不是传给命令的参数）。</li>
+<li><strong>执行</strong>：依次查找<strong>函数 → 特殊内置 → 普通内置 →
+可执行文件/脚本</strong>，把扩展后的字段作为位置参数
+<code>$1</code>…<code>$n</code>，命令名作为特殊参数
+<code>$0</code>。</li>
+<li><strong>等待与收集</strong>：同步命令等待完成并收集退出状态；异步命令（<code>&amp;</code>
+结尾）立即返回。</li>
+</ol>
+<blockquote>
+<p>这张七步地图是理解 2.2–2.15
+的骨架：后面每一节都在细化其中某一步。</p>
+</blockquote>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.9.1.4 命令搜索与执行（第六步”执行”的完整规则）</li>
+<li>2.8.2 命令的退出状态（第七步”退出状态”的语义）</li>
+</ul>
+<hr />
+<h3 id="引用-转义quoting">2.2 引用 / 转义（Quoting）</h3>
+<p><strong>本节在说什么</strong></p>
+<p><strong>引用（quoting）的作用是”关闭”字符的特殊含义</strong>。shell
+里很多字符（<code>$</code>、<code>`</code>、<code>\</code>、空格、<code>*</code>、<code>;</code>
+等）在语法上有特殊身份，引用让你能按字面使用它们。规范给出四种引用机制，各有各的”保留”和”不保留”。</p>
+<p><strong>核心机制：四种引用对照</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>机制</th>
+<th>写法</th>
+<th>保留所有字面值？</th>
+<th>例外/特殊行为</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>反斜杠</td>
+<td><code>\x</code></td>
+<td>仅对紧跟的<strong>单个字符</strong></td>
+<td>后跟换行是”续行”，<code>\</code>
+与换行一起被<strong>删除</strong></td>
+</tr>
+<tr class="even">
+<td>单引号</td>
+<td><code>&#39;...&#39;</code></td>
+<td><strong>全部</strong></td>
+<td>内部不能出现单引号（无任何转义手段）</td>
+</tr>
+<tr class="odd">
+<td>双引号</td>
+<td><code>&quot;...&quot;</code></td>
+<td>大多数</td>
+<td><code>$ `</code> 与特定场景的 <code>\</code>
+仍特殊；<code>$&#39;...&#39;</code> 的引入被关闭</td>
+</tr>
+<tr class="even">
+<td>美元单引号</td>
+<td><code>$&#39;...&#39;</code></td>
+<td>大多数</td>
+<td>支持 ANSI C
+风格转义序列（<code>\n</code>、<code>\x41</code>、<code>\101</code>、<code>\cA</code>…）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键机制逐个拆</strong></p>
+<p><strong>反斜杠（2.2.1）</strong>——最”弱”的引用：只保一个字符。两个注意点：</p>
+<ul>
+<li><code>\</code> + 换行 = <strong>续行</strong>：两字符在切 token
+前被一起删除，命令可以跨行书写而不产生换行 token。</li>
+<li>在单引号内 <code>\</code> 是普通字符；在双引号内 <code>\</code>
+只有后跟
+<code>$</code>、<code>`</code>、<code>\</code>、<code>&quot;</code>、换行时才有转义意义。</li>
+</ul>
+<p><strong>单引号（2.2.2）</strong>——最”强”的引用：内部一切字面。代价：无法表示单引号本身，需要
+<code>&#39;</code>“’”`（关一个、开一个、引一个）这类拼接技巧。</p>
+<p><strong>双引号（2.2.3）</strong>——引用与扩展的平衡点：<code>$</code>
+和反引号仍引入扩展，但<strong>扩展结果不经过字段分割</strong>（<code>&quot;$var&quot;</code>
+里的空格不会被拆词）。这是 shell 中最常用的引用。两个易错点：</p>
+<ul>
+<li><code>$</code> 在双引号内不引入 <code>$&#39;...&#39;</code> 形式；</li>
+<li>双引号内的 <code>&quot;$(...)&quot;</code>、<code>&quot;${...}&quot;</code>
+内部，双引号本身对特殊字符的处理会被”让位”——规则较细，读原文 2.2.3
+的三段。</li>
+</ul>
+<p><strong>美元单引号（2.2.4）</strong>——“C 字符串”：<code>$&#39;...&#39;</code>
+里可以写
+<code>\n</code>、<code>\t</code>、<code>\xNN</code>、<code>\ddd</code>、<code>\cX</code>
+等转义，用于生成控制字符/任意字节。注意 <code>\x</code>
+后超过两个十六进制数字、或八进制值放不进一个字节时，结果是未指定/未定义。</p>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.2.3 双引号内 <code>$</code>/反引号/<code>\</code>
+的三段详细规则（规范花了最多笔墨的地方）</li>
+<li>2.6 单词扩展（双引号的行为最终要落到扩展阶段理解）</li>
+</ul>
+<hr />
+<h3 id="token-识别token-recognition">2.3 Token 识别（Token
+Recognition）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>把输入切成 <strong>token</strong>：要么是
+<strong>word（词）</strong>，要么是
+<strong>operator（运算符）</strong>。识别规则定义了”什么样的字符序列算一个词”。</p>
+<p><strong>核心机制</strong></p>
+<p><strong>运算符表</strong>：<code>|</code> <code>&amp;</code>
+<code>;</code> <code>(</code> <code>)</code> <code>&lt;</code>
+<code>&gt;</code> 以及
+<code>&amp;&amp;</code>、<code>||</code>、<code>;;</code>、<code>&lt;&lt;</code>、<code>&gt;&gt;</code>、<code>&lt;&amp;</code>、<code>&gt;&amp;</code>、<code>&lt;&gt;</code>、<code>&lt;&lt;-</code>、<code>&gt;|</code>
+等组合。运算符把输入切成多个部分；需要按字面使用这些字符时，必须引用它们。</p>
+<p><strong>需要引用的字符</strong>：除了运算符，<code>$</code>、<code>`</code>、<code>\</code>、<code>&quot;</code>、<code>&#39;</code>、空格、制表、换行在特定位置需要引用才能表示自身（例如想让空格成为参数的一部分，必须加引号）。</p>
+<p><strong>词法处理的顺序细节</strong>（规范用编号列表给出）：</p>
+<ul>
+<li>每条注释从 <code>#</code> 到行尾被丢弃（但 <code>#</code>
+不是运算符的一部分）；</li>
+<li>别名替换在 token 分类<strong>之后</strong>进行（见 2.3.1）；</li>
+<li>换行符是 token 分隔符；</li>
+<li>引号影响”当前字符是否被引用”的状态，进而决定字符是否参与特殊识别。</li>
+</ul>
+<p><strong>这里有一条重要的整体原则</strong>：切 token
+发生在<strong>任何扩展之前</strong>。<code>$var</code>
+先被切成一个词，扩展发生在词内部——所以 <code>$var</code>
+扩展出来的空格不会重新触发切词（那是 2.6.5 字段分割的事，用的是
+IFS，不是语法空格）。</p>
+<h4 id="别名替换alias-substitution">2.3.1 别名替换（Alias
+Substitution）</h4>
+<p><strong>别名机制</strong>：在 token 被识别为 <code>TOKEN</code>
+类型后，如果满足条件（token
+无引用字符、是有效别名名、别名当前生效、未被更高层递归使用、能解析为命令名位置），就用别名的<strong>值</strong>替换该
+token，并<strong>从别名值的开头重新开始 token 识别</strong>。</p>
+<p><strong>机制上的关键点</strong>：</p>
+<ul>
+<li>替换后如果别名值以”替换后未引用的空格/制表”结尾，shell
+会继续检查<strong>下一个</strong> token 是否也要别名替换——这就是
+<code>alias ll=&#39;ls -l&#39;</code> 能工作的原理（值末尾的空格让后续 token
+继续被检查）；</li>
+<li>别名是否生效对<strong>保留字位置</strong>的判断：如果 token
+在输入中会作为保留字出现，是否替换别名是未指定的——所以别名定义和保留字（如
+<code>if</code>）之间有条模糊地带，规范特意留白；</li>
+<li>别名<strong>不跨 shell
+调用继承</strong>，脚本里定义别名通常只在当前执行环境有效。</li>
+</ul>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.4 保留字（与别名替换的相互作用）</li>
+<li>2.10.1 文法词法约定（<code>TOKEN</code> 类型如何参与语法分析）</li>
+</ul>
+<hr />
+<h3 id="保留字reserved-words">2.4 保留字（Reserved Words）</h3>
+<p><strong>本节在说什么</strong></p>
+<p><strong>保留字</strong>是 shell 语法结构的关键词：<code>if</code>
+<code>then</code> <code>else</code> <code>elif</code> <code>fi</code>
+<code>do</code> <code>done</code> <code>case</code> <code>esac</code>
+<code>while</code> <code>until</code> <code>for</code> <code>{</code>
+<code>}</code> <code>!</code> <code>in</code>
+等。它们<strong>在特定语法位置</strong>是保留的——注意措辞：保留字只有在语法需要它们的位置才作为保留字被识别。</p>
+<p><strong>核心机制</strong></p>
+<ul>
+<li>保留字的识别发生在<strong>语法状态</strong>下：解析器处于”这里只能出现保留字”的状态时，匹配的
+token 才被当作保留字（这正是 2.3.1 别名替换和它的相互作用点）。</li>
+<li>一个词<strong>不是</strong>保留字的情形：被引用的词（<code>&#39;if&#39;</code>
+不会触发 if 语法）、以及不作为语法关键词出现的位置（<code>echo if</code>
+中的 <code>if</code> 是普通参数）。</li>
+<li>保留字名单以 <code>#</code> 结尾的条目（如
+<code>time</code>）历史上可带参数，具体以原文列表为准。</li>
+</ul>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.10 Shell 文法（保留字在文法中的精确位置）</li>
+<li>2.9.4 复合命令（保留字定义了什么结构）</li>
+</ul>
+<hr />
+<h3 id="参数与变量parameters-and-variables">2.5 参数与变量（Parameters
+and Variables）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>shell 的<strong>参数（parameter）</strong>
+三大家族：<strong>位置参数</strong>（<code>$1</code>…）、<strong>特殊参数</strong>（<code>$0</code>
+<code>$#</code> <code>$?</code> <code>$*</code> <code>$@</code>
+<code>$-</code> <code>$$</code> <code>$!</code>）、<strong>Shell
+变量</strong>（用户自定义 + 环境变量）。这一节定义了它们的语义。</p>
+<h4 id="位置参数positional-parameters">2.5.1 位置参数（Positional
+Parameters）</h4>
+<ul>
+<li>由命令调用传入：<code>$1</code>…<code>$n</code>，<code>$0</code>
+是特殊参数（命令名/脚本名）。</li>
+<li>语法上：单数字 <code>$n</code> 只能到 9，多位数必须用花括号
+<code>&quot;${10}&quot;</code>。</li>
+<li>位置的设定手段：<code>set</code>（2.26）、脚本调用、函数调用（函数内位置参数是函数自己的）。</li>
+</ul>
+<h4 id="特殊参数special-parameters速查表">2.5.2 特殊参数（Special
+Parameters）——速查表</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>参数</th>
+<th>含义</th>
+<th>关键机制</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>$0</code></td>
+<td>命令名/脚本名</td>
+<td>函数内是函数名；脚本内是脚本名</td>
+</tr>
+<tr class="even">
+<td><code>$#</code></td>
+<td>位置参数个数</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>$?</code></td>
+<td>上一个管道（命令）的退出状态</td>
+<td>是<strong>管道最后一条命令</strong>的状态（见 2.9.2）</td>
+</tr>
+<tr class="even">
+<td><code>$*</code></td>
+<td>所有位置参数，一个字段</td>
+<td>双引号内 <code>&quot;$*&quot;</code> 用 IFS 首字符连接</td>
+</tr>
+<tr class="odd">
+<td><code>$@</code></td>
+<td>所有位置参数，各自成字段</td>
+<td>双引号内 <code>&quot;$@&quot;</code> 保留每个参数的边界——最常用的写法</td>
+</tr>
+<tr class="even">
+<td><code>$-</code></td>
+<td>当前选项标志</td>
+<td>如 <code>set -x</code> 后包含 <code>x</code></td>
+</tr>
+<tr class="odd">
+<td><code>$$</code></td>
+<td>当前进程 ID</td>
+<td>子 shell 内仍是”外层”进程 ID？——<strong>不</strong>，是当前 shell
+的</td>
+</tr>
+<tr class="even">
+<td><code>$!</code></td>
+<td>最近后台命令的进程 ID</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>最容易错的两个</strong>：</p>
+<ul>
+<li><code>&quot;$@&quot;</code> vs <code>&quot;$*&quot;</code>：<code>&quot;$@&quot;</code>
+把每个参数当作独立字段（保留空参数），<code>&quot;$*&quot;</code>
+合并成一个字段——脚本里传参几乎永远应该用 <code>&quot;$@&quot;</code>。</li>
+<li><code>$?</code>
+取的是<strong>最近完成的管道</strong>的状态：<code>false | true</code>
+的 <code>$?</code> 是 0（取 <code>true</code>）。</li>
+</ul>
+<h4 id="shell-变量shell-variables">2.5.3 Shell 变量（Shell
+Variables）</h4>
+<ul>
+<li>变量 = 名称 +
+值，名称由字母、数字、下划线组成（数字不能开头）。</li>
+<li><strong>环境变量 → Shell 变量</strong>：从环境初始化的变量自动标记为
+export；变量赋值可以创建新变量。</li>
+<li><strong>export
+属性</strong>：决定变量是否进入子进程环境（2.23）。</li>
+<li><strong>只读属性</strong>（2.24）：一旦标记，不能被赋值/取消设置（但函数/变量定义可先删除再重建？——规则见
+2.30）。</li>
+<li>规范对一组<strong>常用变量</strong>有默认语义约定：<code>HOME</code>、<code>PATH</code>、<code>IFS</code>、<code>LANG</code>、<code>LC_*</code>、<code>PS1</code>、<code>PS2</code>、<code>PS4</code>、<code>ENV</code>、<code>PPID</code>、<code>PWD</code>、<code>OLDPWD</code>、<code>SHELL</code>、<code>MAIL</code>、<code>TMPDIR</code>
+等——其中
+<code>IFS</code>（字段分割）、<code>PATH</code>（命令搜索）、<code>PS1/PS2</code>（提示符）是机制性的。</li>
+</ul>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.6.2 参数扩展（变量的使用语法全在参数扩展里）</li>
+<li>2.9.1
+简单命令（变量赋值在命令中的语义：赋值发生在当前环境还是子环境）</li>
+</ul>
+<hr />
+<h3 id="单词扩展word-expansions">2.6 单词扩展（Word Expansions）</h3>
+<p><strong>本节在说什么</strong></p>
+<p><strong>单词扩展（word expansion）</strong> 是 shell
+语义的核心：一个词在解析后、执行前，要经过<strong>七个按严格顺序执行</strong>的处理阶段。顺序本身是规范的重头戏——顺序错了，结果就错。</p>
+<p><strong>核心机制：七阶段扩展顺序</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>顺序</th>
+<th>阶段</th>
+<th>作用</th>
+<th>关键点</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>波浪号展开（2.6.1）</td>
+<td><code>~</code> → 用户主目录</td>
+<td><code>~user</code>、<code>~/path</code>；赋值语境里的 <code>~</code>
+也展开</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>参数扩展（2.6.2）</td>
+<td><code>$var</code>、<code>${var:-def}</code> 等</td>
+<td>最丰富的语法家族</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>命令替换（2.6.3）</td>
+<td><code>`cmd`</code>、<code>$(cmd)</code></td>
+<td>在<strong>子 shell 环境</strong>执行</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>算术扩展（2.6.4）</td>
+<td><code>$((expr))</code></td>
+<td>C 语言风格整数运算</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>字段分割（2.6.5）</td>
+<td>按 IFS 切分</td>
+<td><strong>只有前 4 步的未引用结果</strong>才切分</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>路径名展开（2.6.6）</td>
+<td><code>*</code> <code>?</code> <code>[...]</code> → 文件名</td>
+<td><strong>不匹配则原样保留</strong></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>引用消除（2.6.7）</td>
+<td>删除引用字符</td>
+<td>最后一步</td>
+</tr>
+</tbody>
+</table>
+<p><strong>全局规则（规范原文强调）</strong>：1–4
+步”从开始到结束依次执行”；<strong>字段分割和路径名展开不作用于</strong>由
+1–4 步产生的、出现在双引号内的部分。</p>
+<h4 id="波浪号展开tilde-expansion">2.6.1 波浪号展开（Tilde
+Expansion）</h4>
+<ul>
+<li>词首的 <code>~</code>（未引用）后跟 <code>$HOME</code> 或登录名 →
+替换为主目录路径。</li>
+<li>赋值语境：第一个 <code>=</code> 之后、以及任何未引用 <code>:</code>
+之后的 <code>~</code> 也展开（所以 <code>PATH=~/bin:$HOME/bin</code>
+两处都展开）。</li>
+</ul>
+<h4 id="参数扩展parameter-expansion最丰富的语法">2.6.2
+参数扩展（Parameter Expansion）——最丰富的语法</h4>
+<p>基本形式
+<code>${parameter}</code>，花括号可选（多位数位置参数、或变量名后紧跟会被当作名字一部分的字符时必须用）。</p>
+<p><strong>条件语法家族</strong>（基于”是否设置 +
+是否为空”两个状态）：</p>
+<table>
+<thead>
+<tr class="header">
+<th>语法</th>
+<th>参数设置且非空</th>
+<th>设置但为空</th>
+<th>未设置</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>${p:-word}</code></td>
+<td>p</td>
+<td>word</td>
+<td>word</td>
+</tr>
+<tr class="even">
+<td><code>${p-word}</code></td>
+<td>p</td>
+<td>空</td>
+<td>word</td>
+</tr>
+<tr class="odd">
+<td><code>${p:=word}</code></td>
+<td>p</td>
+<td>赋 word 并返回</td>
+<td>赋 word 并返回</td>
+</tr>
+<tr class="even">
+<td><code>${p=word}</code></td>
+<td>p</td>
+<td>p（空）</td>
+<td>赋 word 并返回</td>
+</tr>
+<tr class="odd">
+<td><code>${p:?word}</code></td>
+<td>p</td>
+<td>报错退出</td>
+<td>报错退出</td>
+</tr>
+<tr class="even">
+<td><code>${p?word}</code></td>
+<td>p</td>
+<td>空</td>
+<td>报错退出</td>
+</tr>
+<tr class="odd">
+<td><code>${p:+word}</code></td>
+<td>word</td>
+<td>空</td>
+<td>空</td>
+</tr>
+<tr class="even">
+<td><code>${p+word}</code></td>
+<td>word</td>
+<td>word</td>
+<td>空</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>带 <code>:</code> 的版本把”空字符串”也当作”未设置”处理——这是
+<code>:</code> 的全部意义。</p>
+</blockquote>
+<p><strong>子串处理家族</strong>：<code>${#p}</code>（长度）、<code>${p%pat}</code>
+/ <code>${p%%pat}</code>（去尾）、<code>${p#pat}</code> /
+<code>${p##pat}</code>（去头）、<code>${p/pat/rep}</code>（替换，POSIX
+之外的扩展在 XSI 中）。注意 <code>%</code>/<code>#</code>
+与模式匹配（2.14）配合，是路径/后缀处理的主力工具。</p>
+<h4 id="命令替换command-substitution">2.6.3 命令替换（Command
+Substitution）</h4>
+<ul>
+<li>两种写法：<code>`cmd`</code>（传统）和
+<code>$(cmd)</code>（现代，推荐——可嵌套、引号处理简单）。</li>
+<li><strong>机制</strong>：在子 shell 环境中执行
+<code>cmd</code>，把标准输出（去掉末尾换行）替换进词里。</li>
+<li>字段分割规则：<strong>不带引号</strong>的命令替换结果<strong>会</strong>经受字段分割和路径名展开；<strong>带引号</strong>（<code>&quot;$(cmd)&quot;</code>）则不。<code>&quot;$@&quot;</code>
+式的例外不适用于普通命令替换。</li>
+</ul>
+<h4 id="算术扩展arithmetic-expansion">2.6.4 算术扩展（Arithmetic
+Expansion）</h4>
+<ul>
+<li><code>$((expr))</code>：整数表达式，语法接近
+C：<code>+ - * / %</code>、比较、逻辑、位运算、变量名直接求值（<code>$x</code>
+与 <code>x</code> 都行）、<code>++</code>/<code>--</code>、三目
+<code>?:</code>。</li>
+<li>变量在算术语境中按数值解释；对未定义变量按 0
+处理（实现定义符号常量名等）。</li>
+<li>前缀 <code>+</code>/<code>-</code>
+可选；结果按十进制输出（某些情况如 <code>$((#x))</code> 是 XSI
+扩展）。</li>
+</ul>
+<h4 id="字段分割field-splitting">2.6.5 字段分割（Field Splitting）</h4>
+<ul>
+<li>用 <strong>IFS</strong>
+的值做分隔符：空白类（空格/制表/换行，连续出现合并且开头结尾的被丢弃）与非空白类（每个出现都算一个分隔符）。</li>
+<li><strong>只对未引用的扩展结果</strong>执行：<code>$var</code>（未引用）会切分，<code>&quot;$var&quot;</code>（引用）不会——这是”为什么要给变量加引号”的规范根源。</li>
+<li>IFS 未设置时等价于 <code>空格+制表+换行</code>；IFS
+为空则<strong>不切分</strong>。</li>
+</ul>
+<h4 id="路径名展开pathname-expansion">2.6.6 路径名展开（Pathname
+Expansion）</h4>
+<ul>
+<li><code>*</code> 匹配任意串（含空）、<code>?</code>
+匹配单字符、<code>[...]</code> 括号表达式（可含范围
+<code>[a-z]</code>、字符类 <code>[[:alpha:]]</code>、取反
+<code>[!a]</code>）。</li>
+<li><strong>点文件规则</strong>：文件名开头（或紧跟 <code>/</code>）的
+<code>.</code> 必须显式匹配——<code>*</code> 不匹配隐藏文件。</li>
+<li>匹配结果按 locale
+整理序列排序；<strong>无匹配时模式原样保留</strong>（不是报错！）。</li>
+</ul>
+<h4 id="引用消除quote-removal">2.6.7 引用消除（Quote Removal）</h4>
+<p>最后一步：把 <code>\</code>、<code>&#39;</code>、<code>&quot;</code>
+这些引用字符从词中<strong>删除</strong>。执行后 shell
+仍记得哪些字符曾被引用（这在 <code>case</code>
+模式匹配等处有后续语义）。</p>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.6.2 的完整语法清单（规范以定义列表给出所有形式，值得逐条过）</li>
+<li>2.14
+模式匹配记号（<code>#</code>/<code>%</code>/路径名展开共享同一套模式语法）</li>
+</ul>
+<hr />
+<h3 id="重定向redirection">2.7 重定向（Redirection）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>重定向改变命令的<strong>文件描述符</strong>的指向：从文件读、写到文件、追加、复制
+fd、关闭 fd、here-document。语法是
+<code>[n]运算符 word</code>（<code>n</code> 是 fd 号，默认 0/1/2
+依运算符而定）。</p>
+<p><strong>核心机制：运算符表</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>运算符</th>
+<th>含义</th>
+<th>默认 fd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>&lt;</code></td>
+<td>从文件读入</td>
+<td>0（stdin）</td>
+</tr>
+<tr class="even">
+<td><code>&gt;</code></td>
+<td>覆盖写</td>
+<td>1（stdout）</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;&gt;</code></td>
+<td>追加写</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><code>&gt;&amp;</code></td>
+<td>复制输出 fd（<code>2&gt;&amp;1</code>）</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;&amp;</code></td>
+<td>复制输入 fd（<code>0&lt;&amp;3</code>）</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>&lt;&gt;</code></td>
+<td>读写打开</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;&lt;</code> / <code>&lt;&lt;-</code></td>
+<td>here-document</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><code>&gt;|</code></td>
+<td>覆盖写（无视 noclobber）</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键机制</strong>：</p>
+<ul>
+<li><strong>执行顺序</strong>：多个重定向<strong>从左到右</strong>求值——所以
+<code>2&gt;&amp;1 &gt;file</code> 和 <code>&gt;file 2&gt;&amp;1</code>
+语义不同（前者 stderr 先指向旧 stdout，后者都指向 file）。</li>
+<li>重定向的 word
+经受波浪号/参数/命令/算术扩展和引用消除，但<strong>不做路径名展开</strong>（非交互
+shell）。</li>
+<li>重定向错误是 shell 错误，可能中止 shell（非交互）——见 2.8.1。</li>
+<li><code>n&gt;|</code> 用于
+<code>set -C</code>（noclobber）生效时强制覆盖。</li>
+</ul>
+<h4 id="here-document立即文档">2.7.4 Here-Document（立即文档）</h4>
+<ul>
+<li><code>&lt;&lt;</code> 后的 word
+是<strong>定界符</strong>；后续行直到单独一行”只有定界符”为止全部作为
+stdin。</li>
+<li><strong>引用定界符 = 关闭扩展</strong>：<code>&lt;&lt;&#39;EOF&#39;</code>
+时内容完全字面；<code>&lt;&lt;EOF</code>
+时内容经受参数/命令/算术扩展、命令替换。</li>
+<li><code>&lt;&lt;-</code> 删除每行前导的制表符（方便缩进书写）。</li>
+<li>多条 here-doc 按出现顺序消费输入。</li>
+</ul>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.7 开头的通用格式与”fd 号 + 运算符 + word”的边界规则</li>
+<li>2.9.1.3 重定向（重定向如何挂到命令上）</li>
+</ul>
+<hr />
+<h3 id="退出状态与错误exit-status-and-errors">2.8 退出状态与错误（Exit
+Status and Errors）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>定义两类”状态”：<strong>命令的退出状态</strong>（0=成功、非零=失败）和
+<strong>shell 错误</strong>的后果（哪些错误致命、哪些可恢复）。</p>
+<p><strong>核心机制</strong></p>
+<p><strong>2.8.1 错误的后果</strong>：</p>
+<ul>
+<li><strong>语法错误</strong>（如 <code>if</code> 没有
+<code>then</code>）：非交互 shell 直接<strong>退出</strong>；交互 shell
+报错并继续。</li>
+<li><strong>重定向错误、变量赋值错误</strong>（如给只读变量赋值）：按是否特殊内置区分——特殊内置的错误可能中止
+shell。</li>
+<li>交互/非交互的分界线是这一节的主线。</li>
+</ul>
+<p><strong>2.8.2 命令的退出状态</strong>：</p>
+<ul>
+<li>0 = 成功；1–125 = 应用可用的失败码；126 = 找到但不可执行；127 =
+未找到；&gt;128 = 被信号终止（128 + 信号号是惯例）。</li>
+<li>管道（2.9.2）的退出状态 =
+<strong>最后一条命令</strong>的状态（<code>set -o pipefail</code>
+之外，POSIX 基本版不强制 pipefail）。</li>
+</ul>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.15 特殊内置（“错误可能中止 shell”这一特殊性的完整定义）</li>
+<li>2.29 trap（退出状态与信号的接口）</li>
+</ul>
+<hr />
+<h3 id="shell-命令shell-commands">2.9 Shell 命令（Shell Commands）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>定义命令的<strong>结构层次</strong>：简单命令 → 管道 → 列表 →
+复合命令 → 函数。这是执行模型的主体。</p>
+<p><strong>核心机制：命令层次</strong></p>
+<pre><code>AND-OR 列表（&amp;&amp; / ||）
+   └── 列表（; &amp; 分隔）
+         └── 管道（|）
+               └── 简单命令 / 复合命令</code></pre>
+<p><strong>2.9.1
+简单命令</strong>：<code>[赋值...] [单词...] [重定向...]</code>。处理顺序：识别赋值/重定向
+→ 扩展第一个词找到命令名 → 执行重定向 → 扩展赋值 → 执行。</p>
+<ul>
+<li><strong>变量赋值</strong>的归属：赋值影响<strong>当前环境</strong>还是<strong>子环境</strong>，取决于命令名是谁：特殊内置→当前环境；函数→看函数内；普通命令→子环境（只对那个命令生效）。</li>
+<li><strong>声明型实用程序</strong>（如
+<code>export</code>、<code>readonly</code>）：跟在它后面的
+<code>name=word</code>
+按<strong>赋值上下文</strong>展开（不切分、不路径名展开）。</li>
+</ul>
+<p><strong>2.9.2
+管道</strong>：<code>cmd1 | cmd2</code>。每条命令在<strong>子
+shell</strong> 中执行（POSIX 允许最后一条在当前环境实现，但语义上按子
+shell 描述）；退出状态取最后一条。</p>
+<p><strong>2.9.3 列表</strong>：<code>;</code>
+顺序执行、<code>&amp;</code>
+异步后台、<code>&amp;&amp;</code>/<code>||</code> 短路（左结合，与 C
+相同）。</p>
+<p><strong>2.9.4 复合命令</strong>：语法结构块：</p>
+<table>
+<thead>
+<tr class="header">
+<th>结构</th>
+<th>语法</th>
+<th>语义要点</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>分组</td>
+<td><code>( list )</code></td>
+<td>子 shell 环境</td>
+</tr>
+<tr class="even">
+<td>分组</td>
+<td><code>{ list; }</code></td>
+<td>当前环境（注意末尾必须 <code>;</code> 或换行）</td>
+</tr>
+<tr class="odd">
+<td>条件</td>
+<td><code>if c; then ...; fi</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>循环</td>
+<td><code>while</code>/<code>until</code></td>
+<td>条件列表的退出状态决定</td>
+</tr>
+<tr class="odd">
+<td>循环</td>
+<td><code>for</code></td>
+<td><code>for name in words</code></td>
+</tr>
+<tr class="even">
+<td>选择</td>
+<td><code>case w in pat) ...;;</code></td>
+<td>模式匹配第一个命中（2.14）</td>
+</tr>
+<tr class="odd">
+<td>双括号</td>
+<td><code>[[ ... ]]</code></td>
+<td>XSI 扩展，非 POSIX 基本</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2.9.5
+函数定义命令</strong>：<code>name() compound-command</code>（POSIX
+语法）或
+<code>function name</code>（XSI）。函数：在当前环境执行、可递归、位置参数独立。</p>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.10 形式文法（上面所有结构的精确定义）</li>
+<li>2.13 执行环境（子 shell 是什么）</li>
+</ul>
+<hr />
+<h3 id="shell-文法shell-grammar">2.10 Shell 文法（Shell Grammar）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>整章唯一的形式化部分：用 <strong>lex/yacc 风格</strong>给出 shell
+语言的完整文法（词法约定 + 产生式）。它是 2.1–2.9 的”精确版”。</p>
+<p><strong>核心机制</strong></p>
+<ul>
+<li><strong>2.10.1 词法约定</strong>：token
+类型（WORD、IO_NUMBER、运算符）、保留字识别规则、<code>%token</code>
+表。</li>
+<li><strong>2.10.2
+文法规则</strong>：<code>complete_command</code>、<code>list</code>、<code>pipeline</code>、<code>command</code>、<code>compound_command</code>、<code>function_definition</code>、<code>io_redirect</code>
+等的产生式。</li>
+<li>文法里能看到 2.9 的每一条规则如何形式化：比如 <code>and_or</code>
+的左结合、<code>cmd_prefix</code>/<code>cmd_suffix</code>
+的构成、重定向可以出现在命令前/后/中间。</li>
+</ul>
+<blockquote>
+<p>阅读建议：不需要背文法，但<strong>查文法</strong>是解决”这个语法到底合不合法”争议的最终手段。</p>
+</blockquote>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.9（文法的通俗解释版）</li>
+<li>2.3 Token 识别（词法层面与文法的衔接）</li>
+</ul>
+<hr />
+<h3 id="作业控制job-control">2.11 作业控制（Job Control）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>交互式 shell
+里<strong>后台作业</strong>与<strong>前台作业</strong>的管理模型：<code>bg</code>、<code>fg</code>、<code>jobs</code>、<code>wait</code>
+的底层语义，以及作业与进程组、终端的关系。</p>
+<p><strong>核心机制</strong></p>
+<ul>
+<li><strong>作业（job）</strong>：由一个管道构成的进程组；有作业号（<code>[1]</code>、<code>[2]</code>）。</li>
+<li><strong>控制终端</strong>：前台作业组获得终端访问；后台作业组读终端会收到
+SIGTTIN，写会收到 SIGTTOU。</li>
+<li><code>jobs -p</code> 输出进程组 ID；<code>wait</code>
+等待后台作业并返回其状态。</li>
+<li><strong>实现细节留给实现</strong>：作业控制的可选性（XSI
+扩展）、监控（job control）是否开启。</li>
+</ul>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.13 执行环境（子 shell 与作业的关系）</li>
+<li>2.29 trap（信号与作业控制交互）</li>
+</ul>
+<hr />
+<h3 id="信号与错误处理signals-and-error-handling">2.12
+信号与错误处理（Signals and Error Handling）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>shell
+如何对待<strong>信号</strong>：哪些信号默认动作、哪些被忽略、<code>trap</code>
+的挂接点、以及”shell 等待子进程时收到信号”的行为。</p>
+<p><strong>核心机制</strong></p>
+<ul>
+<li>信号处理与 <code>trap</code>（2.29）联动；交互 shell 对
+<code>SIGINT</code>/<code>SIGQUIT</code>
+的处理有特殊性（等待命令时收到信号，shell 行为未指定）。</li>
+<li>异步列表（<code>&amp;</code>）中命令的信号处理独立于交互
+shell。</li>
+<li><code>trap</code> 动作的执行点：命令完成、等待时、子 shell
+继承规则（2.13）。</li>
+</ul>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.29 trap（本节的落地工具）</li>
+<li>2.8.2 退出状态（128+N 信号退出码）</li>
+</ul>
+<hr />
+<h3 id="shell-执行环境shell-execution-environment">2.13 Shell
+执行环境（Shell Execution Environment）</h3>
+<p><strong>本节在说什么</strong></p>
+<p>定义”<strong>执行环境</strong>”这个核心抽象：shell
+在什么状态下执行命令，<strong>子 shell</strong>
+复制了什么、没复制什么，环境如何继承。</p>
+<p><strong>核心机制</strong></p>
+<p><strong>执行环境包含</strong>：shell 变量（及其 export
+属性）、当前工作目录、文件描述符、umask、信号 trap
+设置、函数定义、别名、shell 选项、<code>$!</code> 等。</p>
+<p><strong>子 shell（subshell）环境的继承规则</strong>——三个层级：</p>
+<ol type="1">
+<li><strong>子 shell
+继承</strong>（<code>( list )</code>、管道成员、命令替换等）：复制父环境的<strong>所有</strong>属性，但子
+shell 内的修改（变量赋值、cd、重定向）不传回父环境；未忽略的 trap 在子
+shell 中重置为默认动作。</li>
+<li><strong>命令执行环境</strong>（执行外部命令）：只传<strong>导出变量</strong>、fd（0/1/2
+及未关闭的高 fd）、umask、信号默认/忽略设置等。</li>
+<li><strong>函数执行环境</strong>：增加位置参数/<code>$0</code>
+的局部化。</li>
+</ol>
+<p><strong>易错点</strong>：<code>cd</code>、<code>export</code>、<code>umask</code>
+在子 shell 里的修改”丢失”——这是 <code>(cd dir &amp;&amp; cmd)</code>
+惯用法的依据；<code>exec</code>（2.21）则替换整个 shell。</p>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.9.4 复合命令（哪些结构创建子 shell）</li>
+<li>2.9.1 简单命令（赋值归属与执行环境）</li>
+</ul>
+<hr />
+<h3 id="模式匹配记号pattern-matching-notation">2.14
+模式匹配记号（Pattern Matching Notation）</h3>
+<p><strong>本节在说什么</strong></p>
+<p><strong>模式（pattern）</strong>
+的语法与语义：<code>*</code>、<code>?</code>、<code>[...]</code>
+括号表达式。这套记号同时服务于 <code>case</code>、参数扩展的
+<code>#</code>/<code>%</code>、路径名展开和 <code>[[ = ]]</code>。</p>
+<p><strong>核心机制</strong></p>
+<p><strong>2.14.1 单字符模式</strong>：</p>
+<ul>
+<li><code>?</code>：匹配任意一个字符。</li>
+<li><code>*</code>：匹配任意（含空）字符串。</li>
+<li><code>[...]</code> 括号表达式：字符类 <code>[[:alpha:]]</code>、范围
+<code>[a-z]</code>、取反 <code>[!a]</code>（在 POSIX 正则中
+<code>^</code> 的角色在此用 <code>!</code>）。</li>
+</ul>
+<p><strong>2.14.2 多字符模式</strong>：<code>*</code>
+的匹配规则（零或多个字符）。</p>
+<p><strong>2.14.3
+用于文件名展开的模式</strong>——路径名特有的三条规则：</p>
+<ol type="1">
+<li><code>/</code> 必须显式匹配（<code>*</code> 不能跨目录）；</li>
+<li>前导 <code>.</code> 必须显式匹配（隐藏文件规则）；</li>
+<li>模式与文件名按当前 locale 排序比较。</li>
+</ol>
+<p><strong>与正则的差异</strong>：shell 模式不是正则！<code>*</code>
+在正则里是”前一个字符重复”，在模式里是”任意串”；<code>^</code>/<code>$</code>
+锚点不存在；括号表达式的 <code>!</code> 取反而不是
+<code>^</code>。这是初学者的头号混淆点。</p>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.6.2 参数扩展的 <code>${p#pat}</code>/<code>${p%pat}</code></li>
+<li>2.6.6 路径名展开</li>
+</ul>
+<hr />
+<h3 id="特殊内置实用程序special-built-in-utilities">2.15
+特殊内置实用程序（Special Built-In Utilities）</h3>
+<p><strong>本节在说什么</strong></p>
+<p><strong>15 个特殊内置</strong>（官方编号
+2.16–2.30）：<code>break</code>、<code>colon</code>、<code>dot</code>、<code>eval</code>、<code>exec</code>、<code>exit</code>、<code>export</code>、<code>readonly</code>、<code>return</code>、<code>set</code>、<code>shift</code>、<code>times</code>、<code>trap</code>、<code>unset</code>（加上
+2.17 的 <code>colon</code> 共 15 个，即
+break/colon/continue/dot/eval/exec/exit/export/readonly/return/set/shift/times/trap/unset）。</p>
+<p><strong>核心机制：特殊内置 vs 普通内置</strong></p>
+<p><strong>两条区别</strong>（规范原文的要点）：</p>
+<ol type="1">
+<li><strong>错误后果</strong>：特殊内置中的错误<strong>可能导致 shell
+中止</strong>（非交互）；普通内置不会。</li>
+<li><strong>赋值归属</strong>：特殊内置前的变量赋值<strong>影响当前执行环境</strong>（<code>FOO=bar set ...</code>
+里的 <code>FOO=bar</code> 是当前环境的）；普通内置则否。</li>
+</ol>
+<p><strong>共同点</strong>：无需 fork 外部进程，在 shell
+内部实现；<code>exec</code>
+函数族不一定能访问它们（不必提供可执行文件）。</p>
+<p><strong>速查表</strong>（详见 2.16–2.30）：</p>
+<table>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>一句话</th>
+<th>常用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>break / continue</td>
+<td>退出/继续循环</td>
+<td>循环控制</td>
+</tr>
+<tr class="even">
+<td>colon <code>:</code></td>
+<td>空命令（返回 0）</td>
+<td>占位、给 <code>if</code>/<code>while</code> 填空</td>
+</tr>
+<tr class="odd">
+<td>dot <code>.</code></td>
+<td>在当前环境执行文件</td>
+<td>脚本”源入”（source）</td>
+</tr>
+<tr class="even">
+<td>eval</td>
+<td>拼接参数为命令再执行</td>
+<td>动态构造命令</td>
+</tr>
+<tr class="odd">
+<td>exec</td>
+<td>替换 shell 或仅做重定向</td>
+<td>优化、重定向当前 shell</td>
+</tr>
+<tr class="even">
+<td>exit</td>
+<td>退出 shell</td>
+<td>设置退出码</td>
+</tr>
+<tr class="odd">
+<td>export</td>
+<td>标记变量进环境</td>
+<td>导出变量</td>
+</tr>
+<tr class="even">
+<td>readonly</td>
+<td>标记只读</td>
+<td>保护变量</td>
+</tr>
+<tr class="odd">
+<td>return</td>
+<td>从函数/点脚本返回</td>
+<td>函数返回值</td>
+</tr>
+<tr class="even">
+<td>set</td>
+<td>设置选项/位置参数</td>
+<td>调试开关（-x/-e）</td>
+</tr>
+<tr class="odd">
+<td>shift</td>
+<td>丢弃位置参数</td>
+<td>参数解析</td>
+</tr>
+<tr class="even">
+<td>times</td>
+<td>打印累计 CPU 时间</td>
+<td>计时</td>
+</tr>
+<tr class="odd">
+<td>trap</td>
+<td>注册信号/EXIT 处理</td>
+<td>清理、信号处理</td>
+</tr>
+<tr class="even">
+<td>unset</td>
+<td>删除变量/函数</td>
+<td>清理环境</td>
+</tr>
+</tbody>
+</table>
+<p><strong>延伸阅读</strong></p>
+<ul>
+<li>2.26 set（最复杂的特殊内置，选项/位置参数/<code>-o</code>
+全表）</li>
+<li>2.29 trap（信号与退出处理的完整规则）</li>
+</ul>
+<hr />
+<p><strong>2.16–2.30 特殊内置逐条速查</strong></p>
+<blockquote>
+<p>以下各节按官方编号对应原文。每节给出：<strong>机制要点</strong>（规范怎么说）+
+<strong>易错点</strong>。</p>
+</blockquote>
+<h3 id="break">2.16 break</h3>
+<ul>
+<li><code>break [n]</code>：退出第 n 个外层循环（默认 1）。</li>
+<li><strong>“外层”的定义</strong>：词法上<strong>包含</strong>该命令的循环（同执行环境中
+do-group 的 compound-list 内）。</li>
+<li>易错：n 必须是正十进制整数（对应用的要求，不是 shell 的）；n
+大于循环数时用最外层；无外层循环时行为未指定。</li>
+</ul>
+<h3 id="colon空命令">2.17 colon（空命令）</h3>
+<ul>
+<li><code>:</code> 永远返回 0，不做任何事（不处理参数、不识别
+<code>--</code>）。</li>
+<li>用途：<code>while :; do ...; done</code>
+死循环、给分支占位、在脚本中留注释位。</li>
+</ul>
+<h3 id="continue">2.18 continue</h3>
+<ul>
+<li><code>continue [n]</code>：回到第 n 个外层循环的顶部。</li>
+<li>“外层”的定义与易错点同 2.16 break。</li>
+</ul>
+<h3 id="dot在当前环境执行文件">2.19 dot（在当前环境执行文件）</h3>
+<ul>
+<li><code>. file</code>：token
+化、解析、在<strong>当前环境</strong>执行文件内容（区别于脚本的子 shell
+执行）。</li>
+<li>file 无斜杠 → 按 <code>PATH</code>
+搜索，但<strong>不要求可执行</strong>（读权限即可）。</li>
+<li>解析为 <code>program</code> 还是单个
+<code>compound_list</code>：未指定（影响别名生效时机）。</li>
+<li>易错：找不到可读文件时，非交互 shell <strong>中止</strong>。</li>
+</ul>
+<h3 id="eval">2.20 eval</h3>
+<ul>
+<li><code>eval [argument...]</code>：参数用空格拼接成字符串 → 重新 token
+化、解析、执行。</li>
+<li>典型用途：动态构造命令（但要警惕注入风险）。</li>
+<li>不要求识别 <code>--</code>；参数以 <code>-</code> 开头时建议
+<code>eval &quot; $cmd&quot;</code> 保护。</li>
+</ul>
+<h3 id="exec">2.21 exec</h3>
+<ul>
+<li>无操作数：只做重定向，<strong>作用于当前
+shell</strong>（<code>exec 3&lt;file</code>）。</li>
+<li>有操作数：用该实用程序<strong>替换当前 shell
+进程</strong>（<code>exec cmd</code>）。</li>
+<li>失败时：非交互 shell 退出；交互 shell 只在子 shell 环境可退出。</li>
+<li>易错：<code>exec</code> 后的代码不会执行（进程已被替换）。</li>
+</ul>
+<h3 id="exit">2.22 exit</h3>
+<ul>
+<li><code>exit [n]</code>：退出当前执行环境。子 shell 中退出只退出子
+shell。</li>
+<li>n 的规则：0–255 正常状态；&gt;256
+且对应信号则”被信号终止”；非法值未指定。</li>
+<li><strong>EXIT trap</strong>：<code>trap ... EXIT</code> 在 shell
+终止前执行（但 trap 动作里再 <code>exit</code> 则立即退出）。</li>
+<li>无 n 时用 <code>$?</code> 的当前值。</li>
+</ul>
+<h3 id="export">2.23 export</h3>
+<ul>
+<li><code>export name[=word]...</code>：给变量标记 export
+属性（进入子进程环境）；<code>-p</code> 打印所有导出变量。</li>
+<li><strong>声明型实用程序</strong>：<code>export X=$(false)</code>
+里的赋值在赋值上下文展开——所以 <code>$?</code> 是 0（export
+成功），即使命令替换失败。</li>
+<li>输出格式 <code>export name=value</code> 可直接回读恢复。</li>
+</ul>
+<h3 id="readonly">2.24 readonly</h3>
+<ul>
+<li><code>readonly name[=word]...</code>：标记只读（不能修改、不能
+unset）。</li>
+<li>与 export 同为声明型实用程序：<code>name=word</code>
+按赋值上下文处理。</li>
+<li>易错：只读变量在子 shell 也不能改（属性随环境继承）。</li>
+</ul>
+<h3 id="return">2.25 return</h3>
+<ul>
+<li><code>return [n]</code>：从函数或
+<code>.</code>（dot）脚本返回；无参数时用 <code>$?</code>。</li>
+<li>在函数外调用：非交互 shell 可能中止；交互 shell 行为未指定。</li>
+</ul>
+<h3 id="set">2.26 set</h3>
+<ul>
+<li>三大功能：<strong>设置/取消 shell 选项</strong>（<code>-o</code>
+选项表 14
+项）、<strong>设置位置参数</strong>（<code>set -- a b c</code>）、<strong>设置
+<code>$1</code> 等</strong>。</li>
+<li>常用选项：<code>-e</code>（errexit，命令失败即退出）、<code>-x</code>（xtrace，跟踪执行）、<code>-f</code>（noglob，关闭路径名展开）、<code>-u</code>（nounset，未定义变量报错）、<code>-C</code>（noclobber）、<code>-v</code>（verbose）。</li>
+<li><code>set --</code> 清空位置参数；<code>set -</code> /
+<code>set +</code> 组合用于恢复。</li>
+<li>易错：<code>set -e</code>
+的陷阱（条件表达式、<code>!</code>、函数内等上下文中的失败不触发退出）——规范列了
+3 条例外，务必精读。</li>
+<li><code>-o</code>
+选项表：allexport、braceexpand、errexit、hashall、ignoreeof、interactive-comments、monitor、noclobber、noexec、noglob、nojobcontrol、nounset、notify、onecmd、physical、pipefail（XSI）、posix、privileged、verbose、vi、xtrace
+等。</li>
+</ul>
+<h3 id="shift">2.27 shift</h3>
+<ul>
+<li><code>shift [n]</code>：丢弃前 n 个位置参数（默认 1）。</li>
+<li>n 必须是非负整数且 ≤ <code>$#</code>（超出时未指定——POSIX
+定义此行为未指定，但常见实现报错）。</li>
+</ul>
+<h3 id="times">2.28 times</h3>
+<ul>
+<li><code>times</code>：打印 shell 及其子进程的用户/系统 CPU 时间（格式
+<code>%dm%fs</code> 等）。</li>
+<li>用于粗粒度计时。</li>
+</ul>
+<h3 id="trap">2.29 trap</h3>
+<ul>
+<li><code>trap action condition...</code>：注册对信号/EXIT
+的处理；<code>trap -p</code> 打印当前 trap；<code>trap - COND</code>
+恢复默认。</li>
+<li>条件名：信号名（<code>INT</code>、<code>TERM</code>…）、编号、<code>EXIT</code>（0）、<code>ERR</code>/<code>DEBUG</code>（非
+POSIX 基本，XSI/扩展）。</li>
+<li><strong>机制要点</strong>：
+<ul>
+<li>非交互 shell 中，被忽略的信号在 trap 后仍被忽略；</li>
+<li>子 shell 继承 trap 但未忽略的 trap 在子 shell 重置为默认；</li>
+<li><code>trap</code> 动作执行时，<code>$?</code> 是 trap
+触发前的状态；</li>
+<li>空 action（<code>trap &#39;&#39; INT</code>）= 忽略信号。</li>
+</ul></li>
+<li>易错：<code>trap &#39;cmd&#39; 0</code> 与 <code>trap &#39;cmd&#39; EXIT</code>
+等价（0 是 EXIT）。</li>
+</ul>
+<h3 id="unset">2.30 unset</h3>
+<ul>
+<li><code>unset [-fv] name...</code>：删除变量（-v）或函数（-f）；默认变量（存在同名函数时是否也删未指定）。</li>
+<li><strong>readonly 变量不能 unset</strong>（但会移除 readonly
+之外的其他属性——Issue 8 澄清）。</li>
+<li>易错：<code>VAR=</code>（赋空）≠
+<code>unset VAR</code>——前者变量仍存在（“已设置但为空”），后者完全删除（“未设置”），两者在
+<code>${var:-def}</code> 下的行为不同（带 <code>:</code>
+时相同，不带时不同）。</li>
+</ul>
+<hr />
+<p><strong>延伸阅读（跨章节主题）</strong></p>
+<ul>
+<li><strong>扩展顺序总表</strong>：2.6 开头（七阶段）+
+2.9.1.1（简单命令处理顺序）</li>
+<li><strong>引用总表</strong>：2.2（四种机制对照）</li>
+<li><strong>执行环境总表</strong>：2.13（三层继承规则）</li>
+<li><strong>退出状态与错误</strong>：2.8 + 2.15（特殊内置特殊性）</li>
+<li><strong>形式文法</strong>：2.10（一切歧义的最终裁决）</li>
+<li><strong>配套卷</strong>：XCU 1.4（Utility Description Defaults，理解
+manpage 小节结构）、XBD 相关定义（File Descriptor、Exit Status 等）</li>
+</ul>
+<hr />
+<p><em>本导读基于 POSIX.1-2024（Issue 8）《Shell &amp; Utilities》卷第 2
+章编写。如有疑问以英文原文与中文直译为准。</em></p>

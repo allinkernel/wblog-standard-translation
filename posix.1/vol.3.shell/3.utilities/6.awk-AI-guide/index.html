@@ -1,0 +1,481 @@
+<h1 id="awk-工具-ai-导读">awk 工具 AI 导读</h1>
+<blockquote>
+<p>本导读基于 POSIX.1-2024《Shell &amp; Utilities》卷 <em>awk</em>
+实用程序页面（<code>3.utilities/6.awk/index.md</code>
+英文镜像及其中文直译）整理，只使用规范页面中的事实。配套阅读：镜像 <a href="../6.awk/index.md">index.md</a>、中文直译 <a href="../6.awk-translate/index.md">index.md</a>。</p>
+</blockquote>
+<h2 id="核心概念">1. 核心概念</h2>
+<h3 id="记录-字段模型record-field-model">记录-字段模型（record-field
+model）</h3>
+<ul>
+<li>输入被解释为一系列<strong>记录（record）</strong>。默认一条记录是一行（去掉结尾换行符），可用内置变量
+<code>RS</code> 改变。</li>
+<li>每条记录被解释为一系列<strong>字段（field）</strong>。默认字段是由非空白、非换行字符组成的字符串，可用
+<code>FS</code> 内置变量或 <code>-F sepstring</code> 选项改变。</li>
+<li>第一个字段是 <code>$1</code>，第二个是
+<code>$2</code>，依此类推；<code>$0</code> 指整个记录。</li>
+<li><strong>给任何其他字段赋值会导致 <code>$0</code> 重新求值；给
+<code>$0</code> 赋值会重置所有其他字段和 <code>NF</code>
+的值。</strong></li>
+</ul>
+<h3 id="模式-动作pattern-action执行模型">模式-动作（pattern-action）执行模型</h3>
+<ul>
+<li>一个 awk
+程序是一系列<strong>模式（pattern）</strong>及与之对应的<strong>动作（action）</strong>：<code>pattern { action }</code>。模式或动作可以省略：缺模式匹配任何记录，缺动作等价于
+<code>{ print }</code>。</li>
+<li>输入记录被读入后：先按当时 <code>FS</code>
+的值把记录拆成字段（在第一次引用字段之前）；然后按出现顺序对每个模式求值，对每个匹配当前记录的模式执行其动作（匹配模式的动作在当前记录上执行完毕后，才继续求值后续模式）。</li>
+<li>字段拆分使用<strong>读取该记录时 <code>FS</code>
+的当前值</strong>。</li>
+</ul>
+<h3 id="begin-end">BEGIN / END</h3>
+<ul>
+<li>程序执行：先按出现顺序执行所有 <code>BEGIN</code>
+模式的关联动作；然后逐个处理输入文件；最后按出现顺序执行所有
+<code>END</code> 动作。</li>
+<li><code>BEGIN</code>
+动作在读取第一条输入记录之前、命令行赋值完成之前执行（但先前的
+<code>BEGIN</code> 动作中可通过 <code>getline</code> 读输入）。</li>
+<li><code>END</code>
+动作在最后一条输入记录读完后执行；<code>nextfile</code>
+之后若无更多输入文件也会触发 <code>END</code>。</li>
+<li>只含 <code>BEGIN</code> 动作且不含 <code>getline</code>
+的程序：最后一个 <code>BEGIN</code>
+动作的最后一条语句执行完即退出、不读输入；只含 <code>END</code>（或
+<code>BEGIN</code>+<code>END</code>）的程序：先读输入再执行
+<code>END</code>。</li>
+<li><code>BEGIN</code>/<code>END</code>
+不与其他模式组合；可多个；<code>END</code> 可出现在 <code>BEGIN</code>
+之前；二者必须有动作。</li>
+</ul>
+<h2 id="内置变量速查表">2. 内置变量速查表</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>变量</th>
+<th>含义（页面原文要点）</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>FS</code></td>
+<td>输入字段分隔符正则表达式</td>
+<td>单个空格（&lt;space&gt;）</td>
+</tr>
+<tr class="even">
+<td><code>OFS</code></td>
+<td><code>print</code> 语句输出字段分隔符</td>
+<td>空格</td>
+</tr>
+<tr class="odd">
+<td><code>RS</code></td>
+<td>输入记录分隔符（取字符串第一个字符；多字符结果未指定；空串时按换行+空行序列分隔）</td>
+<td>换行符</td>
+</tr>
+<tr class="even">
+<td><code>ORS</code></td>
+<td><code>print</code> 语句输出记录分隔符</td>
+<td>换行符</td>
+</tr>
+<tr class="odd">
+<td><code>NF</code></td>
+<td>当前记录字段数（BEGIN 内未先 getline 则使用未定义）</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>NR</code></td>
+<td>从输入开始算的当前记录序号（nextfile 跳过的记录不计）</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>FNR</code></td>
+<td>当前记录在当前文件中的序号</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>ARGC</code></td>
+<td><code>ARGV</code> 遍历何时停止的计数；程序启动时初始化为
+<code>ARGV</code> 元素个数；可被程序和赋值操作数更新；<code>&lt;1</code>
+行为未指定</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>ARGV</code></td>
+<td>数组：<code>ARGV[0]</code>
+为命令名，<code>ARGV[1]</code>..<code>ARGV[ARGC-1]</code>
+为命令行参数（不含选项和 program 操作数）；BEGIN 动作后 awk
+遍历其元素当作 argument 操作数处理</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>ENVIRON</code></td>
+<td>环境数组：下标为环境变量名，元素值为变量值；awk
+用”开始执行时的环境”</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>FILENAME</code></td>
+<td>当前输入文件路径名，标准输入为 <code>&#39;-&#39;</code>；BEGIN 内未设置；END
+内为最后处理的文件；应用改动其值结果未指定</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>SUBSEP</code></td>
+<td>多维数组下标分隔符字符串</td>
+<td>实现定义</td>
+</tr>
+<tr class="odd">
+<td><code>RSTART</code></td>
+<td><code>match</code> 匹配的起始位置（从 1 编号），恒等于
+<code>match</code> 返回值；无匹配为 0</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>RLENGTH</code></td>
+<td><code>match</code> 匹配的字符串长度；无匹配为 -1</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>CONVFMT</code></td>
+<td>数字→字符串内部转换的 <code>printf</code>
+格式（比较、数组索引等）</td>
+<td><code>&quot;%.6g&quot;</code></td>
+</tr>
+<tr class="even">
+<td><code>OFMT</code></td>
+<td>输出语句中数字→字符串的 <code>printf</code> 格式</td>
+<td><code>&quot;%.6g&quot;</code></td>
+</tr>
+<tr class="odd">
+<td><code>RT</code></td>
+<td>页面未定义此变量（POSIX 规范中没有 <code>RT</code>；GNU awk
+扩展不在本页）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="内置函数分组速查">3. 内置函数分组速查</h2>
+<h3 id="算术函数页面算术函数-arithmetic-functions">算术函数（页面：算术函数
+(Arithmetic Functions)）</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>atan2(y, x)</code></td>
+<td>返回 y/x 的反正切（弧度），范围 [-ℼ,ℼ]</td>
+</tr>
+<tr class="even">
+<td><code>cos(x)</code> / <code>sin(x)</code></td>
+<td>余弦 / 正弦，x 以弧度计</td>
+</tr>
+<tr class="odd">
+<td><code>exp(x)</code></td>
+<td>指数函数</td>
+</tr>
+<tr class="even">
+<td><code>log(x)</code></td>
+<td>自然对数</td>
+</tr>
+<tr class="odd">
+<td><code>sqrt(x)</code></td>
+<td>平方根</td>
+</tr>
+<tr class="even">
+<td><code>int(x)</code></td>
+<td>截断为整数（x&gt;0 时向 0 截断）</td>
+</tr>
+<tr class="odd">
+<td><code>rand()</code></td>
+<td>伪随机数 n，0&lt;=n&lt;1</td>
+</tr>
+<tr class="even">
+<td><code>srand([expr])</code></td>
+<td>设置 <code>rand</code> 种子（省略用 Epoch 秒数），返回旧种子；expr
+非整数或不在 0..2^31-1 内行为未指定；相同种子重现相同序列</td>
+</tr>
+</tbody>
+</table>
+<h3 id="字符串函数页面字符串函数-string-functions">字符串函数（页面：字符串函数
+(String Functions)）</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>index(s, t)</code></td>
+<td>t 在 s 中首次出现的位置（1 起），无则 0</td>
+</tr>
+<tr class="even">
+<td><code>length[( [arg] )]</code></td>
+<td>arg 为数组时返回元素个数；否则返回字符串长度（字符数）；无参数返回
+<code>$0</code> 长度</td>
+</tr>
+<tr class="odd">
+<td><code>match(s, ere)</code></td>
+<td>ere 在 s 中的位置（1 起），无则 0；设置
+<code>RSTART</code>/<code>RLENGTH</code></td>
+</tr>
+<tr class="even">
+<td><code>split(s, a [, fs])</code></td>
+<td>按 ERE fs（缺省 <code>FS</code>）拆分 s 到 a[1..n]，返回
+n；先清空数组</td>
+</tr>
+<tr class="odd">
+<td><code>sprintf(fmt, expr, ...)</code></td>
+<td>按 printf 格式格式化并返回字符串</td>
+</tr>
+<tr class="even">
+<td><code>substr(s, m [, n])</code></td>
+<td>s 从 m 起至多 n 字符的子串（1 起）</td>
+</tr>
+<tr class="odd">
+<td><code>tolower(s)</code> / <code>toupper(s)</code></td>
+<td>按 <code>LC_CTYPE</code> 映射大小写</td>
+</tr>
+<tr class="even">
+<td><code>sub(ere, repl [, in])</code></td>
+<td>替换 in（缺省 <code>$0</code>）中 ere 第一次出现，返回替换次数；repl
+中 <code>&amp;</code> 表示匹配文本，<code>\&amp;</code> 为字面
+&amp;，<code>\\</code> 为字面 ；in 必须为 lvalue</td>
+</tr>
+<tr class="odd">
+<td><code>gsub(ere, repl [, in])</code></td>
+<td>同 sub 但替换所有出现</td>
+</tr>
+<tr class="even">
+<td><code>gensub</code></td>
+<td>页面未定义（GNU 扩展，不在 POSIX 页面）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输入输出与通用函数页面输入输出与通用函数-inputoutput-and-general-functions">输入/输出与通用函数（页面：输入/输出与通用函数
+(Input/Output and General Functions)）</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>函数/形式</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>print [expr_list] [redirection]</code></td>
+<td>输出表达式（缺省 <code>$0</code>），用 OFS 分隔、ORS 终止</td>
+</tr>
+<tr class="even">
+<td><code>printf format [, args] [redirection]</code></td>
+<td>格式化输出（详见页面 10 条例外）</td>
+</tr>
+<tr class="odd">
+<td><code>getline</code></td>
+<td><code>$0</code>=当前文件下一条记录；设置 NF、NR、FNR</td>
+</tr>
+<tr class="even">
+<td><code>getline var</code></td>
+<td>var=当前文件下一条记录；设置 FNR、NR</td>
+</tr>
+<tr class="odd">
+<td><code>getline [var] &lt; expression</code></td>
+<td>从命名文件读下一条记录</td>
+</tr>
+<tr class="even">
+<td><code>expression \| getline [var]</code></td>
+<td>从命令管道读一条记录</td>
+</tr>
+<tr class="odd">
+<td><code>close(expression)</code></td>
+<td>关闭同名（相同字符串值）文件/管道；成功 0，失败非零</td>
+</tr>
+<tr class="even">
+<td><code>fflush([expression])</code></td>
+<td>冲刷同名文件/管道流；无参或空串则全部冲刷；成功 0</td>
+</tr>
+<tr class="odd">
+<td><code>system(expression)</code></td>
+<td>执行命令并返回其退出状态</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>所有形式 <code>getline</code>：成功输入返回 1，EOF 返回 0，出错返回
+-1。</li>
+<li>字符串作为文件/管道名时必须<strong>文本上完全相同</strong>：“相同字符串值”意味着仅差空格的”等价字符串”表示不同文件。</li>
+</ul>
+<h3 id="位运算">位运算</h3>
+<ul>
+<li><code>and</code>、<code>or</code>、<code>xor</code>、<code>compl</code>、<code>lshift</code>、<code>rshift</code>：<strong>页面未定义</strong>（GNU
+awk 扩展，不在 POSIX 规范中）。</li>
+</ul>
+<h2 id="正则表达式要点">4. 正则表达式要点</h2>
+<ul>
+<li>使用扩展正则表达式（ERE，见 XBD 9.4），并允许 C
+语言风格转义：<code>\\</code>、<code>\a</code>、<code>\b</code>、<code>\f</code>、<code>\n</code>、<code>\r</code>、<code>\t</code>、<code>\v</code>，以及页内表：<code>\&quot;</code>（STRING
+内为双引号）、<code>\/</code>（ERE
+内为斜杠）、<code>\ddd</code>（八进制字符，全 0 或 &gt;\377
+未定义）、<code>\.</code> <code>\[</code> <code>\(</code>
+<code>\*</code> <code>\+</code> <code>\?</code> <code>\{</code>
+<code>\|</code> <code>\^</code> <code>\$</code>（ERE
+内表示自身）、<code>\\</code>、<code>\c</code>（其他字符，未定义）。</li>
+<li>匹配运算符 <code>~</code> 与
+<code>!~</code>：右操作数为正则，左操作数为字符串；匹配为 1 / 0。</li>
+<li>右操作数若不是 ERE token
+而是字符串表达式，其字符串值被解释为正则表达式；字符串字面量的转义在词法上先处理一次、作为正则再处理一次（<strong>双重转义</strong>）。</li>
+<li>单独出现（非 <code>~</code>/<code>!~</code> 右侧、非函数参数）的
+<code>/ere/</code> 等价于 <code>$0 ~ /ere/</code>。</li>
+<li><code>gsub</code>/<code>match</code>/<code>sub</code> 的 ere
+参数、<code>split</code> 的 fs 参数都可为 ERE token 或任意表达式。</li>
+<li>针对输入记录匹配时：记录分隔符字符（RS
+第一个字符）不能被匹配、不能嵌入模式；针对文本串匹配时任何字符（含换行、分隔符）都可匹配。模式、记录或文本中出现
+NUL 产生未定义结果。</li>
+<li><code>FS</code>
+行为：空串未指定；单字符时若是空格则按空白/换行集合切分（跳过前导尾随空白），否则按该字符每次出现切分；多字符按
+ERE 切分。</li>
+</ul>
+<h2 id="控制流速查">5. 控制流速查</h2>
+<ul>
+<li><code>if (expr) stmt [else stmt]</code>、<code>while (expr) stmt</code>、<code>do stmt while (expr)</code>、<code>for (init; cond; incr) stmt</code>、<code>for (var in array) stmt</code>（迭代顺序未指定；循环内新增元素结果未定义）、<code>break</code>、<code>continue</code>（循环外使用未定义）。</li>
+<li><code>delete array[index]</code>
+删除单个元素；<code>delete array</code>
+删除全部元素（<code>for...delete array[i]</code> 等价）。</li>
+<li><code>next</code>：放弃当前记录的所有进一步处理；出现在/被调用于
+BEGIN、END 动作中行为未定义。</li>
+<li><code>nextfile</code>：放弃当前文件的所有进一步处理；出现在
+BEGIN/END 或用户定义函数中行为未定义。</li>
+<li><code>exit [expr]</code>：按序调用所有 END 动作后终止；END 内的 exit
+不再执行其余 END；expr 数值为退出状态（除非之后出错或再执行带表达式的
+exit）。</li>
+<li><code>return [expr]</code>：函数内返回值；函数外使用未定义。</li>
+<li>布尔上下文：有数值时 0 为假、非 0
+为真；否则空串为假、非空为真。</li>
+<li>比较：双方为数值、一方数值另一方数值字符串、双方数值字符串、一方数值另一方未初始化
+→ 数值比较；否则字符串比较（<code>!=</code>/<code>==</code>
+比较是否相同，其他运算符按 locale 整理序列）。</li>
+</ul>
+<h2 id="选项与命令行赋值语义">6. 选项与命令行赋值语义</h2>
+<ul>
+<li><code>awk [-F sepstring] [-v assignment]... program [argument...]</code></li>
+<li><code>awk [-F sepstring] -f progfile [-f progfile]... [-v assignment]... [argument...]</code></li>
+<li><code>-F sepstring</code>：定义输入字段分隔符，等价于
+<code>-v FS=sepstring</code>；若两者都用，<code>-F</code> 产生的 FS
+赋值按命令行顺序处理还是排在最后一个是<strong>未指定</strong>的。</li>
+<li><code>-f progfile</code>：程序文件路径名；<code>&#39;-&#39;</code>
+表示标准输入；多次指定时按顺序连接各文件内容作为程序。</li>
+<li><code>-v assignment</code>：形式须与 assignment
+操作数相同；在<strong>执行程序（包括 BEGIN
+动作）之前</strong>生效；可多次。</li>
+<li><code>program</code> 操作数：无 <code>-f</code>
+时第一个操作数是程序文本；文本不以换行结尾时按”以换行结尾”解释。</li>
+<li><code>argument</code>
+两种：<code>file</code>（输入文件路径名，<code>&#39;-&#39;</code>
+为标准输入）；<code>assignment</code>（以 <code>_</code> 或字母开头、含
+<code>_</code>/数字/字母、后跟
+<code>=</code>；名称是保留字则未定义；<code>=</code> 后的字符按 STRING
+token
+解释，末字符为未转义反斜杠时按字面反斜杠）。若名称是保留字行为未定义。</li>
+<li><strong>赋值时机</strong>：每个赋值恰好在处理下一个 file 之前发生 →
+第一个 file 之前的赋值在 BEGIN 动作<strong>之后</strong>执行；最后一个
+file 之后的赋值在 END 动作<strong>之前</strong>执行；无 file
+参数时在处理标准输入之前执行。</li>
+<li>操作数赋值也可通过修改 <code>ARGV</code>/<code>ARGC</code>
+达到等价效果；BEGIN 动作处理完后 awk 按内部计数器遍历
+<code>ARGV</code>（空串元素跳过、符合赋值格式的处理赋值、其余按 file
+处理）。</li>
+</ul>
+<h2 id="典型用法示例取自页面示例">7. 典型用法示例（取自页面示例）</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;$3 &gt; 5&#39;</span>                       <span class="co"># 输出字段 3 大于 5 的所有行</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;(NR % 10) == 0&#39;</span>               <span class="co"># 每第十行</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;$2 ~ /xyz/ &amp;&amp; $4 !~ /xyz/&#39;</span>    <span class="co"># 第 2 字段匹配 xyz 且第 4 字段不匹配的行</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{ print $2, $1 }&#39;</span>             <span class="co"># 交换前两个字段输出</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{s += $1} END {print &quot;sum is&quot;, s, &quot;avg is&quot;, s/NR}&#39;</span>   <span class="co"># 求和与平均</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN { n = split(ENVIRON[&quot;PATH&quot;], path, &quot;:&quot;); for (i=1; i&lt;=n; ++i) print path[i] }&#39;</span>  <span class="co"># PATH 前缀</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-f</span> program n=5 input           <span class="co"># -f 程序文件 + 命令行赋值 n=5</span></span></code></pre></div>
+<p>命令行内嵌程序常用单引号包裹（awk 程序常含对 shell
+特殊的字符，如双引号）；程序含单引号时用 shell
+拼接：<code>awk &#39;/&#39;/ { print &quot;quote:&quot;, $0 }&#39;</code>。</p>
+<h2 id="易错点均有页面依据">8. 易错点（均有页面依据）</h2>
+<ol type="1">
+<li><strong>字段重赋值导致 <code>$0</code> 重算</strong>：设置
+<code>$1</code>.. 等任何字段会触发 <code>$0</code> 重新求值；给
+<code>$0</code> 赋值重置所有字段与
+<code>NF</code>。对不存在的字段（<code>$NF</code> 之后）赋值（如
+<code>$(NF+2)=5</code>）会增大
+<code>NF</code>、创建中间字段（未初始化值）并按 <code>OFS</code> 重算
+<code>$0</code>；但<strong>引用</strong>不存在的字段不创建新字段，只求值为未初始化值。</li>
+<li><strong>数值字符串比较</strong>：仅来自特定来源（字段、getline
+输入、FILENAME、ARGV/ENVIRON 元素、split
+结果、命令行赋值、来自数值字符串变量的赋值）且满足 strtod/词法 NUMBER
+条件的字符串才是数值字符串；否则按字符串比较。<code>if (0 == &quot;000&quot;)</code>
+这类比较按数值进行（页面原理节明确讨论）。<code>&quot;==&quot;</code>/<code>&quot;!=&quot;</code>
+检查字符串是否<strong>相同</strong>而非整理相等；要测整理相等用
+<code>a &lt;= b &amp;&amp; a &gt;= b</code>。</li>
+<li><strong>FS 为空格时的特殊切分</strong>：<code>FS</code>
+是单个空格时，跳过前导/尾随空白和换行，字段由<strong>一个或多个</strong>空白/换行集合分隔（即连续空白不产生空字段）；<code>FS</code>
+为其他单字符时按每次出现切分（连续出现产生空字段）；空串 <code>FS</code>
+行为未指定；多字符按 ERE。</li>
+<li><strong>/regex/ 与字符串正则的双重转义</strong>：字符串字面量的
+<code>\</code>
+转义先被词法处理一次，用作正则时再解释一次。例：匹配反斜杠用
+<code>$2 ~ /\\/</code>（ERE 内 <code>\\</code>
+表示一个反斜杠）；用字符串则需 <code>$2 ~ &quot;\\\\&quot;</code>（页面示例
+6/7）。</li>
+<li><strong>getline 的多种形式与副作用</strong>：无 var 形式设置
+<code>$0</code> 与 <code>NF</code>（及
+<code>NR</code>/<code>FNR</code>）；<code>getline var</code> 只设
+var（及
+<code>NR</code>/<code>FNR</code>）；管道/重定向形式同名表达式共享同一打开流直到
+<code>close</code>。<code>|</code> 左侧、<code>&lt;</code>
+右侧有未加括号运算符时产生<strong>歧义结构</strong>（结果未指定），必须加括号。<code>getline</code>
+返回 1/0/-1。</li>
+<li><strong>BEGIN 内变量</strong>：<code>FILENAME</code> 在 BEGIN
+内未设置；<code>NF</code> 在 BEGIN 内除非先前执行过无 var 的
+<code>getline</code> 否则使用未定义；<code>NR</code>/<code>FNR</code> 在
+BEGIN 内为 0。</li>
+<li><strong><code>-F</code> 与 <code>-v FS=</code>
+同时使用的顺序</strong>未指定；<code>-v</code> 赋值在 BEGIN
+之前、操作数赋值在 BEGIN 之后（处理下一个文件前），两者时机不同。</li>
+<li><strong><code>exit</code>
+与退出状态</strong>：<code>exit expr</code> 的 expr
+数值成为退出状态；END 动作内的 exit 终止程序不再执行其余
+END。默认退出状态：0 = 所有输入文件成功处理；&gt;0 = 出错；只含 BEGIN
+且无 getline 的程序执行完直接退出不读输入。</li>
+<li><strong>字符串用作文件/管道名的”同一性”</strong>：必须文本完全相同；仅差空格的字符串被视为不同文件。</li>
+<li><strong><code>length()</code> 的两种含义</strong>：无参数=
+<code>$0</code> 长度；数组参数=元素个数（Issue 8 规定）。</li>
+<li><strong><code>sub</code>/<code>gsub</code> 的
+repl</strong>：<code>&amp;</code> 是匹配文本；要字面 <code>&amp;</code>
+用 <code>\&amp;</code>；repl
+为字符串字面量时转义先被词法处理（页面示例：<code>gsub(ERE, &quot;\\&amp;&quot;)</code>
+产生一个字面 <code>&amp;</code>）。</li>
+<li><strong>保留字/语法细节</strong>：函数名与 <code>(</code>
+之间不能有空白（否则是 FUNC_NAME 与普通调用的区分）；<code>else</code>
+与最近 <code>if</code> 关联；ERE 与除法 <code>&#39;/&#39;</code>
+的歧义按”除法运算符优先”解决；<code>$x++--</code> 因 <code>$</code>
+优先级高于 <code>++</code> 不是有效表达式。</li>
+</ol>

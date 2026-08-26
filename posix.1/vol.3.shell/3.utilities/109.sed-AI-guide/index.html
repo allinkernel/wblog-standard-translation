@@ -1,0 +1,426 @@
+<h1 id="sed-实用程序-ai-导读">sed 实用程序 AI 导读</h1>
+<blockquote>
+<p>本导读基于 POSIX.1-2024《Shell &amp; Utilities》卷中
+<em>sed</em>（流编辑器）标准页面的内容整理，全部事实均出自该页面，未作发挥。</p>
+</blockquote>
+<h2 id="核心概念">1. 核心概念</h2>
+<h3 id="流式编辑模型">1.1 流式编辑模型</h3>
+<p><em>sed</em> 是一个<strong>流编辑器</strong>（stream
+editor）：它读取一个或多个文本文件，根据一个编辑命令脚本进行编辑修改，并将结果写入标准输出。它不提供交互式编辑，而是”一次一行”地处理输入流。</p>
+<ul>
+<li>脚本来源：<em>script</em> 操作数字符串，或 <strong>-e</strong>
+<em>script</em> 与 <strong>-f</strong> <em>script_file</em>
+选项参数的组合。</li>
+<li>输入文件应为文本文件；未指定 <em>file</em>
+操作数时使用标准输入；多个文件按指定顺序读取并拼接后一起编辑（行号跨文件累计）。</li>
+</ul>
+<h3 id="模式空间pattern-space与保持空间hold-space">1.2 模式空间（pattern
+space）与保持空间（hold space）</h3>
+<ul>
+<li><strong>模式空间</strong>：sed
+每周期把一行输入（去掉行尾换行符）放入模式空间，所有命令都作用于它。周期结束（或命令显式开始新周期）时，模式空间被复制到标准输出（除非指定
+<strong>-n</strong>），然后被删除。</li>
+<li><strong>保持空间</strong>：辅助缓冲区，用于保存模式空间的全部或部分内容供后续取回。命令
+<code>h/H</code> 写入保持空间，<code>g/G</code>
+从保持空间取回，<code>x</code> 交换两者。</li>
+<li>两者各应能容纳至少 <strong>8192 字节</strong>。</li>
+</ul>
+<h3 id="脚本执行模型">1.3 脚本执行模型</h3>
+<ol type="1">
+<li>读入一行（去掉行尾换行符）放入模式空间。</li>
+<li>按顺序应用<strong>所有地址选中该模式空间</strong>的命令。</li>
+<li>直到某个命令开始下一个周期（如
+<code>d</code>、<code>D</code>、<code>c</code>）或退出（如
+<code>q</code>）。</li>
+<li>若没有任何命令显式开始新周期，则脚本末尾将模式空间复制到标准输出（<code>-n</code>
+时除外）并删除之，然后读下一行。</li>
+<li>若上一周期由 <code>D</code>
+命令结束且模式空间中残留换行符，则跳过”从输入读取”这一步（继续处理残留内容）。</li>
+<li>每当模式空间被写入标准输出或命名文件时，sed
+立即在其后跟一个换行符。</li>
+</ol>
+<p>命令形式：<code>[address[,address]]function</code>，其中 function
+是单字符命令动词。命令前可有空白/分号字符，函数前可有空白字符。</p>
+<h2 id="地址寻址addresses-in-sed">2. 地址寻址（Addresses in sed）</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>地址形式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>十进制数字</td>
+<td>行号，<strong>跨文件累计</strong>计数输入行</td>
+</tr>
+<tr class="even">
+<td><code>$</code></td>
+<td>最后一行输入</td>
+</tr>
+<tr class="odd">
+<td><code>/RE/</code> 或 <code>\cREc</code></td>
+<td>上下文地址：RE 是正则表达式，c 是除反斜杠或换行符外的任意定界符（如
+<code>\x...x</code>）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>无地址</strong>：选中每个模式空间。</li>
+<li><strong>一个地址</strong>：选中每个匹配该地址的模式空间。</li>
+<li><strong>两个地址</strong>（<code>addr1,addr2</code>）：选中闭区间——从匹配第一个地址的第一个模式空间起，到匹配第二个地址的下一个模式空间止。若第二个地址是小于等于首行行号的数字，则只选中一行。区间结束后，从区间后第一行开始重新查找第一个地址，如此反复。</li>
+<li><strong>否定 <code>!</code></strong>：函数前可加
+<code>!</code>，表示地址未选中模式空间时才应用该函数。<code>!</code>
+前可接受空白，符合要求的应用不应在 <code>!</code> 后跟空白字符。</li>
+<li>省略地址分量（如 <code>,addr</code> 或
+<code>addr,</code>）产生未定义结果。</li>
+<li>上下文地址中的转义：<code>&quot;/abc\/def/&quot;</code> 中第二个
+<code>/</code> 表示字面斜杠，RE 实为
+<code>abc/def</code>；<code>&quot;\xabc\xdefx&quot;</code> 同理，RE 为
+<code>abcxdef</code>。转义序列 <code>\c</code> 不会终止 RE。</li>
+</ul>
+<h2 id="命令集速查表">3. 命令集速查表</h2>
+<blockquote>
+<p>本页实际出现的命令如下（含 <code>{}</code>
+分组、空命令、<code>#</code> 注释）。<code>[2addr]</code>
+等表示该命令允许的最大地址数。</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>命令</th>
+<th>地址</th>
+<th>语义与注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>{</code> … <code>}</code></td>
+<td>[2addr]</td>
+<td>命令组：仅当模式空间被选中时执行括号内的一组编辑命令；右花括号前须有换行或分号</td>
+</tr>
+<tr class="even">
+<td><code>a\</code> 文本</td>
+<td>[1addr]</td>
+<td>将文本<strong>安排到稍后</strong>输出（见下”输出时机”）</td>
+</tr>
+<tr class="odd">
+<td><code>b [label]</code></td>
+<td>[2addr]</td>
+<td>分支到带 label 的 <code>:</code> 命令；无 label
+则分支到脚本末尾</td>
+</tr>
+<tr class="even">
+<td><code>c\</code> 文本</td>
+<td>[2addr]</td>
+<td>删除模式空间；0/1
+地址或在两地址区间末尾时把文本放到输出上；开始下一个周期（注意：区间内<strong>每一行</strong>都会触发新周期）</td>
+</tr>
+<tr class="odd">
+<td><code>d</code></td>
+<td>[2addr]</td>
+<td>删除模式空间并开始下一个周期</td>
+</tr>
+<tr class="even">
+<td><code>D</code></td>
+<td>[2addr]</td>
+<td>模式空间无换行符：等同
+<code>d</code>；否则删除到第一个换行符为止的初始段，用剩余内容开始下一周期，<strong>不读新输入</strong></td>
+</tr>
+<tr class="odd">
+<td><code>g</code></td>
+<td>[2addr]</td>
+<td>用保持空间内容替换模式空间内容</td>
+</tr>
+<tr class="even">
+<td><code>G</code></td>
+<td>[2addr]</td>
+<td>向模式空间追加一个换行符加保持空间内容</td>
+</tr>
+<tr class="odd">
+<td><code>h</code></td>
+<td>[2addr]</td>
+<td>用模式空间内容替换保持空间内容</td>
+</tr>
+<tr class="even">
+<td><code>H</code></td>
+<td>[2addr]</td>
+<td>向保持空间追加一个换行符加模式空间内容</td>
+</tr>
+<tr class="odd">
+<td><code>i\</code> 文本</td>
+<td>[1addr]</td>
+<td>将文本写入标准输出</td>
+</tr>
+<tr class="even">
+<td><code>l</code></td>
+<td>[2addr]</td>
+<td>以视觉无歧义形式输出模式空间：可打印转义序列（<code>\\</code>、<code>\a</code>、<code>\b</code>、<code>\f</code>、<code>\r</code>、<code>\t</code>、<code>\v</code>）；其他不可打印字符按字节写为三位八进制（前加反斜杠）；长行折叠处写
+<code>\</code> + 换行；行尾用 <code>$</code> 标记</td>
+</tr>
+<tr class="odd">
+<td><code>n</code></td>
+<td>[2addr]</td>
+<td>默认输出未被抑制时先写模式空间到标准输出，再用下一行输入替换模式空间；无下一行则分支到脚本末尾退出（不开始新周期）</td>
+</tr>
+<tr class="even">
+<td><code>N</code></td>
+<td>[2addr]</td>
+<td>把下一行输入（去行尾换行符）追加到模式空间，中间用嵌入换行符分隔；<strong>当前行号会改变</strong>；无下一行则退出（不写模式空间）</td>
+</tr>
+<tr class="odd">
+<td><code>p</code></td>
+<td>[2addr]</td>
+<td>将模式空间写入标准输出</td>
+</tr>
+<tr class="even">
+<td><code>P</code></td>
+<td>[2addr]</td>
+<td>将模式空间写到第一个换行符为止的部分写入标准输出</td>
+</tr>
+<tr class="odd">
+<td><code>q</code></td>
+<td>[1addr]</td>
+<td>分支到脚本末尾并退出，不开始新周期</td>
+</tr>
+<tr class="even">
+<td><code>r rfile</code></td>
+<td>[1addr]</td>
+<td>把 rfile
+内容复制到标准输出（安排到稍后输出）；文件不存在或不可读按空文件处理，不报错</td>
+</tr>
+<tr class="odd">
+<td><code>s/RE/replacement/flags</code></td>
+<td>[2addr]</td>
+<td>用替换串替换模式空间中 RE 的实例（详见下文）</td>
+</tr>
+<tr class="even">
+<td><code>t [label]</code></td>
+<td>[2addr]</td>
+<td>测试：自最近一次读入输入行或执行 <code>t</code>
+以来若有任何替换发生，则分支到带 label 的 <code>:</code> 命令；无 label
+分支到脚本末尾</td>
+</tr>
+<tr class="odd">
+<td><code>w wfile</code></td>
+<td>[2addr]</td>
+<td>将模式空间追加（写入）到 wfile</td>
+</tr>
+<tr class="even">
+<td><code>x</code></td>
+<td>[2addr]</td>
+<td>交换模式空间与保持空间的内容</td>
+</tr>
+<tr class="odd">
+<td><code>y/string1/string2/</code></td>
+<td>[2addr]</td>
+<td>把 string1 中每个字符替换为 string2 中对应字符；<code>\n</code>
+两字符序列视为单个换行符；两串字符数不等或 string1
+有重复字符则结果未定义</td>
+</tr>
+<tr class="even">
+<td><code>:label</code></td>
+<td>[0addr]</td>
+<td>空操作，作为 <code>b</code>、<code>t</code> 分支的标签</td>
+</tr>
+<tr class="odd">
+<td><code>=</code></td>
+<td>[1addr]</td>
+<td>向标准输出写 <code>&quot;%d\n&quot;, &lt;当前行号&gt;</code></td>
+</tr>
+<tr class="even">
+<td>（空命令）</td>
+<td>[0addr]</td>
+<td>忽略</td>
+</tr>
+<tr class="odd">
+<td><code>#</code></td>
+<td>[0addr]</td>
+<td>注释：忽略 <code>#</code> 及行余下部分；唯一例外是脚本开头两个字符为
+<code>#n</code> 时抑制默认输出（等同命令行 <code>-n</code>）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="s-命令细节">3.1 <code>s</code> 命令细节</h3>
+<ul>
+<li>定界符：除反斜杠或换行符外的任意字符（不限于 <code>/</code>），如
+<code>s:RE:replacement:g</code>；转义序列第二字符位置的定界符不终止
+RE/替换。</li>
+<li>替换串：<code>&amp;</code> 表示匹配 RE
+的整段文本（<code>\&amp;</code> 可转义为字面
+<code>&amp;</code>）；<code>\n</code>（n 为数字）表示第 n
+个反向引用匹配的文本，未匹配则为空串；行内可替换入换行符（须写成
+<code>\</code> + 换行）来拆分一行。</li>
+<li>flags：
+<ul>
+<li><code>n</code>（数字）：只替换模式空间内第 n 次出现；</li>
+<li><code>g</code>：全局替换所有非重叠实例；<code>g</code>
+与数字同时指定结果未指定；</li>
+<li><code>i</code>：不区分大小写匹配；</li>
+<li><code>p</code>：若发生替换则写模式空间到标准输出；</li>
+<li><code>w wfile</code>：若发生替换则把模式空间追加到
+wfile；<code>w</code> 不是最后一个 flag 时结果未定义。</li>
+</ul></li>
+<li>即使替换结果与原文相同，也视为执行了一次替换（影响 <code>t</code>
+的测试结果）。</li>
+</ul>
+<h3 id="ar-的输出时机">3.2 <code>a</code>/<code>r</code> 的输出时机</h3>
+<p><code>a</code> 的文本与 <code>r</code>
+的文件内容属于”安排稍后输出”：在以下时机写入标准输出——执行
+<code>c</code>、<code>D</code>、<code>d</code>、<code>N</code>、<code>n</code>
+时下一次尝试获取输入行之前；执行 <code>q</code>
+之前；或到达脚本末尾时（若未指定
+<code>-n</code>，则在模式空间被复制到标准输出<strong>之后</strong>写入）。<code>r</code>
+的文件内容以<strong>输出时</strong>的文件内容为准，且按
+<code>a</code>/<code>r</code> 命令应用于输入的顺序输出。</p>
+<h3 id="其他规则">3.3 其他规则</h3>
+<ul>
+<li><code>wfile</code> 在处理开始前创建；脚本中至少支持十个
+<code>wfile</code> 参数；<code>wfile</code> 参数会终止编辑命令。</li>
+<li>label 超过 8 字节或含便携文件名字符集外字符时行为未指定。</li>
+<li>除
+<code>a</code>、<code>b</code>、<code>c</code>、<code>i</code>、<code>r</code>、<code>t</code>、<code>w</code>、<code>:</code>、<code>#</code>
+外的命令后可用分号再接另一个命令（<code>s</code> 带 <code>w</code>
+标志时除外，结果未定义）。</li>
+</ul>
+<h2 id="选项速查">4. 选项速查</h2>
+<table>
+<thead>
+<tr class="header">
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-n</code></td>
+<td>抑制默认输出；只输出脚本显式选中的行（配合
+<code>p</code>、<code>s/p</code> 等）</td>
+</tr>
+<tr class="even">
+<td><code>-E</code></td>
+<td>使用扩展正则表达式（ERE）匹配；默认是 BRE</td>
+</tr>
+<tr class="odd">
+<td><code>-e script</code></td>
+<td>把 script 中的编辑命令追加到脚本末尾</td>
+</tr>
+<tr class="even">
+<td><code>-f script_file</code></td>
+<td>把 script_file 中的编辑命令追加到脚本末尾</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>若指定了任何
+<code>-e</code>/<code>-f</code>，脚本<strong>初始为空</strong>，按<strong>命令行呈现顺序</strong>依次追加；若前一次添加来自
+<code>-e</code> 选项，则在新添加前插入一个换行符（即各 <code>-e</code>
+的脚本用换行连接）。</li>
+<li>概要形式：<code>sed [-En] script [file...]</code>、<code>sed [-En] -e script [-e script]... [-f script_file]... [file...]</code>、<code>sed [-En] [-e script]... -f script_file [-f script_file]... [file...]</code>。</li>
+<li>注意：<code>-e</code> 与 <code>-f</code>
+的<strong>呈现顺序有意义</strong>（这是对 XBD 12.2
+实用程序语法准则的唯一例外）。</li>
+</ul>
+<h2 id="典型用法示例来自页面示例">5. 典型用法示例（来自页面示例）</h2>
+<p><strong>示例 1：压缩多余空白行（模拟 BSD
+<code>cat -s</code>）</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st"># Write non-empty lines.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="st">/./ {</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">    p</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">    d</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st"># Write a single empty line, then look for more empty lines.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">/^$/    p</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st"># Get next line, discard the held &lt;newline&gt; (empty line),</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st"># and look for more empty lines.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">:Empty</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">/^$/    {</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">    N</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">    s/.//</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">    b Empty</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st"># Write the non-empty line before going back to search</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st"># for the first in a set of empty lines.</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">    p</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>要点：<code>-n</code> 抑制默认输出；<code>p</code>
+显式输出；<code>N</code>
+把下一行拼入模式空间（多行模式）；<code>s/.//</code>
+吃掉拼接处产生的换行符；<code>:Empty</code> + <code>b Empty</code>
+构成循环。</p>
+<p><strong>示例 2：更简单的空白行压缩（会移除开头的空白行）</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;/./,/^$/p&#39;</span></span></code></pre></div>
+<p>要点：两地址区间 <code>/./,/^$/</code>
+从非空行打印到空行，跨多个区间。</p>
+<p><strong>示例 3：<code>p</code> 标志与 <code>-n</code> 的配合（来自
+RATIONALE）</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> a <span class="kw">|</span> <span class="fu">sed</span>    <span class="st">&#39;s/a/A/p&#39;</span>     <span class="co"># 输出两行 A（替换行 + p 行）</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> a <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;s/a/A/p&#39;</span>     <span class="co"># 只输出一行 A（默认输出被抑制，仅 p 写出）</span></span></code></pre></div>
+<p>POSIX.1-2024 规定：第一个例子写两行 A，第二个写一行 A。</p>
+<h2 id="易错点均有页面依据">6. 易错点（均有页面依据）</h2>
+<ol type="1">
+<li><strong><code>-n</code> 与 <code>p</code>
+的配合</strong>：<code>-n</code> 抑制默认输出后，必须靠
+<code>p</code>、<code>s/.../p</code>、<code>P</code>
+等命令显式输出；反之，不写 <code>-n</code> 时 <code>s</code> 的
+<code>p</code> 标志会导致重复输出（如示例 3 的两行 A）。</li>
+<li><strong>模式空间被清空的时机</strong>：周期正常结束时模式空间被复制到标准输出然后<strong>删除</strong>；<code>d</code>、<code>D</code>、<code>c</code>
+会提前清空并开始新周期；<code>q</code> 退出不再输出模式空间（但
+<code>a</code>/<code>r</code> 排队的文本会在 <code>q</code>
+前输出）。</li>
+<li><strong><code>N</code>/<code>D</code>/<code>P</code>
+与多行模式</strong>：<code>N</code>
+把下一行拼入模式空间后，模式空间含嵌入换行符；<code>D</code>
+只删除到第一个换行符为止的部分并<strong>不读新输入</strong>继续下一周期；<code>P</code>
+只输出到第一个换行符为止的部分。<code>\n</code>
+转义序列可匹配模式空间中的嵌入换行符，但<strong>不能</strong>匹配输入行行尾的换行符（行尾换行符在读入时已被去掉）。</li>
+<li><strong>保持空间的交换</strong>：<code>h</code>/<code>H</code>
+写、<code>g</code>/<code>G</code> 读、<code>x</code>
+交换；<code>G</code>/<code>H</code>
+是<strong>追加</strong>（先加一个换行符），多次追加会积累内容，注意与替换式
+<code>g</code>/<code>h</code> 的区别。</li>
+<li><strong><code>s</code> 命令的寻址与 <code>g</code>
+标志</strong>：默认只替换每行第一个匹配；<code>g</code>
+替换所有<strong>非重叠</strong>实例；<code>g</code> 与数字 n
+同时给出结果未指定；<code>t</code>
+的”是否有替换发生”统计从最近一次读行或执行 <code>t</code> 算起。</li>
+<li><strong>地址区间跨文件行为</strong>：行号<strong>跨文件累计</strong>（多个
+file 操作数拼接后统一编号）；<code>$</code>
+指拼接后整个输入的最后一行。</li>
+<li><strong><code>c</code> 命令的区间语义</strong>：<code>c</code>
+在其地址区间匹配的<strong>每一行</strong>上都开始下一个周期（Issue 8
+缺陷 1767 澄清），区间内每行都会触发。</li>
+<li><strong>定界符与转义</strong>：在 RE
+中想用定界符的字面值，可将其放入括号表达式（如 <code>\.[.][0-9].</code>
+用 <code>.</code>
+作定界符）；用反斜杠转义定界符是否保留特殊含义在实现间有差异；<code>\</code>
+与换行符不能用作定界符。</li>
+<li><strong><code>#</code> 注释与
+<code>#n</code></strong>：脚本前两个字符为 <code>#n</code>
+时等价于命令行 <code>-n</code>，其余 <code>#</code>
+行为注释被忽略。</li>
+<li><strong>空白字符处理</strong>：命令前可加空白；<code>!</code>
+后不应跟空白；label
+忽略前导空白但对尾随空白的历史行为不一（<code>&#39;x&#39;</code> 与
+<code>&quot;x &quot;</code> 可能是不同标签）。</li>
+</ol>
+<h2 id="与常见扩展的差异页面提示">7. 与常见扩展的差异（页面提示）</h2>
+<ul>
+<li>页面上<strong>没有</strong> <code>e</code>（执行 shell 命令）或
+<code>Q</code>（立即退出）命令；也没有 <code>s</code> 的 <code>I</code>
+大写标志——但页面注明”一些实现”把大写 <code>I</code> 作为小写
+<code>i</code> 的别名（非标准要求）。</li>
+<li>一些实现把正则表达式中的 <code>\t</code> 等当作 awk 风格转义（如
+<code>\s</code>
+匹配空白），这是兼容性扩展；在括号表达式内与本标准冲突，可移植应用应写两个反斜杠。</li>
+</ul>

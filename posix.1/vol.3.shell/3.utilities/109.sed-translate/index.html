@@ -1,0 +1,662 @@
+<hr />
+<h1 id="sed">sed</h1>
+<h2 id="名称-name">名称 (NAME)</h2>
+<p>sed — 流编辑器（stream editor）</p>
+<h2 id="概要-synopsis">概要 (SYNOPSIS)</h2>
+<pre><code>sed [-En] script [file...]
+sed [-En] -e script [-e script]... [-f script_file]... [file...]
+sed [-En] [-e script]... -f script_file [-f script_file]... [file...]</code></pre>
+<h2 id="描述-description">描述 (DESCRIPTION)</h2>
+<p><em>sed</em>
+实用程序是一个流编辑器，它应（shall）读取一个或多个文本文件，根据一个编辑命令脚本进行编辑修改，并将结果写入标准输出。该脚本应（shall）从
+<em>script</em> 操作数字符串或 <strong>-e</strong> <em>script</em> 与
+<strong>-f</strong> <em>script_file</em> 选项的选项参数组合中获取。</p>
+<h2 id="选项-options">选项 (OPTIONS)</h2>
+<p><em>sed</em> 实用程序应符合 XBD <a href="../basedefs/V1_chap12.html#tag_12_02"><em>12.2
+实用程序语法准则</em></a>，但 <strong>-e</strong> 和 <strong>-f</strong>
+选项的呈现顺序是有意义的（is significant）。</p>
+<p>应支持以下选项：</p>
+<dl>
+<dt><code>-E</code></dt>
+<dd>
+使用扩展正则表达式匹配。将每个指定的模式视为 ERE，如 XBD <a href="../basedefs/V1_chap09.html#tag_09_04"><em>9.4
+扩展正则表达式</em></a> 所述。
+</dd>
+<dt><code>-e script</code></dt>
+<dd>
+将由 <em>script</em> 选项参数指定的编辑命令添加到编辑命令脚本的末尾。
+</dd>
+<dt><code>-f script_file</code></dt>
+<dd>
+将文件 <em>script_file</em> 中的编辑命令添加到编辑命令脚本的末尾。
+</dd>
+<dt><code>-n</code></dt>
+<dd>
+抑制默认输出（默认情况下，每行在被检查编辑后被写入标准输出）。只写入显式选择输出的行。
+</dd>
+</dl>
+<p>如果指定了任何 <strong>-e</strong> 或 <strong>-f</strong>
+选项，则编辑命令脚本最初应为空。每个 <strong>-e</strong> 或
+<strong>-f</strong>
+选项指定的命令应按指定顺序添加到脚本中。每次添加时，如果前一次添加（若有）来自
+<strong>-e</strong> 选项，则应在新的添加内容之前插入一个
+&lt;newline&gt;（换行）。生成的脚本应具有与 <em>script</em>
+操作数相同的属性，如操作数（OPERANDS）一节所述。</p>
+<h2 id="操作数-operands">操作数 (OPERANDS)</h2>
+<p>应支持以下操作数：</p>
+<dl>
+<dt><code>file</code></dt>
+<dd>
+其内容被读取和编辑的文件的路径名。如果指定了多个 <em>file</em>
+操作数，则应按指定顺序读取命名文件，并编辑它们的拼接结果（concatenation）。如果未指定
+<em>file</em> 操作数，则应使用标准输入。
+</dd>
+<dt><code>script</code></dt>
+<dd>
+用作编辑命令脚本的字符串。应用（application）不应提供违反文本文件限制的
+<em>script</em>，但最后一个字符不必是 &lt;newline&gt;。
+</dd>
+</dl>
+<h2 id="标准输入-stdin">标准输入 (STDIN)</h2>
+<p>如果未指定 <em>file</em> 操作数，则应使用标准输入；如果 <em>file</em>
+操作数为 <code>&#39;-&#39;</code> 且实现将 <code>&#39;-&#39;</code>
+视为标准输入，也应使用标准输入。否则，不应使用标准输入。参见输入文件（INPUT
+FILES）一节。</p>
+<h2 id="输入文件-input-files">输入文件 (INPUT FILES)</h2>
+<p>输入文件应为文本文件。<strong>-f</strong> 选项命名的
+<em>script_file</em> 应由编辑命令组成。</p>
+<h2 id="环境变量-environment-variables">环境变量 (ENVIRONMENT
+VARIABLES)</h2>
+<p>以下环境变量应影响 <em>sed</em> 的执行：</p>
+<dl>
+<dt><code>LANG</code></dt>
+<dd>
+为未设置或为空的国际化变量提供默认值。（关于用于确定 locale
+类别值的国际化变量的优先级，参见 XBD <a href="../basedefs/V1_chap08.html#tag_08_02"><em>8.2
+国际化变量</em></a>。）
+</dd>
+<dt><code>LC_ALL</code></dt>
+<dd>
+如果设置为非空字符串值，则覆盖所有其他国际化变量的值。
+</dd>
+<dt><code>LC_COLLATE</code></dt>
+<dd>
+确定用于正则表达式内范围（ranges）、等价类（equivalence
+classes）和多字符排序元素（multi-character collating elements）行为的
+locale。
+</dd>
+<dt><code>LC_CTYPE</code></dt>
+<dd>
+确定用于将文本数据的字节序列解释为字符（例如，参数和输入文件中的单字节与多字节字符）的
+locale，以及正则表达式内字符类（character classes）的行为。
+</dd>
+<dt><code>LC_MESSAGES</code></dt>
+<dd>
+确定应用于影响写入标准错误的诊断消息格式和内容的 locale。
+</dd>
+<dt><code>NLSPATH</code></dt>
+<dd>
+<sup>[XSI]</sup> 确定消息对象和消息目录的位置。
+</dd>
+</dl>
+<h2 id="异步事件-asynchronous-events">异步事件 (ASYNCHRONOUS
+EVENTS)</h2>
+<p>默认。</p>
+<h2 id="标准输出-stdout">标准输出 (STDOUT)</h2>
+<p>输入文件应写入标准输出，并应用脚本中指定的编辑命令。如果指定了
+<strong>-n</strong> 选项，则只有脚本选择的那些输入行应写入标准输出。</p>
+<h2 id="标准错误-stderr">标准错误 (STDERR)</h2>
+<p>标准错误应仅用于诊断和警告消息。 ## 输出文件 (OUTPUT FILES)</p>
+<p>输出文件应为文本文件，其格式取决于给出的编辑命令。</p>
+<h2 id="扩展描述-extended-description">扩展描述 (EXTENDED
+DESCRIPTION)</h2>
+<p><em>script</em> 应由以下形式的编辑命令组成：</p>
+<pre><code>[address[,address]]function</code></pre>
+<p>其中 <em>function</em> 表示 <a href="#tag_20_109_13_03">sed
+中的编辑命令</a> 列表中的单字符命令动词，后跟任何适用的参数。</p>
+<p>命令前面可以有 &lt;blank&gt;（空白）字符和/或
+&lt;semicolon&gt;（分号）字符。函数前面可以有 &lt;blank&gt;
+字符。这些可选字符应无效果。</p>
+<p>在默认操作中，<em>sed</em> 应循环地将一行输入（去掉其结尾的
+&lt;newline&gt; 字符）追加到模式空间（pattern
+space）。如果在结束上一周期的 <strong>D</strong> 命令之前模式空间中已有
+&lt;newline&gt;，则应跳过从输入读取。然后 <em>sed</em>
+实用程序应按顺序应用所有其地址选中该模式空间的命令，直到某个命令开始下一个周期或退出。如果没有命令显式开始新周期，则在脚本末尾应将模式空间复制到标准输出（除非指定了
+<strong>-n</strong>），并删除模式空间。每当模式空间被写入标准输出或命名文件时，<em>sed</em>
+应立即在其后跟一个 &lt;newline&gt;。</p>
+<p>某些编辑命令使用保持空间（hold
+space）来保存模式空间的全部或部分以供后续检索。模式空间和保持空间各自应能容纳至少
+8192 字节。</p>
+<h3 id="地址-addresses-in-sed">地址 (Addresses in sed)</h3>
+<p>地址是十进制数字（跨文件累计计算输入行数）、寻址最后一行输入的
+<code>&#39;$&#39;</code> 字符，或上下文地址（context address）。上下文地址具有
+<code>&quot;/RE/&quot;</code> 或 <code>&quot;\cREc&quot;</code> 形式，其中 RE 是如 <a href="#tag_20_109_13_02">sed 中的正则表达式</a>
+所述的正则表达式，<em>c</em> 是除 &lt;backslash&gt;（反斜杠）或
+&lt;newline&gt; 以外的任何字符。在 <em>sed</em> 上下文地址中，BRE 和 ERE
+语法应扩展为支持通过转义序列转义 RE 中出现的 &lt;slash&gt;（斜杠）或
+<em>c</em> 定界符（参见 XBD <a href="../basedefs/V1_chap09.html#tag_09_01"><em>9.1
+正则表达式定义</em></a>）。对于 <code>&quot;\cREc&quot;</code> 形式，如果由
+<em>c</em> 指定的字符未在 XBD <a href="../basedefs/V1_chap09.html#tag_09_03_03"><em>9.3.3 BRE
+特殊字符</em></a>（若未指定 <strong>-E</strong> 选项）或 XBD <a href="../basedefs/V1_chap09.html#tag_09_04_03"><em>9.4.3 ERE
+特殊字符</em></a>（若指定了 <strong>-E</strong>）中列为特殊 BRE
+字符或特殊 ERE 字符，则转义序列 &lt;backslash&gt;<em>c</em>
+应被视为该字面字符；否则，转义序列 &lt;backslash&gt;<em>c</em>
+被视为字面字符还是特殊字符是未指定的（unspecified）。无论哪种情况，转义序列
+&lt;backslash&gt;<em>c</em> 都不应终止 RE。例如，在上下文地址
+<code>&quot;/abc\/def/&quot;</code> 中，第二个 &lt;slash&gt; 表示其自身，因此 RE
+是 <code>&quot;abc/def&quot;</code>；在 <code>&quot;\xabc\xdefx&quot;</code> 中，第二个
+<code>&#39;x&#39;</code> 表示其自身，因此 RE 是 <code>&quot;abcxdef&quot;</code>。</p>
+<p>没有地址的编辑命令应选中（select）每个模式空间。</p>
+<p>有一个地址的编辑命令应选中每个匹配该地址的模式空间。</p>
+<p>有两个地址的编辑命令应选中闭区间（inclusive
+range）：从匹配第一个地址的第一个模式空间开始，到匹配第二个地址的下一个模式空间为止。（如果第二个地址是小于或等于首次选中的行号的数字，则只应选中一行。）从所选区间后面的第一行开始，<em>sed</em>
+应再次查找第一个地址。此后，重复该过程。在以下形式中省略任一或两个地址分量会产生未定义（undefined）的结果：</p>
+<pre><code>[address[,address]]</code></pre>
+<h3 id="正则表达式-regular-expressions-in-sed">正则表达式 (Regular
+Expressions in sed)</h3>
+<p><em>sed</em> 实用程序应支持 XBD <a href="../basedefs/V1_chap09.html#tag_09"><em>9. 正则表达式</em></a>
+中描述的 RE；默认情况下它应使用 XBD <a href="../basedefs/V1_chap09.html#tag_09_03"><em>9.3
+基本正则表达式</em></a> 中描述的 BRE，但如果使用 <strong>-E</strong>
+选项，则应使用 XBD <a href="../basedefs/V1_chap09.html#tag_09_04"><em>9.4
+扩展正则表达式</em></a> 中描述的 ERE。在 <em>sed</em> 中，BRE 和 ERE
+语法应扩展如下：</p>
+<ul>
+<li><p>在 RE
+前后出现的定界符（delimiter）字符，当它出现在括号表达式（bracket
+expression）内时不应终止
+RE，并且在括号表达式中应具有其正常含义。例如，上下文地址
+<code>&quot;\%[%]%&quot;</code> 等价于 <code>&quot;/[%]/&quot;</code>，命令
+<code>&quot;s-[0-9]--g&quot;</code> 等价于 <code>&quot;s/[0-9]//g&quot;</code>。</p></li>
+<li><p>转义序列 <code>&#39;\n&#39;</code> 应匹配嵌入模式空间中的
+&lt;newline&gt;。字面 &lt;newline&gt;
+不应在上下文地址或替换函数（substitute function）的 RE 中使用。</p></li>
+<li><p>如果 RE 为空（即未指定模式），<em>sed</em>
+应表现得如同指定了最后一个命令（作为地址或作为替换命令的一部分）中使用的最后一个
+RE。</p></li>
+</ul>
+<h3 id="编辑命令-editing-commands-in-sed">编辑命令 (Editing Commands in
+sed)</h3>
+<p>在以下编辑命令列表中，每个函数允许的最大地址数由 [0addr]、[1addr] 或
+[2addr] 指示，分别表示零个、一个或两个地址。</p>
+<p><em>text</em> 参数应由一行或多行组成。text 中的 &lt;backslash&gt;
+可以用另一个 &lt;backslash&gt; 转义。应用应确保 text 中每个嵌入的
+&lt;newline&gt;（即除最后一行结尾 &lt;newline&gt;
+以外的那些）前面有一个未转义的 &lt;backslash&gt;。如果未转义的
+&lt;backslash&gt; 后面紧跟除 &lt;backslash&gt; 或 &lt;newline&gt;
+以外的任何字符，或紧跟脚本结尾，则行为是未指定的。</p>
+<p><strong>r</strong> 和 <strong>w</strong> 命令动词，以及
+<strong>s</strong> 命令的 <em>w</em> 标志，接受 <em>rfile</em>（或
+<em>wfile</em>）参数，该参数与命令动词字母或标志之间用一个或多个
+&lt;blank&gt; 字符分隔；实现可以允许零分隔作为扩展。</p>
+<p><em>rfile</em> 参数或 <em>wfile</em> 参数应终止编辑命令。每个
+<em>wfile</em> 应在处理开始前创建。实现应在脚本中支持至少十个
+<em>wfile</em> 参数；实现支持的实际数量（大于或等于 10）是未指定的。使用
+<em>wfile</em>
+参数应导致该文件（如果不存在）被初始创建，或替换现有文件的内容。</p>
+<p><strong>b</strong>、<strong>r</strong>、<strong>s</strong>、<strong>t</strong>、<strong>w</strong>、<strong>y</strong>
+和 <strong>:</strong>
+命令动词应接受附加参数。以下概要指示哪些参数应与命令动词之间用一个
+&lt;space&gt;（空格）分隔。</p>
+<p><strong>a</strong> 和 <strong>r</strong> 命令安排稍后输出的文本。为
+<strong>a</strong> 命令指定的文本，以及为 <strong>r</strong>
+命令指定的文件的内容，应在执行
+<strong>c</strong>、<strong>D</strong>、<strong>d</strong>、<strong>N</strong>
+或 <strong>n</strong>
+命令时下一次尝试获取输入行之前写入标准输出，或在执行 <strong>q</strong>
+命令之前写入标准输出，或在到达脚本末尾时写入标准输出。如果在到达脚本末尾时写入，且未指定
+<strong>-n</strong> 选项，则文本应在将模式空间复制到标准输出之后写入。为
+<strong>r</strong>
+命令指定的文件的内容应以其被写入输出时为准，而不是应用
+<strong>r</strong> 命令时为准。文本应按 <strong>a</strong> 和
+<strong>r</strong> 命令应用于输入的顺序输出。</p>
+<p>除
+<strong>a</strong>、<strong>b</strong>、<strong>c</strong>、<strong>i</strong>、<strong>r</strong>、<strong>t</strong>、<strong>w</strong>、<strong>:</strong>
+和 <strong>#</strong> 以外的编辑命令，后面可以跟一个
+&lt;semicolon&gt;、可选的 &lt;blank&gt; 字符和另一个编辑命令。但是，当
+<strong>s</strong> 编辑命令使用 <em>w</em>
+标志时，以这种方式在其后跟另一个命令会产生未定义的结果。</p>
+<p>函数前面可以有 <code>&#39;!&#39;</code>
+字符，在这种情况下，如果地址未选中模式空间，则应应用该函数。<code>&#39;!&#39;</code>
+字符前应接受零个或多个 &lt;blank&gt; 字符。<code>&#39;!&#39;</code>
+字符后是否可以跟 &lt;blank&gt; 字符是未指定的，符合要求的应用不应在
+<code>&#39;!&#39;</code> 字符后跟 &lt;blank&gt; 字符。</p>
+<p>如果 <em>label</em> 参数（用于 <strong>b</strong>、<strong>t</strong>
+或 <strong>:</strong> 命令）包含便携文件名字符集（portable filename
+character set）之外的字符，或者 <em>label</em> 超过 8
+字节，则行为是未指定的。实现应支持识别为唯一的 <em>label</em>
+参数，至少到 8 字节；实现支持的实际长度（大于或等于
+8）是未指定的。超过最大支持的标签长度会导致错误还是静默截断是未指定的。</p>
+<p><code>[2addr] {editing command</code> <code>editing command</code>
+<code>...</code> <code>}</code> : 仅当模式空间被选中时执行一组
+<em>sed</em> 编辑命令。这组 <em>sed</em>
+编辑命令应用花括号包围。花括号前面或后面可以有 &lt;blank&gt;
+字符。&lt;right-brace&gt;（右花括号）前面应有一个 &lt;newline&gt; 或
+&lt;semicolon&gt;（在 &lt;right-brace&gt; 前面任何可选 &lt;blank&gt;
+字符之前）。</p>
+<pre><code>命令列表中的每个命令应以 \&lt;newline\&gt; 字符终止，或者在命令在花括号外使用时允许的情况下以 \&lt;semicolon\&gt; 字符终止。编辑命令前面可以有 \&lt;blank\&gt; 字符，但后面不应跟 \&lt;blank\&gt; 字符。</code></pre>
+<p><code>[1addr]a\</code> <code>text</code> :
+如前所述将文本写入标准输出。</p>
+<dl>
+<dt><code>[2addr]b [label]</code></dt>
+<dd>
+分支到带有 <em>label</em> 参数的 <strong>:</strong> 命令动词。如果未指定
+<em>label</em>，则分支到脚本末尾。
+</dd>
+</dl>
+<p><code>[2addr]c\</code> <code>text</code> : 删除模式空间。使用 0 或 1
+个地址，或在 2 地址区间的末尾，将 <em>text</em>
+置于输出上。开始下一个周期。</p>
+<dl>
+<dt><code>[2addr]d</code></dt>
+<dd>
+删除模式空间并开始下一个周期。
+</dd>
+<dt><code>[2addr]D</code></dt>
+<dd>
+如果模式空间不包含
+&lt;newline&gt;，则删除模式空间并开始正常的新周期，如同发出了
+<strong>d</strong> 命令。否则，删除模式空间从开头到第一个
+&lt;newline&gt;
+的初始段，并以所得的模式空间开始下一个周期，而不读取任何新输入。
+</dd>
+<dt><code>[2addr]g</code></dt>
+<dd>
+用保持空间的内容替换模式空间的内容。
+</dd>
+<dt><code>[2addr]G</code></dt>
+<dd>
+在模式空间后追加一个 &lt;newline&gt; 及保持空间的内容。
+</dd>
+<dt><code>[2addr]h</code></dt>
+<dd>
+用模式空间的内容替换保持空间的内容。
+</dd>
+<dt><code>[2addr]H</code></dt>
+<dd>
+在保持空间后追加一个 &lt;newline&gt; 及模式空间的内容。
+</dd>
+</dl>
+<p><code>[1addr]i\</code> <code>text</code> : 将 <em>text</em>
+写入标准输出。</p>
+<dl>
+<dt><code>[2addr]l</code></dt>
+<dd>
+<p>（字母 ell。）以视觉上无歧义的形式将模式空间写入标准输出。XBD <a href="../basedefs/V1_chap05.html#tagtcjh_2"><em>转义序列及相关操作</em></a>
+中列出的字符（<code>&#39;\\&#39;</code>、<code>&#39;\a&#39;</code>、<code>&#39;\b&#39;</code>、<code>&#39;\f&#39;</code>、<code>&#39;\r&#39;</code>、<code>&#39;\t&#39;</code>、<code>&#39;\v&#39;</code>）应写成相应的转义序列；该表中的
+<code>&#39;\n&#39;</code>
+不适用。不在该表中的不可打印字符，其每个字节应写成一个三位八进制数字（前面加
+&lt;backslash&gt;）（最高有效字节在前）。</p>
+<p>长行应折叠（folded），折叠点通过写入一个 &lt;backslash&gt; 后跟一个
+&lt;newline&gt;
+来指示；发生折叠的长度是未指定的，但应适合输出设备。每行的结尾应用
+<code>&#39;$&#39;</code> 标记。</p>
+</dd>
+<dt><code>[2addr]n</code></dt>
+<dd>
+<p>如果默认输出未被抑制，则将模式空间写入标准输出，并用下一行输入（去掉其结尾的
+&lt;newline&gt;）替换模式空间。</p>
+<p>如果没有下一行输入可用，<strong>n</strong>
+命令动词应分支到脚本末尾并退出，而不开始新周期。</p>
+</dd>
+<dt><code>[2addr]N</code></dt>
+<dd>
+<p>将下一行输入（去掉其结尾的
+&lt;newline&gt;）追加到模式空间，使用嵌入的 &lt;newline&gt;
+分隔追加的材料与原始材料。注意当前行号会改变。</p>
+<p>如果没有下一行输入可用，<strong>N</strong>
+命令动词应分支到脚本末尾并退出，而不开始新周期，也不将模式空间复制到标准输出。</p>
+</dd>
+<dt><code>[2addr]p</code></dt>
+<dd>
+将模式空间写入标准输出。
+</dd>
+<dt><code>[2addr]P</code></dt>
+<dd>
+将模式空间写到第一个 &lt;newline&gt; 为止的部分写入标准输出。
+</dd>
+<dt><code>[1addr]q</code></dt>
+<dd>
+分支到脚本末尾并退出，而不开始新周期。
+</dd>
+<dt><code>[1addr]r rfile</code></dt>
+<dd>
+如前所述将 <em>rfile</em> 的内容复制到标准输出。如果 <em>rfile</em>
+不存在或无法读取，则应将其视为空文件，不产生错误条件。
+</dd>
+<dt><code>[2addr]s/RE/replacement/flags</code></dt>
+<dd>
+<p>用替换字符串替换模式空间中 RE 的实例。除 &lt;backslash&gt; 或
+&lt;newline&gt; 以外的任何字符都可以代替 &lt;slash&gt; 来定界 RE
+和替换。在 RE 内（作为 <em>sed</em> 对 BRE 和 ERE
+语法的扩展）和替换中，如果定界符是转义序列的第二个字符，则它不应终止 RE
+或替换（参见 XBD <a href="../basedefs/V1_chap09.html#tag_09_01"><em>9.1
+正则表达式定义</em></a>）。如果定界符字符未在 XBD <a href="../basedefs/V1_chap09.html#tag_09_03_03"><em>9.3.3 BRE
+特殊字符</em></a>（若未指定 <strong>-E</strong> 选项）或 XBD <a href="../basedefs/V1_chap09.html#tag_09_04_03"><em>9.4.3 ERE
+特殊字符</em></a>（若指定了 <strong>-E</strong>）中列为特殊 BRE
+字符或特殊 ERE 字符，则转义的定界符在 RE
+中应被视为该字面字符；否则，转义的定界符被视为字面字符还是特殊字符是未指定的。同样，如果定界符字符不是
+&lt;ampersand&gt;（<code>&#39;&amp;&#39;</code>），则转义的定界符在替换中应被视为该字面字符；如果是
+&lt;ampersand&gt;，则转义的定界符被视为字面字符还是特殊字符是未指定的（见下文）。</p>
+<p>替换字符串应从头到尾扫描。替换中出现的
+&lt;ampersand&gt;（<code>&#39;&amp;&#39;</code>）应替换为匹配 RE
+的字符串。<code>&#39;&amp;&#39;</code> 在此上下文中的特殊含义可以通过在其前面加
+&lt;backslash&gt; 来抑制。字符 <code>&quot;\n&quot;</code>（其中 <em>n</em>
+是数字）应替换为相应反向引用（back-reference）表达式匹配的文本。如果相应的反向引用表达式不匹配，则字符
+<code>&quot;\n&quot;</code> 应替换为空字符串。<code>&quot;\n&quot;</code>（其中 <em>n</em>
+是此上下文中的数字）的特殊含义可以通过在其前面加 &lt;backslash&gt;
+来抑制。对于遇到的每个其他
+&lt;backslash&gt;，以下字符应失去其特殊含义（如果有）。</p>
+<p>可以通过向行中替换一个 &lt;newline&gt; 来拆分行。应用应通过在替换中的
+&lt;newline&gt; 前面加 &lt;backslash&gt; 来转义它。</p>
+<p>未转义的 &lt;backslash&gt; 后面紧跟除
+<code>&#39;&amp;&#39;</code>、&lt;backslash&gt;、数字、&lt;newline&gt;
+或此命令使用的定界符字符以外的任何字符的含义是未指定的。</p>
+<p>任何用于改变后续字符默认含义的 &lt;backslash&gt;
+应从生成的替换字符串中丢弃。即使生成的替换字符串与它所替换的字符串相同，也应认为替换已执行。</p>
+<p><em>flags</em> 的值应为以下零个或多个：</p>
+</dd>
+<dt><code>n</code></dt>
+<dd>
+仅替换模式空间内找到的 RE 的第 <em>n</em> 次出现。
+</dd>
+<dt><code>g</code></dt>
+<dd>
+全局替换 RE 的所有非重叠实例，而不仅仅是第一个。如果同时指定了
+<strong>g</strong> 和 <em>n</em>，结果是未指定的。
+</dd>
+<dt><code>i</code></dt>
+<dd>
+以不区分大小写（case-insensitive）的方式匹配正则表达式。
+</dd>
+<dt><code>p</code></dt>
+<dd>
+如果进行了替换，则将模式空间写入标准输出。
+</dd>
+<dt><code>w wfile</code></dt>
+<dd>
+写入。如果进行了替换，则将模式空间追加到
+<em>wfile</em>。符合要求的应用应在 <em>wfile</em> 参数前加一个或多个
+&lt;blank&gt; 字符。如果 <strong>w</strong>
+标志不是多个标志值连接中的最后一个标志值，结果是未定义的。
+</dd>
+<dt><code>[2addr]t [label]</code></dt>
+<dd>
+测试。如果自最近一次读取输入行或执行 <strong>t</strong>
+以来进行过任何替换，则分支到带有 <em>label</em> 的 <strong>:</strong>
+命令动词。如果未指定 <em>label</em>，则分支到脚本末尾。
+</dd>
+<dt><code>[2addr]w wfile</code></dt>
+<dd>
+将模式空间追加（写入）到 <em>wfile</em>。
+</dd>
+<dt><code>[2addr]x</code></dt>
+<dd>
+交换模式空间和保持空间的内容。
+</dd>
+<dt><code>[2addr]y/string1/string2/</code></dt>
+<dd>
+将 <em>string1</em> 中字符的所有出现替换为 <em>string2</em>
+中相应的字符。如果 <em>string1</em> 或 <em>string2</em> 中出现
+&lt;backslash&gt; 后跟 <code>&#39;n&#39;</code>，则这两个字符应作为一个
+&lt;newline&gt; 处理。如果（在解析任何转义序列之后）<em>string1</em> 和
+<em>string2</em> 中的字符数不相等，或者 <em>string1</em>
+中的任何字符出现多次，结果是未定义的。除 &lt;backslash&gt; 或
+&lt;newline&gt; 以外的任何字符都可以代替 &lt;slash&gt;
+来定界字符串。如果定界符不是 <code>&#39;n&#39;</code>，则在 <em>string1</em> 和
+<em>string2</em> 内，如果定界符前面有一个未转义的
+&lt;backslash&gt;，则其本身可以用作字面字符。如果 <em>string1</em> 或
+<em>string2</em> 中的 &lt;backslash&gt; 字符被紧邻其前的未转义
+&lt;backslash&gt; 字符转义，则这两个 &lt;backslash&gt;
+字符应作为一个字面 &lt;backslash&gt; 字符处理。未转义的
+&lt;backslash&gt; 后跟任何不是 <code>&#39;n&#39;</code>、&lt;backslash&gt;
+或定界符字符的字符的含义是未定义的。
+</dd>
+<dt><code>[0addr]:label</code></dt>
+<dd>
+什么都不做。此命令带有 <em>label</em>，<strong>b</strong> 和
+<strong>t</strong> 命令分支到该标签。
+</dd>
+<dt><code>[1addr]=</code></dt>
+<dd>
+将以下内容写入标准输出：
+</dd>
+</dl>
+<pre><code>&quot;%d\n&quot;, &lt;current line number&gt;</code></pre>
+<dl>
+<dt><code>[0addr]</code></dt>
+<dd>
+忽略此空命令。
+</dd>
+<dt><code>[0addr]#</code></dt>
+<dd>
+忽略 <code>&#39;#&#39;</code>
+及该行的其余部分（将其视为注释），唯一的例外是：如果脚本中前两个字符是
+<code>&quot;#n&quot;</code>，则应抑制默认输出；这应等同于在命令行上指定
+<strong>-n</strong>。 ## 退出状态 (EXIT STATUS)
+</dd>
+</dl>
+<p>应返回以下退出值：</p>
+<dl>
+<dt><code>0</code></dt>
+<dd>
+成功完成。
+</dd>
+<dt><code>&gt;0</code></dt>
+<dd>
+发生错误。
+</dd>
+</dl>
+<h2 id="错误后果-consequences-of-errors">错误后果 (CONSEQUENCES OF
+ERRORS)</h2>
+<p>默认。</p>
+<p><em>以下各节是提供信息的（informative）。</em></p>
+<h2 id="应用程序用法-application-usage">应用程序用法 (APPLICATION
+USAGE)</h2>
+<p>正则表达式匹配整个字符串，而不仅仅是单独的行，但 &lt;newline&gt; 在
+<em>sed</em> RE 中由 <code>&#39;\n&#39;</code> 匹配；POSIX.1-2024
+中正则表达式的一般定义不允许
+&lt;newline&gt;。还要注意，<code>&#39;\n&#39;</code>
+不能用于匹配任意输入行结尾的 &lt;newline&gt;；&lt;newline&gt; 字符作为
+<strong>N</strong> 编辑命令的结果出现在模式空间中。</p>
+<p>将特殊 RE 字符用作定界符（例如 <code>&#39;.&#39;</code> 或
+<code>&#39;*&#39;</code>）并需要在 RE
+中将定界符用作字面字符的应用，应将其放在括号表达式内，因为各实现之间在是否用
+&lt;backslash&gt; 转义会移除其特殊含义方面存在差异。例如，对于上下文地址
+<code>&quot;/\.[0-9]/&quot;</code>，要用 <code>&#39;.&#39;</code>
+作为定界符书写，需要使用形式
+<code>&quot;\.[.][0-9].&quot;</code>；<code>&quot;\..[0-9].&quot;</code>
+不能为此目的可移植地使用，因为这是否等价于 <code>&quot;/\.[0-9]/&quot;</code> 或
+<code>&quot;/.[0-9]/&quot;</code> 是未指定的。如果特殊 RE 字符需要在 RE
+中具有其特殊含义，可移植应用不能将其用作定界符，因为转义它可能移除其特殊含义。</p>
+<p>使用 <em>sed</em> 处理路径名时，建议在环境中将 LC_ALL（或至少
+LC_CTYPE 和 LC_COLLATE）设置为 POSIX 或 C，因为路径名可以包含在某些
+locale
+中不构成有效字符的字节序列，在这种情况下实用程序的行为将是未定义的。在
+POSIX locale 中，每个字节都是有效的单字节字符，因此避免了此问题。</p>
+<p>注意，一些 <em>sed</em> 实现还支持 <strong>s</strong> 命令的
+<strong>I</strong> 标志，作为小写 <strong>i</strong> 标志的别名。</p>
+<p>一些 <em>sed</em> 实现在不符合作的环境中执行时，处理正则表达式中的
+&lt;backslash&gt; 转义的方式与 <a href="../utilities/awk.html"><em>awk</em></a> 在词法 token ERE
+中的处理方式类似（将 <code>&quot;\t&quot;</code>
+处理为制表字符等）。这是一种兼容性扩展，但当 &lt;backslash&gt;
+出现在括号表达式内时与本标准的要求冲突。本标准未来版本可能允许此行为，因此应用应在括号表达式中使用两个
+&lt;backslash&gt;
+字符而不是一个，以确保未来的可移植性。在符合当前标准的实现上，第二个
+&lt;backslash&gt; 是多余的。将来（以及在当前不符合作的环境中），第一个
+&lt;backslash&gt; 可能转义第二个。</p>
+<h2 id="示例-examples">示例 (EXAMPLES)</h2>
+<p>此 <em>sed</em> 脚本模拟 BSD <a href="../utilities/cat.html"><em>cat</em></a> <strong>-s</strong>
+命令，压缩标准输入中多余的空白行。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="st"># Write non-empty lines.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">/./ {</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">    p</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">    d</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st"># Write a single empty line, then look for more empty lines.</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">/^$/    p</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st"># Get next line, discard the held &lt;newline&gt; (empty line),</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="st"># and look for more empty lines.</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="st">:Empty</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">/^$/    {</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">    N</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">    s/.//</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">    b Empty</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st"># Write the non-empty line before going back to search</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st"># for the first in a set of empty lines.</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">    p</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>以下 <em>sed</em> 命令是压缩空白行的更简单方法，尽管它与 <a href="../utilities/cat.html"><em>cat</em></a> <strong>-s</strong>
+不完全相同，因为它会移除任何开头的空白行：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;/./,/^$/p&#39;</span></span></code></pre></div>
+<h2 id="原理-rationale">原理 (RATIONALE)</h2>
+<p>POSIX.1-2024 本卷要求实现支持至少十个不同的
+<em>wfile</em>，与许多实现上的历史实践一致。鼓励实现支持更多，但符合要求的应用不应超过此限制。</p>
+<p>此处指定的退出状态码与 System V 中的不同。System V 对混乱的
+<em>sed</em> 命令返回
+2，但对用法消息或无法打开输入文件时返回零。标准开发者认为这是一个缺陷。</p>
+<p><strong>l</strong>
+命令写入不可打印字符的方式被更改，以避免历史上的退格-叠印（backspace-overstrike）方法，并添加了其他实现无歧义输出的要求。有关所选格式的详细信息，参见
+<a href="../utilities/ed.html"><em>ed</em></a> 的 RATIONALE，该格式与为
+<em>sed</em> 选择的格式相同。</p>
+<p>POSIX.1-2024 本卷要求实现提供至少 8192
+字节的模式空间和保持空间，大于某些历史实现使用的 4000
+字节空间，但小于早期提案中使用的 20480
+字节限制。鼓励实现根据需要动态分配更大的模式空间和保持空间。</p>
+<p>对命令行中接受 &lt;blank&gt; 和 &lt;space&gt;
+字符的要求已比早期提案更加明确，以清楚描述历史实践，并消除对历史
+<em>sed</em> 实用程序文本描述中出现的 “protect initial blanks [sic] and
+tabs from the stripping that is done on every script line”
+这一短语的混淆。（并非所有实现都已知会从文本行中剥离 &lt;blank&gt;
+字符，尽管它们都允许命令行地址前面有前导 &lt;blank&gt; 字符。）</p>
+<p>对 <code>&#39;#&#39;</code> 注释的处理与 SVID 不同，SVID
+只允许注释作为脚本的第一行，但这与 BSD
+派生的实现一致。注释字符被视为命令，并且在接受前导 &lt;blank&gt;
+字符方面具有相同的属性；BSD 实现历史上一直支持这一点。</p>
+<p>早期提案要求 <em>script_file</em>
+至少有一行非注释行。一些历史实现在不是这种情况时表现异常。标准开发者认为这是错误行为，应用开发者不应必须避免此功能。POSIX.1-2024
+本卷的正确实现应允许仅由注释行组成的 <em>script_file</em>。</p>
+<p>早期提案指出，如果 <strong>-e</strong> 和 <strong>-f</strong>
+选项混合使用，则所有 <strong>-e</strong> 选项在任何 <strong>-f</strong>
+选项之前处理。这已改为按呈现顺序处理，因为它符合历史实践并且更直观。</p>
+<p>&lt;backslash&gt; 和 &lt;newline&gt; 字符不能用作 RE
+定界符字符，因为它们永远不能被识别为结束定界符：</p>
+<ul>
+<li><p>&lt;backslash&gt; 不行，因为如果它稍后在 RE
+中未转义地出现，它要么转义后面的字符（该字符随后永远不能成为结束定界符），要么是括号表达式的一部分，而
+RE 的结束定界符无法在括号表达式内部定位。</p></li>
+<li><p>&lt;newline&gt;
+不行，因为如果未转义，它会终止命令，意味着它不能成为结束定界符。</p></li>
+</ul>
+<p>一些历史 <em>sed</em> 实现不支持在用作 BRE 定界符时转义
+<code>&#39;(&#39;</code>、<code>&#39;)&#39;</code>、<code>&#39;{&#39;</code> 和
+<code>&#39;}&#39;</code>，因为序列 <code>&quot;\(&quot;</code>
+等仍被视为特殊，通常导致错误。本标准要求这些序列被视为字面字符。这是为了与扩展保持一致。例如，一些实现将
+BRE 中的 <code>&quot;\s&quot;</code> 视为匹配空白字符，作为扩展。当
+<code>&#39;s&#39;</code> 用作 BRE 定界符时，它不能具有其特殊含义，以确保具有
+<code>&#39;s&#39;</code> 作为定界符并转义它的 <em>sed</em>
+命令的可移植性。如果允许 <code>&quot;\s&quot;</code>
+保持其特殊含义，那么进一步扩展的可能性将意味着可移植应用将无法转义除
+&lt;slash&gt; 以外的任何定界符字符。</p>
+<p>当默认输出被抑制时，<strong>s</strong> 命令的 <strong>p</strong>
+标志的处理在 System V 和基于 BSD 的系统之间不同。在两个示例中：</p>
+<pre><code>echo a | sed    &#39;s/a/A/p&#39;
+echo a | sed -n &#39;s/a/A/p&#39;</code></pre>
+<p>POSIX.1-2024 本卷、BSD、System V 文档和 SVID 表明第一个示例应写入两行
+A，而第二个示例应写入一行。一些 System V 系统在两个示例中都只写一次
+A，因为如果未指定 <strong>-n</strong> 选项，<strong>p</strong>
+标志被忽略。</p>
+<p>这是系统之间截然不同的差异，无法通过将行为声明为未指定的折衷方案来调和。SVID/BSD/System
+V 文档行为被 POSIX.1-2024 本卷采纳，因为：</p>
+<ol type="1">
+<li><p>没有任何已知的历史系统文档描述 <strong>p</strong> 标志与
+<strong>-n</strong> 选项之间的交互。</p></li>
+<li><p>所选行为更正确，因为没有技术理由支持 <strong>p</strong> 标志与
+<strong>-n</strong> 选项之间的任何交互。<strong>-n</strong> 与
+<strong>p</strong>
+标志之间的关系可能暗示它们只在一起使用，但这忽略了通过使用
+<strong>D</strong>、<strong>d</strong>、<strong>q</strong>
+或分支命令中断处理周期性的有效脚本。此类脚本依赖 <strong>p</strong>
+后缀来写入模式空间，因为它们不使用脚本 “底部” 的默认输出。</p></li>
+<li><p>因为 <strong>-n</strong> 选项使 <strong>p</strong>
+标志变得不必要，任何交互只有在 <em>sed</em> 脚本被编写为在有和没有
+<strong>-n</strong>
+选项的情况下都能运行时才有用。这被认为不太可能。程序员编写
+<strong>p</strong>
+标志时预期它是不必要的，就更不可能了。由于该交互没有文档记录，程序员发现该交互并依赖它的可能性进一步降低。</p></li>
+<li><p>最后，在指定行为下出错的脚本产生过多输出而不是过少输出，这更容易诊断和纠正。</p></li>
+</ol>
+<p>使用 <strong>n</strong> 后缀的替换命令形式在早期提案中被限制为前 512
+次匹配。此限制已被移除，因为没有理由让处理 {LINE_MAX}
+长度行的编辑器受此限制。命令 <strong>s/a/A/2047</strong>
+应能够替换一行上第 2047 次出现的 <strong>a</strong>。</p>
+<p><strong>b</strong>、<strong>t</strong> 和 <strong>:</strong>
+命令被记录为忽略前导空白，但没有提到尾随空白。历史 <em>sed</em>
+实现为标签 <code>&#39;x&#39;</code> 和 <code>&quot;x &quot;</code>
+分配了不同的位置。这没有用处，并导致微妙的编程错误，但这是历史实践，更改它理论上可能破坏工作脚本。鼓励实现者提供警告消息，说明从未被
+<strong>b</strong> 或 <strong>t</strong>
+命令引用的标签、跳转到不存在的标签以及可能被截断的标签参数。</p>
+<p>本标准的早期版本允许实现使用非八位字节，但此版本已对此进行修改。</p>
+<h2 id="未来方向-future-directions">未来方向 (FUTURE DIRECTIONS)</h2>
+<p>本标准未来版本可能允许 <em>sed</em> 处理正则表达式中的
+&lt;backslash&gt; 转义，方式与 <a href="../utilities/awk.html"><em>awk</em></a> 在词法 token ERE
+中的处理方式类似。（“类似” 而非 “相同”，因为 <em>sed</em> 可以使用 BRE
+或 ERE，而 <a href="../utilities/awk.html"><em>awk</em></a> 只使用
+ERE。）</p>
+<h2 id="参见-see-also">参见 (SEE ALSO)</h2>
+<p><a href="../utilities/awk.html"><em>awk</em></a>、<a href="../utilities/ed.html"><em>ed</em></a>、<a href="../utilities/grep.html"><em>grep</em></a></p>
+<p>XBD <a href="../basedefs/V1_chap05.html#tagtcjh_2"><em>转义序列及相关操作</em></a>、<a href="../basedefs/V1_chap08.html#tag_08"><em>8. 环境变量</em></a>、<a href="../basedefs/V1_chap09.html#tag_09_03"><em>9.3
+基本正则表达式</em></a>、<a href="../basedefs/V1_chap12.html#tag_12_02"><em>12.2
+实用程序语法准则</em></a></p>
+<h2 id="变更历史-change-history">变更历史 (CHANGE HISTORY)</h2>
+<p>首次在 Issue 2 中发布。</p>
+<h3 id="issue-5">Issue 5</h3>
+<p>添加了 FUTURE DIRECTIONS 一节。</p>
+<h3 id="issue-6">Issue 6</h3>
+<p>以下对 POSIX 实现的新要求源于与单一 UNIX 规范的统一：</p>
+<ul>
+<li>要求实现支持一个编辑命令中至少十个 <em>wfile</em> 参数。</li>
+</ul>
+<p>EXTENDED DESCRIPTION 已更改，以与 IEEE P1003.2b 草案标准一致。</p>
+<p>应用了 IEEE PASC 解释 1003.2 #190。</p>
+<p>应用了 IEEE PASC 解释 1003.2 #203，澄清了 BRE 替换字符串中
+&lt;backslash&gt;-转义序列的含义。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004，项目
+XCU/TC2/D6/28，移除了描述字节超过八位的系统上行为的文本。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004，项目 XCU/TC2/D6/29，对 sed
+中的编辑命令一节进行了编辑性更正。</p>
+<h3 id="issue-7">Issue 7</h3>
+<p>应用了 Austin Group 解释 1003.1-2001 #006、#036 和 #092。</p>
+<p>应用了 SD5-XCU-ERN-97 和 SD5-XCU-ERN-123，更新了 SYNOPSIS。</p>
+<p>添加了第二个示例。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XCU/TC1-2008/0133
+[262]、XCU/TC1-2008/0134 [282,431]、XCU/TC1-2008/0135 [269] 和
+XCU/TC1-2008/0136 [282,431]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XCU/TC2-2008/0166
+[945]、XCU/TC2-2008/0167 [944]、XCU/TC2-2008/0168
+[945]、XCU/TC2-2008/0169 [944]、XCU/TC2-2008/0170
+[945]、XCU/TC2-2008/0171 [533]、XCU/TC2-2008/0172
+[663]、XCU/TC2-2008/0173 [945] 和 XCU/TC2-2008/0174 [944]。</p>
+<h3 id="issue-8">Issue 8</h3>
+<p>应用了 Austin Group 缺陷 528，通过指定 <strong>-E</strong>
+选项添加了对选择使用 ERE 而非 BRE 的支持。</p>
+<p>应用了 Austin Group 缺陷 779，向 <strong>s</strong> 命令添加了
+<strong>i</strong> 标志。</p>
+<p>应用了 Austin Group 缺陷 961，要求 <code>{...}</code> 后面可以跟
+&lt;semicolon&gt;、可选 &lt;blank&gt; 字符和另一个编辑命令。</p>
+<p>应用了 Austin Group 缺陷 1122，更改了 <em>NLSPATH</em> 的描述。</p>
+<p>应用了 Austin Group 缺陷 1231，澄清了 <em>text</em> 参数中
+&lt;backslash&gt; 的处理。</p>
+<p>应用了 Austin Group 缺陷 1233，更改了 APPLICATION USAGE 和 FUTURE
+DIRECTIONS 一节。</p>
+<p>应用了 Austin Group 缺陷 1319，更改了为 <strong>a</strong>
+命令指定的文本和为 <strong>r</strong>
+命令指定的文件的内容被写入的时间。</p>
+<p>应用了 Austin Group 缺陷 1550，澄清了与上下文地址以及
+<strong>s</strong> 和 <strong>y</strong> 命令中定界符相关的要求。</p>
+<p>应用了 Austin Group 缺陷 1578，澄清了 <strong>y</strong>
+命令的描述。</p>
+<p>应用了 Austin Group 缺陷 1767，澄清了 <strong>c</strong>
+命令在其地址区间匹配的每一行上开始下一个周期。</p>
+<p><em>提供信息文本结束。</em></p>

@@ -1,2469 +1,5630 @@
-# 2. Shell 命令语言 (Shell Command Language)
-
-> 本章包含 Shell 命令语言的定义。源文档：<https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html>
->
-> 翻译说明：在**逐字忠实**官方原文（不省略任何语义）的基础上，按主题分层组织（分项标题、嵌套列表、统一命令模板），以增强可读性。
-
-## 2.1 Shell 简介 (Shell Introduction)
-
-Shell 是一种**命令语言解释器（command language interpreter）**。本章描述该命令语言的语法，它被 POSIX.1-2024《系统接口》卷中定义的 `sh` 实用程序以及 `system()` 和 `popen()` 函数所使用。
-
-### Shell 的基本操作流程 (Shell Operation)
-
-Shell 按照以下**操作总览**运行。具体细节包含在本章所引用的各节中：
-
-1. **读取输入 (Read Input)**：
-   - 从文件（见 `sh`）、`-c` 选项，或《系统接口》卷中定义的 `system()` 和 `popen()` 函数读取输入。
-   - **`#!`（Hash-Bang）机制**：如果 shell 命令文件的第一行以字符 `"#!"` 开头，结果是**未指定的（unspecified）**——系统可能将其作为可执行文件的路径并传递参数，但这超出标准的约束范畴。
-2. **标记识别与词法拆分 (Token Recognition)**：
-   - 将输入分解为 **token**：**单词（words）和运算符（operators）**；见 2.3 Token 识别。
-3. **语法解析 (Parsing)**：
-   - 将输入解析为**简单命令（simple commands）**（见 2.9.1 简单命令）和**复合命令（compound commands）**（见 2.9.4 复合命令）。
-4. **处理扩展 (Expansions)**：
-   - 对命令中的每个单词，处理美元单引号（dollar-single-quotes）内的**反斜杠转义序列**（见 2.2.4 美元单引号）。
-   - 然后执行各种**单词扩展（word expansions）**（见 2.6 单词扩展）。
-   - 对于简单命令，结果通常包含一个路径名列表和将被视为命令名与参数的字段列表；见 2.9 Shell 命令。
-5. **处理重定向 (Redirection)**：
-   - 执行重定向（见 2.7 重定向），并从参数列表中移除重定向运算符及其操作数。
-6. **命令执行 (Command Execution)**：
-   - 执行函数（见 2.9.5 函数定义命令）、内置命令（见 2.15 特殊内置实用程序）、可执行文件或脚本。
-   - 将参数的名称作为编号 1 到 *n* 的**位置参数（positional parameters）**传递，并将命令名（或脚本内函数的情况下的脚本名）作为**特殊参数 0**（见 2.9.1.4 命令搜索与执行）。
-7. **收集退出状态 (Exit Status Collection)**：
-   - 可选地等待命令完成并收集**退出状态（exit status）**（见 2.8.2 命令的退出状态）。
-
-## 2.2 引用 / 转义 (Quoting)
-
-引用（Quoting）用于**移除某些字符或单词对 shell 的特殊含义**。引用的核心作用包括：
-
-1. 保留特殊字符的**字面含义（literal meaning）**。
-2. 防止保留字（reserved words）被识别为保留字。
-3. 防止在 here-document 处理过程中发生参数扩展和命令替换（见 2.7.4 Here-Document）。
-
-### 需要引用的字符
-
-如果以下字符要表示其自身，应用（application）应对其进行引用：
-
-```
-|  &  ;  <  >  (  )  $  `  \  "  '  <space>  <tab>  <newline>
-```
-
-而以下字符在**特定情况下**可能需要进行引用（是否特殊取决于 POSIX.1-2024 本卷其他地方描述的条件）：
-
-```
-*  ?  [  ]  ^  -  !  #  ~  =  %  {  ,  }
-```
-
-> **注意**：本标准未来版本可能扩展这些字符变为特殊的条件。因此，应用在希望这些字符表示其自身时，应始终对其加引用。这不适用于 \<hyphen-minus\>（`'-'`），因为它属于便携文件名字符集（portable filename character set）。
-
-### 引用机制的四种形式
-
-- **转义字符（escape character）**：反斜杠 `\`（见 2.2.1）。
-- **单引号（single-quotes）**：`'...'`（见 2.2.2）。
-- **双引号（double-quotes）**：`"..."`（见 2.2.3）。
-- **美元单引号（dollar-single-quotes）**：`$'...'`（见 2.2.4）。
-- here-document 代表**另一种引用形式**；见 2.7.4 Here-Document。
-
-### 2.2.1 转义字符：反斜杠 (Escape Character (Backslash))
-
-未被引用的 **\<backslash\>（反斜杠）** 应保留其后字符的字面值，**\<newline\>（换行符）除外**。
-
-- **续行符规则 (Line Continuation)**：如果 \<newline\> 紧跟 \<backslash\> 之后，shell 应将其解释为**续行（line continuation）**。
-  - 在将输入拆分为 token 之前，应移除该 \<backslash\> 和 \<newline\>。
-  - 由于被转义的 \<newline\> 从输入中被**完全移除**且不被任何空白替换，它**不能充当 token 分隔符**。
-
-### 2.2.2 单引号 (Single-Quotes)
-
-将字符括在单引号（`''`）中，应保留单引号内**每个字符的字面值**。
-
-- **不可嵌套规则**：单引号内**绝对不能出现单引号本身**——单引号内不存在任何转义机制（反斜杠在单引号内失去转义功能）。
-
-### 2.2.3 双引号 (Double-Quotes)
-
-将字符括在双引号（`""`）中，应保留双引号内所有字符的字面值，但以下 **4 类特殊字符保持其特殊语法功能**：
-
-1. **`$`（美元符号）**：
-   - 保留其引入**参数扩展**（见 2.6.2 参数扩展）、一种形式的**命令替换**（见 2.6.3 命令替换）和**算术扩展**（见 2.6.4 算术扩展）的特殊含义。
-   - **例外**：不保留其引入美元单引号引用形式（`$''`，见 2.2.4）的特殊含义。
-   - **`"$(...)"` 内的特殊规则**：被引用字符串中同时位于 `"$("` 与匹配的 `')'` 之间的输入字符**不受双引号影响**，而应定义在单词扩展时其输出替换 `"$(...)"` 的命令；2.3 Token 识别中的 token 化规则应**递归应用**以找到匹配的 `')'`。
-   - **`"${...}"` 内的特殊规则**：
-     - 对于提供**子串处理**的四种参数扩展变体（见 2.6.2），被括起的 `"${"` 到匹配的 `'}'` 之间的双引号对任何特殊字符的处理**没有影响**。
-     - 对于其他参数扩展变体，双引号应保留 `"${"` 到 `'}'` 之间所有字符的字面值，但双引号、反引号、\<dollar-sign\> 和 \<backslash\> 除外；若出现未转义的双引号（嵌入式命令替换中的除外），行为是**未指定的**。\<backslash\> 在 `'}'` 前保留转义含义，防止该 `'}'` 被当作匹配的结束花括号。
-2. **反引号（Backquote）**：
-   - 保留其引入另一种形式命令替换（见 2.6.3）的特殊含义；从初始反引号到下一个**不被 \<backslash\> 前缀**（转义已被移除）的反引号之间的部分定义命令，其输出替换 `` "`...`" ``。
-   - 以下任一情况产生**未定义（undefined）**的结果：
-     - 一个在 `` "`...`" `` 序列内开始但未结束的引用（单引号、双引号或美元单引号）字符串；
-     - 一个在同一双引号字符串内开始但未结束的 `` "`...`" `` 序列。
-3. **`\`（反斜杠）**：
-   - 在 `"$(...)"` 和 `"${...}"` 之外，仅当紧跟下列字符之一时保留其转义含义（见 2.2.1）：
-     - `$`、反引号、`\`、\<newline\>；
-     - 或一个原本会被视为特殊的双引号字符（见 2.6.4 和 2.7.4）。
-4. **`@`（特殊参数）**：
-   - 参数 `'@'` 在双引号内具有特殊含义（`"$@"` 的逐词展开语义），见 2.5.2 特殊参数。
-
-**补充规则**：
-
-- 当双引号用于引用参数扩展、命令替换或算术扩展时，扩展结果中所有字符的字面值应被保留。
-- 应用应确保不在 `"$(...)"` 内也不在 `"${...}"` 内的双引号，若要包含在双引号之中，则必须紧跟在一个 \<backslash\> 之后。
-
-### 2.2.4 美元单引号 (Dollar-Single-Quotes)
-
-以 \<dollar-sign\> 紧跟单引号（`$'`）开头的字符序列，应保留直到**未转义的结尾单引号**（`'`）为止所有字符的字面值，但其中的 **\<backslash\>-转义序列**会被处理，如下：
-
-- **标准转义字符**：
-  - `\"` 产生 \<quotation-mark\>（双引号）字符；但注意 \<quotation-mark\> 可以不带转义地包含。
-  - `\'` 产生 \<apostrophe\>（单引号）字符——表示单引号的转义序列**不会终止**美元单引号序列。
-  - `\\` 产生 \<backslash\>（反斜杠）字符。
-  - `\a` 产生 \<alert\>（警告）字符；`\b` 产生 \<backspace\>（退格）字符；`\e` 产生 \<ESC\>（转义）字符。
-  - `\f` 产生 \<form-feed\>（换页）字符；`\n` 产生 \<newline\>（换行）字符；`\r` 产生 \<carriage-return\>（回车）字符。
-  - `\t` 产生 \<tab\>（制表）字符；`\v` 产生 \<vertical-tab\>（垂直制表）字符。
-- **控制字符转义**：
-  - `\c`*X* 产生 `stty` 实用程序 OPERANDS 节中 *Values for cpio c_mode Field* 表的 **Value** 列所列的控制字符，当 *X* 是同一表的 **^c** 列所列字符之一时；但 `\c\\` 产生 \<FS\> 控制字符，因为 \<backslash\> 必须被转义。
-- **数值转义（产生指定值的字节）**：
-  - `\x`*XX*：值为十六进制数 *XX*（一个或多个十六进制数字）的字节；超过两个十六进制数字则结果是**未指定的**。
-  - `\`*ddd*：值为八进制数 *ddd*（一到三个八进制数字）的字节；若八进制值放不进一个字节，结果是**未指定的**。
-  - 变长转义（`\x`*XX* 和 `\`*ddd*）在遇到第一个不属于预期类型的字符时终止，或（对 `\`*ddd*）达到最大字符数时终止，以**先发生者为准**。
-- **未定义的情况**：
-  - 未转义的 \<backslash\> 紧跟任何其他字符（包括 \<newline\>）的行为是**未指定的**。
-  - 若 `\x`*XX* 或 `\`*ddd* 产生值为 0 的字节，该空字节是否包含在结果中（还是连同后续内容被求值并丢弃），是**未指定的**。
-  - 若 `\e` 或 `\c`*X* 指定的字符在当前 locale 中没有编码，结果是**实现定义的（implementation-defined）**；但实现**不应**将不支持的字符替换为在那种 locale 字符集中不构成有效字符的字节。
-
-**处理时机**：这些转义序列应在包含美元单引号序列的单词进行**单词扩展**（见 2.6）之前**立即处理**（替换为它们所产生的字节或字符）。
-
-
-## 2.3 Token 识别 (Token Recognition)
-
-shell 应**按行**读取其输入（输入行的长度可以是**无限**的；读取细节见 `sh` 的描述）。这些行应使用两种主要模式进行解析：
-
-- **普通 token 识别**：将输入拆分为 token。
-- **here-document 处理**：识别 **io_here** token 后，解析 here-document 主体。
-
-### here-document 与普通模式的交互
-
-- 当文法（见 2.10 Shell 文法）识别出一个 **io_here** token 后，紧跟下一个 **NEWLINE** token 之后的一行或多行构成 here-document 的主体，并按 2.7.4 Here-Document 的规则解析。
-- 在搜索下一个 **NEWLINE** token 期间识别出的任何非 **NEWLINE** token（包括更多的 **io_here** token）应被**保存**，待 here-document 解析完成后处理。
-  - 若保存的 token 是 **io_here** token，对应的 here-document 应在包含前一个 here-document 结尾定界符的那一行的**下一行**开始。
-  - 若任何被保存的 token 包含 \<newline\> 字符，行为是**未指定的**。
-
-### Token 识别规则 (Token Recognition Rules)
-
-当不处理 **io_here** 时，shell 通过对其输入中的每个字符依次应用以下**第一条适用规则**，将输入分解为 token：
-
-- **token 开始**：在输入开始时，或在刚界定完前一个 token 之后，下一个 token 以尚未被包含在任何 token 中、且未按下述规则丢弃的第一个字符开始。
-- **token 结束**：token 一旦开始，输入中的零个或多个字符被追加到该 token，直到按以下规则之一界定 token 的结束；构成 token 的字符应精确是输入中两个定界符之间的那些字符（**包括任何引用字符**）。
-- **空 token**：如果规则表明某 token 被界定，但没有任何字符被包含进该 token，该空 token 应被**丢弃**。
-
-规则如下（按优先级，第一条适用者生效）：
-
-1. **处理文件结束 (EOF)**：如果识别到输入结束，当前 token（如有）应被界定。
-2. **结合新字符 (Combine)**：如果前一个字符被用作运算符的一部分，且当前字符未被引用并可与前面的字符组成一个运算符，则它应被用作该（运算符）token 的一部分。
-3. **运算符界定 (Delimit Operator)**：如果前一个字符被用作运算符的一部分，且当前字符不能与前面的字符组成一个运算符，则包含前一个字符的运算符应被界定。
-4. **处理引用状态 (Quoting)**：如果当前字符是未引用的 \<backslash\>、单引号或双引号，或是未引用的 \<dollar-sign\> 单引号序列的第一个字符，它应影响直到引用文本结束为止的后续字符的引用（规则见 2.2 引用）。
-   - 在 token 识别期间**不实际执行任何替换**；结果 token 应精确包含输入中从引用文本开始到结束之间出现的、未经修改的字符（包括嵌入或包围的引号或替换运算符）。
-   - token **不应被引用字段的结束所界定**。
-5. **处理扩展的起始 (Substitution Start)**：如果当前字符是未引用的 `'$'` 或反引号，shell 应从其引入性未引用字符序列（`'$'` 或 `"${"`、`"$("` 或反引号、以及 `"$(("`）识别参数扩展（2.6.2）、命令替换（2.6.3）或算术扩展（2.6.4）的任何候选者的开始。
-   - shell 应读取足够的输入以确定要扩展的单元的结果；在替换内发现嵌套的扩展或引用实例时**递归处理**。
-   - 仅对于 `"$("` 和反引号：若替换内发现嵌套的 **io_here** token，按 2.7.4 的规则解析；若替换的结尾 `')'` 或反引号出现在标记 here-document 开始的 **NEWLINE** token 之前，行为是**未指定的**。
-   - 从替换开始到结束所发现的字符（允许递归）应**未经修改**地包含在结果 token 中；token **不应被替换的结束所界定**。
-6. **处理运算符起始 (Operator Start)**：如果当前字符未被引用，且可用作新运算符的第一个字符，则当前 token（如有）应被界定，当前字符被用作下一个（运算符）token 的开始。
-7. **处理空白 (Blanks)**：如果当前字符是未引用的 \<blank\>，包含前一个字符的任何 token 应被界定，且当前字符应被**丢弃**。
-8. **追加到单词 (Word)**：如果前一个字符是单词的一部分，当前字符应被追加到该单词。
-9. **处理注释 (Comments)**：如果当前字符是 `'#'`，它及直到下一个 \<newline\>（不含）为止的所有后续字符应作为**注释**被丢弃；结束该行的 \<newline\> 不被视为注释的一部分。
-10. **开始新单词 (New Word)**：当前字符被用作新单词的开始。
-
-token 一旦被界定，就按照 2.10 Shell 文法的要求进行分类。
-
-**程序级解析**：在 shell 将输入解析为 *program* 的情况下，一旦文法识别出一个 *complete_command*，该 *complete_command* 应在下一个 *complete_command* 被 token 化和解析之前**执行**。
-
-### 2.3.1 别名替换 (Alias Substitution)
-
-在 token 被分类为 **TOKEN** 类型（见 2.10.1）之后（包括递归地由别名替换产生的任何 token），如果以下**所有条件**都为真，该 **TOKEN** 应经受别名替换：
-
-- **无引用字符**：该 **TOKEN** 不包含任何引用字符。
-- **有效别名名**：该 **TOKEN** 是有效的别名名称（见 XBD 3.10 Alias Name）。
-- **别名生效**：具有该名称的别名当前生效。
-- **防递归**：该 **TOKEN** 并未完全或（可选地）部分地源于任何更早递归级别上对**同一别名**的别名替换。
-- **位置条件**：要么该 **TOKEN** 因跟在某个替换值以 \<blank\> 结尾的别名替换之后而被考虑，要么该 **TOKEN** 基于其自身及前面的 token（不考虑后续字符）可被解析为简单命令的**命令名单词**（见 2.10）。
-
-> 例外：如果该 **TOKEN** 满足上述条件，但若它出现在输入中的适当位置就会被识别为**保留字**（见 2.4），那么它是否经受别名替换是**未指定的**。
-
-**替换机制**：
-
-- 当 **TOKEN** 经受别名替换时，别名的值应被处理，如同它是从输入中读入以代替该 **TOKEN** 一样，token 识别从别名值的开始处恢复。
-- **尾部空格**：到达别名值结尾时，shell 可以表现得如同输入中、被替换的 **TOKEN** 之后又读入了一个额外的 \<space\> 字符；若不添加，则当前 token 是否在应用 token 识别于后续字符之前被界定是**未指定的**。（未来版本可能不允许添加。）
-- **级联替换**：如果替换该 **TOKEN** 的别名值以替换后未引用的 \<blank\> 结尾（可选地：以替换后被引用的 \<blank\> 结尾），shell 应检查输入中的下一个 token（若是 **TOKEN**）是否进行别名替换；此过程持续直到找到不是有效别名的 **TOKEN**，或某别名值不以这样的 \<blank\> 结尾。
-- **生效时机**：实现可以延迟对别名的更改生效，但最迟应在当前正在执行的 *complete_command* 完成时生效；更改不应乱序生效。实现可以提供 shell 被调用时已生效的预定义别名。
-- **不继承**：按 POSIX.1-2024 本卷规定使用时，别名定义**不应**被 shell 的单独调用或由 shell 调用的实用程序执行环境所继承；见 2.13 Shell 执行环境。
-
-## 2.4 保留字 (Reserved Words)
-
-保留字（reserved words）是对 shell 具有**特殊含义**的单词；见 2.9 Shell 命令。以下单词应被识别为保留字：
-
-| | | | |
-|---|---|---|---|
-| **!** | **do** | **esac** | **in** |
-| **{** | **done** | **fi** | **then** |
-| **}** | **elif** | **for** | **until** |
-| **case** | **else** | **if** | **while** |
-
-### 识别条件
-
-这种识别应仅在**没有任何字符被引用**，且该单词被用作以下**语法位置**之一时发生：
-
-- 命令的**第一个单词**；
-- 紧跟除 **case**、**for** 或 **in** 之外的一个保留字之后的第一个单词；
-- **case** 命令中的**第三个单词**（此情形下只有 **in** 有效）；
-- **for** 命令中的**第三个单词**（此情形下只有 **in** 和 **do** 有效）。
-
-（文法见 2.10 Shell 文法。）
-
-### 可选保留字
-
-当在识别保留字的情形下使用时，以下单词**可以**被识别为保留字，此时结果是**未指定的**（但 **time** 除外，见下）：
-
-| | | | | | |
-|---|---|---|---|---|---|
-| **\[\[** | **\]\]** | **function** | **namespace** | **select** | **time** |
-
-- **`time` 的特殊行为**：当 **time** 在以下情形下被识别为保留字——如果它不是保留字，它本应成为将执行 `time` 实用程序的一个简单命令（见 2.9.1.1 处理顺序）的命令名，且其执行方式不属于 `time` 所述结果为未指定的方式——则行为应按 `time` 实用程序的规定执行。
-- **冒号结尾的保留字**：所有最后一个字符为 \<colon\>（`':'`）的单词都是保留的；它们在这些情形下的使用产生**未指定**的结果。
-
-
-## 2.5 参数与变量 (Parameters and Variables)
-
-**参数（parameter）**可以用名称（name）、数字或 2.5.2 特殊参数中列出的特殊字符之一来标识。参数按标识方式分为三类：
-
-- **变量（variable）**：用**名称**标识的参数（名称由字母/数字/下划线组成）。
-- **位置参数（positional parameter）**：用**数字**标识的参数（`$1`、`$2`、...）。
-- **特殊参数（special parameter）**：用**单个特殊符号**标识的参数（`$@`、`$*`、`$#`、`$?` 等）。
-
-**基本语义**：
-
-- **设置 (set)**：如果参数具有已赋的值（null 是有效值），则称其被设置。变量一旦被设置，只能通过 `unset` 特殊内置命令取消设置。
-- **字节序列**：参数可以包含任意的字节序列，**空字节（null byte）除外**；shell 仅在执行本标准以字符（characters）术语描述的操作时，才将它们的值作为字符处理。
-
-### 2.5.1 位置参数 (Positional Parameters)
-
-位置参数是用**正整数的十进制表示**标识的参数。
-
-- **数字解释**：表示位置参数的数字应**始终解释为十进制值**，即使存在前导零。
-- **花括号规则**：当指定多于一位数字的位置参数时，应用应将这些数字括在花括号中（见 2.6.2 参数扩展）。
-  - `"$8"`、`"${8}"`、`"${08}"`、`"${008}"` 等全部展开为**第八个**位置参数的值；
-  - `"${10}"` 展开为**第十个**位置参数的值；
-  - `"$10"` 展开为**第一个**位置参数的值后跟字符 `'0'`。
-  - > **注意**：0 是特殊参数，不是位置参数，因此 `${00}` 的展开结果是**未指定的**。
-- **生命周期**：
-  - shell 被调用时（见 `sh`）**初始赋值**；
-  - 调用 shell 函数时被**临时替换**（见 2.9.5 函数定义命令）；
-  - 可以用 `set` 特殊内置命令**重新赋值**。
-
-### 2.5.2 特殊参数 (Special Parameters)
-
-特殊参数的值由 shell 动态维护，其展开规则如下（详见 2.6 单词扩展中展开单词的所有阶段）：
-
-1. **`@`（At-sign）**：
-   - 展开为位置参数，从 1 开始，初始为每个被设置的位置参数产生一个字段。
-   - **字段分割上下文**：将执行字段分割时，空字段可以被丢弃，每个非空字段按 2.6.5 进一步分割。
-   - **双引号内 (`"$@"`)**：行为是**未指定的**，除非满足以下条件之一：
-     - 若不在双引号内本会执行字段分割（无论字段分割是否有效果，例如 *IFS* 为 null）；
-     - 双引号位于 \${*parameter*:-*word*} 或 \${*parameter*:+*word*}（带或不带 \<colon\>）的 *word* 内，而若展开 *parameter* 本应经受字段分割。
-     - 满足条件时：初始字段作为**单独字段**保留；若被展开参数嵌入在单词内，第一个字段与原单词开头连接、最后一个字段与原单词结尾连接。
-   - **无位置参数时**：`'@'` 的展开生成**零个字段**（即使 `'@'` 在双引号内）；若嵌入的单词包含其他展开为带引号 null 字符串的部分，这些 null 字符串仍产生一个空字段，但若其他部分与 `'@'` 在同一双引号内，结果是零字段还是**一个空字段**是**未指定的**。
-2. **`*`（Asterisk）**：
-   - 展开为位置参数，从 1 开始，初始为每个被设置的位置参数产生一个字段；字段分割上下文中的行为同 `'@'`。
-   - **不分割的上下文**：初始字段连接成**单个字段**，各参数值由 *IFS* 变量的**第一个字符**分隔（若 *IFS* 至少含一个字符）；若 *IFS* 未设置则由一个 \<space\> 分隔；若 *IFS* 为 null 字符串则无分隔。
-3. **`#`（Pound-sign）**：
-   - 展开为位置参数个数的十进制数的最短表示；命令名（参数 0）**不计入**，因为它是特殊参数而非位置参数。
-4. **`?`（Question-mark）**：
-   - 展开为从当前 shell 执行环境（非子 shell 环境）执行的、**最近终止的管道**（见 2.9.2）的十进制**退出状态**（见 2.8.2）的最短表示；或（可选地，仅交互式且启用作业控制时）最近被信号停止的管道——取二者中最近者。
-   - 管道已终止 → 状态值为其退出状态；否则 → 等于该管道被与停止信号同号的信号终止时本应产生的退出状态。
-   - 初始化时设为 0；子 shell 环境创建时**保留**调用 shell 环境中的值。
-   - > **注意**：在 `var=$(some_command); echo $?` 中，输出的是 `some_command` 的退出状态（它在子 shell 中执行），但这是因为其退出状态成为赋值命令 `var=$(some_command)`（见 2.9.1）的退出状态，而该赋值命令是最近完成的管道。对于完全由无命令字的简单命令组成但含一个或多个命令替换的任何管道亦然。
-5. **`-`（Hyphen）**：
-   - 展开为当前**选项标志**（单字母选项名连接成的字符串），按调用时、`set` 特殊内置或 shell 隐式指定的方式；`"$-"` 是否包含 **-c** 和 **-s** 选项是**未指定的**。
-   - 若 shell 是交互式的，**-i** 选项应包含在 `"$-"` 中（无论是否在调用时指定）。
-6. **`$`（Dollar-sign）**：
-   - 展开为被调用 shell 的十进制**进程 ID** 的最短表示；在子 shell（见 2.13）中展开为与当前 shell **相同**的值。
-7. **`!`（Exclamation-mark）**：
-   - 展开为从当前 shell 执行环境执行的**最近异步 AND-OR 列表**（见 2.9.3.1）相关联的十进制进程 ID 的最短表示，或展开为通过 `bg` 最近恢复执行的作业控制后台作业中当前正在执行的管道的**最后一个命令**的进程 ID——取二者中最近者。
-8. **`0`（Zero）**：
-   - 展开为 **shell 或 shell 脚本的名称**；派生方式的详细描述见 `sh`。
-
-关于 *IFS* 变量的描述，见 2.5.3。
-
-### 2.5.3 Shell 变量 (Shell Variables)
-
-**初始化与赋值途径**：变量从环境（XBD 8. 环境变量及《系统接口》卷 `exec` 函数所定义）初始化，也可以通过以下机制定义和初始化：
-
-- **变量赋值命令**（`name=value`）；
-- `read` 或 `getopts` 实用程序；
-- **for** 循环中的 *name* 参数；
-- \${*name*=*word*} 展开；
-- 实现扩展提供的其他机制。
-
-**关键规则**：
-
-- Shell 变量应仅从具有**有效名称**的环境变量初始化；若从环境初始化，应立即**标记为导出（export）**；见 `export` 特殊内置。
-
-#### POSIX 预定义的关键变量
-
-以下变量应影响 shell 的执行：
-
-**`ENV`**（\[UP\] User Portability Utilities 选项）
-
-- 当且**仅当**调用**交互式 shell** 时，该变量由 shell 经受参数扩展（见 2.6.2），结果值用作文件的路径名。
-- 在读取任何交互式命令之前，shell 对该文件内容 token 化（见 2.3）、解析为 *program*（见 2.10）并在当前环境中执行结果命令（即内容**不**作为单个 *compound_list* 解析——此区别影响别名何时生效）。
-- 文件不必可执行；若展开值不是绝对路径名，结果是**未指定的**；若用户真实/有效用户 ID 或真实/有效组 ID 不同，*ENV* 应被忽略。
-
-**`HOME`**
-
-- 用户主目录的路径名；内容用于波浪号展开（见 2.6.1）。
-
-**`IFS`**
-
-- 一个被视为**字符列表**的字符串，用于：字段分割（2.6.5）、`'*'` 特殊参数的展开、`read` 实用程序将行分割为字段。
-- 若 *IFS* 值包含不构成有效字符的字节，相关结果是**未指定的**。
-- **未设置时**：字段分割和 `read` 行分割按 *IFS* 值为 \<space\>\<tab\>\<newline\> 执行。
-- shell 被调用时应将 *IFS* 设置为 \<space\>\<tab\>\<newline\>。
-
-**`LANG` / `LC_ALL` / `LC_COLLATE` / `LC_CTYPE` / `LC_MESSAGES`**（locale 控制）
-
-- **`LANG`**：为未设置或为 null 的国际化变量提供默认值（优先级见 XBD 8.2 Internationalization Variables）。
-- **`LC_ALL`**：覆盖所有 *LC_\** 变量和 *LANG*（见 XBD 8. 环境变量）。
-- **`LC_COLLATE`**：确定模式匹配中**范围表达式、等价类和多字符整理元素**的行为。
-- **`LC_CTYPE`**：确定字节序列作为字符的解释、哪些字符是字母（字符类 **alpha**）和 \<blank\>（字符类 **blank**）、以及模式匹配中字符类的行为。
-  - shell 启动后更改 *LC_CTYPE* **不影响**当前 shell 执行环境或其子 shell 中 shell 命令的词法处理；调用 shell 脚本或执行 `exec` `sh` 会使新 shell 经受更改。
-- **`LC_MESSAGES`**：确定消息应使用的语言。
-
-**`LINENO`**（\[UP\]）
-
-- 由 shell 设置为十进制数，表示脚本或函数内执行每条命令之前的当前**顺序行号**（从 1 开始）。
-- 若用户取消设置或重置 *LINENO*，它可能失去特殊含义；若 shell 未在执行脚本或函数，其值是**未指定的**。
-
-**`NLSPATH`**（\[XSI\]）
-
-- 确定用于 *LC_MESSAGES* 处理的消息目录的位置。
-
-**`PATH`**
-
-- 一个字符串（格式见 XBD 8. 环境变量），用于实现命令解释；见 2.9.1.4 命令搜索与执行。
-
-**`PPID`**
-
-- shell 初始化期间设置为其**父进程 ID** 的十进制值；子 shell（见 2.13）中与当前 shell 的父进程相同（`echo $PPID` 与 `(echo $PPID)` 产生相同值）。
-
-**`PS1` / `PS2` / `PS4`**（\[UP\] 提示符）
-
-- **`PS1`**（主提示符）：每次交互式 shell 准备读取命令时，其值经受参数扩展和**感叹号展开**（是否还经受命令替换/算术扩展是未指定的），扩展后写到标准错误。默认 `"$ "`（有额外特权的用户可为其他实现定义的值）。
-  - **两遍展开**：一遍只做感叹号展开，另一遍按 2.6 规则做其他扩展；先做哪一遍未指定。
-  - **感叹号展开**：每个 `'!'` 替换为下一条命令的历史文件编号；`"!!"` 展开为单个 `'!'`。
-- **`PS2`**（续行提示符）：每次用户在交互式 shell 中、完成命令行使输入 \<newline\> 之前，其值经受参数扩展（是否还经受命令替换/算术扩展未指定），扩展后写到标准错误。默认 `"> "`。
-- **`PS4`**（追踪提示符）：执行 `set` **-x** 追踪时，追踪的每一行之前其值经受参数扩展（是否还经受命令替换/算术扩展未指定），扩展后写到标准错误。默认 `"+ "`。
-
-**`PWD`**
-
-- 由 shell 和 `cd` 实用程序设置；在 shell 中从环境按如下初始化：
-  - 若环境传入的 *PWD* 是当前工作目录的绝对路径名，长度不超过 {PATH_MAX} 字节（含结尾空字节），且不含 dot/dot-dot 组件 → shell 将 *PWD* 设为该环境值。
-  - 否则，若环境值只是绝对路径名且不含 dot/dot-dot 组件 → shell 设环境值还是设 `pwd` **-P** 的输出，是**未指定的**。
-  - 否则 → `sh` 将 *PWD* 设为 `pwd` **-P** 的输出。
-  - 从环境取值时，*PWD* 可含符号链接组件；设 `pwd` **-P** 输出时，若权限不足无法确定路径名，*PWD* 值**未指定**。
-- 对该变量的赋值可能被忽略；应用设置/取消设置 *PWD* 会使 `cd` 和 `pwd` 的行为**未指定**。
-
-
-## 2.6 单词扩展 (Word Expansions)
-
-本节描述对单词执行的各种**扩展（expansions）**。并非每个单词都执行所有扩展（如下文各节所述）。
-
-### 扩展的执行顺序 (Order of Expansions)
-
-对给定单词执行的扩展应按以下**严格顺序**执行：
-
-1. **波浪号展开**（见 2.6.1）、**参数扩展**（见 2.6.2）、**命令替换**（见 2.6.3）和**算术扩展**（见 2.6.4）——从开始到结束依次执行（见 2.3 Token 识别第 5 项）。
-2. **字段分割**（见 2.6.5）——对步骤 1 生成的字段的部分执行。
-3. **路径名展开**（见 2.6.6）——除非 `set` **-f** 生效。
-4. **引用消除**（见 2.6.7）——如果执行，应**始终最后**执行。
-
-**核心规则**：
-
-- 发生在单个单词内的波浪号展开、参数扩展、命令替换、算术扩展和引用消除应展开为**单个字段**。
-- shell 应仅因**字段分割**、**路径名展开**或以下情况，从单个单词创建多个字段或不创建字段：
-  1. 特殊参数 `'@'` 和 `'*'` 的参数扩展（见 2.5.2）可从单个单词创建多个字段或不创建字段。
-  2. 在将执行字段分割的上下文中，一个单词若在应用任何扩展前、其内部某处以指定顺序包含：未引用的 `'{'`（前面不是未引用的 `'$'`）、一个或多个未引用的 `','`（或两个被其他字符包围的相邻 `'.'`）、以及未引用的 `'}'`——则可以经受额外的**实现定义**形式的扩展（如花括号展开），可从单个单词创建多个字段；此扩展（若支持）应在所有其他单词扩展**之前**应用，其他扩展再应用于每个结果字段。
-- **执行环境**：本节中的扩展不在准备执行命令的上下文中执行时，应在当前 shell 执行环境中进行；为即将执行的命令扩展命令名/参数单词时亦然（命令的环境在命令单词已知之前未知）；与变量赋值或重定向一起使用的单词，是在当前执行环境还是在命令环境中扩展，是**未指定的**。
-
-**`$` 字符的引入规则**：
-
-- `'$'` 用于引入参数扩展、命令替换或算术求值。
-- 若既不在单引号内、也不被 \<backslash\> 转义的 `'$'` 紧跟一个不是 \<space\>/\<tab\>/\<newline\> 且不是以下之一的字符：数字、特殊参数名、变量名有效首字符、`'{'`、`'('`、单引号——结果是**未指定的**。
-- 若 `'$'` 紧跟空白或后面没有任何字符，`'$'` 应被视为**字面字符**。
-
-### 2.6.1 波浪号扩展 (Tilde Expansion)
-
-"波浪号前缀（tilde-prefix）"由单词开头的未引用 \<tilde\>（`'~'`）字符，后跟单词中第一个未引用 \<slash\> 之前的所有字符（若无 \<slash\> 则为单词中所有字符）组成。
-
-- **赋值中的多前缀**：在赋值（见 XBD 4.26 Variable Assignment）中，可以有多个波浪号前缀：一个在单词开头（赋值 \<equals-sign\> 之后），或一个跟随在任何未引用的 \<colon\> 之后，或两者。赋值中的波浪号前缀由第一个未引用的 \<colon\> 或 \<slash\> 或赋值单词结尾终止。
-
-**扩展规则**：
-
-1. **仅 `~`（无后续字符）**：替换为变量 *HOME* 的值；若 *HOME* 未设置，结果是**未指定的**。
-2. **`~user`（带登录名）**：\<tilde\> 之后的字符被视为来自用户数据库的可能登录名：
-   - 若不构成**便携登录名**（见 XBD 8.3 中 *LOGNAME* 的描述），结果是**未指定的**；
-   - 若构成便携登录名，波浪号前缀替换为与该登录名关联的**初始工作目录**的路径名（如同用 `getpwnam()` 获得）；
-   - 若系统不识别该登录名，结果是**未指定的**。
-   - > **注意**：由于波浪号前缀在移除 \<tilde\> 后不再经受进一步的单词扩展，`~"string"`、`~'string'`、`~$var`、`~\/bin` 的 \<tilde\> 之后都没有便携登录名。
-3. **替换路径名的处理**：
-   - 替换的路径名应被视为**已被引用**，防止被字段分割和路径名展开改变；
-   - 若 \<slash\> 跟随在波浪号前缀之后且路径名以 \<slash\> 结尾，替换时应省略路径名末尾的 \<slash\>（未来版本可能要求强制省略）；
-   - 若被展开单词只由 \<tilde\> 组成且 *HOME* 为 null 字符串，产生一个**空字段**（而非零个字段）。
-
-### 2.6.2 参数扩展 (Parameter Expansion)
-
-参数扩展的格式为 `${expression}`（*expression* 由直到匹配的 `'}'` 为止的所有字符组成）。**任何被 \<backslash\> 转义或在引用字符串内的 `'}'`，以及嵌入的算术扩展、命令替换和变量扩展中的字符，在确定匹配的 `'}'` 时不应被检查**。
-
-#### 基本形式
-
-- **`${parameter}`**：替换 *parameter* 的值（如有）。
-- **花括号规则**：可选，但对于多于一位数字的位置参数、或 *parameter* 是名称且后跟可被解释为名称一部分的字符时**必需**。
-- **不带花括号时**：
-  - 若参数是名称 → 使用**最长的有效名称**（见 XBD 3.216 Name），无论该变量是否存在；
-  - 否则参数是单字符符号，若它既不是数字也不是特殊参数，行为**未指定**。
-
-#### 条件修改形式（word 惰性求值）
-
-在需要 *word* 值的情况（基于 *parameter* 状态）下，*word* 经受波浪号展开、参数扩展、命令替换、算术扩展和引用消除；**若不需要则不被展开**。若 *parameter* 是 `'*'` 或 `'@'`，结果为**未指定**。\<colon\> 的两种语义：带冒号 = 测试"未设置**或为 null**"；不带冒号 = 仅测试"未设置"。
-
-| 格式 | *parameter* 已设置且非 null | *parameter* 已设置但为 null | *parameter* 未设置 |
-|:---|:---|:---|:---|
-| **\${*parameter*:-*word*}**（使用默认值） | 替换 *parameter* | 替换 *word* | 替换 *word* |
-| **\${*parameter*-*word*}** | 替换 *parameter* | 替换 null | 替换 *word* |
-| **\${*parameter*:=*word*}**（赋默认值） | 替换 *parameter* | 赋 *word* | 赋 *word* |
-| **\${*parameter*=*word*}** | 替换 *parameter* | 替换 null | 赋 *word* |
-| **\${*parameter*:?*word*}**（为 null/未设置则报错） | 替换 *parameter* | 错误，退出 | 错误，退出 |
-| **\${*parameter*?*word*}** | 替换 *parameter* | 替换 null | 错误，退出 |
-| **\${*parameter*:+*word*}**（使用替代值） | 替换 *word* | 替换 null | 替换 null |
-| **\${*parameter*+*word*}** | 替换 *word* | 替换 *word* | 替换 null |
-
-- "substitute" = 表达式被替换为所示值；"assign" = *parameter* 被赋该值，该值也替换表达式。
-- **`:=` 限制**：只有**变量**（非位置参数或特殊参数）能被赋值。
-- **`:?` 行为**：错误时把 *word* 的展开（或指示未设置的消息）写到标准错误，shell 以**非零退出状态**退出（交互式 shell 不必退出）。
-- **`?` 歧义**：若 *parameter* 是 `'#'` 且省略冒号，应用应确保指定 *word*（避免与字符串长度扩展歧义）。
-
-#### 字符串长度
-
-- **`${#parameter}`**：替换 *parameter* 值的长度（字符数）的最短十进制表示；若 *parameter* 是 `'*'` 或 `'@'`，结果**未指定**；若 *parameter* 未设置且 `set` **-u** 生效，扩展应失败。
-
-#### 子串模式处理（四种变体）
-
-- 使用**模式匹配记号**（见 2.14），而非正则表达式；若 *parameter* 是 `'#'`、`'*'` 或 `'@'`，结果**未指定**；若 *parameter* 未设置且 `set` **-u** 生效，扩展应失败。
-- 将整个扩展串括在双引号中**不会**使四种变体的模式字符被引用；花括号内的引用字符则会。省略 *word* 时用空模式。
-- **`${parameter%word}`**（删除**最小**后缀模式）：结果为 *parameter* 删去被模式匹配的最小后缀部分；*word* 不应以未引用的 `'%'` 开头。
-- **`${parameter%%word}`**（删除**最大**后缀模式）：删去被模式匹配的最大后缀部分。
-- **`${parameter#word}`**（删除**最小**前缀模式）：删去被模式匹配的最小前缀部分；*word* 不应以未引用的 `'#'` 开头。
-- **`${parameter##word}`**（删除**最大**前缀模式）：删去被模式匹配的最大前缀部分。
-
-#### 示例 (Examples)
-
-\${*parameter*}——省略花括号的效果：
-
-    a=1
-    set 2
-    echo ${a}b-$ab-${1}0-${10}-$10
-    1b--20--20
-
-\${*parameter*-*word*}——未设置与设置为空字符串的区别，以及寻找定界右花括号的规则：
-
-    foo=asdf
-    echo ${foo-bar}xyz}
-    asdfxyz}
-    foo=
-    echo ${foo-bar}xyz}
-    xyz}
-    unset foo
-    echo ${foo-bar}xyz}
-    barxyz}
-
-\${*parameter*:-*word*}——仅当 *x* 为 null 或未设置时才执行 `ls`：
-
-    ${x:-$(ls)}
-
-\${*parameter*:=*word*}：
-
-    unset X
-    echo ${X:=abc}
-    abc
-
-\${*parameter*:?*word*}：
-
-    unset posix
-    echo ${posix:?}
-    sh: posix: parameter null or not set
-
-\${*parameter*:+*word*}：
-
-    set a b c
-    echo ${3:+posix}
-    posix
-
-\${#*parameter*}：
-
-    HOME=/usr/posix
-    echo ${#HOME}
-    10
-
-\${*parameter*%*word*} / \${*parameter*%%*word*}：
-
-    x=file.c
-    echo ${x%.c}.o
-    file.o
-    x=posix/src/std
-    echo ${x%%/*}
-    posix
-
-\${*parameter*\#*word*} / \${*parameter*\##*word*}：
-
-    x=$HOME/src/cmd
-    echo ${x#$HOME}
-    /src/cmd
-    x=/one/two/three
-    echo ${x##*/}
-    three
-
-模式的双引号处理因放置位置不同而不同：`"${x#*}"` 中 \<asterisk\> 是模式字符；`${x#"*"}` 中字面的 \<asterisk\> 被引用且不特殊。
-
-### 2.6.3 命令替换 (Command Substitution)
-
-命令替换允许用一个或多个命令的**输出**替换命令本身。两种形式：
-
-- **推荐形式**：`$(commands)`
-- **传统反引号形式**：`` `commands` ``
-
-**执行与处理规则**：
-
-- shell 在**子 shell 环境**（见 2.13）中执行 *commands*，将命令替换（*commands* 文本 + 包围的 `"$()"` 或反引号）替换为命令的标准输出。
-- **末尾换行剥离**：输出以一个或多个编码值为 \<newline\> 的字节结尾时，它们**不包含**在替换中；其他位置出现的此类字节包含在替换中，但可能被当作字段定界符在字段分割期间消除（取决于 *IFS* 和引用）。输出含任何空字节 → 行为**未指定**。
-- **反引号形式内的反斜杠**：不在双引号内时，\<backslash\> 保留字面含义，但后跟 `'$'`、反引号或 \<backslash\> 时除外（双引号内的处理见 2.2.3）。
-  - 匹配反引号 = 第一个未引用的非转义反引号；若在 shell 注释、here-document、\$(*commands*) 形式嵌入命令替换或引用字符串中遇到非转义反引号 → **未定义**结果；在 `` "`...`" `` 内开始但未结束的引用字符串 → **未定义**结果。
-- **\$(*commands*) 形式**：开括号后到匹配右括号的所有字符构成 *commands*。
-- **解析方式**：两种形式下，*commands* 被 token 化（2.3）并解析（2.10）；按 *program* 增量解析执行还是按单个 *compound_list* 整体解析后执行，是**未指定的**；结尾 `')'` 是否能由别名替换产生，未指定。
-- **\$() 形式的限制**：
-  - 若 *commands* 只由重定向组成 → 结果**未指定**；
-  - 若按单个 *compound_list* 解析，执行任何命令前 `alias`/`unalias` 在解析期间**无效果**；严格符合应用应确保 *commands* 不依赖按 *program* 方式才发生的别名增量生效；
-  - 若结尾 `')'` 不在包含命令替换的 token 中 → 行为**未指定**。
-- **不递归扩展**：命令替换的结果不再被处理以进行进一步的波浪号展开、参数扩展、命令替换或算术扩展。
-- **嵌套**：\$() 形式无缝嵌套；反引号形式须用 \<backslash\> 转义内层反引号（`` \`commands\` ``）。
-- **`"$(("` 歧义**：`"$(("` 可引入算术扩展或子 shell 开头的命令替换。**算术扩展优先**——shell 先确定能否解析为算术扩展，只有不能时才按命令替换解析；确定过程中不必求值嵌套扩展；若在未确定时遇到输入结束，视为**不完整算术扩展**并报告语法错误。符合应用应在子 shell 开头的命令替换中把 `"$("` 和 `'('` 用空白分隔（如 `$( (commands) )`）。
-
-### 2.6.4 算术扩展 (Arithmetic Expansion)
-
-算术扩展提供**求值算术表达式并替换其值**的机制。格式：`$((expression))`。
-
-**求值规则**：
-
-- 表达式视同处于双引号内，但表达式内的双引号不被特殊处理；shell 扩展表达式中的所有 token 以进行参数扩展、命令替换和引用消除。
-- 表达式按 1.1.2.1 算术精度与运算的规则处理，**例外**：
-  - 只要求**有符号长整数（signed long）**算术；
-  - 只要求识别 ISO C 标准第 6.4.4.1 节的十进制/八进制/十六进制常量；
-  - 不要求 `sizeof`() 运算符及前缀/后缀 `"++"`、`"--"` 运算符；
-  - 不支持选择、迭代和跳转语句。
-- **副作用**：算术表达式中对变量的所有更改在扩展之后**生效**（如同 `"${x=value}"`）。
-- **`$((x))` 与 `$(($x))`**：若 *x* 含有效整数常量（可选前导 `+`/`-`），两者返回相同值。
-- **实现扩展**：可以识别更多表达式、使用等级大于 **signed long** 的有符号整数类型、或在无溢出时用实浮点类型代替 **signed long**。
-- **失败**：表达式无效或所用 shell 变量内容不被识别 → 扩展失败，shell 向标准错误写指示失败的诊断消息。
-
-#### 示例 (Examples)
-
-    # repeat a command 100 times
-    x=100
-    while [ $x -gt 0 ]
-    do
-        command
-        x=$(($x-1))
-    done
-
-### 2.6.5 字段分割 (Field Splitting)
-
-参数扩展、命令替换和算术扩展之后，若 *IFS*（见 2.5.3）已设置且值非空，或 *IFS* 未设置，shell 应扫描包含**未在双引号内**发生的扩展和替换结果的每个字段以进行**字段分割**；可产生零个、一个或多个字段。
-
-**基本规则**：
-
-- *IFS* 值为空字符串 → **不发生字段分割**；但完全为空的输入字段（含扩展结果）被移除（这发生在引用消除之前；含引用字符的字段此刻不可能为空）。
-- 不包含扩展结果的字段不受字段分割影响。
-- 术语"*IFS* 空白（IFS white space）"：便携字符集中存在于 *IFS* 值中的 \<space\>、\<tab\>、\<newline\> 字节（总是 *IFS* 空白），以及可能的其他空白字符（是否也算 *IFS* 空白是**实现定义**的；locale 特定的空白字符按赋值时还是分割时的空白状态判定，是**未指定**的）。
-- *IFS* 未设置 → 视为包含三个单字节字符 \<space\>、\<tab\>、\<newline\>（不改变变量值）。
-- shell 处理输入字段中的**任意字节**；不要求构成有效字符。
-
-**分割算法**（按字段从头到尾检查字节）：
-
-1. 以空候选字段开始；输入非空时循环：
-   - 考虑前导字节/字节序列（该序列不能混合"来自扩展"和"不来自扩展"的数据，也不能含多次扩展的结果）：
-     1. **非扩展字节** → 追加到候选，移除，下一迭代；
-     2. **扩展字节且不构成 *IFS* 字符** → 追加第一个字节，移除，下一迭代；
-     3. **扩展字节且构成 *IFS* 空白** → 移除该序列，重复本步（继续剥除）；
-     4. **扩展字节且构成非 *IFS* 空白的 *IFS* 字符** → 移除该序列，记录被观察到。
-   - 若候选非空，或步骤 4 观察到了非 *IFS* 空白的 *IFS* 字符 → 候选成为**输出字段**。
-   - 清空候选，下一迭代。
-2. 输入为空时：当且仅当候选非空，候选成为输出字段。
-
-**结果**：若未界定任何字段（输入字段完全为空或全为 *IFS* 空白）→ **零个字段**（而非空字段）；输出字段保持与输入字段相同的顺序。
-
-### 2.6.6 路径名展开 (Pathname Expansion)
-
-字段分割之后，若 `set` **-f** 未生效，结果命令行中的每个字段应使用 2.14 模式匹配记号的算法展开，并由 2.14.3 用于文件名展开的模式的规则限定。
-
-### 2.6.7 引用消除 (Quote Removal)
-
-原始单词中存在的 \<dollar-sign\> 单引号引用字符序列和单字符引用字符（\<backslash\>、单引号和双引号）应被移除，**除非它们自身已被引用**。注意终止 \<dollar-sign\> 单引号序列的单引号字符本身就是一个单字符引用字符。
-
-> **注意**：引用消除之后，shell 仍会记住哪些字符曾被引用——这对于在 **case** 条件构造（见 2.9.4.3 和 2.14）中匹配模式等目的是必要的。
-
-
-## 2.7 重定向 (Redirection)
-
-重定向用于为当前 shell 执行环境（见 2.13）或任何命令**打开和关闭文件**。重定向运算符可以与表示文件描述符的数字（见 XBD 3.141 File Descriptor）一起使用。
-
-### 总体格式
-
-```
-[n]redir-op word
-```
-
-- **`n`**：可选的一位或多位十进制数，指定文件描述符编号；应用应确保它与前面的文本分隔，并**紧接**在重定向运算符之前（不允许中间的 \<blank\> 字符）。
-  - 若 *n* 被引用，该数字**不**被识别为重定向表达式的一部分（如 `echo \2>a` 把字符 2 写入文件 **a**）。
-  - 若 *redir-op* 的任何部分被引用，不识别任何重定向表达式（如 `echo 2\>a` 把 `2>a` 写到标准输出）。
-- **可选扩展格式**：`{location}redir-op word`——*location* 非空，表示可存储整数值的位置（如 shell 变量名）；若支持，其行为是**实现定义的**。
-- **参数隔离**：可选数字、重定向运算符和 *word* 不应出现在提供给要执行命令的参数中。
-- **文件描述符范围**：shell 重定向支持的最大文件描述符编号是**实现定义**的，但所有实现应至少支持 0 到 9（含）。
-
-**word 的扩展规则**：
-
-- 运算符为 `"<<"` 或 `"<<-"` 时：word 经受**引用消除**；是否发生其他扩展是**未指定的**。
-- 其他运算符：word 经受波浪号展开、参数扩展、命令替换、算术扩展和引用消除。
-  - **非交互式 shell 不执行路径名展开**；交互式 shell 可以执行，但若展开产生多个单词，重定向是继续还是不展开地失败，是**未指定的**（未来版本可能要求失败）。
-
-**求值顺序与失败**：一个命令指定多个重定向时，从开始到结束求值；打开或创建文件失败应导致重定向失败。
-
-### 2.7.1 重定向输入 (Redirecting Input)
-
-```
-[n]<word
-```
-
-- 使名称由 *word* 展开产生的文件在指定文件描述符上为**读取**打开；省略 *n* 时指标准输入（文件描述符 0）。
-
-### 2.7.2 重定向输出 (Redirecting Output)
-
-```
-[n]>word
-[n]>|word
-```
-
-- 使文件在指定文件描述符上为**输出**打开；省略 *n* 时指标准输出（文件描述符 1）。
-- **noclobber 保护**：使用 `'>'` 格式时，若设置 *noclobber*（见 `set` **-C**）且文件存在并是普通文件（或解析到普通文件的符号链接），重定向应**失败**；文件是不解析到现存文件的符号链接时也可能失败。
-  - 存在性检查、文件创建和打开操作按 `open()` 设置 O_CREAT|O_EXCL 的方式**原子执行**（若文件存在且是符号链接，除非解析到现存普通文件，否则打开不必以 \[EEXIST\] 失败）——确保锁文件和唯一（临时）文件的创建可靠；文件类型检查不必原子执行（否则可能产生竞态导致误导性诊断，详见 XRAT C.2.7.2）。
-- **其他情况**（未设置 noclobber、`'>'` 未因此失败、或用 `">|"`）：文件不存在则创建为空文件；否则如同以 O_TRUNC 打开（截断）。
-
-### 2.7.3 追加重定向输出 (Appending Redirected Output)
-
-```
-[n]>>word
-```
-
-- 使文件在指定文件描述符上为输出打开，如同以 **O_APPEND** 打开；文件不存在则创建。省略 *n* 时指标准输出（文件描述符 1）。
-
-### 2.7.4 Here-Document (Here-Document)
-
-运算符 `"<<"` 和 `"<<-"` 允许将 shell 读取的后续行重定向到命令的输入；这些行称为 "here-document"。
-
-```
-[n]<<word
+<!-- 英文原文镜像：https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html -->
+<body bgcolor="white">
+
+<a name="top" id="top">
+<h2><a name="tag_19" id="tag_19">2. Shell Command Language
+<p>This chapter contains the definition of the Shell Command Language.
+<h3><a name="tag_19_01" id="tag_19_01">2.1 Shell Introduction
+<p>The shell is a command language interpreter. This chapter describes the syntax of that command language as it is used by the
+<a href="../utilities/sh.html"><i>sh utility and the <a href="../functions/system.html"><i>system() and <a href=
+"../functions/popen.html"><i>popen() functions defined in the System Interfaces volume of POSIX.1-2024.
+<p>The shell operates according to the following general overview of operations. The specific details are included in the cited
+sections of this chapter.
+<ol>
+<li>
+<p>The shell reads its input from a file (see <a href="../utilities/sh.html"><i>sh), from the <b>-c option or from the
+<a href="../functions/system.html"><i>system() and <a href="../functions/popen.html"><i>popen() functions defined
+in the System Interfaces volume of POSIX.1-2024. If the first line of a file of shell commands starts with the characters
+<tt>&#34;#!&#34;, the results are unspecified.
+
+<li>
+<p>The shell breaks the input into tokens: words and operators; see <a href="#tag_19_03">2.3 Token Recognition.
+
+<li>
+<p>The shell parses the input into simple commands (see <a href="#tag_19_09_01">2.9.1 Simple Commands) and compound commands
+(see <a href="#tag_19_09_04">2.9.4 Compound Commands).
+
+<li>
+<p>For each word within a command, the shell processes &lt;backslash&gt;-escape sequences inside dollar-single-quotes (see <a href=
+"#tag_19_02_04">2.2.4 Dollar-Single-Quotes) and then performs various word expansions (see <a href="#tag_19_06">2.6 Word
+Expansions). In the case of a simple command, the results usually include a list of pathnames and fields to be treated as a
+command name and arguments; see <a href="#tag_19_09">2.9 Shell Commands.
+
+<li>
+<p>The shell performs redirection (see <a href="#tag_19_07">2.7 Redirection) and removes redirection operators and their
+operands from the parameter list.
+
+<li>
+<p>The shell executes a function (see <a href="#tag_19_09_05">2.9.5 Function Definition Command), built-in (see <a href=
+"#tag_19_15">2.15 Special Built-In Utilities), executable file, or script, giving the names of the arguments as positional
+parameters numbered 1 to <i>n, and the name of the command (or in the case of a function within a script, the name of the
+script) as special parameter 0 (see <a href="#tag_19_09_01_04">2.9.1.4 Command Search and Execution).
+
+<li>
+<p>The shell optionally waits for the command to complete and collects the exit status (see <a href="#tag_19_08_02">2.8.2 Exit
+Status for Commands).
+
+<h3><a name="tag_19_02" id="tag_19_02">2.2 Quoting
+<p>Quoting is used to remove the special meaning of certain characters or words to the shell. Quoting can be used to preserve the
+literal meaning of the special characters in the next paragraph, prevent reserved words from being recognized as such, and prevent
+parameter expansion and command substitution within here-document processing (see <a href="#tag_19_07_04">2.7.4 Here-Document
+).
+<p>The application shall quote the following characters if they are to represent themselves:
+<pre>
+<tt>|  &amp;  ;  &lt;  &gt;  (  )  &#36;  &#96;  &#92;  &#34;  &#39;  &lt;space&gt;  &lt;tab&gt;  &lt;newline&gt;
+
+<p>and the following might need to be quoted under certain circumstances. That is, these characters are sometimes special depending
+on conditions described elsewhere in this volume of POSIX.1-2024:
+<pre>
+<tt>&#42;  ?  &#91;  &#93;  ^  -  !  #  ~  =  %  {  ,  }
+
+<basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>A future version of this standard may extend the conditions under which these characters are special. Therefore applications
+should quote them whenever they are intended to represent themselves. This does not apply to &lt;hyphen-minus&gt; (<tt>&#39;-&#39;)
+since it is in the portable filename character set.
+
+<basefont size="3">
+<p>The various quoting mechanisms are the escape character, single-quotes, double-quotes, and dollar-single-quotes. The
+here-document represents another form of quoting; see <a href="#tag_19_07_04">2.7.4 Here-Document.
+<h4><a name="tag_19_02_01" id="tag_19_02_01">2.2.1 Escape Character (Backslash)
+<p>A &lt;backslash&gt; that is not quoted shall preserve the literal value of the following character, with the exception of a
+&lt;newline&gt;. If a &lt;newline&gt; immediately follows the &lt;backslash&gt;, the shell shall interpret this as line
+continuation. The &lt;backslash&gt; and &lt;newline&gt; shall be removed before splitting the input into tokens. Since the escaped
+&lt;newline&gt; is removed entirely from the input and is not replaced by any white space, it cannot serve as a token
+separator.
+<h4><a name="tag_19_02_02" id="tag_19_02_02">2.2.2 Single-Quotes
+<p>Enclosing characters in single-quotes (<tt>&#39;&#39;) shall preserve the literal value of each character within the single-quotes.
+A single-quote cannot occur within single-quotes.
+<h4><a name="tag_19_02_03" id="tag_19_02_03">2.2.3 Double-Quotes
+<p>Enclosing characters in double-quotes (<tt>&#34;&#34;) shall preserve the literal value of all characters within the double-quotes,
+with the exception of the characters backquote, &lt;dollar-sign&gt;, and &lt;backslash&gt;, as follows:
+<dl compact>
+<dd>
+<dt><tt>&#36;
+<dd>The &lt;dollar-sign&gt; shall retain its special meaning introducing parameter expansion (see <a href="#tag_19_06_02">2.6.2
+Parameter Expansion), a form of command substitution (see <a href="#tag_19_06_03">2.6.3 Command Substitution), and
+arithmetic expansion (see <a href="#tag_19_06_04">2.6.4 Arithmetic Expansion), but shall not retain its special meaning
+introducing the dollar-single-quotes form of quoting (see <a href="#tag_19_02_04">2.2.4 Dollar-Single-Quotes).
+<p>The input characters within the quoted string that are also enclosed between <tt>&#34;&#36;(&#34; and the matching <tt>&#39;)&#39; shall
+not be affected by the double-quotes, but rather shall define the command(s) whose output replaces the <tt>&#34;&#36;(&#46;&#46;&#46;)&#34; when the
+word is expanded. The tokenizing rules in <a href="#tag_19_03">2.3 Token Recognition shall be applied recursively to find the
+matching <tt>&#39;)&#39;.
+<p>For the four varieties of parameter expansion that provide for substring processing (see <a href="#tag_19_06_02">2.6.2 Parameter
+Expansion), within the string of characters from an enclosed <tt>&#34;&#36;{&#34; to the matching <tt>&#39;}&#39;, the double-quotes
+within which the expansion occurs shall have no effect on the handling of any special characters.
+<p>For parameter expansions other than the four varieties that provide for substring processing, within the string of characters
+from an enclosed <tt>&#34;&#36;{&#34; to the matching <tt>&#39;}&#39;, the double-quotes within which the expansion occurs shall preserve the
+literal value of all characters, with the exception of the characters double-quote, backquote, &lt;dollar-sign&gt;, and
+&lt;backslash&gt;. If any unescaped double-quote characters occur within the string, other than in embedded command substitutions,
+the behavior is unspecified. The backquote and &lt;dollar-sign&gt; characters shall follow the same rules as for characters in
+double-quotes described in this section. The &lt;backslash&gt; character shall follow the same rules as for characters in
+double-quotes described in this section except that it shall additionally retain its special meaning as an escape character when
+followed by <tt>&#39;}&#39; and this shall prevent the escaped <tt>&#39;}&#39; from being considered when determining the matching
+<tt>&#39;}&#39; (using the rule in <a href="#tag_19_06_02">2.6.2 Parameter Expansion).
+
+<dt><tt>&#96;
+<dd>The backquote shall retain its special meaning introducing the other form of command substitution (see <a href=
+"#tag_19_06_03">2.6.3 Command Substitution). The portion of the quoted string from the initial backquote and the characters up
+to the next backquote that is not preceded by a &lt;backslash&gt;, having escape characters removed, defines that command whose
+output replaces <tt>&#34;&#96;&#46;&#46;&#46;&#96;&#34; when the word is expanded. Either of the following cases produces undefined results:
+<ul>
+<li>
+<p>A quoted (single-quoted, double-quoted, or dollar-single-quoted) string that begins, but does not end, within the
+<tt>&#34;&#96;&#46;&#46;&#46;&#96;&#34; sequence
+
+<li>
+<p>A <tt>&#34;&#96;&#46;&#46;&#46;&#96;&#34; sequence that begins, but does not end, within the same double-quoted string
+
+<dt><tt>&#92;
+<dd>Outside of <tt>&#34;&#36;(&#46;&#46;&#46;)&#34; and <tt>&#34;&#36;{&#46;&#46;&#46;}&#34; the &lt;backslash&gt; shall retain its special meaning as an escape
+character (see <a href="#tag_19_02_01">2.2.1 Escape Character (Backslash)) only when immediately followed by one of the
+following characters:
+<pre>
+<tt>&#36;   &#96;   &#92;   &lt;newline&gt;
+
+<p>or by a double-quote character that would otherwise be considered special (see <a href="#tag_19_06_04">2.6.4 Arithmetic
+Expansion and <a href="#tag_19_07_04">2.7.4 Here-Document).
+
+<p>When double-quotes are used to quote a parameter expansion, command substitution, or arithmetic expansion, the literal value of
+all characters within the result of the expansion shall be preserved.
+<p>The application shall ensure that a double-quote that is not within <tt>&#34;&#36;(&#46;&#46;&#46;)&#34; nor within <tt>&#34;&#36;{&#46;&#46;&#46;}&#34; is
+immediately preceded by a &lt;backslash&gt; in order to be included within double-quotes. The parameter <tt>&#39;@&#39; has special
+meaning inside double-quotes and is described in <a href="#tag_19_05_02">2.5.2 Special Parameters.
+<h4><a name="tag_19_02_04" id="tag_19_02_04">2.2.4 Dollar-Single-Quotes
+<p>A sequence of characters starting with a &lt;dollar-sign&gt; immediately followed by a single-quote (<tt>&#36;&#39;) shall preserve
+the literal value of all characters up to an unescaped terminating single-quote (<tt>&#39;), with the exception of certain
+&lt;backslash&gt;-escape sequences, as follows:
+<ul>
+<li>
+<p><tt>&#92;&#34; yields a &lt;quotation-mark&gt; (double-quote) character, but note that &lt;quotation-mark&gt; can be included
+unescaped.
+
+<li>
+<p><tt>&#92;&#39; yields an &lt;apostrophe&gt; (single-quote) character.
+
+<li>
+<p><tt>&#92;&#92; yields a &lt;backslash&gt; character.
+
+<li>
+<p><tt>&#92;a yields an &lt;alert&gt; character.
+
+<li>
+<p><tt>&#92;b yields a &lt;backspace&gt; character.
+
+<li>
+<p><tt>&#92;e yields an &lt;ESC&gt; character.
+
+<li>
+<p><tt>&#92;f yields a &lt;form-feed&gt; character.
+
+<li>
+<p><tt>&#92;n yields a &lt;newline&gt; character.
+
+<li>
+<p><tt>&#92;r yields a &lt;carriage-return&gt; character.
+
+<li>
+<p><tt>&#92;t yields a &lt;tab&gt; character.
+
+<li>
+<p><tt>&#92;v yields a &lt;vertical-tab&gt; character.
+
+<li>
+<p><tt>&#92;c<i>X yields the control character listed in the <b>Value column of <a href=
+"../utilities/stty.html#tagtcjh_23"><i>Values for cpio c&#95;mode Field in the OPERANDS section of the <a href=
+"../utilities/stty.html"><i>stty utility when <i>X is one of the characters listed in the <b>^c column of the same
+table, except that <tt>&#92;c&#92;&#92; yields the &lt;FS&gt; control character since the &lt;backslash&gt; character has to be
+escaped.
+
+<li>
+<p><tt>&#92;x<i>XX yields the byte whose value is the hexadecimal value <i>XX (one or more hexadecimal digits). If more
+than two hexadecimal digits follow <tt>&#92;x, the results are unspecified.
+
+<li>
+<p><tt>&#92;<i>ddd yields the byte whose value is the octal value <i>ddd (one to three octal digits).
+
+<li>
+<p>The behavior of an unescaped &lt;backslash&gt; immediately followed by any other character, including &lt;newline&gt;, is
+unspecified.
+
+<p>In cases where a variable number of characters can be used to specify an escape sequence (<tt>&#92;x<i>XX and
+<tt>&#92;<i>ddd), the escape sequence shall be terminated by the first character that is not of the expected type or, for
+<tt>&#92;<i>ddd sequences, when the maximum number of characters specified has been found, whichever occurs first.
+<p>These &lt;backslash&gt;-escape sequences shall be processed (replaced with the bytes or characters they yield) immediately prior
+to word expansion (see <a href="#tag_19_06">2.6 Word Expansions) of the word in which the dollar-single-quotes sequence
+occurs.
+<p>If a <tt>&#92;x<i>XX or <tt>&#92;<i>ddd escape sequence yields a byte whose value is 0, it is unspecified whether that
+null byte is included in the result or if that byte and any following regular characters and escape sequences up to the terminating
+unescaped single-quote are evaluated and discarded.
+<p>If the octal value specified by <tt>&#92;<i>ddd will not fit in a byte, the results are unspecified.
+<p>If a <tt>&#92;e or <tt>&#92;c<i>X escape sequence specifies a character that does not have an encoding in the locale in
+effect when these &lt;backslash&gt;-escape sequences are processed, the result is implementation-defined. However, implementations
+shall not replace an unsupported character with bytes that do not form valid characters in that locale&#39;s character set.
+<p>If a &lt;backslash&gt;-escape sequence represents a single-quote character (for example <tt>&#92;&#39;), that sequence shall not
+terminate the dollar-single-quote sequence.
+<h3><a name="tag_19_03" id="tag_19_03">2.3 Token Recognition
+<p>The shell shall read its input in terms of lines. (For details about how the shell reads its input, see the description of
+<a href="../utilities/sh.html#"><i>sh.) The input lines can be of unlimited length. These lines shall be parsed using two
+major modes: ordinary token recognition and processing of here-documents.
+<p>When an <b>io&#95;here token has been recognized by the grammar (see <a href="#tag_19_10">2.10 Shell Grammar), one or more
+of the subsequent lines immediately following the next <b>NEWLINE token form the body of a here-document and shall be parsed
+according to the rules of <a href="#tag_19_07_04">2.7.4 Here-Document. Any non-<b>NEWLINE tokens (including more
+<b>io&#95;here tokens) that are recognized while searching for the next <b>NEWLINE token shall be saved for processing after
+the here-document has been parsed. If a saved token is an <b>io&#95;here token, the corresponding here-document shall start on the
+line immediately following the line containing the trailing delimiter of the previous here-document. If any saved token includes a
+&lt;newline&gt; character, the behavior is unspecified.
+<p>When it is not processing an <b>io&#95;here, the shell shall break its input into tokens by applying the first applicable rule
+below to each character in turn in its input. At the start of input or after a previous token has just been delimited, the first or
+next token, respectively, shall start with the first character that has not already been included in a token and is not discarded
+according to the rules below. Once a token has started, zero or more characters from the input shall be appended to the token until
+the end of the token is delimited according to one of the rules below. When both the start and end of a token have been delimited,
+the characters forming the token shall be exactly those in the input between the two delimiters, including any quoting characters.
+If a rule below indicates that a token is delimited, and no characters have been included in the token, that empty token shall be
+discarded.
+<ol>
+<li>
+<p>If the end of input is recognized, the current token (if any) shall be delimited.
+
+<li>
+<p>If the previous character was used as part of an operator and the current character is not quoted and can be used with the
+previous characters to form an operator, it shall be used as part of that (operator) token.
+
+<li>
+<p>If the previous character was used as part of an operator and the current character cannot be used with the previous characters
+to form an operator, the operator containing the previous character shall be delimited.
+
+<li>
+<p>If the current character is an unquoted &lt;backslash&gt;, single-quote, or double-quote or is the first character of an
+unquoted &lt;dollar-sign&gt; single-quote sequence, it shall affect quoting for subsequent characters up to the end of the quoted
+text. The rules for quoting are as described in <a href="#tag_19_02">2.2 Quoting. During token recognition no substitutions
+shall be actually performed, and the result token shall contain exactly the characters that appear in the input unmodified,
+including any embedded or enclosing quotes or substitution operators, between the start and the end of the quoted text. The token
+shall not be delimited by the end of the quoted field.
+
+<li>
+<p>If the current character is an unquoted <tt>&#39;&#36;&#39; or <tt>&#39;&#96;&#39;, the shell shall identify the start of any candidates for
+parameter expansion ( <a href="#tag_19_06_02">2.6.2 Parameter Expansion), command substitution ( <a href="#tag_19_06_03">2.6.3
+Command Substitution), or arithmetic expansion ( <a href="#tag_19_06_04">2.6.4 Arithmetic Expansion) from their
+introductory unquoted character sequences: <tt>&#39;&#36;&#39; or <tt>&#34;&#36;{&#34;, <tt>&#34;&#36;(&#34; or <tt>&#39;&#96;&#39;, and <tt>&#34;&#36;((&#34;,
+respectively. The shell shall read sufficient input to determine the end of the unit to be expanded (as explained in the cited
+sections). While processing the characters, if instances of expansions or quoting are found nested within the substitution, the
+shell shall recursively process them in the manner specified for the construct that is found. For <tt>&#34;&#36;(&#34; and <tt>&#39;&#96;&#39;
+only, if instances of <b>io&#95;here tokens are found nested within the substitution, they shall be parsed according to the rules
+of <a href="#tag_19_07_04">2.7.4 Here-Document; if the terminating <tt>&#39;)&#39; or <tt>&#39;&#96;&#39; of the substitution occurs
+before the <b>NEWLINE token marking the start of the here-document, the behavior is unspecified. The characters found from the
+beginning of the substitution to its end, allowing for any recursion necessary to recognize embedded constructs, shall be included
+unmodified in the result token, including any embedded or enclosing substitution operators or quotes. The token shall not be
+delimited by the end of the substitution.
+
+<li>
+<p>If the current character is not quoted and can be used as the first character of a new operator, the current token (if any)
+shall be delimited. The current character shall be used as the beginning of the next (operator) token.
+
+<li>
+<p>If the current character is an unquoted &lt;blank&gt;, any token containing the previous character is delimited and the current
+character shall be discarded.
+
+<li>
+<p>If the previous character was part of a word, the current character shall be appended to that word.
+
+<li>
+<p>If the current character is a <tt>&#39;#&#39;, it and all subsequent characters up to, but excluding, the next &lt;newline&gt;
+shall be discarded as a comment. The &lt;newline&gt; that ends the line is not considered part of the comment.
+
+<li>
+<p>The current character is used as the start of a new word.
+
+<p>Once a token is delimited, it is categorized as required by the grammar in <a href="#tag_19_10">2.10 Shell Grammar.
+<p>In situations where the shell parses its input as a <i>program, once a <i>complete&#95;command has been recognized by the
+grammar (see <a href="#tag_19_10">2.10 Shell Grammar), the <i>complete&#95;command shall be executed before the next
+<i>complete&#95;command is tokenized and parsed.
+<h4><a name="tag_19_03_01" id="tag_19_03_01">2.3.1 Alias Substitution
+<p>After a token has been categorized as type <b>TOKEN (see <a href="#tag_19_10_01">2.10.1 Shell Grammar Lexical
+Conventions), including (recursively) any token resulting from an alias substitution, the <b>TOKEN shall be subject to
+alias substitution if all of the following conditions are true:
+<ul>
+<li>
+<p>The <b>TOKEN does not contain any quoting characters.
+
+<li>
+<p>The <b>TOKEN is a valid alias name (see XBD <a href="../basedefs/V1_chap03.html#tag_03_10"><i>3.10 Alias Name).
+
+<li>
+<p>An alias with that name is in effect.
+
+<li>
+<p>The <b>TOKEN did not either fully or, optionally, partially result from an alias substitution of the same alias name at any
+earlier recursion level.
+
+<li>
+<p>Either the <b>TOKEN is being considered for alias substitution because it follows an alias substitution whose replacement
+value ended with a &lt;blank&gt; (see below) or the <b>TOKEN could be parsed as the command name word of a simple command (see
+<a href="#tag_19_10">2.10 Shell Grammar), based on this <b>TOKEN and the tokens (if any) that preceded it, but ignoring
+whether any subsequent characters would allow that.
+
+except that if the <b>TOKEN meets the above conditions and would be recognized as a reserved word (see <a href="#tag_19_04">2.4
+Reserved Words) if it occurred in an appropriate place in the input, it is unspecified whether the <b>TOKEN is subject to
+alias substitution.
+<p>When a <b>TOKEN is subject to alias substitution, the value of the alias shall be processed as if it had been read from the
+input instead of the <b>TOKEN, with token recognition (see <a href="#tag_19_03">2.3 Token Recognition) resuming at the
+start of the alias value. When the end of the alias value is reached, the shell may behave as if an additional &lt;space&gt;
+character had been read from the input after the <b>TOKEN that was replaced. If it does not add this &lt;space&gt;, it is
+unspecified whether the current token is delimited before token recognition is applied to the character (if any) that followed the
+<b>TOKEN in the input. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>A future version of this standard may disallow adding this &lt;space&gt;.
+
+<basefont size="3"> If the value of the alias replacing the <b>TOKEN ends in a &lt;blank&gt; that would be unquoted after
+substitution, and optionally if it ends in a &lt;blank&gt; that would be quoted after substitution, the shell shall check the next
+token in the input, if it is a <b>TOKEN, for alias substitution; this process shall continue until a <b>TOKEN is found that
+is not a valid alias or an alias value does not end in such a &lt;blank&gt;.
+<p>An implementation may defer the effect of a change to an alias but the change shall take effect no later than the completion of
+the currently executing <i>complete&#95;command (see <a href="#tag_19_10">2.10 Shell Grammar). Changes to aliases shall not
+take effect out of order. Implementations may provide predefined aliases that are in effect when the shell is invoked.
+<p>When used as specified by this volume of POSIX.1-2024, alias definitions shall not be inherited by separate invocations of the
+shell or by the utility execution environments invoked by the shell; see <a href="#tag_19_13">2.13 Shell Execution Environment
+.
+<h3><a name="tag_19_04" id="tag_19_04">2.4 Reserved Words
+<p>Reserved words are words that have special meaning to the shell; see <a href="#tag_19_09">2.9 Shell Commands. The following
+words shall be recognized as reserved words:
+<table cellpadding="3">
+<tr valign="top">
+<td align="left">
+<p class="tent"><b><br>
+!<br>
+{<br>
+}<br>
+case<br>
+
+<td align="left">
+<p class="tent"><b><br>
+do<br>
+done<br>
+elif<br>
+else<br>
+
+<td align="left">
+<p class="tent"><b><br>
+esac<br>
+fi<br>
+for<br>
+if<br>
+
+<td align="left">
+<p class="tent"><b><br>
+in<br>
+then<br>
+until<br>
+while<br>
+
+<p class="tent">This recognition shall only occur when none of the characters is quoted and when the word is used as:
+<ul>
+<li class="tent">The first word of a command
+<li class="tent">The first word following one of the reserved words other than <b>case, <b>for, or <b>in
+<li class="tent">The third word in a <b>case command (only <b>in is valid in this case)
+<li class="tent">The third word in a <b>for command (only <b>in and <b>do are valid in this case)
+
+<p class="tent">See the grammar in <a href="#tag_19_10">2.10 Shell Grammar.
+<p class="tent">When used in circumstances where reserved words are recognized (described above), the following words may be
+recognized as reserved words, in which case the results are unspecified except as described below for <b>time:
+<table cellpadding="3">
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#91;&#91;
+
+<td align="left">
+<p class="tent"><b>&#93;&#93;
+
+<td align="left">
+<p class="tent"><b>function
+
+<td align="left">
+<p class="tent"><b>namespace
+
+<td align="left">
+<p class="tent"><b>select
+
+<td align="left">
+<p class="tent"><b>time
+
+<p class="tent">When the word <b>time is recognized as a reserved word in circumstances where it would, if it were not a
+reserved word, be the command name (see <a href="#tag_19_09_01_01">2.9.1.1 Order of Processing) of a simple command that would
+execute the <a href="../utilities/time.html"><i>time utility in a manner other than one for which <a href=
+"../utilities/time.html#tag_20_122"><i>time states that the results are unspecified, the behavior shall be as specified for
+the <a href="../utilities/time.html"><i>time utility.
+<p class="tent">When used in circumstances where reserved words are recognized (described above), all words whose final character
+is a &lt;colon&gt; (<tt>&#39;:&#39;) are reserved; their use in those circumstances produces unspecified results.
+<h3><a name="tag_19_05" id="tag_19_05">2.5 Parameters and Variables
+<p class="tent">A parameter can be denoted by a name, a number, or one of the special characters listed in <a href=
+"#tag_19_05_02">2.5.2 Special Parameters. A variable is a parameter denoted by a name.
+<p class="tent">A parameter is set if it has an assigned value (null is a valid value). Once a variable is set, it can only be
+unset by using the <a href="#unset"><i>unset special built-in command.
+<p class="tent">Parameters can contain arbitrary byte sequences, except for the null byte. The shell shall process their values as
+characters only when performing operations that are described in this standard in terms of characters.
+<h4><a name="tag_19_05_01" id="tag_19_05_01">2.5.1 Positional Parameters
+<p class="tent">A positional parameter is a parameter denoted by a decimal representation of a positive integer. The digits
+denoting the positional parameters shall always be interpreted as a decimal value, even if there is a leading zero. When a
+positional parameter with more than one digit is specified, the application shall enclose the digits in braces (see <a href=
+"#tag_19_06_02">2.6.2 Parameter Expansion).
+<p class="tent">Examples:
+<ul>
+<li class="tent"><tt>&#34;&#36;8&#34;, <tt>&#34;&#36;{8}&#34;, <tt>&#34;&#36;{08}&#34;, <tt>&#34;&#36;{008}&#34;, etc. all expand to the value of the eighth
+positional parameter.
+<li class="tent"><tt>&#34;&#36;{10}&#34; expands to the value of the tenth positional parameter.
+<li class="tent"><tt>&#34;&#36;10&#34; expands to the value of the first positional parameter followed by the character &#39;0&#39;.
+
+<basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>0 is a special parameter, not a positional parameter, and therefore the results of expanding <tt>&#36;{00} are
+unspecified.
+
+<basefont size="3">
+<p class="tent">Positional parameters are initially assigned when the shell is invoked (see <a href=
+"../utilities/sh.html"><i>sh), temporarily replaced when a shell function is invoked (see <a href="#tag_19_09_05">2.9.5
+Function Definition Command), and can be reassigned with the <a href="#set"><i>set special built-in command.
+<h4><a name="tag_19_05_02" id="tag_19_05_02">2.5.2 Special Parameters
+<p class="tent">Listed below are the special parameters and the values to which they shall expand. Only the values of the special
+parameters are listed; see <a href="#tag_19_06">2.6 Word Expansions for a detailed summary of all the stages involved in
+expanding words.
+<dl compact>
+<dd>
+<dt><tt>@
+<dd>Expands to the positional parameters, starting from one, initially producing one field for each positional parameter that is
+set. When the expansion occurs in a context where field splitting will be performed, any empty fields may be discarded and each of
+the non-empty fields shall be further split as described in <a href="#tag_19_06_05">2.6.5 Field Splitting. When the expansion
+occurs within double-quotes, the behavior is unspecified unless one of the following is true:
+<ul>
+<li class="tent">Field splitting as described in <a href="#tag_19_06_05">2.6.5 Field Splitting would be performed if the
+expansion were not within double-quotes (regardless of whether field splitting would have any effect; for example, if <i>IFS is
+null).
+<li class="tent">The double-quotes are within the <i>word of a &#36;{<i>parameter:-<i>word} or a
+&#36;{<i>parameter:+<i>word} expansion (with or without the &lt;colon&gt;; see <a href="#tag_19_06_02">2.6.2 Parameter
+Expansion) which would have been subject to field splitting if <i>parameter had been expanded instead of <i>word.
+
+<p class="tent">If one of these conditions is true, the initial fields shall be retained as separate fields, except that if the
+parameter being expanded was embedded within a word, the first field shall be joined with the beginning part of the original word
+and the last field shall be joined with the end part of the original word. In all other contexts the results of the expansion are
+unspecified. If there are no positional parameters, the expansion of <tt>&#39;@&#39; shall generate zero fields, even when
+<tt>&#39;@&#39; is within double-quotes; however, if the expansion is embedded within a word which contains one or more other parts
+that expand to a quoted null string, these null string(s) shall still produce an empty field, except that if the other parts are
+all within the same double-quotes as the <tt>&#39;@&#39;, it is unspecified whether the result is zero fields or one empty field.
+
+<dt><tt>&#42;
+<dd>Expands to the positional parameters, starting from one, initially producing one field for each positional parameter that is
+set. When the expansion occurs in a context where field splitting will be performed, any empty fields may be discarded and each of
+the non-empty fields shall be further split as described in <a href="#tag_19_06_05">2.6.5 Field Splitting. When the expansion
+occurs in a context where field splitting will not be performed, the initial fields shall be joined to form a single field with the
+value of each parameter separated by the first character of the <i>IFS variable if <i>IFS contains at least one character,
+or separated by a &lt;space&gt; if <i>IFS is unset, or with no separation if <i>IFS is set to a null string.
+<dt><tt>#
+<dd>Expands to the shortest representation of the decimal number of positional parameters. The command name (parameter 0) shall not
+be counted in the number given by <tt>&#39;#&#39; because it is a special parameter, not a positional parameter.
+<dt><tt>?
+<dd>Expands to the shortest representation of the decimal exit status (see <a href="#tag_19_08_02">2.8.2 Exit Status for
+Commands) of the pipeline (see <a href="#tag_19_09_02">2.9.2 Pipelines) executed from the current shell execution
+environment (not a subshell environment) that most recently either terminated or, optionally but only if the shell is interactive
+and job control is enabled, was stopped by a signal. If this pipeline terminated, the status value shall be its exit status;
+otherwise, the status value shall be the same as the exit status that would have resulted if the pipeline had been terminated by a
+signal with the same number as the signal that stopped it. The value of the special parameter <tt>&#39;?&#39; shall be set to 0 during
+initialization of the shell. When a subshell environment is created, the value of the special parameter <tt>&#39;?&#39; from the
+invoking shell environment shall be preserved in the subshell. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>In <tt>var=&#36;(some&#95;command); echo &#36;? the output is the exit status of <tt>some&#95;command, which is executed in a
+subshell environment, but this is because its exit status becomes the exit status of the assignment command
+<tt>var=&#36;(some&#95;command) (see <a href="#tag_19_09_01">2.9.1 Simple Commands) and this assignment command is the most
+recently completed pipeline. Likewise for any pipeline consisting entirely of a simple command that has no command word, but
+contains one or more command substitutions. (See <a href="#tag_19_09_01">2.9.1 Simple Commands.)
+
+<basefont size="3">
+<dt><tt>-
+<dd>(Hyphen.) Expands to the current option flags (the single-letter option names concatenated into a string) as specified on
+invocation, by the <a href="#set"><i>set special built-in command, or implicitly by the shell. It is unspecified whether
+the <b>-c and <b>-s options are included in the expansion of <tt>&#34;&#36;-&#34;. The <b>-i option shall be included in
+<tt>&#34;&#36;-&#34; if the shell is interactive, regardless of whether it was specified on invocation.
+<dt><tt>&#36;
+<dd>Expands to the shortest representation of the decimal process ID of the invoked shell. In a subshell (see <a href=
+"#tag_19_13">2.13 Shell Execution Environment), <tt>&#39;&#36;&#39; shall expand to the same value as that of the current shell.
+<dt><tt>!
+<dd>Expands to the shortest representation of the decimal process ID associated with the most recent asynchronous AND-OR list (see
+<a href="#tag_19_09_03_02">2.9.3.1 Asynchronous AND-OR Lists) executed from the current shell execution environment, or to the
+shortest representation of the decimal process ID of the last command specified in the currently executing pipeline in the
+job-control background job that most recently resumed execution through the use of <a href="../utilities/bg.html"><i>bg,
+whichever is the most recent.
+<dt>0
+<dd>(Zero.) Expands to the name of the shell or shell script. See <a href="../utilities/sh.html#"><i>sh for a detailed
+description of how this name is derived.
+
+<p class="tent">See the description of the <i>IFS variable in <a href="#tag_19_05_03">2.5.3 Shell Variables.
+<h4><a name="tag_19_05_03" id="tag_19_05_03">2.5.3 Shell Variables
+<p class="tent">Variables shall be initialized from the environment (as defined by XBD <a href=
+"../basedefs/V1_chap08.html#tag_08"><i>8. Environment Variables and the <i>exec function in the System Interfaces
+volume of POSIX.1-2024) and can be given new values with variable assignment commands. Shell variables shall be initialized only
+from environment variables that have valid names. If a variable is initialized from the environment, it shall be marked for export
+immediately; see the <a href="#export"><i>export special built-in. New variables can be defined and initialized with
+variable assignments, with the <a href="../utilities/read.html"><i>read or <a href=
+"../utilities/getopts.html"><i>getopts utilities, with the <i>name parameter in a <b>for loop, with the
+&#36;{<i>name=<i>word} expansion, or with other mechanisms provided as implementation extensions.<br>
+<p class="tent">The following variables shall affect the execution of the shell:
+<dl compact>
+<dd>
+<dt><i>ENV
+<dd><sup>&#91;<a href="javascript:open_code('UP')">UP&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+The processing of the <i>ENV shell variable shall be supported if the system supports the User Portability Utilities option.
+<img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<p class="tent">This variable, when and only when an interactive shell is invoked, shall be subjected to parameter expansion (see
+<a href="#tag_19_06_02">2.6.2 Parameter Expansion) by the shell and the resulting value shall be used as a pathname of a file.
+Before any interactive commands are read, the shell shall tokenize (see <a href="#tag_19_03">2.3 Token Recognition) the
+contents of the file, parse the tokens as a <i>program (see <a href="#tag_19_10">2.10 Shell Grammar), and execute the
+resulting commands in the current environment. (In other words, the contents of the <i>ENV file are not parsed as a single
+<i>compound&#95;list. This distinction matters because it influences when aliases take effect.) The file need not be executable. If
+the expanded value of <i>ENV is not an absolute pathname, the results are unspecified. <i>ENV shall be ignored if the
+user&#39;s real and effective user IDs or real and effective group IDs are different.
+
+<dt><i>HOME
+<dd>The pathname of the user&#39;s home directory. The contents of <i>HOME are used in tilde expansion (see <a href=
+"#tag_19_06_01">2.6.1 Tilde Expansion).
+<dt><i>IFS
+<dd>A string treated as a list of characters that is used for field splitting, expansion of the <tt>&#39;&#42;&#39; special parameter, and
+to split lines into fields with the <a href="../utilities/read.html"><i>read utility. If the value of <i>IFS includes
+any bytes that do not form part of a valid character, the results of field splitting, expansion of <tt>&#39;&#42;&#39;, and use of the
+<a href="../utilities/read.html"><i>read utility are unspecified.
+<p class="tent">If <i>IFS is not set, it shall behave as normal for an unset variable, except that field splitting by the shell
+and line splitting by the <a href="../utilities/read.html"><i>read utility shall be performed as if the value of <i>IFS
+is &lt;space&gt;&lt;tab&gt;&lt;newline&gt;; see <a href="#tag_19_06_05">2.6.5 Field Splitting.
+<p class="tent">The shell shall set <i>IFS to &lt;space&gt;&lt;tab&gt;&lt;newline&gt; when it is invoked.
+
+<dt><i>LANG
+<dd>Provide a default value for the internationalization variables that are unset or null. (See XBD <a href=
+"../basedefs/V1_chap08.html#tag_08_02"><i>8.2 Internationalization Variables for the precedence of internationalization
+variables used to determine the values of locale categories.)
+<dt><i>LC&#95;ALL
+<dd>The value of this variable overrides the <i>LC&#95;&#42; variables and <i>LANG , as described in XBD <a href=
+"../basedefs/V1_chap08.html#tag_08"><i>8. Environment Variables.
+<dt><i>LC&#95;COLLATE
+<dd>Determine the behavior of range expressions, equivalence classes, and multi-character collating elements within pattern
+matching.
+<dt><i>LC&#95;CTYPE
+<dd>Determine the interpretation of sequences of bytes of text data as characters (for example, single-byte as opposed to
+multi-byte characters), which characters are defined as letters (character class <b>alpha) and &lt;blank&gt; characters
+(character class <b>blank), and the behavior of character classes within pattern matching. Changing the value of
+<i>LC&#95;CTYPE after the shell has started shall not affect the lexical processing of shell commands in the current shell
+execution environment or its subshells. Invoking a shell script or performing <a href="#exec"><i>exec <a href=
+"../utilities/sh.html"><i>sh subjects the new shell to the changes in <i>LC&#95;CTYPE .
+<dt><i>LC&#95;MESSAGES
+<dd>Determine the language in which messages should be written.
+<dt><i>LINENO
+<dd><sup>&#91;<a href="javascript:open_code('UP')">UP&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+The processing of the <i>LINENO shell variable shall be supported if the system supports the User Portability Utilities option.
+<img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<p class="tent">Set by the shell to a decimal number representing the current sequential line number (numbered starting with 1)
+within a script or function before it executes each command. If the user unsets or resets <i>LINENO , the variable may lose its
+special meaning for the life of the shell. If the shell is not currently executing a script or function, the value of <i>LINENO
+is unspecified.
+
+<dt><i>NLSPATH
+<dd><sup>&#91;<a href="javascript:open_code('XSI')">XSI&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+Determine the location of message catalogs for the processing of <i>LC&#95;MESSAGES . <img src=".pic/opt-end.gif" alt=
+"[Option End]" border="0">
+<dt><i>PATH
+<dd>A string formatted as described in XBD <a href="../basedefs/V1_chap08.html#tag_08"><i>8. Environment Variables, used
+to effect command interpretation; see <a href="#tag_19_09_01_04">2.9.1.4 Command Search and Execution.
+<dt><i>PPID
+<dd>Set by the shell to the decimal value of its parent process ID during initialization of the shell. In a subshell (see <a href=
+"#tag_19_13">2.13 Shell Execution Environment), <i>PPID shall be set to the same value as that of the parent of the
+current shell. For example, <a href="../utilities/echo.html"><i>echo &#36;<i>PPID and (<a href=
+"../utilities/echo.html"><i>echo &#36;<i>PPID ) would produce the same value.
+<dt><i>PS1
+<dd><sup>&#91;<a href="javascript:open_code('UP')">UP&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+The processing of the <i>PS1 shell variable shall be supported if the system supports the User Portability Utilities option.
+<img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<p class="tent">Each time an interactive shell is ready to read a command, the value of this variable shall be subjected to
+parameter expansion (see <a href="#tag_19_06_02">2.6.2 Parameter Expansion) and exclamation-mark expansion (see below).
+Whether the value is also subjected to command substitution (see <a href="#tag_19_06_03">2.6.3 Command Substitution) or
+arithmetic expansion (see <a href="#tag_19_06_04">2.6.4 Arithmetic Expansion) or both is unspecified. After expansion, the
+value shall be written to standard error.
+<p class="tent">The expansions shall be performed in two passes, where the result of the first pass is input to the second pass.
+One of the passes shall perform only the exclamation-mark expansion described below. The other pass shall perform the other
+expansion(s) according to the rules in <a href="#tag_19_06">2.6 Word Expansions. Which of the two passes is performed first is
+unspecified.
+<p class="tent">The default value shall be <tt>&#34;&#36; &#34;. For users who have specific additional implementation-defined
+privileges, the default may be another, implementation-defined value.
+<p class="tent">Exclamation-mark expansion: The shell shall replace each instance of the &lt;exclamation-mark&gt; character
+(<tt>&#39;!&#39;) with the history file number (see <a href="../utilities/sh.html#tag_20_110_13_01"><i>Command History List)
+of the next command to be typed. An &lt;exclamation-mark&gt; character escaped by another &lt;exclamation-mark&gt; character (that
+is, <tt>&#34;!!&#34;) shall expand to a single &lt;exclamation-mark&gt; character.
+
+<dt><i>PS2
+<dd><sup>&#91;<a href="javascript:open_code('UP')">UP&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+The processing of the <i>PS2 shell variable shall be supported if the system supports the User Portability Utilities option.
+<img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<p class="tent">Each time the user enters a &lt;newline&gt; prior to completing a command line in an interactive shell, the value
+of this variable shall be subjected to parameter expansion (see <a href="#tag_19_06_02">2.6.2 Parameter Expansion). Whether
+the value is also subjected to command substitution (see <a href="#tag_19_06_03">2.6.3 Command Substitution) or arithmetic
+expansion (see <a href="#tag_19_06_04">2.6.4 Arithmetic Expansion) or both is unspecified. After expansion, the value shall be
+written to standard error. The default value shall be <tt>&#34;&gt; &#34;.
+
+<dt><i>PS4
+<dd><sup>&#91;<a href="javascript:open_code('UP')">UP&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+The processing of the <i>PS4 shell variable shall be supported if the system supports the User Portability Utilities option.
+<img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<p class="tent">When an execution trace (<a href="#set"><i>set <b>-x) is being performed, before each line in the
+execution trace, the value of this variable shall be subjected to parameter expansion (see <a href="#tag_19_06_02">2.6.2 Parameter
+Expansion). Whether the value is also subjected to command substitution (see <a href="#tag_19_06_03">2.6.3 Command
+Substitution) or arithmetic expansion (see <a href="#tag_19_06_04">2.6.4 Arithmetic Expansion) or both is unspecified.
+After expansion, the value shall be written to standard error. The default value shall be <tt>&#34;+ &#34;.
+
+<dt><i>PWD
+<dd>Set by the shell and by the <a href="../utilities/cd.html"><i>cd utility. In the shell the value shall be initialized
+from the environment as follows. If a value for <i>PWD is passed to the shell in the environment when it is executed, the value
+is an absolute pathname of the current working directory that is no longer than {PATH&#95;MAX} bytes including the terminating null
+byte, and the value does not contain any components that are dot or dot-dot, then the shell shall set <i>PWD to the value from
+the environment. Otherwise, if a value for <i>PWD is passed to the shell in the environment when it is executed, the value is
+an absolute pathname of the current working directory, and the value does not contain any components that are dot or dot-dot, then
+it is unspecified whether the shell sets <i>PWD to the value from the environment or sets <i>PWD to the pathname that would
+be output by <a href="../utilities/pwd.html"><i>pwd <b>-P. Otherwise, the <a href="../utilities/sh.html"><i>sh
+utility sets <i>PWD to the pathname that would be output by <a href="../utilities/pwd.html"><i>pwd <b>-P. In cases
+where <i>PWD is set to the value from the environment, the value can contain components that refer to files of type symbolic
+link. In cases where <i>PWD is set to the pathname that would be output by <a href="../utilities/pwd.html"><i>pwd
+<b>-P, if there is insufficient permission on the current working directory, or on any parent of that directory, to determine
+what that pathname would be, the value of <i>PWD is unspecified. Assignments to this variable may be ignored. If an application
+sets or unsets the value of <i>PWD , the behaviors of the <a href="../utilities/cd.html"><i>cd and <a href=
+"../utilities/pwd.html"><i>pwd utilities are unspecified.
+
+<h3><a name="tag_19_06" id="tag_19_06">2.6 Word Expansions
+<p class="tent">This section describes the various expansions that are performed on words. Not all expansions are performed on
+every word, as explained in the following sections and elsewhere in this chapter. The expansions that are performed for a given
+word shall be performed in the following order:
+<p class="tent">
+<ol>
+<li class="tent">Tilde expansion (see <a href="#tag_19_06_01">2.6.1 Tilde Expansion), parameter expansion (see <a href=
+"#tag_19_06_02">2.6.2 Parameter Expansion), command substitution (see <a href="#tag_19_06_03">2.6.3 Command Substitution
+), and arithmetic expansion (see <a href="#tag_19_06_04">2.6.4 Arithmetic Expansion) shall be performed, beginning to end. See
+item 5 in <a href="#tag_19_03">2.3 Token Recognition.
+<li class="tent">Field splitting (see <a href="#tag_19_06_05">2.6.5 Field Splitting) shall be performed on the portions of the
+fields generated by step 1.
+<li class="tent">Pathname expansion (see <a href="#tag_19_06_06">2.6.6 Pathname Expansion) shall be performed, unless <a href=
+"#set"><i>set <b>-f is in effect.
+<li class="tent">Quote removal (see <a href="#tag_19_06_07">2.6.7 Quote Removal), if performed, shall always be performed
+last.
+
+<p class="tent">Tilde expansions, parameter expansions, command substitutions, arithmetic expansions, and quote removals that occur
+within a single word shall expand to a single field, except as described below. The shell shall create multiple fields or no fields
+from a single word only as a result of field splitting, pathname expansion, or the following cases:
+<ol>
+<li class="tent">Parameter expansion of the special parameters <tt>&#39;@&#39; and <tt>&#39;&#42;&#39;, as described in <a href=
+"#tag_19_05_02">2.5.2 Special Parameters, can create multiple fields or no fields from a single word.
+<li class="tent">When the expansion occurs in a context where field splitting will be performed, a word that contains all of the
+following somewhere within it, before any expansions are applied, in the order specified:
+<ul>
+<li class="tent">an unquoted &lt;left-curly-bracket&gt; (<tt>&#39;{&#39;) that is not immediately preceded by an unquoted
+&lt;dollar-sign&gt; (<tt>&#39;&#36;&#39;)
+<li class="tent">one or more unquoted &lt;comma&gt; (<tt>&#39;,&#39;) characters or a sequence that consists of two adjacent
+&lt;period&gt; (<tt>&#39;.&#39;) characters surrounded by other characters (which can also be &lt;period&gt; characters)
+<li class="tent">an unquoted &lt;right-curly-bracket&gt; (<tt>&#39;}&#39;)
+
+<p class="tent">may be subject to an additional implementation-defined form of expansion that can create multiple fields from a
+single word. This expansion, if supported, shall be applied before all the other word expansions are applied. The other expansions
+shall then be applied to each field that results from this expansion.
+
+<p class="tent">When the expansions in this section are performed other than in the context of preparing a command for execution,
+they shall be carried out in the current shell execution environment.
+<p class="tent">When expanding words for a command about to be executed, and the word will be the command name or an argument to
+the command, the expansions shall be carried out in the current shell execution environment. (The environment for the command to be
+executed is unknown until the command word is known.)
+<p class="tent">When expanding the words in a command about to be executed that are used with variable assignments or redirections,
+it is unspecified whether the expansions are carried out in the current execution environment or in the environment of the command
+about to be executed.
+<p class="tent">The <tt>&#39;&#36;&#39; character is used to introduce parameter expansion, command substitution, or arithmetic
+evaluation. If a <tt>&#39;&#36;&#39; that is neither within single-quotes nor escaped by a &lt;backslash&gt; is immediately followed by a
+character that is not a &lt;space&gt;, not a &lt;tab&gt;, not a &lt;newline&gt;, and is not one of the following:
+<ul>
+<li class="tent">A numeric character
+<li class="tent">The name of one of the special parameters (see <a href="#tag_19_05_02">2.5.2 Special Parameters)
+<li class="tent">A valid first character of a variable name
+<li class="tent">A &lt;left-curly-bracket&gt; (<tt>&#39;{&#39;)
+<li class="tent">A &lt;left-parenthesis&gt;
+<li class="tent">A single-quote
+
+<p class="tent">the result is unspecified. If a <tt>&#39;&#36;&#39; that is neither within single-quotes nor escaped by a
+&lt;backslash&gt; is immediately followed by a &lt;space&gt;, &lt;tab&gt;, or a &lt;newline&gt;, or is not followed by any
+character, the <tt>&#39;&#36;&#39; shall be treated as a literal character.
+<h4><a name="tag_19_06_01" id="tag_19_06_01">2.6.1 Tilde Expansion
+<p class="tent">A &#34;tilde-prefix&#34; consists of an unquoted &lt;tilde&gt; character at the beginning of a word, followed by all of
+the characters preceding the first unquoted &lt;slash&gt; in the word, or all the characters in the word if there is no
+&lt;slash&gt;. In an assignment (see XBD <a href="../basedefs/V1_chap04.html#tag_04_26"><i>4.26 Variable Assignment),
+multiple tilde-prefixes can be used: one at the beginning of the word (that is, following the &lt;equals-sign&gt; of the
+assignment), or one following any unquoted &lt;colon&gt;, or both. A tilde-prefix in an assignment is terminated by the first
+unquoted &lt;colon&gt; or &lt;slash&gt;, or the end of the assignment word.
+<p class="tent">If the tilde-prefix consists of only the &lt;tilde&gt; character, it shall be replaced by the value of the variable
+<i>HOME . If <i>HOME is unset, the results are unspecified.
+<p class="tent">Otherwise, the characters in the tilde-prefix following the &lt;tilde&gt; shall be treated as a possible login name
+from the user database. If these characters do not form a portable login name (see the description of the <i>LOGNAME
+environment variable in XBD <a href="../basedefs/V1_chap08.html#tag_08_03"><i>8.3 Other Environment Variables), the
+results are unspecified.
+<p class="tent"><basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>Since the tilde-prefix is not subject to further word expansions after the &lt;tilde&gt; is removed to obtain the login name,
+none of the following has a portable login name following the &lt;tilde&gt;:
+<pre>
+<tt>~&#34;string&#34;
+~&#39;string&#39;
+~&#36;var
+~&#92;/bin
+
+<p class="tent">owing to the presence of <tt>&#39;&#34;&#39;, <tt>&#39;&#92;&#39;&#39;, <tt>&#39;&#36;&#39;, <tt>&#39;&#92;&#92;&#39;, and <tt>&#39;/&#39; characters in
+the login name.
+
+<basefont size="3">
+<p class="tent">If the characters in the tilde-prefix following the &lt;tilde&gt; form a portable login name, the tilde-prefix
+shall be replaced by a pathname of the initial working directory associated with the login name. The pathname shall be obtained as
+if by using the <a href="../functions/getpwnam.html"><i>getpwnam() function as defined in the System Interfaces volume of
+POSIX.1-2024. If the system does not recognize the login name, the results are unspecified.
+<p class="tent">The pathname that replaces the tilde-prefix shall be treated as if quoted to prevent it being altered by field
+splitting and pathname expansion; if a &lt;slash&gt; follows the tilde-prefix and the pathname ends with a &lt;slash&gt;, the
+trailing &lt;slash&gt; from the pathname should be omitted from the replacement. If the word being expanded consists of only the
+&lt;tilde&gt; character and <i>HOME is set to the null string, this produces an empty field (as opposed to zero fields) as the
+expanded word. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>A future version of this standard may require that if a &lt;slash&gt; follows the tilde-prefix and the pathname ends with a
+&lt;slash&gt;, the trailing &lt;slash&gt; from the pathname is omitted from the replacement.
+
+<basefont size="3">
+<h4><a name="tag_19_06_02" id="tag_19_06_02">2.6.2 Parameter Expansion
+<p class="tent">The format for parameter expansion is as follows:
+<pre>
+<tt>&#36;{<i>expression<tt>}
+
+<p class="tent">where <i>expression consists of all characters until the matching <tt>&#39;}&#39;. Any <tt>&#39;}&#39; escaped by a
+&lt;backslash&gt; or within a quoted string, and characters in embedded arithmetic expansions, command substitutions, and variable
+expansions, shall not be examined in determining the matching <tt>&#39;}&#39;.
+<p class="tent">The simplest form for parameter expansion is:
+<pre>
+<tt>&#36;{<i>parameter<tt>}
+
+<p class="tent">The value, if any, of <i>parameter shall be substituted.
+<p class="tent">The parameter name or symbol can be enclosed in braces, which are optional except for positional parameters with
+more than one digit or when <i>parameter is a name and is followed by a character that could be interpreted as part of the
+name.
+<p class="tent">For a parameter that is not enclosed in braces:
+<ul>
+<li class="tent">If the parameter is a name, the expansion shall use the longest valid name (see XBD <a href=
+"../basedefs/V1_chap03.html#tag_03_216"><i>3.216 Name), whether or not the variable denoted by that name exists.
+<li class="tent">Otherwise, the parameter is a single-character symbol, and behavior is unspecified if that character is neither a
+digit nor one of the special parameters (see <a href="#tag_19_05_02">2.5.2 Special Parameters).
+
+<p class="tent">In addition, a parameter expansion can be modified by using one of the following formats. In each case that a value
+of <i>word is needed (based on the state of <i>parameter, as described below), <i>word shall be subjected to tilde
+expansion, parameter expansion, command substitution, arithmetic expansion, and quote removal. If <i>word is not needed, it
+shall not be expanded. The <tt>&#39;}&#39; character that delimits the following parameter expansion modifications shall be determined
+as described previously in this section and in <a href="#tag_19_02_03">2.2.3 Double-Quotes. If <i>parameter is
+<tt>&#39;&#42;&#39; or <tt>&#39;@&#39;, the result of the expansion is unspecified.
+<dl compact>
+<dd>
+<dt>&#36;{<i>parameter:-<b>&#91;<i>word<b>&#93;}
+<dd><b>Use Default Values. If <i>parameter is unset or null, the expansion of <i>word (or an empty string if
+<i>word is omitted) shall be substituted; otherwise, the value of <i>parameter shall be substituted.
+<dt>&#36;{<i>parameter:=<b>&#91;<i>word<b>&#93;}
+<dd><b>Assign Default Values. If <i>parameter is unset or null, quote removal shall be performed on the expansion of
+<i>word and the result (or an empty string if <i>word is omitted) shall be assigned to <i>parameter. In all cases, the
+final value of <i>parameter shall be substituted. Only variables, not positional parameters or special parameters, can be
+assigned in this way.
+<dt>&#36;{<i>parameter:?<b>&#91;<i>word<b>&#93;}
+<dd><b>Indicate Error if Null or Unset. If <i>parameter is unset or null, the expansion of <i>word (or a message
+indicating it is unset if <i>word is omitted) shall be written to standard error and the shell exits with a non-zero exit
+status. Otherwise, the value of <i>parameter shall be substituted. An interactive shell need not exit.
+<dt>&#36;{<i>parameter:+<b>&#91;<i>word<b>&#93;}
+<dd><b>Use Alternative Value. If <i>parameter is unset or null, null shall be substituted; otherwise, the expansion of
+<i>word (or an empty string if <i>word is omitted) shall be substituted.
+
+<p class="tent">In the parameter expansions shown previously, use of the &lt;colon&gt; in the format shall result in a test for a
+parameter that is unset or null; omission of the &lt;colon&gt; shall result in a test for a parameter that is only unset. If
+parameter is <tt>&#39;#&#39; and the colon is omitted, the application shall ensure that <i>word is specified (this is necessary
+to avoid ambiguity with the string length expansion). The following table summarizes the effect of the &lt;colon&gt;:<br>
+<center>
+<table border="1" cellpadding="3" align="center">
+<tr valign="top">
+<th align="center">
+<p class="tent"><b> 
+
+<th align="center">
+<p class="tent"><b><i>parameter Set and Not Null
+
+<th align="center">
+<p class="tent"><b><i>parameter Set But Null
+
+<th align="center">
+<p class="tent"><b><i>parameter Unset
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>:-<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>parameter
+
+<td align="left">
+<p class="tent">substitute <i>word
+
+<td align="left">
+<p class="tent">substitute <i>word
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>-<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>parameter
+
+<td align="left">
+<p class="tent">substitute null
+
+<td align="left">
+<p class="tent">substitute <i>word
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>:=<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>parameter
+
+<td align="left">
+<p class="tent">assign <i>word
+
+<td align="left">
+<p class="tent">assign <i>word
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>=<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>parameter
+
+<td align="left">
+<p class="tent">substitute null
+
+<td align="left">
+<p class="tent">assign <i>word
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>:?<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>parameter
+
+<td align="left">
+<p class="tent">error, exit
+
+<td align="left">
+<p class="tent">error, exit
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>?<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>parameter
+
+<td align="left">
+<p class="tent">substitute null
+
+<td align="left">
+<p class="tent">error, exit
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>:+<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>word
+
+<td align="left">
+<p class="tent">substitute null
+
+<td align="left">
+<p class="tent">substitute null
+
+<tr valign="top">
+<td align="left">
+<p class="tent"><b>&#36;{<i>parameter<b>+<i>word<b>}
+
+<td align="left">
+<p class="tent">substitute <i>word
+
+<td align="left">
+<p class="tent">substitute <i>word
+
+<td align="left">
+<p class="tent">substitute null
+
+<p class="tent">In all cases shown with &#34;substitute&#34;, the expression is replaced with the value shown. In all cases shown with
+&#34;assign&#34;, <i>parameter is assigned that value, which also replaces the expression.
+<dl compact>
+<dd>
+<dt>&#36;{#<i>parameter}
+<dd><b>String Length. The shortest decimal representation of the length in characters of the value of <i>parameter shall be
+substituted. If <i>parameter is <tt>&#39;&#42;&#39; or <tt>&#39;@&#39;, the result of the expansion is unspecified. If <i>parameter
+is unset and <a href="#set"><i>set <b>-u is in effect, the expansion shall fail.
+
+<p class="tent">The following four varieties of parameter expansion provide for character substring processing. In each case,
+pattern matching notation (see <a href="#tag_19_14">2.14 Pattern Matching Notation), rather than regular expression notation,
+shall be used to evaluate the patterns. If <i>parameter is <tt>&#39;#&#39;, <tt>&#39;&#42;&#39;, or <tt>&#39;@&#39;, the result of the
+expansion is unspecified. If <i>parameter is unset and <a href="#set"><i>set <b>-u is in effect, the expansion
+shall fail. Enclosing the full parameter expansion string in double-quotes shall not cause the following four varieties of pattern
+characters to be quoted, whereas quoting characters within the braces shall have this effect. In each variety, if <i>word is
+omitted, the empty pattern shall be used.
+<dl compact>
+<dd>
+<dt>&#36;{<i>parameter%<b>&#91;<i>word<b>&#93;}
+<dd><b>Remove Smallest Suffix Pattern. The <i>word shall be expanded to produce a pattern. The parameter expansion shall
+then result in <i>parameter, with the smallest portion of the suffix matched by the <i>pattern deleted. If present,
+<i>word shall not begin with an unquoted <tt>&#39;%&#39;.
+<dt>&#36;{<i>parameter%%<b>&#91;<i>word<b>&#93;}
+<dd><b>Remove Largest Suffix Pattern. The <i>word shall be expanded to produce a pattern. The parameter expansion shall
+then result in <i>parameter, with the largest portion of the suffix matched by the <i>pattern deleted.
+<dt>&#36;{<i>parameter#<b>&#91;<i>word<b>&#93;}
+<dd><b>Remove Smallest Prefix Pattern. The <i>word shall be expanded to produce a pattern. The parameter expansion shall
+then result in <i>parameter, with the smallest portion of the prefix matched by the <i>pattern deleted. If present,
+<i>word shall not begin with an unquoted <tt>&#39;#&#39;.
+<dt>&#36;{<i>parameter##<b>&#91;<i>word<b>&#93;}
+<dd><b>Remove Largest Prefix Pattern. The <i>word shall be expanded to produce a pattern. The parameter expansion shall
+then result in <i>parameter, with the largest portion of the prefix matched by the <i>pattern deleted.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h5><a name="tag_19_06_02_01" id="tag_19_06_02_01">Examples
+<dl compact>
+<dd>
+<dt>&#36;{<i>parameter}
+<dd><br>
+In this example, the effects of omitting braces are demonstrated.
+<pre>
+<tt>a=1
+set 2
+echo &#36;{a}b-&#36;ab-&#36;{1}0-&#36;{10}-&#36;10
+<b>1b&#45;&#45;20&#45;&#45;20<tt>
+
+<dt>&#36;{<i>parameter-<i>word}
+<dd><br>
+This example demonstrates the difference between unset and set to the empty string, as well as the rules for finding the delimiting
+close brace.
+<blockquote>
+<pre>
+<tt>foo=asdf
+echo &#36;{foo-bar}xyz}
+<b>asdfxyz}<tt>
+foo=
+echo &#36;{foo-bar}xyz}
+<b>xyz}<tt>
+unset foo
+echo &#36;{foo-bar}xyz}
+<b>barxyz}<tt>
+
+<dt>&#36;{<i>parameter:-<i>word}
+<dd><br>
+In this example, <a href="../utilities/ls.html"><i>ls is executed only if <i>x is null or unset. (The &#36;(<a href=
+"../utilities/ls.html"><i>ls) command substitution notation is explained in <a href="#tag_19_06_03">2.6.3 Command
+Substitution.)
+<pre>
+<tt>&#36;{x:-&#36;(ls)}
+
+<dt>&#36;{<i>parameter:=<i>word}
+<dd>
+<pre>
+<tt>unset X
+echo &#36;{X:=abc}
+<b>abc<tt>
+
+<dt>&#36;{<i>parameter:?<i>word}
+<dd>
+<pre>
+<tt>unset posix
+echo &#36;{posix:?}
+<b>sh: posix: parameter null or not set<tt>
+
+<dt>&#36;{<i>parameter:+<i>word}
+<dd>
+<pre>
+<tt>set a b c
+echo &#36;{3:+posix}
+<b>posix<tt>
+
+<dt>&#36;{#<i>parameter}
+<dd>
+<pre>
+<tt>HOME=/usr/posix
+echo &#36;{#HOME}
+<b>10<tt>
+
+<dt>&#36;{<i>parameter%<i>word}
+<dd>
+<pre>
+<tt>x=file.c
+echo &#36;{x%.c}.o
+<b>file.o<tt>
+
+<dt>&#36;{<i>parameter%%<i>word}
+<dd>
+<pre>
+<tt>x=posix/src/std
+echo &#36;{x%%/&#42;}
+<b>posix<tt>
+
+<dt>&#36;{<i>parameter#<i>word}
+<dd>
+<pre>
+<tt>x=&#36;HOME/src/cmd
+echo &#36;{x#&#36;HOME}
+<b>/src/cmd<tt>
+
+<dt>&#36;{<i>parameter##<i>word}
+<dd>
+<pre>
+<tt>x=/one/two/three
+echo &#36;{x##&#42;/}
+<b>three<tt>
+
+<p class="tent">The double-quoting of patterns is different depending on where the double-quotes are placed:
+<dl compact>
+<dd>
+<dt><tt>&#34;&#36;{x#&#42;}&#34;
+<dd>The &lt;asterisk&gt; is a pattern character.
+<dt><tt>&#36;{x#&#34;&#42;&#34;}
+<dd>The literal &lt;asterisk&gt; is quoted and not special.
+
+<div class="box"><em>End of informative text.
+<hr>
+<h4><a name="tag_19_06_03" id="tag_19_06_03">2.6.3 Command Substitution
+<p class="tent">Command substitution allows the output of one or more commands to be substituted in place of the commands
+themselves. Command substitution shall occur when command(s) are enclosed as follows:
+<pre>
+<tt>&#36;(<i>commands<tt>)
+
+<p class="tent">or (backquoted version):
+<pre>
+<tt>&#96;<i>commands<tt>&#96;
+
+<p class="tent">The shell shall expand the command substitution by executing <i>commands in a subshell environment (see
+<a href="#tag_19_13">2.13 Shell Execution Environment) and replacing the command substitution (the text of the <i>commands
+string plus the enclosing <tt>&#34;&#36;()&#34; or backquotes) with the standard output of the command(s); if the output ends with one or
+more bytes that have the encoded value of a &lt;newline&gt; character, they shall not be included in the replacement. Any such
+bytes that occur elsewhere shall be included in the replacement; however, they might be treated as field delimiters and eliminated
+during field splitting, depending on the value of <i>IFS and quoting that is in effect. If the output contains any null bytes,
+the behavior is unspecified.
+<p class="tent">Within the backquoted style of command substitution, if the command substitution is not within double-quotes,
+&lt;backslash&gt; shall retain its literal meaning, except when followed by: <tt>&#39;&#36;&#39;, <tt>&#39;&#96;&#39;, or &lt;backslash&gt;. See
+<a href="#tag_19_02_03">2.2.3 Double-Quotes for the handling of &lt;backslash&gt; when the command substitution is within
+double-quotes. The search for the matching backquote shall be satisfied by the first unquoted non-escaped backquote; during this
+search, if a non-escaped backquote is encountered within a shell comment, a here-document, an embedded command substitution of the
+&#36;(<i>commands) form, or a quoted string, undefined results occur. A quoted string that begins, but does not end, within the
+<tt>&#34;&#96;&#46;&#46;&#46;&#96;&#34; sequence produces undefined results.
+<p class="tent">With the &#36;(<i>commands) form, all characters following the open parenthesis to the matching closing parenthesis
+constitute the <i>commands string.
+<p class="tent">With both the backquoted and &#36;(<i>commands) forms, the <i>commands string shall be tokenized (see <a href=
+"#tag_19_03">2.3 Token Recognition) and parsed (see <a href="#tag_19_10">2.10 Shell Grammar). It is unspecified whether
+the <i>commands string is parsed and executed incrementally as a <i>program (as for a shell script), or is parsed as a
+single <i>compound&#95;list that is executed after the string has been completely parsed. In addition, it is unspecified whether
+the terminating <tt>&#39;)&#39; of the &#36;(<i>commands) form can result from alias substitution. With the &#36;(<i>commands) form
+any syntactically correct <i>program can be used for <i>commands, except that:
+<ul>
+<li class="tent">If the <i>commands string consists solely of redirections, the results are unspecified.
+<li class="tent">If the <i>commands string is parsed as a single <i>compound&#95;list, before any commands are executed,
+<a href="../utilities/alias.html"><i>alias and <a href="../utilities/unalias.html"><i>unalias commands in
+<i>commands have no effect during parsing (see <a href="#tag_19_03_01">2.3.1 Alias Substitution). Strictly conforming
+applications shall ensure that the <i>commands string does not depend on alias changes taking effect incrementally as would be
+the case if parsed and executed as a <i>program.
+<li class="tent">The behavior is unspecified if the terminating <tt>&#39;)&#39; is not present in the token containing the command
+substitution; that is, if the <tt>&#39;)&#39; is expected to result from alias substitution.
+
+<p class="tent">The results of command substitution shall not be processed for further tilde expansion, parameter expansion,
+command substitution, or arithmetic expansion.
+<p class="tent">Command substitution can be nested. To specify nesting within the backquoted version, the application shall precede
+the inner backquotes with &lt;backslash&gt; characters; for example:
+<pre>
+<tt>&#92;&#96;<i>commands<tt>&#92;&#96;
+
+<p class="tent">The syntax of the shell command language has an ambiguity for expansions beginning with <tt>&#34;&#36;((&#34;, which can
+introduce an arithmetic expansion or a command substitution that starts with a subshell. Arithmetic expansion has precedence; that
+is, the shell shall first determine whether it can parse the expansion as an arithmetic expansion and shall only parse the
+expansion as a command substitution if it determines that it cannot parse the expansion as an arithmetic expansion. The shell need
+not evaluate nested expansions when performing this determination. If it encounters the end of input without already having
+determined that it cannot parse the expansion as an arithmetic expansion, the shell shall treat the expansion as an incomplete
+arithmetic expansion and report a syntax error. A conforming application shall ensure that it separates the <tt>&#34;&#36;(&#34; and
+<tt>&#39;(&#39; into two tokens (that is, separate them with white space) in a command substitution that starts with a subshell. For
+example, a command substitution containing a single subshell could be written as:
+<pre>
+<tt>&#36;( (<i>commands<tt>) )
+
+<h4><a name="tag_19_06_04" id="tag_19_06_04">2.6.4 Arithmetic Expansion
+<p class="tent">Arithmetic expansion provides a mechanism for evaluating an arithmetic expression and substituting its value. The
+format for arithmetic expansion shall be as follows:
+<pre>
+<tt>&#36;((<i>expression<tt>))
+
+<p class="tent">The expression shall be treated as if it were in double-quotes, except that a double-quote inside the expression is
+not treated specially. The shell shall expand all tokens in the expression for parameter expansion, command substitution, and quote
+removal.
+<p class="tent">Next, the shell shall treat this as an arithmetic expression and substitute the value of the expression. The
+arithmetic expression shall be processed according to the rules given in <a href=
+"../utilities/V3_chap01.html#tag_18_01_02_01"><i>1.1.2.1 Arithmetic Precision and Operations, with the following
+exceptions:
+<ul>
+<li class="tent">Only signed long integer arithmetic is required.
+<li class="tent">Only the decimal-constant, octal-constant, and hexadecimal-constant constants specified in the ISO C
+standard, Section 6.4.4.1 are required to be recognized as constants.
+<li class="tent">The <i>sizeof() operator and the prefix and postfix <tt>&#34;++&#34; and <tt>&#34;&#45;&#45;&#34; operators are not
+required.
+<li class="tent">Selection, iteration, and jump statements are not supported.
+
+<p class="tent">All changes to variables in an arithmetic expression shall be in effect after the arithmetic expansion, as in the
+parameter expansion <tt>&#34;&#36;{x=value}&#34;.
+<p class="tent">If the shell variable <i>x contains a value that forms a valid integer constant, optionally including a leading
+&lt;plus-sign&gt; or &lt;hyphen-minus&gt;, then the arithmetic expansions <tt>&#34;&#36;((x))&#34; and <tt>&#34;&#36;((&#36;x))&#34; shall return the
+same value.
+<p class="tent">As an extension, the shell may recognize arithmetic expressions beyond those listed. The shell may use a signed
+integer type with a rank larger than the rank of <b>signed long. The shell may use a real-floating type instead of <b>signed
+long as long as it does not affect the results in cases where there is no overflow. If the expression is invalid, or the
+contents of a shell variable used in the expression are not recognized by the shell, the expansion fails and the shell shall write
+a diagnostic message to standard error indicating the failure.
+<hr>
+<div class="box"><em>The following sections are informative.
+<h5><a name="tag_19_06_04_01" id="tag_19_06_04_01">Examples
+<p class="tent">A simple example using arithmetic expansion:
+<pre>
+<tt># repeat a command 100 times
+x=100
+while &#91; &#36;x -gt 0 &#93;
+do
+    <i>command<tt>
+    x=&#36;((&#36;x-1))
+done
+
+<div class="box"><em>End of informative text.
+<hr>
+<h4><a name="tag_19_06_05" id="tag_19_06_05">2.6.5 Field Splitting
+<p class="tent">After parameter expansion ( <a href="#tag_19_06_02">2.6.2 Parameter Expansion), command substitution (
+<a href="#tag_19_06_03">2.6.3 Command Substitution), and arithmetic expansion ( <a href="#tag_19_06_04">2.6.4 Arithmetic
+Expansion), if the shell variable <i>IFS (see <a href="#tag_19_05_03">2.5.3 Shell Variables) is set and its value is
+not empty, or if <i>IFS is unset, the shell shall scan each field containing results of expansions and substitutions that did
+not occur in double-quotes for field splitting; zero, one or multiple fields can result.
+<p class="tent">For the remainder of this section, any reference to the results of an expansion, or results of expansions, shall be
+interpreted to mean the results from one or more unquoted variable or arithmetic expansions, or unquoted command substitutions.
+<p class="tent">If the <i>IFS variable is set and has an empty string as its value, no field splitting shall occur. However, if
+an input field which contained the results of an expansion is entirely empty, it shall be removed. Note that this occurs before
+quote removal; any input field that contains any quoting characters can never be empty at this point. After the removal of any such
+fields from the input, the possibly modified input field list shall become the output.
+<p class="tent">Each input field shall be considered in sequence, first to last, with the results of the algorithm described in
+this section causing output fields to be generated, which shall remain in the same order as the input fields from which they
+originated.
+<p class="tent">Fields which contain no results from expansions shall not be affected by field splitting, and shall remain
+unaltered, simply moving from the list of input fields to be next in the list of output fields.
+<p class="tent">In the remainder of this description, it is assumed that there is present in the field at least one expansion
+result; this assumption will not be restated. Field splitting only ever alters those parts of the field.
+<p class="tent">For the purposes of this section, the term &#34;<i>IFS white space&#34; is used to mean any of the white-space bytes
+(see XBD <a href="../basedefs/V1_chap03.html#tag_03_413"><i>3.413 White Space, <a href=
+"../basedefs/V1_chap03.html#tag_03_414"><i>3.414 White-Space Byte, and <a href=
+"../basedefs/V1_chap03.html#tag_03_415"><i>3.415 White-Space Character) &lt;space&gt;, &lt;tab&gt;, or &lt;newline&gt;
+from the portable character set (see XBD <a href="../basedefs/V1_chap06.html#tag_06_01"><i>6.1 Portable Character Set)
+which are present in the value of the <i>IFS variable, and perhaps other white-space characters. It is implementation-defined
+whether other white-space characters which appear in the value of <i>IFS are also considered as &#34;<i>IFS white space&#34;. The
+three characters above specified as <i>IFS white-space bytes are always <i>IFS white space, when they occur in the value of
+<i>IFS , regardless of whether they are white-space characters in any relevant locale. For other locale-specific white-space
+characters allowed by the implementation it is unspecified whether the character is considered as <i>IFS white space if it is
+white space at the time it is assigned to the <i>IFS variable, or if it is white space at the time field splitting occurs. (The
+locale might have changed between those events.)
+<p class="tent">If the <i>IFS variable is unset, then for the purposes of this section, but without altering the value of the
+variable, its value shall be considered to contain the three single-byte characters &lt;space&gt;, &lt;tab&gt;, and &lt;newline&gt;
+from the portable character set, all of which are <i>IFS white-space characters.
+<p class="tent">The shell shall use the byte sequences that form the characters in the value of the <i>IFS variable as
+delimiters. Each of the characters &lt;space&gt;, &lt;tab&gt;, and &lt;newline&gt; which appears in the value of <i>IFS shall
+be a single-byte delimiter. The shell shall use these delimiters as field terminators to split the results of expansions, along
+with other adjacent bytes, into separate fields, as described below. Note that these delimiters terminate a field; they do not, of
+themselves, cause a new field to start—subsequent bytes that are not from the results of an expansion, or that do not form
+<i>IFS white-space characters are required for a new field to begin.
+<p class="tent">Note that the shell processes arbitrary bytes from the input fields; there is no requirement that those bytes form
+valid characters.
+<p class="tent">If the results of the algorithm are that no fields are delimited; that is, if the input field is wholly empty or
+consists entirely of <i>IFS white space, the result shall be zero fields (rather than an empty field).
+<p class="tent">For the purposes of this section, when a field is said to be delimited, then the candidate field, as generated
+below shall become an output field. When the algorithm transforms a candidate into an output field it shall be appended to the
+current list of output fields.
+<p class="tent">Each field containing the results from an expansion shall be processed in order, intermixed with fields not
+containing the results of expansions, processed as described above, as if by using the following algorithm, examining bytes in the
+input field, from beginning to end:
+<ul>
+<li class="tent">Begin with an empty candidate field and the input as specified above.
+<li class="tent">When instructed to start the next iteration of the loop, this is the start of the loop. While the input (as
+modified by earlier iterations of this loop) is not empty:
+<ul>
+<li class="tent">Consider the leading remaining byte or byte sequence of the input. No such byte sequence shall contain data such
+that some bytes in the sequence resulted from an expansion, and others did not, nor which contains bytes resulting from the results
+of more than one expansion. If the byte or sequence of bytes is:
+<ol>
+<li class="tent">A byte (or sequence of bytes) in the input which did not result from an expansion:
+<p class="tent">Append this byte (or sequence) to the candidate, and remove it from the input. Start the next iteration of the
+loop.
+
+<li class="tent">A byte sequence in the input which resulted from an expansion and which does not form a character in <i>IFS :
+<p class="tent">Append the first byte of the sequence to the candidate, and remove that byte from the input. Start the next
+iteration of the loop.
+
+<li class="tent">A byte sequence in the input which resulted from an expansion and which forms an <i>IFS white space character:
+<p class="tent">Remove that byte sequence from the input, consider the new leading input byte sequence, and repeat this step.
+
+<li class="tent">A byte sequence in the input which resulted from an expansion and which forms an <i>IFS character that is not
+<i>IFS white space:
+<p class="tent">Remove that byte sequence from the input, but note it was observed.
+
+<p class="tent">At this point, if the candidate is not empty, or if a sequence of bytes representing an <i>IFS character that
+is not <i>IFS white space was seen at step 4, then a field is said to have been delimited, and the candidate shall become an
+output field.
+
+<li class="tent">Empty (clear) the candidate, and start the next iteration of the loop.
+
+<li class="tent">Once the input is empty, the candidate shall become an output field if and only if it is not empty.
+
+<p class="tent">The ordered list of output fields so produced, which might be empty, shall replace the list of input fields.
+<h4><a name="tag_19_06_06" id="tag_19_06_06">2.6.6 Pathname Expansion
+<p class="tent">After field splitting, if <a href="#set"><i>set <b>-f is not in effect, each field in the resulting
+command line shall be expanded using the algorithm described in <a href="#tag_19_14">2.14 Pattern Matching Notation, qualified
+by the rules in <a href="#tag_19_14_03">2.14.3 Patterns Used for Filename Expansion.
+<h4><a name="tag_19_06_07" id="tag_19_06_07">2.6.7 Quote Removal
+<p class="tent">The quote character sequence &lt;dollar-sign&gt; single-quote and the single-character quote characters
+(&lt;backslash&gt;, single-quote, and double-quote) that were present in the original word shall be removed unless they have
+themselves been quoted. Note that the single-quote character that terminates a &lt;dollar-sign&gt; single-quote sequence is itself
+a single-character quote character. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>After quote removal the shell still remembers which characters were quoted. This is necessary for purposes such as matching
+patterns in a <b>case conditional construct (see <a href="#tag_19_09_04_05">2.9.4.3 Case Conditional Construct and <a href=
+"#tag_19_14">2.14 Pattern Matching Notation).
+
+<basefont size="3">
+<h3><a name="tag_19_07" id="tag_19_07">2.7 Redirection
+<p class="tent">Redirection is used to open and close files for the current shell execution environment (see <a href=
+"#tag_19_13">2.13 Shell Execution Environment) or for any command. Redirection operators can be used with numbers representing
+file descriptors (see XBD <a href="../basedefs/V1_chap03.html#tag_03_141"><i>3.141 File Descriptor) as described
+below.
+<p class="tent">The overall format used for redirection is:
+<pre>
+<b>&#91;<i>n<b>&#93;<i>redir-op word<tt>
+
+<p class="tent">The number <i>n is an optional one or more digit decimal number designating the file descriptor number; the
+application shall ensure it is delimited from any preceding text and immediately precedes the redirection operator <i>redir-op
+(with no intervening &lt;blank&gt; characters allowed). If <i>n is quoted, the number shall not be recognized as part of the
+redirection expression. For example:
+<pre>
+<tt>echo &#92;2&gt;a
+
+<p class="tent">writes the character 2 into file <b>a. If any part of <i>redir-op is quoted, no redirection expression is
+recognized. For example:
+<pre>
+<tt>echo 2&#92;&gt;a
+
+<p class="tent">writes the characters 2&gt;<i>a to standard output. The optional number, redirection operator, and <i>word
+shall not appear in the arguments provided to the command to be executed (if any).
+<p class="tent">The shell may support an additional format used for redirection:
+<pre>
+<b>{<i>location<b>}<i>redir-op word<tt>
+
+<p class="tent">where <i>location is non-empty and indicates a location where an integer value can be stored, such as the name
+of a shell variable. If this format is supported its behavior is implementation-defined.
+<p class="tent">The largest file descriptor number supported in shell redirections is implementation-defined; however, all
+implementations shall support at least 0 to 9, inclusive, for use by the application.
+<p class="tent">If the redirection operator is <tt>&#34;&lt;&lt;&#34; or <tt>&#34;&lt;&lt;-&#34;, the word that follows the redirection
+operator shall be subjected to quote removal; it is unspecified whether any of the other expansions occur. For the other
+redirection operators, the word that follows the redirection operator shall be subjected to tilde expansion, parameter expansion,
+command substitution, arithmetic expansion, and quote removal. Pathname expansion shall not be performed on the word by a
+non-interactive shell; an interactive shell may perform it, but if the expansion would result in more than one word it is
+unspecified whether the redirection proceeds without pathname expansion being performed or the redirection fails. <basefont size=
+"2">
+<dl>
+<dt><b>Note:
+<dd>A future version of this standard may require that the redirection fails in this case.
+
+<basefont size="3">
+<p class="tent">If more than one redirection operator is specified with a command, the order of evaluation is from beginning to
+end.
+<p class="tent">A failure to open or create a file shall cause a redirection to fail.
+<h4><a name="tag_19_07_01" id="tag_19_07_01">2.7.1 Redirecting Input
+<p class="tent">Input redirection shall cause the file whose name results from the expansion of <i>word to be opened for
+reading on the designated file descriptor, or standard input if the file descriptor is not specified.
+<p class="tent">The general format for redirecting input is:
+<pre>
+<b>&#91;<i>n<b>&#93;<tt>&lt;<i>word<tt>
+
+<p class="tent">where the optional <i>n represents the file descriptor number. If the number is omitted, the redirection shall
+refer to standard input (file descriptor 0).
+<h4><a name="tag_19_07_02" id="tag_19_07_02">2.7.2 Redirecting Output
+<p class="tent">The two general formats for redirecting output are:
+<pre>
+<b>&#91;<i>n<b>&#93;<tt>&gt;<i>word
+<b>&#91;<i>n<b>&#93;<tt>&gt;|<i>word
+
+<p class="tent">where the optional <i>n represents the file descriptor number. If the number is omitted, the redirection shall
+refer to standard output (file descriptor 1).
+<p class="tent">Output redirection using the <tt>&#39;&gt;&#39; format shall fail if the <i>noclobber option is set (see the
+description of <a href="#set"><i>set <b>-C) and the file named by the expansion of <i>word exists and is either a
+regular file or a symbolic link that resolves to a regular file; it may also fail if the file is a symbolic link that does not
+resolve to an existing file. The check for existence, file creation, and open operations shall be performed atomically as is done
+by the <a href="../functions/open.html"><i>open() function as defined in System Interfaces volume of POSIX.1-2024 when the
+O&#95;CREAT and O&#95;EXCL flags are set, except that if the file exists and is a symbolic link, the open operation need not fail with
+&#91;EEXIST&#93; unless the symbolic link resolves to an existing regular file. Performing these operations atomically ensures that the
+creation of lock files and unique (often temporary) files is reliable, with important caveats detailed in <a href=
+"../xrat/V4_xcu_chap01.html#tag_23_02_07_02"><i>C.2.7.2 Redirecting Output. The check for the type of the file need not be
+performed atomically with the check for existence, file creation, and open operations. If not, there is a potential race condition
+that may result in a misleading shell diagnostic message when redirection fails. See XRAT <a href=
+"../xrat/V4_xcu_chap01.html#tag_23_02_07_02"><i>C.2.7.2 Redirecting Output for more details.
+<p class="tent">In all other cases (<i>noclobber not set, redirection using <tt>&#39;&gt;&#39; does not fail for the reasons
+stated above, or redirection using the <tt>&#34;&gt;|&#34; format), output redirection shall cause the file whose name results from
+the expansion of <i>word to be opened for output on the designated file descriptor, or standard output if none is specified. If
+the file does not exist, it shall be created as an empty file; otherwise, it shall be opened as if the <a href=
+"../functions/open.html"><i>open() function was called with the O&#95;TRUNC flag set.
+<h4><a name="tag_19_07_03" id="tag_19_07_03">2.7.3 Appending Redirected Output
+<p class="tent">Appended output redirection shall cause the file whose name results from the expansion of word to be opened for
+output on the designated file descriptor. The file shall be opened as if the <a href="../functions/open.html"><i>open()
+function as defined in the System Interfaces volume of POSIX.1-2024 was called with the O&#95;APPEND flag set. If the file does not
+exist, it shall be created.
+<p class="tent">The general format for appending redirected output is as follows:
+<pre>
+<b>&#91;<i>n<b>&#93;<tt>&gt;&gt;<i>word<tt>
+
+<p class="tent">where the optional <i>n represents the file descriptor number. If the number is omitted, the redirection refers
+to standard output (file descriptor 1).
+<h4><a name="tag_19_07_04" id="tag_19_07_04">2.7.4 Here-Document
+<p class="tent">The redirection operators <tt>&#34;&lt;&lt;&#34; and <tt>&#34;&lt;&lt;-&#34; both allow redirection of subsequent lines
+read by the shell to the input of a command. The redirected lines are known as a &#34;here-document&#34;.
+<p class="tent">The here-document shall be treated as a single word that begins after the next <b>NEWLINE token and continues
+until there is a line containing only the delimiter and a &lt;newline&gt;, with no &lt;blank&gt; characters in between. Then the
+next here-document starts, if there is one. For the purposes of locating this terminating line, the end of a <i>command&#95;string
+operand (see <a href="../utilities/sh.html#"><i>sh) shall be treated as a &lt;newline&gt; character, and the end of the
+<i>commands string in <tt>&#36;(<i>commands) and <tt>&#96;<i>commands&#96; may be treated as a &lt;newline&gt;. If the
+end of input is reached without finding the terminating line, the shell should, but need not, treat this as a redirection error.
+The format is as follows:
+<pre>
+<b>&#91;<i>n<b>&#93;<tt>&lt;&lt;<i>word
     here-document
-delimiter
-```
+delimiter<tt>
+
+<p class="tent">where the optional <i>n represents the file descriptor number. If the number is omitted, the here-document
+refers to standard input (file descriptor 0). It is unspecified whether the file descriptor is opened as a regular file or some
+other type of file. Portable applications cannot rely on the file descriptor being seekable (see XSH <a href=
+"../functions/lseek.html#"><i>lseek()).
+<p class="tent">If any part of <i>word is quoted, not counting double-quotes outside a command substitution if the
+here-document is inside one, the delimiter shall be formed by performing quote removal on <i>word, and the here-document lines
+shall not be expanded. Otherwise:
+<ul>
+<li class="tent">The delimiter shall be the <i>word itself.
+<li class="tent">The removal of &lt;backslash&gt;&lt;newline&gt; for line continuation (see <a href="#tag_19_02_01">2.2.1 Escape
+Character (Backslash)) shall be performed during the search for the trailing delimiter. (As a consequence, the trailing
+delimiter is not recognized immediately after a &lt;newline&gt; that was removed by line continuation.) It is unspecified whether
+the line containing the trailing delimiter is itself subject to this line continuation.
+<li class="tent">All lines of the here-document shall be expanded, when the redirection operator is evaluated but after the
+trailing delimiter for the here-document has been located, for parameter expansion, command substitution, and arithmetic expansion.
+If the redirection operator is never evaluated (because the command it is part of is not executed), the here-document shall be read
+without performing any expansions.
+<li class="tent">Any &lt;backslash&gt; characters in the input shall behave as the &lt;backslash&gt; inside double-quotes (see
+<a href="#tag_19_02_03">2.2.3 Double-Quotes). However, the double-quote character (<tt>&#39;&#34;&#39;) shall not be treated
+specially within a here-document, except when the double-quote appears within <tt>&#34;&#36;()&#34;, <tt>&#34;&#96;&#96;&#34;, or
+<tt>&#34;&#36;{}&#34;.
+
+<p class="tent">If the redirection operator is <tt>&#34;&lt;&lt;-&#34;, all leading &lt;tab&gt; characters shall be stripped from
+input lines after &lt;backslash&gt;&lt;newline&gt; line continuation (when it applies) has been performed, and from the line
+containing the trailing delimiter. Stripping of leading &lt;tab&gt; characters shall occur as the here-document is read from the
+shell input (and consequently does not affect any &lt;tab&gt; characters that result from expansions).
+<p class="tent">If more than one <tt>&#34;&lt;&lt;&#34; or <tt>&#34;&lt;&lt;-&#34; operator is specified on a line, the here-document
+associated with the first operator shall be supplied first by the application and shall be read first by the shell.
+<p class="tent">When a here-document is read from a terminal device and the shell is interactive, it shall write the contents of
+the variable <i>PS2, processed as described in <a href="#tag_19_05_03">2.5.3 Shell Variables, to standard error before
+reading each line of input until the delimiter has been recognized.
+<hr>
+<div class="box"><em>The following sections are informative.
+<h5><a name="tag_19_07_04_01" id="tag_19_07_04_01">Examples
+<p class="tent">An example of a here-document follows:
+<pre>
+<tt>cat &lt;&lt;eof1; cat &lt;&lt;eof2
+Hi,
+eof1
+Helene.
+eof2
+
+<div class="box"><em>End of informative text.
+<hr>
+<h4><a name="tag_19_07_05" id="tag_19_07_05">2.7.5 Duplicating an Input File Descriptor
+<p class="tent">The redirection operator:
+<pre>
+<b>&#91;<i>n<b>&#93;<tt>&lt;&amp;<i>word<tt>
+
+<p class="tent">shall duplicate one input file descriptor from another, or shall close one. If <i>word evaluates to one or more
+digits, the file descriptor denoted by <i>n, or standard input if <i>n is not specified, shall be made to be a copy of the
+file descriptor denoted by <i>word; if the digits in <i>word do not represent an already open file descriptor, a
+redirection error shall result (see <a href="#tag_19_08_01">2.8.1 Consequences of Shell Errors); if the file descriptor
+denoted by <i>word represents an open file descriptor that is not open for input, a redirection error may result. If
+<i>word evaluates to <tt>&#39;-&#39;, file descriptor <i>n, or standard input if <i>n is not specified, shall be closed.
+Attempts to close a file descriptor that is not open shall not constitute an error. If <i>word evaluates to something else, the
+behavior is unspecified.
+<h4><a name="tag_19_07_06" id="tag_19_07_06">2.7.6 Duplicating an Output File Descriptor
+<p class="tent">The redirection operator:
+<pre>
+<b>&#91;<i>n<b>&#93;<tt>&gt;&amp;<i>word<tt>
+
+<p class="tent">shall duplicate one output file descriptor from another, or shall close one. If <i>word evaluates to one or
+more digits, the file descriptor denoted by <i>n, or standard output if <i>n is not specified, shall be made to be a copy
+of the file descriptor denoted by <i>word; if the digits in <i>word do not represent an already open file descriptor, a
+redirection error shall result (see <a href="#tag_19_08_01">2.8.1 Consequences of Shell Errors); if the file descriptor
+denoted by <i>word represents an open file descriptor that is not open for output, a redirection error may result. If
+<i>word evaluates to <tt>&#39;-&#39;, file descriptor <i>n, or standard output if <i>n is not specified, is closed.
+Attempts to close a file descriptor that is not open shall not constitute an error. If <i>word evaluates to something else, the
+behavior is unspecified.
+<h4><a name="tag_19_07_07" id="tag_19_07_07">2.7.7 Open File Descriptors for Reading and Writing
+<p class="tent">The redirection operator:
+<pre>
+<b>&#91;<i>n<b>&#93;<tt>&lt;&gt;<i>word<tt>
+
+<p class="tent">shall cause the file whose name is the expansion of <i>word to be opened for both reading and writing on the
+file descriptor denoted by <i>n, or standard input if <i>n is not specified. If the file does not exist, it shall be
+created.
+<h3><a name="tag_19_08" id="tag_19_08">2.8 Exit Status and Errors
+<h4><a name="tag_19_08_01" id="tag_19_08_01">2.8.1 Consequences of Shell Errors
+<p class="tent">Certain errors shall cause the shell to write a diagnostic message to standard error and exit as shown in the
+following table:
+<center>
+<table border="1" cellpadding="3" align="center">
+<tr valign="top">
+<th align="center">
+<p class="tent"><b>Error
+
+<th align="center">
+<p class="tent"><b>Non-Interactive<br>
+Shell
+
+<th align="center">
+<p class="tent"><b>Interactive Shell
+
+<th align="center">
+<p class="tent"><b>Shell Diagnostic<br>
+Message Required
+
+<tr valign="top">
+<td align="left">
+<p class="tent">Shell language syntax error
 
-**基本语义**：
+<td align="left">
+<p class="tent">shall exit
 
-- here-document 被视为**单个单词**，从下一个 **NEWLINE** token 之后开始，持续到出现只包含定界符和一个 \<newline\>（中间无 \<blank\>）的行为止，然后下一个 here-document（如有）开始。
-- 为定位终止行：*command_string* 操作数的结尾（见 `sh`）视为 \<newline\>；`$(`*commands*`)` 和反引号中 *commands* 的结尾**可以**视为 \<newline\>。
-- 未找到终止行即到输入结束：shell 应该（但不必）视为重定向错误。
-- 省略 *n* 时指标准输入（文件描述符 0）；该文件描述符是普通文件还是其他类型文件是**未指定**的，便携应用不能依赖其可寻址（见 XSH `lseek()`）。
+<td align="left">
+<p class="tent">shall not exit
 
-**定界符与扩展**（分两种情况）：
+<td align="left">
+<p class="tent">yes
 
-- **word 的任何部分被引用**（不包括命令替换之外的双引号，若 here-document 在命令替换内）→ 定界符通过对 *word* 执行**引用消除**形成，here-document 的行**不被扩展**。
-- **word 未被引用**：
-  - 定界符是 *word* 本身；
-  - 搜索结尾定界符期间执行 \<backslash\>\<newline\> 续行移除（因此紧跟在被续行移除的 \<newline\> 之后不识别结尾定界符；包含结尾定界符的行本身是否经受续行未指定）；
-  - 当重定向运算符被求值但已在定位结尾定界符之后，here-document 的所有行经受参数扩展、命令替换和算术扩展；若运算符从未被求值（命令未执行），读取 here-document 时不执行任何扩展；
-  - 输入中的 \<backslash\> 表现得像双引号内的 \<backslash\>（见 2.2.3）；双引号字符 `'"'` 在 here-document 内不被特殊处理，除非它出现在 `"$()"`、反引号或 `"${}"` 内。
+<tr valign="top">
+<td align="left">
+<p class="tent">Special built-in utility error
 
-**`<<-`（制表符剥离）**：
+<td align="left">
+<p class="tent">shall exit<sup><small>1
 
-- 所有**前导 \<tab\> 字符**从输入行剥离（在按需执行续行之后），并从包含结尾定界符的行剥离；剥离在 here-document 从 shell 输入读取时发生（因此不影响来自扩展的任何 \<tab\>）。
+<td align="left">
+<p class="tent">shall not exit
 
-**多 here-document 与交互提示**：
+<td align="left">
+<p class="tent">no<sup><small>2
 
-- 一行上指定多个 `"<<"`/`"<<-"` 时，与第一个运算符关联的 here-document 由应用首先提供、shell 首先读取。
-- 从终端设备读取 here-document 且 shell 交互式时，读取每行输入前将 *PS2* 的内容（按 2.5.3 处理）写到标准错误，直到定界符被识别。
+<tr valign="top">
+<td align="left">
+<p class="tent">Other utility (not a special<br>
+built-in) error
 
-#### 示例 (Examples)
+<td align="left">
+<p class="tent">shall not exit
 
-    cat <<eof1; cat <<eof2
-    Hi,
-    eof1
-    Helene.
-    eof2
+<td align="left">
+<p class="tent">shall not exit
 
-### 2.7.5 复制输入文件描述符 (Duplicating an Input File Descriptor)
+<td align="left">
+<p class="tent">no<sup><small>3
 
-```
-[n]<&word
-```
+<tr valign="top">
+<td align="left">
+<p class="tent">Redirection error with<br>
+special built-in utilities
 
-- **word 为一个或多个数字**：由 *n* 表示的文件描述符（省略则为标准输入）成为由 *word* 表示的文件描述符的**副本**。
-  - *word* 中的数字不代表已打开的文件描述符 → 重定向错误（见 2.8.1）；
-  - *word* 是未为输入打开的已打开文件描述符 → 可能发生重定向错误。
-- **word 为 `'-'`**：文件描述符 *n*（省略则为标准输入）被**关闭**；尝试关闭未打开的文件描述符**不是错误**。
-- **word 为其他内容**：行为是**未指定的**。
+<td align="left">
+<p class="tent">shall exit
 
-### 2.7.6 复制输出文件描述符 (Duplicating an Output File Descriptor)
+<td align="left">
+<p class="tent">shall not exit
 
-```
-[n]>&word
-```
+<td align="left">
+<p class="tent">yes
 
-- **word 为一个或多个数字**：由 *n* 表示的文件描述符（省略则为标准输出）成为由 *word* 表示的文件描述符的副本；未打开 → 重定向错误；未为输出打开 → 可能重定向错误。
-- **word 为 `'-'`**：文件描述符 *n*（省略则为标准输出）被关闭；关闭未打开的描述符**不是错误**。
-- **word 为其他内容**：行为是**未指定的**。
-- 典型用法：`command > file 2>&1`（先把标准输出重定向到 file，再把 FD 2 复制为 FD 1 的副本，使 stdout 与 stderr 都进入 file）。
+<tr valign="top">
+<td align="left">
+<p class="tent">Redirection error with<br>
+compound commands
 
-### 2.7.7 为读和写打开文件描述符 (Open File Descriptors for Reading and Writing)
+<td align="left">
+<p class="tent">shall not exit
 
-```
-[n]<>word
-```
+<td align="left">
+<p class="tent">shall not exit
 
-- 使名称由 *word* 展开产生的文件在指定文件描述符（省略则为标准输入）上为**读取和写入**打开；文件不存在则创建。
+<td align="left">
+<p class="tent">yes
 
-## 2.8 退出状态与错误 (Exit Status and Errors)
+<tr valign="top">
+<td align="left">
+<p class="tent">Redirection error with<br>
+function execution
 
-### 2.8.1 Shell 错误的后果 (Consequences of Shell Errors)
+<td align="left">
+<p class="tent">shall not exit
 
-某些错误应导致 shell 向标准错误写诊断消息，并按下表退出：
+<td align="left">
+<p class="tent">shall not exit
 
-| **错误 (Error)** | **非交互式 Shell** | **交互式 Shell** | **需要 Shell 诊断消息** |
-|:---|:---|:---|:---|
-| Shell 语言语法错误 | 应退出 | 不应退出 | 是 |
-| 特殊内置实用程序错误 | 应退出 ^1^ | 不应退出 | 否 ^2^ |
-| 其他实用程序（非特殊内置）错误 | 不应退出 | 不应退出 | 否 ^3^ |
-| 特殊内置实用程序的重定向错误 | 应退出 | 不应退出 | 是 |
-| 复合命令的重定向错误 | 不应退出 | 不应退出 | 是 |
-| 函数执行的重定向错误 | 不应退出 | 不应退出 | 是 |
-| 其他实用程序（非特殊内置）的重定向错误 | 不应退出 | 不应退出 | 是 |
-| 变量赋值错误 | 应退出 | 不应退出 | 是 |
-| 扩展错误 | 应退出 | 不应退出 | 是 |
-| 命令未找到 | 可以退出 | 不应退出 | 是 |
-| 读取命令时不可恢复的读取错误 | 应退出 ^4^ | 应退出 ^4^ | 是 |
+<td align="left">
+<p class="tent">yes
 
-**表注**：
-
-1. 仅当特殊内置实用程序被**直接执行**时 shell 才应退出；若通过 `command` 实用程序执行，shell 不应退出。
-2. 尽管特殊内置是 shell 的一部分，其诊断消息不被视为 shell 诊断消息，可以像任何其他实用程序一样被重定向。
-3. shell 不要求写诊断消息，但实用程序本身若被要求则应写。
-4. 读取命令时发生不可恢复读取错误（`dot` 的 *file* 操作数除外），shell 不应执行进一步命令（包括已读但未执行的），除非是先前定义的 EXIT `trap` 动作中指定的；从 `dot` 的 *file* 读取时的不可恢复读取错误视为特殊内置实用程序错误。
-
-**扩展错误（expansion error）**：执行 2.6 的 shell 扩展时发生的错误（如 `"${x!y}"`，因 `'!'` 不是有效运算符）；若实现能在 token 化期间检测到，可将其视为语法错误。
-
-**子 shell 中的错误**：任何"应退出"或"可以退出"的错误发生在子 shell 环境中时，shell 应（分别地，可以）以非零状态退出子 shell 环境，并在调用该子 shell 环境的环境中继续。
-
-**交互式 shell 的额外约束**：在表中所有要求交互式 shell 不退出、非交互式 shell 退出的情况下，交互式 shell 不应再对发生错误的命令执行任何进一步处理。
-
-### 2.8.2 命令的退出状态 (Exit Status for Commands)
-
-每个命令都有可影响其他 shell 命令行为的**退出状态（exit status）**。非实用程序命令的退出状态在本节记录；标准实用程序在各目的小节记录。
-
-命令的退出状态确定规则：
-
-1. 命令**未找到** → 退出状态 **127**。
-2. 命令名被找到，但不是**可执行实用程序** → 退出状态 **126**。
-3. 命令因**收到信号**终止 → shell 分配**大于 128** 的退出状态（以实现定义方式标识是哪个信号；shell 实现被允许分配大于 255 的值）。
-4. 其他情况 → 对 `wait()` 函数获得的状态应用 **WEXITSTATUS** 宏的等价操作所得值。对于 C 程序，该值等于对传给 `_Exit()`、`_exit()` 或 `exit()` 的值（或从 *main*() 返回的值）执行**模 256** 运算的结果。
-
-
-## 2.9 Shell 命令 (Shell Commands)
-
-本节描述 shell 命令的基本结构。*command*（命令）是以下之一：
-
-- **简单命令**（见 2.9.1）；
-- **管道**（见 2.9.2）；
-- **列表（list）与复合列表（compound-list）**（见 2.9.3）；
-- **复合命令**（见 2.9.4）；
-- **函数定义**（见 2.9.5）。
-
-**通用规则**：
-
-- 各命令描述的格式仅用于帮助读者识别命令类型，**不正式表示语法**（正式定义见 2.10 Shell 文法；表示中包含的某些空格在 token 是运算符时并非必需）。
-- 除非另有说明，命令的退出状态应是该命令执行的**最后一个简单命令**的退出状态。
-- 除底层系统施加的限制（内存约束、{ARG_MAX} 等）外，任何 shell 命令的大小**不应有限制**。
-
-### 2.9.1 简单命令 (Simple Commands)
-
-"简单命令（simple command）"是可选**变量赋值**和**重定向**的序列（按任意顺序排列），可选地后跟**单词**和**重定向**。
-
-#### 2.9.1.1 处理顺序 (Order of Processing)
-
-当要求执行给定简单命令时（即 AND-OR 列表或 **case** 语句等条件构造未绕过它），以下扩展、赋值和重定向应从命令文本的开始到结束全部执行：
-
-1. **保存赋值与重定向**：根据 2.10.2 Shell 文法规则被识别为变量赋值或重定向的单词被保存，供步骤 3 和 4 处理。
-2. **扩展并确定命令名**：不是变量赋值或重定向的第一个单词（如有）被扩展；若扩展后还有字段，第一个字段被视为**命令名**；若无字段则扩展下一个单词，直到找到命令名或无单词剩余。
-   - **声明型实用程序（declaration utility）特例**：若命令名被识别为声明型实用程序，其后单独看会识别为变量赋值的单词按**赋值上下文**扩展（第一个 `=` 之后及未引用 `:` 之后的波浪号展开、参数扩展、命令替换、算术扩展、引用消除，但**不进行字段分割或路径名展开**）；其余单词经受常规扩展（仅前导 `~` 的波浪号展开、参数扩展、命令替换、算术扩展、字段分割、路径名展开、引用消除）。
-   - 其他命令名：命令名之后的单词**仅经受常规扩展**。
-   - 除命令名字段外的所有结果字段是命令的**参数**。
-3. **执行重定向**：按 2.7 重定向执行。
-4. **展开变量赋值**：每个变量赋值在赋该值之前经受波浪号展开、参数扩展、命令替换、算术扩展和引用消除。
-
-> 若步骤 2 没有产生命令名，或命令名是特殊内置实用程序，步骤 3 和 4 的顺序可以颠倒（见 2.15）。
->
-> 在确定命令名是否为声明型实用程序时，实现可以仅使用**词法分析**；若命令名只在单词扩展之后才被识别为声明型实用程序，是否使用赋值上下文是**未指定的**。
-
-#### 2.9.1.2 变量赋值 (Variable Assignments)
-
-变量赋值按命令名类型决定作用域：
-
-- **无命令名** → 赋值影响**当前执行环境**。
-- **非特殊内置/非函数** → 赋值被**导出**到命令的执行环境，不影响当前执行环境（步骤 4 扩展的副作用除外）。以下未指定：
-  - 赋值在步骤 4 的后续扩展中是否可见；
-  - 扩展副作用产生的赋值在后续扩展或当前环境中是否可见。
-- **以函数形式实现的标准实用程序** → 效果如同该实用程序不是以函数形式实现。
-- **特殊内置实用程序** → 赋值在执行**之前**影响当前执行环境并在命令完成时仍生效；被该实用程序进一步修改的变量，其修改**持续存在**。除非 `set` **-a** 开启，以下未指定：
-  - 变量在执行期间是否获得 *export* 属性；
-  - 因赋值获得的 *export* 属性在完成后是否持续存在。
-- **其他函数** → 赋值在函数执行期间影响当前执行环境。以下未指定：
-  - 赋值在函数完成后是否持续存在；
-  - 变量执行期间是否获得 *export* 属性；
-  - *export* 属性在函数完成后是否持续存在（若赋值持续存在）。
-
-**赋值错误**：任何赋值试图为当前 shell 环境中设置了 *readonly* 属性的变量赋值（无论在该环境与否）→ 发生**变量赋值错误**；后果见 2.8.1。
-
-#### 2.9.1.3 无命令名的命令 (Commands with no Command Name)
-
-- 单词扩展后无命令名时，任何重定向应在**子 shell 环境**中执行（该子 shell 是否与命令内命令替换所用环境相同，未指定；要影响当前环境用 `exec`）。
-- 当前 shell 执行环境中的任何重定向失败 → 命令立即以**大于零**的退出状态失败，shell 写错误消息（交互/非交互后果见 2.8.1）。
-- **退出状态**：无命令名但含命令替换 → 以退出状态最后被获取的那个命令替换的退出状态完成；否则以**零退出状态**完成。
-
-#### 2.9.1.4 命令搜索与执行 (Command Search and Execution)
-
-有命令名和可选参数时，执行以下动作（**命令名不含 \<slash\> 时**，按序取第一个成功步骤）：
-
-1. **特殊内置实用程序**：命令名匹配 → 调用之。
-2. **未指定的命令名**：命令名与下表匹配 → 结果是**未指定的**（下表为各 shell 扩展/内置名，如 *alloc*、*bind*、*declare*、*history*、*local*、*source*、*typeset* 等 55 个）：
-
-   | | | | | |
-   |---|---|---|---|---|
-   | *alloc* | *compcall* | *compvalues* | *history* | *print* |
-   | *autoload* | *compctl* | *declare* | *hist* | *pushd* |
-   | *bind* | *compdescribe* | *dirs* | *integer* | *readarray* |
-   | *bindkey* | *compfiles* | *disable* | *let* | *repeat* |
-   | *builtin* | *compgen* | *disown* | *local* | *savehistory* |
-   | *bye* | *compgroups* | *dosh* | *login* | *source* |
-   | *caller* | *complete* | *echotc* | *logout* | *shopt* |
-   | *cap* | *compound* | *echoti* | *map* | *stop* |
-   | *chdir* | *compquote* | *enum* | *mapfile* | *suspend* |
-   | *clone* | *comptags* | *float* | *nameref* | *typeset* |
-   | *comparguments* | *comptry* | *help* | *popd* | *whence* |
-
-3. **函数**：命令名匹配已知函数 → 按 2.9.5 调用之。以函数形式实现的标准实用程序，若函数定义仍存在（未 `unset -f` 或未替换），此时**不**被识别，而应与步骤 5 的路径搜索一起调用。
-4. **本征实用程序（intrinsic utility）**：命令名匹配（见 1.7 本征实用程序）→ 调用之。
-5. **PATH 搜索**：用 *PATH* 环境变量（见 XBD 8. 环境变量）搜索：
-   - **搜索成功**：
-     - 若实现把该实用程序作为内置或函数，且与该内置/函数关联的目录是成功 *PATH* 搜索中**最近测试**的目录 → 调用该内置/函数；
-     - 否则按 2.9.1.6 执行非内置实用程序。
-     - **记住位置**：找到后实现可以记住其位置，除非 *PATH* 成为赋值对象否则不必再搜；记住的位置后续调用失败 → shell 重复搜索找新位置。
-   - **搜索失败** → 命令以退出状态 **127** 失败，shell 写错误消息。
-
-**命令名含至少一个 \<slash\> 时**：直接按 2.9.1.6 执行非内置实用程序。
-
-#### 2.9.1.5 标准文件描述符 (Standard File Descriptors)
-
-- 若实用程序将要以 FD 0、1 或 2 关闭的状态执行，实现可以将其实执行到 FD 对**未指定文件**打开。
-- 若标准实用程序或符合应用以 FD 0 未为读取打开、或 FD 1/2 未为写入打开的状态执行，执行环境被视为**不符合（non-conforming）**，实用程序或应用可能不会按本标准所述行为表现。
-
-#### 2.9.1.6 非内置实用程序执行 (Non-built-in Utility Execution)
-
-- **非 `exec` 执行**：shell 在**单独的实用程序环境**（见 2.13）中执行。
-- **`exec` 执行**：不创建单独环境；**新进程映像替换当前 shell 执行环境**（若当前是子 shell 环境，则替换子 shell 环境，shell 在调用该子 shell 环境的环境中继续）。
-
-执行方式：
-
-1. **命令名不含 \<slash\>**：用 *PATH* 搜索。
-   - **成功** → 以等价于调用 `execl()` 的动作执行：*path* 为搜索所得路径名，*arg0* 为命令名，其余参数为命令参数（如有）和 null 终止符。
-     - **\[ENOEXEC\]**：若 `execl()` 因等价于 \[ENOEXEC\] 的错误失败，shell 执行等价于"以搜索所得路径名作为第一个操作数调用 shell"的命令，剩余参数传给新 shell（新 shell 的 `"$0"` 可设为命令名）。shell 可以启发式检查文件是否可能是脚本，若确定不可能则绕过（此时写错误消息，命令以 **126** 失败）。常见启发式：在文件定长前缀内、\<newline\> 字节之前定位 NUL 字节（不能基于行长，因为要求 `sh` 接受无限长行）。
-     - 传入 shell 但因名称无效未被用于初始化 shell 变量的环境变量，是否包含在传给 `execl()`（及失败时新 shell）的环境中，是**未指定的**。
-   - **失败** → 命令以 **127** 失败，shell 写错误消息。
-2. **命令名含至少一个 \<slash\>**：
-   - **存在** → 等价于调用 `execl()`（*path* 和 *arg0* 均为命令名）；\[ENOEXEC\] 时按上述"以命令名作为第一个操作数调用 shell"处理；启发式同前。
-   - **不存在** → 命令以 **127** 失败，shell 写错误消息。
-
-### 2.9.2 管道 (Pipelines)
-
-*管道（pipeline）*是由控制运算符 `'|'` 分隔的一个或多个命令的序列。
-
-```
-[!] command1 [ | command2 ...]
-```
-
-**执行语义**：
-
-- 除最后一个命令外，shell 把每个命令的标准输出连接到下一个命令的标准输入（如同创建管道：写端作为前命令的标准输出、读端作为后命令的标准输入）。
-- 命令的标准输入/输出/两者被视为在命令的重定向运算符（见 2.7）指定的任何重定向**之前**由管道分配。
-- **`!` 与子 shell 的空白要求**：管道以保留字 **!** 开头且 *command1* 是子 shell 命令时，应用应确保 *command1* 开头的 **(** 与 **!** 之间有一个或多个 \<blank\>；**!** 后紧跟 **(** 的行为是**未指定的**。
-- **等待**：管道不在后台时，shell 等待管道中最后一个命令完成，也可以等待所有命令完成。
-
-**退出状态**（取决于 *pipefail* 选项是否启用及是否以 **!** 开头；shell 使用**开始执行管道时**的 *pipefail* 设置，而非设置退出状态时的设置）：
-
-| **启用 pipefail** | **以 ! 开头** | **退出状态** |
-|:---|:---|:---|
-| 否 | 否 | 管道中最后一个（最右边）命令的退出状态。 |
-| 否 | 是 | 若最后一个命令返回非零则为零；否则为 1。 |
-| 是 | 否 | 若所有命令都返回 0 则为零；否则为返回非零的最后一个（最右边）命令的退出状态。 |
-| 是 | 是 | 若任何命令返回非零则为零；否则为 1。 |
-
-（例如在 `command1 | set -o pipefail` 中，`command1` 的退出状态对管道退出状态无影响。）
-
-### 2.9.3 列表 (Lists)
-
-- **AND-OR 列表**：由 `"&&"` 和 `"||"` 分隔的一个或多个管道的序列。
-- **列表（list）**：由 `';'` 和 `'&'` 分隔的一个或多个 AND-OR 列表的序列。
-
-**执行规则**：
-
-- `"&&"` 与 `"||"` 具有**相同优先级**、**左结合**（例如 `false && echo foo || echo bar` 与 `true || echo foo && echo bar` 都只输出 **bar**）。
-- `';'` 分隔符/终止符 → 前面的 AND-OR 列表**顺序执行**；`'&'` 分隔符/终止符 → **异步执行**。
-- 术语 "compound-list"（复合列表）源自 2.10 文法，等价于由 \<newline\> 分隔的 *lists* 序列，前后可有任意数量 \<newline\>。
-
-#### 示例 (Examples)
-
-复合列表中的 \<newline\>：
-
-    while
-        # a couple of <newline>s
-
-
-        # a list
-        date && who || ls; cat file
-        # a couple of <newline>s
-
-
-        # another list
-        wc file > output & true
-
-
-    do
-        # 2 lists
-        ls
-        cat file
-    done
-
-#### 2.9.3.1 异步 AND-OR 列表 (Asynchronous AND-OR Lists)
-
-- AND-OR 列表以 `'&'` 终止 → shell 在**子 shell 环境**中**异步**执行：shell 不等待子 shell 终止再执行下一条命令；若无更多命令，shell 不在退出前等待。
-- **作业控制**：
-  - 启用（`set` **-m**）→ 列表成为**作业控制后台作业**，分配作业号；
-  - 禁用 → 可以成为非作业控制后台作业（分配作业号）；若无作业号则成为后台命令（background command）但非后台作业。
-- **进程 ID**：与异步 AND-OR 列表关联的进程 ID 在当前 shell 执行环境中变为已知（见 2.13），保持已知直到以下任一情况：
-  - 进程终止且应用等待该 PID 或相应作业 ID（见 `wait`）；
-  - 未成为后台作业时：展开 `"$!"` 前又调用了另一个异步 AND-OR 列表；
-  - 成为后台作业时：`jobs` 报告该作业的终止状态；
-  - 交互式且成为后台作业时：完成消息写到标准错误（`set` **-b** 启用时，PID 从已知列表移除的时机未指定）。
-  - 实现只需保留 {CHILD_MAX} 个最近条目。
-- **标准输入**：当且仅当禁用作业控制时，异步子 shell 的标准输入初始分配给一个行为如同只读打开 **/dev/null** 的打开文件描述；AND-OR 列表内的显式重定向覆盖之。
-- **输出格式**：交互式且成为后台作业 → 以 `"[%d] %d\n"`（作业号、进程 ID）写到标准错误；未成为后台作业 → 以未指定格式写 PID。
-- **退出状态**：异步 AND-OR 列表的退出状态为**零**；子 shell 的退出状态可用 `wait` 获得。
-
-#### 2.9.3.2 顺序 AND-OR 列表 (Sequential AND-OR Lists)
-
-```
-aolist1 [; aolist2] ...
-```
-
-- 以 `';'` 分隔的 AND-OR 列表按指定顺序扩展和执行；启用作业控制时，构成可控制的前台作业（见 2.11）的全部或部分。
-- **退出状态**：最后一个被执行的管道的退出状态。
-
-#### 2.9.3.3 AND 列表 (AND Lists)
-
-```
-command1 [ && command2] ...
-```
-
-- 执行 *command1*；若其退出状态为零则执行 *command2*，依此类推，直到某命令非零或无更多命令。命令**仅在被执行时才被扩展**。
-- **退出状态**：最后被执行的命令的退出状态。
-
-#### 2.9.3.4 OR 列表 (OR Lists)
-
-```
-command1 [ || command2] ...
-```
-
-- 执行 *command1*；若其退出状态非零则执行 *command2*，依此类推，直到某命令为零或无更多命令。
-- **退出状态**：最后被执行的命令的退出状态。
-
-### 2.9.4 复合命令 (Compound Commands)
-
-复合命令为命令提供**控制流**：每个在开头有一个保留字或控制运算符，结尾有相应的终止保留字或运算符，且后面可以跟与终止符同一行上的重定向（每个重定向应用于复合命令内未显式覆盖它的所有命令）。
-
-**复合列表的退出状态**：以下描述中以 *compound-list* 的退出状态表述——即特殊参数 `'?'`（见 2.5.2）在执行该 *compound-list* 之后立即具有的值。
-
-#### 2.9.4.1 分组命令 (Grouping Commands)
-
-```
-( compound-list )          # 子 shell 形式
-{ compound-list ; }        # 当前 shell 形式
-```
-
-- **( )**：在**子 shell 环境**中执行（见 2.13）；影响环境的变量赋值和内置命令在列表完成后**不保持生效**。
-  - 以 `"(("` 开头的序列在 `'$'` 前缀下会被解析为算术扩展时，实现可以把 `"((`*`expression`*`))"` 当作算术求值；符合应用应用空白分隔两个前导 `'('` 以防止算术求值。
-- **{ }**：在**当前进程环境**中执行；所示 semicolon 是界定 **}** 保留字的控制运算符示例（其他定界符如 \<newline\> 见 2.10 文法）。
-- **退出状态**：*compound-list* 的退出状态。
-
-#### 2.9.4.2 for 循环 (The for Loop)
-
-```
-for name [ in [word ... ]]
+<tr valign="top">
+<td align="left">
+<p class="tent">Redirection error with other<br>
+utilities (not special built-ins)
+
+<td align="left">
+<p class="tent">shall not exit
+
+<td align="left">
+<p class="tent">shall not exit
+
+<td align="left">
+<p class="tent">yes
+
+<tr valign="top">
+<td align="left">
+<p class="tent">Variable assignment error
+
+<td align="left">
+<p class="tent">shall exit
+
+<td align="left">
+<p class="tent">shall not exit
+
+<td align="left">
+<p class="tent">yes
+
+<tr valign="top">
+<td align="left">
+<p class="tent">Expansion error
+
+<td align="left">
+<p class="tent">shall exit
+
+<td align="left">
+<p class="tent">shall not exit
+
+<td align="left">
+<p class="tent">yes
+
+<tr valign="top">
+<td align="left">
+<p class="tent">Command not found
+
+<td align="left">
+<p class="tent">may exit
+
+<td align="left">
+<p class="tent">shall not exit
+
+<td align="left">
+<p class="tent">yes
+
+<tr valign="top">
+<td align="left">
+<p class="tent">Unrecoverable read error<br>
+when reading commands
+
+<td align="left">
+<p class="tent">shall exit<sup><small>4
+
+<td align="left">
+<p class="tent">shall exit<sup><small>4
+
+<td align="left">
+<p class="tent">yes
+
+Notes:
+<ol>
+<li class="tent">The shell shall exit only if the special built-in utility is executed directly. If it is executed via the <a href=
+"../utilities/command.html"><i>command utility, the shell shall not exit.
+<li class="tent">Although special built-ins are part of the shell, a diagnostic message written by a special built-in is not
+considered to be a shell diagnostic message, and can be redirected like any other utility.
+<li class="tent">The shell is not required to write a diagnostic message, but the utility itself shall write a diagnostic message
+if required to do so.
+<li class="tent">If an unrecoverable read error occurs when reading commands, other than from the <i>file operand of the
+<a href="#dot"><i>dot special built-in, the shell shall execute no further commands (including any already successfully
+read but not yet executed) other than any specified in a previously defined EXIT <a href="#trap"><i>trap action. An
+unrecoverable read error while reading from the <i>file operand of the <a href="#dot"><i>dot special built-in shall be
+treated as a special built-in utility error.
+
+<p class="tent">An expansion error is one that occurs when the shell expansions defined in <a href="#tag_19_06">2.6 Word
+Expansions are carried out (for example, <tt>&#34;&#36;{x!y}&#34;, because <tt>&#39;!&#39; is not a valid operator); an implementation
+may treat these as syntax errors if it is able to detect them during tokenization, rather than during expansion.
+<p class="tent">If any of the errors shown as &#34;shall exit&#34; or &#34;may exit&#34; occur in a subshell environment, the shell shall
+(respectively, may) exit from the subshell environment with a non-zero status and continue in the environment from which that
+subshell environment was invoked.
+<p class="tent">In all of the cases shown in the table where an interactive shell is required not to exit and a non-interactive
+shell is required to exit, an interactive shell shall not perform any further processing of the command in which the error
+occurred.
+<h4><a name="tag_19_08_02" id="tag_19_08_02">2.8.2 Exit Status for Commands
+<p class="tent">Each command has an exit status that can influence the behavior of other shell commands. The exit status of
+commands that are not utilities is documented in this section. The exit status of the standard utilities is documented in their
+respective sections.
+<p class="tent">The exit status of a command shall be determined as follows:
+<ul>
+<li class="tent">If the command is not found, the exit status shall be 127.
+<li class="tent">Otherwise, if the command name is found, but it is not an executable utility, the exit status shall be 126.
+<li class="tent">Otherwise, if the command terminated due to the receipt of a signal, the shell shall assign it an exit status
+greater than 128. The exit status shall identify, in an implementation-defined manner, which signal terminated the command. Note
+that shell implementations are permitted to assign an exit status greater than 255 if a command terminates due to a signal.
+<li class="tent">Otherwise, the exit status shall be the value obtained by the equivalent of the WEXITSTATUS macro applied to the
+status obtained by the <a href="../functions/wait.html"><i>wait() function (as defined in the System Interfaces volume of
+POSIX.1-2024). Note that for C programs, this value is equal to the result of performing a modulo 256 operation on the value passed
+to <a href="../functions/_Exit.html"><i>&#95;Exit(), <a href="../functions/_exit.html"><i>&#95;exit(), or <a href=
+"../functions/exit.html"><i>exit() or returned from <i>main().
+
+<h3><a name="tag_19_09" id="tag_19_09">2.9 Shell Commands
+<p class="tent">This section describes the basic structure of shell commands. The following command descriptions each describe a
+format of the command that is only used to aid the reader in recognizing the command type, and does not formally represent the
+syntax. In particular, the representations include spacing between tokens in some places where &lt;blank&gt;s would not be
+necessary (when one of the tokens is an operator). Each description discusses the semantics of the command; for a formal definition
+of the command language, consult <a href="#tag_19_10">2.10 Shell Grammar.
+<p class="tent">A <i>command is one of the following:
+<ul>
+<li class="tent">Simple command (see <a href="#tag_19_09_01">2.9.1 Simple Commands)
+<li class="tent">Pipeline (see <a href="#tag_19_09_02">2.9.2 Pipelines)
+<li class="tent">List compound-list (see <a href="#tag_19_09_03">2.9.3 Lists)
+<li class="tent">Compound command (see <a href="#tag_19_09_04">2.9.4 Compound Commands)
+<li class="tent">Function definition (see <a href="#tag_19_09_05">2.9.5 Function Definition Command)
+
+<p class="tent">Unless otherwise stated, the exit status of a command shall be that of the last simple command executed by the
+command. There shall be no limit on the size of any shell command other than that imposed by the underlying system (memory
+constraints, {ARG&#95;MAX}, and so on).
+<h4><a name="tag_19_09_01" id="tag_19_09_01">2.9.1 Simple Commands
+<p class="tent">A &#34;simple command&#34; is a sequence of optional variable assignments and redirections, in any sequence, optionally
+followed by words and redirections.
+<h5 class="header4"><a name="tag_19_09_01_01" id="tag_19_09_01_01">2.9.1.1 Order of Processing
+<p class="tent">When a given simple command is required to be executed (that is, when any conditional construct such as an AND-OR
+list or a <b>case statement has not bypassed the simple command), the following expansions, assignments, and redirections shall
+all be performed from the beginning of the command text to the end:
+<ol>
+<li class="tent">The words that are recognized as variable assignments or redirections according to <a href="#tag_19_10_02">2.10.2
+Shell Grammar Rules are saved for processing in steps 3 and 4.
+<li class="tent">The first word (if any) that is not a variable assignment or redirection shall be expanded. If any fields remain
+following its expansion, the first field shall be considered the command name. If no fields remain, the next word (if any) shall be
+expanded, and so on, until a command name is found or no words remain. If there is a command name and it is recognized as a
+declaration utility, then any remaining words after the word that expanded to produce the command name, that would be recognized as
+a variable assignment in isolation, shall be expanded as a variable assignment (tilde expansion after the first &lt;equals-sign&gt;
+and after any unquoted &lt;colon&gt;, parameter expansion, command substitution, arithmetic expansion, and quote removal, but no
+field splitting or pathname expansion); while remaining words that would not be a variable assignment in isolation shall be subject
+to regular expansion (tilde expansion for only a leading &lt;tilde&gt;, parameter expansion, command substitution, arithmetic
+expansion, field splitting, pathname expansion, and quote removal). For all other command names, words after the word that produced
+the command name shall be subject only to regular expansion. All fields resulting from the expansion of the word that produced the
+command name and the subsequent words, except for the field containing the command name, shall be the arguments for the
+command.
+<li class="tent">Redirections shall be performed as described in <a href="#tag_19_07">2.7 Redirection.
+<li class="tent">Each variable assignment shall be expanded for tilde expansion, parameter expansion, command substitution,
+arithmetic expansion, and quote removal prior to assigning the value.
+
+<p class="tent">In the preceding list, the order of steps 3 and 4 may be reversed if no command name results from step 2 or if the
+command name matches the name of a special built-in utility; see <a href="#tag_19_15">2.15 Special Built-In Utilities.
+<p class="tent">When determining whether a command name is a declaration utility, an implementation may use only lexical analysis.
+It is unspecified whether assignment context will be used if the command name would only become recognized as a declaration utility
+after word expansions.
+<h5 class="header4"><a name="tag_19_09_01_02" id="tag_19_09_01_02">2.9.1.2 Variable Assignments
+<p class="tent">Variable assignments shall be performed as follows:
+<ul>
+<li class="tent">If no command name results, variable assignments shall affect the current execution environment.
+<li class="tent">If the command name is not a special built-in utility or function, the variable assignments shall be exported for
+the execution environment of the command and shall not affect the current execution environment except as a side-effect of the
+expansions performed in step 4. In this case it is unspecified:
+<ul>
+<li class="tent">Whether or not the assignments are visible for subsequent expansions in step 4
+<li class="tent">Whether variable assignments made as side-effects of these expansions are visible for subsequent expansions in
+step 4, or in the current shell execution environment, or both
+
+<li class="tent">If the command name is a standard utility implemented as a function (see XBD <a href=
+"../basedefs/V1_chap04.html#tag_04_25"><i>4.25 Utility), the effect of variable assignments shall be as if the utility was
+not implemented as a function.
+<li class="tent">If the command name is a special built-in utility, variable assignments shall affect the current execution
+environment before the utility is executed and remain in effect when the command completes; if an assigned variable is further
+modified by the utility, the modifications made by the utility shall persist. Unless the <a href="#set"><i>set <b>-a
+option is on (see <a href="#tag_19_26">set), it is unspecified:
+<ul>
+<li class="tent">Whether or not the variables gain the <i>export attribute during the execution of the special built-in
+utility
+<li class="tent">Whether or not <i>export attributes gained as a result of the variable assignments persist after the
+completion of the special built-in utility
+
+<li class="tent">If the command name is a function that is not a standard utility implemented as a function, variable assignments
+shall affect the current execution environment during the execution of the function. It is unspecified:
+<ul>
+<li class="tent">Whether or not the variable assignments persist after the completion of the function
+<li class="tent">Whether or not the variables gain the <i>export attribute during the execution of the function
+<li class="tent">Whether or not <i>export attributes gained as a result of the variable assignments persist after the
+completion of the function (if variable assignments persist after the completion of the function)
+
+<p class="tent">If any of the variable assignments attempt to assign a value to a variable for which the <i>readonly attribute
+is set in the current shell environment (regardless of whether the assignment is made in that environment), a variable assignment
+error shall occur. See <a href="#tag_19_08_01">2.8.1 Consequences of Shell Errors for the consequences of these errors.
+<h5 class="header4"><a name="tag_19_09_01_03" id="tag_19_09_01_03">2.9.1.3 Commands with no Command Name
+<p class="tent">If a simple command has no command name after word expansion (see <a href="#tag_19_09_01_01">2.9.1.1 Order of
+Processing), any redirections shall be performed in a subshell environment; it is unspecified whether this subshell
+environment is the same one as that used for a command substitution within the command. (To affect the current execution
+environment, see the <a href="#tag_19_21">exec special built-in.) If any of the redirections performed in the current shell
+execution environment fail, the command shall immediately fail with an exit status greater than zero, and the shell shall write an
+error message indicating the failure. See <a href="#tag_19_08_01">2.8.1 Consequences of Shell Errors for the consequences of
+these failures on interactive and non-interactive shells.
+<p class="tent">Additionally, if there is no command name but the command contains a command substitution, the command shall
+complete with the exit status of the command substitution whose exit status was the last to be obtained. Otherwise, the command
+shall complete with a zero exit status.
+<h5 class="header4"><a name="tag_19_09_01_04" id="tag_19_09_01_04">2.9.1.4 Command Search and Execution
+<p class="tent">If a simple command has a command name and an optional list of arguments after word expansion (see <a href=
+"#tag_19_09_01_01">2.9.1.1 Order of Processing), the following actions shall be performed:
+<ol>
+<li class="tent">If the command name does not contain any &lt;slash&gt; characters, the first successful step in the following
+sequence shall occur:
+<ol type="a">
+<li class="tent">If the command name matches the name of a special built-in utility, that special built-in utility shall be
+invoked.
+<li class="tent">If the command name matches the name of a utility listed in the following table, the results are unspecified.
+<center>
+<table cellpadding="3" align="center">
+<tr valign="top">
+<td align="left">
+<p class="tent"><br>
+<i>alloc<br>
+<i>autoload<br>
+<i>bind<br>
+<i>bindkey<br>
+<i>builtin<br>
+<i>bye<br>
+<i>caller<br>
+<i>cap<br>
+<i>chdir<br>
+<i>clone<br>
+<i>comparguments<br>
+ 
+
+<td align="left">
+<p class="tent"><br>
+<i>compcall<br>
+<i>compctl<br>
+<i>compdescribe<br>
+<i>compfiles<br>
+<i>compgen<br>
+<i>compgroups<br>
+<i>complete<br>
+<i>compound<br>
+<i>compquote<br>
+<i>comptags<br>
+<i>comptry<br>
+ 
+
+<td align="left">
+<p class="tent"><br>
+<i>compvalues<br>
+<i>declare<br>
+<i>dirs<br>
+<i>disable<br>
+<i>disown<br>
+<i>dosh<br>
+<i>echotc<br>
+<i>echoti<br>
+<i>enum<br>
+<i>float<br>
+<i>help<br>
+ 
+
+<td align="left">
+<p class="tent"><br>
+<i>history<br>
+<i>hist<br>
+<i>integer<br>
+<i>let<br>
+<i>local<br>
+<i>login<br>
+<i>logout<br>
+<i>map<br>
+<i>mapfile<br>
+<i>nameref<br>
+<i>popd<br>
+ 
+
+<td align="left">
+<p class="tent"><br>
+<i>print<br>
+<i>pushd<br>
+<i>readarray<br>
+<i>repeat<br>
+<i>savehistory<br>
+<i>source<br>
+<i>shopt<br>
+<i>stop<br>
+<i>suspend<br>
+<i>typeset<br>
+<i>whence<br>
+ 
+
+<li class="tent">If the command name matches the name of a function known to this shell, the function shall be invoked as described
+in <a href="#tag_19_09_05">2.9.5 Function Definition Command. If the implementation has provided a standard utility in the
+form of a function, and that function definition still exists (i.e. has not been removed using <a href="#unset"><i>unset
+<b>-f or replaced via another function definition with the same name), it shall not be recognized at this point. It shall be
+invoked in conjunction with the path search in step 1e.
+<li class="tent">If the command name matches the name of an intrinsic utility (see <a href=
+"../utilities/V3_chap01.html#tag_18_07"><i>1.7 Intrinsic Utilities), that utility shall be invoked.
+<li class="tent">Otherwise, the command shall be searched for using the <i>PATH environment variable as described in XBD
+<a href="../basedefs/V1_chap08.html#tag_08"><i>8. Environment Variables:
+<ol type="i">
+<li class="tent">If the search is successful:
+<ol type="a">
+<li class="tent">If the system has implemented the utility as a built-in or as a shell function, and the built-in or function is
+associated with the directory that was most recently tested during the successful <i>PATH search, that built-in or function
+shall be invoked.
+<li class="tent">Otherwise, the shell shall execute a non-built-in utility as described in <a href="#tag_19_09_01_06">2.9.1.6
+Non-built-in Utility Execution.
+
+<p class="tent">Once a utility has been searched for and found (either as a result of this specific search or as part of an
+unspecified shell start-up activity), an implementation may remember its location and need not search for the utility again unless
+the <i>PATH variable has been the subject of an assignment. If the remembered location fails for a subsequent invocation, the
+shell shall repeat the search to find the new location for the utility, if any.
+
+<li class="tent">If the search is unsuccessful, the command shall fail with an exit status of 127 and the shell shall write an
+error message.
+
+<li class="tent">If the command name contains at least one &lt;slash&gt;, the shell shall execute a non-built-in utility as
+described in <a href="#tag_19_09_01_06">2.9.1.6 Non-built-in Utility Execution.
+
+<h5 class="header4"><a name="tag_19_09_01_05" id="tag_19_09_01_05">2.9.1.5 Standard File Descriptors
+<p class="tent">If the utility would be executed with file descriptor 0, 1, or 2 closed, implementations may execute the utility
+with the file descriptor open to an unspecified file. If a standard utility or a conforming application is executed with file
+descriptor 0 not open for reading or with file descriptor 1 or 2 not open for writing, the environment in which the utility or
+application is executed shall be deemed non-conforming, and consequently the utility or application might not behave as described
+in this standard.
+<h5 class="header4"><a name="tag_19_09_01_06" id="tag_19_09_01_06">2.9.1.6 Non-built-in Utility Execution
+When the shell executes a non-built-in utility, if the execution is not being made via the <a href="#exec"><i>exec special
+built-in utility, the shell shall execute the utility in a separate utility environment (see <a href="#tag_19_13">2.13 Shell
+Execution Environment).
+<p class="tent">If the execution is being made via the <a href="#exec"><i>exec special built-in utility, the shell shall
+not create a separate utility environment for this execution; the new process image shall replace the current shell execution
+environment. If the current shell environment is a subshell environment, the new process image shall replace the subshell
+environment and the shell shall continue in the environment from which that subshell environment was invoked.
+<p class="tent">In either case, execution of the utility in the specified environment shall be performed as follows:
+<ol>
+<li class="tent">If the command name does not contain any &lt;slash&gt; characters, the command name shall be searched for using
+the <i>PATH environment variable as described in XBD <a href="../basedefs/V1_chap08.html#tag_08"><i>8. Environment
+Variables:
+<ol type="a">
+<li class="tent">If the search is successful, the shell shall execute the utility with actions equivalent to calling the <a href=
+"../functions/execl.html"><i>execl() function as defined in the System Interfaces volume of POSIX.1-2024 with the
+<i>path argument set to the pathname resulting from the search, <i>arg0 set to the command name, and the remaining <a href=
+"../functions/execl.html"><i>execl() arguments set to the command arguments (if any) and the null terminator.
+<p class="tent">If the <a href="../functions/execl.html"><i>execl() function fails due to an error equivalent to the
+&#91;ENOEXEC&#93; error defined in the System Interfaces volume of POSIX.1-2024, the shell shall execute a command equivalent to having a
+shell invoked with the pathname resulting from the search as its first operand, with any remaining arguments passed to the new
+shell, except that the value of <tt>&#34;&#36;0&#34; in the new shell may be set to the command name. The shell may apply a heuristic
+check to determine if the file to be executed could be a script and may bypass this command execution if it determines that the
+file cannot be a script. In this case, it shall write an error message, and the command shall fail with an exit status of 126.
+<basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>A common heuristic for rejecting files that cannot be a script is locating a NUL byte prior to a &lt;newline&gt; byte within a
+fixed-length prefix of the file. Since <a href="../utilities/sh.html"><i>sh is required to accept input files with
+unlimited line lengths, the heuristic check cannot be based on line length.
+
+<basefont size="3">
+<p class="tent">It is unspecified whether environment variables that were passed to the shell when it was invoked, but were not
+used to initialize shell variables (see <a href="#tag_19_05_03">2.5.3 Shell Variables) because they had invalid names, are
+included in the environment passed to <a href="../functions/execl.html"><i>execl() and (if <a href=
+"../functions/execl.html"><i>execl() fails as described above) to the new shell.
+
+<li class="tent">If the search is unsuccessful, the command shall fail with an exit status of 127 and the shell shall write an
+error message.
+
+<li class="tent">If the command name contains at least one &lt;slash&gt;:
+<ol type="a">
+<li class="tent">If the named utility exists, the shell shall execute the utility with actions equivalent to calling the <a href=
+"../functions/execl.html"><i>execl() function defined in the System Interfaces volume of POSIX.1-2024 with the <i>path
+and <i>arg0 arguments set to the command name, and the remaining <a href="../functions/execl.html"><i>execl() arguments
+set to the command arguments (if any) and the null terminator.
+<p class="tent">If the <a href="../functions/execl.html"><i>execl() function fails due to an error equivalent to the
+&#91;ENOEXEC&#93; error, the shell shall execute a command equivalent to having a shell invoked with the command name as its first operand,
+with any remaining arguments passed to the new shell. The shell may apply a heuristic check to determine if the file to be executed
+could be a script and may bypass this command execution if it determines that the file cannot be a script. In this case, it shall
+write an error message, and the command shall fail with an exit status of 126. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>A common heuristic for rejecting files that cannot be a script is locating a NUL byte prior to a &lt;newline&gt; byte within a
+fixed-length prefix of the file. Since <a href="../utilities/sh.html"><i>sh is required to accept input files with
+unlimited line lengths, the heuristic check cannot be based on line length.
+
+<basefont size="3">
+<p class="tent">It is unspecified whether environment variables that were passed to the shell when it was invoked, but were not
+used to initialize shell variables (see <a href="#tag_19_05_03">2.5.3 Shell Variables) because they had invalid names, are
+included in the environment passed to <a href="../functions/execl.html"><i>execl() and (if <a href=
+"../functions/execl.html"><i>execl() fails as described above) to the new shell.
+
+<li class="tent">If the named utility does not exist, the command shall fail with an exit status of 127 and the shell shall write
+an error message.
+
+<h4><a name="tag_19_09_02" id="tag_19_09_02">2.9.2 Pipelines
+<p class="tent">A <i>pipeline is a sequence of one or more commands separated by the control operator <tt>&#39;|&#39;. For each
+command but the last, the shell shall connect the standard output of the command to the standard input of the next command as if by
+creating a pipe and passing the write end of the pipe as the standard output of the command and the read end of the pipe as the
+standard input of the next command.
+<p class="tent">The format for a pipeline is:
+<pre>
+<b>&#91;<tt>!<b>&#93; <i>command1 <b>&#91;<tt> | <i>command2<tt> &#46;&#46;&#46;<b>&#93;<tt>
+
+<p class="tent">If the pipeline begins with the reserved word <b>! and <i>command1 is a subshell command, the application
+shall ensure that the <b>( operator at the beginning of <i>command1 is separated from the <b>! by one or more
+&lt;blank&gt; characters. The behavior of the reserved word <b>! immediately followed by the <b>( operator is
+unspecified.
+<p class="tent">The standard output of <i>command1 shall be connected to the standard input of <i>command2. The standard
+input, standard output, or both of a command shall be considered to be assigned by the pipeline before any redirection specified by
+redirection operators that are part of the command (see <a href="#tag_19_07">2.7 Redirection).
+<p class="tent">If the pipeline is not in the background (see <a href="#tag_19_09_03_02">2.9.3.1 Asynchronous AND-OR Lists and
+<a href="#tag_19_11">2.11 Job Control), the shell shall wait for the last command specified in the pipeline to complete, and
+may also wait for all commands to complete.
+<h5><a name="tag_19_09_02_01" id="tag_19_09_02_01">Exit Status
+<p class="tent">The exit status of a pipeline shall depend on whether or not the <i>pipefail option (see <a href=
+"#tag_19_26">set) is enabled and whether or not the pipeline begins with the <b>! reserved word, as described in the
+following table. The <i>pipefail option determines which command in the pipeline the exit status is derived from; the <b>!
+reserved word causes the exit status to be the logical NOT of the exit status of that command. The shell shall use the
+<i>pipefail setting at the time it begins execution of the pipeline, not the setting at the time it sets the exit status of the
+pipeline. (For example, in <tt>command1 | set -o pipefail the exit status of <tt>command1 has no effect on the exit
+status of the pipeline, even if the shell executes <tt>set -o pipefail in the current shell environment.)
+<center>
+<table border="1" cellpadding="3" align="center">
+<tr valign="top">
+<th align="center">
+<p class="tent"><b>pipefail Enabled
+
+<th align="center">
+<p class="tent"><b>Begins with !
+
+<th align="center">
+<p class="tent"><b>Exit Status
+
+<tr valign="top">
+<td align="left">
+<p class="tent">no
+
+<td align="left">
+<p class="tent">no
+
+<td align="left">
+<p class="tent">The exit status of the last (rightmost) command specified in the pipeline.
+
+<tr valign="top">
+<td align="left">
+<p class="tent">no
+
+<td align="left">
+<p class="tent">yes
+
+<td align="left">
+<p class="tent">Zero, if the last (rightmost) command in the pipeline returned a non-zero exit status; otherwise, 1.
+
+<tr valign="top">
+<td align="left">
+<p class="tent">yes
+
+<td align="left">
+<p class="tent">no
+
+<td align="left">
+<p class="tent">Zero, if all commands in the pipeline returned an exit status of 0; otherwise, the exit status of the last
+(rightmost) command specified in the pipeline that returned a non-zero exit status.
+
+<tr valign="top">
+<td align="left">
+<p class="tent">yes
+
+<td align="left">
+<p class="tent">yes
+
+<td align="left">
+<p class="tent">Zero, if any command in the pipeline returned a non-zero exit status; otherwise, 1.
+
+<h4><a name="tag_19_09_03" id="tag_19_09_03">2.9.3 Lists
+<p class="tent">An <i>AND-OR list is a sequence of one or more pipelines separated by the operators <tt>&#34;&amp;&amp;&#34; and
+<tt>&#34;||&#34;.
+<p class="tent">A <i>list is a sequence of one or more AND-OR lists separated by the operators <tt>&#39;;&#39; and
+<tt>&#39;&amp;&#39;.
+<p class="tent">The operators <tt>&#34;&amp;&amp;&#34; and <tt>&#34;||&#34; shall have equal precedence and shall be evaluated with left
+associativity. For example, both of the following commands write solely <b>bar to standard output:
+<pre>
+<tt>false &amp;&amp; echo foo || echo bar
+true || echo foo &amp;&amp; echo bar
+
+<p class="tent">A <tt>&#39;;&#39; separator or a <tt>&#39;;&#39; or &lt;newline&gt; terminator shall cause the preceding AND-OR list to
+be executed sequentially; an <tt>&#39;&amp;&#39; separator or terminator shall cause asynchronous execution of the preceding AND-OR
+list.
+<p class="tent">The term &#34;compound-list&#34; is derived from the grammar in <a href="#tag_19_10">2.10 Shell Grammar; it is
+equivalent to a sequence of <i>lists, separated by &lt;newline&gt; characters, that can be preceded or followed by an arbitrary
+number of &lt;newline&gt; characters.
+<hr>
+<div class="box"><em>The following sections are informative.
+<h5><a name="tag_19_09_03_01" id="tag_19_09_03_01">Examples
+<p class="tent">The following is an example that illustrates &lt;newline&gt; characters in compound-lists:
+<pre>
+<tt>while
+    # a couple of &lt;newline&gt;s
+<br class="tent">
+    # a list
+    date &amp;&amp; who || ls; cat file
+    # a couple of &lt;newline&gt;s
+<br class="tent">
+    # another list
+    wc file &gt; output &amp; true
+<br class="tent">
 do
-    compound-list
+    # 2 lists
+    ls
+    cat file
 done
-```
 
-- 先扩展 **in** 之后的单词列表生成项列表；然后变量 *name* 依次设置为每个项，每次执行 *compound-list*；无项结果时**不执行**。
-- 省略 `in word ...` 等价于 `in "$@"`。
-- **退出状态**：至少一项 → 最后执行的 *compound-list* 的退出状态；无项 → 零。
+<div class="box"><em>End of informative text.
+<hr>
+<h5 class="header4"><a name="tag_19_09_03_02" id="tag_19_09_03_02">2.9.3.1 Asynchronous AND-OR Lists
+<p class="tent">If an AND-OR list is terminated by the control operator &lt;ampersand&gt; (<tt>&#39;&amp;&#39;), the shell shall
+execute the AND-OR list asynchronously in a subshell environment. This subshell shall execute in the background; that is, the shell
+shall not wait for the subshell to terminate before executing the next command (if any); if there are no further commands to
+execute, the shell shall not wait for the subshell to terminate before exiting.
+<p class="tent">If job control is enabled (see <a href="#tag_19_26">set, <b>-m), the AND-OR list shall become a
+job-control background job and a job number shall be assigned to it. If job control is disabled, the AND-OR list may become a
+non-job-control background job, in which case a job number shall be assigned to it; if no job number is assigned it shall become a
+background command but not a background job.
+<p class="tent">A job-control background job can be controlled as described in <a href="#tag_19_11">2.11 Job Control.
+<p class="tent">The process ID associated with the asynchronous AND-OR list shall become known in the current shell execution
+environment; see <a href="#tag_19_13">2.13 Shell Execution Environment. This process ID shall remain known until any one of
+the following occurs (and, unless otherwise specified, may continue to remain known after it occurs).
+<ul>
+<li class="tent">The process terminates and the application waits for the process ID or the corresponding job ID (see <a href=
+"../utilities/wait.html#tag_20_147"><i>wait).
+<li class="tent">If the asynchronous AND-OR list did not become a background job: another asynchronous AND-OR list is invoked
+before <tt>&#34;&#36;!&#34; (corresponding to the previous asynchronous AND-OR list) is expanded in the current shell execution
+environment.
+<li class="tent">If the asynchronous AND-OR list became a background job: the <a href="../utilities/jobs.html"><i>jobs
+utility reports the termination status of that job.
+<li class="tent">If the shell is interactive and the asynchronous AND-OR list became a background job: a message indicating
+completion of the corresponding job is written to standard error. If <a href="#set"><i>set <b>-b is enabled, it is
+unspecified whether the process ID is removed from the list of known process IDs when the message is written or immediately prior
+to when the shell writes the next prompt for input.
 
-#### 2.9.4.3 case 条件构造 (Case Conditional Construct)
+<p class="tent">The implementation need not retain more than the {CHILD&#95;MAX} most recent entries in its list of known process IDs
+in the current shell execution environment.
+<p class="tent">If, and only if, job control is disabled, the standard input for the subshell in which an asynchronous AND-OR list
+is executed shall initially be assigned to an open file description that behaves as if <b>/dev/null had been opened for reading
+only. This initial assignment shall be overridden by any explicit redirection of standard input within the AND-OR list.
+<p class="tent">If the shell is interactive and the asynchronous AND-OR list became a background job, the job number and the
+process ID associated with the job shall be written to standard error using the format:
+<pre>
+<tt>&#34;&#91;%d&#93; %d&#92;n&#34;, &lt;<i>job-number<tt>&gt;, &lt;<i>process-id<tt>&gt;
 
-```
-case word in
-    [[(] pattern[ | pattern] ... ) compound-list terminator] ...
-    [[(] pattern[ | pattern] ... ) compound-list]
+<p class="tent">If the shell is interactive and the asynchronous AND-OR list did not become a background job, the process ID
+associated with the asynchronous AND-OR list shall be written to standard error in an unspecified format.
+<h5><a name="tag_19_09_03_03" id="tag_19_09_03_03">Exit Status
+<p class="tent">The exit status of an asynchronous AND-OR list shall be zero.
+<p class="tent">The exit status of the subshell in which the AND-OR list is asynchronously executed can be obtained using the
+<a href="../utilities/wait.html"><i>wait utility.
+<h5 class="header4"><a name="tag_19_09_03_04" id="tag_19_09_03_04">2.9.3.2 Sequential AND-OR Lists
+<p class="tent">AND-OR lists that are separated by a &lt;semicolon&gt; (<tt>&#39;;&#39;) shall be executed sequentially. The format
+for executing AND-OR lists sequentially shall be:
+<pre>
+<i>aolist1 <b>&#91;<tt>; <i>aolist2<b>&#93;<tt> &#46;&#46;&#46;
+
+<p class="tent">Each AND-OR list shall be expanded and executed in the order specified.
+<p class="tent">If job control is enabled, the AND-OR lists shall form all or part of a foreground job that can be controlled as
+described in <a href="#tag_19_11">2.11 Job Control.
+<h5><a name="tag_19_09_03_05" id="tag_19_09_03_05">Exit Status
+<p class="tent">The exit status of a sequential AND-OR list shall be the exit status of the last pipeline in the AND-OR list that
+is executed.
+<h5 class="header4"><a name="tag_19_09_03_06" id="tag_19_09_03_06">2.9.3.3 AND Lists
+<p class="tent">The control operator <tt>&#34;&amp;&amp;&#34; denotes an AND list. The format shall be:
+<pre>
+<i>command1 <b>&#91;<tt> &amp;&amp; <i>command2<b>&#93;<tt> &#46;&#46;&#46;
+
+<p class="tent">First <i>command1 shall be executed. If its exit status is zero, <i>command2 shall be executed, and so on,
+until a command has a non-zero exit status or there are no more commands left to execute. The commands are expanded only if they
+are executed.
+<h5><a name="tag_19_09_03_07" id="tag_19_09_03_07">Exit Status
+<p class="tent">The exit status of an AND list shall be the exit status of the last command that is executed in the list.
+<h5 class="header4"><a name="tag_19_09_03_08" id="tag_19_09_03_08">2.9.3.4 OR Lists
+<p class="tent">The control operator <tt>&#34;||&#34; denotes an OR List. The format shall be:
+<pre>
+<i>command1 <b>&#91;<tt> || <i>command2<b>&#93;<tt> &#46;&#46;&#46;
+
+<p class="tent">First, <i>command1 shall be executed. If its exit status is non-zero, <i>command2 shall be executed, and so
+on, until a command has a zero exit status or there are no more commands left to execute.
+<h5><a name="tag_19_09_03_09" id="tag_19_09_03_09">Exit Status
+<p class="tent">The exit status of an OR list shall be the exit status of the last command that is executed in the list.
+<h4><a name="tag_19_09_04" id="tag_19_09_04">2.9.4 Compound Commands
+<p class="tent">The shell has several programming constructs that are &#34;compound commands&#34;, which provide control flow for
+commands. Each of these compound commands has a reserved word or control operator at the beginning, and a corresponding terminator
+reserved word or operator at the end. In addition, each can be followed by redirections on the same line as the terminator. Each
+redirection shall apply to all the commands within the compound command that do not explicitly override that redirection.
+<p class="tent">In the descriptions below, the exit status of some compound commands is stated in terms of the exit status of a
+<i>compound-list. The exit status of a <i>compound-list shall be the value that the special parameter <tt>&#39;?&#39; (see
+<a href="#tag_19_05_02">2.5.2 Special Parameters) would have immediately after execution of the <i>compound-list.
+<h5 class="header4"><a name="tag_19_09_04_01" id="tag_19_09_04_01">2.9.4.1 Grouping Commands
+<p class="tent">The format for grouping commands is as follows:
+<dl compact>
+<dd>
+<dt>( <i>compound-list )
+<dd>Execute <i>compound-list in a subshell environment; see <a href="#tag_19_13">2.13 Shell Execution Environment.
+Variable assignments and built-in commands that affect the environment shall not remain in effect after the list finishes.
+<p class="tent">If a character sequence beginning with <tt>&#34;((&#34; would be parsed by the shell as an arithmetic expansion if
+preceded by a <tt>&#39;&#36;&#39;, shells which implement an extension whereby <tt>&#34;((<i>expression))&#34; is evaluated as an
+arithmetic expression may treat the <tt>&#34;((&#34; as introducing as an arithmetic evaluation instead of a grouping command. A
+conforming application shall ensure that it separates the two leading <tt>&#39;(&#39; characters with white space to prevent the shell
+from performing an arithmetic evaluation.
+
+<dt>{ <i>compound-list ; }
+<dd>Execute <i>compound-list in the current process environment. The semicolon shown here is an example of a control operator
+delimiting the <b>} reserved word. Other delimiters are possible, as shown in <a href="#tag_19_10">2.10 Shell Grammar; a
+&lt;newline&gt; is frequently used.
+
+<h5><a name="tag_19_09_04_02" id="tag_19_09_04_02">Exit Status
+<p class="tent">The exit status of a grouping command shall be the exit status of <i>compound-list.
+<h5 class="header4"><a name="tag_19_09_04_03" id="tag_19_09_04_03">2.9.4.2 The for Loop
+<p class="tent">The <b>for loop shall execute a sequence of commands for each member in a list of <i>items. The <b>for
+loop requires that the reserved words <b>do and <b>done be used to delimit the sequence of commands.
+<p class="tent">The format for the <b>for loop is as follows:
+<pre>
+<tt>for <i>name<tt> <b>&#91;<tt> in <b>&#91;<i>word<tt> &#46;&#46;&#46; <b>&#93;&#93;<tt>
+do
+    <i>compound-list<tt>
+done
+
+<p class="tent">First, the list of words following <b>in shall be expanded to generate a list of items. Then, the variable
+<i>name shall be set to each item, in turn, and the <i>compound-list executed each time. If no items result from the
+expansion, the <i>compound-list shall not be executed. Omitting:
+<pre>
+<tt>in <i>word &#46;&#46;&#46;
+
+<p class="tent">shall be equivalent to:
+<pre>
+<tt>in &#34;&#36;@&#34;
+
+<h5><a name="tag_19_09_04_04" id="tag_19_09_04_04">Exit Status
+<p class="tent">If there is at least one item in the list of items, the exit status of a <b>for command shall be the exit
+status of the last <i>compound-list executed. If there are no items, the exit status shall be zero.
+<h5 class="header4"><a name="tag_19_09_04_05" id="tag_19_09_04_05">2.9.4.3 Case Conditional Construct
+<p class="tent">The conditional construct <b>case shall execute the <i>compound-list corresponding to the first
+<i>pattern (see <a href="#tag_19_14">2.14 Pattern Matching Notation), if any are present, that is matched by the string
+resulting from the tilde expansion, parameter expansion, command substitution, arithmetic expansion, and quote removal of the given
+word. The reserved word <b>in shall denote the beginning of the patterns to be matched. Multiple patterns with the same
+<i>compound-list shall be delimited by the <tt>&#39;|&#39; symbol. The control operator <tt>&#39;)&#39; terminates a list of patterns
+corresponding to a given action. The terminated pattern list and the following <i>compound-list is called a <b>case
+statement <i>clause. Each <b>case statement clause, with the possible exception of the last, shall be terminated with
+either <tt>&#34;;;&#34; or <tt>&#34;;&amp;&#34;. The <b>case construct terminates with the reserved word <b>esac (<b>case
+reversed).<br>
+<p class="tent">The format for the <b>case construct is as follows:
+<pre>
+<tt>case <i>word<tt> in
+    <b>&#91;&#91;<tt>(<b>&#93;<i> pattern<b>&#91; <tt>| <i>pattern<b>&#93;<tt> &#46;&#46;&#46; ) <i>compound-list terminator<b>&#93;<tt> &#46;&#46;&#46;
+    <b>&#91;&#91;<tt>(<b>&#93;<i> pattern<b>&#91; <tt>| <i>pattern<b>&#93;<tt> &#46;&#46;&#46; ) <i>compound-list<b>&#93;<tt>
 esac
-```
 
-- 执行与**第一个匹配**的 *pattern*（见 2.14）对应的 *compound-list*；匹配对象是 *word* 经波浪号展开、参数扩展、命令替换、算术扩展和引用消除后的字符串。
-- **结构**：保留字 **in** 表示模式开始；同一 *compound-list* 的多模式用 `'|'` 分隔；控制运算符 `')'` 终止模式列表；模式列表 + 后续 *compound-list* 称为 *clause*（子句）；每个子句（除最后一个外）以 `";;"` 或 `";&"` 终止（最后一个的 terminator 可选）；整个构造以 **esac** 终止。
-- **匹配过程**：从开始到结束，每个标记 *compound-list* 的模式经受波浪号扩展、参数扩展、命令替换和算术扩展，结果按 2.14 规则与 *word* 的扩展比较；**第一次匹配后**不再扩展更多模式，执行匹配子句的 *compound-list*。
-  - 子句以 `";;"` 终止 → 不再检查后续子句；
-  - 子句以 `";&"` 终止 → 按顺序执行每个后续子句的 *compound-list*，直到到达 `";;"` 终止的子句（执行其列表）或无更多子句。
-  - 多个模式标记同一列表时的扩展和比较顺序**未指定**。
-- **退出状态**：无模式匹配 → 零；否则为最后执行子句的 *compound-list* 的退出状态。
-
-#### 2.9.4.4 if 条件构造 (The if Conditional Construct)
-
-```
-if compound-list
+<p class="tent">Where <i>terminator is either <tt>&#34;;;&#34; or <tt>&#34;;&amp;&#34; and is optional for the last
+<i>compound-list.
+<p class="tent">In order from the beginning to the end of the <b>case statement, each <i>pattern that labels a
+<i>compound-list shall be subjected to tilde expansion, parameter expansion, command substitution, and arithmetic expansion,
+and the result of these expansions shall be compared against the expansion of <i>word, according to the rules described in
+<a href="#tag_19_14">2.14 Pattern Matching Notation (which also describes the effect of quoting parts of the pattern). After
+the first match, no more patterns in the <b>case statement shall be expanded, and the <i>compound-list of the matching
+clause shall be executed. If the <b>case statement clause is terminated by <tt>&#34;;;&#34;, no further clauses shall be examined.
+If the <b>case statement clause is terminated by <tt>&#34;;&amp;&#34;, then the <i>compound-list (if any) of each subsequent
+clause shall be executed, in order, until either a clause terminated by <tt>&#34;;;&#34; is reached and its <i>compound-list (if
+any) executed or there are no further clauses in the <b>case statement. The order of expansion and comparison of multiple
+<i>patterns that label a <i>compound-list statement is unspecified.
+<h5><a name="tag_19_09_04_06" id="tag_19_09_04_06">Exit Status
+<p class="tent">The exit status of <b>case shall be zero if no patterns are matched. Otherwise, the exit status shall be the
+exit status of the <i>compound-list of the last clause to be executed.
+<h5 class="header4"><a name="tag_19_09_04_07" id="tag_19_09_04_07">2.9.4.4 The if Conditional Construct
+<p class="tent">The <b>if command shall execute a <i>compound-list and use its exit status to determine whether to execute
+another <i>compound-list.
+<p class="tent">The format for the <b>if construct is as follows:
+<pre>
+<tt>if <i>compound-list<tt>
 then
-    compound-list
-[elif compound-list
+    <i>compound-list<tt>
+<b>&#91;<tt>elif <i>compound-list<tt>
 then
-    compound-list] ...
-[else
-    compound-list]
+    <i>compound-list<b>&#93;<tt> &#46;&#46;&#46;
+<b>&#91;<tt>else
+    <i>compound-list<b>&#93;<tt>
 fi
-```
 
-- 执行 **if** *compound-list*；退出状态为零 → 执行 **then** *compound-list* 并完成；否则依次执行每个 **elif** *compound-list*（为零则执行其 **then** 并完成）；否则执行 **else** *compound-list*。
-- **退出状态**：已执行的 **then** 或 **else** 列表的退出状态；都未执行 → 零。
-- > **注意**：确定 **if** 退出状态时忽略 **if**/**elif** 列表的退出状态，但它可通过特殊参数 `'?'` 在下一个 **then**/**elif**/**else** 列表执行期间照常获得。
+<p class="tent">The <b>if <i>compound-list shall be executed; if its exit status is zero, the <b>then
+<i>compound-list shall be executed and the command shall complete. Otherwise, each <b>elif <i>compound-list shall be
+executed, in turn, and if its exit status is zero, the <b>then <i>compound-list shall be executed and the command shall
+complete. Otherwise, the <b>else <i>compound-list shall be executed.
+<h5><a name="tag_19_09_04_08" id="tag_19_09_04_08">Exit Status
+<p class="tent">The exit status of the <b>if command shall be the exit status of the <b>then or <b>else
+<i>compound-list that was executed, or zero, if none was executed. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>Although the exit status of the <b>if or <b>elif <i>compound-list is ignored when determining the exit status of
+the <b>if command, it is available through the special parameter <tt>&#39;?&#39; (see <a href="#tag_19_05_02">2.5.2 Special
+Parameters) during execution of the next <b>then, <b>elif, or <b>else <i>compound-list (if any is executed) in
+the normal way.
 
-#### 2.9.4.5 while 循环 (The while Loop)
-
-```
-while compound-list-1
+<basefont size="3">
+<h5 class="header4"><a name="tag_19_09_04_09" id="tag_19_09_04_09">2.9.4.5 The while Loop
+<p class="tent">The <b>while loop shall continuously execute one <i>compound-list as long as another <i>compound-list
+has a zero exit status.
+<p class="tent">The format of the <b>while loop is as follows:
+<pre>
+<tt>while <i>compound-list-1<tt>
 do
-    compound-list-2
+    <i>compound-list-2<tt>
 done
-```
 
-- 持续执行 *compound-list-1* 并检查其退出状态：为零则执行 *compound-list-2* 并重复；非零则 **while** 命令完成。
-- **退出状态**：最后执行的 *compound-list-2* 的退出状态；未执行 → 零。
-- > **注意**：*compound-list-1* 的退出状态可通过特殊参数 `'?'` 在 *compound-list-2* 执行期间获得（但此时已知为零）；若要保存导致循环退出的状态，可写 `while some_command; st=$?; false; do ...`。
+<p class="tent">The <i>compound-list-1 shall be executed, and if it has a non-zero exit status, the <b>while command shall
+complete. Otherwise, the <i>compound-list-2 shall be executed, and the process shall repeat.
+<h5><a name="tag_19_09_04_10" id="tag_19_09_04_10">Exit Status
+<p class="tent">The exit status of the <b>while loop shall be the exit status of the last <i>compound-list-2 executed, or
+zero if none was executed. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>Since the exit status of <i>compound-list-1 is ignored when determining the exit status of the <b>while command, it is
+not possible to obtain the status of the command that caused the loop to exit, other than via the special parameter <tt>&#39;?&#39;
+(see <a href="#tag_19_05_02">2.5.2 Special Parameters) during execution of <i>compound-list-1, for example:
+<pre>
+<tt>while some&#95;command; st=&#36;?; false; do &#46;&#46;&#46;
 
-#### 2.9.4.6 until 循环 (The until Loop)
+<p class="tent">The exit status of <i>compound-list-1 is available through the special parameter <tt>&#39;?&#39; during execution
+of <i>compound-list-2, but is known to be zero at that point anyway.
 
-```
-until compound-list-1
+<basefont size="3">
+<h5 class="header4"><a name="tag_19_09_04_11" id="tag_19_09_04_11">2.9.4.6 The until Loop
+<p class="tent">The <b>until loop shall continuously execute one <i>compound-list as long as another <i>compound-list
+has a non-zero exit status.
+<p class="tent">The format of the <b>until loop is as follows:
+<pre>
+<tt>until <i>compound-list-1<tt>
 do
-    compound-list-2
+    <i>compound-list-2<tt>
 done
-```
 
-- 持续执行 *compound-list-1* 并检查其退出状态：为零则 **until** 命令完成；非零则执行 *compound-list-2* 并重复。
-- **退出状态**：最后执行的 *compound-list-2* 的退出状态；未执行 → 零。
-- > **注意**：*compound-list-1* 的退出状态可通过 `'?'` 在 *compound-list-2* 执行期间照常获得。
+<p class="tent">The <i>compound-list-1 shall be executed, and if it has a zero exit status, the <b>until command completes.
+Otherwise, the <i>compound-list-2 shall be executed, and the process repeats.
+<h5><a name="tag_19_09_04_12" id="tag_19_09_04_12">Exit Status
+<p class="tent">The exit status of the <b>until loop shall be the exit status of the last <i>compound-list-2 executed, or
+zero if none was executed. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>Although the exit status of <i>compound-list-1 is ignored when determining the exit status of the <b>until command, it
+is available through the special parameter <tt>&#39;?&#39; (see <a href="#tag_19_05_02">2.5.2 Special Parameters) during
+execution of <i>compound-list-2 in the normal way.
 
-### 2.9.5 函数定义命令 (Function Definition Command)
+<basefont size="3">
+<h4><a name="tag_19_09_05" id="tag_19_09_05">2.9.5 Function Definition Command
+<p class="tent">A function is a user-defined name that is used as a simple command to call a compound command with new positional
+parameters. A function is defined with a &#34;function definition command&#34;.
+<p class="tent">The format of a function definition command is as follows:
+<pre>
+<i>fname<tt> ( ) <i>compound-command <b>&#91;<i>io-redirect<tt> &#46;&#46;&#46;<b>&#93;<tt>
 
-**函数（function）**是用户定义的名称，用作简单命令来调用带新位置参数的复合命令。
+<p class="tent">The function is named <i>fname; the application shall ensure that it is a name (see XBD <a href=
+"../basedefs/V1_chap03.html#tag_03_216"><i>3.216 Name) and that it is not the name of a special built-in utility. An
+implementation may allow other characters in a function name as an extension. The implementation shall maintain separate name
+spaces for functions and variables.
+<p class="tent">The argument <i>compound-command represents a compound command, as described in <a href="#tag_19_09_04">2.9.4
+Compound Commands.
+<p class="tent">When the function is declared, none of the expansions in <a href="#tag_19_06">2.6 Word Expansions shall be
+performed on the text in <i>compound-command or <i>io-redirect; all expansions shall be performed as normal each time the
+function is called. Similarly, the optional <i>io-redirect redirections and any variable assignments within
+<i>compound-command shall be performed during the execution of the function itself, not the function definition. See <a href=
+"#tag_19_08_01">2.8.1 Consequences of Shell Errors for the consequences of failures of these operations on interactive and
+non-interactive shells.
+<p class="tent">When a function is executed, it shall have the syntax-error properties described for special built-in utilities in
+the first item in the enumerated list at the beginning of <a href="#tag_19_15">2.15 Special Built-In Utilities.
+<p class="tent">The <i>compound-command shall be executed whenever the function name is specified as the name of a simple
+command (see <a href="#tag_19_09_01_04">2.9.1.4 Command Search and Execution). The operands to the command temporarily shall
+become the positional parameters during the execution of the <i>compound-command; the special parameter <tt>&#39;#&#39; also shall
+be changed to reflect the number of operands. The special parameter 0 shall be unchanged. When the function completes, the values
+of the positional parameters and the special parameter <tt>&#39;#&#39; shall be restored to the values they had before the function
+was executed. If the special built-in <a href="#return"><i>return (see <a href="#tag_19_25">return) is executed in the
+<i>compound-command, the function completes and execution shall resume with the next command after the function call.
+<h5><a name="tag_19_09_05_01" id="tag_19_09_05_01">Exit Status
+<p class="tent">The exit status of a function definition shall be zero if the function was declared successfully; otherwise, it
+shall be greater than zero. The exit status of a function invocation shall be the exit status of the last command executed by the
+function.
+<h3><a name="tag_19_10" id="tag_19_10">2.10 Shell Grammar
+<p class="tent">The following grammar defines the Shell Command Language. This formal syntax shall take precedence over the
+preceding text syntax description.
+<h4><a name="tag_19_10_01" id="tag_19_10_01">2.10.1 Shell Grammar Lexical Conventions
+<p class="tent">The input language to the shell shall be first recognized at the character level. The resulting tokens shall be
+classified by their immediate context according to the following rules (applied in order). These rules shall be used to determine
+what a &#34;token&#34; is that is subject to parsing at the token level. The rules for token recognition in <a href="#tag_19_03">2.3
+Token Recognition shall apply.
+<ol>
+<li class="tent">If the token is an operator, the token identifier for that operator shall result.
+<li class="tent">If the string consists solely of digits and the delimiter character is one of <tt>&#39;&lt;&#39; or <tt>&#39;&gt;&#39;,
+the token identifier <b>IO&#95;NUMBER shall result.
+<li class="tent">If the string contains at least three characters, begins with a &lt;left-curly-bracket&gt; (<tt>&#39;{&#39;) and ends
+with a &lt;right-curly-bracket&gt; (<tt>&#39;}&#39;), and the delimiter character is one of <tt>&#39;&lt;&#39; or <tt>&#39;&gt;&#39;, the
+token identifier <b>IO&#95;LOCATION may result; if the result is not <b>IO&#95;LOCATION, the token identifier <b>TOKEN shall
+result.
+<li class="tent">Otherwise, the token identifier <b>TOKEN shall result.
 
-```
-fname ( ) compound-command [io-redirect ...]
-```
+<p class="tent">Further distinction on <b>TOKEN is context-dependent. It may be that the same <b>TOKEN yields <b>WORD,
+a <b>NAME, an <b>ASSIGNMENT&#95;WORD, or one of the reserved words below, dependent upon the context. Some of the productions
+in the grammar below are annotated with a rule number from the following list. When a <b>TOKEN is seen where one of those
+annotated productions could be used to reduce the symbol, the applicable rule shall be applied to convert the token identifier type
+of the <b>TOKEN to:
+<ul>
+<li class="tent">The token identifier of the recognized reserved word, for rule 1
+<li class="tent">A token identifier acceptable at that point in the grammar, for all other rules
 
-**定义规则**：
+<p class="tent">The reduction shall then proceed based upon the token identifier type yielded by the rule applied. When more than
+one rule applies, the highest numbered rule shall apply (which in turn may refer to another rule). (Note that except in rule 7, the
+presence of an <tt>&#39;=&#39; in the token has no effect.)
+<p class="tent">The <b>WORD tokens shall have the word expansion rules applied to them immediately before the associated
+command is executed, not at the time the command is parsed.
+<h4><a name="tag_19_10_02" id="tag_19_10_02">2.10.2 Shell Grammar Rules
+<ol>
+<li class="tent">&#91;Command Name&#93;
+<p class="tent">When the <b>TOKEN is exactly a reserved word, the token identifier for that reserved word shall result.
+Otherwise, the token <b>WORD shall be returned. Also, if the parser is in any state where only a reserved word could be the
+next correct token, proceed as above. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>Because at this point quoting characters (&lt;backslash&gt;, single-quote, &lt;quotation-mark&gt;, and the &lt;dollar-sign&gt;
+single-quote sequence) are retained in the token, quoted strings cannot be recognized as reserved words. This rule also implies
+that reserved words are not recognized except in certain positions in the input, such as after a &lt;newline&gt; or
+&lt;semicolon&gt;; the grammar presumes that if the reserved word is intended, it is properly delimited by the user, and does not
+attempt to reflect that requirement directly. Also note that line joining is done before tokenization, as described in <a href=
+"#tag_19_02_01">2.2.1 Escape Character (Backslash), so escaped &lt;newline&gt; characters are already removed at this
+point.
 
-- 函数名为 *fname*：应用应确保它是名称（见 XBD 3.216 Name），且**不是特殊内置实用程序的名称**；作为扩展实现可以允许其他字符。实现应为函数和变量维护**单独的名称空间**。
-- *compound-command* 表示复合命令（见 2.9.4）。
+<basefont size="3">
+<p class="tent">Rule 1 is not directly referenced in the grammar, but is referred to by other rules, or applies globally.
 
-**声明与执行的区分**：
+<li class="tent">&#91;Redirection to or from filename&#93;
+<p class="tent">The expansions specified in <a href="#tag_19_07">2.7 Redirection shall occur. As specified there, exactly one
+field can result (or the result is unspecified), and there are additional requirements on pathname expansion.
 
-- **声明时**：不执行 2.6 的任何扩展（*compound-command* 和 *io-redirect* 的文本保持原样）；所有扩展在**每次调用函数时**照常执行。
-- **执行时**：可选的 *io-redirect* 重定向和 *compound-command* 内的变量赋值在函数**本身执行期间**进行（非定义时）；函数具有 2.15 第一条为特殊内置描述的**语法错误属性**。
+<li class="tent">&#91;Redirection from here-document&#93;
+<p class="tent">Quote removal shall be applied to the word to determine the delimiter that is used to find the end of the
+here-document that begins after the next &lt;newline&gt;.
 
-**调用语义**：
+<li class="tent">&#91;Case statement termination&#93;
+<p class="tent">When the <b>TOKEN is exactly the reserved word <b>esac, the token identifier for <b>esac shall result.
+Otherwise, the token <b>WORD shall be returned.
 
-- 每当函数名被指定为简单命令的名称（见 2.9.1.4）时执行 *compound-command*。
-- 操作数在函数执行期间**临时成为位置参数**；特殊参数 `'#'` 反映操作数数量；特殊参数 **0 保持不变**。
-- 函数完成时，位置参数和 `'#'` 的值**恢复**为函数执行之前的值。
-- 若在 *compound-command* 中执行特殊内置 `return`，函数完成，执行从函数调用之后的下一条命令恢复。
+<li class="tent">&#91;<b>NAME in <b>for&#93;
+<p class="tent">When the <b>TOKEN meets the requirements for a name (see XBD <a href=
+"../basedefs/V1_chap03.html#tag_03_216"><i>3.216 Name), the token identifier <b>NAME shall result. Otherwise, the
+token <b>WORD shall be returned.
 
-#### 2.9.5.1 退出状态 (Exit Status)
+<li class="tent">&#91;Third word of <b>for and <b>case&#93;
+<ol type="a">
+<li class="tent">&#91;<b>case only&#93;
+<p class="tent">When the <b>TOKEN is exactly the reserved word <b>in, the token identifier for <b>in shall result.
+Otherwise, the token <b>WORD shall be returned.
 
-- 函数定义成功 → 零，否则大于零；函数调用 → 该函数执行的最后一个命令的退出状态。
+<li class="tent">&#91;<b>for only&#93;
+<p class="tent">When the <b>TOKEN is exactly the reserved word <b>in or <b>do, the token identifier for <b>in or
+<b>do shall result, respectively. Otherwise, the token <b>WORD shall be returned.
 
+<p class="tent">(For a. and b.: As indicated in the grammar, a <i>linebreak precedes the tokens <b>in and <b>do. If
+&lt;newline&gt; characters are present at the indicated location, it is the token after them that is treated in this fashion.)
 
-## 2.10 Shell 文法 (Shell Grammar)
+<li class="tent">&#91;Assignment preceding command name&#93;
+<ol type="a">
+<li class="tent">&#91;When the first word&#93;
+<p class="tent">If the <b>TOKEN is exactly a reserved word, the token identifier for that reserved word shall result.
+Otherwise, 7b shall be applied.
 
-以下文法定义 Shell 命令语言。这种**正式语法应优先于**前面的文本语法描述。
+<li class="tent">&#91;Not the first word&#93;
+<p class="tent">If the <b>TOKEN contains an unquoted (as determined while applying rule 4 from <a href="#tag_19_03">2.3 Token
+Recognition) &lt;equals-sign&gt; character that is not part of an embedded parameter expansion, command substitution, or
+arithmetic expansion construct (as determined while applying rule 5 from <a href="#tag_19_03">2.3 Token Recognition):
+<ul>
+<li class="tent">If the <b>TOKEN begins with <tt>&#39;=&#39;, then the token <b>WORD shall be returned.
+<li class="tent">If all the characters in the <b>TOKEN preceding the first such &lt;equals-sign&gt; form a valid name (see XBD
+<a href="../basedefs/V1_chap03.html#tag_03_216"><i>3.216 Name), the token <b>ASSIGNMENT&#95;WORD shall be returned.
+<li class="tent">Otherwise, it is implementation-defined whether the token <b>WORD or <b>ASSIGNMENT&#95;WORD is returned, or
+the <b>TOKEN is processed in some other way.
 
-### 2.10.1 Shell 文法词法约定 (Shell Grammar Lexical Conventions)
+<p class="tent">Otherwise, the token <b>WORD shall be returned.
 
-shell 的输入语言应首先在**字符级**被识别；产生的 token 按以下规则（按顺序应用）由其直接上下文分类（token 识别规则见 2.3）：
+<p class="tent">If a returned <b>ASSIGNMENT&#95;WORD token begins with a valid name, assignment of the value after the first
+&lt;equals-sign&gt; to the name shall occur as specified in <a href="#tag_19_09_01">2.9.1 Simple Commands. If a returned
+<b>ASSIGNMENT&#95;WORD token does not begin with a valid name, the way in which the token is processed is unspecified.
 
-1. **运算符**：token 是运算符 → 产生该运算符的 token 标识符。
-2. **IO_NUMBER**：字符串仅由数字组成且定界字符是 `'<'` 或 `'>'` → 产生 **IO_NUMBER**。
-3. **IO_LOCATION**：字符串至少三个字符、以 `'{'` 开头以 `'}'` 结尾、定界字符是 `'<'` 或 `'>'` → **可以**产生 **IO_LOCATION**；若结果不是 IO_LOCATION，产生 **TOKEN**。
-4. **TOKEN**：否则产生 **TOKEN**。
+<li class="tent">&#91;<b>NAME in function&#93;
+<p class="tent">When the <b>TOKEN is exactly a reserved word, the token identifier for that reserved word shall result.
+Otherwise, when the <b>TOKEN meets the requirements for a name, the token identifier <b>NAME shall result. Otherwise, rule
+7 applies.
 
-**TOKEN 的上下文相关分类**：同一个 **TOKEN** 可能产生 **WORD**、**NAME**、**ASSIGNMENT_WORD** 或保留字，取决于上下文。文法中标注了规则编号（见 2.10.2）；当看到 **TOKEN** 且标注产生式可用于归约时，应用适用规则转换 token 标识符类型：
+<li class="tent">&#91;Body of function&#93;
+<p class="tent">Word expansion and assignment shall never occur, even when required by the rules above, when this rule is being
+parsed. Each <b>TOKEN that might either be expanded or have assignment applied to it shall instead be returned as a single
+<b>WORD consisting only of characters that are exactly the token described in <a href="#tag_19_03">2.3 Token Recognition
+.
 
-- 规则 1 → 所识别保留字的 token 标识符；
-- 其他规则 → 文法中该点可接受的 token 标识符。
-
-多条规则适用时应用**编号最高**的规则（可再引用另一条）；除规则 7 外，token 中存在 `'='` 没有影响。
-
-**WORD 的扩展时机**：**WORD** token 应在相关联命令**即将执行时**立即应用单词扩展规则，而非命令被解析时。
-
-### 2.10.2 Shell 文法规则 (Shell Grammar Rules)
-
-1. **\[命令名 (Command Name)\]**：
-   - **TOKEN** 恰好是保留字 → 产生该保留字的 token 标识符；否则返回 **WORD**。若解析器处于只有保留字才可能是下一个正确 token 的状态，按上述进行。
-   - > 因为引用字符此时保留在 token 中，被引用的字符串不能被识别为保留字；保留字仅在输入的某些位置（如 \<newline\> 或 \<semicolon\> 之后）被识别。行连接（2.2.1）在 token 化之前完成，被转义的 \<newline\> 此时已被移除。
-2. **\[重定向到/来自文件名\]**：发生 2.7 的扩展；只能产生一个字段（或结果未指定），对路径名展开有额外要求。
-3. **\[来自 here-document 的重定向\]**：对 word 应用引用消除以确定定界符，用于找到下一个 \<newline\> 之后开始的 here-document 的结尾。
-4. **\[case 语句终止\]**：**TOKEN** 恰好是 **esac** → 产生 **esac** 标识符；否则返回 **WORD**。
-5. **\[for 中的 NAME\]**：**TOKEN** 满足名称要求（XBD 3.216 Name）→ 产生 **NAME**；否则返回 **WORD**。
-6. **\[for 和 case 的第三个单词\]**：
-   - 仅 case：**TOKEN** 恰好是 **in** → 产生 **in**；否则 **WORD**。
-   - 仅 for：**TOKEN** 恰好是 **in** 或 **do** → 分别产生之；否则 **WORD**。
-   - （文法中 *linebreak* 位于 **in**/ **do** 之前；若该位置有 \<newline\>，以它们之后的 token 处理。）
-7. **\[命令名之前的赋值 (Assignment preceding command name)\]**：
-   - 7a（第一个单词）：**TOKEN** 恰好是保留字 → 产生之；否则应用 7b。
-   - 7b（非第一个单词）：**TOKEN** 含未引用的 \<equals-sign\>（非嵌入的参数扩展/命令替换/算术扩展构造的一部分）时：
-     - 若 **TOKEN** 以 `'="` 开头……\（官方原文此处即 `[redacted]`，被 Open Group 遮蔽；2017 版亦然）
-     - 若第一个 \<equals-sign\> 之前的所有字符构成有效名称 → 返回 **ASSIGNMENT_WORD**；
-     - 否则，返回 **WORD** 还是 **ASSIGNMENT_WORD**（或其它处理方式）是**实现定义**的。
-   - 返回的 **ASSIGNMENT_WORD** 以有效名称开头 → 按 2.9.1 将第一个 `=` 之后的值赋给该名称；不以有效名称开头 → 处理方式**未指定**。
-8. **\[函数中的 NAME\]**：**TOKEN** 恰好是保留字 → 产生之；否则满足名称要求 → 产生 **NAME**；否则适用规则 7。
-9. **\[函数体 (Body of function)\]**：解析此规则时即使上述规则要求，也**不应发生**单词扩展和赋值；每个可能被扩展或被赋值的 **TOKEN** 应作为单个 **WORD** 返回，仅由 2.3 所述精确的 token 字符组成。
-
-### 文法符号与完整文法 (Grammar Symbols and Rules)
-
-以下为文法符号（grammar symbols）与完整 yacc 文法定义，按原文保留（各产生式的注释标注了适用的规则编号）：
-
-```yacc
-/* -------------------------------------------------------
+<br>
+<pre>
+<tt>/&#42; &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-
    The grammar symbols
-   ------------------------------------------------------- */
+   &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;- &#42;/
 %token  WORD
-%token  ASSIGNMENT_WORD
+%token  ASSIGNMENT&#95;WORD
 %token  NAME
 %token  NEWLINE
-%token  IO_NUMBER
-%token  IO_LOCATION
+%token  IO&#95;NUMBER
+%token  IO&#95;LOCATION
+<br class="tent">
 
-/* The following are the operators (see XBD 3.243 Operator)
-   containing more than one character. */
-
-%token  AND_IF    OR_IF    DSEMI    SEMI_AND
-/*      '&&'      '||'     ';;'     ';&'   */
-
+<tt>/&#42; The following are the operators (see XBD <a href="../basedefs/V1_chap03.html#tag_03_243"><i>3.243 Operator)
+containing more than one character. &#42;/<br>
+<pre><tt>
+<br class="tent">
+%token  AND&#95;IF    OR&#95;IF    DSEMI    SEMI&#95;AND
+/&#42;      &#39;&amp;&amp;&#39;      &#39;||&#39;     &#39;;;&#39;     &#39;;&amp;&#39;   &#42;/
+<br class="tent">
 %token  DLESS  DGREAT  LESSAND  GREATAND  LESSGREAT  DLESSDASH
-/*      '<<'   '>>'    '<&'     '>&'      '<>'       '<<-'   */
-
+/&#42;      &#39;&lt;&lt;&#39;   &#39;&gt;&gt;&#39;    &#39;&lt;&amp;&#39;     &#39;&gt;&amp;&#39;      &#39;&lt;&gt;&#39;       &#39;&lt;&lt;-&#39;   &#42;/
+<br class="tent">
 %token  CLOBBER
-/*      '>|'   */
-
-/* The following are the reserved words. */
-
+/&#42;      &#39;&gt;|&#39;   &#42;/
+<br class="tent">
+/&#42; The following are the reserved words. &#42;/
+<br class="tent">
 %token  If    Then    Else    Elif    Fi    Do    Done
-/*      'if'  'then'  'else'  'elif'  'fi'  'do'  'done'   */
-
+/&#42;      &#39;if&#39;  &#39;then&#39;  &#39;else&#39;  &#39;elif&#39;  &#39;fi&#39;  &#39;do&#39;  &#39;done&#39;   &#42;/
+<br class="tent">
 %token  Case    Esac    While    Until    For
-/*      'case'  'esac'  'while'  'until'  'for'   */
-
-/* These are reserved words, not operator tokens, and are
-   recognized when reserved words are recognized. */
-
+/&#42;      &#39;case&#39;  &#39;esac&#39;  &#39;while&#39;  &#39;until&#39;  &#39;for&#39;   &#42;/
+<br class="tent">
+/&#42; These are reserved words, not operator tokens, and are
+   recognized when reserved words are recognized. &#42;/
+<br class="tent">
 %token  Lbrace    Rbrace    Bang
-/*      '{'       '}'       '!'   */
-
+/&#42;      &#39;{&#39;       &#39;}&#39;       &#39;!&#39;   &#42;/
+<br class="tent">
 %token  In
-/*      'in'   */
-
-/* -------------------------------------------------------
+/&#42;      &#39;in&#39;   &#42;/
+<br>
+<br class="tent">
+/&#42; &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-
    The Grammar
-   ------------------------------------------------------- */
+   &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;- &#42;/
 %start program
 %%
-program          : linebreak complete_commands linebreak
+program          : linebreak complete&#95;commands linebreak
                  | linebreak
                  ;
-complete_commands: complete_commands newline_list complete_command
-                 |                                complete_command
+complete&#95;commands: complete&#95;commands newline&#95;list complete&#95;command
+                 |                                complete&#95;command
                  ;
-complete_command : list separator_op
+complete&#95;command : list separator&#95;op
                  | list
                  ;
-list             : list separator_op and_or
-                 |                   and_or
+list             : list separator&#95;op and&#95;or
+                 |                   and&#95;or
                  ;
-and_or           :                         pipeline
-                 | and_or AND_IF linebreak pipeline
-                 | and_or OR_IF  linebreak pipeline
+and&#95;or           :                         pipeline
+                 | and&#95;or AND&#95;IF linebreak pipeline
+                 | and&#95;or OR&#95;IF  linebreak pipeline
                  ;
-pipeline         :      pipe_sequence
-                 | Bang pipe_sequence
+pipeline         :      pipe&#95;sequence
+                 | Bang pipe&#95;sequence
                  ;
-pipe_sequence    :                             command
-                 | pipe_sequence '|' linebreak command
+pipe&#95;sequence    :                             command
+                 | pipe&#95;sequence &#39;|&#39; linebreak command
                  ;
-command          : simple_command
-                 | compound_command
-                 | compound_command redirect_list
-                 | function_definition
+command          : simple&#95;command
+                 | compound&#95;command
+                 | compound&#95;command redirect&#95;list
+                 | function&#95;definition
                  ;
-compound_command : brace_group
+compound&#95;command : brace&#95;group
                  | subshell
-                 | for_clause
-                 | case_clause
-                 | if_clause
-                 | while_clause
-                 | until_clause
+                 | for&#95;clause
+                 | case&#95;clause
+                 | if&#95;clause
+                 | while&#95;clause
+                 | until&#95;clause
                  ;
-subshell         : '(' compound_list ')'
+subshell         : &#39;(&#39; compound&#95;list &#39;)&#39;
                  ;
-compound_list    : linebreak term
+compound&#95;list    : linebreak term
                  | linebreak term separator
                  ;
-term             : term separator and_or
-                 |                and_or
+term             : term separator and&#95;or
+                 |                and&#95;or
                  ;
-for_clause       : For name                                      do_group
-                 | For name                       sequential_sep do_group
-                 | For name linebreak in          sequential_sep do_group
-                 | For name linebreak in wordlist sequential_sep do_group
+for&#95;clause       : For name                                      do&#95;group
+                 | For name                       sequential&#95;sep do&#95;group
+                 | For name linebreak in          sequential&#95;sep do&#95;group
+                 | For name linebreak in wordlist sequential&#95;sep do&#95;group
                  ;
-name             : NAME                     /* Apply rule 5 */
+name             : NAME                     /&#42; Apply rule 5 &#42;/
                  ;
-in               : In                       /* Apply rule 6 */
+in               : In                       /&#42; Apply rule 6 &#42;/
                  ;
 wordlist         : wordlist WORD
                  |          WORD
                  ;
-case_clause      : Case WORD linebreak in linebreak case_list    Esac
-                 | Case WORD linebreak in linebreak case_list_ns Esac
+case&#95;clause      : Case WORD linebreak in linebreak case&#95;list    Esac
+                 | Case WORD linebreak in linebreak case&#95;list&#95;ns Esac
                  | Case WORD linebreak in linebreak              Esac
                  ;
-case_list_ns     : case_list case_item_ns
-                 |           case_item_ns
+case&#95;list&#95;ns     : case&#95;list case&#95;item&#95;ns
+                 |           case&#95;item&#95;ns
                  ;
-case_list        : case_list case_item
-                 |           case_item
+case&#95;list        : case&#95;list case&#95;item
+                 |           case&#95;item
                  ;
-case_item_ns     : pattern_list ')' linebreak
-                 | pattern_list ')' compound_list
+case&#95;item&#95;ns     : pattern&#95;list &#39;)&#39; linebreak
+                 | pattern&#95;list &#39;)&#39; compound&#95;list
                  ;
-case_item        : pattern_list ')' linebreak     DSEMI linebreak
-                 | pattern_list ')' compound_list DSEMI linebreak
-                 | pattern_list ')' linebreak     SEMI_AND linebreak
-                 | pattern_list ')' compound_list SEMI_AND linebreak
+case&#95;item        : pattern&#95;list &#39;)&#39; linebreak     DSEMI linebreak
+                 | pattern&#95;list &#39;)&#39; compound&#95;list DSEMI linebreak
+                 | pattern&#95;list &#39;)&#39; linebreak     SEMI&#95;AND linebreak
+                 | pattern&#95;list &#39;)&#39; compound&#95;list SEMI&#95;AND linebreak
                  ;
-pattern_list     :                  WORD    /* Apply rule 4 */
-                 |              '(' WORD    /* Do not apply rule 4 */
-                 | pattern_list '|' WORD    /* Do not apply rule 4 */
+pattern&#95;list     :                  WORD    /&#42; Apply rule 4 &#42;/
+                 |              &#39;(&#39; WORD    /&#42; Do not apply rule 4 &#42;/
+                 | pattern&#95;list &#39;|&#39; WORD    /&#42; Do not apply rule 4 &#42;/
                  ;
-if_clause        : If compound_list Then compound_list else_part Fi
-                 | If compound_list Then compound_list           Fi
+if&#95;clause        : If compound&#95;list Then compound&#95;list else&#95;part Fi
+                 | If compound&#95;list Then compound&#95;list           Fi
                  ;
-else_part        : Elif compound_list Then compound_list
-                 | Elif compound_list Then compound_list else_part
-                 | Else compound_list
+else&#95;part        : Elif compound&#95;list Then compound&#95;list
+                 | Elif compound&#95;list Then compound&#95;list else&#95;part
+                 | Else compound&#95;list
                  ;
-while_clause     : While compound_list do_group
+while&#95;clause     : While compound&#95;list do&#95;group
                  ;
-until_clause     : Until compound_list do_group
+until&#95;clause     : Until compound&#95;list do&#95;group
                  ;
-function_definition : fname '(' ')' linebreak function_body
+function&#95;definition : fname &#39;(&#39; &#39;)&#39; linebreak function&#95;body
                  ;
-function_body    : compound_command                /* Apply rule 9 */
-                 | compound_command redirect_list  /* Apply rule 9 */
+function&#95;body    : compound&#95;command                /&#42; Apply rule 9 &#42;/
+                 | compound&#95;command redirect&#95;list  /&#42; Apply rule 9 &#42;/
                  ;
-fname            : NAME                            /* Apply rule 8 */
+fname            : NAME                            /&#42; Apply rule 8 &#42;/
                  ;
-brace_group      : Lbrace compound_list Rbrace
+brace&#95;group      : Lbrace compound&#95;list Rbrace
                  ;
-do_group         : Do compound_list Done           /* Apply rule 6 */
+do&#95;group         : Do compound&#95;list Done           /&#42; Apply rule 6 &#42;/
                  ;
-simple_command   : cmd_prefix cmd_word cmd_suffix
-                 | cmd_prefix cmd_word
-                 | cmd_prefix
-                 | cmd_name cmd_suffix
-                 | cmd_name
+simple&#95;command   : cmd&#95;prefix cmd&#95;word cmd&#95;suffix
+                 | cmd&#95;prefix cmd&#95;word
+                 | cmd&#95;prefix
+                 | cmd&#95;name cmd&#95;suffix
+                 | cmd&#95;name
                  ;
-cmd_name         : WORD                   /* Apply rule 7a */
+cmd&#95;name         : WORD                   /&#42; Apply rule 7a &#42;/
                  ;
-cmd_word         : WORD                   /* Apply rule 7b */
+cmd&#95;word         : WORD                   /&#42; Apply rule 7b &#42;/
                  ;
-cmd_prefix       :            io_redirect
-                 | cmd_prefix io_redirect
-                 |            ASSIGNMENT_WORD
-                 | cmd_prefix ASSIGNMENT_WORD
+cmd&#95;prefix       :            io&#95;redirect
+                 | cmd&#95;prefix io&#95;redirect
+                 |            ASSIGNMENT&#95;WORD
+                 | cmd&#95;prefix ASSIGNMENT&#95;WORD
                  ;
-cmd_suffix       :            io_redirect
-                 | cmd_suffix io_redirect
+cmd&#95;suffix       :            io&#95;redirect
+                 | cmd&#95;suffix io&#95;redirect
                  |            WORD
-                 | cmd_suffix WORD
+                 | cmd&#95;suffix WORD
                  ;
-redirect_list    :               io_redirect
-                 | redirect_list io_redirect
+redirect&#95;list    :               io&#95;redirect
+                 | redirect&#95;list io&#95;redirect
                  ;
-io_redirect      :             io_file
-                 | IO_NUMBER   io_file
-                 | IO_LOCATION io_file /* Optionally supported */
-                 |             io_here
-                 | IO_NUMBER   io_here
-                 | IO_LOCATION io_here /* Optionally supported */
+io&#95;redirect      :             io&#95;file
+                 | IO&#95;NUMBER   io&#95;file
+                 | IO&#95;LOCATION io&#95;file /&#42; Optionally supported &#42;/
+                 |             io&#95;here
+                 | IO&#95;NUMBER   io&#95;here
+                 | IO&#95;LOCATION io&#95;here /&#42; Optionally supported &#42;/
                  ;
-io_file          : '<'       filename
+io&#95;file          : &#39;&lt;&#39;       filename
                  | LESSAND   filename
-                 | '>'       filename
+                 | &#39;&gt;&#39;       filename
                  | GREATAND  filename
                  | DGREAT    filename
                  | LESSGREAT filename
                  | CLOBBER   filename
                  ;
-filename         : WORD                      /* Apply rule 2 */
+filename         : WORD                      /&#42; Apply rule 2 &#42;/
                  ;
-io_here          : DLESS     here_end
-                 | DLESSDASH here_end
+io&#95;here          : DLESS     here&#95;end
+                 | DLESSDASH here&#95;end
                  ;
-here_end         : WORD                      /* Apply rule 3 */
+here&#95;end         : WORD                      /&#42; Apply rule 3 &#42;/
                  ;
-newline_list     :              NEWLINE
-                 | newline_list NEWLINE
+newline&#95;list     :              NEWLINE
+                 | newline&#95;list NEWLINE
                  ;
-linebreak        : newline_list
-                 | /* empty */
+linebreak        : newline&#95;list
+                 | /&#42; empty &#42;/
                  ;
-separator_op     : '&'
-                 | ';'
+separator&#95;op     : &#39;&amp;&#39;
+                 | &#39;;&#39;
                  ;
-separator        : separator_op linebreak
-                 | newline_list
+separator        : separator&#95;op linebreak
+                 | newline&#95;list
                  ;
-sequential_sep   : ';' linebreak
-                 | newline_list
+sequential&#95;sep   : &#39;;&#39; linebreak
+                 | newline&#95;list
                  ;
-```
 
-## 2.11 作业控制 (Job Control)
-
-作业控制（见 XBD 3.181 Job Control）是允许用户**选择性地停止（挂起）进程的执行**并在稍后**继续（恢复）其执行**的设施，由终端 I/O 驱动程序和命令解释器联合提供。shell 中的作业控制由 `set` **-m** 启用（交互式 shell 默认启用）。本节中与后台作业相关的要求**仅适用于作业控制后台作业**。
-
-**前台/后台作业的进程组管理**：
-
-- 若 shell 有控制终端且是终端会话的控制进程，应初始将与终端关联的**前台进程组 ID** 设置为其自身的进程组 ID。
-- 否则，若交互式（非交互式可以），执行以下步骤：
-  1. 若其进程组是前台进程组 → 把进程组 ID 设为进程 ID（若不等），并把终端前台进程组 ID 设为进程组 ID。
-  2. 若其进程组不是前台进程组（由作业控制 shell 作为后台作业启动所致）→ 通过向自身发送 **SIGTTIN** 停止，或（交互式时）尝试从标准输入读取（产生 SIGTTIN）；若被停止，收到 **SIGCONT** 后重复这些步骤。
-- 随后，当前台作业运行时，shell 更改与其控制终端关联的前台进程组。
-
-**作业的创建**：启用作业控制时，shell 执行以下形式的列表时创建一个或多个作业：
-
-- 单个异步 AND-OR 列表；
-- 一个或多个顺序执行的 AND-OR 列表后跟至多一个异步 AND-OR 列表。
-
-（包含多个异步 AND-OR 列表的列表视为被拆分为多个单独列表，每个以异步 AND-OR 列表结尾。）
-
-- 单个异步 AND-OR 列表 → **后台作业**：关联进程 ID 是成为**进程组组长**的子进程的 PID，执行该列表的其他进程（如有）最初以此 PID 为进程组 ID。
-- 顺序列表后跟异步列表 → 整个列表构成单个**前台作业**，直到顺序列表全部完成，此时异步列表构成后台作业。
-
-**前台作业中的管道**：若管道在列表仍是前台作业时执行，构成管道的进程集及其后代应在**同一进程组**；除非 shell 在当前环境执行部分命令、子 shell 环境执行其他命令（此时当前 shell 的进程组 ID 不必更改——会话组长不能更改，因此其他进程共有的进程组 ID 可能与当前 shell 不同，意味着发给其中一个进程组的 SIGSTOP/SIGTSTP/SIGTTIN/SIGTTOU 不会使整个管道停止）。
-
-**前台/后台转换**：
-
-- 后台作业可通过 `fg`（若支持）带入前台 → 整个作业成为单个前台作业；若随后等待的进程属此前台作业且被信号停止 → 整个作业成为**挂起作业**，行为如同进程在后台运行时被停止。
-- 创建前台作业或 `fg` 带入前台时，shell 设置终端前台进程组 ID：
-  - 原后台作业 → 设为执行异步列表时成为进程组组长的那一进程的 PID；
-  - 原前台作业 → 执行每个管道时：若 shell 自身未在当前环境执行所有管道命令 → 设为执行管道的其他进程共有的进程组 ID；若所有命令由 shell 自身执行 → 设为 shell 的进程组 ID。
-- 前台作业终止或挂起时 → 终端前台进程组 ID 设为 shell 的进程组 ID。
-
-**作业号与进程 ID**：每个后台作业（无论是否挂起）关联一个**作业号**和当前 shell 执行环境中**已知的进程 ID**；`fg` 带入前台时，作业号从后台作业列表移除、PID 从已知列表移除。
-
-**挂起作业的创建**（shell 等待的进程属前台启动的前台作业，被可捕获信号 SIGTSTP/SIGTTIN/SIGTTOU 停止）：
-
-- 若当前执行的 AND-OR 列表是单管道且全为简单命令 → 创建由至少该列表和同列表剩余（如有）AND-OR 列表组成的挂起作业，或仅该列表并丢弃剩余（如有）；
-- 否则 → 创建由前台作业列表内一组命令组成的挂起作业（该组未指定，但至少包含被停止进程所属的管道）；未完成且未包含在挂起作业中的命令被**丢弃**。
-- > 只有简单命令的管道保证在前台启动并挂起时保持完整；复杂 AND-OR 列表可先在后台启动再立即 `fg` 以保持完整（如 `command1 && command2 | { command3 || command4; } & fg`）。
-- 被 **SIGSTOP** 停止：除非交付时 shell 正执行内置导致自身被停止（此时若收到 SIGCONT 且仍有停止的子进程，创建挂起作业如同只有那些子进程被停止），行为同上。
-- 挂起作业创建时分配作业号；交互式 shell 按 `jobs`（不带 **-l**）格式写消息；若消息指示含已完成的命令，继续执行时不重复它们；交互式 shell 应保存终端设置。
-
-**后台作业被信号停止**（SIGSTOP/SIGTSTP/SIGTTIN/SIGTTOU）：shell 把（非挂起）后台作业转换为挂起作业，交互式 shell 写消息的时间：`set` **-b** 启用 → 作业挂起后立即或写下个提示符前；禁用 → 写下个提示符前。
-
-**恢复执行**：挂起作业可经 `fg`（若支持）作为前台继续，或经 `bg`（若支持）或发送 **SIGCONT** 作为（非挂起）后台继续。`fg`/`bg` 向停止等待状态导致挂起的进程组发送 SIGCONT；`fg` 在设置终端前台进程组 ID 之后发送；从交互式 shell 用 `fg` 恢复前台创建的挂起作业时，发送 SIGCONT 前恢复 shell 保存的终端设置。
-
-**后台作业完成/被信号终止**：交互式 shell 按 `jobs` 格式写消息：`set -b` 启用 → 完成后立即；禁用 → 写下个提示符前。非交互式 shell 也可以在以下时间写：下次前台作业终止或挂起后、解析进一步输入前、退出前。
-
-## 2.12 信号与错误处理 (Signals and Error Handling)
-
-- **异步列表中的 SIGINT/SIGQUIT**：禁用作业控制时执行异步 AND-OR 列表，列表中的命令继承 shell 的 **SIG_IGN**（忽略）动作（针对 SIGINT 和 SIGQUIT）。其他情况：命令继承 shell 从其父进程继承的相同信号动作，除非被 `trap` 修改。
-- **trap 的执行时机**：
-  - shell 等待前台命令的实用程序完成时收到已设置 trap 的信号 → trap **在命令完成之后**才执行；
-  - shell 经 `wait` 等待异步命令完成时收到 → `wait` 立即以退出状态 >128 返回，紧接着执行 trap。
-- **多信号顺序**：多个待处理且有关联 trap 动作的信号，trap 动作执行顺序**未指定**。
-
-## 2.13 Shell 执行环境 (Shell Execution Environment)
-
-**shell 执行环境**由以下内容组成：
-
-- 调用时继承的打开文件 + 由 `exec` 控制的打开文件；
-- 由 `cd` 设置的工作目录；
-- 由 `umask` 设置的文件创建掩码；
-- 由 `ulimit` 设置的文件大小限制；
-- 由 `trap` 设置的当前 trap；
-- 由变量赋值（`set`）或环境（`export`）设置的 shell 参数；
-- Shell 函数（见 2.9.5）；
-- 调用时或由 `set` 开启的选项；
-- 后台作业及其关联进程 ID + 作业控制禁用时执行异步 AND-OR 列表所创建子进程的 PID（共同构成"此 shell 环境已知"的进程 ID；支持非作业控制后台作业时两列表可合一，见 2.9.3.1）；
-- Shell 别名（见 2.3.1）。
-
-**实用程序环境**（除特殊内置外的实用程序在单独环境中调用，初始值与父 shell 相同，除下述外）：
-
-- 继承的打开文件 + `exec` 控制的 + 重定向指定的修改/添加；
-- 当前工作目录、文件创建掩码；
-- **trap**：实用程序是 shell 脚本 → shell 捕获的 trap 设为默认值、忽略的设为忽略；非脚本 → trap 动作（默认或忽略）映射为适当的信号处理动作；
-- **环境变量**：具有 `export` 属性的变量（含为命令持续期间显式导出的）传给实用程序环境；传入 shell 但因名称无效未用于初始化变量的环境变量是否包含在内**未指定**。
-
-shell 进程的环境不被实用程序更改，除非实用程序描述显式规定（如 `cd`、`umask`）。
-
-**子 shell 环境**：作为 shell 环境的副本创建，但：
-
-- 除非另有规定（见 `trap`），未被忽略的 trap 设为默认动作；
-- 若 shell 交互式，子 shell 在所有方面表现为非交互式 shell，但 `'-'` 的展开可继续指示交互式、`set -n` 可被忽略。
-
-- 对子 shell 的更改**不影响** shell 环境。
-- 在子 shell 环境中执行的：命令替换、括号分组命令、异步 AND-OR 列表；多命令管道的每个命令（但作为扩展，管道中的任何/所有命令可在当前环境执行）；其他命令在当前 shell 环境执行。
-
-## 2.14 模式匹配记号 (Pattern Matching Notation)
-
-本节模式匹配记号用于在 shell 中指定匹配字符字符串的**模式**，也被 `find`、`pax`（可选 `make`）及 `fnmatch()`、`glob()`、`wordexp()` 使用。历史上与 XBD 9. 正则表达式记号相关但略有不同。
-
-> 若用模式匹配记号匹配含不构成有效字符的字节的字符串，行为**未指定**。路径名可含此类字节，便携应用在任意路径名上执行模式匹配（或扩展）时应确保当前 locale 是 C 或 POSIX locale。
-
-### 2.14.1 匹配单个字符的模式 (Patterns Matching a Single Character)
-
-- **普通字符（ordinary character）**：匹配自身。可以是受支持字符集中除 NUL、2.2 中需引用的特殊 shell 字符、三个特殊模式字符外的任何字符；匹配基于编码的**位模式**而非图形表示。被引用或转义的任何字符匹配其自身。
-- **`?`**：匹配**任何单个字符**。
-- **`[`（括号表达式）**：若其后字符满足 XBD 9.3.5 RE Bracket Expression 的要求则引入括号表达式；`'!'` 替换正则记号中 `'^'` 在非匹配列表中的作用（以未引用的 `'^'` 开头的括号表达式产生**未指定**结果）；不引入有效括号表达式的 `[` 匹配其自身。
-- **转义规则**：
-  - 可用 shell 引用 \<backslash\> 的地方：`\` 按 2.2.1 转义后一字符（无论是否在括号表达式内；`"\\"` 表示一个字面 `\`）。
-  - 不可用 shell 引用的地方：不在括号表达式内的 `\` 保留后一字符字面值（除非后一字符位于可用 shell 引用的部分且是 shell 引用字符，此时未指定）；shell 中括号表达式内的 `\` 是否保留字面值未指定。
-  - 模式以未转义的 `\` 结尾 → 行为**未指定**。
-
-### 2.14.2 匹配多个字符的模式 (Patterns Matching Multiple Characters)
-
-1. **`*`**：匹配**任何字符串**（含 null 字符串）。
-2. **连接**：匹配单字符的模式的连接是有效模式，匹配各模式匹配的单字符/整理元素的连接。
-3. **`*` 与单字符模式混用**：每个 `*` 匹配零个或多个字符，匹配**仍允许模式其余部分匹配该字符串**的最大可能字符数。
-
-### 2.14.3 用于文件名展开的模式 (Patterns Used for Filename Expansion)
-
-以下规则限定模式记号用于文件名展开时：
-
-1. **斜杠必须显式匹配**：路径名中的 `/` 只能由模式中的 `/` 匹配，**不能**被 `*`、`?` 或括号表达式匹配。模式中的 `/` 在括号表达式之前识别（`/` 不能进入用于文件名展开的括号表达式）；在找到 `]` 前、未转义的 `[` 后出现 `/` → 开括号视为普通字符（如 `"a[b/c]d"` 只匹配字面的 **a\[b/c\]d**）。
-2. **前导点号必须显式匹配**：文件名以 `.` 开头时，该 `.` 必须由模式开头的字面 `.`（或紧跟 `/` 后的 `.`）匹配；**不**被 `*`、`?` 或含非匹配列表（`"[!a]"`）、范围（`"[%-0]"`）、字符类（`"[[:punct:]]"`）的括号表达式匹配。括号表达式匹配列表（如 `"[.abc]"`）中的显式 `.` 能否匹配前导 `.` 未指定。
-3. **匹配现有文件**：模式含特殊 `'*'`/`'?'`/`'['` 时，对现有文件名/路径名匹配（dot/dot-dot 目录项可以忽略）。
-   - **权限要求**：含此类字符的组件要求所在目录**读权限**；含特殊 `\` 的组件可能要求读权限；不含特殊字符的非最后组件要求**搜索权限**。
-   - **权限/文件系统错误**：权限被拒或与文件系统内容相关的打开/搜索/读取错误**不视为错误**，路径名展开继续（如同成功打开读取/搜索且无匹配）；其他错误条件是否失败未指定。
-   - **排序**：匹配到的路径名按当前 locale 的**整理序列**排序；若该序列无全序，整理相等的进一步用 POSIX locale 整理序列逐字节比较。
-   - **未闭合 `[` 的歧义**：模式含不引入有效括号表达式的 `[` 时，同一斜杠分隔组件内的其他未引用特殊字符保留含义还是视为普通字符**未指定**（如 `"a*[/b*"` 的两种可能解释）。
-   - **无匹配**：模式字符串**保持不变**。（未来版本可能要求匹配时忽略 dot/dot-dot。）
-4. **无特殊字符**：模式不含特殊 `'*'`/`'?'`/`'['` → 模式字符串**保持不变**。
-
-
-## 2.15 特殊内置实用程序 (Special Built-In Utilities)
-
-以下 "特殊内置（special built-in）" 实用程序应在 shell 命令语言中支持。每个命令的输出（如有）写到标准输出，受所有命令都可能进行的正常重定向和管道限制。
-
-**"内置"的含义**：无需执行单独的可执行文件——实用程序在 shell 自身中实现。实现可以选择使任何实用程序成为内置；但特殊内置在两方面**不同于常规内置**：
-
-1. **错误致命性**：特殊内置的错误**可能**使执行它的 shell **中止**（常规内置的错误**不应**使 shell 中止；后果见 2.8.1）。若遇到错误的特殊内置未中止 shell，其退出值应**非零**。
-2. **变量赋值作用域**：特殊内置调用**之前**的变量赋值影响**当前执行环境**（见 2.9.1）；对常规内置或其他实用程序则**不**如此。
-
-**访问方式**：本节特殊内置不必以可通过《系统接口》卷 `exec` 函数族访问的方式提供。
-
-**语法指南**：一些特殊内置被描述为符合 XBD 12.2 Utility Syntax Guidelines；对那些不符合的，1.4 中"将 `"--"` 识别为要丢弃的第一个参数"的要求**不适用**，符合应用不应使用该参数。
-
-### 2.16 `break` — 退出 for、while 或 until 循环
-
-#### 语法 (SYNOPSIS)
-
-```sh
-break [n]
-```
-
-#### 描述 (DESCRIPTION)
-
-- 指定了 *n* → 退出第 *n* 个**外层**的 **for**、**while** 或 **until** 循环；未指定 → 如同 *n* 为 1。
-- 执行从被退出循环**之后**的紧接命令继续。
-- *n* 必须是**正十进制整数**（这是对应用的要求）；若 *n* 大于外层循环数 → 退出最外层循环；若无外层循环 → 行为**未指定**。
-
-**"外层（enclosing）"的严格定义**：循环在**词法上**包含 *break* 或 *continue* 命令，当且仅当该命令：
-
-- 在与循环 do-group（见 2.10.2）的 *compound-list* **相同的执行环境**（见 2.13）中执行，且
-- 包含在与循环关联的 *compound-list* 中（do-group 的列表；对 **while**/**until** 还包括保留字之后的列表），且
-- **不在**其函数定义命令（见 2.9.5）包含在与循环关联的列表中的**函数体**内。
-
-若 *n* 大于词法外层循环数，且同一执行环境中有一个进行中的**非词法外层**循环，该循环是否包含该命令**未指定**。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：见描述。
-- 标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- **0**：成功完成。
-- **>0**：*n* 值不是大于或等于 1 的无符号十进制整数。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    for i in *
-    do
-        if test -d "$i"
-        then break
-        fi
-    done
-
-运行以下示例的结果**未指定**：执行 `break` 时有两个进行中的循环，它们在同一执行环境，但都未在词法上包含 `break`（也没有循环词法包含 `continue`）：
-
-    foo() {
-        for j in 1 2; do
-            echo 'break 2' >/tmp/do_break
-            echo "  sourcing /tmp/do_break ($j)..."
-            # the behavior of the break from running the following command
-            # results in unspecified behavior:
-            . /tmp/do_break
-
-
-            do_continue() { continue 2; }
-            echo "  running do_continue ($j)..."
-            # the behavior of the continue in the following function call
-            # results in unspecified behavior (if execution reaches this
-            # point):
-            do_continue
-
-
-            trap 'continue 2' USR1
-            echo "  sending SIGUSR1 to self ($j)..."
-            # the behavior of the continue in the trap invoked from the
-            # following signal results in unspecified behavior (if
-            # execution reaches this point):
-            kill -s USR1 $$
-            sleep 1
-        done
-    }
-    for i in 1 2; do
-        echo "running foo ($i)..."
-        foo
-    done
-
-#### 原理 (RATIONALE)
-
-早期提案曾考虑把 `break`/`continue` 扩展为引用与循环关联的**标签**（作为 *n* 方法的更可取替代）。POSIX.1-2024 本卷保留了以 \<colon\> 结尾的命令名名称空间，未来实现可提供如 `outofloop: for ...; do ...; break outofloop; ...` 的标签循环，可能在获得实现经验后标准化。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5（参考页各节改用 Utility Description Defaults 术语，不改变行为）。
-- **Issue 7**：应用 XCU/TC2-2008/0046 \[842\]。
-- **Issue 8**：应用 Austin Group Defect 1058（澄清 *n* 为正十进制整数是对应用的要求）。
-
-*提供信息文本结束。*
-
-### 2.17 `colon` — 空实用程序 (Null Utility)
-
-#### 语法 (SYNOPSIS)
-
-```sh
-: [argument...]
-```
-
-#### 描述 (DESCRIPTION)
-
-- 该实用程序除了返回 **0 退出状态**外不做任何事；当需要命令（如 **if** 的 **then** 条件）但该命令不做任何事时使用。
-
-#### 选项 (OPTIONS)
-
-- 不应按 XBD 12.2 指南 10 的方式识别 `"--"` 参数；实现不应支持任何选项。
-
-#### 操作数 / 样板小节
-
-- 操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。标准错误：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-零。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-无。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    : "${X=abc}"
-    if     false
-    then   :
-    else   printf '%s\n' "$X"
+<h3><a name="tag_19_11" id="tag_19_11">2.11 Job Control
+<p class="tent">Job control is defined (see XBD <a href="../basedefs/V1_chap03.html#tag_03_181"><i>3.181 Job Control) as a
+facility that allows users selectively to stop (suspend) the execution of processes and continue (resume) their execution at a
+later point. It is jointly supplied by the terminal I/O driver and a command interpreter. The shell is one such command interpreter
+and job control in the shell is enabled by <a href="#tag_19_26">set <b>-m (which is enabled by default in interactive
+shells). The remainder of this section describes the job control facility provided by the shell. Requirements relating to
+background jobs stated in this section only apply to job-control background jobs.
+<p class="tent">If the shell has a controlling terminal and it is the controlling process for the terminal session, it shall
+initially set the foreground process group ID associated with the terminal to its own process group ID. Otherwise, if it has a
+controlling terminal, it shall initially perform the following steps if interactive and may perform them if non-interactive:
+<ol>
+<li class="tent">If its process group is the foreground process group associated with the terminal, the shell shall set its process
+group ID to its process ID (if they are not already equal) and set the foreground process group ID associated with the terminal to
+its process group ID.
+<li class="tent">If its process group is not the foreground process group associated with the terminal (which would result from it
+being started by a job-control shell as a background job), the shell shall either stop itself by sending itself a SIGTTIN signal
+or, if interactive, attempt to read from standard input (which generates a SIGTTIN signal if standard input is the controlling
+terminal). If it is stopped, then when it continues execution (after receiving a SIGCONT signal) it shall repeat these steps.
+
+<p class="tent">Subsequently, the shell shall change the foreground process group associated with its controlling terminal when a
+foreground job is running as noted in the description below.
+<p class="tent">When job control is enabled, the shell shall create one or more jobs when it executes a list (see <a href=
+"#tag_19_09_03">2.9.3 Lists) that has one of the following forms:
+<ul>
+<li class="tent">A single asynchronous AND-OR list
+<li class="tent">One or more sequentially executed AND-OR lists followed by at most one asynchronous AND-OR list
+
+<p class="tent">For the purposes of job control, a list that includes more than one asynchronous AND-OR list shall be treated as if
+it were split into multiple separate lists, each ending with an asynchronous AND-OR list.
+<p class="tent">When a job consisting of a single asynchronous AND-OR list is created, it shall form a <i>background job and
+the associated process ID shall be that of a child process that is made a process group leader, with all other processes (if any)
+that the shell creates to execute the AND-OR list initially having this process ID as their process group ID.
+<p class="tent">For a list consisting of one or more sequentially executed AND-OR lists followed by at most one asynchronous AND-OR
+list, the whole list shall form a single <i>foreground job up until the sequentially executed AND-OR lists have all completed
+execution, at which point the asynchronous AND-OR list (if any) shall form a background job as described above.
+<p class="tent">For each pipeline in a foreground job, if the pipeline is executed while the list is still a foreground job, the
+set of processes comprising the pipeline, and any processes descended from it, shall all be in the same process group, unless the
+shell executes some of the commands in the pipeline in the current shell execution environment and others in a subshell
+environment; in this case the process group ID of the current shell need not change (or cannot change if it is the session leader),
+and consequently the process group ID that the other processes all share may differ from the process group ID of the current shell
+(which means that a SIGSTOP, SIGTSTP, SIGTTIN, or SIGTTOU signal sent to one of those process groups does not cause the whole
+pipeline to stop).
+<p class="tent">A background job that was created on execution of an asynchronous AND-OR list can be brought into the foreground by
+means of the <a href="../utilities/fg.html"><i>fg utility (if supported); in this case the entire job shall become a single
+foreground job. If a process that the shell subsequently waits for is part of this foreground job and is stopped by a signal, the
+entire job shall become a suspended job and the behavior shall be as if the process had been stopped while the job was running in
+the background.
+<p class="tent">When a foreground job is created, or a background job is brought into the foreground by the <a href=
+"../utilities/fg.html"><i>fg utility, if the shell has a controlling terminal it shall set the foreground process group ID
+associated with the terminal as follows:
+<ul>
+<li class="tent">If the job was originally created as a background job, the foreground process group ID shall be set to the process
+ID of the process that the shell made a process group leader when it executed the asynchronous AND-OR list.
+<li class="tent">If the job was originally created as a foreground job, the foreground process group ID shall be set as follows
+when each pipeline in the job is executed:
+<ul>
+<li class="tent">If the shell is not itself executing, in the current shell execution environment, all of the commands in the
+pipeline, the foreground process group ID shall be set to the process group ID that is shared by the other processes executing the
+pipeline (see above).
+<li class="tent">If all of the commands in the pipeline are being executed by the shell itself in the current shell execution
+environment, the foreground process group ID shall be set to the process group ID of the shell.
+
+<p class="tent">When a foreground job terminates, or becomes a suspended job (see below), if the shell has a controlling terminal
+it shall set the foreground process group ID associated with the terminal to the process group ID of the shell.
+<p class="tent">Each background job (whether suspended or not) shall have associated with it a job number and a process ID that is
+known in the current shell execution environment. When a background job is brought into the foreground by means of the <a href=
+"../utilities/fg.html"><i>fg utility, the associated job number shall be removed from the shell&#39;s background jobs list and
+the associated process ID shall be removed from the list of process IDs known in the current shell execution environment.
+<p class="tent">If a process that the shell is waiting for is part of a foreground job that was started as a foreground job and is
+stopped by a catchable signal (SIGTSTP, SIGTTIN, or SIGTTOU):
+<ul>
+<li class="tent">If the currently executing AND-OR list within the list comprising the foreground job consists of a single pipeline
+in which all of the commands are simple commands, the shell shall either create a suspended job consisting of at least that AND-OR
+list and the remaining (if any) AND-OR lists in the same list, or create a suspended job consisting of just that AND-OR list and
+discard the remaining (if any) AND-OR lists in the same list.
+<li class="tent">Otherwise, the shell shall create a suspended job consisting of a set of commands, from within the list comprising
+the foreground job, that is unspecified except that the set shall include at least the pipeline to which the stopped process
+belongs. Commands in the foreground job that have not already completed and are not included in the suspended job shall be
+discarded.
+
+<p class="tent"><basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>Although only a pipeline of simple commands is guaranteed to remain intact if started in the foreground and subsequently
+suspended, it is possible to ensure that a complex AND-OR list will remain intact when suspended by starting it in the background
+and immediately bringing it into the foreground. For example:
+<pre>
+<tt>command1 &amp;&amp; command2 | { command3 || command4; } &amp; fg
+
+<basefont size="3">
+<p class="tent">If a process that the shell is waiting for is part of a foreground job that was started as a foreground job and is
+stopped by a SIGSTOP signal, the behavior shall be as described above for a catchable signal unless the shell was executing a
+built-in utility in the current shell execution environment when the SIGSTOP was delivered, resulting in the shell itself being
+stopped by the signal, in which case if the shell subsequently receives a SIGCONT signal and has one or more child processes that
+remain stopped, the shell shall create a suspended job as if only those child processes had been stopped.
+<p class="tent">When a suspended job is created as a result of a foreground job being stopped, it shall be assigned a job number,
+and an interactive shell shall write, and a non-interactive shell may write, a message to standard error, formatted as described by
+the <a href="../utilities/jobs.html"><i>jobs utility (without the <b>-l option) for a suspended job. The message may
+indicate that the commands comprising the job include commands that have already completed; in this case the completed commands
+shall not be repeated if execution of the job is subsequently continued. If the shell is interactive, it shall save the terminal
+settings before changing them to the settings it needs to read further commands.
+<p class="tent">When a process associated with a background job is stopped by a SIGSTOP, SIGTSTP, SIGTTIN, or SIGTTOU signal, the
+shell shall convert the (non-suspended) background job into a suspended job and an interactive shell shall write a message to
+standard error, formatted as described by the <a href="../utilities/jobs.html"><i>jobs utility (without the <b>-l
+option) for a suspended job, at the following time:
+<ul>
+<li class="tent">If <a href="#set"><i>set <b>-b is enabled, the message shall be written either immediately after the
+job became suspended or immediately prior to writing the next prompt for input.
+<li class="tent">If <a href="#set"><i>set <b>-b is disabled, the message shall be written immediately prior to writing
+the next prompt for input.
+
+<p class="tent">Execution of a suspended job can be continued as a foreground job by means of the <a href=
+"../utilities/fg.html"><i>fg utility (if supported), or as a (non-suspended) background job either by means of the <a href=
+"../utilities/bg.html"><i>bg utility (if supported) or by sending the stopped processes a SIGCONT signal. The <a href=
+"../utilities/fg.html"><i>fg and <a href="../utilities/bg.html"><i>bg utilities shall send a SIGCONT signal to the
+process group of the process(es) whose stopped wait status caused the shell to suspend the job. If the shell has a controlling
+terminal, the <a href="../utilities/fg.html"><i>fg utility shall send the SIGCONT signal after it has set the foreground
+process group ID associated with the terminal (see above). If the <a href="../utilities/fg.html"><i>fg utility is used from
+an interactive shell to bring into the foreground a suspended job that was created from a foreground job, before it sends the
+SIGCONT signal the <a href="../utilities/fg.html"><i>fg utility shall restore the terminal settings to the ones that the
+shell saved when the job was suspended.
+<p class="tent">When a background job completes or is terminated by a signal, an interactive shell shall write a message to
+standard error, formatted as described by the <a href="../utilities/jobs.html"><i>jobs utility (without the <b>-l
+option) for a job that completed or was terminated by a signal, respectively, at the following time:
+<ul>
+<li class="tent">If <a href="#set"><i>set <b>-b is enabled, the message shall be written immediately after the job
+completes or is terminated.
+<li class="tent">If <a href="#set"><i>set <b>-b is disabled, the message shall be written immediately prior to writing
+the next prompt for input.
+
+<p class="tent">In each case above where an interactive shell writes a message immediately prior to writing the next prompt for
+input, the same message may also be written by a non-interactive shell, at any of the following times:
+<ul>
+<li class="tent">After the next time a foreground job terminates or is suspended
+<li class="tent">Before the shell parses further input
+<li class="tent">Before the shell exits
+
+<h3><a name="tag_19_12" id="tag_19_12">2.12 Signals and Error Handling
+<p class="tent">If job control is disabled (see the description of <a href="#set"><i>set <b>-m) when the shell executes
+an asynchronous AND-OR list, the commands in the list shall inherit from the shell a signal action of ignored (SIG&#95;IGN) for the
+SIGINT and SIGQUIT signals. In all other cases, commands executed by the shell shall inherit the same signal actions as those
+inherited by the shell from its parent unless a signal action is modified by the <a href="#trap"><i>trap special built-in
+(see <a href="#tag_19_29">trap)
+<p class="tent">When a signal for which a trap has been set is received while the shell is waiting for the completion of a utility
+executing a foreground command, the trap associated with that signal shall not be executed until after the foreground command has
+completed. When the shell is waiting, by means of the <a href="../utilities/wait.html"><i>wait utility, for asynchronous
+commands to complete, the reception of a signal for which a trap has been set shall cause the <a href=
+"../utilities/wait.html"><i>wait utility to return immediately with an exit status &gt;128, immediately after which the
+trap associated with that signal shall be taken.
+<p class="tent">If multiple signals are pending for the shell for which there are associated trap actions, the order of execution
+of trap actions is unspecified.
+<h3><a name="tag_19_13" id="tag_19_13">2.13 Shell Execution Environment
+<p class="tent">A shell execution environment consists of the following:
+<ul>
+<li class="tent">Open files inherited upon invocation of the shell, plus open files controlled by <a href=
+"#exec"><i>exec
+<li class="tent">Working directory as set by <a href="../utilities/cd.html"><i>cd
+<li class="tent">File creation mask set by <a href="../utilities/umask.html"><i>umask
+<li class="tent">File size limit as set by <a href="../utilities/ulimit.html"><i>ulimit
+<li class="tent">Current traps set by <a href="#trap"><i>trap
+<li class="tent">Shell parameters that are set by variable assignment (see the <a href="#tag_19_26">set special built-in) or
+from the System Interfaces volume of POSIX.1-2024 environment inherited by the shell when it begins (see the <a href=
+"#tag_19_23">export special built-in)
+<li class="tent">Shell functions; see <a href="#tag_19_09_05">2.9.5 Function Definition Command
+<li class="tent">Options turned on at invocation or by <a href="#set"><i>set
+<li class="tent">Background jobs and their associated process IDs, and process IDs of child processes created to execute
+asynchronous AND-OR lists while job control is disabled; together these process IDs constitute the process IDs &#34;known to this
+shell environment&#34;. If the implementation supports non-job-control background jobs, the list of known process IDs and the list of
+background jobs may form a single list even though this standard describes them as being updated separately. See <a href=
+"#tag_19_09_03_02">2.9.3.1 Asynchronous AND-OR Lists
+<li class="tent">Shell aliases; see <a href="#tag_19_03_01">2.3.1 Alias Substitution
+
+<p class="tent">Utilities other than the special built-ins (see <a href="#tag_19_15">2.15 Special Built-In Utilities) shall be
+invoked in a separate environment that consists of the following. The initial value of these objects shall be the same as that for
+the parent shell, except as noted below.
+<ul>
+<li class="tent">Open files inherited on invocation of the shell, open files controlled by the <a href="#exec"><i>exec
+special built-in plus any modifications, and additions specified by any redirections to the utility
+<li class="tent">Current working directory
+<li class="tent">File creation mask
+<li class="tent">If the utility is a shell script, traps caught by the shell shall be set to the default values and traps ignored
+by the shell shall be set to be ignored by the utility; if the utility is not a shell script, the trap actions (default or ignore)
+shall be mapped into the appropriate signal handling actions for the utility
+<li class="tent">Variables with the <a href="#export"><i>export attribute, along with those explicitly exported for the
+duration of the command, shall be passed to the utility environment variables
+<li class="tent">It is unspecified whether environment variables that were passed to the invoking shell when it was invoked itself,
+but were not used to initialize shell variables (see <a href="#tag_19_05_03">2.5.3 Shell Variables) because they had invalid
+names, are included in the invoked utility&#39;s environment.
+
+<p class="tent">The environment of the shell process shall not be changed by the utility unless explicitly specified by the utility
+description (for example, <a href="../utilities/cd.html"><i>cd and <a href="../utilities/umask.html"><i>umask).
+<p class="tent">A subshell environment shall be created as a duplicate of the shell environment, except that:
+<ul>
+<li class="tent">Unless specified otherwise (see <a href="#tag_19_29">trap), traps that are not being ignored shall be set to
+the default action.
+<li class="tent">If the shell is interactive, the subshell shall behave as a non-interactive shell in all respects except:
+<ul>
+<li class="tent">The expansion of the special parameter <tt>&#39;-&#39; may continue to indicate that it is interactive.
+<li class="tent">The <a href="#set"><i>set <b>-n option may be ignored.
+
+<p class="tent">Changes made to the subshell environment shall not affect the shell environment. Command substitution, commands
+that are grouped with parentheses, and asynchronous AND-OR lists shall be executed in a subshell environment. Additionally, each
+command of a multi-command pipeline is in a subshell environment; as an extension, however, any or all commands in a pipeline may
+be executed in the current environment. Except where otherwise stated, all other commands shall be executed in the current shell
+environment.
+<h3><a name="tag_19_14" id="tag_19_14">2.14 Pattern Matching Notation
+<p class="tent">The pattern matching notation described in this section is used to specify patterns for matching character strings
+in the shell. This notation is also used by some other utilities (<a href="../utilities/find.html"><i>find, <a href=
+"../utilities/pax.html"><i>pax, and optionally <a href="../utilities/make.html"><i>make) and by some system
+interfaces (<a href="../functions/fnmatch.html"><i>fnmatch(), <a href="../functions/glob.html"><i>glob(), and
+<a href="../functions/wordexp.html"><i>wordexp()). Historically, pattern matching notation is related to, but slightly
+different from, the regular expression notation described in XBD <a href="../basedefs/V1_chap09.html#tag_09"><i>9. Regular
+Expressions. For this reason, the description of the rules for this pattern matching notation are based on the description
+of regular expression notation, modified to account for the differences.
+<p class="tent">If an attempt is made to use pattern matching notation to match a string that contains one or more bytes that do
+not form part of a valid character, the behavior is unspecified. Since pathnames can contain such bytes, portable applications need
+to ensure that the current locale is the C or POSIX locale when performing pattern matching (or expansion) on arbitrary
+pathnames.
+<h4><a name="tag_19_14_01" id="tag_19_14_01">2.14.1 Patterns Matching a Single Character
+<p class="tent">The following patterns shall match a single character: ordinary characters, special pattern characters, and pattern
+bracket expressions. The pattern bracket expression also shall match a single collating element.
+<p class="tent">In a pattern, or part of one, where a shell-quoting &lt;backslash&gt; can be used, a &lt;backslash&gt; character
+shall escape the following character as described in <a href="#tag_19_02_01">2.2.1 Escape Character (Backslash), regardless of
+whether or not the &lt;backslash&gt; is inside a bracket expression. (The sequence <tt>&#34;&#92;&#92;&#34; represents one literal
+&lt;backslash&gt;.)
+<p class="tent">In a pattern, or part of one, where a shell-quoting &lt;backslash&gt; cannot be used to preserve the literal value
+of a character that would otherwise be treated as special:
+<ul>
+<li class="tent">A &lt;backslash&gt; character that is not inside a bracket expression shall preserve the literal value of the
+following character, unless the following character is in a part of the pattern where shell quoting can be used and is a shell
+quoting character, in which case the behavior is unspecified.
+<li class="tent">For the shell only, it is unspecified whether or not a &lt;backslash&gt; character inside a bracket expression
+preserves the literal value of the following character.
+
+<p class="tent">All of the requirements and effects of quoting on ordinary, shell special, and special pattern characters shall
+apply to escaping in this context, except where specified otherwise. (Situations where this applies include word expansions when a
+pattern used in pathname expansion is not present in the original word but results from an earlier expansion, or the argument to
+the <a href="../utilities/find.html"><i>find -<i>name or -<i>path primary as passed to <a href=
+"../utilities/find.html"><i>find, or the <i>pattern argument to the <a href=
+"../functions/fnmatch.html"><i>fnmatch() and <a href="../functions/glob.html"><i>glob() functions when FNM&#95;NOESCAPE
+or GLOB&#95;NOESCAPE is not set in <i>flags, respectively.)
+<p class="tent">If a pattern ends with an unescaped &lt;backslash&gt;, the behavior is unspecified.
+<p class="tent">An ordinary character is a pattern that shall match itself. In a pattern, or part of one, where a shell-quoting
+&lt;backslash&gt; can be used, an ordinary character can be any character in the supported character set except for NUL, those
+special shell characters in <a href="#tag_19_02">2.2 Quoting that require quoting, and the three special pattern characters
+described below. In a pattern, or part of one, where a shell-quoting &lt;backslash&gt; cannot be used to preserve the literal value
+of a character that would otherwise be treated as special, an ordinary character can be any character in the supported character
+set except for NUL and the three special pattern characters described below. Matching shall be based on the bit pattern used for
+encoding the character, not on the graphic representation of the character. If any character (ordinary, shell special, or pattern
+special) is quoted, or escaped with a &lt;backslash&gt;, that pattern shall match the character itself. The application shall
+ensure that it quotes or escapes any character that would otherwise be treated as special, in order for it to be matched as an
+ordinary character.
+<p class="tent">When unquoted, unescaped, and not inside a bracket expression, the following three characters shall have special
+meaning in the specification of patterns:
+<dl compact>
+<dd>
+<dt><tt>?
+<dd>A &lt;question-mark&gt; is a pattern that shall match any character.
+<dt><tt>&#42;
+<dd>An &lt;asterisk&gt; is a pattern that shall match multiple characters, as described in <a href="#tag_19_14_02">2.14.2 Patterns
+Matching Multiple Characters.
+<dt><tt>&#91;
+<dd>A &lt;left-square-bracket&gt; shall introduce a bracket expression if the characters following it meet the requirements for
+bracket expressions stated in XBD <a href="../basedefs/V1_chap09.html#tag_09_03_05"><i>9.3.5 RE Bracket Expression, except
+that the &lt;exclamation-mark&gt; character (<tt>&#39;!&#39;) shall replace the &lt;circumflex&gt; character (<tt>&#39;^&#39;) in its
+role in a non-matching list in the regular expression notation. A bracket expression starting with an unquoted &lt;circumflex&gt;
+character produces unspecified results. A &lt;left-square-bracket&gt; that does not introduce a valid bracket expression shall
+match the character itself.
+
+<h4><a name="tag_19_14_02" id="tag_19_14_02">2.14.2 Patterns Matching Multiple Characters
+<p class="tent">The following rules are used to construct patterns matching multiple characters from patterns matching a single
+character:
+<ol>
+<li class="tent">The &lt;asterisk&gt; (<tt>&#39;&#42;&#39;) is a pattern that shall match any string, including the null string.
+<li class="tent">The concatenation of patterns matching a single character is a valid pattern that shall match the concatenation of
+the single characters or collating elements matched by each of the concatenated patterns.
+<li class="tent">The concatenation of one or more patterns matching a single character with one or more &lt;asterisk&gt; characters
+is a valid pattern. In such patterns, each &lt;asterisk&gt; shall match a string of zero or more characters, matching the greatest
+possible number of characters that still allows the remainder of the pattern to match the string.
+
+<h4><a name="tag_19_14_03" id="tag_19_14_03">2.14.3 Patterns Used for Filename Expansion
+<p class="tent">The rules described so far in <a href="#tag_19_14_01">2.14.1 Patterns Matching a Single Character and <a href=
+"#tag_19_14_02">2.14.2 Patterns Matching Multiple Characters are qualified by the following rules that apply when pattern
+matching notation is used for filename expansion:
+<ol>
+<li class="tent">The &lt;slash&gt; character in a pathname shall be explicitly matched by using one or more &lt;slash&gt;
+characters in the pattern; it shall neither be matched by the &lt;asterisk&gt; or &lt;question-mark&gt; special characters nor by a
+bracket expression. &lt;slash&gt; characters in the pattern shall be identified before bracket expressions; thus, a &lt;slash&gt;
+cannot be included in a pattern bracket expression used for filename expansion. If a &lt;slash&gt; character is found following an
+unescaped &lt;left-square-bracket&gt; character before a corresponding &lt;right-square-bracket&gt; is found, the open bracket
+shall be treated as an ordinary character. For example, the pattern <tt>&#34;a&#91;b/c&#93;d&#34; does not match such pathnames as <b>abd
+or <b>a/d. It only matches a pathname of literally <b>a&#91;b/c&#93;d.
+<li class="tent">If a filename begins with a &lt;period&gt; (<tt>&#39;.&#39;), the &lt;period&gt; shall be explicitly matched by using
+a &lt;period&gt; as the first character of the pattern or immediately following a &lt;slash&gt; character. The leading
+&lt;period&gt; shall not be matched by:
+<ul>
+<li class="tent">The &lt;asterisk&gt; or &lt;question-mark&gt; special characters
+<li class="tent">A bracket expression containing a non-matching list, such as <tt>&#34;&#91;!a&#93;&#34;, a range expression, such as
+<tt>&#34;&#91;%-0&#93;&#34;, or a character class expression, such as <tt>&#34;&#91;&#91;:punct:&#93;&#93;&#34;
+
+<p class="tent">It is unspecified whether an explicit &lt;period&gt; in a bracket expression matching list, such as
+<tt>&#34;&#91;.abc&#93;&#34;, can match a leading &lt;period&gt; in a filename.
+
+<li class="tent">If a specified pattern contains any <tt>&#39;&#42;&#39;, <tt>&#39;?&#39; or <tt>&#39;&#91;&#39; characters that will be treated as
+special (see <a href="#tag_19_14_01">2.14.1 Patterns Matching a Single Character), it shall be matched against existing
+filenames and pathnames, as appropriate; if directory entries for dot and dot-dot exist, they may be ignored. Each component that
+contains any such characters shall require read permission in the directory containing that component. Each component that contains
+a &lt;backslash&gt; that will be treated as special may require read permission in the directory containing that component. Any
+component, except the last, that does not contain any <tt>&#39;&#42;&#39;, <tt>&#39;?&#39; or <tt>&#39;&#91;&#39; characters that will be treated as
+special shall require search permission. If these permissions are denied, or if an attempt to open or search a pathname as a
+directory, or an attempt to read an opened directory, fails because of an error condition that is related to file system contents,
+this shall not be considered an error and pathname expansion shall continue as if the pathname had named an existing directory
+which had been successfully opened and read, or searched, and no matching directory entries had been found in it. For other error
+conditions it is unspecified whether pathname expansion fails or they are treated the same as when permission is denied.
+<p class="tent">For example, given the pattern:
+<pre>
+<tt>/foo/bar/x&#42;/bam
+
+<p class="tent">search permission is needed for directories <b>/ and <b>foo, search and read permissions are needed for
+directory <b>bar, and search permission is needed for each <b>x&#42; directory.
+<p class="tent">If the pattern matches any existing filenames or pathnames, the pattern shall be replaced with those filenames and
+pathnames, sorted according to the collating sequence in effect in the current locale. If this collating sequence does not have a
+total ordering of all characters (see XBD <a href="../basedefs/V1_chap07.html#tag_07_03_02"><i>7.3.2 LC&#95;COLLATE), any
+filenames or pathnames that collate equally shall be further compared byte-by-byte using the collating sequence for the POSIX
+locale.
+<p class="tent">If the pattern contains an open bracket (<tt>&#39;&#91;&#39;) that does not introduce a bracket expression as in XBD
+<a href="../basedefs/V1_chap09.html#tag_09_03_05"><i>9.3.5 RE Bracket Expression, it is unspecified whether other unquoted
+<tt>&#39;&#42;&#39;, <tt>&#39;?&#39;, <tt>&#39;&#91;&#39; or &lt;backslash&gt; characters within the same slash-delimited component of the pattern
+retain their special meanings or are treated as ordinary characters. For example, the pattern <tt>&#34;a&#42;&#91;/b&#42;&#34; may match all
+filenames beginning with <tt>&#39;b&#39; in the directory <tt>&#34;a&#42;&#91;&#34; or it may match all filenames beginning with <tt>&#39;b&#39; in
+all directories with names beginning with <tt>&#39;a&#39; and ending with <tt>&#39;&#91;&#39;.
+<p class="tent">If the pattern does not match any existing filenames or pathnames, the pattern string shall be left unchanged.
+<basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>A future version of this standard may require that directory entries for dot and dot-dot are ignored (if they exist) when
+matching patterns against existing filenames. For example, when expanding the pattern <tt>&#34;.&#42;&#34; the result would not include
+dot and dot-dot.
+
+<basefont size="3">
+<li class="tent">If a specified pattern does not contain any <tt>&#39;&#42;&#39;, <tt>&#39;?&#39; or <tt>&#39;&#91;&#39; characters that will be
+treated as special, the pattern string shall be left unchanged.
+
+<h3><a name="tag_19_15" id="tag_19_15">2.15 Special Built-In Utilities
+<p class="tent">The following &#34;special built-in&#34; utilities shall be supported in the shell command language. The output of each
+command, if any, shall be written to standard output, subject to the normal redirection and piping possible with all commands.
+<p class="tent">The term &#34;built-in&#34; implies that there is no need to execute a separate executable file because the utility is
+implemented in the shell itself. An implementation may choose to make any utility a built-in; however, the special built-in
+utilities described here differ from regular built-in utilities in two respects:
+<ol>
+<li class="tent">An error in a special built-in utility may cause a shell executing that utility to abort, while an error in a
+regular built-in utility shall not cause a shell executing that utility to abort. (See <a href="#tag_19_08_01">2.8.1 Consequences
+of Shell Errors for the consequences of errors on interactive and non-interactive shells.) If a special built-in utility
+encountering an error does not abort the shell, its exit value shall be non-zero.
+<li class="tent">As described in <a href="#tag_19_09_01">2.9.1 Simple Commands, variable assignments preceding the invocation
+of a special built-in utility affect the current execution environment; this shall not be the case with a regular built-in or other
+utility.
+
+<p class="tent">The special built-in utilities in this section need not be provided in a manner accessible via the <i>exec
+family of functions defined in the System Interfaces volume of POSIX.1-2024.
+<p class="tent">Some of the special built-ins are described as conforming to XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines. For those that are not, the requirement in
+<a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description Defaults that <tt>&#34;&#45;&#45;&#34; be recognized as a
+first argument to be discarded does not apply and a conforming application shall not use that argument.
+
+<a name="break" id="break"> <a name="tag_19_16" id="tag_19_16"><!-- break -->
+<h4 class="mansect"><a name="tag_19_16_01" id="tag_19_16_01">NAME
+<blockquote>break — exit from for, while, or until loop
+<h4 class="mansect"><a name="tag_19_16_02" id="tag_19_16_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>break <b>&#91;<i>n<b>&#93;
+
+<h4 class="mansect"><a name="tag_19_16_03" id="tag_19_16_03">DESCRIPTION
+<blockquote>
+<p>If <i>n is specified, the <a href="#break"><i>break utility shall exit from the <i>nth enclosing <b>for,
+<b>while, or <b>until loop. If <i>n is not specified, <a href="#break"><i>break shall behave as if <i>n was
+specified as 1. Execution shall continue with the command immediately following the exited loop. The application shall ensure that
+the value of <i>n is a positive decimal integer. If <i>n is greater than the number of enclosing loops, the outermost
+enclosing loop shall be exited. If there is no enclosing loop, the behavior is unspecified.
+<p class="tent">A loop shall enclose a <i>break or <i>continue command if the loop lexically encloses the command. A loop
+lexically encloses a <i>break or <i>continue command if the command is:
+<ul>
+<li class="tent">Executing in the same execution environment (see <a href="#tag_19_13">2.13 Shell Execution Environment) as
+the compound-list of the loop&#39;s do-group (see <a href="#tag_19_10_02">2.10.2 Shell Grammar Rules), and
+<li class="tent">Contained in a compound-list associated with the loop (either in the compound-list of the loop&#39;s do-group or, if
+the loop is a <b>while or <b>until loop, in the compound-list following the <b>while or <b>until reserved word),
+and
+<li class="tent">Not in the body of a function whose function definition command (see <a href="#tag_19_09_05">2.9.5 Function
+Definition Command) is contained in a compound-list associated with the loop.
+
+<p class="tent">If <i>n is greater than the number of lexically enclosing loops and there is a non-lexically enclosing loop in
+progress in the same execution environment as the <i>break or <i>continue command, it is unspecified whether that loop
+encloses the command.
+
+<h4 class="mansect"><a name="tag_19_16_04" id="tag_19_16_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_16_05" id="tag_19_16_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_16_06" id="tag_19_16_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_16_07" id="tag_19_16_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_16_08" id="tag_19_16_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_16_09" id="tag_19_16_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_16_10" id="tag_19_16_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_16_11" id="tag_19_16_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_16_12" id="tag_19_16_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_16_13" id="tag_19_16_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_16_14" id="tag_19_16_14">EXIT STATUS
+<blockquote>
+<dl compact>
+<dd>
+<dt> 0
+<dd>Successful completion.
+<dt>&gt;0
+<dd>The <i>n value was not an unsigned decimal integer greater than or equal to 1.
+
+<h4 class="mansect"><a name="tag_19_16_15" id="tag_19_16_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_16_16" id="tag_19_16_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_16_17" id="tag_19_16_17">EXAMPLES
+<blockquote>
+<pre>
+<tt>for i in &#42;
+do
+    if test -d &#34;&#36;i&#34;
+    then break
     fi
+done
 
-    abc
-
-与任何特殊内置一样，空实用程序也可以关联变量赋值和重定向：
-
-    x=y : > z
-
-将 *x* 设为 *y*（在空实用程序完成后持续存在），并创建或截断文件 **z**；若无法创建/截断，非交互式 shell 退出（见 2.8.1）。
-
-#### 原理 (RATIONALE)
-
-无。（参见 `true` 的应用程序用法。）
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 SD5-XCU-ERN-97（更新 SYNOPSIS）。
-- **Issue 8**：应用 Austin Group Defect 1272（澄清空实用程序不处理参数、不识别 `"--"`、不支持选项、不写标准错误）与 Defect 1640（更改 APPLICATION USAGE 节）。
-
-*提供信息文本结束。*
-
-### 2.18 `continue` — 继续 for、while 或 until 循环
-
-#### 语法 (SYNOPSIS)
-
-```sh
-continue [n]
-```
-
-#### 描述 (DESCRIPTION)
-
-- 指定了 *n* → 返回到第 *n* 个外层 **for**、**while** 或 **until** 循环的**顶部**；未指定 → 如同 *n* 为 1。
-- 返回顶部涉及重复 **while**/**until** 的条件列表，或执行 **for** 的下一次赋值，并在适当时重新执行循环。
-- *n* 必须是正十进制整数；若大于外层循环数 → 使用最外层循环；无外层循环 → **未指定**。
-- "外层"的含义同 `break` 的描述。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：见描述。
-- 标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- **0**：成功完成。
-- **>0**：*n* 值不是大于或等于 1 的无符号十进制整数。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    for i in *
-    do
-        if test -d "$i"
-        then continue
-        fi
-        printf '"%s" is not a directory.\n' "$i"
+<p class="tent">The results of running the following example are unspecified: there are two loops in progress when the <a href=
+"#break"><i>break command is executed, and they are in the same execution environment, but neither loop is lexically
+enclosing the <a href="#break"><i>break command. (There are no loops lexically enclosing the <a href=
+"#continue"><i>continue commands, either.)
+<pre>
+<tt>foo() {
+    for j in 1 2; do
+        echo &#39;break 2&#39; &gt;/tmp/do&#95;break
+        echo &#34;  sourcing /tmp/do&#95;break (&#36;j)&#46;&#46;&#46;&#34;
+        # the behavior of the break from running the following command
+        # results in unspecified behavior:
+        . /tmp/do&#95;break
+<br class="tent">
+        do&#95;continue() { continue 2; }
+        echo &#34;  running do&#95;continue (&#36;j)&#46;&#46;&#46;&#34;
+        # the behavior of the continue in the following function call
+        # results in unspecified behavior (if execution reaches this
+        # point):
+        do&#95;continue
+<br class="tent">
+        trap &#39;continue 2&#39; USR1
+        echo &#34;  sending SIGUSR1 to self (&#36;j)&#46;&#46;&#46;&#34;
+        # the behavior of the continue in the trap invoked from the
+        # following signal results in unspecified behavior (if
+        # execution reaches this point):
+        kill -s USR1 &#36;&#36;
+        sleep 1
     done
-
-#### 原理 (RATIONALE)
-
-无。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：示例改用 `printf` 而非 `echo`；应用 XCU/TC2-2008/0046 \[842\]。
-- **Issue 8**：应用 Austin Group Defect 1058。
-
-*提供信息文本结束。*
-
-### 2.19 `dot` — 在当前环境中执行命令
-
-#### 语法 (SYNOPSIS)
-
-```sh
-. file
-```
-
-#### 描述 (DESCRIPTION)
-
-- shell 对 *file* 的内容进行 **token 化**（见 2.3）、**解析**（见 2.10）并在**当前环境**中执行结果命令。
-- 命令是按 *program*（如同 shell 脚本）解析执行，还是按单个 *compound_list*（整个文件解析后执行），**未指定**。
-- **文件查找**：*file* 不含 \<slash\> 时，用 *PATH* 搜索包含 *file* 的目录；与正常命令搜索不同，搜索到的文件**不必可执行**。未找到可读文件 → 非交互式 shell **中止**；交互式 shell 写诊断到标准错误。
-- 应支持 XBD 12.2 Utility Syntax Guidelines，但**指南 1 和 2 除外**（因该实用程序名为 `'.'`）。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：见描述。标准输入：不使用。输入文件：见描述。环境变量：见描述。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- 未找到可读文件或文件命令无法解析，且 shell 交互式（因此不中止）→ 非零。
-- 否则返回**最后执行的命令**的值；无命令执行 → 零。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    cat foobar
-
-    foo=hello bar=world
-
-    . ./foobar
-    echo $foo $bar
-
-    hello world
-
-#### 原理 (RATIONALE)
-
-- 一些旧实现搜索当前目录找 *file*（即使 *PATH* 不允许）；此行为被省略，因为担心引入用户可能试图通过把 **dot** 排除在 *PATH* 外避免的**特洛伊木马**易感性。
-- KornShell 版 `dot` 接受可选参数设置为位置参数（有效扩展，允许 dot 脚本表现得与函数完全一样）。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 SD5-XCU-ERN-164；XCU/TC1-2008/0038 \[114\] 和 0039 \[214\]。
-- **Issue 8**：应用 Defect 252（要求支持 12.2，除指南 1/2）、Defect 953（澄清解析方式）、Defect 1265（更新 DESCRIPTION 对齐 2.8.1）。
-
-*提供信息文本结束。*
-
-### 2.20 `eval` — 通过连接参数构造命令
-
-#### 语法 (SYNOPSIS)
-
-```sh
-eval [argument...]
-```
-
-#### 描述 (DESCRIPTION)
-
-- 通过将 *argument* 连接在一起（每个用 \<space\> 分隔）构造命令字符串；构造的字符串由 shell 在当前环境中 **token 化**（2.3）、**解析**（2.10）并**执行**。
-- 按 *program* 解析执行还是按单个 *compound_list* 解析后执行，**未指定**。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- 无 *argument* 或只有 null *argument* → **零**；
-- 否则返回连接命令字符串所定义命令的退出状态；若连接无法解析为命令且 shell 交互式（因此未中止）→ 非零。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    foo=10 x=foo
-    y='$'$x
-    echo $y
-
-    $foo
-
-    eval y='$'$x
-    echo $y
-
-    10
-
-#### 应用程序用法 (APPLICATION USAGE)
-
-`eval` 不要求识别 `"--"`；当参数可能以 `'-'` 开头时，建议第一个参数用不会改变要执行命令的字符串作前缀（如 \<space\>）：
-
-    eval " $commands"
-    eval " $(some_command)"
-
-#### 原理 (RATIONALE)
-
-本标准允许但不要求 `eval` 识别 `"--"`。虽然应用不能用 `"--"` 防止作为扩展支持的选项（或为不支持选项报告的错误），但 `eval` 的性质使其他手段可提供此保护（见 APPLICATION USAGE）。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 SD5-XCU-ERN-97；XCU/TC1-2008/0040 \[114\]、0041 \[163\]、0042 \[163\]。
-- **Issue 8**：应用 Austin Group Defect 953（澄清构造命令字符串中命令的解析方式）。
-
-*提供信息文本结束。*
-
-
-### 2.21 `exec` — 在当前 shell 中执行重定向或执行实用程序
-
-#### 语法 (SYNOPSIS)
-
-```sh
-exec [utility [argument...]]
-```
-
-#### 描述 (DESCRIPTION)
-
-**无操作数（仅重定向）**：
-
-- 与 `exec` 关联的任何重定向在**当前 shell 执行环境**中进行。
-- 若这些重定向打开了编号大于 2 的文件描述符，shell 调用另一个实用程序时它们是否保持打开**未指定**——担心子 shell 滥用打开 FD 的脚本可显式关闭它们。
-- 若重定向结果是 FD 0/1/2 被关闭，实现可将其打开到未指定的文件。
-
-**有 utility 操作数**：
-
-- 按 2.9.1.6 执行非内置实用程序（*utility* 为命令名，*argument* 为命令参数）。
-- **失败处理**：`exec` 命令失败 → 非交互式 shell 从当前执行环境**退出**；\[UP\] 交互式 shell 可从子 shell 环境退出，但若当前环境不是子 shell 环境则**不应退出**。若未退出，已成功进行的关联重定向在当前执行环境生效。
-
-应支持 XBD 12.2 Utility Syntax Guidelines。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：见描述。标准输入：不使用。输入文件：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-- **环境变量**：**`PATH`** 确定查找 *utility* 操作数的搜索路径（见 XBD 8.3）。
-
-#### 退出状态 (EXIT STATUS)
-
-- *utility* 指定且被执行 → `exec` **不返回到 shell**；当前 shell 执行环境的退出状态即 *utility* 的退出状态。
-- *utility* 指定但作为非内置执行失败 → 按 2.9.1.6。
-- 发生重定向错误（见 2.8.1）→ 退出状态为 **1–125** 范围内的值。
-- 否则 → **零**。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    exec 3< readfile        # 打开 readfile 作为 FD 3 供读取
-    exec 4> writefile       # 打开 writefile 作为 FD 4 供写入
-    exec 5<&0               # 使 FD 5 成为 FD 0 的副本
-    exec 3<&-               # 关闭 FD 3
-    exec cat maggie         # 用 cat 替换当前 shell
-    (exec printf '%g\n' "$float_value")   # 用子 shell 使用实现的 printf 扩展
-
-#### 原理 (RATIONALE)
-
-大多数历史实现不符合：`foo=bar exec cmd` **不**把 **foo** 传给 **cmd**。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 SD5-XCU-ERN-97。
-- **Issue 8**：应用 Defect 252（支持 12.2）、Defect 1157（澄清非内置执行）、Defect 1587（更改 ENVIRONMENT VARIABLES 节）。
-
-*提供信息文本结束。*
-
-### 2.22 `exit` — 使 shell 退出
-
-#### 语法 (SYNOPSIS)
-
-```sh
-exit [n]
-```
-
-#### 描述 (DESCRIPTION)
-
-- 使 shell 从其**当前执行环境**退出：子 shell 环境 → 退出子 shell 并在调用它的环境中继续；否则 shell 实用程序**终止**。
-- **等待状态**由无符号十进制整数 *n*（若指定）确定：
-  - *n* 在 0–255（含）→ 指示以退出状态 *n* 退出；
-  - *n* 大于 256 且对应 shell 分配给被**有效信号**终止的命令的退出状态（见 2.8.2）→ 指示被该信号终止；与该信号关联的其他动作（执行 trap、创建 core）**不应**由 shell 执行；
-  - *n* 不是无符号十进制整数、值为 256、或大于 256 但不对应有效信号退出状态 → 等待状态**未指定**。
-- *n* 未指定 → 如同 *n* 为特殊参数 `'?'` 的当前值；但若 `exit` 导致 `trap` 动作执行的结束，视为 "当前" 的 `'?'` 值是 trap 动作**紧前**的值。
-- **EXIT trap**：**EXIT** 上的 trap 动作在 shell 终止前执行，除非 `exit` 在该 trap 动作本身中被调用（此时 shell **立即退出**）。在 EXIT trap 动作执行期间设置新的 EXIT trap，新 trap 是否在终止前执行**未指定**。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-`exit` 使 shell 从其当前执行环境退出，因此本身**不返回**退出状态。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 保留退出状态值 (APPLICATION USAGE)
-
-- **126**：找到要执行的文件，但不是可执行实用程序。
-- **127**：未找到要执行的实用程序。
-- **128**：shell 读取命令时检测到不可恢复的读取错误（`dot` 的 *file* 操作数除外）。
-- **>128**：命令被信号中断。
-
-#### 示例 (EXAMPLES)
-
-    exit 0          # 以 true 值退出
-    exit 1          # 以 false 值退出
-    (
-        command1 || exit 1
-        command2 || exit 1
-        exec command3
-    ) > outputfile || exit 1
-    echo "outputfile created successfully"    # 从子 shell 内传播错误处理
-
-#### 原理 (RATIONALE)
-
-`exit` 对无效参数或未知选项的行为未指定（历史实现做法不同）。大于 255 的值可能被 shell 截断，即使父进程用 `waitid()` 也拿不到完整值；建议检测到用法错误的实现应导致非零退出状态（或交互式时在 `"$?"` 存非零值），但历史上并非所有 shell 都如此。另见 XRAT C.2.8.2。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 XCU/TC2-2008/0047 \[717\]、0048 \[960\]、0049 \[717\]、0050 \[960\]。
-- **Issue 8**：应用 Defect 51（>256 且对应有效信号退出状态的行为）、Defect 1029（"trap" → "trap action"）、Defect 1309（更改 EXIT STATUS 节）、Defect 1425（澄清 EXIT trap 要求）、Defect 1602（澄清 trap 动作中 exit 的行为）、Defect 1629（添加退出状态 128）。
-
-*提供信息文本结束。*
-
-### 2.23 `export` — 为变量设置 export 属性
-
-#### 语法 (SYNOPSIS)
-
-```sh
-export name[=word]...
+}
+for i in 1 2; do
+    echo &#34;running foo (&#36;i)&#46;&#46;&#46;&#34;
+    foo
+done
+
+<h4 class="mansect"><a name="tag_19_16_18" id="tag_19_16_18">RATIONALE
+<blockquote>
+<p>In early proposals, consideration was given to expanding the syntax of <a href="#break"><i>break and <a href=
+"#continue"><i>continue to refer to a label associated with the appropriate loop as a preferable alternative to the
+<i>n method. However, this volume of POSIX.1-2024 does reserve the name space of command names ending with a &lt;colon&gt;. It
+is anticipated that a future implementation could take advantage of this and provide something like:
+<pre>
+<tt>outofloop: for i in a b c d e
+do
+    for j in 0 1 2 3 4 5 6 7 8 9
+    do
+        if test -r &#34;&#36;{i}&#36;{j}&#34;
+        then break outofloop
+        fi
+    done
+done
+
+<p class="tent">and that this might be standardized after implementation experience is achieved.
+
+<h4 class="mansect"><a name="tag_19_16_19" id="tag_19_16_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_16_20" id="tag_19_16_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+
+<h4 class="mansect"><a name="tag_19_16_21" id="tag_19_16_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_16_22" id="tag_19_16_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_16_23" id="tag_19_16_23">Issue 7
+<blockquote>
+<p>POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0046 &#91;842&#93; is applied.
+
+<h4 class="mansect"><a name="tag_19_16_24" id="tag_19_16_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 1058 is applied, clarifying that the requirement for <i>n to be a positive decimal integer is a
+requirement on the application.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="colon" id="colon"> <a name=
+"tag_19_17" id="tag_19_17"><!-- colon -->
+<h4 class="mansect"><a name="tag_19_17_01" id="tag_19_17_01">NAME
+<blockquote>colon — null utility
+<h4 class="mansect"><a name="tag_19_17_02" id="tag_19_17_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>: <b>&#91;<i>argument<tt>&#46;&#46;&#46;<b>&#93;
+
+<h4 class="mansect"><a name="tag_19_17_03" id="tag_19_17_03">DESCRIPTION
+<blockquote>
+<p>This utility shall do nothing except return a 0 exit status. It is used when a command is needed, as in the <b>then
+condition of an <b>if command, but nothing is to be done by the command.
+
+<h4 class="mansect"><a name="tag_19_17_04" id="tag_19_17_04">OPTIONS
+<blockquote>
+<p>This utility shall not recognize the <tt>&#34;&#45;&#45;&#34; argument in the manner specified by Guideline 10 of XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines.
+<p class="tent">Implementations shall not support any options.
+
+<h4 class="mansect"><a name="tag_19_17_05" id="tag_19_17_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_17_06" id="tag_19_17_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_17_07" id="tag_19_17_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_17_08" id="tag_19_17_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_17_09" id="tag_19_17_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_17_10" id="tag_19_17_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_17_11" id="tag_19_17_11">STDERR
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_17_12" id="tag_19_17_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_17_13" id="tag_19_17_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_17_14" id="tag_19_17_14">EXIT STATUS
+<blockquote>
+<p>Zero.
+
+<h4 class="mansect"><a name="tag_19_17_15" id="tag_19_17_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>None.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_17_16" id="tag_19_17_16">APPLICATION USAGE
+<blockquote>
+<p>See the APPLICATION USAGE for <a href="../utilities/true.html"><i>true.
+
+<h4 class="mansect"><a name="tag_19_17_17" id="tag_19_17_17">EXAMPLES
+<blockquote>
+<pre>
+<tt>: &#34;&#36;{X=abc}&#34;
+if     false
+then   :
+else   printf &#39;%s&#92;n&#39; &#34;&#36;X&#34;
+fi
+<b>
+abc<tt>
+
+<p class="tent">As with any of the special built-ins, the null utility can also have variable assignments and redirections
+associated with it, such as:
+<pre>
+<tt>x=y : &gt; z
+
+<p class="tent">which sets variable <i>x to the value <i>y (so that it persists after the null utility completes) and
+creates or truncates file <b>z; if the file cannot be created or truncated, a non-interactive shell exits (see <a href=
+"#tag_19_08_01">2.8.1 Consequences of Shell Errors).
+
+<h4 class="mansect"><a name="tag_19_17_18" id="tag_19_17_18">RATIONALE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_17_19" id="tag_19_17_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_17_20" id="tag_19_17_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities, <a href="../utilities/true.html#"><i>true
+
+<h4 class="mansect"><a name="tag_19_17_21" id="tag_19_17_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_17_22" id="tag_19_17_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_17_23" id="tag_19_17_23">Issue 7
+<blockquote>
+<p>SD5-XCU-ERN-97 is applied, updating the SYNOPSIS.
+
+<h4 class="mansect"><a name="tag_19_17_24" id="tag_19_17_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 1272 is applied, clarifying that the null utility does not process its arguments, does not recognize the
+<tt>&#34;&#45;&#45;&#34; end-of-options delimiter, does not support any options, and does not write to standard error.
+<p class="tent">Austin Group Defect 1640 is applied, changing the APPLICATION USAGE section.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="continue" id="continue"> <a name=
+"tag_19_18" id="tag_19_18"><!-- continue -->
+<h4 class="mansect"><a name="tag_19_18_01" id="tag_19_18_01">NAME
+<blockquote>continue — continue for, while, or until loop
+<h4 class="mansect"><a name="tag_19_18_02" id="tag_19_18_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>continue <b>&#91;<i>n<b>&#93;
+
+<h4 class="mansect"><a name="tag_19_18_03" id="tag_19_18_03">DESCRIPTION
+<blockquote>
+<p>If <i>n is specified, the <a href="#continue"><i>continue utility shall return to the top of the <i>nth
+enclosing <b>for, <b>while, or <b>until loop. If <i>n is not specified, <a href="#continue"><i>continue
+shall behave as if <i>n was specified as 1. Returning to the top of the loop involves repeating the condition list of a
+<b>while or <b>until loop or performing the next assignment of a <b>for loop, and re-executing the loop if
+appropriate.
+<p class="tent">The application shall ensure that the value of <i>n is a positive decimal integer. If <i>n is greater than
+the number of enclosing loops, the outermost enclosing loop shall be used. If there is no enclosing loop, the behavior is
+unspecified.
+<p class="tent">The meaning of &#34;enclosing&#34; shall be as specified in the description of the <a href="#break"><i>break
+utility.
+
+<h4 class="mansect"><a name="tag_19_18_04" id="tag_19_18_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_05" id="tag_19_18_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_18_06" id="tag_19_18_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_18_07" id="tag_19_18_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_08" id="tag_19_18_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_09" id="tag_19_18_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_18_10" id="tag_19_18_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_18_11" id="tag_19_18_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_18_12" id="tag_19_18_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_13" id="tag_19_18_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_14" id="tag_19_18_14">EXIT STATUS
+<blockquote>
+<dl compact>
+<dd>
+<dt> 0
+<dd>Successful completion.
+<dt>&gt;0
+<dd>The <i>n value was not an unsigned decimal integer greater than or equal to 1.
+
+<h4 class="mansect"><a name="tag_19_18_15" id="tag_19_18_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_18_16" id="tag_19_18_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_17" id="tag_19_18_17">EXAMPLES
+<blockquote>
+<pre>
+<tt>for i in &#42;
+do
+    if test -d &#34;&#36;i&#34;
+    then continue
+    fi
+    printf &#39;&#34;%s&#34; is not a directory.&#92;n&#39; &#34;&#36;i&#34;
+done
+
+<h4 class="mansect"><a name="tag_19_18_18" id="tag_19_18_18">RATIONALE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_19" id="tag_19_18_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_18_20" id="tag_19_18_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+
+<h4 class="mansect"><a name="tag_19_18_21" id="tag_19_18_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_18_22" id="tag_19_18_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_18_23" id="tag_19_18_23">Issue 7
+<blockquote>
+<p>The example is changed to use the <a href="../utilities/printf.html"><i>printf utility rather than <a href=
+"../utilities/echo.html"><i>echo.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0046 &#91;842&#93; is applied.
+
+<h4 class="mansect"><a name="tag_19_18_24" id="tag_19_18_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 1058 is applied, clarifying that the requirement for <i>n to be a positive decimal integer is a
+requirement on the application.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="dot" id="dot"> <a name=
+"tag_19_19" id="tag_19_19"><!-- dot -->
+<h4 class="mansect"><a name="tag_19_19_01" id="tag_19_19_01">NAME
+<blockquote>dot — execute commands in the current environment
+<h4 class="mansect"><a name="tag_19_19_02" id="tag_19_19_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>. <i>file
+
+<h4 class="mansect"><a name="tag_19_19_03" id="tag_19_19_03">DESCRIPTION
+<blockquote>
+<p>The shell shall tokenize (see <a href="#tag_19_03">2.3 Token Recognition) the contents of the <i>file, parse the tokens
+(see <a href="#tag_19_10">2.10 Shell Grammar), and execute the resulting commands in the current environment. It is
+unspecified whether the commands are parsed and executed as a <i>program (as for a shell script) or are parsed as a single
+<i>compound&#95;list that is executed after the entire file has been parsed.
+<p class="tent">If <i>file does not contain a &lt;slash&gt;, the shell shall use the search path specified by <i>PATH to
+find the directory containing <i>file. Unlike normal command search, however, the file searched for by the <a href=
+"#dot"><i>dot utility need not be executable. If no readable file is found, a non-interactive shell shall abort; an
+interactive shell shall write a diagnostic message to standard error.
+<p class="tent">The <a href="#dot"><i>dot special built-in shall support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines, except for Guidelines 1 and 2.
+
+<h4 class="mansect"><a name="tag_19_19_04" id="tag_19_19_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_19_05" id="tag_19_19_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_19_06" id="tag_19_19_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_19_07" id="tag_19_19_07">INPUT FILES
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_19_08" id="tag_19_19_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_19_09" id="tag_19_19_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_19_10" id="tag_19_19_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_19_11" id="tag_19_19_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_19_12" id="tag_19_19_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_19_13" id="tag_19_19_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_19_14" id="tag_19_19_14">EXIT STATUS
+<blockquote>
+<p>If no readable file was found or if the commands in the file could not be parsed, and the shell is interactive (and therefore
+does not abort; see <a href="#tag_19_08_01">2.8.1 Consequences of Shell Errors), the exit status shall be non-zero. Otherwise,
+return the value of the last command executed, or a zero exit status if no command is executed.
+
+<h4 class="mansect"><a name="tag_19_19_15" id="tag_19_19_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_19_16" id="tag_19_19_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_19_17" id="tag_19_19_17">EXAMPLES
+<blockquote>
+<pre>
+<tt>cat foobar
+<b>
+foo=hello bar=world<tt>
+
+. ./foobar
+echo &#36;foo &#36;bar
+<b>
+hello world<tt>
+
+<h4 class="mansect"><a name="tag_19_19_18" id="tag_19_19_18">RATIONALE
+<blockquote>
+<p>Some older implementations searched the current directory for the <i>file, even if the value of <i>PATH disallowed it.
+This behavior was omitted from this volume of POSIX.1-2024 due to concerns about introducing the susceptibility to trojan horses
+that the user might be trying to avoid by leaving <b>dot out of <i>PATH .
+<p class="tent">The KornShell version of <a href="#dot"><i>dot takes optional arguments that are set to the positional
+parameters. This is a valid extension that allows a <a href="#dot"><i>dot script to behave identically to a function.
+
+<h4 class="mansect"><a name="tag_19_19_19" id="tag_19_19_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_19_20" id="tag_19_19_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities, <a href="#tag_19_25">return
+
+<h4 class="mansect"><a name="tag_19_19_21" id="tag_19_19_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_19_22" id="tag_19_19_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_19_23" id="tag_19_19_23">Issue 7
+<blockquote>
+<p>SD5-XCU-ERN-164 is applied.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 1, XCU/TC1-2008/0038 &#91;114&#93; and XCU/TC1-2008/0039 &#91;214&#93; are applied.
+
+<h4 class="mansect"><a name="tag_19_19_24" id="tag_19_19_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 252 is applied, adding a requirement for <a href="#dot"><i>dot to support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines (except for Guidelines 1 and 2, since the
+utility&#39;s name is <tt>&#39;.&#39;).
+<p class="tent">Austin Group Defect 953 is applied, clarifying how the commands in the <i>file are parsed.
+<p class="tent">Austin Group Defect 1265 is applied, updating the DESCRIPTION to align with the changes made to <a href=
+"#tag_19_08_01">2.8.1 Consequences of Shell Errors between Issue 6 and Issue 7.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="eval" id="eval"> <a name=
+"tag_19_20" id="tag_19_20"><!-- eval -->
+<h4 class="mansect"><a name="tag_19_20_01" id="tag_19_20_01">NAME
+<blockquote>eval — construct command by concatenating arguments
+<h4 class="mansect"><a name="tag_19_20_02" id="tag_19_20_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>eval <b>&#91;<i>argument<tt>&#46;&#46;&#46;<b>&#93;
+
+<h4 class="mansect"><a name="tag_19_20_03" id="tag_19_20_03">DESCRIPTION
+<blockquote>
+<p>The <a href="#eval"><i>eval utility shall construct a command string by concatenating <i>arguments together,
+separating each with a &lt;space&gt; character. The constructed command string shall be tokenized (see <a href="#tag_19_03">2.3
+Token Recognition), parsed (see <a href="#tag_19_10">2.10 Shell Grammar), and executed by the shell in the current
+environment. It is unspecified whether the commands are parsed and executed as a <i>program (as for a shell script) or are
+parsed as a single <i>compound&#95;list that is executed after the entire constructed command string has been parsed.
+
+<h4 class="mansect"><a name="tag_19_20_04" id="tag_19_20_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_20_05" id="tag_19_20_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_20_06" id="tag_19_20_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_20_07" id="tag_19_20_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_20_08" id="tag_19_20_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_20_09" id="tag_19_20_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_20_10" id="tag_19_20_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_20_11" id="tag_19_20_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_20_12" id="tag_19_20_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_20_13" id="tag_19_20_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_20_14" id="tag_19_20_14">EXIT STATUS
+<blockquote>
+<p>If there are no <i>arguments, or only null <i>arguments, <a href="#eval"><i>eval shall return a zero exit
+status; otherwise, it shall return the exit status of the command defined by the string of concatenated <i>arguments separated
+by &lt;space&gt; characters, or a non-zero exit status if the concatenation could not be parsed as a command and the shell is
+interactive (and therefore did not abort).
+
+<h4 class="mansect"><a name="tag_19_20_15" id="tag_19_20_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_20_16" id="tag_19_20_16">APPLICATION USAGE
+<blockquote>
+<p>Since <a href="#eval"><i>eval is not required to recognize the <tt>&#34;&#45;&#45;&#34; end of options delimiter, in cases where
+the argument(s) to <a href="#eval"><i>eval might begin with <tt>&#39;-&#39; it is recommended that the first argument is
+prefixed by a string that will not alter the commands to be executed, such as a &lt;space&gt; character:
+<pre>
+<tt>eval &#34; &#36;commands&#34;
+
+<p class="tent">or:
+<pre>
+<tt>eval &#34; &#36;(some&#95;command)&#34;
+
+<h4 class="mansect"><a name="tag_19_20_17" id="tag_19_20_17">EXAMPLES
+<blockquote>
+<pre>
+<tt>foo=10 x=foo
+y=&#39;&#36;&#39;&#36;x
+echo &#36;y
+<b>
+&#36;foo<tt>
+
+eval y=&#39;&#36;&#39;&#36;x
+echo &#36;y
+<b>
+10<tt>
+
+<h4 class="mansect"><a name="tag_19_20_18" id="tag_19_20_18">RATIONALE
+<blockquote>
+<p>This standard allows, but does not require, <a href="#eval"><i>eval to recognize <tt>&#34;&#45;&#45;&#34;. Although this means
+applications cannot use <tt>&#34;&#45;&#45;&#34; to protect against options supported as an extension (or errors reported for unsupported
+options), the nature of the <a href="#eval"><i>eval utility is such that other means can be used to provide this protection
+(see APPLICATION USAGE above).
+
+<h4 class="mansect"><a name="tag_19_20_19" id="tag_19_20_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_20_20" id="tag_19_20_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+
+<h4 class="mansect"><a name="tag_19_20_21" id="tag_19_20_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_20_22" id="tag_19_20_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_20_23" id="tag_19_20_23">Issue 7
+<blockquote>
+<p>SD5-XCU-ERN-97 is applied, updating the SYNOPSIS.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 1, XCU/TC1-2008/0040 &#91;114&#93;, XCU/TC1-2008/0041 &#91;163&#93;, and XCU/TC1-2008/0042
+&#91;163&#93; are applied.
+
+<h4 class="mansect"><a name="tag_19_20_24" id="tag_19_20_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 953 is applied, clarifying how the commands in the constructed command string are parsed.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="exec" id="exec"> <a name=
+"tag_19_21" id="tag_19_21"><!-- exec -->
+<h4 class="mansect"><a name="tag_19_21_01" id="tag_19_21_01">NAME
+<blockquote>exec — perform redirections in the current shell or execute a utility
+<h4 class="mansect"><a name="tag_19_21_02" id="tag_19_21_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>exec <b>&#91;<i>utility <b>&#91;<i>argument<tt>&#46;&#46;&#46;<b>&#93;&#93;
+
+<h4 class="mansect"><a name="tag_19_21_03" id="tag_19_21_03">DESCRIPTION
+<blockquote>
+<p>If <a href="#exec"><i>exec is specified with no operands, any redirections associated with the <a href=
+"#exec"><i>exec command shall be made in the current shell execution environment. If any file descriptors with numbers
+greater than 2 are opened by those redirections, it is unspecified whether those file descriptors remain open when the shell
+invokes another utility. Scripts concerned that child shells could misuse open file descriptors can always close them explicitly,
+as shown in one of the following examples. If the result of the redirections would be that file descriptor 0, 1, or 2 is closed,
+implementations may open the file descriptor to an unspecified file.
+<p class="tent">If <a href="#exec"><i>exec is specified with a <i>utility operand, the shell shall execute a
+non-built-in utility as described in <a href="#tag_19_09_01_06">2.9.1.6 Non-built-in Utility Execution with <i>utility as
+the command name and the <i>argument operands (if any) as the command arguments.
+<p class="tent">If the <a href="#exec"><i>exec command fails, a non-interactive shell shall exit from the current shell
+execution environment; <sup>&#91;<a href="javascript:open_code('UP')">UP&#93; <img src=".pic/opt-start.gif" alt=
+"[Option Start]" border="0">  an interactive shell may exit from a subshell environment but shall not exit if the current
+shell environment is not a subshell environment.
+<p class="tent">If the <a href="#exec"><i>exec command fails and the shell does not exit, any redirections associated with
+the <a href="#exec"><i>exec command that were successfully made shall take effect in the current shell execution
+environment. <img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<p class="tent">The <a href="#exec"><i>exec special built-in shall support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines.
+
+<h4 class="mansect"><a name="tag_19_21_04" id="tag_19_21_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_21_05" id="tag_19_21_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_21_06" id="tag_19_21_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_21_07" id="tag_19_21_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_21_08" id="tag_19_21_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>The following environment variable shall affect the execution of <a href="#exec"><i>exec:
+<dl compact>
+<dd>
+<dt><i>PATH
+<dd>Determine the search path when looking for the utility given as the <i>utility operand; see XBD <a href=
+"../basedefs/V1_chap08.html#tag_08_03"><i>8.3 Other Environment Variables.
+
+<h4 class="mansect"><a name="tag_19_21_09" id="tag_19_21_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_21_10" id="tag_19_21_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_21_11" id="tag_19_21_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_21_12" id="tag_19_21_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_21_13" id="tag_19_21_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_21_14" id="tag_19_21_14">EXIT STATUS
+<blockquote>
+<p>If <i>utility is specified and is executed, <a href="#exec"><i>exec shall not return to the shell; rather, the exit
+status of the current shell execution environment shall be the exit status of <i>utility. If <i>utility is specified and an
+attempt to execute it as a non-built-in utility fails, the exit status shall be as described in <a href="#tag_19_09_01_06">2.9.1.6
+Non-built-in Utility Execution. If a redirection error occurs (see <a href="#tag_19_08_01">2.8.1 Consequences of Shell
+Errors), the exit status shall be a value in the range 1-125. Otherwise, <a href="#exec"><i>exec shall return a zero
+exit status.
+
+<h4 class="mansect"><a name="tag_19_21_15" id="tag_19_21_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_21_16" id="tag_19_21_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_21_17" id="tag_19_21_17">EXAMPLES
+<blockquote>
+<p>Open <i>readfile as file descriptor 3 for reading:
+<pre>
+<tt>exec 3&lt; readfile
+
+<p class="tent">Open <i>writefile as file descriptor 4 for writing:
+<pre>
+<tt>exec 4&gt; writefile
+
+<p class="tent">Make file descriptor 5 a copy of file descriptor 0:
+<pre>
+<tt>exec 5&lt;&amp;0
+
+<p class="tent">Close file descriptor 3:
+<pre>
+<tt>exec 3&lt;&amp;-
+
+<p class="tent">Cat the file <b>maggie by replacing the current shell with the <a href="../utilities/cat.html"><i>cat
+utility:
+<pre>
+<tt>exec cat maggie
+
+<p class="tent">An application that is not concerned with strict conformance can make use of optional <tt>%g support known to
+be present in the implementation&#39;s <a href="../utilities/printf.html"><i>printf utility by ensuring that any shell built-in
+version is not executed instead, and using a subshell so that the shell continues afterwards:
+<pre>
+<tt>(exec printf &#39;%g&#92;n&#39; &#34;&#36;float&#95;value&#34;)
+
+<h4 class="mansect"><a name="tag_19_21_18" id="tag_19_21_18">RATIONALE
+<blockquote>
+<p>Most historical implementations were not conformant in that:
+<pre>
+<tt>foo=bar exec cmd
+
+<p class="tent">did not pass <b>foo to <b>cmd.
+
+<h4 class="mansect"><a name="tag_19_21_19" id="tag_19_21_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_21_20" id="tag_19_21_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+
+<h4 class="mansect"><a name="tag_19_21_21" id="tag_19_21_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_21_22" id="tag_19_21_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_21_23" id="tag_19_21_23">Issue 7
+<blockquote>
+<p>SD5-XCU-ERN-97 is applied, updating the SYNOPSIS.
+
+<h4 class="mansect"><a name="tag_19_21_24" id="tag_19_21_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 252 is applied, adding a requirement for <a href="#exec"><i>exec to support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines.
+<p class="tent">Austin Group Defect 1157 is applied, clarifying the execution of non-built-in utilities.
+<p class="tent">Austin Group Defect 1587 is applied, changing the ENVIRONMENT VARIABLES section.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="exit" id="exit"> <a name=
+"tag_19_22" id="tag_19_22"><!-- exit -->
+<h4 class="mansect"><a name="tag_19_22_01" id="tag_19_22_01">NAME
+<blockquote>exit — cause the shell to exit
+<h4 class="mansect"><a name="tag_19_22_02" id="tag_19_22_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>exit <b>&#91;<i>n<b>&#93;
+
+<h4 class="mansect"><a name="tag_19_22_03" id="tag_19_22_03">DESCRIPTION
+<blockquote>
+<p>The <a href="#exit"><i>exit utility shall cause the shell to exit from its current execution environment. If the current
+execution environment is a subshell environment, the shell shall exit from the subshell environment and continue in the environment
+from which that subshell environment was invoked; otherwise, the shell utility shall terminate. The wait status of the shell or
+subshell shall be determined by the unsigned decimal integer <i>n, if specified.
+<p class="tent">If <i>n is specified and has a value between 0 and 255 inclusive, the wait status of the shell or subshell
+shall indicate that it exited with exit status <i>n. If <i>n is specified and has a value greater than 256 that corresponds
+to an exit status the shell assigns to commands terminated by a valid signal (see <a href="#tag_19_08_02">2.8.2 Exit Status for
+Commands), the wait status of the shell or subshell shall indicate that it was terminated by that signal. No other actions
+associated with the signal, such as execution of <a href="#trap"><i>trap actions or creation of a core image, shall be
+performed by the shell.
+<p class="tent">If <i>n is specified and is not an unsigned decimal integer, or has a value of 256, or has a value greater than
+256 but not corresponding to an exit status the shell assigns to commands terminated by a valid signal, the wait status of the
+shell or subshell is unspecified.
+<p class="tent">If <i>n is not specified, the result shall be as if <i>n were specified with the current value of the
+special parameter <tt>&#39;?&#39; (see <a href="#tag_19_05_02">2.5.2 Special Parameters), except that if the <a href=
+"#exit"><i>exit command would cause the end of execution of a <a href="#trap"><i>trap action, the value for the
+special parameter <tt>&#39;?&#39; that is considered &#34;current&#34; shall be the value it had immediately preceding the <a href=
+"#trap"><i>trap action.
+<p class="tent">A <a href="#trap"><i>trap action on <b>EXIT shall be executed before the shell terminates, except when
+the <a href="#exit"><i>exit utility is invoked in that <a href="#trap"><i>trap action itself, in which case the
+shell shall exit immediately. It is unspecified whether setting a new <a href="#trap"><i>trap action on <b>EXIT during
+execution of a <a href="#trap"><i>trap action on <b>EXIT will cause the new <a href="#trap"><i>trap action to
+be executed before the shell terminates.
+
+<h4 class="mansect"><a name="tag_19_22_04" id="tag_19_22_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_22_05" id="tag_19_22_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_22_06" id="tag_19_22_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_22_07" id="tag_19_22_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_22_08" id="tag_19_22_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_22_09" id="tag_19_22_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_22_10" id="tag_19_22_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_22_11" id="tag_19_22_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_22_12" id="tag_19_22_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_22_13" id="tag_19_22_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_22_14" id="tag_19_22_14">EXIT STATUS
+<blockquote>
+<p>The <a href="#exit"><i>exit utility causes the shell to exit from its current execution environment, and therefore does
+not itself return an exit status.
+
+<h4 class="mansect"><a name="tag_19_22_15" id="tag_19_22_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_22_16" id="tag_19_22_16">APPLICATION USAGE
+<blockquote>
+<p>As explained in other sections, certain exit status values have been reserved for special uses and should be used by
+applications only for those purposes:
+<dl compact>
+<dd>
+<dt> 126
+<dd>A file to be executed was found, but it was not an executable utility.
+<dt> 127
+<dd>A utility to be executed was not found.
+<dt> 128
+<dd>An unrecoverable read error was detected by the shell while reading commands, except from the <i>file operand of the
+<a href="#dot"><i>dot special built-in.
+<dt>&gt;128
+<dd>A command was interrupted by a signal.
+
+<h4 class="mansect"><a name="tag_19_22_17" id="tag_19_22_17">EXAMPLES
+<blockquote>
+<p>Exit with a <i>true value:
+<pre>
+<tt>exit 0
+
+<p class="tent">Exit with a <i>false value:
+<pre>
+<tt>exit 1
+
+<p class="tent">Propagate error handling from within a subshell:
+<pre>
+<tt>(
+    command1 || exit 1
+    command2 || exit 1
+    exec command3
+) &gt; outputfile || exit 1
+echo &#34;outputfile created successfully&#34;
+
+<h4 class="mansect"><a name="tag_19_22_18" id="tag_19_22_18">RATIONALE
+<blockquote>
+<p>The behavior of <a href="#exit"><i>exit when given an invalid argument or unknown option is unspecified, because of
+differing practices in the various historical implementations. A value larger than 255 might be truncated by the shell, and be
+unavailable even to a parent process that uses <a href="../functions/waitid.html"><i>waitid() to get the full exit value.
+It is recommended that implementations that detect any usage error should cause a non-zero exit status (or, if the shell is
+interactive and the error does not cause the shell to abort, store a non-zero value in <tt>&#34;&#36;?&#34;), but even this was not done
+historically in all shells.
+<p class="tent">See also <a href="../xrat/V4_xcu_chap01.html#tag_23_02_08_02"><i>C.2.8.2 Exit Status for Commands.
+
+<h4 class="mansect"><a name="tag_19_22_19" id="tag_19_22_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_22_20" id="tag_19_22_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+
+<h4 class="mansect"><a name="tag_19_22_21" id="tag_19_22_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_22_22" id="tag_19_22_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_22_23" id="tag_19_22_23">Issue 7
+<blockquote>
+<p>POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0047 &#91;717&#93;, XCU/TC2-2008/0048 &#91;960&#93;, XCU/TC2-2008/0049 &#91;717&#93;, and
+XCU/TC2-2008/0050 &#91;960&#93; are applied.
+
+<h4 class="mansect"><a name="tag_19_22_24" id="tag_19_22_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 51 is applied, specifying the behavior when <i>n has a value greater than 256 that corresponds to an
+exit status the shell assigns to commands terminated by a valid signal.
+<p class="tent">Austin Group Defect 1029 is applied, changing &#34;<a href="#trap"><i>trap&#34; to &#34;<a href=
+"#trap"><i>trap action&#34; in the DESCRIPTION section.
+<p class="tent">Austin Group Defect 1309 is applied, changing the EXIT STATUS section.
+<p class="tent">Austin Group Defect 1425 is applied, clarifying the requirements for a <a href="#trap"><i>trap action on
+<b>EXIT.
+<p class="tent">Austin Group Defect 1602 is applied, clarifying the behavior of <a href="#exit"><i>exit in a <a href=
+"#trap"><i>trap action.
+<p class="tent">Austin Group Defect 1629 is applied, adding exit status 128 to the APPLICATION USAGE section.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="export" id="export"> <a name=
+"tag_19_23" id="tag_19_23"><!-- export -->
+<h4 class="mansect"><a name="tag_19_23_01" id="tag_19_23_01">NAME
+<blockquote>export — set the export attribute for variables
+<h4 class="mansect"><a name="tag_19_23_02" id="tag_19_23_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>export name<b>&#91;<tt>=<i>word<b>&#93;<tt>&#46;&#46;&#46;<br>
+ <br>
 export -p
-```
 
-#### 描述 (DESCRIPTION)
+<h4 class="mansect"><a name="tag_19_23_03" id="tag_19_23_03">DESCRIPTION
+<blockquote>
+<p>The shell shall give the <a href="#export"><i>export attribute to the variables corresponding to the specified
+<i>names, which shall cause them to be in the environment of subsequently executed commands. If the name of a variable is
+followed by =<i>word, then the value of that variable shall be set to <i>word.
+<p class="tent">The <a href="#export"><i>export special built-in shall be a declaration utility. Therefore, if
+<i>export is recognized as the command name of a simple command, then subsequent words of the form <i>name=<i>word
+shall be expanded in an assignment context. See <a href="#tag_19_09_01_01">2.9.1.1 Order of Processing.
+<p class="tent">The <a href="#export"><i>export special built-in shall support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines.
+<p class="tent">When <b>-p is specified, <a href="#export"><i>export shall write to the standard output the names and
+values of all exported variables, in the following format:
+<pre>
+<tt>&#34;export %s=%s&#92;n&#34;, &lt;<i>name<tt>&gt;, &lt;<i>value<tt>&gt;
 
-- 将 **export 属性**赋予指定 *name* 对应的变量，使它们出现在随后执行命令的环境中；若变量名后跟 =*word*，该变量的值被设置为 *word*。
-- **声明型实用程序**：`export` 被识别为简单命令的命令名时，*name*=*word* 形式的后续单词在**赋值上下文**中展开（见 2.9.1.1）。
-- 应支持 XBD 12.2 Utility Syntax Guidelines。
+<p class="tent">if <i>name is set, and:
+<pre>
+<tt>&#34;export %s&#92;n&#34;, &lt;<i>name<tt>&gt;
 
-**`-p` 输出格式**：
+<p class="tent">if <i>name is unset.
+<p class="tent">The shell shall format the output, including the proper use of quoting, so that it is suitable for reinput to the
+shell as commands that achieve the same exporting results, except:
+<ol>
+<li class="tent">Read-only variables with values cannot be reset.
+<li class="tent">Variables that were unset at the time they were output need not be reset to the unset state if a value is assigned
+to the variable between the time the state was saved and the time at which the saved output is reinput to the shell.
 
-- *name* 已设置 → `"export %s=%s\n", <name>, <value>`；未设置 → `"export %s\n", <name>`。
-- 输出（含正确引用）应适合重新输入 shell 以实现相同导出结果，但：带值的只读变量无法重置；输出时未设置的变量，若在保存到重新输入之间被赋值，不必重置为未设置状态。
-- **无参数**：结果**未指定**。
+<p class="tent">When no arguments are given, the results are unspecified.
 
-#### 选项 / 操作数 / 样板小节
+<h4 class="mansect"><a name="tag_19_23_04" id="tag_19_23_04">OPTIONS
+<blockquote>
+<p>See the DESCRIPTION.
 
-- 选项：见描述。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：见描述。输出文件：无。扩展描述：无。
+<h4 class="mansect"><a name="tag_19_23_05" id="tag_19_23_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
 
-#### 退出状态 (EXIT STATUS)
+<h4 class="mansect"><a name="tag_19_23_06" id="tag_19_23_06">STDIN
+<blockquote>
+<p>Not used.
 
-- **0**：成功完成。
-- **>0**：至少一个操作数无法按请求处理（无法导出的 *name*、用 *name*=*word* 修改 *readonly* 变量、或 `-p` 时发生写入错误）。
+<h4 class="mansect"><a name="tag_19_23_07" id="tag_19_23_07">INPUT FILES
+<blockquote>
+<p>None.
 
-#### 错误后果 (CONSEQUENCES OF ERRORS)
+<h4 class="mansect"><a name="tag_19_23_08" id="tag_19_23_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
 
-默认。
+<h4 class="mansect"><a name="tag_19_23_09" id="tag_19_23_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
 
-*以下各节为提供信息（informative）。*
+<h4 class="mansect"><a name="tag_19_23_10" id="tag_19_23_10">STDOUT
+<blockquote>
+<p>See the DESCRIPTION.
 
-#### 示例 (EXAMPLES)
+<h4 class="mansect"><a name="tag_19_23_11" id="tag_19_23_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
 
-    export PWD HOME                        # 导出变量
-    export PATH="/local/bin:$PATH"         # 设置并导出
-    export -p > temp-file                  # 保存所有导出变量
-    unset a lot of variables
-    ... processing
-    . ./temp-file                          # 恢复
+<h4 class="mansect"><a name="tag_19_23_12" id="tag_19_23_12">OUTPUT FILES
+<blockquote>
+<p>None.
 
-> **注意**：若 LANG、LC_CTYPE 或 LC_ALL 在 source `temp-file` 前被更改或未设置，结果可能未定义。
+<h4 class="mansect"><a name="tag_19_23_13" id="tag_19_23_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
 
-#### 应用程序用法 (APPLICATION USAGE)
+<h4 class="mansect"><a name="tag_19_23_14" id="tag_19_23_14">EXIT STATUS
+<blockquote>
+<dl compact>
+<dd>
+<dt> 0
+<dd>Successful completion.
+<dt>&gt;0
+<dd>At least one operand could not be processed as requested, such as a <i>name operand that could not be exported or an
+attempt to modify a <i>readonly variable using a <i>name=<i>word operand, or the <b>-p option was specified and a
+write error occurred.
 
-- 除非 *X* 先前被标记 readonly，`export X=$(false)` 之后的 `"$?"` 是 0（export 成功把 *X* 设为空串），且执行继续（即使 `set -e` 生效）。要检测命令替换失败，须分离赋值与导出：`X=$(false); export X`。
-- 支持扩展赋值语法的 shell（如数组赋值）通常只在命令单词字面是 *export* 时才可用（`export x=(1 2 3)` 可，`e=export; $e x=(1 2 3)` 语法错误）。
+<h4 class="mansect"><a name="tag_19_23_15" id="tag_19_23_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
 
-#### 原理 (RATIONALE)
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_23_16" id="tag_19_23_16">APPLICATION USAGE
+<blockquote>
+<p>Note that, unless <i>X was previously marked readonly, the value of <tt>&#34;&#36;?&#34; after:
+<pre>
+<tt>export X=&#36;(false)
 
-- 一些历史 shell 用无参数情况等价于 `-p`；此功能留作未指定（非所有 shell 的历史实践，且脚本可能依赖其结果）。`-p` 选项允许可移植保存/恢复导出值（如用 dot 脚本）。
-- 为使数组赋值等扩展可用于 `export` 参数，这些 shell 在文法中把 *export* 作为单独 token；本标准仅在输入按标准文法会是语法错误时允许此类扩展。*export* 不能是保留字（它是别名替换候选，而保留字不是，见 2.3.1）。
+<p class="tent">will be 0 (because <a href="#export"><i>export successfully set <i>X to the empty string) and that
+execution continues, even if <a href="#set"><i>set <b>-e is in effect. In order to detect command substitution
+failures, a user must separate the assignment from the export, as in:
+<pre>
+<tt>X=&#36;(false)
+export X
 
-#### 变更历史 (CHANGE HISTORY)
+<p class="tent">In shells that support extended assignment syntax, for example to allow an array to be populated with a single
+assignment, such extensions can typically only be used in assignments specified as arguments to <a href="#export"><i>export
+if the command word is literally <i>export, and not if it is some other word that expands to <i>export. For example:
+<pre>
+<tt># Shells that support array assignment as an extension generally
+# support this:
+export x=(1 2 3); echo &#36;{x&#91;0&#93;}  # outputs 1
+# But generally do not support this:
+e=export; &#36;e x=(1 2 3); echo &#36;{x&#91;0&#93;}  # syntax error
 
-- **Issue 6**：应用 PASC 1003.2 #203（澄清未设置变量格式）；XCU/TC1/D6/5；XCU/TC1/D6/6（在 DESCRIPTION 首段末尾添加 "If the name of a variable is followed by =*word*..."）。
-- **Issue 7**：应用 XCU/TC1-2008/0043 \[352\]；XCU/TC2-2008/0051 \[654\]、0052 \[960\]。
-- **Issue 8**：应用 Defect 351（要求成为声明型实用程序）、Defect 367（更改 EXIT STATUS）、Defect 1258（更改 EXAMPLES）、Defect 1393（更改 APPLICATION USAGE 和 RATIONALE）。
+<h4 class="mansect"><a name="tag_19_23_17" id="tag_19_23_17">EXAMPLES
+<blockquote>
+<p>Export <i>PWD and <i>HOME variables:
+<pre>
+<tt>export PWD HOME
 
-*提供信息文本结束。*
+<p class="tent">Set and export the <i>PATH variable:
+<pre>
+<tt>export PATH=&#34;/local/bin:&#36;PATH&#34;
 
-### 2.24 `readonly` — 为变量设置 readonly 属性
+<p class="tent">Save and restore all exported variables:
+<pre>
+<tt>export -p &gt; temp-file
+unset <i>a lot of variables<tt>
 
-#### 语法 (SYNOPSIS)
+&#46;&#46;&#46; <i>processing<tt>
 
-```sh
-readonly name[=word]...
+. ./temp-file
+
+<basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>If LANG, LC&#95;CTYPE or LC&#95;ALL are left altered or unset in the above example prior to sourcing <tt>temp-file, the results
+may be undefined.
+
+<basefont size="3">
+<h4 class="mansect"><a name="tag_19_23_18" id="tag_19_23_18">RATIONALE
+<blockquote>
+<p>Some historical shells use the no-argument case as the functional equivalent of what is required here with <b>-p. This
+feature was left unspecified because it is not historical practice in all shells, and some scripts may rely on the now-unspecified
+results on their implementations. Attempts to specify the <b>-p output as the default case were unsuccessful in achieving
+consensus. The <b>-p option was added to allow portable access to the values that can be saved and then later restored using;
+for example, a <a href="#dot"><i>dot script.
+<p class="tent">Some implementations extend the shell&#39;s assignment syntax, for example to allow an array to be populated with a
+single assignment, and in order for such an extension to be usable in assignments specified as arguments to <a href=
+"#export"><i>export these shells have <i>export as a separate token in their grammar. This standard only permits an
+extension of this nature when the input to the shell would contain a syntax error according to the standard grammar. Note that
+although <i>export can be a separate token in the shell&#39;s grammar, it cannot be a reserved word since <i>export is a
+candidate for alias substitution whereas reserved words are not (see <a href="#tag_19_03_01">2.3.1 Alias Substitution).
+
+<h4 class="mansect"><a name="tag_19_23_19" id="tag_19_23_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_23_20" id="tag_19_23_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_09_01_01">2.9.1.1 Order of Processing, <a href="#tag_19_15">2.15 Special Built-In Utilities
+<p class="tent">XBD <a href="../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines
+
+<h4 class="mansect"><a name="tag_19_23_21" id="tag_19_23_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_23_22" id="tag_19_23_22">Issue 6
+<blockquote>
+<p>IEEE PASC Interpretation 1003.2 #203 is applied, clarifying the format when a variable is unset.
+<p class="tent">IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections
+use terms as described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility
+Description Defaults). No change in behavior is intended.
+<p class="tent">IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/6 is applied, adding the following text to the end
+of the first paragraph of the DESCRIPTION: &#34;If the name of a variable is followed by =<i>word, then the value of that variable
+shall be set to <i>word.&#34;. The reason for this change is that the SYNOPSIS for <a href="#export"><i>export
+includes:
+<pre>
+<tt>export name<b>&#91;<tt>=<i>word<b>&#93;<tt>&#46;&#46;&#46;
+
+<p class="tent">but the meaning of the optional &#34;=<i>word&#34; is never explained in the text.
+
+<h4 class="mansect"><a name="tag_19_23_23" id="tag_19_23_23">Issue 7
+<blockquote>
+<p>POSIX.1-2008, Technical Corrigendum 1, XCU/TC1-2008/0043 &#91;352&#93; is applied.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0051 &#91;654&#93; and XCU/TC2-2008/0052 &#91;960&#93; are applied.
+
+<h4 class="mansect"><a name="tag_19_23_24" id="tag_19_23_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 351 is applied, requiring <a href="#export"><i>export to be a declaration utility.
+<p class="tent">Austin Group Defect 367 is applied, changing the EXIT STATUS section.
+<p class="tent">Austin Group Defect 1258 is applied, changing the EXAMPLES section.
+<p class="tent">Austin Group Defect 1393 is applied, changing the APPLICATION USAGE and RATIONALE sections.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="readonly" id="readonly"> <a name=
+"tag_19_24" id="tag_19_24"><!-- readonly -->
+<h4 class="mansect"><a name="tag_19_24_01" id="tag_19_24_01">NAME
+<blockquote>readonly — set the readonly attribute for variables
+<h4 class="mansect"><a name="tag_19_24_02" id="tag_19_24_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>readonly name<b>&#91;<tt>=<i>word<b>&#93;<tt>&#46;&#46;&#46;<br>
+ <br>
 readonly -p
-```
 
-#### 描述 (DESCRIPTION)
+<h4 class="mansect"><a name="tag_19_24_03" id="tag_19_24_03">DESCRIPTION
+<blockquote>
+<p>The variables whose <i>names are specified shall be given the <a href="#readonly"><i>readonly attribute. The values
+of variables with the <a href="#readonly"><i>readonly attribute cannot be changed by subsequent assignment or use of the
+<a href="#export"><i>export, <a href="../utilities/getopts.html"><i>getopts, <a href=
+"#readonly"><i>readonly, or <a href="../utilities/read.html"><i>read utilities, nor can those variables be unset by
+the <a href="#unset"><i>unset utility. As described in XBD <a href="../basedefs/V1_chap08.html#tag_08_01"><i>8.1
+Environment Variable Definition, conforming applications shall not request to mark a variable as <i>readonly if it is
+documented as being manipulated by a shell built-in utility, as it may render those utilities unable to complete successfully. If
+the name of a variable is followed by =<i>word, then the value of that variable shall be set to <i>word.
+<p class="tent">The <a href="#readonly"><i>readonly special built-in shall be a declaration utility. Therefore, if
+<i>readonly is recognized as the command name of a simple command, then subsequent words of the form <i>name=<i>word
+shall be expanded in an assignment context. See <a href="#tag_19_09_01_01">2.9.1.1 Order of Processing.
+<p class="tent">The <a href="#readonly"><i>readonly special built-in shall support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines.
+<p class="tent">When <b>-p is specified, <a href="#readonly"><i>readonly writes to the standard output the names and
+values of all read-only variables, in the following format:
+<pre>
+<tt>&#34;readonly %s=%s&#92;n&#34;, &lt;<i>name<tt>&gt;, &lt;<i>value<tt>&gt;
 
-- 将 **readonly 属性**赋予指定 *name* 的变量。具有该属性的变量，其值**不能**被后续赋值或 `export`、`getopts`、`readonly`、`read` 实用程序更改，也**不能**被 `unset` 取消设置。
-- 符合应用**不应**请求把被记录为由 shell 内置操作的变量标记为 readonly（可能使这些内置无法成功完成；见 XBD 8.1）。
-- 若变量名后跟 =*word*，值被设置为 *word*。
-- **声明型实用程序**（同 `export`）；应支持 XBD 12.2。
+<p class="tent">if <i>name is set, and
+<pre>
+<tt>&#34;readonly %s&#92;n&#34;, &lt;<i>name<tt>&gt;
 
-**`-p` 输出格式**：已设置 → `"readonly %s=%s\n"`；未设置 → `"readonly %s\n"`。输出适合重新输入 shell，在以下环境中实现相同的值和 readonly 属性设置结果：输出时带值的变量没有 readonly 属性；输出时未设置的变量在重新输入时没有值。**无参数**：结果**未指定**。
+<p class="tent">if <i>name is unset.
+<p class="tent">The shell shall format the output, including the proper use of quoting, so that it is suitable for reinput to the
+shell as commands that achieve the same value and <i>readonly attribute-setting results in a shell execution environment in
+which:
+<ol>
+<li class="tent">Variables with values at the time they were output do not have the <i>readonly attribute set.
+<li class="tent">Variables that were unset at the time they were output do not have a value at the time at which the saved output
+is reinput to the shell.
 
-#### 选项 / 操作数 / 样板小节
+<p class="tent">When no arguments are given, the results are unspecified.
 
-- 选项：见描述。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：见描述。输出文件：无。扩展描述：无。
+<h4 class="mansect"><a name="tag_19_24_04" id="tag_19_24_04">OPTIONS
+<blockquote>
+<p>See the DESCRIPTION.
 
-#### 退出状态 (EXIT STATUS)
+<h4 class="mansect"><a name="tag_19_24_05" id="tag_19_24_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
 
-- **0**：成功完成。
-- **>0**：至少一个操作数无法按请求处理（无法标记 readonly、用 *name*=*word* 修改已 readonly 变量、或 `-p` 写入错误）。
+<h4 class="mansect"><a name="tag_19_24_06" id="tag_19_24_06">STDIN
+<blockquote>
+<p>Not used.
 
-#### 错误后果 (CONSEQUENCES OF ERRORS)
+<h4 class="mansect"><a name="tag_19_24_07" id="tag_19_24_07">INPUT FILES
+<blockquote>
+<p>None.
 
-默认。
+<h4 class="mansect"><a name="tag_19_24_08" id="tag_19_24_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
 
-*以下各节为提供信息（informative）。*
+<h4 class="mansect"><a name="tag_19_24_09" id="tag_19_24_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
 
-#### 示例 (EXAMPLES)
+<h4 class="mansect"><a name="tag_19_24_10" id="tag_19_24_10">STDOUT
+<blockquote>
+<p>See the DESCRIPTION.
 
-    readonly HOME
+<h4 class="mansect"><a name="tag_19_24_11" id="tag_19_24_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
 
-#### 应用程序用法 (APPLICATION USAGE)
+<h4 class="mansect"><a name="tag_19_24_12" id="tag_19_24_12">OUTPUT FILES
+<blockquote>
+<p>None.
 
-扩展赋值语法（如 `readonly x=(1 2 3)`）通常只在命令单词字面是 *readonly* 时可用（`r=readonly; $r x=(1 2 3)` 语法错误）。
+<h4 class="mansect"><a name="tag_19_24_13" id="tag_19_24_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
 
-#### 原理 (RATIONALE)
+<h4 class="mansect"><a name="tag_19_24_14" id="tag_19_24_14">EXIT STATUS
+<blockquote>
+<dl compact>
+<dd>
+<dt> 0
+<dd>Successful completion.
+<dt>&gt;0
+<dd>At least one operand could not be processed as requested, such as a <i>name operand that could not be marked
+<i>readonly or an attempt to modify an already <i>readonly variable using a <i>name=<i>word operand, or the
+<b>-p option was specified and a write error occurred.
 
-- 一些历史 shell 跨调用保留 readonly 属性；本卷允许但不要求。
-- `-p` 允许可移植保存/恢复；曾考虑只读函数，但非历史实践且特别有用——函数在调用间不能只读，以防对管理/安全脚本的"欺骗（spoofing）"。
-- 对某些变量（如 *PWD*）设 readonly 可能产生意外结果（拒绝、成功但 shell 继续改 *PWD*、或使 `cd` 失效）。
-- 扩展赋值语法的文法 token 说明同 `export`。
+<h4 class="mansect"><a name="tag_19_24_15" id="tag_19_24_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
 
-#### 变更历史 (CHANGE HISTORY)
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_24_16" id="tag_19_24_16">APPLICATION USAGE
+<blockquote>
+<p>In shells that support extended assignment syntax, for example to allow an array to be populated with a single assignment, such
+extensions can typically only be used in assignments specified as arguments to <a href="#readonly"><i>readonly if the
+command word is literally <i>readonly, and not if it is some other word that expands to <i>readonly. For example:
+<pre>
+<tt># Shells that support array assignment as an extension generally
+# support this:
+readonly x=(1 2 3); echo &#36;{x&#91;0&#93;}  # outputs 1
+# But generally do not support this:
+r=readonly; &#36;r x=(1 2 3); echo &#36;{x&#91;0&#93;}  # syntax error
 
-- **Issue 6**：应用 PASC 1003.2 #203；XCU/TC1/D6/5；XCU/TC1/D6/7（添加 =*word* 文本）。
-- **Issue 7**：应用 XCU/TC2-2008/0052 \[960\]。
-- **Issue 8**：应用 Defect 351（声明型实用程序）、Defect 367（澄清值不可被 export/getopts/readonly/read 更改，更改 EXIT STATUS/EXAMPLES/RATIONALE）。
+<h4 class="mansect"><a name="tag_19_24_17" id="tag_19_24_17">EXAMPLES
+<blockquote>
+<pre>
+<tt>readonly HOME
 
-*提供信息文本结束。*
+<h4 class="mansect"><a name="tag_19_24_18" id="tag_19_24_18">RATIONALE
+<blockquote>
+<p>Some historical shells preserve the <i>readonly attribute across separate invocations. This volume of POSIX.1-2024 allows
+this behavior, but does not require it.
+<p class="tent">The <b>-p option allows portable access to the values that can be saved and then later restored using, for
+example, a <a href="#dot"><i>dot script. Also see the RATIONALE for <a href="#tag_19_23">export for a description of
+the no-argument and <b>-p output cases and a related example.
+<p class="tent">Read-only functions were considered, but they were omitted as not being historical practice or particularly useful.
+Furthermore, functions must not be read-only across invocations to preclude &#34;spoofing&#34; (spoofing is the term for the practice of
+creating a program that acts like a well-known utility with the intent of subverting the real intent of the user) of administrative
+or security-relevant (or security-conscious) shell scripts.
+<p class="tent">Attempts to set the <i>readonly attribute on certain variables, such as <i>PWD , may have surprising
+results. Either <a href="#readonly"><i>readonly will reject the attempt, or the attempt will succeed but the shell will
+continue to alter the contents of <i>PWD during the <a href="../utilities/cd.html"><i>cd utility, or the attempt will
+succeed and render the <a href="../utilities/cd.html"><i>cd utility inoperative (since it must not change directories if it
+cannot also update <i>PWD ).
+<p class="tent">Some implementations extend the shell&#39;s assignment syntax, for example to allow an array to be populated with a
+single assignment, and in order for such an extension to be usable in assignments specified as arguments to <a href=
+"#readonly"><i>readonly these shells have <i>readonly as a separate token in their grammar. This standard only permits
+an extension of this nature when the input to the shell would contain a syntax error according to the standard grammar. Note that
+although <i>readonly can be a separate token in the shell&#39;s grammar, it cannot be a reserved word since <i>readonly is a
+candidate for alias substitution whereas reserved words are not (see <a href="#tag_19_03_01">2.3.1 Alias Substitution).
 
-### 2.25 `return` — 从函数或 dot 脚本返回
+<h4 class="mansect"><a name="tag_19_24_19" id="tag_19_24_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
 
-#### 语法 (SYNOPSIS)
+<h4 class="mansect"><a name="tag_19_24_20" id="tag_19_24_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_09_01_01">2.9.1.1 Order of Processing, <a href="#tag_19_15">2.15 Special Built-In Utilities
+<p class="tent">XBD <a href="../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines
 
-```sh
-return [n]
-```
+<h4 class="mansect"><a name="tag_19_24_21" id="tag_19_24_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_24_22" id="tag_19_24_22">Issue 6
+<blockquote>
+<p>IEEE PASC Interpretation 1003.2 #203 is applied, clarifying the format when a variable is unset.
+<p class="tent">IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections
+use terms as described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility
+Description Defaults). No change in behavior is intended.
+<p class="tent">IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/7 is applied, adding the following text to the end
+of the first paragraph of the DESCRIPTION: &#34;If the name of a variable is followed by =<i>word, then the value of that variable
+shall be set to <i>word.&#34;. The reason for this change is that the SYNOPSIS for <a href="#readonly"><i>readonly
+includes:<br>
+<pre>
+<tt>readonly name<b>&#91;<tt>=<i>word<b>&#93;<tt>&#46;&#46;&#46;
 
-#### 描述 (DESCRIPTION)
+<p class="tent">but the meaning of the optional &#34;=<i>word&#34; is never explained in the text.
 
-- 使 shell **停止执行当前函数或 `dot` 脚本**；若当前未在执行函数或 dot 脚本，结果**未指定**。
+<h4 class="mansect"><a name="tag_19_24_23" id="tag_19_24_23">Issue 7
+<blockquote>
+<p>POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0052 &#91;960&#93; is applied.
 
-#### 选项 / 操作数 / 样板小节
+<h4 class="mansect"><a name="tag_19_24_24" id="tag_19_24_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 351 is applied, requiring <a href="#readonly"><i>readonly to be a declaration utility.
+<p class="tent">Austin Group Defect 367 is applied, clarifying that the values of <i>readonly variables cannot be changed by
+subsequent use of the <a href="#export"><i>export, <a href="../utilities/getopts.html"><i>getopts, <a href=
+"#readonly"><i>readonly, or <a href="../utilities/read.html"><i>read utilities, and changing the EXIT STATUS,
+EXAMPLES and RATIONALE sections.
+<p class="tent">Austin Group Defect 1393 is applied, changing the APPLICATION USAGE and RATIONALE sections.
 
-- 选项：无。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
+<div class="box"><em>End of informative text.
+<hr>
 
-#### 退出状态 (EXIT STATUS)
+ <a name="return" id="return"> <a name=
+"tag_19_25" id="tag_19_25"><!-- return -->
+<h4 class="mansect"><a name="tag_19_25_01" id="tag_19_25_01">NAME
+<blockquote>return — return from a function or dot script
+<h4 class="mansect"><a name="tag_19_25_02" id="tag_19_25_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>return <b>&#91;<i>n<b>&#93;
 
-- 退出状态为 *n*（若指定），但若 *n* 不是无符号十进制整数或大于 255，行为**未指定**。
-- *n* 未指定 → 如同 *n* 为 `'?'` 的当前值；若 `return` 导致 trap 动作执行结束，视为 "当前" 的 `'?'` 值是 trap 动作紧前的值。
+<h4 class="mansect"><a name="tag_19_25_03" id="tag_19_25_03">DESCRIPTION
+<blockquote>
+<p>The <a href="#return"><i>return utility shall cause the shell to stop executing the current function or <a href=
+"#dot"><i>dot script. If the shell is not currently executing a function or <a href="#dot"><i>dot script, the
+results are unspecified.
 
-#### 错误后果 (CONSEQUENCES OF ERRORS)
+<h4 class="mansect"><a name="tag_19_25_04" id="tag_19_25_04">OPTIONS
+<blockquote>
+<p>None.
 
-默认。
+<h4 class="mansect"><a name="tag_19_25_05" id="tag_19_25_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
 
-*以下各节为提供信息（informative）。*
+<h4 class="mansect"><a name="tag_19_25_06" id="tag_19_25_06">STDIN
+<blockquote>
+<p>Not used.
 
-#### 原理 (RATIONALE)
+<h4 class="mansect"><a name="tag_19_25_07" id="tag_19_25_07">INPUT FILES
+<blockquote>
+<p>None.
 
-- 不在函数或 dot 脚本中时：System V shell 视为错误；KornShell 效果同 `exit`。
-- 返回大于 255 的数结果未定义（历史实现做法不同：有的 AND 掉低 8 位，有的允许更大但不无限）。
-- 见 `exit` 下关于适当退出状态值的讨论。
+<h4 class="mansect"><a name="tag_19_25_08" id="tag_19_25_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
 
-#### 变更历史 (CHANGE HISTORY)
+<h4 class="mansect"><a name="tag_19_25_09" id="tag_19_25_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
 
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 XCU/TC1-2008/0044 \[214\]、0045 \[214\]；XCU/TC2-2008/0052 \[960\]。
-- **Issue 8**：应用 Defect 1309（更改 EXIT STATUS）、Defect 1602（澄清 trap 动作中 return 的行为）。
+<h4 class="mansect"><a name="tag_19_25_10" id="tag_19_25_10">STDOUT
+<blockquote>
+<p>Not used.
 
-*提供信息文本结束。*
+<h4 class="mansect"><a name="tag_19_25_11" id="tag_19_25_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
 
+<h4 class="mansect"><a name="tag_19_25_12" id="tag_19_25_12">OUTPUT FILES
+<blockquote>
+<p>None.
 
-### 2.26 `set` — 设置或取消设置选项和位置参数
+<h4 class="mansect"><a name="tag_19_25_13" id="tag_19_25_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
 
-#### 语法 (SYNOPSIS)
+<h4 class="mansect"><a name="tag_19_25_14" id="tag_19_25_14">EXIT STATUS
+<blockquote>
+<p>The exit status shall be <i>n, if specified, except that the behavior is unspecified if <i>n is not an unsigned decimal
+integer or is greater than 255. If <i>n is not specified, the result shall be as if <i>n were specified with the current
+value of the special parameter <tt>&#39;?&#39; (see <a href="#tag_19_05_02">2.5.2 Special Parameters), except that if the
+<a href="#return"><i>return command would cause the end of execution of a <a href="#trap"><i>trap action, the value
+for the special parameter <tt>&#39;?&#39; that is considered &#34;current&#34; shall be the value it had immediately preceding the <a href=
+"#trap"><i>trap action.
 
-```sh
-set [-abCefhmnuvx] [-o option] [argument...]
-set [+abCefhmnuvx] [+o option] [argument...]
-set -- [argument...]
-set -o
+<h4 class="mansect"><a name="tag_19_25_15" id="tag_19_25_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_25_16" id="tag_19_25_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_25_17" id="tag_19_25_17">EXAMPLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_25_18" id="tag_19_25_18">RATIONALE
+<blockquote>
+<p>The behavior of <a href="#return"><i>return when not in a function or <a href="#dot"><i>dot script differs
+between the System V shell and the KornShell. In the System V shell this is an error, whereas in the KornShell, the effect is the
+same as <a href="#exit"><i>exit.
+<p class="tent">The results of returning a number greater than 255 are undefined because of differing practices in the various
+historical implementations. Some shells AND out all but the low-order 8 bits; others allow larger values, but not of unlimited
+size.
+<p class="tent">See the discussion of appropriate exit status values under <a href="#tag_19_22">exit.
+
+<h4 class="mansect"><a name="tag_19_25_19" id="tag_19_25_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_25_20" id="tag_19_25_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_09_05">2.9.5 Function Definition Command, <a href="#tag_19_15">2.15 Special Built-In Utilities,
+<a href="#tag_19_19">dot
+
+<h4 class="mansect"><a name="tag_19_25_21" id="tag_19_25_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_25_22" id="tag_19_25_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_25_23" id="tag_19_25_23">Issue 7
+<blockquote>
+<p>POSIX.1-2008, Technical Corrigendum 1, XCU/TC1-2008/0044 &#91;214&#93; and XCU/TC1-2008/0045 &#91;214&#93; are applied.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0052 &#91;960&#93; is applied.
+
+<h4 class="mansect"><a name="tag_19_25_24" id="tag_19_25_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 1309 is applied, changing the EXIT STATUS section.
+<p class="tent">Austin Group Defect 1602 is applied, clarifying the behavior of <a href="#return"><i>return in a <a href=
+"#trap"><i>trap action.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="set" id="set"> <a name=
+"tag_19_26" id="tag_19_26"><!-- set -->
+<h4 class="mansect"><a name="tag_19_26_01" id="tag_19_26_01">NAME
+<blockquote>set — set or unset options and positional parameters
+<h4 class="mansect"><a name="tag_19_26_02" id="tag_19_26_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>set <b>&#91;<tt>-abCefhmnuvx<b>&#93; &#91;<tt>-o <i>option<b>&#93; &#91;<i>argument<tt>&#46;&#46;&#46;<b>&#93;
+<tt><br>
+ <br>
+set <b>&#91;<tt>+abCefhmnuvx<b>&#93; &#91;<tt>+o <i>option<b>&#93; &#91;<i>argument<tt>&#46;&#46;&#46;<b>&#93; <tt><br>
+ <br>
+set &#45;&#45; <b>&#91;<i>argument<tt>&#46;&#46;&#46;<b>&#93; <tt><br>
+ <br>
+set -o<br>
+ <br>
 set +o
-```
 
-#### 描述 (DESCRIPTION)
+<h4 class="mansect"><a name="tag_19_26_03" id="tag_19_26_03">DESCRIPTION
+<blockquote>
+<p>If no <i>options or <i>arguments are specified, <a href="#set"><i>set shall write the names and values of all
+shell variables in the collation sequence of the current locale. Each <i>name shall start on a separate line, using the
+format:
+<pre>
+<tt>&#34;%s=%s&#92;n&#34;, &lt;<i>name<tt>&gt;, &lt;<i>value<tt>&gt;
+
+<p class="tent">The <i>value string shall be written with appropriate quoting; see the description of shell quoting in <a href=
+"#tag_19_02">2.2 Quoting. The output shall be suitable for reinput to the shell, setting or resetting, as far as possible, the
+variables that are currently set; read-only variables cannot be reset.
+<p class="tent">When options are specified, they shall set or unset attributes of the shell, as described below. When
+<i>arguments are specified, they cause positional parameters to be set or unset, as described below. Setting or unsetting
+attributes and positional parameters are not necessarily related actions, but they can be combined in a single invocation of
+<a href="#set"><i>set.
+<p class="tent">The <a href="#set"><i>set special built-in shall support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines except that options can be specified with either a
+leading &lt;hyphen-minus&gt; (meaning enable the option) or &lt;plus-sign&gt; (meaning disable it) unless otherwise specified.
+<p class="tent">Implementations shall support the options in the following list in both their &lt;hyphen-minus&gt; and
+&lt;plus-sign&gt; forms. These options can also be specified as options to <a href="../utilities/sh.html"><i>sh.
+<dl compact>
+<dd>
+<dt><b>-a
+<dd>Set the <i>export attribute for all variable assignments. When this option is on, whenever a value is assigned to a
+variable in the current shell execution environment, the <i>export attribute shall be set for the variable. This applies to all
+forms of assignment, including those made as a side-effect of variable expansions or arithmetic expansions, and those made as a
+result of the operation of the <a href="../utilities/cd.html"><i>cd, <a href=
+"../utilities/getopts.html"><i>getopts, or <a href="../utilities/read.html"><i>read utilities. <basefont size="2">
+<dl>
+<dt><b>Note:
+<dd>As discussed in <a href="#tag_19_09_01">2.9.1 Simple Commands, not all variable assignments happen in the current
+execution environment. When an assignment happens in a separate execution environment the <i>export attribute is still set for
+the variable, but that does not affect the current execution environment.
+
+<basefont size="3">
+<dt><b>-b
+<dd>This option shall be supported if the implementation supports the User Portability Utilities option. When job control and
+<b>-b are both enabled, the shell shall write asynchronous notifications of background job completions (including termination
+by a signal), and may write asynchronous notifications of background job suspensions. See <a href="#tag_19_11">2.11 Job Control
+for details. When job control is disabled, the <b>-b option shall have no effect. Asynchronous notification shall not be
+enabled by default.
+<dt><b>-C
+<dd>(Uppercase C.) Prevent existing regular files from being overwritten by the shell&#39;s <tt>&#39;&gt;&#39; redirection operator (see
+<a href="#tag_19_07_02">2.7.2 Redirecting Output); the <tt>&#34;&gt;|&#34; redirection operator shall override this
+<i>noclobber option for an individual file.
+<dt><b>-e
+<dd>When this option is on, when any command fails (for any of the reasons listed in <a href="#tag_19_08_01">2.8.1 Consequences of
+Shell Errors or by returning an exit status greater than zero), the shell immediately shall exit, as if by executing the
+<a href="#exit"><i>exit special built-in utility with no arguments, with the following exceptions:
+<ol>
+<li class="tent">The failure of any individual command in a multi-command pipeline, or of any subshell environments in which
+command substitution was performed during word expansion, shall not cause the shell to exit. Only the failure of the pipeline
+itself shall be considered.
+<li class="tent">The <b>-e setting shall be ignored when executing the compound list following the <b>while, <b>until,
+<b>if, or <b>elif reserved word, a pipeline beginning with the <b>! reserved word, or any command of an AND-OR list
+other than the last.
+<li class="tent">If the exit status of a compound command other than a subshell command was the result of a failure while <b>-e
+was being ignored, then <b>-e shall not apply to this command.
+
+<p class="tent">This requirement applies to the shell environment and each subshell environment separately. For example, in:
+<pre>
+<tt>set -e; (false; echo one) | cat; echo two
+
+<p class="tent">the <a href="../utilities/false.html"><i>false command causes the subshell to exit without executing
+<tt>echo one; however, <tt>echo two is executed because the exit status of the pipeline <tt>(false; echo one) | cat
+is zero.
+<p class="tent">In
+<pre>
+<tt>set -e; echo &#36;(false; echo one) two
+
+<p class="tent">the <a href="../utilities/false.html"><i>false command causes the subshell in which the command
+substitution is performed to exit without executing <tt>echo one; the exit status of the subshell is ignored and the shell
+then executes the word-expanded command <tt>echo two.
+
+<dt><b>-f
+<dd>The shell shall disable pathname expansion.
+<dt><b>-h
+<dd><sup>&#91;<a href="javascript:open_code('OB')">OB&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+Setting this option may speed up <i>PATH searches (see XBD <a href="../basedefs/V1_chap08.html#tag_08"><i>8. Environment
+Variables). This option may be enabled by default. <img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<dt><b>-m
+<dd>This option shall be supported if the implementation supports the User Portability Utilities option. When this option is
+enabled, the shell shall perform job control actions as described in <a href="#tag_19_11">2.11 Job Control. This option shall
+be enabled by default for interactive shells.
+<dt><b>-n
+<dd>The shell shall read commands but does not execute them; this can be used to check for shell script syntax errors. Interactive
+shells and subshells of interactive shells, recursively, may ignore this option.
+<dt><b>-o
+<dd>Write the current settings of the options to standard output in an unspecified format.
+<dt><b>+o
+<dd>Write the current option settings to standard output in a format that is suitable for reinput to the shell as commands that
+achieve the same options settings.
+<dt><b>-o <i>option
+<dd><br>
+Set various options, many of which shall be equivalent to the single option letters. The following values of <i>option shall be
+supported:
+<dl compact>
+<dd>
+<dt><i>allexport
+<dd>Equivalent to <b>-a.
+<dt><i>errexit
+<dd>Equivalent to <b>-e.
+<dt><i>ignoreeof
+<dd>Prevent an interactive shell from exiting on end-of-file. This setting prevents accidental logouts when &lt;control&gt;-D is
+entered. A user shall explicitly <a href="#exit"><i>exit to leave the interactive shell. This option shall be supported if
+the system supports the User Portability Utilities option.
+<dt><i>monitor
+<dd>Equivalent to <b>-m. This option shall be supported if the system supports the User Portability Utilities option.
+<dt><i>noclobber
+<dd>Equivalent to <b>-C (uppercase C).
+<dt><i>noglob
+<dd>Equivalent to <b>-f.
+<dt><i>noexec
+<dd>Equivalent to <b>-n.
+<dt><i>nolog
+<dd><sup>&#91;<a href="javascript:open_code('OB')">OB&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">
+Prevent the entry of function definitions into the command history; see <a href="../utilities/sh.html#tag_20_110_13_01"><i>Command
+History List. This option may have no effect; it is kept for compatibility with previous versions of the standard. This
+option shall be supported if the system supports the User Portability Utilities option. <img src=".pic/opt-end.gif" alt=
+"[Option End]" border="0">
+<dt><i>notify
+<dd>Equivalent to <b>-b.
+<dt><i>nounset
+<dd>Equivalent to <b>-u.
+<dt><i>pipefail
+<dd>Derive the exit status of a pipeline from the exit statuses of all of the commands in the pipeline, not just the last
+(rightmost) command, as described in <a href="#tag_19_09_02">2.9.2 Pipelines.
+<dt><i>verbose
+<dd>Equivalent to <b>-v.
+<dt><i>vi
+<dd>Allow shell command line editing using the built-in <a href="../utilities/vi.html"><i>vi editor. Enabling <a href=
+"../utilities/vi.html"><i>vi mode shall disable any other command line editing mode provided as an implementation
+extension. This option shall be supported if the system supports the User Portability Utilities option.
+<p class="tent">It need not be possible to set <a href="../utilities/vi.html"><i>vi mode on for certain block-mode
+terminals.
+
+<dt><i>xtrace
+<dd>Equivalent to <b>-x.
+
+<dt><b>-u
+<dd>When the shell tries to expand, in a parameter expansion or an arithmetic expansion, an unset parameter other than the
+<tt>&#39;@&#39; and <tt>&#39;&#42;&#39; special parameters, it shall write a message to standard error and the expansion shall fail with the
+consequences specified in <a href="#tag_19_08_01">2.8.1 Consequences of Shell Errors.
+<dt><b>-v
+<dd>The shell shall write its input to standard error as it is read.
+<dt><b>-x
+<dd>The shell shall write to standard error a trace for each command after it expands the command and before it executes it. It is
+unspecified whether the command that turns tracing off is traced.
+
+<p class="tent">The default for all these options shall be off (unset) unless stated otherwise in the description of the option or
+unless the shell was invoked with them on; see <a href="../utilities/sh.html"><i>sh.
+<p class="tent">The remaining arguments shall be assigned in order to the positional parameters. The special parameter <tt>&#39;#&#39;
+shall be set to reflect the number of positional parameters. All positional parameters shall be unset before any new values are
+assigned.
+<p class="tent">If the first argument is <tt>&#39;-&#39;, the results are unspecified.
+<p class="tent">The special argument <tt>&#34;&#45;&#45;&#34; immediately following the <a href="#set"><i>set command name can be used
+to delimit the arguments if the first argument begins with <tt>&#39;+&#39; or <tt>&#39;-&#39;, or to prevent inadvertent listing of all
+shell variables when there are no arguments. The command <a href="#set"><i>set <b>&#45;&#45; without <i>argument shall
+unset all positional parameters and set the special parameter <tt>&#39;#&#39; to zero.
+
+<h4 class="mansect"><a name="tag_19_26_04" id="tag_19_26_04">OPTIONS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_26_05" id="tag_19_26_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_26_06" id="tag_19_26_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_26_07" id="tag_19_26_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_26_08" id="tag_19_26_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_26_09" id="tag_19_26_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_26_10" id="tag_19_26_10">STDOUT
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_26_11" id="tag_19_26_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_26_12" id="tag_19_26_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_26_13" id="tag_19_26_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_26_14" id="tag_19_26_14">EXIT STATUS
+<blockquote>
+<dl compact>
+<dd>
+<dt> 0
+<dd>Successful completion.
+<dt>&gt;0
+<dd>An invalid option was specified, or an error occurred.
+
+<h4 class="mansect"><a name="tag_19_26_15" id="tag_19_26_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_26_16" id="tag_19_26_16">APPLICATION USAGE
+<blockquote>
+<p>Application writers should avoid relying on <a href="#set"><i>set <b>-e within functions. For example, in the
+following script:
+<pre>
+<tt>set -e
+start() {
+    some&#95;server
+    echo some&#95;server started successfully
+}
+start || echo &gt;&amp;2 some&#95;server failed
+
+<p class="tent">the <b>-e setting is ignored within the function body (because the function is a command in an AND-OR list
+other than the last). Therefore, if <tt>some&#95;server fails, the function carries on to echo <tt>&#34;some&#95;server started
+successfully&#34;, and the exit status of the function is zero (which means <tt>&#34;some&#95;server failed&#34; is not output).
+<p class="tent">Use of <a href="#set"><i>set <b>-n causes the shell to parse the rest of the script without executing
+any commands, meaning that <a href="#set"><i>set <b>+n cannot be used to undo the effect. Syntax checking is more
+commonly done via <tt>sh <tt>-n <i>script&#95;name.
+
+<h4 class="mansect"><a name="tag_19_26_17" id="tag_19_26_17">EXAMPLES
+<blockquote>
+<p>Write out all variables and their values:
+<pre>
+<tt>set
+
+<p class="tent">Set &#36;1, &#36;2, and &#36;3 and set <tt>&#34;&#36;#&#34; to 3:
+<pre>
+<tt>set c a b
+
+<p class="tent">Turn on the <b>-x and <b>-v options:
+<pre>
+<tt>set -xv
+
+<p class="tent">Unset all positional parameters:
+<pre>
+<tt>set &#45;&#45;
+
+<p class="tent">Set &#36;1 to the value of <i>x, even if it begins with <tt>&#39;-&#39; or <tt>&#39;+&#39;:
+<pre>
+<tt>set &#45;&#45; &#34;&#36;x&#34;
+
+<p class="tent">Set the positional parameters to the expansion of <i>x, even if <i>x expands with a leading <tt>&#39;-&#39; or
+<tt>&#39;+&#39;:
+<pre>
+<tt>set &#45;&#45; &#36;x
+
+<h4 class="mansect"><a name="tag_19_26_18" id="tag_19_26_18">RATIONALE
+<blockquote>
+<p>The <a href="#set"><i>set &#45;&#45; form is listed specifically in the SYNOPSIS even though this usage is implied by the
+Utility Syntax Guidelines. The explanation of this feature removes any ambiguity about whether the <a href="#set"><i>set &#45;&#45;
+form might be misinterpreted as being equivalent to <a href="#set"><i>set without any options or arguments. The
+functionality of this form has been adopted from the KornShell. In System V, <a href="#set"><i>set &#45;&#45; only unsets
+parameters if there is at least one argument; the only way to unset all parameters is to use <a href="#shift"><i>shift.
+Using the KornShell version should not affect System V scripts because there should be no reason to issue it without arguments
+deliberately; if it were issued as, for example:
+<pre>
+<tt>set &#45;&#45; &#34;&#36;@&#34;
+
+<p class="tent">and there were in fact no arguments resulting from <tt>&#34;&#36;@&#34;, unsetting the parameters would have no
+result.
+<p class="tent">The <a href="#set"><i>set + form in early proposals was omitted as being an unnecessary duplication of
+<a href="#set"><i>set alone and not widespread historical practice.
+<p class="tent">The <i>noclobber option was changed to allow <a href="#set"><i>set <b>-C as well as the <a href=
+"#set"><i>set <b>-o <i>noclobber option. The single-letter version was added so that the historical <tt>&#34;&#36;-&#34;
+paradigm would not be broken; see <a href="#tag_19_05_02">2.5.2 Special Parameters.
+<p class="tent">The description of the <b>-e option is intended to match the behavior of the 1988 version of the KornShell.
+<p class="tent">The <b>-h option is related to command name hashing. See <a href="../utilities/hash.html#"><i>hash.
+The normative description is deliberately vague because the way this option works varies between shell implementations.
+<p class="tent">Earlier versions of this standard specified <b>-h as a way to locate and remember utilities to be invoked by
+functions as those functions are defined (the utilities are normally located when the function is executed). However, this did not
+match existing practice in most shells.
+<p class="tent">The following <a href="#set"><i>set options were omitted intentionally with the following rationale:
+<dl compact>
+<dd>
+<dt><b>-k
+<dd>The <b>-k option was originally added by the author of the Bourne shell to make it easier for users of pre-release versions
+of the shell. In early versions of the Bourne shell the construct <a href="#set"><i>set <i>name=<i>value had to be
+used to assign values to shell variables. The problem with <b>-k is that the behavior affects parsing, virtually precluding
+writing any compilers. To explain the behavior of <b>-k, it is necessary to describe the parsing algorithm, which is
+implementation-defined. For example:
+<pre>
+<tt>set -k; echo <i>name<tt>=<i>value<tt>
+
+<p class="tent">and:
+<pre>
+<tt>set -k
+echo <i>name<tt>=<i>value<tt>
+
+<p class="tent">behave differently. The interaction with functions is even more complex. What is more, the <b>-k option is
+never needed, since the command line could have been reordered.
+
+<dt><b>-t
+<dd>The <b>-t option is hard to specify and almost never used. The only known use could be done with here-documents. Moreover,
+the behavior with <i>ksh and <a href="../utilities/sh.html"><i>sh differs. The reference page says that it exits after
+reading and executing one command. What is one command? If the input is <i>date;<i>date, <a href=
+"../utilities/sh.html"><i>sh executes both <a href="../utilities/date.html"><i>date commands while <i>ksh does
+only the first.
+
+<p class="tent">Consideration was given to rewriting <a href="#set"><i>set to simplify its confusing syntax. A specific
+suggestion was that the <a href="#unset"><i>unset utility should be used to unset options instead of using the non-<a href=
+"../functions/getopt.html"><i>getopt()-able +<i>option syntax. However, the conclusion was reached that the historical
+practice of using +<i>option was satisfactory and that there was no compelling reason to modify such widespread historical
+practice.
+<p class="tent">The <b>-o option was adopted from the KornShell to address user needs. In addition to its generally friendly
+interface, <b>-o is needed to provide the <a href="../utilities/vi.html"><i>vi command line editing mode, for which
+historical practice yields no single-letter option name. (Although it might have been possible to invent such a letter, it was
+recognized that other editing modes would be developed and <b>-o provides ample name space for describing such extensions.)
+<p class="tent">Historical implementations are inconsistent in the format used for <b>-o option status reporting. The <b>+o
+format without an option-argument was added to allow portable access to the options that can be saved and then later restored
+using, for instance, a dot script.
+<p class="tent">Historically, <a href="../utilities/sh.html"><i>sh did trace the command <a href="#set"><i>set
+<b>+x, but <i>ksh did not.
+<p class="tent">The <i>ignoreeof setting prevents accidental logouts when the end-of-file character (typically
+&lt;control&gt;-D) is entered. A user shall explicitly <a href="#exit"><i>exit to leave the interactive shell.
+<p class="tent">The <a href="#set"><i>set <b>-m option was added to apply only to the UPE because it applies primarily
+to interactive use, not shell script applications.
+<p class="tent">The ability to do asynchronous notification became available in the 1988 version of the KornShell. To have it
+occur, the user had to issue the command:
+<pre>
+<tt>trap &#34;jobs -n&#34; CLD
+
+<p class="tent">The C shell provides two different levels of an asynchronous notification capability. The environment variable
+<i>notify is analogous to what is done in <a href="#set"><i>set <b>-b or <a href="#set"><i>set <b>-o
+<i>notify. When set, it notifies the user immediately of background job completions. When unset, this capability is turned
+off.
+<p class="tent">The other notification ability comes through the built-in utility <i>notify. The syntax is:
+<pre>
+<tt>notify <b>&#91;<tt>%job &#46;&#46;&#46; <b>&#93;<tt>
+
+<p class="tent">By issuing <i>notify with no operands, it causes the C shell to notify the user asynchronously when the state
+of the current job changes. If given operands, <i>notify asynchronously informs the user of changes in the states of the
+specified jobs.
+<p class="tent">To add asynchronous notification to the POSIX shell, neither the KornShell extensions to <a href=
+"#trap"><i>trap, nor the C shell <i>notify environment variable seemed appropriate (<i>notify is not a proper POSIX
+environment variable name).
+<p class="tent">The <a href="#set"><i>set <b>-b option was selected as a compromise.
+<p class="tent">The <i>notify built-in was considered to have more functionality than was required for simple asynchronous
+notification.
+<p class="tent">Historically, some shells applied the <b>-u option to all parameters including <tt>&#36;@ and <tt>&#36;&#42;. The
+standard developers felt that this was a misfeature since it is normal and common for <tt>&#36;@ and <tt>&#36;&#42; to be used in
+shell scripts regardless of whether they were passed any arguments. Treating these uses as an error when no arguments are passed
+reduces the value of <b>-u for its intended purpose of finding spelling mistakes in variable names and uses of unset positional
+parameters.
+
+<h4 class="mansect"><a name="tag_19_26_19" id="tag_19_26_19">FUTURE DIRECTIONS
+<blockquote>
+<p>A future version of this standard may remove the <b>-o <i>nolog option.
+
+<h4 class="mansect"><a name="tag_19_26_20" id="tag_19_26_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities, <a href="../utilities/hash.html#"><i>hash
+<p class="tent">XBD <a href="../basedefs/V1_chap04.html#tag_04_26"><i>4.26 Variable Assignment, <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines
+
+<h4 class="mansect"><a name="tag_19_26_21" id="tag_19_26_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_26_22" id="tag_19_26_22">Issue 6
+<blockquote>
+<p>The obsolescent <a href="#set"><i>set command name followed by <tt>&#39;-&#39; has been removed.
+<p class="tent">The following new requirements on POSIX implementations derive from alignment with the Single UNIX
+Specification:
+<ul>
+<li class="tent">The <i>nolog option is added to <a href="#set"><i>set <b>-o.
+
+<p class="tent">IEEE PASC Interpretation 1003.2 #167 is applied, clarifying that the options default also takes into account the
+description of the option.
+<p class="tent">IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections
+use terms as described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility
+Description Defaults). No change in behavior is intended.
+<p class="tent">IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/8 is applied, changing the square brackets in the
+example in RATIONALE to be in bold, which is the typeface used for optional items.
+
+<h4 class="mansect"><a name="tag_19_26_23" id="tag_19_26_23">Issue 7
+<blockquote>
+<p>Austin Group Interpretation 1003.1-2001 #027 is applied, clarifying the behavior if the first argument is <tt>&#39;-&#39;.
+<p class="tent">SD5-XCU-ERN-97 is applied, updating the SYNOPSIS.
+<p class="tent">XSI shading is removed from the <b>-h functionality.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 1, XCU/TC1-2008/0046 &#91;52&#93;, XCU/TC1-2008/0047 &#91;155,280&#93;, XCU/TC1-2008/0048 &#91;52&#93;,
+XCU/TC1-2008/0049 &#91;52&#93;, and XCU/TC1-2008/0050 &#91;155,430&#93; are applied.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0053 &#91;584&#93;, XCU/TC2-2008/0054 &#91;717&#93;, XCU/TC2-2008/0055 &#91;717&#93;,
+and XCU/TC2-2008/0056 &#91;960&#93; are applied.
+
+<h4 class="mansect"><a name="tag_19_26_24" id="tag_19_26_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 559 is applied, changing the description of the <b>-u option.
+<p class="tent">Austin Group Defect 789 is applied, adding <b>-o <i>pipefail.
+<p class="tent">Austin Group Defect 981 is applied, changing the description of the <b>-o <i>nolog option and the FUTURE
+DIRECTIONS section.
+<p class="tent">Austin Group Defects 1009 and 1555 are applied, changing the description of the <b>-a option.
+<p class="tent">Austin Group Defect 1016 is applied, changing the description of the <b>-C option.
+<p class="tent">Austin Group Defect 1055 is applied, adding a paragraph about the <b>-n option to the APPLICATION USAGE
+section.
+<p class="tent">Austin Group Defect 1063 is applied, changing the description of the <b>-h option.
+<p class="tent">Austin Group Defect 1150 is applied, changing the description of the <b>-e option.
+<p class="tent">Austin Group Defect 1207 is applied, clarifying which option-arguments of the <b>-o option are related to the
+User Portability Utilities option.
+<p class="tent">Austin Group Defect 1254 is applied, changing the descriptions of the <b>-b and <b>-m options.
+<p class="tent">Austin Group Defect 1384 is applied, allowing subshells of interactive shells to ignore the <b>-n option.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="shift" id="shift"> <a name=
+"tag_19_27" id="tag_19_27"><!-- shift -->
+<h4 class="mansect"><a name="tag_19_27_01" id="tag_19_27_01">NAME
+<blockquote>shift — shift positional parameters
+<h4 class="mansect"><a name="tag_19_27_02" id="tag_19_27_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>shift <b>&#91;<i>n<b>&#93;
+
+<h4 class="mansect"><a name="tag_19_27_03" id="tag_19_27_03">DESCRIPTION
+<blockquote>
+<p>The positional parameters shall be shifted. Positional parameter 1 shall be assigned the value of parameter (1+<i>n),
+parameter 2 shall be assigned the value of parameter (2+<i>n), and so on. The parameters represented by the numbers
+<tt>&#34;&#36;#&#34; down to <tt>&#34;&#36;#-n+1&#34; shall be unset, and the parameter <tt>&#39;#&#39; is updated to reflect the new number of
+positional parameters.
+<p class="tent">The value <i>n shall be an unsigned decimal integer less than or equal to the value of the special parameter
+<tt>&#39;#&#39;. If <i>n is not given, it shall be assumed to be 1. If <i>n is 0, the positional and special parameters are
+not changed.
+
+<h4 class="mansect"><a name="tag_19_27_04" id="tag_19_27_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_05" id="tag_19_27_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_27_06" id="tag_19_27_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_27_07" id="tag_19_27_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_08" id="tag_19_27_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_09" id="tag_19_27_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_27_10" id="tag_19_27_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_27_11" id="tag_19_27_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages and the warning message specified in EXIT STATUS.
+
+<h4 class="mansect"><a name="tag_19_27_12" id="tag_19_27_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_13" id="tag_19_27_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_14" id="tag_19_27_14">EXIT STATUS
+<blockquote>
+<p>If the <i>n operand is invalid or is greater than <tt>&#34;&#36;#&#34;, this may be treated as an error and a non-interactive shell
+may exit; if the shell does not exit in this case, a non-zero exit status shall be returned and a warning message shall be written
+to standard error. Otherwise, zero shall be returned.
+
+<h4 class="mansect"><a name="tag_19_27_15" id="tag_19_27_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_27_16" id="tag_19_27_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_17" id="tag_19_27_17">EXAMPLES
+<blockquote>
+<pre>
+<b>
+&#36;<tt>
+ set a b c d e
+<b>
+&#36;<tt>
+ shift 2
+<b>
+&#36;<tt>
+ echo &#36;&#42;
+<b>
+c d e<tt>
+
+<h4 class="mansect"><a name="tag_19_27_18" id="tag_19_27_18">RATIONALE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_19" id="tag_19_27_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_27_20" id="tag_19_27_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+
+<h4 class="mansect"><a name="tag_19_27_21" id="tag_19_27_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_27_22" id="tag_19_27_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_27_23" id="tag_19_27_23">Issue 7
+<blockquote>
+<p>POSIX.1-2008, Technical Corrigendum 1, XCU/TC1-2008/0051 &#91;459&#93; is applied.
+
+<h4 class="mansect"><a name="tag_19_27_24" id="tag_19_27_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 1265 is applied, updating the EXIT STATUS and STDERR sections to align with the changes made to <a href=
+"#tag_19_08_01">2.8.1 Consequences of Shell Errors between Issue 6 and Issue 7.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="times" id="times"> <a name=
+"tag_19_28" id="tag_19_28"><!-- times -->
+<h4 class="mansect"><a name="tag_19_28_01" id="tag_19_28_01">NAME
+<blockquote>times — write process times
+<h4 class="mansect"><a name="tag_19_28_02" id="tag_19_28_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>times
+
+<h4 class="mansect"><a name="tag_19_28_03" id="tag_19_28_03">DESCRIPTION
+<blockquote>
+<p>The <a href="#times"><i>times utility shall write the accumulated user and system times for the shell and for all of its
+child processes, in the following POSIX locale format:
+<pre>
+<tt>&#34;%dm%fs %dm%fs&#92;n%dm%fs %dm%fs&#92;n&#34;, &lt;<i>shell user minutes<tt>&gt;,
+    &lt;<i>shell user seconds<tt>&gt;, &lt;<i>shell system minutes<tt>&gt;,
+    &lt;<i>shell system seconds<tt>&gt;, &lt;<i>children user minutes<tt>&gt;,
+    &lt;<i>children user seconds<tt>&gt;, &lt;<i>children system minutes<tt>&gt;,
+    &lt;<i>children system seconds<tt>&gt;
+
+<p class="tent">The four pairs of times shall correspond to the members of the <a href=
+"../basedefs/sys_times.h.html"><i>&lt;sys/times.h&gt; <b>tms structure (defined in XBD <a href=
+"../basedefs/V1_chap14.html#tag_14"><i>14. Headers) as returned by <a href="../functions/times.html"><i>times():
+<i>tms&#95;utime, <i>tms&#95;stime, <i>tms&#95;cutime, and <i>tms&#95;cstime, respectively.
+
+<h4 class="mansect"><a name="tag_19_28_04" id="tag_19_28_04">OPTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_05" id="tag_19_28_05">OPERANDS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_06" id="tag_19_28_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_28_07" id="tag_19_28_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_08" id="tag_19_28_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_09" id="tag_19_28_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_28_10" id="tag_19_28_10">STDOUT
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_28_11" id="tag_19_28_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_28_12" id="tag_19_28_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_13" id="tag_19_28_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_14" id="tag_19_28_14">EXIT STATUS
+<blockquote>
+<dl compact>
+<dd>
+<dt> 0
+<dd>Successful completion.
+<dt>&gt;0
+<dd>An error occurred.
+
+<h4 class="mansect"><a name="tag_19_28_15" id="tag_19_28_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_28_16" id="tag_19_28_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_17" id="tag_19_28_17">EXAMPLES
+<blockquote>
+<pre>
+<b>
+&#36;<tt>
+ times
+<b>
+0m0.43s 0m1.11s
+8m44.18s 1m43.23s<tt>
+
+<h4 class="mansect"><a name="tag_19_28_18" id="tag_19_28_18">RATIONALE
+<blockquote>
+<p>The <a href="#times"><i>times special built-in from the Single UNIX Specification is now required for all conforming
+shells.
+
+<h4 class="mansect"><a name="tag_19_28_19" id="tag_19_28_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_28_20" id="tag_19_28_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+<p class="tent">XBD <a href="../basedefs/sys_times.h.html"><i>&lt;sys/times.h&gt;
+
+<h4 class="mansect"><a name="tag_19_28_21" id="tag_19_28_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_28_22" id="tag_19_28_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/9 is applied, changing text in the DESCRIPTION from: &#34;Write the
+accumulated user and system times for the shell and for all of its child processes &#46;&#46;&#46;&#34; to: &#34;The <a href=
+"#times"><i>times utility shall write the accumulated user and system times for the shell and for all of its child
+processes &#46;&#46;&#46;&#34;.
+
+<h4 class="mansect"><a name="tag_19_28_23" id="tag_19_28_23">Issue 7
+<blockquote>
+<p>POSIX.1-2008, Technical Corrigendum 2, XCU/TC2-2008/0056 &#91;960&#93; is applied.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="trap" id="trap"> <a name=
+"tag_19_29" id="tag_19_29"><!-- trap -->
+<h4 class="mansect"><a name="tag_19_29_01" id="tag_19_29_01">NAME
+<blockquote>trap — trap signals
+<h4 class="mansect"><a name="tag_19_29_02" id="tag_19_29_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>trap <i>n <b>&#91;<i>condition<tt>&#46;&#46;&#46;<b>&#93; <tt><br>
+ <br>
+trap -p <b>&#91;<i>condition<tt>&#46;&#46;&#46;<b>&#93; <tt><br>
+ <br>
+trap <b>&#91;<i>action condition<tt>&#46;&#46;&#46;<b>&#93;
+
+<h4 class="mansect"><a name="tag_19_29_03" id="tag_19_29_03">DESCRIPTION
+<blockquote>
+<p>If the <b>-p option is not specified and the first operand is an unsigned decimal integer, the shell shall treat all
+operands as conditions, and shall reset each condition to the default value. Otherwise, if the <b>-p option is not specified
+and there are operands, the first operand shall be treated as an action and the remaining as conditions.
+<p class="tent">If <i>action is <tt>&#39;-&#39;, the shell shall reset each <i>condition to the default value. If
+<i>action is null (<tt>&#34;&#34;), the shell shall ignore each specified <i>condition if it arises. Otherwise, the argument
+<i>action shall be read and executed by the shell when one of the corresponding conditions arises. The action of <a href=
+"#trap"><i>trap shall override a previous action (either default action or one explicitly set). The value of <tt>&#34;&#36;?&#34;
+after the <a href="#trap"><i>trap action completes shall be the value it had before the <a href="#trap"><i>trap
+action was executed.
+<p class="tent">The condition can be EXIT, 0 (equivalent to EXIT), or a signal specified using a symbolic name, without the SIG
+prefix, as listed in the tables of signal names in the <a href="../basedefs/signal.h.html"><i>&lt;signal.h&gt; header
+defined in XBD <a href="../basedefs/V1_chap14.html#tag_14"><i>14. Headers; for example, HUP, INT, QUIT, TERM.
+Implementations may permit names with the SIG prefix or ignore case in signal names as an extension. Setting a trap for SIGKILL or
+SIGSTOP produces undefined results.
+<p class="tent">The EXIT condition shall occur when the shell terminates normally (exits), and may occur when the shell terminates
+abnormally as a result of delivery of a signal (other than SIGKILL) whose <a href="#trap"><i>trap action is the
+default.
+<p class="tent">The environment in which the shell executes a <a href="#trap"><i>trap action on EXIT shall be identical to
+the environment immediately after the last command executed before the <a href="#trap"><i>trap action on EXIT was
+executed.
+<p class="tent">If <i>action is neither <tt>&#39;-&#39; nor the empty string, then each time a matching <i>condition arises,
+the <i>action shall be executed in a manner equivalent to:
+<pre>
+<tt>eval <i>action<tt>
+
+<p class="tent">Signals that were ignored on entry to a non-interactive shell cannot be trapped or reset, although no error need be
+reported when attempting to do so. An interactive shell may reset or catch signals ignored on entry. Traps shall remain in place
+for a given shell until explicitly changed with another <a href="#trap"><i>trap command.
+<p class="tent">When a subshell is entered, traps that are not being ignored shall be set to the default actions, except in the
+case of a command substitution containing only a single <a href="#trap"><i>trap command, when the traps need not be
+altered. Implementations may check for this case using only lexical analysis; for example, if <tt>&#96;trap&#96; and <tt>&#36;( trap &#45;&#45;
+) do not alter the traps in the subshell, cases such as assigning <tt>var=trap and then using <tt>&#36;(&#36;var) may still
+alter them. This does not imply that the <a href="#trap"><i>trap command cannot be used within the subshell to set new
+traps.
+<p class="tent">The <a href="#trap"><i>trap command with no operands shall write to standard output a list of commands
+associated with each of a set of conditions; if the <b>-p option is not specified, this set shall contain only the conditions
+that are not in the default state (including signals that were ignored on entry to a non-interactive shell); if the <b>-p
+option is specified, the set shall contain all conditions, except that it is unspecified whether conditions corresponding to the
+SIGKILL and SIGSTOP signals are included in the set. If the command is executed in a subshell, the implementation does not perform
+the optional check described above for a command substitution containing only a single <a href="#trap"><i>trap command, and
+no <a href="#trap"><i>trap commands with operands have been executed since entry to the subshell, the list shall contain
+the commands that were associated with each condition immediately before the subshell environment was entered. Otherwise, the list
+shall contain the commands currently associated with each condition. The format shall be:
+<pre>
+<tt>&#34;trap &#45;&#45; %s %s &#46;&#46;&#46;&#92;n&#34;, &lt;<i>action<tt>&gt;, &lt;<i>condition<tt>&gt; &#46;&#46;&#46;
+
+<p class="tent">The shell shall format the output, including the proper use of quoting, so that it is suitable for reinput to the
+shell as commands that achieve the same trapping results for the set of conditions included in the output, except for signals that
+were ignored on entry to the shell as described above. If this set includes conditions corresponding to the SIGKILL and SIGSTOP
+signals, the shell shall accept them when the output is reinput to the shell (where accepting them means they do not cause a
+non-zero exit status, a diagnostic message, or undefined behavior). For example:
+<pre>
+<tt>save&#95;traps=&#36;(trap -p)
+<br class="tent">
+&#46;&#46;&#46;
+eval &#34;&#36;save&#95;traps&#34;
+
+<p class="tent">or:
+<pre>
+<tt>save&#95;traps=&#36;(trap -p INT QUIT)
+trap &#34;some command&#34; INT QUIT
+<br class="tent">
+&#46;&#46;&#46;
+<br class="tent">
+eval &#34;&#36;save&#95;traps&#34;
+
+<p class="tent"><sup>&#91;<a href="javascript:open_code('XSI')">XSI&#93; <img src=".pic/opt-start.gif" alt="[Option Start]"
+border="0"> XSI-conformant systems also allow numeric signal numbers for the conditions corresponding to the following signal
+names:
+<dl compact>
+<dd>
+<dt>1
+<dd>SIGHUP
+<dt>2
+<dd>SIGINT
+<dt>3
+<dd>SIGQUIT
+<dt>6
+<dd>SIGABRT
+<dt>9
+<dd>SIGKILL
+<dt>14
+<dd>SIGALRM
+<dt>15
+<dd>SIGTERM
+
+<img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+<p class="tent">If an invalid signal name <sup>&#91;<a href="javascript:open_code('XSI')">XSI&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">  or number <img src=".pic/opt-end.gif" alt="[Option End]"
+border="0"> is specified, the <a href="#trap"><i>trap utility shall write a warning message to standard error.
+<p class="tent">The <a href="#trap"><i>trap special built-in shall conform to XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines.
+
+<h4 class="mansect"><a name="tag_19_29_04" id="tag_19_29_04">OPTIONS
+<blockquote>
+<p>The following option shall be supported:
+<dl compact>
+<dd>
+<dt><b>-p
+<dd>Write to standard output a list of commands associated with each <i>condition operand. The behavior when there are no
+operands is specified in the DESCRIPTION section.
+<p class="tent">The shell shall format the output, including the proper use of quoting, so that it is suitable for reinput to the
+shell as commands that achieve the same trapping results for the specified set of conditions. If a <i>condition operand is a
+condition corresponding to the SIGKILL or SIGSTOP signal, and <a href="#trap"><i>trap <b>-p without any operands would
+not include it in the set of conditions for which it writes output, the behavior is undefined if the output is reinput to the
+shell.
+
+<h4 class="mansect"><a name="tag_19_29_05" id="tag_19_29_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_29_06" id="tag_19_29_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_29_07" id="tag_19_29_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_29_08" id="tag_19_29_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_29_09" id="tag_19_29_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_29_10" id="tag_19_29_10">STDOUT
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_29_11" id="tag_19_29_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages and warning messages about invalid signal names <sup>&#91;<a href=
+"javascript:open_code('XSI')">XSI&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border="0">  or numbers.
+<img src=".pic/opt-end.gif" alt="[Option End]" border="0">
+
+<h4 class="mansect"><a name="tag_19_29_12" id="tag_19_29_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_29_13" id="tag_19_29_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_29_14" id="tag_19_29_14">EXIT STATUS
+<blockquote>
+<p>If the trap name <sup>&#91;<a href="javascript:open_code('XSI')">XSI&#93; <img src=".pic/opt-start.gif" alt=
+"[Option Start]" border="0">  or number <img src=".pic/opt-end.gif" alt="[Option End]" border="0"> is invalid, a non-zero
+exit status shall be returned; otherwise, zero shall be returned. For both interactive and non-interactive shells, invalid signal
+names <sup>&#91;<a href="javascript:open_code('XSI')">XSI&#93; <img src=".pic/opt-start.gif" alt="[Option Start]" border=
+"0">  or numbers <img src=".pic/opt-end.gif" alt="[Option End]" border="0"> shall not be considered an error and shall
+not cause the shell to abort.
+
+<h4 class="mansect"><a name="tag_19_29_15" id="tag_19_29_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_29_16" id="tag_19_29_16">APPLICATION USAGE
+<blockquote>
+<p>When the <b>-p option is not used, since <a href="#trap"><i>trap with no operands does not output commands to
+restore traps that are currently set to default, these need to be restored separately. The RATIONALE section shows examples and
+describes their drawbacks.
+
+<h4 class="mansect"><a name="tag_19_29_17" id="tag_19_29_17">EXAMPLES
+<blockquote>
+<p>Write out a list of all traps and actions:
+<pre>
+<tt>trap
+
+<p class="tent">Set a trap so the <i>logout utility in the directory referred to by the <i>HOME environment variable
+executes when the shell terminates:
+<pre>
+<tt>trap &#39;&#34;&#36;HOME&#34;/logout&#39; EXIT
+
+<p class="tent">or:
+<pre>
+<tt>trap &#39;&#34;&#36;HOME&#34;/logout&#39; 0
+
+<p class="tent">Unset traps on INT, QUIT, TERM, and EXIT:
+<pre>
+<tt>trap - INT QUIT TERM EXIT
+
+<h4 class="mansect"><a name="tag_19_29_18" id="tag_19_29_18">RATIONALE
+<blockquote>
+<p>Implementations may permit lowercase signal names as an extension. Implementations may also accept the names with the SIG
+prefix; no known historical shell does so. The <a href="#trap"><i>trap and <a href="../utilities/kill.html"><i>kill
+utilities in this volume of POSIX.1-2024 are now consistent in their omission of the SIG prefix for signal names. Some <a href=
+"../utilities/kill.html"><i>kill implementations do not allow the prefix, and <a href=
+"../utilities/kill.html"><i>kill <b>-l lists the signals without prefixes.
+<p class="tent">Trapping SIGKILL or SIGSTOP is syntactically accepted by some historical implementations, but it has no effect.
+Portable POSIX applications cannot attempt to trap these signals.
+<p class="tent">The output format is not historical practice. Since the output of historical <a href="#trap"><i>trap
+commands is not portable (because numeric signal values are not portable) and had to change to become so, an opportunity was taken
+to format the output in a way that a shell script could use to save and then later reuse a trap if it wanted.
+<p class="tent">The KornShell uses an <b>ERR trap that is triggered whenever <a href="#set"><i>set <b>-e would
+cause an exit. This is allowable as an extension, but was not mandated, as other shells have not used it.
+<p class="tent">The text about the environment for the EXIT trap invalidates the behavior of some historical versions of
+interactive shells which, for example, close the standard input before executing a trap on 0. For example, in some historical
+interactive shell sessions the following trap on 0 would always print <tt>&#34;&#45;&#45;&#34;:
+<pre>
+<tt>trap &#39;read foo; echo &#34;-&#36;foo-&#34;&#39; 0
+
+<p class="tent">The command:
+<pre>
+<tt>trap &#39;eval &#34; &#36;cmd&#34;&#39; 0
+
+<p class="tent">causes the contents of the shell variable <i>cmd to be executed as a command when the shell exits. Using:
+<pre>
+<tt>trap &#39;&#36;cmd&#39; 0
+
+<p class="tent">does not work correctly if <i>cmd contains any special characters such as quoting or redirections. Using:
+<pre>
+<tt>trap &#34; &#36;cmd&#34; 0
+
+<p class="tent">also works (the leading &lt;space&gt; character protects against unlikely cases where <i>cmd is a decimal
+integer or begins with <tt>&#39;-&#39;), but it expands the <i>cmd variable when the <a href="#trap"><i>trap command is
+executed, not when the exit action is executed.
+<p class="tent">The <b>-p option was added because without it the method used to restore traps needs to include special
+handling of traps that are set to default when <a href="#trap"><i>trap with no operands is used to save the current traps.
+One example is:
+<pre>
+<tt>save&#95;traps=&#36;(trap)
+trap &#34;some command&#34; INT QUIT
+save&#95;traps=&#34;trap - INT QUIT; &#36;save&#95;traps&#34;
+<br class="tent">
+&#46;&#46;&#46;
+<br class="tent">
+eval &#34;&#36;save&#95;traps&#34;
+
+<p class="tent">but this method relies on hard-coding the commands to reset the traps that are being set. It also has a race
+condition if INT or QUIT was not set to default when saved, since it first sets them to default and then restores the saved traps.
+A more general approach would be:
+<pre>
+<tt>save&#95;traps=&#36;(trap)
+&#46;&#46;&#46;
+for sig in EXIT &#36;( kill -l )
+do
+    case &#34;&#36;sig&#34; in
+    SIGKILL | KILL | sigkill | kill | SIGSTOP | STOP | sigstop | stop)
+    ;;
+    &#42;) trap - &#36;sig
+    ;;
+    esac
+done
+eval &#34;&#36;save&#95;traps&#34;
+
+<p class="tent">This has the same race condition since it first sets all traps (that can be set) to default and then restores those
+that were not previously set to default.
+<p class="tent">Historically, some shells behaved the same with and without <b>-p when there are no operands. This standard
+requires that the set of conditions differs between the two cases: with <b>-p it is all conditions (except possibly SIGKILL and
+SIGSTOP); without <b>-p it is only the conditions that are not in the default state.
+
+<h4 class="mansect"><a name="tag_19_29_19" id="tag_19_29_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_29_20" id="tag_19_29_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+<p class="tent">XBD <a href="../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines, <a href=
+"../basedefs/signal.h.html"><i>&lt;signal.h&gt;
+
+<h4 class="mansect"><a name="tag_19_29_21" id="tag_19_29_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_29_22" id="tag_19_29_22">Issue 6
+<blockquote>
+<p>XSI-conforming implementations provide the mapping of signal names to numbers given above (previously this had been marked
+obsolescent). Other implementations need not provide this optional mapping.
+<p class="tent">IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections
+use terms as described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility
+Description Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_29_23" id="tag_19_29_23">Issue 7
+<blockquote>
+<p>SD5-XCU-ERN-97 is applied, updating the SYNOPSIS.
+<p class="tent">Austin Group Interpretation 1003.1-2001 #116 is applied.
+<p class="tent">POSIX.1-2008, Technical Corrigendum 1, XCU/TC1-2008/0052 &#91;53,268,440&#93;, XCU/TC1-2008/0053 &#91;53,268,440&#93;,
+XCU/TC1-2008/0054 &#91;163&#93;, XCU/TC1-2008/0055 &#91;163&#93;, and XCU/TC1-2008/0056 &#91;163&#93; are applied.
+
+<h4 class="mansect"><a name="tag_19_29_24" id="tag_19_29_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 621 is applied, clarifying when the EXIT condition occurs.
+<p class="tent">Austin Group Defect 1029 is applied, clarifying the execution of <a href="#trap"><i>trap actions.
+<p class="tent">Austin Group Defects 1211 and 1212 are applied, adding the <b>-p option and clarifying that, when <b>-p is
+not specified, the output of <a href="#trap"><i>trap with no operands does not list conditions that are in the default
+state.
+<p class="tent">Austin Group Defect 1265 is applied, updating the DESCRIPTION, STDERR and EXIT STATUS sections to align with the
+changes made to <a href="#tag_19_08_01">2.8.1 Consequences of Shell Errors between Issue 6 and Issue 7.
+<p class="tent">Austin Group Defect 1285 is applied, inserting a blank line between the two SYNOPSIS lines.
+
+<div class="box"><em>End of informative text.
+<hr>
+
+ <a name="unset" id="unset"> <a name=
+"tag_19_30" id="tag_19_30"><!-- unset -->
+<h4 class="mansect"><a name="tag_19_30_01" id="tag_19_30_01">NAME
+<blockquote>unset — unset values and attributes of variables and functions
+<h4 class="mansect"><a name="tag_19_30_02" id="tag_19_30_02">SYNOPSIS
+<blockquote class="synopsis">
+<p><code><tt>unset <b>&#91;<tt>-fv<b>&#93; <i>name<tt>&#46;&#46;&#46;
+
+<h4 class="mansect"><a name="tag_19_30_03" id="tag_19_30_03">DESCRIPTION
+<blockquote>
+<p>The <a href="#unset"><i>unset utility shall unset each variable or function definition specified by <i>name that
+does not have the <i>readonly attribute and remove any attributes other than <i>readonly that have been given to
+<i>name (see <a href="#tag_19_15">2.15 Special Built-In Utilities <i>export and <i>readonly).
+<p class="tent">If <b>-v is specified, <i>name refers to a variable name and the shell shall unset it and remove it from
+the environment. Read-only variables cannot be unset.
+<p class="tent">If <b>-f is specified, <i>name refers to a function and the shell shall unset the function definition.
+<p class="tent">If neither <b>-f nor <b>-v is specified, <i>name refers to a variable; if a variable by that name does
+not exist, it is unspecified whether a function by that name, if any, shall be unset.
+<p class="tent">Unsetting a variable or function that was not previously set shall not be considered an error and does not cause
+the shell to abort.
+<p class="tent">The <a href="#unset"><i>unset special built-in shall support XBD <a href=
+"../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines.
+<p class="tent">Note that:
+<pre>
+<tt>VARIABLE=
+
+<p class="tent">is not equivalent to an <a href="#unset"><i>unset of <b>VARIABLE; in the example, <b>VARIABLE is
+set to <tt>&#34;&#34;. Also, the variables that can be <a href="#unset"><i>unset should not be misinterpreted to include the
+special parameters (see <a href="#tag_19_05_02">2.5.2 Special Parameters).
+
+<h4 class="mansect"><a name="tag_19_30_04" id="tag_19_30_04">OPTIONS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_30_05" id="tag_19_30_05">OPERANDS
+<blockquote>
+<p>See the DESCRIPTION.
+
+<h4 class="mansect"><a name="tag_19_30_06" id="tag_19_30_06">STDIN
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_30_07" id="tag_19_30_07">INPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_30_08" id="tag_19_30_08">ENVIRONMENT VARIABLES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_30_09" id="tag_19_30_09">ASYNCHRONOUS EVENTS
+<blockquote>
+<p>Default.
+
+<h4 class="mansect"><a name="tag_19_30_10" id="tag_19_30_10">STDOUT
+<blockquote>
+<p>Not used.
+
+<h4 class="mansect"><a name="tag_19_30_11" id="tag_19_30_11">STDERR
+<blockquote>
+<p>The standard error shall be used only for diagnostic messages.
+
+<h4 class="mansect"><a name="tag_19_30_12" id="tag_19_30_12">OUTPUT FILES
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_30_13" id="tag_19_30_13">EXTENDED DESCRIPTION
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_30_14" id="tag_19_30_14">EXIT STATUS
+<blockquote>
+<dl compact>
+<dd>
+<dt> 0
+<dd>All <i>name operands were successfully unset.
+<dt>&gt;0
+<dd>At least one <i>name could not be unset.
+
+<h4 class="mansect"><a name="tag_19_30_15" id="tag_19_30_15">CONSEQUENCES OF ERRORS
+<blockquote>
+<p>Default.
+
+<hr>
+<div class="box"><em>The following sections are informative.
+<h4 class="mansect"><a name="tag_19_30_16" id="tag_19_30_16">APPLICATION USAGE
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_30_17" id="tag_19_30_17">EXAMPLES
+<blockquote>
+<p>Unset <i>VISUAL variable:
+<pre>
+<tt>unset -v VISUAL
+
+<p class="tent">Unset the functions <b>foo and <b>bar:
+<pre>
+<tt>unset -f foo bar
+
+<h4 class="mansect"><a name="tag_19_30_18" id="tag_19_30_18">RATIONALE
+<blockquote>
+<p>Consideration was given to omitting the <b>-f option in favor of an <i>unfunction utility, but the standard developers
+decided to retain historical practice.
+<p class="tent">The <b>-v option was introduced because System V historically used one name space for both variables and
+functions. When <a href="#unset"><i>unset is used without options, System V historically unset either a function or a
+variable, and there was no confusion about which one was intended. A portable POSIX application can use <a href=
+"#unset"><i>unset without an option to unset a variable, but not a function; the <b>-f option must be used.
+
+<h4 class="mansect"><a name="tag_19_30_19" id="tag_19_30_19">FUTURE DIRECTIONS
+<blockquote>
+<p>None.
+
+<h4 class="mansect"><a name="tag_19_30_20" id="tag_19_30_20">SEE ALSO
+<blockquote>
+<p><a href="#tag_19_15">2.15 Special Built-In Utilities
+<p class="tent">XBD <a href="../basedefs/V1_chap12.html#tag_12_02"><i>12.2 Utility Syntax Guidelines
+
+<h4 class="mansect"><a name="tag_19_30_21" id="tag_19_30_21">CHANGE HISTORY
+<h4 class="mansect"><a name="tag_19_30_22" id="tag_19_30_22">Issue 6
+<blockquote>
+<p>IEEE Std 1003.1-2001/Cor 1-2002, item XCU/TC1/D6/5 is applied so that the reference page sections use terms as
+described in the Utility Description Defaults ( <a href="../utilities/V3_chap01.html#tag_18_04"><i>1.4 Utility Description
+Defaults). No change in behavior is intended.
+
+<h4 class="mansect"><a name="tag_19_30_23" id="tag_19_30_23">Issue 7
+<blockquote>
+<p>SD5-XCU-ERN-97 is applied, updating the SYNOPSIS.
+
+<h4 class="mansect"><a name="tag_19_30_24" id="tag_19_30_24">Issue 8
+<blockquote>
+<p>Austin Group Defect 1075 is applied, clarifying that <a href="#unset"><i>unset removes attributes, other than
+<i>readonly, from the variables it unsets.
+
+<div class="box"><em>End of informative text.
+<hr>
 
-**无选项无参数时**：按当前 locale 的整理序列写出所有 shell 变量的名称和值，每行一个，格式 `"%s=%s\n", <name>, <value>`（值以适当引用写出，见 2.2）；输出适合重新输入 shell 以尽可能设置/重置当前已设置的变量（只读变量无法重置）。
-
-**选项**：设置或取消设置 shell 属性；**参数**：设置或取消设置位置参数。两者可组合。应支持 XBD 12.2，但选项可用前导 `-`（启用）或 `+`（禁用）指定。下列选项在 `-`/`+` 两种形式都支持，也可作为 `sh` 的选项：
-
-| 选项 | 名称 | 行为 |
-|:---|:---|:---|
-| **`-a`** | *allexport* | 为所有变量赋值设置 export 属性（含扩展副作用及 `cd`/`getopts`/`read` 产生的赋值）。注意：单独执行环境中的赋值仍设置 export 属性，但不影响当前环境（见 2.9.1）。 |
-| **`-b`** | *notify* | \[UP\] 启用作业控制时，写后台作业完成的异步通知（含信号终止；可含挂起通知，见 2.11）；禁用作业控制时无效果；默认不启用。 |
-| **`-C`** | *noclobber* | 防止 `'>'` 覆盖现存普通文件（见 2.7.2）；`">|"` 对单个文件覆盖此选项。 |
-| **`-e`** | *errexit* | 任何命令失败（2.8.1 所列原因或返回非零）时 shell 立即退出（如同无参数 `exit`），**例外**：① 多命令管道中的单个命令或单词扩展中命令替换的子 shell 失败不导致退出（只考虑管道本身）；② 执行 **while**/**until**/**if**/**elif** 后的复合列表、以 **!** 开头的管道、AND-OR 列表除最后外的命令时忽略 -e；③ 复合命令（子 shell 除外）的退出状态是在 -e 被忽略期间的失败结果时，-e 不适用。要求分别适用于 shell 环境与每个子 shell 环境（如 `set -e; (false; echo one) | cat; echo two` 中 echo two 仍执行，因管道退出状态为零；`set -e; echo $(false; echo one) two` 中命令替换子 shell 退出、shell 仍执行 `echo two`）。 |
-| **`-f`** | *noglob* | 禁用路径名展开。 |
-| **`-h`** | — | \[OB\] 设置此选项可能加速 *PATH* 搜索（见 XBD 8.）；可默认启用。 |
-| **`-m`** | *monitor* | \[UP\] 启用作业控制动作（见 2.11）；交互式 shell 默认启用。 |
-| **`-n`** | *noexec* | 读取命令但不执行（用于语法检查）；交互式 shell 及其子 shell（递归）可以忽略。 |
-| **`-o`** | — | 以未指定格式写出当前选项设置。 |
-| **`+o`** | — | 以适合重新输入 shell 的格式写出当前选项设置。 |
-| **`-u`** | *nounset* | 展开未设置参数（`'@'`/`'*'` 除外）时写消息到标准错误，扩展失败（后果见 2.8.1）。 |
-| **`-v`** | *verbose* | 读取输入时将其写到标准错误。 |
-| **`-x`** | *xtrace* | 扩展命令后、执行前写每条命令的跟踪到标准错误；关闭跟踪的命令本身是否被跟踪未指定。 |
-
-**`-o option` 的长选项名**：*allexport*（-a）、*errexit*（-e）、*ignoreeof*（\[UP\] 防止交互式 shell 在 EOF 退出，防止 \<control\>-D 意外注销；须显式 `exit`）、*monitor*（-m）、*noclobber*（-C）、*noglob*（-f）、*noexec*（-n）、*nolog*（\[OB\] 防止函数定义进入命令历史；可无效果，保留兼容）、*notify*（-b）、*nounset*（-u）、*pipefail*（管道退出状态取自所有命令而非仅最后一个，见 2.9.2）、*verbose*（-v）、*vi*（\[UP\] 用内置 vi 编辑器进行命令行编辑；启用后禁用其他实现扩展编辑模式；某些块模式终端可能无法启用）、*xtrace*（-x）。
-
-**默认值**：所有选项默认关闭，除非选项描述另有说明或 shell 以它们开启的方式被调用（见 `sh`）。
-
-**位置参数**：剩余参数按顺序赋给位置参数；`'#'` 反映数量；赋新值前所有位置参数被取消设置。第一个参数是 `'-'` → 结果**未指定**。
-
-**`set --`**：紧跟命令名的 `"--"` 可界定参数（第一个参数以 `+`/`-` 开头时），或防止无参数时意外列出所有变量；不带 *argument* 的 `set --` 取消设置所有位置参数并将 `'#'` 设为 0。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：见描述。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：见描述。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- **0**：成功完成。
-- **>0**：指定了无效选项，或发生错误。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    set                 # 写出所有变量及其值
-    set c a b           # 设置 $1、$2、$3 并将 "$#" 设为 3
-    set -xv             # 开启 -x 和 -v
-    set --              # 取消设置所有位置参数
-    set -- "$x"         # 设 $1 为 x 的值（即使以 -/+ 开头）
-    set -- $x           # 位置参数设为 x 的展开
-
-#### 应用程序用法 (APPLICATION USAGE)
-
-- 应避免依赖函数内的 `set -e`：函数若是 AND-OR 列表中除最后外的命令，`-e` 在函数体内被忽略（示例 `start() { ... }` 中 `some_server` 失败后函数仍继续并返回 0）。
-- `set -n` 使 shell 解析剩余脚本而不执行，`set +n` 无法撤销；语法检查更常用 `sh -n script_name`。
-
-#### 原理 (RATIONALE)
-
-- `set --` 形式来自 KornShell（SYNOPSIS 特别列出以消除歧义）；System V 的 `set --` 仅在至少一个参数时才取消设置。`set +` 形式早期提案中省略（不必要重复、非广泛实践）。
-- *noclobber* 添加 `-C` 单字母版以免破坏历史的 `"$-"` 范式（见 2.5.2）。
-- `-e` 描述匹配 1988 版 KornShell；`-h` 与命令名散列有关（见 `hash`），描述故意含糊（实现各异）；早期版本将其规定为定义函数时定位实用程序，但与多数 shell 实践不符。
-- **省略的选项**：`-k`（影响解析、几乎排除写编译器，且命令行可重排则永不需要）；`-t`（难规定、几乎不用、ksh 与 sh 行为不同）。曾考虑用 `unset` 取消选项替代 `+option` 语法，但保留历史实践。`-o` 采纳自 KornShell（提供 *vi* 模式的名称空间）；`+o` 允许可移植保存/恢复。历史上 `sh` 跟踪 `set +x` 而 ksh 不跟踪。
-- *ignoreeof* 防止 EOF 意外注销；`-m` 仅适用于 UPE（主要交互使用）；异步通知折衷为 `-b`（KornShell 用 `trap "jobs -n" CLD`，C shell 用 *notify* 环境变量/内置，但都不合适）。
-- 历史上一些 shell 把 `-u` 应用于 `$@`/`$*`；标准认为这是缺陷（`$@`/`$*` 无论是否传参都常用），故 `-u` 不适用于它们。
-
-#### 未来方向 (FUTURE DIRECTIONS)
-
-未来版本可能移除 **-o** *nolog* 选项。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：移除过时的 `set` 命令名后跟 `'-'`；添加 *nolog* 到 `-o`；应用 PASC 1003.2 #167、XCU/TC1/D6/5、XCU/TC1/D6/8。
-- **Issue 7**：应用 AI 1003.1-2001 #027、SD5-XCU-ERN-97、移除 `-h` 的 XSI 阴影、XCU/TC1-2008/0046-0050、XCU/TC2-2008/0053-0056。
-- **Issue 8**：应用 Defect 559（-u 描述）、789（添加 -o pipefail）、981（-o nolog 描述与 FUTURE DIRECTIONS）、1009+1555（-a 描述）、1016（-C 描述）、1055（-n 段落）、1063（-h 描述）、1150（-e 描述）、1207（-o 选项参数与 UP 的关系）、1254（-b/-m 描述）、1384（交互 shell 子 shell 可忽略 -n）。
-
-*提供信息文本结束。*
-
-### 2.27 `shift` — 移动位置参数
-
-#### 语法 (SYNOPSIS)
-
-```sh
-shift [n]
-```
-
-#### 描述 (DESCRIPTION)
-
-- 位置参数被**移动**：参数 1 被赋给参数 (1+*n*) 的值，参数 2 被赋给参数 (2+*n*) 的值，依此类推；由 `"$#"` 到 `"$#-n+1"` 表示的参数被取消设置，`'#'` 更新以反映新数量。
-- *n* 应是小于或等于 `'#'` 值的**无符号十进制整数**；未给出 → 假定为 1；*n* 为 0 → 位置参数和特殊参数**不改变**。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- *n* 操作数无效或大于 `"$#"` → 可以视为错误且非交互式 shell 可以退出；若 shell 不退出，返回**非零**并向标准错误写**警告消息**。
-- 否则返回**零**。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    $ set a b c d e
-    $ shift 2
-    $ echo $*
-    c d e
-
-#### 原理 (RATIONALE)
-
-无。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 XCU/TC1-2008/0051 \[459\]。
-- **Issue 8**：应用 Defect 1265（更新 EXIT STATUS 和 STDERR 以对齐 2.8.1）。
-
-*提供信息文本结束。*
-
-### 2.28 `times` — 写出进程时间
-
-#### 语法 (SYNOPSIS)
-
-```sh
-times
-```
-
-#### 描述 (DESCRIPTION)
-
-- 写出 shell 及其所有子进程的**累积用户和系统时间**，格式：
-
-      "%dm%fs %dm%fs\n%dm%fs %dm%fs\n", <shell user minutes>,
-          <shell user seconds>, <shell system minutes>,
-          <shell system seconds>, <children user minutes>,
-          <children user seconds>, <children system minutes>,
-          <children system seconds>
-
-- 四对时间对应 `times()` 返回的 [\<sys/times.h\>] **tms** 结构成员：*tms_utime*、*tms_stime*、*tms_cutime*、*tms_cstime*。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：无。操作数：无。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：见描述。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- **0**：成功完成。
-- **>0**：发生错误。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    $ times
-    0m0.43s 0m1.11s
-    8m44.18s 1m43.23s
-
-#### 原理 (RATIONALE)
-
-Single UNIX Specification 中的 `times` 特殊内置现为所有符合 shell 所要求。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/9（DESCRIPTION 措辞改为 "shall"）。
-- **Issue 7**：应用 XCU/TC2-2008/0056 \[960\]。
-
-*提供信息文本结束。*
-
-### 2.29 `trap` — 捕获信号
-
-#### 语法 (SYNOPSIS)
-
-```sh
-trap n [condition...]
-trap -p [condition...]
-trap [action condition...]
-```
-
-#### 描述 (DESCRIPTION)
-
-**三种形式**：
-
-- **首个操作数是无符号十进制整数**（未指定 `-p`）→ 所有操作数视为条件，每个**重置为默认值**。
-- **有操作数**（未指定 `-p`）→ 第一个操作数视为**动作（action）**，其余视为条件。
-- **`-p`** → 列出 trap（见选项节）。
-
-**动作语义**：
-
-- *action* 为 `'-'` → 每个 *condition* **重置为默认值**；
-- *action* 为 null（`""`）→ 每个指定条件出现时被**忽略**；
-- 其他 *action* → 相应条件出现时由 shell 读取并执行。`trap` 的动作**覆盖**先前动作（默认或显式设置）；`trap` 动作完成后 `"$?"` 的值是执行前该动作之前的值。
-- **条件名**：EXIT、0（等价 EXIT），或符号信号名（不带 SIG 前缀，如 HUP、INT、QUIT、TERM；实现可允许带 SIG 前缀或忽略大小写）。为 **SIGKILL 或 SIGSTOP** 设置 trap 产生**未定义**结果。
-- **EXIT 条件发生时**：shell 正常终止（退出）时；shell 因交付 trap 动作为默认值的信号（SIGKILL 除外）异常终止时**可以**发生。
-- **EXIT trap 的执行环境**：与执行该 EXIT trap 之前最后执行的命令之后的环境**完全相同**。
-- **动作执行方式**：*action* 既非 `'-'` 也非空串时，每次匹配条件出现，以等价于 `eval action` 的方式执行。
-- **进入 shell 时被忽略的信号**：非交互式 shell 不能捕获或重置（尝试不必报错）；交互式 shell 可以重置或捕获。trap 保持原位直到显式更改。
-
-**子 shell 中的 trap**：
-
-- 进入子 shell 时，未被忽略的 trap 设为**默认动作**，但仅含单个 `trap` 命令的命令替换除外（trap 不必更改；实现可仅用词法分析检查——`` `trap` `` 与 `$( trap -- )` 不更改子 shell 的 trap，但 `var=trap; $($var)` 可能仍更改）。这不意味着子 shell 内不能用 `trap` 设置新 trap。
-
-**无操作数的 `trap`**：写出与一组条件中每个条件关联的命令列表：
-
-- 未指定 `-p` → 集合只含**不处于默认状态**的条件（含进入非交互式 shell 时被忽略的信号）；
-- 指定 `-p` → 集合含**所有**条件（SIGKILL/SIGSTOP 是否包含未指定）。
-- 在子 shell 中执行且未做上述可选检查、且自进入子 shell 以来未执行带操作数的 `trap` → 列表含进入子 shell 前与各条件关联的命令；否则含当前关联的命令。
-- 格式：`"trap -- %s %s ...\n", <action>, <condition> ...`；输出（含正确引用）适合重新输入 shell 以实现相同捕获结果（进入时被忽略的信号除外）。若集合含 SIGKILL/SIGSTOP 条件，重新输入时 shell 应**接受**它们（不导致非零退出/诊断/未定义行为）。
-
-**保存/恢复示例**：
-
-    save_traps=$(trap -p)
-    ...
-    eval "$save_traps"
-
-    save_traps=$(trap -p INT QUIT)
-    trap "some command" INT QUIT
-    ...
-    eval "$save_traps"
-
-**XSI 数字信号编号**（XSI 符合系统）：1=SIGHUP、2=SIGINT、3=SIGQUIT、6=SIGABRT、9=SIGKILL、14=SIGALRM、15=SIGTERM。
-
-**无效信号名/编号**：写警告消息到标准错误；特殊内置应符合 XBD 12.2。
-
-#### 选项 (OPTIONS)
-
-**`-p`**：写出与每个 *condition* 操作数关联的命令列表；无操作数时的行为见描述节。输出适合重新输入；若某 *condition* 对应 SIGKILL/SIGSTOP 且不带操作数的 `trap -p` 本不会将其包含在输出集合中，将输出重新输入的行为**未定义**。
-
-#### 操作数 / 样板小节
-
-- 操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：见描述。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- trap 名称 \[XSI\] 或编号无效 → 非零；否则零。
-- 交互式与非交互式 shell：无效信号名/编号**不视为错误**，不导致 shell 中止。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    trap                                    # 列出所有 trap 和动作
-    trap '"$HOME"/logout' EXIT              # shell 终止时执行 $HOME/logout
-    trap '"$HOME"/logout' 0                 # 同上（0 等价 EXIT）
-    trap - INT QUIT TERM EXIT               # 取消这些信号上的 trap
-
-#### 原理 (RATIONALE)
-
-- 实现可允许小写信号名或 SIG 前缀（无已知历史 shell 用前缀）；`trap` 与 `kill` 现在一致省略 SIG 前缀。
-- 捕获 SIGKILL/SIGSTOP 被历史实现语法接受但无效果；便携应用不能尝试。
-- 输出格式非历史实践（数字信号值不可移植），借此改为可保存/重用的格式。
-- KornShell 的 **ERR** trap（`set -e` 会导致退出时触发）作为扩展允许但未强制。
-- 关于 EXIT trap 环境的文本使历史交互式 shell 的某些行为失效（如执行 0 上 trap 前关闭标准输入）。
-- `trap '$cmd' 0` 在 *cmd* 含特殊字符时不能正确工作，须用 `trap 'eval " $cmd"' 0`（前导空格防 *cmd* 为数字或以 `-` 开头）。
-- `-p` 选项：无它时保存/恢复 trap 需要硬编码重置命令且有竞态；更通用方法是先 `trap - $sig` 全部重置再恢复（仍有竞态）。
-- 历史上一些 shell 在无操作数时带/不带 `-p` 行为相同；本标准要求两种情况下集合不同。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：XSI 实现提供信号名→数字映射（此前标记过时）；应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 SD5-XCU-ERN-97；AI 1003.1-2001 #116；XCU/TC1-2008/0052-0056。
-- **Issue 8**：应用 Defect 621（EXIT 条件时机）、1029（trap 动作执行）、1211+1212（添加 -p、澄清无 -p 时输出不列默认状态条件）、1265（对齐 2.8.1）、1285（SYNOPSIS 间空行）。
-
-*提供信息文本结束。*
-
-### 2.30 `unset` — 取消设置变量和函数的值与属性
-
-#### 语法 (SYNOPSIS)
-
-```sh
-unset [-fv] name...
-```
-
-#### 描述 (DESCRIPTION)
-
-- 取消设置由 *name* 指定的、**不具有 *readonly* 属性**的每个变量或函数定义，并移除已赋予 *name* 的除 *readonly* 外的**任何属性**（见 2.15 的 *export* 和 *readonly*）。
-- **`-v`**：*name* 指变量，取消设置并从环境中移除；只读变量不能被取消设置。
-- **`-f`**：*name* 指函数，取消设置函数定义。
-- **无选项**：*name* 指变量；若该变量不存在，同名函数（如有）是否被取消设置**未指定**。
-- 取消设置先前未设置的变量或函数**不视为错误**，不导致 shell 中止。
-- 应支持 XBD 12.2。
-
-> **注意**：`VARIABLE=` **不等价于** `unset VARIABLE`（前者把变量设为 `""`）；可被 unset 的变量不应被误解为包括特殊参数（见 2.5.2）。
-
-#### 选项 / 操作数 / 样板小节
-
-- 选项：见描述。操作数：见描述。标准输入：不使用。输入文件：无。环境变量：无。异步事件：默认。标准输出：不使用。输出文件：无。扩展描述：无。
-
-#### 退出状态 (EXIT STATUS)
-
-- **0**：所有 *name* 操作数成功取消设置。
-- **>0**：至少一个 *name* 无法取消设置。
-
-#### 错误后果 (CONSEQUENCES OF ERRORS)
-
-默认。
-
-*以下各节为提供信息（informative）。*
-
-#### 示例 (EXAMPLES)
-
-    unset -v VISUAL       # 取消设置变量 VISUAL
-    unset -f foo bar      # 取消设置函数 foo 和 bar
-
-#### 原理 (RATIONALE)
-
-- 曾考虑省略 `-f` 改用 *unfunction* 实用程序，但保留历史实践。
-- `-v` 因 System V 历史上为变量和函数用同一名称空间而引入（无选项时 System V 会取消设置函数或变量且无歧义）；便携 POSIX 应用可用无选项 `unset` 取消设置变量，但取消设置函数必须用 `-f`。
-
-#### 变更历史 (CHANGE HISTORY)
-
-- **Issue 6**：应用 XCU/TC1/D6/5。
-- **Issue 7**：应用 SD5-XCU-ERN-97。
-- **Issue 8**：应用 Austin Group Defect 1075（澄清 unset 移除除 readonly 外的属性）。
-
-*提供信息文本结束。*
