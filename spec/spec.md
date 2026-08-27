@@ -17,6 +17,8 @@
 | **html_spec.md** | HTML 场景 | 官方 HTML 原样保存；DOM 抽取（**inner_html 序列化，禁 `.text`**）→纯文本翻译→回填（格式保真度最高，**默认首选**）；DOM 节点级重叠 |
 | **md_spec.md** | markdown 场景 | markdown 结构镜像、实体转义、raw HTML 表格、pandoc 渲染验证 |
 | **pdf_spec.md** | PDF 场景 | PDF 文本提取、章节切分、清洗、降级容错 |
+| **html_output_spec.md** | 三兄弟 HTML 最终输出 | 全部 `index.html` **完全适配 template.html**（加 h1、锚点外移、`&nbsp;`→空格、pre→pre+code、表格 thead/tbody+colspan 展开、跨页链接剥文本） |
+| **ai_guide_spec.md** | 直译/导读内容质量 | 深水区条款完整直译（Happens-Before、SIGPIPE+EPIPE、版本号 700→800、FILE 不可复制）、导读生成铁律、**量化评分表**（A30+B45+C25，≥90 优秀/≥80 合格） |
 
 **[Agent 执行] 场景选择规则**：接到任务后先判定源与产物类型——官方有 HTML 版 → 默认走 `html_spec.md`；源是 markdown 或用户明确要 markdown 中间产物 → `md_spec.md`；只有 PDF → `pdf_spec.md`。判定依据写进任务笔记，向用户报告时说明所选场景。
 

@@ -1,0 +1,535 @@
+<h1>导读：XSH 卷 2. 通用信息</h1><h2>0. 导读总览</h2>
+<p>XSH（System Interfaces）卷是 POSIX.1-2024 中规定系统接口函数的地方，而第 2 章"通用信息"是全卷的<b>总则</b>：它不描述某个具体函数，而是定义贯穿所有函数页的通用规则——函数怎么实现、宏怎么展开、名字空间怎么保护、错误怎么报告、信号怎么运作、流和文件描述符怎么交互、线程与取消的模型、套接字的语义。读任何一个函数页之前，最好先在这里把"地基"过一遍，否则很多函数页里的"未定义行为""应失败/可以失败""异步信号安全""取消点"之类的表述会显得没头没尾。</p>
+<p><b>章节地图</b></p>
+<ul>
+<li>2.1–2.2：接口契约与编译契约。函数/宏的使用规则（2.1），功能测试宏与名字空间（2.2）。这是"怎么把程序写对"的前提。</li>
+<li>2.3：错误编号。errno 的语义与全部 [EXXX] 错误码的统一定义，各函数页的 ERRORS 部分都引用这里。</li>
+<li>2.4：信号概念。产生、递送、阻塞、动作、异步信号安全，是整个异步事件模型的中心。</li>
+<li>2.5–2.6：I/O 基础。标准 I/O 流（含方向性与句柄规则）和文件描述符分配。</li>
+<li>2.7–2.8：进程间通信与实时。XSI IPC（2.7），实时扩展：异步 I/O、内存管理、进程调度、时钟定时器（2.8）。</li>
+<li>2.9：线程。线程安全、互斥量、读写锁、线程调度、取消，是并发编程的宪法。</li>
+<li>2.10：套接字。地址族、套接字类型、选项、IPv4/IPv6 与 UNIX 域。</li>
+<li>2.11–2.12：数据类型与状态信息。类型表、wait 系列函数消费的状态。</li>
+</ul>
+<p><b>三大清单速查表</b>：第 2 章反复出现三份"名单"，性质完全不同、违反后果也不同，别混记：</p>
+<table>
+<thead><tr><th>清单</th><th>出处</th><th>典型成员</th><th>违反的后果</th></tr></thead>
+<tbody>
+<tr><td>异步信号安全清单</td><td>2.4.3</td><td><code>_exit</code>、<code>read</code>、<code>write</code>、<code>sem_post</code></td><td>未定义行为</td></tr>
+<tr><td>线程安全例外清单</td><td>2.9.1</td><td><code>strtok</code>、<code>localtime</code>、<code>getenv</code>、<code>rand</code></td><td>数据竞争</td></tr>
+<tr><td>取消点清单</td><td>2.9.5</td><td><code>read</code>、<code>write</code>、<code>pthread_cond_wait</code>、<code>select</code></td><td>资源泄漏</td></tr>
+</tbody>
+</table>
+<p><b>阅读建议</b>：第一次通读按 2.1 → 2.2 → 2.3 → 2.6 → 2.5 的顺序打底，再攻 2.4 与 2.9（并发核心），最后按需查 2.7、2.8、2.10。2.11 和 2.12 可以当参考表用。文中频繁出现的"未定义行为（UB）"意味着实现可以为所欲为，"未指定"意味着实现不必文档化，"实现定义"意味着实现必须记录在一致性文档里——这三个词的分量完全不同，是读规范的基本功。</p>
+<h2>2. 通用信息 (General Information)</h2>
+<p>本章是第 3 章"系统接口"（全部函数）与 XBD 第 14 章"头文件"之间共享的规则层。XBD 即 POSIX.1-2024 的 Base Definitions 基础定义卷，主要包含头文件声明与基础概念。它回答一个根本问题：<b>当标准说"函数应当如此"时，默认前提是什么？</b>比如：参数无效怎么办、宏和函数能不能互相替代、符号可见性由谁控制、错误如何上报、信号在什么时机生效、多个句柄操作同一个文件时谁来负责协调。这些规则一旦在总则里定下，函数页里就不必重复，只写例外。</p>
+<p><b>核心机制</b>：本章的叙述语气是"除非某函数页另有规定，否则……"。也就是说，2.1–2.12 的每一条都是<b>默认值</b>，具体函数的描述可以覆盖它们。阅读时若发现函数页与总则有出入，以函数页为准；反之，函数页没写的，总则生效。本章还大量引用 XBD 卷的定义（如 3. 定义、14. 头文件），所以它与 XBD 是配套阅读的关系。</p>
+<p><b>易错点</b>：不要把本章当作"可选背景知识"。很多程序 bug 的根源正是违反了这里的默认规则——比如在包含头文件之前没定义功能测试宏（2.2.1），或者在信号处理函数里调用了非异步信号安全函数（2.4.3），或者 fork 之后直接混用流与文件描述符而没有按 2.5.1 的句柄规则操作。规范里的"宜（should）"与"应（shall）"也要分清：违反"应"是违反一致性，违反"宜"只是不推荐。</p>
+<h3>2.1 接口的使用与实现 (Use and Implementation of Interfaces)</h3>
+<p><b>为什么存在</b>：系统接口可以以函数或宏的形式对外提供（这是 C 语言的合法实现技巧），标准必须预先规定这两种形态下的语义，否则应用程序无法确定"我调用的到底是不是函数"。本节同时为后续所有函数页立下三条底线：无效参数、数据竞争、线程内操作。</p>
+<p><b>核心机制</b>：七个要点概括了"函数的默认契约"：</p>
+<ul>
+<li>无效参数（超出定义域的值、悬空指针、越界指针、空指针）导致<b>未定义行为</b>——但注意，很多函数页会在 ERRORS 部分把某些无效参数"升级"为应检测的错误（如 [EINVAL]），那时行为就不再是 UB。</li>
+<li>头文件里声明的函数<b>可以以宏实现</b>；把函数名括进括号（如 <code>(getchar)()</code>）可以绕过宏展开，取地址也总是合法的。<code>#undef</code> 宏之后引用的就是真正的函数。</li>
+<li>宏实现必须保证参数<b>恰好求值一次</b>且用括号完全保护，所以把带副作用的表达式（如 <code>f(getchar())</code>）当参数通常是安全的——这是标准对实现方的强制要求。</li>
+<li>只有 ISO C 的函数允许在"不包含头文件"的情况下显式声明使用；POSIX 扩展函数必须靠头文件声明。</li>
+<li>可变参数函数（如 <code>printf</code>）未声明就调用是未定义行为。</li>
+<li><b>数据竞争规则</b>：函数不得直接或间接访问/修改当前线程以外线程可访问的对象，除非通过参数传入（非 const 参数才能改）。这是"默认线程安全"的机制性表述——实现内部对象若对应用不可见，则可以自由共享。</li>
+<li>有应用可见效果的操作只应在当前线程内执行（防止函数偷偷改变全局状态）。</li>
+</ul>
+<p><b>易错点</b>：最常见的误解是"宏实现很罕见，可以忽略"。实际上 <code>getc</code>、<code>putc</code>、<code>isalpha</code> 等经典函数几乎总是宏。若你的代码用 <code>#undef</code> 后取函数指针，行为仍合法，但性能可能骤降；反过来，如果依赖宏的"一次求值"保证去写 <code>getc(f) != EOF</code> 这样的表达式，那是安全的，但若自己定义同名宏覆盖了标准宏，就是 2.2.2 说的未定义情形。</p>
+<p><b>跨节关联</b>：2.1.1 的线程规则与 2.9.1 线程安全、2.9.7 文件操作原子性直接呼应；宏规则与 2.2 的名字空间保护一起构成了"头文件契约"。</p>
+<p><b>延伸阅读</b>：2.2.2 名字空间、2.9.1 线程安全、XBD 14. 头文件。</p>
+<h4>2.1.1 函数的使用与实现 (Use and Implementation of Functions)</h4>
+<p><b>核心机制</b>：本节就是上面 2.1 那段清单的正式条文，逐条规定了函数的实现自由度与约束。特别值得注意第 4 条：ISO C 的函数（如 <code>strlen</code>、<code>malloc</code>）在"不引用头文件中定义的任何类型"的前提下可以自行声明后使用，这为老代码提供了兼容通道；而 POSIX 扩展函数（如 <code>open</code>、<code>pthread_create</code>）没有这个特权。</p>
+<p><b>易错点</b>："参数具有无效值时行为未定义"是一条容易被忽视的默认条款——比如向 <code>memcpy</code> 传 NULL 与 0 长度，很多实现宽容处理，但严格按标准这属于 UB，不要在可移植代码里依赖这种宽容。</p>
+<h4>2.1.2 宏的使用与实现 (Use and Implementation of Macros)</h4>
+<p><b>核心机制</b>：四条规则分别约束对象式宏（括号保护、可在 <code>#if</code> 中使用——即必须展开为整数常量表达式）与函数式宏（参数恰好求值一次、可在任何能调用函数的位置出现）。第 4 条意味着宏可以"伪装"成函数出现在表达式中，这是 <code>getc</code> 等宏的合法性来源。</p>
+<p><b>易错点</b>：自己写的宏如果对参数求值多次（如 <code>#define SQUARE(x) ((x)*(x))</code> 配 <code>SQUARE(i++)</code>），不符合本节精神——标准宏的"一次求值"保证只适用于标准头文件里的宏，不适用于你自己的宏。</p>
+<h3>2.2 编译环境 (The Compilation Environment)</h3>
+<p><b>为什么存在</b>：同一个头文件（如 <code>&lt;unistd.h&gt;</code>）在不同编译条件下要暴露不同的符号集合——基础 POSIX、XSI 扩展、ISO C Annex K 扩展。如果不引入"功能测试宏"机制，头文件只能把符号全部暴露，应用与实现的名字空间就会互相踩踏。本节定义符号可见性的控制开关与保留名字空间，是"可移植源码"的第一道关卡。</p>
+<p><b>核心机制</b>：功能测试宏（feature test macro）以 <code>_</code> 开头，在<b>包含任何头文件之前</b>用 <code>#define</code> 定义，之后头文件按宏的值决定暴露哪些符号。三个主角：</p>
+<ul>
+<li><code>_POSIX_C_SOURCE=202405L</code>：打开 POSIX.1-2024 全部必需符号；值对应标准版本年份（202405 即 2024 年 5 月版）。</li>
+<li><code>_XOPEN_SOURCE=800</code>：XSI 选项的开关，同时隐含了 _POSIX_C_SOURCE 的功能（头文件可自动补定义）。</li>
+<li><code>__STDC_WANT_LIB_EXT1__=1</code>：打开 ISO C 附录 K 的边界检查函数（<code>fopen_s</code>、<code>gets_s</code> 等），这些名字在 2.2.2 中有专门的保留表。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>宏必须在 <code>#include</code> 之前定义，顺序反了是未定义行为——这是新手最常踩的坑（"我明明定义了 _POSIX_C_SOURCE 为什么符号还是看不到"，多半是定义放在了包含之后，或被某个头文件抢先包含）。</li>
+<li><code>_POSIX_SOURCE</code> 是 1990 年的旧名，已被 <code>_POSIX_C_SOURCE</code> 取代。</li>
+<li><code>_POSIX_C_SOURCE</code> 若定义为大于 202405L 的值，行为未指定——不要自作聪明传个"更大"的版本号。</li>
+<li>功能测试宏不只这三个：实现、未来标准、其他标准都可以定义额外的，所以判断"该定义什么"要看目标实现的一致性文档。</li>
+</ul>
+<p><b>跨节关联</b>：符号可见性直接影响你能用哪些函数（2.3 的错误码、2.8 的实时选项都靠宏来条件编译）；名字空间规则（2.2.2）则约束应用自己定义标识符的自由度。</p>
+<p><b>延伸阅读</b>：XBD 14. 头文件、XBD 13. 名字空间与未来方向、2.3 错误编号。</p>
+<h4>2.2.1 POSIX.1 符号 (POSIX.1 Symbols)</h4>
+<p><b>核心机制</b>：功能测试宏的正式语义。当 <code>_POSIX_C_SOURCE</code> 为 202405L 时，头文件里 POSIX.1-2024 要求的符号<b>必须</b>可见，明确允许的符号<b>可以</b>可见，其余符号<b>不得</b>可见（除非其他宏打开）。这样应用就能确信：自己看到的符号集合是标准规定的、可移植的，而不是实现私货。取消定义（<code>#undef</code>）只允许在包含所有头文件之后进行。</p>
+<p><b>易错点</b>：XSI 应用的检查点是 <code>_XOPEN_SOURCE=800</code>，而不仅仅依赖 <code>_POSIX_C_SOURCE</code>——很多 XSI 接口（如 <code>crypt</code>、<code>sys/msg.h</code> 系列）没有它就不露面。</p>
+<h5>2.2.1.1 _POSIX_C_SOURCE 功能测试宏 (The _POSIX_C_SOURCE Feature Test Macro)</h5>
+<p><b>核心机制</b>：值 202405L 与 POSIX.1-2024 版本严格对应。三条可见性规则（必须可见 / 可以可见 / 不得可见）是判定"这个头文件里出现这个符号是否合法"的判据。</p>
+<p><b>易错点</b>：注意"可以可见"不等于"必须可见"——可移植代码不能假设可选符号一定出现；而"不得可见"意味着如果它出现了，你的程序如果用了它，就无法保证在其他实现上还能编译。</p>
+<h5>2.2.1.2 _XOPEN_SOURCE 功能测试宏 (The _XOPEN_SOURCE Feature Test Macro)</h5>
+<p><b>核心机制</b>：值 800 对应 XSI（X/Open System Interfaces）选项。它覆盖 _POSIX_C_SOURCE=202405L 的全部功能，两者同时定义且值合规时行为等价；头文件可以在只定义 _XOPEN_SOURCE 时自动补上 _POSIX_C_SOURCE。</p>
+<p><b>易错点</b>：如果 _POSIX_C_SOURCE 被定义为大于 202405L 的值，行为未指定。想用 XSI 功能就定义 <code>_XOPEN_SOURCE=800</code> 即可，不必两个都定义。</p>
+<p><b>Issue 8 迁移提示</b>：XSI 版本值已由旧版 700 升级为 800。老代码沿用 <code>_XOPEN_SOURCE=700</code> 会隐藏 Issue 8 新增的扩展符号；应改用 <code>_XOPEN_SOURCE=800</code>，并且必须像其他功能测试宏一样，在包含任何头文件之前定义。</p>
+<h5>2.2.1.3 __STDC_WANT_LIB_EXT1__ 功能测试宏 (The __STDC_WANT_LIB_EXT1__ Feature Test Macro)</h5>
+<p><b>核心机制</b>：定义为 1 时，头文件可以把 ISO C 附录 K 的边界检查接口（<code>*_s</code> 系列）变为可见；未定义或为 0 时不得让这些符号露面。附录 K 函数在 2.2.2 有逐头文件的完整名称表。</p>
+<p><b>易错点</b>：附录 K 是"可选中的可选"——即使定义了该宏，实现也没有义务提供这些函数；且使用它们通常还需要设置约束处理函数（<code>set_constraint_handler_s</code>）。不要把 *_s 函数当作默认可得。</p>
+<h4>2.2.2 名字空间 (The Name Space)</h4>
+<p><b>为什么存在</b>：POSIX 的每个头文件都声明了一批标识符，应用自己也想起名字；如果双方互不知情，链接期和预处理期的冲突会让程序在换实现时突然编译失败。本节把"谁的名字归谁"划清楚：标准保留的、实现可扩展的、应用可以自由使用的。</p>
+<p><b>核心机制</b>：三层规则：</p>
+<ul>
+<li><b>实现可向头文件添加符号</b>，但标识符必须以保留前缀开头（如 <code>aio_</code>、<code>pthread_</code>、<code>sem_</code>）、或恰好是保留完整名称（如 <code>UIO_MAXIOV</code>）、或以保留后缀结尾（如 <code>_t</code>）——2.2.2 的按头文件大表就是这份"许可清单"。前缀 <code>posix_</code>、<code>POSIX_</code>、<code>_POSIX_</code> 整体保留。</li>
+<li><b>无条件保留</b>：以下划线后接大写字母或另一个下划线开头的标识符（如 <code>_Foo</code>、<code>__foo</code>）始终保留给实现；以下划线开头的标识符保留为文件作用域名字（所以 <code>_foo</code> 这样的全局名也别用）；<code>errno</code> 与全部外部链接标识符保留。</li>
+<li><b>应用不得</b>定义与保留标识符同名的宏或对象；宏名无论出现在哪都会被替换，与作用域无关。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>自创 <code>_myvar</code>、<code>__x</code> 这类名字在严格意义上都是"入侵保留区"，今天能编译只是实现宽容，换编译器就可能撞车。</li>
+<li>头文件应在任何外部声明/定义之外、首次引用其符号之前包含；不要在包含头文件前定义与头文件符号同名的宏。</li>
+<li><code>&lt;errno.h&gt;</code> 的保留前缀是 <code>E[0-9]</code> 与 <code>E[A-Z]</code>——应用自定义错误码如果起名 <code>EMYERR</code>，就踩进了保留区。</li>
+</ul>
+<p><b>跨节关联</b>：错误宏名（2.3）、功能测试宏（2.2.1）和这里的保留表共同构成"头文件生态"；XBD 13. 名字空间与未来方向是它的上位参考。</p>
+<h3>2.3 错误编号 (Error Numbers)</h3>
+<p><b>为什么存在</b>：系统调用失败时如何告诉应用"为什么失败"？POSIX 采用两种机制：通过 <code>errno</code> 变量，或直接把错误编号作为函数返回值（如 <code>pthread_create</code> 返回错误码）。本节统一规定这两种机制的总语义，并给全部 [EXXX] 错误码下了标准定义——各函数页 ERRORS 部分引用的就是这里的定义。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li><code>errno</code> 是<b>每线程</b>的变量；一个线程的调用或赋值不影响其他线程看到的 <code>errno</code>。</li>
+<li><b>只在函数的返回值表明 errno 有效时才检查 errno</b>——这是本节最重要的一句话。函数成功时 errno 可能残留旧值。</li>
+<li>任何函数都不应将 errno 置零；以返回值报告错误的函数以零表示成功。</li>
+<li>一个调用中若发生多个错误，返回哪个是未定义的（检测顺序未定义）。</li>
+<li>每个函数页区分"应失败"（所有实现必须检测）与"可以失败"（实现可选检测）；未检测到错误条件时操作应成功；检测到错误时操作可能已被部分执行。</li>
+<li>实现可以定义附加错误码（2.3.1），可以在规范情形之外产生列表中的错误（只要可等价对待），但不能对规范规定的错误条件返回不同的错误编号。</li>
+<li>程序只能使用宏名（如 <code>[EINTR]</code>），不得依赖具体数值；除特别说明外所有值唯一。</li>
+<li>某些线程相关函数<b>不允许返回 [EINTR]</b>（如 <code>pthread_mutex_lock</code> 等），这是与经典 <code>read</code>/<code>write</code> 风格的重要差异。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>"先检查返回值，再读 errno"是铁律。常见反例：<code>if (errno == EINTR) ...</code> 而没先看返回值是否为 -1。</li>
+<li>信号处理函数里读写 errno 是异步信号安全的（2.4.3），但前提是处理函数进入时保存、返回前恢复——否则主流程的 errno 会被悄悄改掉。标准范式：
+<pre><code class="language-c">void handler(int signo) {
+    int save_errno = errno;
+    /* 异步信号安全操作 */
+    errno = save_errno;
+}</code></pre>
+</li>
+<li><code>[EWOULDBLOCK]</code> 与 <code>[EAGAIN]</code> 允许同值，<code>[EOPNOTSUPP]</code> 与 <code>[ENOTSUP]</code> 允许同值——判断时要按宏名，不要假设它们不同。</li>
+<li>部分错误（如 [EFAULT]）"可靠检测无法保证"——不要依赖 <code>write</code> 一定返回 [EFAULT] 来发现野指针。</li>
+</ul>
+<p><b>跨节关联</b>：2.4.4 规定信号中断对 errno 的影响；2.5.2 说编码错误时流函数才把 [EILSEQ] 存入 errno；2.9 说线程相关函数不许返回 [EINTR]；2.10.10/2.10.15 定义了套接字"待决错误"这种异步错误通道。</p>
+<p><b>延伸阅读</b>：XBD &lt;errno.h&gt;、各函数页的 ERRORS 部分、2.4.4 信号对其他函数的影响。</p>
+<h4>2.3.1 附加错误编号 (Additional Error Numbers)</h4>
+<p><b>核心机制</b>：实现可以在 <code>&lt;errno.h&gt;</code> 中定义自己的错误编号。这对应用意味着：看到列表之外的 [EXXX] 是合法的，可移植代码应对未知错误码采取"兜底"处理（如按 [EINVAL] 类通用策略对待或记录后重试）。</p>
+<h3>2.4 信号概念 (Signal Concepts)</h3>
+<p><b>为什么存在</b>：信号是 POSIX 异步事件模型的核心：硬件故障、定时器到期、异步 I/O 完成、终端活动、进程间通知都靠它。多线程引入后，信号语义必须精确到"为进程产生还是为线程产生"，本节就是这套精确语义的权威定义。</p>
+<p><b>核心机制</b>：先分清四个状态动词：<b>产生</b>（事件发生）、<b>递送</b>（动作被采取）、<b>接受</b>（被 <code>sigwait</code> 取走）、<b>未决</b>（产生与递送之间）。在此基础上：</p>
+<ul>
+<li>信号分为<b>进程定向</b>（kill、终端活动、进程组）与<b>线程定向</b>（硬件故障等可归因于某线程的事件）。进程定向信号递送给"恰好一个"满足条件的线程（正在 sigwait 它，或未阻塞它）。</li>
+<li>每个线程有独立<b>信号掩码</b>（阻塞集），由创建线程/父线程继承；<code>pthread_sigmask</code>、<code>sigprocmask</code> 等控制它。</li>
+<li>被阻塞的信号保持未决，直到解除阻塞、被 sigwait 接受或动作改为忽略。</li>
+<li>动作在<b>递送时</b>决定，与产生方式无关；多个未决信号（SIGRTMIN–SIGRTMAX 之外）的递送顺序未指定。</li>
+<li>SIGSTOP/SIGTSTP/SIGTTIN/SIGTTOU 与 SIGCONT 互相清除未决状态；SIGCONT 即使被忽略也会让停止的进程继续。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>"进程定向信号交给哪个线程"是未指定的——不要假设一定是主线程；想可靠处理就用 <code>sigwait</code> 配合专用线程。</li>
+<li>标准信号不排队：同一信号多次产生，未决期间可能合并为一次递送（排队只对实时信号成立，见 2.4.2）。</li>
+<li>信号掩码在 fork 时从父进程对应线程初始化继承，exec 时保持不变；sigaction 安装的处置在 exec 后重置为默认（可执行文件里保留已捕获信号的动作是另一回事，见 exec 函数页）。</li>
+</ul>
+<p><b>跨节关联</b>：2.4.2 实时信号（排队、sigevent）；2.8 的定时器、异步 I/O、消息队列都用 sigevent 通知；2.9 线程的信号掩码继承与 pthread_kill；2.10.14 套接字的 SIGPIPE/SIGURG。</p>
+<p><b>延伸阅读</b>：XBD &lt;signal.h&gt;、2.8.1、2.10.14、2.12 状态信息（SIGCHLD）。</p>
+<h4>2.4.1 信号的产生与递送 (Signal Generation and Delivery)</h4>
+<p><b>核心机制</b>：本节把"产生—未决—递送/接受"的完整生命周期条文化了。关键机制：信号掩码继承链（父线程→子线程，fork 时从父进程对应线程拷贝）；递送时刻重新评估动作；停止/继续信号的相互清除规则；对"实现因未规定条件产生信号"必须文档化的要求。</p>
+<p><b>易错点</b>：判断一个信号是进程定向还是线程定向，决定它能否被"恰好一个线程"处理——把 kill 发来的信号当作线程定向来处理（如以为一定是发给当前线程）是常见误解。</p>
+<h4>2.4.2 实时信号的产生与递送 (Realtime Signal Generation and Delivery)</h4>
+<p><b>为什么存在</b>：普通信号丢失（合并）对实时应用不可接受。实时信号扩展提供<b>排队</b>与<b>携带数据</b>两大能力，并统一了"事件通知"的描述方式——<code>sigevent</code> 结构。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li><code>sigevent</code> 的 <code>sigev_notify</code> 三值：<code>SIGEV_NONE</code>（不通知）、<code>SIGEV_SIGNAL</code>（产生 <code>sigev_signo</code> 信号，若该信号设置了 SA_SIGINFO 则排队并携带 <code>sigev_value</code>）、<code>SIGEV_THREAD</code>（在新线程中调用 <code>sigev_notify_function</code>）。</li>
+<li><code>sigval</code> 联合承载应用数据：整数用 <code>sival_int</code>，指针用 <code>sival_ptr</code>。</li>
+<li>由 <code>sigqueue</code> 及支持 sigevent 的函数产生的信号按 FIFO 排队；多个未阻塞的实时信号未决时，递送编号最低的（SIGRTMIN 方向优先）。</li>
+<li><code>SIGEV_THREAD</code> 的通知函数在新线程中执行，属性由 <code>sigev_notify_attributes</code> 指定；为 NULL 时按 DETACHED 创建，传 JOINABLE 属性是未定义行为。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>排队的前提是接收信号设置了 SA_SIGINFO；没设置时是否排队未指定。</li>
+<li>非实时产生方式（kill、硬件故障、alarm）产生的信号对已排队的同号信号"无影响"——即不排队、也不消费队列。</li>
+<li>SIGEV_THREAD 通知线程的信号掩码是实现定义的（阻塞除 SIGKILL/SIGSTOP 外全部信号，或继承安装者的掩码）——不要在通知函数里假设掩码内容。</li>
+</ul>
+<p><b>跨节关联</b>：2.8.2 异步 I/O 的 <code>aio_sigevent</code>、2.8.5 定时器的 sigevent、2.8.x 消息队列的 mq_notify 都复用同一套结构；2.9.8 说 sigevent 里带应用管理栈的属性对象有额外限制。</p>
+<h4>2.4.3 信号动作 (Signal Actions)</h4>
+<p><b>核心机制</b>：动作三态：<code>SIG_DFL</code>（默认：终止、带附加动作终止、停止、继续、忽略五类）、<code>SIG_IGN</code>（忽略）、指向函数的指针（捕获）。要点：</p>
+<ul>
+<li>SIGKILL 与 SIGSTOP 不可捕获、不可忽略、不可阻塞——这是系统最后的控制手段。</li>
+<li>捕获函数两种签名：未设 SA_SIGINFO 时 <code>void func(int signo)</code>；设置后 <code>void func(int signo, siginfo_t *info, void *context)</code>。</li>
+<li><code>siginfo_t</code> 给出信号编号、原因（<code>si_code</code>：SI_USER/SI_QUEUE/SI_TIMER/SI_ASYNCIO/SI_MESGQ 等）、发送者（<code>si_pid</code>/<code>si_uid</code>）、故障地址（<code>si_addr</code>）、退出状态（<code>si_status</code>）、携带值（<code>si_value</code>）。</li>
+<li><b>异步信号安全函数清单</b>：从信号处理函数返回后进程从被中断处继续；处理函数内只能调用清单中的函数（_exit、read、write、open、close、sigaction、pthread_kill、sem_post、siglongjmp 等），其余函数都不安全。</li>
+<li>处理函数内访问静态/线程存储期对象受限：只能动 <code>volatile sig_atomic_t</code>、无锁原子对象、不可修改对象；否则行为未定义。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>在信号处理函数里调用 <code>printf</code>、<code>malloc</code>、<code>free</code>、<code>strcpy</code>（非清单成员）是未定义行为——这是教科书级错误，与"看起来能用"无关。</li>
+<li>对非 kill/sigqueue/raise 产生的 SIGBUS/SIGFPE/SIGILL/SIGSEGV，从处理函数正常返回是未定义行为（故障现场无法安全恢复）；忽略它们同样未定义。正确处理路径是：在处理函数内调用 <code>_exit()</code> 或 <code>abort()</code> 终止进程，或用 <code>siglongjmp()</code> 跳转到预先用 <code>sigsetjmp()</code> 保存的恢复点（这几个函数都在异步信号安全清单内），而不要正常返回。</li>
+<li>errno 的读写本身异步信号安全，但必须保存/恢复，否则主流程 errno 被污染。</li>
+<li>把 SIGCHLD 动作设为 SIG_IGN 会改变子进程状态信息语义（2.12），行为未指定。</li>
+<li>多线程程序里，如果处理函数的执行不是由"显式产生未阻塞信号"或"解除阻塞并立即递送"引起，那么处理函数里引用非安全对象/调用非安全函数同样是未定义行为——即线程上下文里的信号处理更严格。</li>
+</ul>
+<p><b>跨节关联</b>：清单与 2.9.5 的取消点清单、2.9.1 的线程安全清单是三份性质不同的"名单"，不要混淆；longjmp 系列在信号上下文的特殊规则见各函数页。</p>
+<h4>2.4.4 信号对其他函数的影响 (Signal Effects on Other Functions)</h4>
+<p><b>核心机制</b>：信号在函数执行期间递送时：动作是终止→进程终止、函数不返回；停止→挂起，SIGCONT 后从原处继续；捕获→原函数被"中断"，处理函数返回后按各函数页的规定继续（可中断函数可能返回 [EINTR]）。被忽略的信号不影响任何函数；被阻塞的信号不影响（sigpending/sigwait 除外）。</p>
+<p><b>易错点</b>：</p>
+<ul>
+<li>处理函数若改了 errno 且没保存恢复，返回后 errno 值未指定——即使被中断的函数本来会成功。</li>
+<li>[EINTR] 语义随函数而异：read/write 可能返回 EINTR，而 2.3 指出线程相关函数不允许返回 EINTR；慢速设备上的 read 被信号中断后是否部分完成要查函数页。</li>
+</ul>
+<h3>2.5 标准 I/O 流 (Standard I/O Streams)</h3>
+<p><b>为什么存在</b>：<code>FILE *</code> 流是 C 语言对"文件"的高层抽象，POSIX 在此基础上扩展了方向性、内存流、线程安全与"句柄协调"规则。本节把这些总语义一次说清，<code>fopen</code>/<code>fread</code>/<code>printf</code> 等函数页都默认引用这里。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li>流与外部文件（或内存缓冲区，CX 扩展）关联，维护<b>文件位置指示符</b>；追加模式下初始位置实现定义。</li>
+<li>三种缓冲模式：无缓冲（立即传输）、全缓冲（填满再传）、行缓冲（遇换行传输）；<code>setbuf</code>/<code>setvbuf</code> 可调整。</li>
+<li>程序启动时预定义 <code>stdin</code>/<code>stdout</code>/<code>stderr</code>；stderr 不得全缓冲；stdin/stdout 仅在关联描述符不是交互设备时才全缓冲。</li>
+<li>每个流有<b>可重入锁</b>：常规流函数进入时锁定、退出时释放（如同 flockfile/funlockfile）；<code>*_unlocked</code> 变体不锁，要求调用者持锁（2.9.1 呼应）。</li>
+<li><code>fmemopen</code>/<code>open_memstream</code>/<code>open_wmemstream</code> 提供内存流；内存缓冲区与读写目标重叠是未定义行为。</li>
+<li>程序正常终止（main 返回或 exit）时所有流被关闭并刷新；abort 等非常规路径不保证。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>关闭流后 <code>FILE *</code> 指针值未指定——不要再用它（包括比较）。</li>
+<li><code>FILE</code> 对象的副本不能代替原件使用（地址有意义）。</li>
+<li>流函数与底层文件描述符混用时必须遵守 2.5.1 的句柄规则，否则结果未定义。</li>
+<li>行缓冲流上请求输入时"先刷缓冲"的隐含行为在 2.5 有正式描述（交互式输出的可见性依赖它）。</li>
+</ul>
+<p><b>跨节关联</b>：2.5.1 与文件描述符（2.6）的交互；2.5.2 的方向性与 2.3 的 [EILSEQ]；2.9.1 的 *_unlocked 线程安全例外；2.10 套接字描述符也可以 fdopen 成流，同样受句柄规则约束。</p>
+<h4>2.5.1 文件描述符与标准 I/O 流的交互 (Interaction of File Descriptors and Standard I/O Streams)</h4>
+<p><b>为什么存在</b>：同一打开文件描述上可以挂多个"句柄"（fd 与流），各自有缓冲和位置状态。如果程序混用（如 <code>fdopen</code> 后交替用 read 和 fread），谁也不知道位置在哪。本节给出让这种行为可预测的协调协议。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li>句柄 = 引用打开文件描述的 fd 或流；fdopen、dup、fork 会制造新句柄，close、fclose、exec 销毁句柄。</li>
+<li>切换活动句柄前，对第一个句柄按规则处理：fd 无需动作；无缓冲流无需动作；行缓冲且最后写的是换行则无需动作；写模式流要 <code>fflush</code> 或关闭；读模式且底层可寻址要 fflush 或关闭。对第二个句柄：若此前有用过影响偏移量的函数，需 lseek/fseek 到合适位置。</li>
+<li>fork 后一个句柄变两个：两个进程若都可能访问，需按同样规则"预演"一次句柄切换；只 exec 或 _exit 的进程除外。</li>
+<li>exec 使所有流不可访问（新进程映像里只剩继承的 fd）。</li>
+</ul>
+<p><b>易错点</b>：不遵守规则的后果是"未定义"，包括数据丢失或重复、顺序错乱。经典场景：fork 前 printf 了内容但没 fflush，子进程又 printf——输出可能重复或丢失；正确做法是 fork 前 fflush 所有流，或子进程立即 exec。</p>
+<h4>2.5.2 流的方向性与编码规则 (Stream Orientation and Encoding Rules)</h4>
+<p><b>核心机制</b>：流在首次操作前"无方向"；第一次用宽字符函数变"宽字符方向"，第一次用字节函数变"字节方向"，之后方向固定，只有 <code>freopen</code>（清除方向）和 <code>fwide</code> 能改变。宽字符方向的流关联一个 <code>mbstate_t</code> 解析状态，转换如同连续调用 <code>fgetwc</code>/<code>mbrtowc</code>；<code>fgetpos</code>/<code>fsetpos</code> 会保存/恢复该状态。编码规则（encoding rule）由流变宽方向时 LC_CTYPE 决定，一旦设置不可更改（freopen 除外）。</p>
+<p><b>易错点</b>：</p>
+<ul>
+<li>字节函数用在宽字符方向流上是未定义行为，反之亦然——不要混用 fgetc 与 fgetwc。</li>
+<li>编码错误发生时，宽/字节流函数只在此时把 [EILSEQ] 存入 errno（2.3 呼应）。</li>
+<li>宽字符方向的流上，定位到文件中间后写宽字符可能覆盖部分字符，其后内容未定义。</li>
+</ul>
+<h3>2.6 文件描述符分配 (File Descriptor Allocation)</h3>
+<p><b>为什么存在</b>："打开返回最小可用 fd"是所有 POSIX 实现的约定俗成，但标准必须把它写成<b>原子性保证</b>，因为并发场景（多线程、信号处理）下这是正确性的前提。</p>
+<p><b>核心机制</b>：所有分配 fd 的函数在每次分配时原子地选择<b>编号最小的未打开描述符</b>。单个函数分配两个 fd（pipe、socketpair）时，两次分配可以相互独立：不保证相邻、不保证谁大谁小。</p>
+<p><b>易错点</b>：不要假设 <code>pipe</code> 返回 (3,4) 或 (4,3) 这样的具体关系；需要特定编号时用 <code>dup2</code> 显式安排。也别依赖"关闭后下一个 open 一定拿到这个编号"以外的顺序性质（虽然通常如此，但标准只保证最小可用）。</p>
+<p><b>跨节关联</b>：与 2.5.1 的句柄、2.10 的 socket 创建、2.12 无关；与 dup/fcntl 函数页直接相关。</p>
+<h3>2.7 XSI 进程间通信 (XSI Interprocess Communication)</h3>
+<p><b>为什么存在</b>：消息队列、信号量集、共享内存是 System V 风格的传统 IPC，POSIX 以 XSI 选项的形式将其纳入标准。它们与 2.8 的实时 IPC（POSIX 消息队列、POSIX 信号量、共享内存对象）是两套并行的设施，本节是前者的总纲。</p>
+<p><b>核心机制</b>：三组函数（<code>msgget/msgsnd/msgrcv/msgctl</code>、<code>semget/semop/semctl</code>、<code>shmget/shmat/shmdt/shmctl</code>）共享同一套设计：</p>
+<ul>
+<li>每个对象有唯一的正整数标识符（<code>msqid</code>/<code>semid</code>/<code>shmid</code>），由 get 系列返回。</li>
+<li>每个标识符关联一个数据结构（含所有权信息与 <code>ipc_perm</code>），其 <code>mode</code> 成员是权限位字段：0400/0200/0040/0020/0004/0002 对应 S_IRUSR/S_IWUSR/S_IRGRP/S_IWGRP/S_IROTH/S_IWOTH（对信号量是"读/改"）。</li>
+<li>权限判定顺序：特权进程→有效 uid 匹配（cuid/uid）且 user 位已设→有效 gid 匹配（cgid/gid）且 group 位已设→other 位已设；否则拒绝。</li>
+<li>数据结构含 time_t 时间戳字段，记录各操作时刻。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>XSI IPC 是<b>系统级资源</b>：不随进程退出自动消失（共享内存段尤其如此），需要显式 <code>ipcrm</code> 或 msgctl/shmctl IPC_RMID，否则会泄漏。</li>
+<li>与文件权限不同，IPC 权限不随 umask 生效——创建时显式传 mode。</li>
+<li>[EIDRM]（标识符已移除）与 [ENOMSG]（无所需类型消息）是本节特有的错误，其他设施没有。</li>
+</ul>
+<p><b>跨节关联</b>：2.7 与 2.8 的实时 IPC 形成对照；<code>key_t</code>（2.11）是 XSI IPC 的键类型；2.3 中的 [EIDRM]/[ENOMSG] 定义在这里落地。</p>
+<h4>2.7.1 IPC 一般描述 (IPC General Description)</h4>
+<p><b>核心机制</b>：本节是 2.7 的正式条文：标识符、ipc_perm 权限矩阵、时间戳的精确语义（"设置为不大于当前时间的最大 time_t 值"）。<code>shm_perm</code>/<code>sem_perm</code>/<code>msg_perm</code> 是同一结构在不同服务里的名字。</p>
+<p><b>易错点</b>：权限检查基于<b>有效</b> uid/gid；cuid/cgid 记录创建者，uid/gid 可被所有者用 IPC_SET 修改——权限判定用的是 uid 或 cuid 的匹配（任一匹配即可走 user 位）。</p>
+<h3>2.8 实时 (Realtime)</h3>
+<p><b>为什么存在</b>：普通 POSIX 接口的语义对实时应用不够：无优先级、无定时精度、无确定性。本节按选项组织实时功能族，让应用按需启用，同时保证所有实时函数"可移植"（数值参数可能有硬件依赖性）。</p>
+<p><b>核心机制</b>：功能领域清单：信号量、进程内存锁定、内存映射文件与共享内存对象、优先级调度、实时信号扩展、定时器、进程间通信、同步输入输出、异步输入输出。每个领域对应一组选项宏（如 _POSIX_PRIORITY_SCHEDULING、_POSIX_ASYNCHRONOUS_IO），<code>sysconf</code> 可查询运行时支持情况。</p>
+<p><b>易错点</b>：实时选项彼此独立——定义了 _POSIX_THREADS 不代表有 _POSIX_PRIORITY_SCHEDULING；用 <code>sysconf</code>/<code>pathconf</code> 查运行时值，用功能测试宏查编译期，两者都要查。</p>
+<p><b>跨节关联</b>：2.8.1 直接引用 2.4.2 实时信号；2.8 的调度模型与 2.9.4 线程调度共享同一套策略定义；sigevent（2.4.2）贯穿异步 I/O 与定时器。</p>
+<h4>2.8.1 实时信号 (Realtime Signals)</h4>
+<p><b>核心机制</b>：本节正文就是一句"参见 2.4.2"——实时信号的产生、递送、排队、sigevent 机制全部在 2.4.2 定义。它提醒读者：实时信号不是独立概念，而是信号模型在 [SIGRTMIN, SIGRTMAX] 区间上的扩展。</p>
+<p><b>易错点</b>：SIGRTMIN/SIGRTMAX 的具体值随实现而变，应用应使用这两个宏，且同一进程内它们可能在运行时（如 dlopen）之后变化——用一次取一次。</p>
+<h4>2.8.2 异步 I/O (Asynchronous I/O)</h4>
+<p><b>为什么存在</b>：同步 read/write 让线程阻塞等待磁盘/网络，实时应用需要"提交请求、继续干活、完成时通知"。异步 I/O（AIO）以 <code>aiocb</code> 控制块为中心提供这套能力。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li><code>aiocb</code> 关键成员：<code>aio_fildes</code>（文件描述符）、<code>aio_offset</code>（绝对偏移）、<code>aio_buf</code>/<code>aio_nbytes</code>（缓冲区与长度）、<code>aio_reqprio</code>（优先级偏移）、<code>aio_sigevent</code>（完成通知）、<code>aio_lio_opcode</code>（lio_listio 用）。</li>
+<li>无 O_APPEND 且设备可寻址时，操作在 <code>aio_offset</code> 指定的绝对位置进行（如同先 lseek）；O_APPEND 或不可寻址时写操作按提交顺序追加。</li>
+<li>支持优先级化时（_POSIX_PRIORITIZED_IO + _POSIX_PRIORITY_SCHEDULING），请求优先级 = 进程调度优先级 − aio_reqprio；aio_reqprio 只能降低不能提高。</li>
+<li><code>aio_error</code>/<code>aio_return</code> 用 aiocb 地址作句柄查询状态；错误状态为 [EINPROGRESS] 期间应用不得修改 aiocb 结构。</li>
+<li><code>lio_listio</code> 一次提交多个操作（读或写，由 aio_lio_opcode 指定）。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>提交成功后文件偏移值未指定——不要把 aio 与同步 read/write 混用在依赖偏移连续性的场景。</li>
+<li>排队后立刻复用 aiocb 或缓冲区是经典 bug：只有 aio_error 不再返回 EINPROGRESS 之后才可安全复用。</li>
+<li>aio_reqprio 不影响进程调度优先级本身，只影响请求间的相对次序。</li>
+<li>完成通知走 aio_sigevent（SIGEV_NONE 表示只查询状态、不通知）。</li>
+</ul>
+<p><b>跨节关联</b>：aio_sigevent 复用 2.4.2 的 sigevent；SI_ASYNCIO 是 2.4.3 里 si_code 的值之一；aio_suspend 在 2.9.5 取消点清单里。</p>
+<h4>2.8.3 内存管理 (Memory Management)</h4>
+<p><b>为什么存在</b>：实时与共享场景需要控制内存的驻留、映射与保护。本节把内存锁定、内存映射文件/共享内存对象、内存保护、类型化内存对象四个子领域放在一起定义总语义。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li><b>内存锁定</b>（2.8.3.1）：按页操作，页大小 = {PAGESIZE}；锁保证驻留但不保证虚拟/物理地址映射固定；锁不跨 fork 继承，exec 或进程终止时全部解锁，munmap 解除该范围上的锁。</li>
+<li><b>内存映射文件</b>（2.8.3.2）：mmap 把文件并入地址空间；多进程映射同一文件时内容共享；unlink（或 shm_unlink）只移除名字，不取消既有映射，对象在被引用期间内容保留。</li>
+<li><b>内存保护</b>（2.8.3.3）：对 PROT_NONE 或只读映射的违规访问产生 SIGSEGV；对映射内但超出对象当前长度的整页引用产生 SIGBUS；访问不影响对象大小。</li>
+<li><b>类型化内存对象</b>（2.8.3.4，TYM 选项）：命名存储池 + 端口组合，支持动态分配与按偏移映射。</li>
+</ul>
+<p><b>易错点</b>：SIGSEGV 与 SIGBUS 的区分（保护违规 vs 越过对象末尾）是调试 mmap 程序的关键；锁定/映射操作按页对齐取整，传非页对齐的地址/长度可能被实现取整——规范允许实现把尺寸和对齐限制在页边界。</p>
+<p><b>跨节关联</b>：SIGSEGV/SIGBUS 的"从处理函数返回未定义"规则见 2.4.3；共享内存对象与 2.7 的 XSI 共享内存是两套机制；msync 是取消点（2.9.5）。</p>
+<h5>2.8.3.1 内存锁定 (Memory Locking)</h5>
+<p><b>核心机制</b>：范围锁定按页定义；{PAGESIZE} 可配置。锁定的目的是防止换页带来的延迟不确定性——对实时应用，缺页的代价不可接受。</p>
+<p><b>易错点</b>：锁不跨 fork 继承意味着子进程的实时保证需要重新锁定；exec 后旧锁全部释放。</p>
+<h5>2.8.3.2 内存映射文件 (Memory Mapped Files)</h5>
+<p><b>核心机制</b>：映射后文件数据像内存一样读写；共享写映射下，一个进程的写入对同方式映射的进程可见。共享内存对象是独立于文件系统的命名存储区（SHM 选项），shm_open/shm_unlink 管理其名字生命周期。</p>
+<p><b>易错点</b>：unlink 后名字消失但映射仍在——"文件已删"与"映射已失效"是两回事；保持引用（打开或映射）期间对象内容不丢。</p>
+<h5>2.8.3.3 内存保护 (Memory Protection)</h5>
+<p><b>核心机制</b>：四种情形的信号归属：受限访问→SIGSEGV；写只读映射或访问 PROT_NONE→SIGSEGV；引用未映射地址→SIGSEGV；映射内但超出对象当前长度的整页→SIGBUS。</p>
+<p><b>易错点</b>：文件被截断（ftruncate）后，原映射超出新长度的部分访问会 SIGBUS——这是"文件截断后程序崩溃"的常见根因。</p>
+<h5>2.8.3.4 类型化内存对象 (Typed Memory Objects)</h5>
+<p><b>核心机制</b>：TYM 选项提供跨处理器/端口访问的命名存储池；从不同端口访问需要获取连续存储的偏移与长度。这是最冷门的子节，多数实现不支持，遇到时按 ENOSYS 处理即可。</p>
+<h4>2.8.4 进程调度 (Process Scheduling)</h4>
+<p><b>为什么存在</b>：可预测的响应时间需要可预测的调度。本节定义概念模型（每优先级一个线程列表）与四种策略，是 2.9.4 线程调度的进程级基础。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li>模型：每个优先级一个有序线程列表（头部=等待最久）；调度器选最高优先级非空列表的头部运行。</li>
+<li>四种策略：<code>SCHED_FIFO</code>（无时间片：运行到阻塞或主动让出；被抢占者回列表头部）、<code>SCHED_RR</code>（FIFO + 时间片轮转，被抢占后恢复时完成未到期部分）、<code>SCHED_SPORADIC</code>（SS 选项：补充周期/执行容量，在高/低优先级间切换）、<code>SCHED_OTHER</code>（实现定义，供应用"退出实时"用）。每种策略至少 32 个优先级。</li>
+<li>进程调度属性通过 <code>sched_setscheduler</code>/<code>sched_setparam</code> 设置；对线程的影响取决于线程的调度竞争范围（2.9.4）：SYSTEM 范围线程完全不受进程属性影响。</li>
+<li>互斥量优先级继承/保护协议（PTHREAD_PRIO_INHERIT/PROTECT）下的临时提权不触发"优先级变化进列表"的规则。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>SCHED_FIFO 线程若死循环不阻塞，同优先级及更低优先级线程永远得不到 CPU——这是实时调度特有的"搬起石头砸自己脚"。</li>
+<li>混合 SCHED_RR 与 SCHED_FIFO 时，不能依赖 RR 保证公平（FIFO 同/高优先级线程可能独占）。</li>
+<li>实时策略需要特权（通常 root 或 CAP_SYS_NICE），普通进程设置会失败。</li>
+<li>SCHED_SPORADIC 要求 sched_priority &gt; sched_ss_low_priority，违反则未定义。</li>
+</ul>
+<p><b>跨节关联</b>：策略符号与 2.9.4 线程调度属性共用；sched_param 成员在 2.9.4 扩展出零星服务器四成员；优先级影响 2.8.2 的 AIO 请求次序。</p>
+<h4>2.8.5 时钟与定时器 (Clocks and Timers)</h4>
+<p><b>为什么存在</b>：时间是一切实时语义的基准。本节定义时间值结构、定时器通知、清单常量与执行时间监视，为 clock_*/timer_* 函数提供共享定义。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li><code>timespec</code>（tv_sec + tv_nsec，nsec 须在 [0, 10^9) 内）；<code>itimerspec</code>（it_value=首次到期，it_interval=周期；两者为零分别表示"解除定时器"与"一次性"）。</li>
+<li>清单常量：<code>CLOCK_REALTIME</code>（系统实时钟）、<code>CLOCK_MONOTONIC</code>（不可被 clock_settime 设置、不发生向后跳变）、<code>TIMER_ABSTIME</code>（绝对时间标志）。{_POSIX_CLOCKRES_MIN} = 20 ms 是允许的最大分辨率，实现可更细。</li>
+<li>定时器到期通过 sigevent 通知（通常排队实时信号）；执行时间监视提供 <code>CLOCK_PROCESS_CPUTIME_ID</code>（CPT）与 <code>CLOCK_THREAD_CPUTIME_ID</code>（TCT）。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>tv_nsec 越界（如 1e9）是无效值——不少 bug 源于手工计算纳秒溢出。</li>
+<li>CLOCK_MONOTONIC 不受系统时间调整影响，测间隔用它；CLOCK_REALTIME 会跳变，绝对时间戳用它。</li>
+<li>时钟最大可表示范围与 time_t 相同；具体分辨率用 clock_getres 查询，别硬编码。</li>
+</ul>
+<p><b>跨节关联</b>：定时器信号经 2.4.2 排队（SI_TIMER）；2.9 的 pthread_cond_clockwait、sem_clockwait 都接受 clockid；timespec 也是 nanosleep 的参数类型。</p>
+<h3>2.9 线程 (Threads)</h3>
+<p><b>为什么存在</b>：进程内的多个控制流共享地址空间，效率高但同步难。本节定义线程管理（创建、控制、终止）与同步原语（互斥量、条件变量、读写锁）的总规则，是 2.4 信号、2.8 调度在多线程世界的接口层。</p>
+<p><b>核心机制</b>：两大领域：线程管理（同一地址空间内多控制流的创建/控制/终止）与同步原语（为紧耦合多控制流优化）。默认规则：所有函数线程安全（2.9.1），线程 ID 只在进程内有效（2.9.2），互斥量同一时刻至多一个所有者（2.9.3），取消是协作式默认（2.9.5）。</p>
+<p><b>易错点</b>：线程与信号的关系（2.4）：信号掩码是每线程的；进程定向信号递给哪个线程未指定；线程相关函数不允许返回 [EINTR]（2.3）。</p>
+<p><b>跨节关联</b>：2.9.1 的线程安全例外名单、2.9.5 的取消点名单、2.4.3 的异步信号安全名单——三份名单性质不同，使用场景不同，别混记。</p>
+<h4>2.9.1 线程安全 (Thread-Safety)</h4>
+<p><b>为什么存在</b>：多线程程序里，两个线程同时调用同一函数可能互相踩踏。标准采取"默认全部线程安全，例外清单明确列出"的策略，让应用知道哪些函数需要自行加锁。</p>
+<p><b>核心机制</b>：例外清单的典型成员与原因：</p>
+<ul>
+<li>返回静态缓冲区/静态状态：<code>asctime</code>、<code>ctime</code>、<code>gmtime</code>、<code>localtime</code>、<code>strtok</code>、<code>rand</code>（与 srand 共享状态）、<code>getenv</code> 等（有 _r 变体时用 _r 变体）。</li>
+<li>共享全局数据：<code>getpwnam</code>/<code>getgrnam</code> 等口令/组数据库函数、<code>gethostent</code> 系列、<code>crypt</code>、<code>drand48</code> 系列、<code>hsearch</code> 系列。</li>
+<li>环境变量：另一线程修改环境时，<code>getenv</code>/<code>secure_getenv</code> 及任何依赖环境的函数都不安全。</li>
+<li>条件例外：多字节转换函数（<code>mbrtowc</code> 等）仅在传 NULL 指针参数（用内部状态）时不必线程安全；<code>lgamma</code> 线程安全但对 signgam 的存储不避免数据竞争；<code>*_unlocked</code> 流函数要求调用者持锁；<code>readdir</code> 对同一目录流并发调用不安全。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>"线程安全"只承诺不产生数据竞争/不破坏内部状态，不代表函数间调用结果有意义——两个线程同时 getenv 读同一变量仍然安全，但一个改一个读不安全。</li>
+<li>strtok 用 <code>strtok_r</code>、localtime 用 <code>localtime_r</code>、rand 用 <code>rand_r</code> 是标准迁移路径；注意有些 _r 函数是 XSI 扩展。</li>
+</ul>
+<p><b>跨节关联</b>：2.1.1 的"函数不得访问其他线程对象"条款是本节的上位规则；2.5 的流锁与 *_unlocked 函数在此呼应。</p>
+<h4>2.9.2 线程 ID (Thread IDs)</h4>
+<p><b>核心机制</b>：线程 ID 只在<b>单个进程内</b>保证可用且唯一；把另一进程的线程 ID 传给任何函数，效果未指定。ID 的生命周期结束于"线程终止"与"不再可连接"两者中较晚者；之后实现可复用该 ID，使用已过期 ID 是未定义行为。分离线程的 ID 用于 pthread_join/pthread_detach 等无效。</p>
+<p><b>易错点</b>：缓存线程 ID 供"线程退出后"使用是经典 bug——ID 可能已被复用，join 到错误的线程；判断线程存活应靠同步机制而非 ID 比较。</p>
+<h4>2.9.3 线程互斥量 (Thread Mutexes)</h4>
+<p><b>为什么存在</b>：互斥量是保护共享数据的基石。本节定义"所有权"的精确获得与丧失时机，以及健壮互斥量的恢复协议。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li>所有权获得：加锁函数（lock/clocklock/timedlock/trylock）返回 0 或 [EOWNERDEAD]；或条件变量等待返回时（等待期间互斥量被释放、返回时重新获取）。</li>
+<li>所有权丧失：pthread_mutex_unlock，或在条件变量等待中阻塞。</li>
+<li>任何互斥量在任何时刻至多一个所有者；实现应保证已阻塞线程不阻止未阻塞线程的进展（公平性底线）。</li>
+<li><b>健壮互斥量</b>：持有者进程终止后，下一个获取者收到 [EOWNERDEAD]，可尝试恢复状态并调 <code>pthread_mutex_consistent</code> 标记一致；无法恢复则直接 unlock 声明不可恢复（后续获取者得 [ENOTRECOVERABLE]）。</li>
+<li>ISO C 的 <code>mtx_t</code> 互斥量（threads.h）有平行的所有权规则。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>进程在持锁时终止（如 exit 或信号杀死），普通互斥量进入未定义状态——只有健壮互斥量提供恢复通道，且"状态能否恢复完全取决于应用"，实现只负责通知。</li>
+<li>普通互斥量不能递归加锁（递归锁需 PTHREAD_MUTEX_RECURSIVE 类型）；同一线程对非递归锁二次加锁是未定义行为（或死锁，取决于实现）。</li>
+<li>条件变量等待的"释放-等待-重获"是原子的，但重获可能返回错误——等待循环要检查返回值。</li>
+</ul>
+<p><b>跨节关联</b>：优先级继承/保护协议影响 2.8.4 的调度规则；[EOWNERDEAD]/[ENOTRECOVERABLE] 定义见 2.3；2.9.9 规定互斥量不得通过副本使用。</p>
+<h4>2.9.4 线程调度 (Thread Scheduling)</h4>
+<p><b>为什么存在</b>：线程级调度属性让应用为不同线程安排不同策略与优先级，是 2.8.4 进程调度的线程化延伸。</p>
+<p><b>核心机制</b>：<code>pthread_attr_t</code> 中的四个调度属性：<code>contentionscope</code>（竞争范围：PTHREAD_SCOPE_PROCESS/SYSTEM）、<code>inheritsched</code>（继承创建者属性还是用对象内属性）、<code>schedpolicy</code>、<code>schedparam</code>（优先级，含零星服务器四成员）。竞争范围决定线程与谁竞争：SYSTEM 范围与调度分配域内所有线程竞争；PROCESS 范围只与进程内 PROCESS 范围线程直接竞争。调度分配域是线程为之竞争处理器的集合，大小与绑定由实现控制，可随时改变。</p>
+<p><b>易错点</b>：</p>
+<ul>
+<li>进程调度属性（sched_setscheduler）对 SYSTEM 范围线程无任何影响；对 PROCESS 范围线程只影响底层内核调度实体的运行方式。</li>
+<li>多处理器（分配域 &gt; 1）时 SCHED_FIFO/RR 规则按实现定义方式使用——不要把单 CPU 语义想当然。</li>
+<li>默认竞争范围值是实现定义的——可移植代码应显式设置。</li>
+</ul>
+<p><b>跨节关联</b>：策略定义全部来自 2.8.4；schedparam 的零星服务器成员与 2.8.4 相同；与 2.8.2 的 AIO 优先级计算相关。</p>
+<h4>2.9.5 线程取消 (Thread Cancellation)</h4>
+<p><b>为什么存在</b>：线程需要被干净地终止，尤其是在持有锁、占用资源时。取消机制让目标线程在安全点执行清理，而不是被粗暴杀死。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li>两个状态位：<b>可取消性使能</b>（PTHREAD_CANCEL_ENABLE/DISABLE）与<b>类型</b>（PTHREAD_CANCEL_DEFERRED/ASYNCHRONOUS）；默认 ENABLE + DEFERRED。</li>
+<li>DEFERRED 下取消请求保持挂起，直到线程到达<b>取消点</b>（应出现取消点的函数清单：read/write/open/close/select/poll/wait/cond_wait/nanosleep 等阻塞类函数；也可能出现取消点的第二张清单）；DISABLE 时请求挂着不执行。</li>
+<li>取消执行时：先禁用取消，按 LIFO 运行清理处理程序（pthread_cleanup_push/pop 注册），再跑线程特定数据析构函数，然后线程终止；join 者得到 PTHREAD_CANCELED。</li>
+<li>条件变量等待中取消的副作用：第一个清理处理程序运行前互斥量已被重新获取。</li>
+<li><b>异步取消安全</b>只有三个函数：pthread_cancel、pthread_setcancelstate、pthread_setcanceltype。异步取消下执行其他函数被取消是未定义行为。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>异步取消几乎总是错误的选择：在 malloc 内部被取消会导致堆损坏。标准做法是 DEFERRED + 取消点 + 清理处理程序。</li>
+<li>用 setjmp/longjmp 离开取消作用域而不执行 cleanup pop 是未定义行为；清理处理程序也不能用 longjmp 退出。</li>
+<li>清理处理程序或 TSD 析构函数里重新使能取消是未定义行为。</li>
+<li>阻塞在取消点等待的事件与取消请求同时到达时，"执行取消还是继续"未指定——别依赖某一方。</li>
+<li>thrd_create 创建的线程不受 pthread 取消机制管辖。</li>
+</ul>
+<p><b>跨节关联</b>：取消点的副作用与 2.4.4 的 [EINTR] 中断类比；取消点清单与 2.4.3 异步信号安全清单是两份独立名单；pthread_testcancel 是显式取消点。</p>
+<h5>2.9.5.1 可取消状态 (Cancelability States)</h5>
+<p><b>核心机制</b>：使能位与类型位独立编码：DISABLE 时类型设置无即时效果，重新使能后新类型生效；所有新线程（含 main 线程）默认 DEFERRED。</p>
+<p><b>易错点</b>：临时禁用取消（进入临界区）后忘记恢复，取消请求会一直挂着，直到某次恢复后到达取消点——"禁用窗口"要尽量小。</p>
+<h5>2.9.5.2 取消点 (Cancellation Points)</h5>
+<p><b>核心机制</b>：第一清单（应出现取消点）覆盖所有可能阻塞的系统调用；第二清单（可以出现取消点）覆盖大多数 I/O 与库函数。实现不得在清单之外引入取消点——这让应用可以精确知道取消何时发生。</p>
+<p><b>易错点</b>："可以出现"意味着某些实现会、某些不会——临界区里调用第二清单函数仍可能被取消，要包住清理处理程序。</p>
+<h5>2.9.5.3 线程取消清理处理程序 (Thread Cancellation Cleanup Handlers)</h5>
+<p><b>核心机制</b>：LIFO 顺序执行；执行期间存储仍有效（可以安全释放资源）；之后运行 TSD 析构函数（顺序未指定）；最后线程终止。条件变量等待中取消时互斥量先被重新获取——清理处理程序里可以直接 unlock。</p>
+<p><b>易错点</b>：push/pop 必须成对且在同一作用域（宏实现通常要求词法配对）；用 return/goto 跳出作用域会破坏配对，属未定义行为。</p>
+<h5>2.9.5.4 异步取消安全 (Async-Cancel Safety)</h5>
+<p><b>核心机制</b>：只有三个函数异步取消安全；其余都不保证。延迟取消线程的信号处理函数若在取消请求挂起时调用取消点函数而没先禁用取消，行为未定义。</p>
+<p><b>易错点</b>：这条把"信号处理函数 + 取消"两个异步机制叠加的坑点说得很直白：处理函数里调 read 之类前，先 pthread_setcancelstate(DISABLE)。</p>
+<h4>2.9.6 线程读写锁 (Thread Read-Write Locks)</h4>
+<p><b>为什么存在</b>：读多写少的场景用互斥量太浪费——读写锁允许多读者并发、单写者排他。</p>
+<p><b>核心机制</b>：读锁操作不互斥（多个读者可同时持读锁），写锁与任何其他锁互斥；阻塞线程不得阻止未阻塞线程的进展。若读写锁分配在协作进程间共享的可写内存中并正确初始化，可用于跨进程同步（配合 2.9.9 的进程共享属性）。</p>
+<p><b>易错点</b>：读写锁有"写者饥饿"风险（读者源源不断时写者可能一直等）——标准不保证写者优先，设计上要自己权衡；升级（持读锁再取写锁）是死锁温床，规范未提供原子升级操作。</p>
+<h4>2.9.7 线程与文件操作的交互 (Thread Interactions with File Operations)</h4>
+<p><b>为什么存在</b>：两个线程同时 chmod/rename/read 同一个文件时，结果必须是"全有或全无"，否则程序无法推理。本节把文件系统操作的原子性写成硬性要求。</p>
+<p><b>核心机制</b>：两类清单：作用于名字空间/属性的函数（chmod、rename、link、unlink、stat、open 等）之间原子；作用于文件描述符的函数（close、dup2、fcntl、read、write、lseek、pread/pwrite 等）之间原子。"每个调用要么看到另一调用的全部规定效果，要么看不到任何效果"。close 的要求适用于一切导致 fd 关闭的情形（含进程终止）。</p>
+<p><b>易错点</b>：原子性只保证"效果整体可见"，不保证顺序——不要把它当成事务。read/write 的原子性针对的是与这些函数的交互，不代表对普通文件的大块读写是原子的（那是 XCU 里 O_APPEND 等的事）。</p>
+<h4>2.9.8 应用程序管理的线程栈的使用 (Use of Application-Managed Thread Stacks)</h4>
+<p><b>核心机制</b>：应用可用 pthread_attr_setstack 指定自定义栈（地址+大小）。一旦该属性对象被用于成功创建线程（或存入 sigevent 的 sigev_notify_attributes 并成功使用），栈的<b>永久所有权和控制权转移给实现</b>：此后不得 free、不得再指定给别的线程。使用之前应用保留所有权，可删除属性对象或替换栈来回收内存。</p>
+<p><b>易错点</b>：</p>
+<ul>
+<li>用过的属性对象不能再次用于 pthread_create（除非重新 setstack 指定未使用的栈）。</li>
+<li>通过 sigevent 指定应用管理栈且信号被多次产生（如重复定时器）时结果未定义——SIGEV_THREAD + 自定义栈 + 周期定时器是危险组合。</li>
+<li>没有任何机制"撤回"已生效的栈引用——栈内存必须活到所有使用它的线程结束。</li>
+</ul>
+<p><b>跨节关联</b>：与 2.4.2 的 SIGEV_THREAD、2.8.5 的定时器直接相关。</p>
+<h4>2.9.9 同步对象副本与替代映射 (Synchronization Object Copies and Alternative Mappings)</h4>
+<p><b>核心机制</b>：同步对象（互斥量、条件变量、读写锁、屏障）的"身份"绑定到初始化它的内存位置：PTHREAD_PROCESS_PRIVATE 对象只能通过初始化地址使用（另一映射无效）；PTHREAD_PROCESS_SHARED 对象可用同一对象的另一映射，但<b>副本</b>（memcpy 出来的）在任何情况下都不能用于同步。自旋锁与信号量按各自的 pshared 参数适用同样规则；threads.h 的 cnd_t/mtx_t 视为 PRIVATE。</p>
+<p><b>易错点</b>：把互斥量按值拷贝（结构体赋值、memcpy）到另一处再 lock 是未定义行为——这是 C 语言里"拷贝锁"陷阱的规范出处；共享内存里放同步对象时要小心映射地址不同导致"替代映射"语义。</p>
+<h3>2.10 套接字 (Sockets)</h3>
+<p><b>为什么存在</b>：套接字是 POSIX 的网络通信端点抽象，覆盖本地（UNIX 域）与互联网（IPv4/IPv6）通信。本节把"地址族—协议—套接字类型"三层模型、I/O 模式、队列语义、选项系统一次性定义清楚，socket/bind/connect/send/recv 等函数页都建立在这套概念之上。</p>
+<p><b>核心机制</b>：套接字以某种<b>类型</b>创建（SOCK_STREAM/SEQPACKET/DGRAM/RAW），与某<b>协议</b>关联，属于某<b>地址族</b>，通过文件描述符访问。三大类型语义：</p>
+<ul>
+<li><b>SOCK_STREAM</b>：可靠、有序、全双工字节流；面向连接；无记录边界（一次 send 可被多次 recv 拆分）；send 成功不代表已发出；连接断开后发送产生 SIGPIPE（MSG_NOSIGNAL 抑制）且操作以 [EPIPE] 失败。</li>
+<li><b>SOCK_SEQPACKET</b>：同 STREAM 但保留记录边界，recvmsg 的 MSG_EOR 标志可见边界。</li>
+<li><b>SOCK_DGRAM</b>：无连接、不保证可靠；数据报单次操作收发；可指定对端后只收发该对端；可发组播/广播。</li>
+</ul>
+<p><b>易错点</b>：SOCK_STREAM 的"写入成功≠送达"是网络编程第一课；流套接字上 recv 返回 0 表示对端关闭；UDP 数据报超长会 [EMSGSIZE]。</p>
+<p><b>跨节关联</b>：套接字是文件描述符（2.6）的一种，受 2.5.1 句柄规则约束；SIGPIPE/SIGURG 走 2.4 的信号机制；套接字上的异步错误（2.10.10/2.10.15）是 errno（2.3）的异步通道。</p>
+<h4>2.10.1 地址族 (Address Families)</h4>
+<p><b>核心机制</b>：地址族向协议实现提供分组分片/重组、路由、寻址、基本传输等服务；通常由若干协议组成（每种套接字类型对应一个协议）。AF_UNIX、AF_INET、AF_INET6 是标准规定的三个族，实现可以定义更多。</p>
+<h4>2.10.2 寻址 (Addressing)</h4>
+<p><b>核心机制</b>：通用结构 <code>sockaddr</code>（<code>sa_family</code> 指明族，<code>sa_data</code> 大小未指定）；每个地址族定义更精细的结构（sockaddr_un/sockaddr_in/sockaddr_in6）。<code>sockaddr_storage</code> 足够大且对齐良好，可容纳各族地址结构并安全转换（ss_family 映射到各族 family 字段）。</p>
+<p><b>易错点</b>：不要把 sockaddr_in 直接塞进 sockaddr 大小不足的缓冲区；现代代码用 sockaddr_storage + getaddrinfo 是正路。</p>
+<h4>2.10.3 协议 (Protocols)</h4>
+<p><b>核心机制</b>：协议支持某一种套接字抽象；选择协议 = 向 socket() 指定地址族 + 类型 + 协议号。2.10.18 给出 Internet 族的默认映射（STREAM→TCP、DGRAM→UDP、RAW→IPPROTO_RAW）。</p>
+<h4>2.10.4 路由 (Routing)</h4>
+<p><b>核心机制</b>：系统维护路由信息数据库，发送分组时选择网络接口。应用通常不直接操作路由（那是管理面的事），SO_DONTROUTE 可请求绕过。</p>
+<h4>2.10.5 接口 (Interfaces)</h4>
+<p><b>核心机制</b>：每个网络接口是一条收发消息的路径，通常关联硬件设备（环回除外）。接口用索引（正整数，从 1 开始）与名称标识（2.10.20.3）。</p>
+<h4>2.10.6 套接字类型 (Socket Types)</h4>
+<p><b>核心机制</b>：四种类型的形式定义（见 2.10 概述）。补充细节：SOCK_RAW 与 DGRAM 类似但直接面对底层提供者，通常需要特权，数据报格式含协议头；对 SOCK_STREAM 而言，带外数据传输设施的支持是协议特定的。</p>
+<p><b>易错点</b>：SOCK_RAW 不是普通应用该用的类型；创建需要适当权限，格式协议特定且实现定义。</p>
+<h4>2.10.7 套接字 I/O 模式 (Socket I/O Mode)</h4>
+<p><b>核心机制</b>：I/O 模式由打开文件描述上的 O_NONBLOCK 标志控制（创建时关闭，fcntl F_SETFL 设置）。非阻塞下：connect 返回 [EINPROGRESS]（连接已发起未完成），bind 同样可能 EINPROGRESS；数据传输操作立即完成可用部分或返回错误。</p>
+<p><b>易错点</b>：非阻塞 connect 后要等可写（select/poll），再查 SO_ERROR 确认连接是否真的成功——这是新手最容易漏的步骤。</p>
+<h4>2.10.8 套接字属主 (Socket Owner)</h4>
+<p><b>核心机制</b>：套接字属主创建时未设置，用 fcntl F_SETOWN 设为进程 ID 或进程组 ID；属主用于接收 SIGURG 等信号（2.10.14）。</p>
+<h4>2.10.9 套接字队列限制 (Socket Queue Limits)</h4>
+<p><b>核心机制</b>：发送/接收队列大小创建时设定，默认值协议特定且实现定义，可用 setsockopt（SO_SNDBUF/SO_RCVBUF）更改。注意队列大小限制包括正常数据、带外数据、源地址与辅助数据。</p>
+<h4>2.10.10 待决错误 (Pending Error)</h4>
+<p><b>核心机制</b>：网络协议引发的错误异步到达，套接字存储为"待决错误"，在下一次 send/recv/getsockopt 中返回一次，然后清除（SO_ERROR 也可显式查询并清除）。</p>
+<p><b>易错点</b>：异步错误不会主动打断你——阻塞在 recv 上的线程不会因对端 RST 而立刻返回错误，除非先有数据/事件；这正是 select 可读后 recv 仍可能返回错误的原因。</p>
+<h4>2.10.11 套接字接收队列 (Socket Receive Queue)</h4>
+<p><b>核心机制</b>：接收缓冲区逻辑上组织为<b>数据段</b>序列：段含正常数据或带外数据（不同时含两者），可带辅助数据；同类型、无辅助数据、不终止记录的相邻段逻辑合并；数据报是终止记录的段；文件结束或连接终止在逻辑上终止队列。<b>一次接收操作绝不返回多于一个段的数据</b>。</p>
+<p><b>易错点</b>：接收调用可能只取走一段的一部分，剩余部分留在队列；带 MSG_PEEK 观察时段的边界对程序可见。</p>
+<h4>2.10.12 套接字带外数据状态 (Socket Out-of-Band Data State)</h4>
+<p><b>核心机制</b>：带外数据处理协议特定：可入接收队列（普通接收即可取，或 SO_OOBINLINE 下走正常数据通道），也可单独排队（仅响应带 MSG_OOB 的接收调用）。带外数据标记是逻辑空段、不与其他段合并、绝不因输入操作返回；<code>sockatmark</code> 测试标记是否在队首；输入时若标记是队首且未用 MSG_PEEK，标记被移除。</p>
+<h4>2.10.13 连接指示队列 (Connection Indication Queue)</h4>
+<p><b>核心机制</b>：监听套接字维护未决连接指示队列（listen 的 backlog 参数影响其容量），accept 从中取连接。</p>
+<h4>2.10.14 信号 (Signals)</h4>
+<p><b>核心机制</b>：SIGPIPE 发给在已断开套接字上发送数据的线程（MSG_NOSIGNAL 抑制信号但不抑制 [EPIPE] 错误）；SIGURG 发给属主（有加速/带外数据时）。信号产生不改变套接字状态。</p>
+<p><b>易错点</b>：默认 SIGPIPE 动作是终止进程——写网络程序要么处理 SIGPIPE，要么到处用 MSG_NOSIGNAL，否则对端断开时进程悄悄死掉。</p>
+<h4>2.10.15 异步错误 (Asynchronous Errors)</h4>
+<p><b>核心机制</b>：八种错误（ECONNABORTED、ECONNREFUSED、ECONNRESET、EHOSTUNREACH、EMSGSIZE、ENETDOWN、ENETRESET、ENETUNREACH）在异步发生时成为待决错误（2.10.10）。</p>
+<h4>2.10.16 选项的使用 (Use of Options)</h4>
+<p><b>核心机制</b>：getsockopt/setsockopt 按 (level, optname) 操作选项；最上层永远是 SOL_SOCKET。套接字层选项表（SO_*）逐个定义了参数类型与语义：只读类（SO_TYPE/SO_ERROR/SO_DOMAIN/SO_PROTOCOL/SO_ACCEPTCONN，无默认值）、缓冲类（SO_RCVBUF/SO_SNDBUF）、低水位（SO_RCVLOWAT/SO_SNDLOWAT）、超时（SO_RCVTIMEO/SO_SNDTIMEO，到点返回 EAGAIN/EWOULDBLOCK）、行为类（SO_REUSEADDR、SO_KEEPALIVE、SO_LINGER、SO_OOBINLINE、SO_BROADCAST、SO_DEBUG、SO_DONTROUTE）。accept 出的套接字选项是重置为默认还是继承监听套接字，由实现控制（对默认值实现定义的选项而言）。</p>
+<p><b>易错点</b>：SO_RCVTIMEO 到期返回 [EAGAIN]/[EWOULDBLOCK] 而不是超时专用错误；[EAGAIN] 与 [EWOULDBLOCK] 在不同实现上可能取值相同（2.3），跨平台判断要写成 <code>errno == EAGAIN || errno == EWOULDBLOCK</code>；SO_LINGER 会让 close 阻塞直到数据发完或超时——"close 卡住"常是它；SO_REUSEADDR 语义协议特定，别指望跨平台一致。</p>
+<h4>2.10.17 用于本地 UNIX 连接的套接字的使用 (Use of Sockets for Local UNIX Connections)</h4>
+<p><b>核心机制</b>：AF_UNIX 是<b>强制</b>支持的地址族，提供单系统内进程间通信；sockaddr_un（sun_family + sun_path），sockaddr_storage 可容纳 sockaddr_un。</p>
+<p><b>易错点</b>：UNIX 域套接字在文件系统里有路径名，bind 前要确保路径不存在；连接断开检测与流式语义同 2.10.6。</p>
+<h4>2.10.18 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols)</h4>
+<p><b>核心机制</b>：Internet 族中以协议值 0 创建套接字时的默认协议：SOCK_STREAM→IPPROTO_TCP、SOCK_DGRAM→IPPROTO_UDP、SOCK_RAW→IPPROTO_RAW、SOCK_SEQPACKET→未指定。原始套接字按值指定协议（如 IPPROTO_ICMP）可访问 ICMP。</p>
+<h4>2.10.19 基于 IPv4 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv4)</h4>
+<p><b>核心机制</b>：AF_INET 是<b>强制</b>的（IPv4 见 RFC 791）；sockaddr_in、INADDR_* 常量、sockaddr_storage 兼容性同前。字节序问题由 htonl/htons/ntohl/ntohs（2.4.3 异步信号安全清单内）处理。</p>
+<p><b>易错点</b>：IPv4 地址是网络字节序，bind/connect 前要转换；INADDR_ANY 表示接受任意本地地址。</p>
+<h4>2.10.20 基于 IPv6 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv6)</h4>
+<p><b>核心机制</b>：AF_INET6 由 IP6 选项提供（IPv6 见 RFC 8200，地址体系见 RFC 4291）。三种地址：单播（全局/链路本地/站点本地）、任播（发到集合中任一成员）、组播（发到所有成员，需 IPV6_JOIN_GROUP 加入组）。特殊地址：未指定（in6addr_any）、环回（::1）。两组过渡地址：IPv4 兼容地址（隧道）与 IPv4 映射地址（::ffff:a.b.c.d，API 互操作）。接口用正整数索引标识（从 1 开始）。IPPROTO_IPV6 层选项：IPV6_JOIN_GROUP/LEAVE_GROUP（组播组管理，只写不读，读得 EOPNOTSUPP）、IPV6_MULTICAST_HOPS/IF/LOOP、IPV6_UNICAST_HOPS（-1 到 255，越界 EINVAL）、IPV6_V6ONLY（限制仅 IPv6 通信）。</p>
+<p><b>易错点</b>：</p>
+<ul>
+<li>IPV6_V6ONLY 默认 0 时 AF_INET6 套接字可能同时接受 IPv4（双栈）；依赖"只收 IPv6"时要显式设置。</li>
+<li>IPv4 映射地址在 getaddrinfo 处理"只有 IPv4 地址的主机"时自动生成——应用看到 ::ffff: 开头的地址不要惊讶。</li>
+<li>组播接收三步：bind 端口 + setsockopt(IPV6_JOIN_GROUP) + （可选）绑定组地址过滤其他数据报。</li>
+</ul>
+<h5>2.10.20.1 寻址 (Addressing)</h5>
+<p><b>核心机制</b>：128 位地址；单播/任播/组播三类语义与 2.10.20 概述一致；未指定与环回地址不视为 IPv4 兼容地址。</p>
+<h5>2.10.20.2 与 IPv4 的兼容性 (Compatibility with IPv4)</h5>
+<p><b>核心机制</b>：AF_INET6 套接字通过 IPv4 映射地址与 IPv4 节点互通：connect/sendto/sendmsg 传映射地址即可对 IPv4 节点打开连接；accept/recvfrom 返回的远端地址也是映射形式；bind 到映射地址即绑定本机 IPv4 地址。IPV6_V6ONLY 控制是否允许这种双栈使用。</p>
+<h5>2.10.20.3 接口标识 (Interface Identification)</h5>
+<p><b>核心机制</b>：接口索引为正整数、从 1 开始、可能有空缺；每个接口另有唯一实现定义名称。IPV6_MULTICAST_IF 等选项用索引指定接口（0 表示由系统选择）。</p>
+<h5>2.10.20.4 选项 (Options)</h5>
+<p><b>核心机制</b>：IPPROTO_IPV6 层选项清单见 2.10.20 概述；注意 JOIN/LEAVE_GROUP 对 getsockopt 应返回 [EOPNOTSUPP]。组播跳数默认 1、组播回环默认开——调试组播收不到包先查这两项。</p>
+<h5>2.10.20.5 头文件 (Headers)</h5>
+<p><b>核心机制</b>：AF_INET6 定义于 &lt;sys/socket.h&gt;；sockaddr_in6、in6addr_any 等在 &lt;netinet/in.h&gt;；地址转换与名字解析在 &lt;arpa/inet.h&gt;、&lt;netdb.h&gt;（getaddrinfo/getnameinfo）。sockaddr_storage 必须能容纳 sockaddr_in6 且对齐可用。</p>
+<h3>2.11 数据类型 (Data Types)</h3>
+<p><b>为什么存在</b>：函数签名里到处是 pid_t、off_t、size_t 这类类型。标准必须声明它们的"语义角色"（有符号/无符号、整数/结构），同时把底层表示留给实现——这是可移植代码不写死 int 的原因。</p>
+<p><b>核心机制</b>：所有数据类型由实现定义，本节以表的形式给出语义角色：有符号整数（pid_t、off_t、ssize_t、time_t、clock_t、suseconds_t）、无符号整数（ino_t、nlink_t、mode_t、dev_t、uid_t、gid_t、rlim_t、size_t、reclen_t）、结构/不透明类型（FILE、DIR、div_t、regex_t、pthread_*、sem_t、mqd_t、timer_t）、以及 va_list、wchar_t、sig_atomic_t 等特殊类型。2.11.2 规定 char 是单字节。</p>
+<p><b>易错点</b>：</p>
+<ul>
+<li>除 <code>char</code> 外，类型的确切宽度未指定——打印 pid_t 用 <code>%jd</code> + (intmax_t) 转换，别假设 int。</li>
+<li><code>ssize_t</code> 是"字节计数或错误指示"：read 返回 -1 是错误、非负是计数；<code>size_t</code> 无符号，比较时小心符号转换。</li>
+<li>off_t 可能是 32 位也可能是 64 位——大文件支持依赖实现与编译选项（如 _FILE_OFFSET_BITS）。</li>
+<li>同一类型在不同头文件声明（如 pthread_t 与 thrd_t 并列）——它们是不同的类型，别混传。</li>
+</ul>
+<p><b>跨节关联</b>：类型与 2.2 的名字空间（_t 后缀保留）、2.3 的 [EOVERFLOW]（值超出类型范围）、2.7 的 key_t、2.8 的 clockid_t/timer_t 直接相关。</p>
+<h4>2.11.1 已定义类型 (Defined Types)</h4>
+<p><b>核心机制</b>：即 2.11 的类型表正文：每个类型的"用途描述"是规范对实现的约束（如 id_t 必须能容纳 pid_t/uid_t/gid_t 中至少最大的一个；rlim_t 必须能无损容纳 int 与 off_t）。函数页里出现但表里没有的类型，去对应头文件找。</p>
+<p><b>易错点</b>：表只约束"语义"，不约束"表示"——拿 sizeof 猜结构布局（如 pthread_mutex_t 的大小）是移植性大忌。</p>
+<h4>2.11.2 char 类型 (The char Type)</h4>
+<p><b>核心机制</b>：char 定义为单字节（一个字节 = CHAR_BIT 位，XBD 3. 定义）。这是所有 I/O 计数的基本单位，也解释了为什么 read/write 的 nbyte 以 char 计。</p>
+<h3>2.12 状态信息 (Status Information)</h3>
+<p><b>为什么存在</b>：父进程怎么知道子进程是退出了还是被停了？退出的退出码是多少？被哪个信号杀死的？本节定义"状态信息"的内容、生成与消费规则，是 wait 系列函数与 SIGCHLD 语义的锚点。</p>
+<p><b>核心机制</b>：</p>
+<ul>
+<li>状态信息 = 转变进入的状态（已停止/已继续/已终止）+ 填充 siginfo_t 所需信息 + 退出码低 8 位（或导致终止的信号编号）+ 停止原因信号。</li>
+<li>进程停止、继续、终止时生成状态信息（父进程可见）；进程刚启动时可能没有。</li>
+<li>父进程把 SIGCHLD 设为 SIG_IGN 或设 SA_NOCLDWAIT：终止<b>不再生成</b>状态信息，且已有信息被丢弃；新信息到来时覆盖旧信息（同进程只有一份）。</li>
+<li>只有父进程能取；wait/waitid/waitpid 取走即<b>消耗</b>（丢弃），除非 waitid 用 WNOWAIT；两次调用不得取到同一份信息。</li>
+<li>多线程等待时的分配：无 WNOWAIT 匹配者时谁获得未指定；有 WNOWAIT 匹配者时至少一个匹配线程获得，非 WNOWAIT 匹配者至多一个获得。</li>
+</ul>
+<p><b>易错点</b>：</p>
+<ul>
+<li>退出码只有<b>低 8 位</b>有效（exit(300) 实际记录 44）；si_status 的完整值还包括终止信号等，不要只读低 8 位就下结论。</li>
+<li>把 SIGCHLD 设为 SIG_IGN 后子进程状态信息不再保留——如果之后还想 waitpid，会拿不到（ECHILD）。</li>
+<li>waitpid(-1) 可能收走任意子进程的状态；多线程程序中多个线程同时 wait 时"谁拿到"未指定，通常应让单一线程负责收割。</li>
+</ul>
+<p><b>跨节关联</b>：SIGCHLD 的产生与动作见 2.4.3/2.4.1；SA_NOCLDSTOP 影响停止事件的 SIGCHLD；si_status/si_code 填充规则在 2.4.3 的 siginfo_t 定义中；与 2.3 的 [ECHILD] 错误直接相关。</p>

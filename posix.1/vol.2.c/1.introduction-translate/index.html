@@ -1,0 +1,79 @@
+<h1>XSH 卷（System Interfaces）：1. 引言</h1>
+
+
+
+<a name="top" id="top"></a>
+<a name="tag_15" id="tag_15"></a><h2>1. 引言 (Introduction)</h2>
+<p>POSIX.1-2024 的系统接口卷描述了由符合 POSIX 的系统提供给应用程序的接口。</p>
+<a name="tag_15_01" id="tag_15_01"></a><h3>1.1 与其他正式标准的关系 (Relationship to Other Formal Standards)</h3>
+<p>除另有说明外，POSIX.1-2024 的这一卷与以下标准保持一致：</p>
+<dl compact="None">
+<dd></dd>
+<dt>ISO C (C17)</dt>
+<dd>ISO/IEC 9899:2018，编程语言 — C。</dd>
+</dl>
+<p>引用 ISO/IEC 9899:2018 标准（以下简称 ISO C 标准）的部分内容，用于描述 POSIX.1-2024 这一卷同样强制规定的那些要求。POSIX.1-2024 这一卷中包含的某些函数和头文件在 ISO C 标准中有相应版本；在这种情况下，酌情添加 CX 标记，以表明 ISO C 标准在哪些地方被扩展（见 1.8.1 代码）。除另有说明外，POSIX.1-2024 这一卷与 ISO C 标准之间的任何冲突均属无意。</p>
+<p>POSIX.1-2024 的这一卷还允许（但不要求）数学函数支持 IEEE Std 754-1985 和 IEEE Std 854-1987。</p>
+<a name="tag_15_02" id="tag_15_02"></a><h3>1.2 条目的格式 (Format of Entries)</h3>
+<p>3. 系统接口 中的条目基于如下通用格式。唯一与一致性相关的部分是 SYNOPSIS、DESCRIPTION、RETURN VALUE 和 ERRORS 各节。</p>
+<dl compact="None">
+<dd></dd>
+<dt><b>名称 (NAME)</b></dt>
+<dd>本小节给出条目的一个或多个名称，并简要说明其用途。</dd>
+<dt><b>提要 (SYNOPSIS)</b></dt>
+<dd>
+This section summarizes the use of the entry being described. If it is necessary to include a header to use this function, the
+names of such headers are shown, for example:
+<blockquote><pre><code class="language-plaintext">#include &lt;stdio.h&gt;</code></pre></blockquote>
+</dd>
+<dt><b>说明 (DESCRIPTION)</b></dt>
+<dd>本小节描述函数或头文件的功能。</dd>
+<dt><b>返回值 (RETURN VALUE)</b></dt>
+<dd>
+This section indicates the possible return values, if any.
+<p>如果实现能够检测错误，则&quot;成功完成&quot;意味着在执行该函数期间未检测到任何错误。如果实现确实检测到错误，则会指出该错误。</p>
+<p>对于未定义任何错误的函数，&quot;成功完成&quot;意味着：如果实现检查错误，则未检测到任何错误。如果实现能够检测错误，且检测到错误，则返回所指示的返回值，并且可以设置 <i>errno</i>。</p>
+</dd>
+<dt><b>错误 (ERRORS)</b></dt>
+<dd>
+This section gives the symbolic names of the error values returned by a function or stored into a variable accessed through the
+symbol <i>errno</i> if an error occurs.
+<p>&quot;未定义任何错误&quot; 意味着：函数返回的、或存储到通过符号 <i>errno</i> 访问的变量中的错误值（如果有）取决于实现。</p>
+</dd>
+<dt><b>示例 (EXAMPLES)</b></dt>
+<dd>
+This section is informative.
+<p>本小节在适当之处给出用法示例。如果示例与 POSIX.1-2024 这一卷的规范性部分发生冲突，应以规范性材料为准。</p>
+</dd>
+<dt><b>应用用法 (APPLICATION USAGE)</b></dt>
+<dd>
+This section is informative.
+<p>本小节向应用程序开发人员提供关于该条目的警告和建议。如果这些警告和建议与 POSIX.1-2024 这一卷的规范性部分发生冲突，应以规范性材料为准。</p>
+</dd>
+<dt><b>理由 (RATIONALE)</b></dt>
+<dd>
+This section is informative.
+<p>本小节包含有关 POSIX.1-2024 这一卷内容的历史信息，以及标准制定者纳入或舍弃某些特性的原因。</p>
+</dd>
+<dt><b>未来方向 (FUTURE DIRECTIONS)</b></dt>
+<dd>
+This section is informative.
+<p>本小节提供的评论宜用作当前思路的指南；并不必然承诺采纳这些未来方向。</p>
+</dd>
+<dt><b>参见 (SEE ALSO)</b></dt>
+<dd>
+This section is informative.
+<p>本小节给出相关信息的引用。</p>
+</dd>
+<dt><b>变更历史 (CHANGE HISTORY)</b></dt>
+<dd>
+This section is informative.
+<p>本小节展示该条目的来源以及对其所做的任何重大变更。</p>
+</dd>
+</dl>
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -2,7 +2,8 @@
 
 > **版本**：v1.4（2026-08-26；v1.4 采纳双 AI 第六轮微调：合并命令改 find+xargs 流式（防 E2BIG）、JSON 尾逗号清洗）
 > **适用**：规范原文是 HTML（如 POSIX/RFC/ISO 官网页面），产物（直译、导读）也是 HTML。
-> **配套**：`md_spec.md`（markdown 中间产物场景）、`pdf_spec.md`（PDF 场景）、`spec.md`（总入口与通用机制）。
+> **配套**：`md_spec.md`（markdown 中间产物场景）、`pdf_spec.md`（PDF 场景）、`spec.md`（总入口与通用机制）、`html_output_spec.md`（三兄弟 HTML 最终输出，完全适配 template.html）。
+> **最终适配**：本规范产物是**官方结构的 HTML**；嵌入博客前必须按 `html_output_spec.md` 做 template 适配转换（加 h1、标题锚点外移、`&nbsp;`→空格、`<pre>`→`<pre><code class>`、表格 thead/tbody + colspan 展开、跨页链接剥文本、禁用标签映射）。
 > **执行区隔**：标有 **[Agent 执行]** 或"必须/禁止/一律/上限/铁律"的条目是硬性约束；其余为背景解释。
 
 ---
@@ -95,7 +96,7 @@ Python 节点数/顺序断言 → HTML 转义 → 回填 DOM → 输出 index.ht
 - `json.loads()` 失败或 `index` 对位失败时，**在该节点级别触发重试**，而不是毁掉整个文档；
 - 纯文本块投递（非表格 JSON）同样适用：一批节点 → 一个 JSON 数组返回，`index` 对应投递时的节点顺序。
 - **[Agent 执行] 返回 JSON 弹性去噪（防尾逗号地雷）**：LLM 流式输出长数组时存在末尾多吐尾逗号的肌肉记忆，`json.loads()` 零容忍。工具侧解析前**必须强制清洗**：`text = re.sub(r',\s*\]', ']', text)`——全局抹掉 `[... ,]` 形式的末尾冗余逗号后再 `json.loads()`。
-- **参考实现**：`tools/json_filler.py`（尾逗号清洗 + `json.loads` 容错 + index 完整性校验 + HTML 转义 + 原位回填回调 + 节点级重试信息），工具侧脚本可直接 import 使用或对照实现。
+- **参考实现**：`../tools/json_filler.py`（尾逗号清洗 + `json.loads` 容错 + index 完整性校验 + HTML 转义 + 原位回填回调 + 节点级重试信息），工具侧脚本可直接 import 使用或对照实现。
 
 ---
 
