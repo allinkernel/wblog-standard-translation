@@ -4,3 +4,5 @@ input.txt
 input.md
 input/
 __pycache__/
+spec
+talk_to_agent
