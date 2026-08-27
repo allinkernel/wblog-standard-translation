@@ -1,0 +1,1347 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_593_01\" id=\"tag_17_593_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "strtol, strtoll — convert a string to a long integer",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_593_02\" id=\"tag_17_593_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdlib.h.html\">stdlib.h</a>&gt;<br>\n<br>\nlong strtol(const char *restrict</tt> <i>nptr</i><tt>, char **restrict</tt> <i>endptr</i><tt>, int</tt> <i>base</i><tt>);<br>\nlong long strtoll(const char *restrict</tt> <i>nptr</i><tt>, char **restrict</tt> <i>endptr</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int</tt> <i>base</i><tt>)<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_593_03\" id=\"tag_17_593_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "These functions shall convert the initial portion of the string pointed to by [I5]nptr[/I5] to a type [B6]long[/B6] and [B7]long\nlong[/B7] representation, respectively. First, they decompose the input string into three parts:",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B6": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B7": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     1
+    ],
+    "text": "An initial, possibly empty, sequence of white-space bytes",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     3,
+     1
+    ],
+    "text": "A subject sequence interpreted as an integer represented in some radix determined by the value of [I8]base[/I8]",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     5,
+     1
+    ],
+    "text": "A final string of one or more unrecognized characters, including the terminating NUL character of the input string.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "Then they shall attempt to convert the subject sequence to an integer, and return the result.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If the value of [I9]base[/I9] is 0, the expected form of the subject sequence is that of a decimal constant, octal constant, or\nhexadecimal constant, any of which may be preceded by a [CODE10] or [CODE11] sign. A decimal constant begins with a\nnon-zero digit, and consists of a sequence of decimal digits. An octal constant consists of the prefix [CODE12] optionally\nfollowed by a sequence of the digits [CODE13] to [CODE14] only. A hexadecimal constant consists of the prefix 0x or 0X\nfollowed by a sequence of the decimal digits and letters [CODE15] (or [CODE16]) to [CODE17] (or [CODE18]) with\nvalues 10 to 15 respectively.",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE10": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'+'</tt>"
+     },
+     "CODE11": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'-'</tt>"
+     },
+     "CODE12": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'0'</tt>"
+     },
+     "CODE13": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'0'</tt>"
+     },
+     "CODE14": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'7'</tt>"
+     },
+     "CODE15": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "CODE16": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'A'</tt>"
+     },
+     "CODE17": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'f'</tt>"
+     },
+     "CODE18": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'F'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If the value of [I19]base[/I19] is between 2 and 36, the expected form of the subject sequence is a sequence of letters and digits\nrepresenting an integer with the radix specified by [I20]base[/I20], optionally preceded by a [CODE21] or [CODE22] sign. The\nletters from [CODE23] (or [CODE24]) to [CODE25] (or [CODE26]) inclusive are ascribed the values 10 to 35; only\nletters whose ascribed values are less than that of [I27]base[/I27] are permitted. If the value of [I28]base[/I28] is 16, the characters 0x\nor 0X may optionally precede the sequence of letters and digits, following the sign if present.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE21": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'+'</tt>"
+     },
+     "CODE22": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'-'</tt>"
+     },
+     "CODE23": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "CODE24": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'A'</tt>"
+     },
+     "CODE25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'z'</tt>"
+     },
+     "CODE26": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'Z'</tt>"
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "The subject sequence is defined as the longest initial subsequence of the input string, starting with the first non-white-space\nbyte, that is of the expected form. The subject sequence shall contain no characters if the input string is empty or consists\nentirely of white-space bytes, or if the first non-white-space byte is other than a sign or a permissible letter or digit.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "If the subject sequence has the expected form and the value of [I29]base[/I29] is 0, the sequence of characters starting with the\nfirst digit shall be interpreted as an integer constant. If the subject sequence has the expected form and the value of [I30]base[/I30]\nis between 2 and 36, it shall be used as the base for conversion, ascribing to each letter its value as given above. If the subject\nsequence begins with a &lt;hyphen-minus&gt;, the resulting value shall be the negative of the converted value. A pointer to the\nfinal string shall be stored in the object pointed to by [I31]endptr[/I31], provided that [I32]endptr[/I32] is not a null pointer.",
+    "placeholders": {
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "In other than the C [S33][[A34]CX[/A34]][/S33] [IMG35] &nbsp;or POSIX [IMG36] locale, additional\nlocale-specific subject sequence forms may be accepted.",
+    "placeholders": {
+     "S33": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A34": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG35": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG36": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "If the subject sequence is empty or does not have the expected form, no conversion is performed; the value of [I37]nptr[/I37] shall\nbe stored in the object pointed to by [I38]endptr[/I38], provided that [I39]endptr[/I39] is not a null pointer.",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "These functions shall not change the setting of [I40]errno[/I40] if successful.",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "Since 0, {LONG_MIN} or {LLONG_MIN}, and {LONG_MAX} or {LLONG_MAX} are returned on error and are also valid returns on success,\nan application wishing to check for error situations should set [I41]errno[/I41] to 0, then call [I42]strtol[/I42]() or [I43]strtoll[/I43](),\nthen check [I44]errno[/I44].",
+    "placeholders": {
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00019",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A45][/A45]RETURN VALUE",
+    "placeholders": {
+     "A45": {
+      "open": "<a name=\"tag_17_593_04\" id=\"tag_17_593_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, these functions shall return the converted value, if any. If no conversion could be performed, 0\nshall be returned [S46][[A47]CX[/A47]][/S46] [IMG48] &nbsp;and [I49]errno[/I49] may be set to [EINVAL]. [IMG50]",
+    "placeholders": {
+     "S46": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A47": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG48": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG50": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3
+    ],
+    "text": "[S51][[A52]CX[/A52]][/S51] [IMG53] If\nthe value of [I54]base[/I54] is not supported, 0 shall be returned and [I55]errno[/I55] shall be set to [EINVAL]. [IMG56]",
+    "placeholders": {
+     "S51": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A52": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG53": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG56": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     5
+    ],
+    "text": "If the correct value is outside the range of representable values, {LONG_MIN}, {LONG_MAX}, {LLONG_MIN}, or {LLONG_MAX} shall be\nreturned (according to the sign of the value), and [I57]errno[/I57] set to [ERANGE].",
+    "placeholders": {
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00023",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A58][/A58]ERRORS",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_593_05\" id=\"tag_17_593_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "These functions shall fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00025",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00026",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S59][[A60]CX[/A60]][/S59] [IMG61]\nThe value of [I62]base[/I62] is not supported. [IMG63]",
+    "placeholders": {
+     "S59": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A60": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG61": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG63": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00027",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[ERANGE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00028",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The value to be returned is not representable.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "These functions may fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00030",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00031",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "No conversion could be performed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A64][/A64]EXAMPLES",
+    "placeholders": {
+     "A64": {
+      "open": "<a name=\"tag_17_593_06\" id=\"tag_17_593_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A65][/A65]APPLICATION USAGE",
+    "placeholders": {
+     "A65": {
+      "open": "<a name=\"tag_17_593_07\" id=\"tag_17_593_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Since the value of [I66]*endptr[/I66] is unspecified if the value of [I67]base[/I67] is not supported, applications should either ensure\nthat [I68]base[/I68] has a supported value (0 or between 2 and 36) before the call, or check for an [EINVAL] error before examining\n[I69]*endptr[/I69].",
+    "placeholders": {
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A70][/A70]RATIONALE",
+    "placeholders": {
+     "A70": {
+      "open": "<a name=\"tag_17_593_08\" id=\"tag_17_593_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00038",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A71][/A71]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A71": {
+      "open": "<a name=\"tag_17_593_09\" id=\"tag_17_593_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00040",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A72][/A72]SEE ALSO",
+    "placeholders": {
+     "A72": {
+      "open": "<a name=\"tag_17_593_10\" id=\"tag_17_593_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A73][I74]fscanf[/I74]()[/A73], [A75][I76]isalpha[/I76]()[/A75], [A77][I78]strtod[/I78]()[/A77]",
+    "placeholders": {
+     "A73": {
+      "open": "<a href=\"../functions/fscanf.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A75": {
+      "open": "<a href=\"../functions/isalpha.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"../functions/strtod.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A79][I80]&lt;stdlib.h&gt;[/I80][/A79]",
+    "placeholders": {
+     "A79": {
+      "open": "<a href=\"../basedefs/stdlib.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00043",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A81][/A81]CHANGE HISTORY",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_593_11\" id=\"tag_17_593_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00045",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A82][/A82]Issue 5",
+    "placeholders": {
+     "A82": {
+      "open": "<a name=\"tag_17_593_12\" id=\"tag_17_593_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated to indicate that [I83]errno[/I83] is not changed if the function is successful.",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00047",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A84][/A84]Issue 6",
+    "placeholders": {
+     "A84": {
+      "open": "<a name=\"tag_17_593_13\" id=\"tag_17_593_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1,
+     1
+    ],
+    "text": "In the RETURN VALUE and ERRORS sections, the [EINVAL] optional error condition is added if no conversion could be performed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The following changes are made for alignment with the ISO/IEC&nbsp;9899:1999 standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11,
+     1,
+     1
+    ],
+    "text": "The [I85]strtol[/I85]() prototype is updated.",
+    "placeholders": {
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11,
+     3,
+     1
+    ],
+    "text": "The [I86]strtoll[/I86]() function is added.",
+    "placeholders": {
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00054",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A87][/A87]Issue 7",
+    "placeholders": {
+     "A87": {
+      "open": "<a name=\"tag_17_593_14\" id=\"tag_17_593_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0616 [453], XSH/TC1-2008/0617 [105], XSH/TC1-2008/0618 [453],\nXSH/TC1-2008/0619 [453], and XSH/TC1-2008/0620 [453] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0351 [892], XSH/TC2-2008/0352 [584], XSH/TC2-2008/0353 [796], and\nXSH/TC2-2008/0354 [892] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00057",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A88][/A88]Issue 8",
+    "placeholders": {
+     "A88": {
+      "open": "<a name=\"tag_17_593_15\" id=\"tag_17_593_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 700 is applied, clarifying how a subject sequence beginning with &lt;hyphen-minus&gt; is converted.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1163 is applied, clarifying the handling of white space in the input string.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

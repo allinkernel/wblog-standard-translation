@@ -1,0 +1,56 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] munmap — unmap pages of memory
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]munmap[/I5]() function shall remove any mappings for those entire pages containing any part of the address space of the process starting at [I6]addr[/I6] and continuing for [I7]len[/I7] bytes. Further references to these pages shall result in the generation of a SIGSEGV signal to the process. If there are no mappings in the specified address range, then [I8]munmap[/I8]() has no effect.
+[p_00007] The implementation may require that [I9]addr[/I9] be a multiple of the page size as returned by [A10][I11]sysconf[/I11]()[/A10].
+[p_00008] If a mapping to be removed was private, any modifications made in this address range shall be discarded.
+[p_00009] [S12][[A13]ML|MLR[/A13]][/S12] [IMG14] Any memory locks (see [A15][I16]mlock[/I16]()[/A15] and [A17][I18]mlockall[/I18]()[/A17]) associated with this address range shall be removed, as if by an appropriate call to [A19][I20]munlock[/I20]()[/A19]. [IMG21]
+[p_00010] [S22][[A23]TYM[/A23]][/S22] [IMG24] If a mapping removed from a typed memory object causes the corresponding address range of the memory pool to be inaccessible by any process in the system except through allocatable mappings (that is, mappings of typed memory objects opened with the POSIX_TYPED_MEM_MAP_ALLOCATABLE flag), then that range of the memory pool shall become deallocated and may become available to satisfy future typed memory allocation requests.
+[p_00011] A mapping removed from a typed memory object opened with the POSIX_TYPED_MEM_MAP_ALLOCATABLE flag shall not affect in any way the availability of that typed memory for allocation. [IMG25]
+[p_00012] The behavior of this function is unspecified if the mapping was not established by a call to [A26][I27]mmap[/I27]()[/A26].
+[h4_00013] [A28][/A28]RETURN VALUE
+[p_00014] Upon successful completion, [I29]munmap[/I29]() shall return 0; otherwise, it shall return -1 and set [I30]errno[/I30] to indicate the error.
+[h4_00015] [A31][/A31]ERRORS
+[p_00016] The [I32]munmap[/I32]() function shall fail if:
+[dt_00017] [EINVAL]
+[dd_00018] Addresses in the range [[I33]addr[/I33],[I34]addr[/I34]+[I35]len[/I35]) are outside the valid range for the address space of a process.
+[dt_00019] [EINVAL]
+[dd_00020] The [I36]len[/I36] argument is 0.
+[p_00021] The [I37]munmap[/I37]() function may fail if:
+[dt_00022] [EINVAL]
+[dd_00023] The [I38]addr[/I38] argument is not a multiple of the page size as returned by [A39][I40]sysconf[/I40]()[/A39].
+[h4_00024] [A41][/A41]EXAMPLES
+[p_00025] None.
+[h4_00026] [A42][/A42]APPLICATION USAGE
+[p_00027] None.
+[h4_00028] [A43][/A43]RATIONALE
+[p_00029] The [I44]munmap[/I44]() function corresponds to SVR4, just as the [A45][I46]mmap[/I46]()[/A45] function does.
+[p_00030] It is possible that an application has applied process memory locking to a region that contains shared memory. If this has occurred, the [I47]munmap[/I47]() call ignores those locks and, if necessary, causes those locks to be removed.
+[p_00031] Most implementations require that [I48]addr[/I48] is a multiple of the page size as returned by [A49][I50]sysconf[/I50]()[/A49].
+[h4_00032] [A51][/A51]FUTURE DIRECTIONS
+[p_00033] None.
+[h4_00034] [A52][/A52]SEE ALSO
+[p_00035] [A53][I54]mlock[/I54]()[/A53], [A55][I56]mlockall[/I56]()[/A55], [A57][I58]mmap[/I58]()[/A57], [A59][I60]posix_typed_mem_open[/I60]()[/A59], [A61][I62]sysconf[/I62]()[/A61]
+[p_00036] XBD [A63][I64]&lt;sys/mman.h&gt;[/I64][/A63]
+[h4_00037] [A65][/A65]CHANGE HISTORY
+[p_00038] First released in Issue 4, Version 2.
+[h4_00039] [A66][/A66]Issue 5
+[p_00040] Moved from X/OPEN UNIX extension to BASE.
+[p_00041] Aligned with [I67]munmap[/I67]() in the POSIX Realtime Extension as follows:
+[p_00042] The DESCRIPTION is extensively reworded.
+[p_00043] The SIGBUS error is no longer permitted to be generated.
+[h4_00044] [A68][/A68]Issue 6
+[p_00045] The [I69]munmap[/I69]() function is marked as part of the Memory Mapped Files and Shared Memory Objects option.
+[p_00046] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00047] The DESCRIPTION is updated to state that implementations require [I70]addr[/I70] to be a multiple of the page size.
+[p_00048] The [EINVAL] error conditions are added.
+[p_00049] The following changes are made for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000:
+[p_00050] Semantics for typed memory objects are added to the DESCRIPTION.
+[p_00051] The [A71][I72]posix_typed_mem_open[/I72]()[/A71] function is added to the SEE ALSO section.
+[p_00052] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/36 is applied, changing the margin code in the SYNOPSIS from MF|SHM to MC3 (notation for MF|SHM|TYM).
+[h4_00053] [A73][/A73]Issue 7
+[p_00054] Austin Group Interpretation 1003.1-2001 #078 is applied, clarifying page alignment requirements.
+[p_00055] The [I74]munmap[/I74]() function is moved from the Memory Mapped Files option to the Base.
+[p_00056] &nbsp;

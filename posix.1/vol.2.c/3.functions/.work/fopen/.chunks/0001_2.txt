@@ -1,0 +1,4 @@
+# start_index 151
+[p_00151] Austin Group Defect 1200 is applied, correcting the argument name in the [ELOOP] errors.
+[p_00152] Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.
+[p_00153] &nbsp;

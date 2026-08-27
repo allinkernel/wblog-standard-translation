@@ -1,0 +1,28 @@
+<h1>XSH 函数导读：pthread_self()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_self()</code> 返回调用线程自身的线程 ID，相当于线程世界的 <code>getpid()</code>。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>pthread_t pthread_self(void);</code>——无参数、返回值类型为 <code>pthread_t</code>，且始终成功，没有保留任何错误指示。</p>
+
+<h2>1. 机制</h2>
+<p>线程 ID 由实现维护，<code>pthread_create()</code> 创建线程时不会把 ID 传给新线程，因此新线程需要靠 <code>pthread_self()</code> 获取自己的身份。它返回的 <code>pthread_t</code> 是不透明类型，不能直接用 <code>==</code> 比较，需借助 <code>pthread_equal()</code> 判断两个 ID 是否相同。典型用途：线程把自己 ID 写进共享结构、判断某调用是否发生在自身线程（例如配合 <code>pthread_join()</code> 避免 join 自己）、或记录日志与调试信息。</p>
+
+<h2>2. 易错点</h2>
+<p><code>pthread_t</code> 是不透明句柄：不要假设它是整数或指针，也不要按值打印其内部表示。线程 ID 只在其生命周期内有效，被 join 或 detach 回收后重用同一 ID 是可能的，保存"陈旧" ID 再比较会得到误导性结果。与 <code>getpid()</code> 不同，<code>pthread_self()</code> 没有失败路径，不必检查返回值。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+
+void *worker(void *arg) {
+    pthread_t me = pthread_self();      /* 获取自身 ID */
+    printf("线程 ID 非零比较: %d\n",
+           pthread_equal(me, pthread_self()));
+    return NULL;
+}
+
+int main(void) {
+    pthread_t th;
+    pthread_create(&amp;th, NULL, worker, NULL);
+    pthread_join(th, NULL);
+    return 0;
+}</code></pre>

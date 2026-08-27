@@ -1,0 +1,116 @@
+<h1>XSH 函数：recv()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="recv" id="recv"></a> <a name="tag_17_482" id="tag_17_482"></a>
+<a name="tag_17_482_01" id="tag_17_482_01"></a><h4>名称 (NAME)</h4>
+<blockquote>recv — 从已连接的套接字接收消息 (recv — receive a message from a connected socket)</blockquote>
+<a name="tag_17_482_02" id="tag_17_482_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/socket.h&gt;<br>
+<br>
+ssize_t recv(int</code> <i>socket</i><code>, void *</code><i>buffer</i><code>, size_t</code> <i>length</i><code>, int</code>
+<i>flags</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_482_03" id="tag_17_482_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>recv</i>() 函数应从连接模式或无连接模式的套接字接收消息。它通常与已连接的套接字一起使用，因为它不允许应用程序检索接收到的数据的源地址。</p>
+<p><i>recv</i>() 函数接受以下参数：</p>
+<dl compact="None">
+<dd></dd>
+<dt><i>socket</i></dt>
+<dd>指定套接字文件描述符。</dd>
+<dt><i>buffer</i></dt>
+<dd>指向应存储消息的缓冲区。</dd>
+<dt><i>length</i></dt>
+<dd>指定由 <i>buffer</i> 参数指向的缓冲区的长度（以字节为单位）。</dd>
+<dt><i>flags</i></dt>
+<dd>指定消息接收的类型。此参数的值通过对以下值中的零个或多个进行逻辑或构成：  MSG_PEEK 窥视传入的消息。数据被视为未读，下一次 <i>recv</i>() 或类似函数仍应返回此数据。MSG_OOB 请求带外数据。带外数据的重要性和语义是特定于协议的。MSG_WAITALL 在 SOCK_STREAM 套接字上，此标志请求函数阻塞，直到可以返回全部数量的数据。如果套接字是基于消息的套接字、捕获到信号、连接被终止、指定了 MSG_PEEK，或者套接字有挂起的错误，则函数可以返回较少量的数据。</dd>
+</dl>
+<p><i>recv</i>() 函数应返回写入由 <i>buffer</i> 参数指向的缓冲区的消息的长度。对于基于消息的套接字（如 SOCK_DGRAM 和 SOCK_SEQPACKET），整个消息应在一次操作中读取。如果消息太长而无法放入所提供的缓冲区，并且 <i>flags</i> 参数中未设置 MSG_PEEK，则多余字节应被丢弃。对于基于流的套接字（如 SOCK_STREAM），消息边界应被忽略。在这种情况下，数据一变得可用就应返回给用户，并且不应丢弃任何数据。</p>
+<p>如果未设置 MSG_WAITALL 标志，则只应返回到第一条消息末尾为止的数据。</p>
+<p>如果套接字处没有可用的消息，并且未在套接字的文件描述符上设置 O_NONBLOCK，则 <i>recv</i>() 应阻塞，直到消息到达或发生超时（参见 2.10.16 选项的使用 中的 SO_RCVTIMEO）。如果套接字处没有可用的消息，并且在套接字的文件描述符上设置了 O_NONBLOCK，则 <i>recv</i>() 应失败并将 <i>errno</i> 设置为 [EAGAIN] 或 [EWOULDBLOCK]。</p>
+</blockquote>
+<a name="tag_17_482_04" id="tag_17_482_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>recv</i>() 应返回消息的长度（以字节为单位）。如果没有可接收的消息并且对端已执行有序关闭，则 <i>recv</i>() 应返回 0。否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_482_05" id="tag_17_482_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>recv</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN] 或 [EWOULDBLOCK]</dt>
+<dd>套接字的文件描述符被标记为 O_NONBLOCK，且没有等待接收的数据；或设置了 MSG_OOB 且没有可用的带外数据，并且要么套接字的文件描述符被标记为 O_NONBLOCK，要么套接字不支持阻塞以等待带外数据。另请参见 2.10.16 选项的使用 中的 SO_RCVTIMEO。</dd>
+<dt>[EBADF]</dt>
+<dd><i>socket</i> 参数不是有效的文件描述符。</dd>
+<dt>[ECONNRESET]</dt>
+<dd>连接被对端强制关闭。</dd>
+<dt>[EINTR]</dt>
+<dd>在任何数据可用之前，<i>recv</i>() 函数被一个已捕获的信号中断。</dd>
+<dt>[EINVAL]</dt>
+<dd>设置了 MSG_OOB 标志，且没有可用的带外数据。</dd>
+<dt>[ENOTCONN]</dt>
+<dd>在未连接的连接模式套接字上尝试进行接收。</dd>
+<dt>[ENOTSOCK]</dt>
+<dd><i>socket</i> 参数不引用套接字。</dd>
+<dt>[EOPNOTSUPP]</dt>
+<dd>此套接字类型或协议不支持指定的标志。</dd>
+<dt>[ETIMEDOUT]</dt>
+<dd>连接在建立连接期间超时，或由于活动连接上的传输超时而超时。</dd>
+</dl>
+<p>在以下情况下，<i>recv</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EIO]</dt>
+<dd>在读取或写入文件系统时发生 I/O 错误。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>系统中可用于执行该操作的资源不足。</dd>
+<dt>[ENOMEM]</dt>
+<dd>可用于满足请求的内存不足。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_482_06" id="tag_17_482_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_482_07" id="tag_17_482_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p><i>recv</i>() 函数等效于 <i>address</i> 和 <i>address_len</i> 参数为空指针的 recvfrom()，并且如果 <i>socket</i> 参数引用的是套接字且 <i>flags</i> 参数为 0，则等效于 read()。</p>
+<p>select() 和 poll() 函数可用于确定何时有数据可接收。</p>
+</blockquote>
+<a name="tag_17_482_08" id="tag_17_482_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_482_09" id="tag_17_482_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_482_10" id="tag_17_482_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>poll()、pselect()、read()、recvmsg()、recvfrom()、send()、sendmsg()、sendto()、setsockopt()、shutdown()、socket()、write()</p>
+<p>XBD &lt;sys/socket.h&gt;</p>
+</blockquote>
+<a name="tag_17_482_11" id="tag_17_482_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 6 版。源自 XNS 第 5.2 版规范。</p>
+</blockquote>
+<a name="tag_17_482_12" id="tag_17_482_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用 POSIX.1-2008 Technical Corrigendum 1 中的 XSH/TC1-2008/0502 [462]。</p>
+</blockquote>
+<a name="tag_17_482_13" id="tag_17_482_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用 Austin Group Defect 1429，通过添加对 2.10.16 选项的使用 的引用阐明超时时的行为。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

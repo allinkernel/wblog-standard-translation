@@ -1,0 +1,52 @@
+# start_index 121
+[li_00966] A replenishment operation consists of adding the corresponding [I1088]replenish_amount[/I1088] to the available execution capacity at the scheduled time. If, as a consequence of this operation, the execution capacity would become larger than [I1089]sched_ss_initial_budget[/I1089], it shall be rounded down to a value equal to [I1090]sched_ss_initial_budget[/I1090]. Additionally, if the thread was runnable or running, and had assigned priority equal to [I1091]sched_ss_low_priority[/I1091], then it becomes the tail of the thread list for [I1092]sched_priority[/I1092].
+[p_00967] Execution time is defined in XBD [A1093][I1094]3.90 CPU Time (Execution Time)[/I1094][/A1093].
+[p_00968] For this policy, changing the value of a CPU-time clock via [A1095][I1096]clock_settime[/I1096]()[/A1095] shall have no effect on its behavior.
+[p_00969] For this policy, valid priorities shall be within the range returned by the [A1097][I1098]sched_get_priority_min[/I1098]()[/A1097] and [A1099][I1100]sched_get_priority_max[/I1100]()[/A1099] functions when SCHED_SPORADIC is provided as the parameter. Conforming implementations shall provide a priority range of at least 32 distinct priorities for this policy.
+[p_00970] If the scheduling policy of the target process is either SCHED_FIFO or SCHED_RR, the [I1101]sched_ss_low_priority[/I1101], [I1102]sched_ss_repl_period[/I1102], and [I1103]sched_ss_init[/I1103] budget members of the [I1104]param[/I1104] argument shall have no effect on the scheduling behavior. If the scheduling policy of this process is not SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC, the effects of these members are implementation-defined; this case includes the SCHED_OTHER policy.
+[h5_00971] [A1105][/A1105]SCHED_OTHER
+[p_00972] Conforming implementations shall include one scheduling policy identified as SCHED_OTHER (which may execute identically with either the FIFO or round robin scheduling policy). The effect of scheduling threads with the SCHED_OTHER policy in a system in which other threads are executing under SCHED_FIFO, SCHED_RR, [S1106][[A1107]SS[/A1107]][/S1106] [IMG1108] &nbsp;or SCHED_SPORADIC [IMG1109] is implementation-defined.
+[p_00973] This policy is defined to allow strictly conforming applications to be able to indicate in a portable manner that they no longer need a realtime scheduling policy.
+[p_00974] For threads executing under this policy, the implementation shall use only priorities within the range returned by the [A1110][I1111]sched_get_priority_max[/I1111]()[/A1110] and [A1112][I1113]sched_get_priority_min[/I1113]()[/A1112] functions when SCHED_OTHER is provided as the parameter.
+[h4_00975] [A1114][/A1114]2.8.5 Clocks and Timers
+[p_00976] The [A1115][I1116]&lt;time.h&gt;[/I1116][/A1115] header defines the types and manifest constants used by the timing facility.
+[h5_00977] [A1117][/A1117]Time Value Specification Structures
+[p_00978] Many of the timing facility functions accept or return time value specifications. A time value structure [B1118]timespec[/B1118] specifies a single time value and includes at least the following members:
+[td_00979] ctx="行 1: [B1119]time_t[/B1119]" [B1119]time_t[/B1119]
+[td_00980] ctx="列头: Member Name" [I1120]tv_sec[/I1120]
+[td_00981] ctx="列头: Description" Seconds.
+[td_00982] ctx="行 2: [B1121]long[/B1121]" [B1121]long[/B1121]
+[td_00983] ctx="列头: Member Name" [I1122]tv_nsec[/I1122]
+[td_00984] ctx="列头: Description" Nanoseconds.
+[p_00985] The [I1123]tv_nsec[/I1123] member is only valid if greater than or equal to zero, and less than the number of nanoseconds in a second (1000 million). The time interval described by this structure is ([I1124]tv_sec[/I1124] * 10[S1125][S1126]9[/S1126][/S1125] + [I1127]tv_nsec[/I1127]) nanoseconds.
+[p_00986] A time value structure [B1128]itimerspec[/B1128] specifies an initial timer value and a repetition interval for use by the per-process timer functions. This structure includes at least the following members:
+[td_00987] ctx="行 1: [B1129]struct timespec[/B1129]" [B1129]struct timespec[/B1129]
+[td_00988] ctx="列头: Member Name" [I1130]it_interval[/I1130]
+[td_00989] ctx="列头: Description" Timer period.
+[td_00990] ctx="行 2: [B1131]struct timespec[/B1131]" [B1131]struct timespec[/B1131]
+[td_00991] ctx="列头: Member Name" [I1132]it_value[/I1132]
+[td_00992] ctx="列头: Description" Timer expiration.
+[p_00993] If the value described by [I1133]it_value[/I1133] is non-zero, it indicates the time to or time of the next timer expiration (for relative and absolute timer values, respectively). If the value described by [I1134]it_value[/I1134] is zero, the timer shall be disarmed.
+[p_00994] If the value described by [I1135]it_interval[/I1135] is non-zero, it specifies an interval which shall be used in reloading the timer when it expires; that is, a periodic timer is specified. If the value described by [I1136]it_interval[/I1136] is zero, the timer is disarmed after its next expiration; that is, a one-shot timer is specified.
+[h5_00995] [A1137][/A1137]Timer Event Notification Control Block
+[p_00996] Per-process timers may be created that notify the process of timer expirations by queuing a realtime extended signal. The [B1138]sigevent[/B1138] structure, defined in the Base Definitions volume of POSIX.1-2024, [A1139][I1140]&lt;signal.h&gt;[/I1140][/A1139], is used in creating such a timer. The [B1141]sigevent[/B1141] structure contains the signal number and an application-specific data value which shall be used when notifying the calling process of timer expiration events.
+[h5_00997] [A1142][/A1142]Manifest Constants
+[p_00998] The following constants are defined in the Base Definitions volume of POSIX.1-2024, [A1143][I1144]&lt;time.h&gt;[/I1144][/A1143]:
+[dt_00999] CLOCK_REALTIME
+[dd_01000] The identifier for the system-wide realtime clock.
+[dt_01001] TIMER_ABSTIME
+[dd_01002] Flag indicating time is absolute with respect to the clock associated with a timer.
+[dt_01003] CLOCK_MONOTONIC
+[dd_01004] The identifier for the system-wide monotonic clock, which is defined as a clock whose value cannot be set via [A1145][I1146]clock_settime[/I1146]()[/A1145] and which cannot have backward clock jumps. The maximum possible clock jump is implementation-defined.
+[p_01005] The maximum allowable resolution for CLOCK_REALTIME and CLOCK_MONOTONIC clocks and all time services based on these clocks is represented by {_POSIX_CLOCKRES_MIN} and shall be defined as 20 ms (1/50 of a second). Implementations may support smaller values of resolution for these clocks to provide finer granularity time bases. The actual resolution supported by an implementation for a specific clock is obtained using the [A1147][I1148]clock_getres[/I1148]()[/A1147] function. If the actual resolution supported for a time service based on one of these clocks differs from the resolution supported for that clock, the implementation shall document this difference.
+[p_01006] The minimum allowable maximum value for CLOCK_REALTIME and CLOCK_MONOTONIC clocks and all absolute time services based on them is the same as that defined by the ISO&nbsp;C standard for the [B1149]time_t[/B1149] type. If the maximum value supported by a time service based on one of these clocks differs from the maximum value supported by that clock, the implementation shall document this difference.
+[h5_01007] [A1150][/A1150]Execution Time Monitoring
+[p_01008] [S1151][[A1152]CPT[/A1152]][/S1151] [IMG1153] If _POSIX_CPUTIME is defined, process CPU-time clocks shall be supported in addition to the clocks described in [A1154]Manifest Constants[/A1154]. [IMG1155]
+[p_01009] [S1156][[A1157]TCT[/A1157]][/S1156] [IMG1158] If _POSIX_THREAD_CPUTIME is defined, thread CPU-time clocks shall be supported. [IMG1159]
+[p_01010] [S1160][[A1161]CPT|TCT[/A1161]][/S1160] [IMG1162] CPU-time clocks measure execution or CPU time, which is defined in XBD [A1163][I1164]3.90 CPU Time (Execution Time)[/I1164][/A1163]. The mechanism used to measure execution time is described in XBD [A1165][I1166]4.14 Measurement of Execution Time[/I1166][/A1165]. [IMG1167]
+[p_01011] [S1168][[A1169]CPT[/A1169]][/S1168] [IMG1170] If _POSIX_CPUTIME is defined, the following constant of the type [B1171]clockid_t[/B1171] is defined in [A1172][I1173]&lt;time.h&gt;[/I1173][/A1172]:
+[dt_01012] CLOCK_PROCESS_CPUTIME_ID
+[dd_01013] When this value of the type [B1174]clockid_t[/B1174] is used in a [A1175][I1176]clock[/I1176]()[/A1175] or [I1177]timer*[/I1177]() function call, it is interpreted as the identifier of the CPU-time clock associated with the process making the function call.
+[p_01014] [S1178][[A1179]TCT[/A1179]][/S1178] [IMG1180] If _POSIX_THREAD_CPUTIME is defined, the following constant of the type [B1181]clockid_t[/B1181] is defined in [A1182][I1183]&lt;time.h&gt;[/I1183][/A1182]:
+[dt_01015] CLOCK_THREAD_CPUTIME_ID
+[dd_01016] When this value of the type [B1184]clockid_t[/B1184] is used in a [A1185][I1186]clock[/I1186]()[/A1185] or [I1187]timer*[/I1187]() function call, it is interpreted as the identifier of the CPU-time clock associated with the thread making the function call.

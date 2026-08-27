@@ -1,0 +1,25 @@
+<h1>XSH 函数导读：pthread_cond_signal()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_cond_signal()</code> 唤醒阻塞在指定条件变量上的至少一个线程；它的兄弟函数 <code>pthread_cond_broadcast()</code> 唤醒全部。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_cond_signal(pthread_cond_t *cond);</code>——成功返回零，不应返回 [EINTR]。</p>
+
+<h2>1. 机制</h2>
+<p>两个函数都以单个原子操作确定当前阻塞在 <code>cond</code> 上的线程集合：signal 解除其中至少一个的阻塞，broadcast 解除全部。若没有线程阻塞，两个函数都无效果（信号不排队，先到先失）。被唤醒的线程从 wait 返回前要竞争它们各自的互斥量，顺序由调度策略决定，如同各自调用 <code>pthread_mutex_lock()</code> 一样。标准允许 signal 在多处理器上偶尔唤醒多个线程，这就是"虚假唤醒"的来源之一——因此谓词必须用 while 循环复查。调用 signal/broadcast 时并不要求持有相关互斥量，但若需要可预测的调度行为，建议持有。</p>
+
+<h2>2. 易错点</h2>
+<p>不要在信号处理程序中调用 <code>pthread_cond_signal()</code>，标准明确判定其不安全，且谓词测试与发信号之间仍存在无法消除的竞争。signal 只唤醒一个等待者：若多个线程等待的是不同条件，用 signal 可能让错误线程醒来而真正该醒的继续睡，此时应改用 broadcast。共享状态变更可能满足多个线程时也用 broadcast。勿忘与 <code>pthread_cond_wait()</code> 配套使用同一互斥量修改共享状态，避免丢失唤醒。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+
+static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t  cond = PTHREAD_COND_INITIALIZER;
+static int ready = 0;
+
+void *producer(void *arg) {
+    pthread_mutex_lock(&amp;mtx);
+    ready = 1;                      /* 在锁内改共享状态 */
+    pthread_cond_signal(&amp;cond);     /* 唤醒一个等待者 */
+    pthread_mutex_unlock(&amp;mtx);
+    return NULL;
+}</code></pre>

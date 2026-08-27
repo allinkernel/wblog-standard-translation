@@ -1,0 +1,39 @@
+<h1>XSH 函数导读：pthread_create()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_create()</code> 在进程内创建一个新线程，是 POSIX 线程编程的入口。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_create(pthread_t *restrict thread, const pthread_attr_t *restrict attr, void *(*start_routine)(void*), void *restrict arg)</code>——<code>thread</code> 接收新线程 ID，<code>attr</code> 指定属性（NULL 表示默认属性），新线程从执行 <code>start_routine</code> 开始并以 <code>arg</code> 作为其唯一参数。成功返回 0，失败返回错误号（而非 -1）。</p>
+
+<h2>1. 机制</h2>
+<p>新线程以 <code>arg</code> 调用 <code>start_routine</code>；若 <code>start_routine</code> 返回，效果如同隐式调用 <code>pthread_exit()</code> 并把返回值作为退出状态（注意：<code>main()</code> 返回则如同调用 exit()，语义不同）。<code>attr</code> 指定的属性在创建时被快照，之后修改属性对象不影响已创建的线程。信号状态：新线程的<strong>信号掩码从创建线程继承</strong>，但挂起信号集为空；线程局部的当前区域设置与备用栈不被继承，浮点环境从创建线程继承。若定义 _POSIX_THREAD_CPUTIME，新线程有初始值为零的可访问 CPU 时间时钟。失败时不创建线程，<code>thread</code> 所指位置的内容未定义。若 <code>attr</code> 未指向已初始化的属性对象，行为未定义（建议实现报告 [EINVAL]）。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><strong>错误返回方式</strong>：失败返回错误号（如 [EAGAIN]：资源不足或超过 {PTHREAD_THREADS_MAX}；[EPERM]：无权限设置调度参数/策略），不是 -1，不要用 perror() 直接处理。</li>
+<li><strong>ID 可用时机</strong>：实现不要求新线程 ID 在新线程开始执行前就可用；创建线程经 <code>thread</code> 参数获取 ID，新线程自己用 pthread_self() 获取，别假设两者次序。</li>
+<li><strong>信号掩码继承</strong>：新线程继承创建者的掩码——多线程信号处理的典型做法是先在创建者里阻塞信号，再让新线程 sigwait()。</li>
+<li><strong>未初始化 attr</strong>：传入未初始化的 <code>pthread_attr_t</code> 是未定义行为，务必先用 pthread_attr_init() 初始化。</li>
+<li><strong>栈与局部状态</strong>：备用栈、线程局部当前区域设置不被继承；浮点环境则继承。</li>
+<li><strong>不应返回 [EINTR]</strong>：该函数不应返回 [EINTR] 错误码。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+
+static void *worker(void *arg) {
+    long n = (long)arg;   /* 参数经 arg 传入 */
+    printf("worker: %ld\n", n);
+    return (void *)0;     /* 等同 pthread_exit(0) */
+}
+
+int main(void) {
+    pthread_t tid;
+    int rc = pthread_create(&amp;tid, NULL, worker, (void *)42);
+    if (rc != 0) {
+        fprintf(stderr, "pthread_create: %d\n", rc);
+        return 1;
+    }
+    pthread_join(tid, NULL);
+    return 0;
+}
+</code></pre>

@@ -1,0 +1,70 @@
+<h1>XSH 函数：getpid()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="getpid" id="getpid"></a> <a name="tag_17_225" id="tag_17_225"></a>
+<a name="tag_17_225_01" id="tag_17_225_01"></a><h4>名称 (NAME)</h4>
+<blockquote>getpid — 获取进程 ID (get the process ID)</blockquote>
+<a name="tag_17_225_02" id="tag_17_225_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+pid_t getpid(void);<br></code></code></p>
+</blockquote>
+<a name="tag_17_225_03" id="tag_17_225_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>getpid</i>() 函数应返回调用进程的进程 ID。</p>
+</blockquote>
+<a name="tag_17_225_04" id="tag_17_225_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p><i>getpid</i>() 函数应始终成功，并且没有保留返回值来指示错误。</p>
+</blockquote>
+<a name="tag_17_225_05" id="tag_17_225_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义任何错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_225_06" id="tag_17_225_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_225_07" id="tag_17_225_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_225_08" id="tag_17_225_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_225_09" id="tag_17_225_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_225_10" id="tag_17_225_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>exec, fork(), getpgrp(), getppid(), kill(), mkdtemp(), setpgid(), setsid()</p>
+<p>XBD &lt;sys/types.h&gt;、&lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_225_11" id="tag_17_225_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_225_12" id="tag_17_225_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>在 SYNOPSIS 中，移除了对 &lt;sys/types.h&gt; 头文件的可选包含。</p>
+<p>对 POSIX 实现的以下新要求源于与单一 UNIX 规范的一致性：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然 &lt;sys/types.h&gt; 是先前 POSIX 规范的符合实现所要求的，但它对 UNIX 应用程序并非必需。</p>
+</li>
+</ul>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

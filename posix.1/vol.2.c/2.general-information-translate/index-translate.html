@@ -1,0 +1,1173 @@
+<h1>XSH 卷（System Interfaces）：2. 通用信息</h1>
+
+
+
+
+<a name="top" id="top"></a>
+<a name="tag_16" id="tag_16"></a><h2>2. 通用信息 (General Information)</h2>
+<p>本章涵盖与 3. 系统接口 和 XBD 14. 头文件 中规定的所有函数相关的信息。</p>
+<a name="tag_16_01" id="tag_16_01"></a><h3>2.1 接口的使用与实现 (Use and Implementation of Interfaces)</h3>
+<a name="tag_16_01_01" id="tag_16_01_01"></a><h4>2.1.1 函数的使用与实现 (Use and Implementation of Functions)</h4>
+<p>除非下文详细描述中另有明确规定，否则以下各项陈述应适用于所有函数：</p>
+<ol>
+<li>
+<p>如果函数的某个参数具有无效值，例如超出函数定义域的值、指向生存期已结束的对象（即使现在有一个新对象占用相同的地址）的指针、超出程序地址空间的指针或空指针，则行为未定义。</p>
+</li>
+<li>
+<p>在头文件中声明的任何函数也可以作为在该头文件中定义的宏来实现，因此，如果包含了其头文件，则宜不显式声明该函数。函数的任何宏定义都可以通过将函数名括在括号中来局部抑制，因为此时该名称后面不会紧跟指示宏函数名展开的 &lt;left-parenthesis&gt;。出于同样的语法原因，即使函数也被定义为宏，也允许取该函数的地址。使用 C 语言的 <b>#undef</b> 结构来移除任何此类宏定义，也应确保引用的是实际函数。</p>
+</li>
+<li>
+<p>任何对以宏实现的函数的调用，应展开为对其每个参数恰好求值一次、并在必要时用括号完全保护的代码，因此将任意表达式用作参数通常是安全的。</p>
+</li>
+<li>
+<p>仅对于来自 ISO C 标准的函数，只要该函数能够在不引用 ISO C 标准头文件中定义的任何类型的情况下声明，也允许显式声明该函数并在不包含其相关头文件的情况下使用它。</p>
+</li>
+<li>
+<p>如果接受可变数量参数的函数未被声明（无论是显式声明还是通过包含其相关头文件来声明），则行为未定义。</p>
+</li>
+<li>
+<p>函数应按下述方式防止数据竞争：函数不应直接或间接访问当前线程以外的线程可访问的对象，除非这些对象是通过函数的参数直接或间接访问的。函数不应直接或间接修改当前线程以外的线程可访问的对象，除非这些对象是通过函数的非 const 参数直接或间接访问的。如果实现自身的内部对象对应用程序不可见且受到防止数据竞争的保护，则实现可以在线程之间共享这些内部对象。</p>
+</li>
+<li>
+<p>如果操作具有对应用程序可见的效果，则函数应仅在当前线程内执行这些操作。</p>
+</li>
+</ol>
+<a name="tag_16_01_02" id="tag_16_01_02"></a><h4>2.1.2 宏的使用与实现 (Use and Implementation of Macros)</h4>
+<p>除非另有明确规定，否则以下各项陈述应适用于所有宏：</p>
+<ol>
+<li>
+<p>头文件中对象式宏的任何定义，应展开为在必要时以括号完全保护的代码，以便其在任意表达式中像单个标识符一样分组。</p>
+</li>
+<li>
+<p>所有列明展开为整数常量表达式的对象式宏，还应适合在 <b>#if</b> 预处理指令中使用。</p>
+</li>
+<li>
+<p>头文件中函数式宏的任何定义，应展开为对其每个参数恰好求值一次、并在必要时以括号完全保护的代码，因此将任意表达式用作参数通常是安全的。</p>
+</li>
+<li>
+<p>头文件中函数式宏的任何定义，都可以在表达式中任何能够调用具有兼容返回类型的函数的位置被调用。</p>
+</li>
+</ol>
+<a name="tag_16_02" id="tag_16_02"></a><h3>2.2 编译环境 (The Compilation Environment)</h3>
+<a name="tag_16_02_01" id="tag_16_02_01"></a><h4>2.2.1 POSIX.1 符号 (POSIX.1 Symbols)</h4>
+<p>本卷 POSIX.1-2024 中的某些符号是在头文件中定义的（见 XBD 14. 头文件 (Headers)）。其中一些头文件还可能定义除 POSIX.1-2024 所定义符号以外的符号，从而可能与应用程序使用的符号发生冲突。此外，POSIX.1-2024 还定义了一些符号，其他标准不允许这些符号在未对其可见性加以某种控制的情况下出现在这些头文件中。</p>
+<p>称为 &quot;功能测试宏&quot; 的符号用于控制可能包含在头文件中的符号的可见性。实现、本标准的未来版本以及其他标准可以定义额外的功能测试宏。</p>
+<p>在编译一个以 <b>#define</b> 定义 POSIX.1-2024 所规定的功能测试宏的应用程序时，在定义该功能测试宏之前，不应包含任何由 POSIX.1-2024 定义的头文件。此限制同样适用于使用这些功能测试宏的任何由实现提供的头文件。如果宏的定义不在 <b>#include</b> 之前，则结果为未定义。</p>
+<p>功能测试宏应以 &lt;underscore&gt; 字符开头（<code>'_'</code>）。</p>
+<a name="tag_16_02_01_01" id="tag_16_02_01_01"></a><h5>2.2.1.1 _POSIX_C_SOURCE 功能测试宏 (The _POSIX_C_SOURCE Feature Test Macro)</h5>
+<p>符合 POSIX 的应用程序应确保在包含任何头文件之前定义功能测试宏 _POSIX_C_SOURCE。</p>
+<p>当应用程序包含 POSIX.1-2024 所描述的头文件，并且该功能测试宏被定义为值 202405L 时：</p>
+<ol>
+<li>
+<p>POSIX.1-2024 要求在包含该头文件时出现的所有符号均应变为可见。</p>
+</li>
+<li>
+<p>POSIX.1-2024 明确允许（但并非要求）出现在该头文件中的符号（包括保留名字空间中的符号）可以变为可见。</p>
+</li>
+<li>
+<p>除由另一个功能测试宏启用的情况外，POSIX.1-2024 既不要求也不明确允许出现在该头文件中的其他符号不应变为可见。</p>
+</li>
+</ol>
+<p>POSIX.1-2024 中的标识符只能按照 <a href="#tag_16_01">2.1 接口的使用与实现 (Use and Implementation of Interfaces)</a> 或 <a href="#tag_16_02_02">2.2.2 名字空间 (The Name Space)</a> 中所述，使用 <b>#undef</b> 指令取消定义。这些 <b>#undef</b> 指令应位于 POSIX.1-2024 中任何头文件的所有 <b>#include</b> 指令之后。</p>
+<dl>
+<dt><b>注：</b></dt>
+<dd>POSIX.1-1990 标准规定了一个名为 _POSIX_SOURCE 的宏。该宏已被 _POSIX_C_SOURCE 取代。</dd>
+</dl>
+
+<a name="tag_16_02_01_02" id="tag_16_02_01_02"></a><h5>2.2.1.2 _XOPEN_SOURCE 功能测试宏 (The _XOPEN_SOURCE Feature Test Macro)</h5>
+<p><sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 符合 XSI 的应用程序应确保在包含任何头文件之前将功能测试宏 _XOPEN_SOURCE 定义为值 800。这是启用 <a href="#tag_16_02_01_01">2.2.1.1 _POSIX_C_SOURCE 功能测试宏 (The _POSIX_C_SOURCE Feature Test Macro)</a> 所述功能以及确保 XSI 选项被启用所必需的。</p>
+<p>由于本卷 POSIX.1-2024 与 ISO C 标准保持一致，并且由于 _POSIX_C_SOURCE 设为 202405L 所启用的所有功能也都由 _XOPEN_SOURCE 设为 800 所启用，因此如果 _XOPEN_SOURCE 已如此定义，则应无需再定义 _POSIX_C_SOURCE。因此，如果 _XOPEN_SOURCE 设为 800 且 _POSIX_C_SOURCE 设为 202405L，其行为与仅定义 _XOPEN_SOURCE 并设为 800 时相同。但是，如果 _POSIX_C_SOURCE 被设为大于 202405L 的值，则行为未指定。</p>
+<p>如果在包含任何头文件之前 _XOPEN_SOURCE 被定义为值 800 而 _POSIX_C_SOURCE 未定义，则头文件可以将 _POSIX_C_SOURCE 宏定义为值 202405L。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_02_01_03" id="tag_16_02_01_03"></a><h5>2.2.1.3 __STDC_WANT_LIB_EXT1__ 功能测试宏 (The __STDC_WANT_LIB_EXT1__ Feature Test Macro)</h5>
+<p>符合 POSIX <sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或符合 XSI <img src=".pic/opt-end.gif" alt="[Option End]">  的应用程序可以在包含任何头文件之前定义功能测试宏 __STDC_WANT_LIB_EXT1__。</p>
+<p>当应用程序包含 POSIX.1-2024 所描述的头文件，并且该功能测试宏被定义为值 1 时，头文件可以使 ISO C 标准附录 K 中为该头文件规定的、且 POSIX.1-2024 尚未明确允许在该头文件中可见的那些符号变为可见。这些符号列于下文 <a href="#tag_16_02_02">2.2.2 名字空间 (The Name Space)</a>。</p>
+<p>当应用程序包含 POSIX.1-2024 所描述的头文件，并且该功能测试宏未定义或被定义为值 0 时，头文件不应使任何未由上述功能测试宏 _POSIX_C_SOURCE <sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或 _XOPEN_SOURCE <img src=".pic/opt-end.gif" alt="[Option End]">  变为可见的额外符号变为可见，除非该符号由另一个功能测试宏启用。</p>
+<a name="tag_16_02_02" id="tag_16_02_02"></a><h4>2.2.2 名字空间 (The Name Space)</h4>
+<p>除 <i>environ</i> 外，本卷 POSIX.1-2024 中的所有标识符都至少在一个头文件中定义，如 XBD 14. 头文件 (Headers) 所示。当 <sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  _XOPEN_SOURCE 或 <img src=".pic/opt-end.gif" alt="[Option End]"> _POSIX_C_SOURCE 被定义时，每个头文件都会定义或声明一些标识符，这些标识符可能与应用使用的标识符冲突。应用可见的标识符集合恰好由所包含头文件的头文件页中的那些标识符，以及为实现保留的额外标识符组成。此外，某些头文件可以使其他头文件中的标识符变为可见，如相关头文件页所示。</p>
+<p>实现还可以向结构或联合添加成员，而无需用功能测试宏控制这些成员的可见性，只要同名的用户定义宏不会干扰程序的正确解释即可。保留给实现使用的标识符描述如下：</p>
+<ol>
+<li>
+<p>如果头文件被包含，则头文件部分中所述的每个具有外部链接的标识符均保留用作具有外部链接的标识符。</p>
+</li>
+<li>
+<p>如果头文件被包含，则头文件部分中所述的每个宏均保留用于任何用途。</p>
+</li>
+<li>
+<p>如果头文件被包含，则头文件部分中所述的每个具有文件作用域的标识符均保留用作宏名以及同一名字空间中具有文件作用域的标识符。</p>
+</li>
+</ol>
+<p>如 13. 名字空间与未来方向 (Namespace and Future Directions) 所述，前缀 posix_、POSIX_ 和 _POSIX_ 保留供 POSIX.1-2024 和其他 POSIX 标准使用。实现可以向下表所示的头文件添加符号，前提是这些符号的标识符满足以下任一条件：</p>
+<ol>
+<li>
+<p>以下表中相应的保留前缀开头，或</p>
+</li>
+<li>
+<p>是表中相应的完整名称之一，或</p>
+</li>
+<li>
+<p>以下表中标为保留后缀的字符串结尾，并且不使用保留前缀 posix_、POSIX_ 或 _POSIX_，只要该保留后缀位于实现认为重要的名称部分中即可。</p>
+</li>
+</ol>
+<p>实现可以在 POSIX.1-2024 定义的任何头文件中使使用保留前缀 _POSIX_ 的符号变为可见。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+
+<dl>
+<dt><b>注：</b></dt>
+<dd>记号 [0-9] 表示任意数字。记号 [A-Z] 表示可移植字符集中的任意大写字母。记号 [a-z] 表示可移植字符集中的任意小写字母。上表中前缀列表和完整名称列表中的逗号和空格不属于任何前缀或完整名称的一部分。ISO C 标准在 &lt;stdint.h&gt; 中保留了 int[0-9a-z_]*_t 和 uint[0-9a-z_]*_t；由于这已被任何头文件的保留后缀 _t 所涵盖，故未包含在上表中。</dd>
+</dl>
+
+<p>通过包含 &lt;unistd.h&gt;，可以定义带前缀 _CS_、_PC_ 和 _SC_ 的额外符号常量，但由于这些符号常量已保留给实现使用，故未包含在上表中。带这些前缀的扩展应分别与 confstr()、pathconf() 和 sysconf() 的使用兼容。</p>
+<p>实现还可以向 &lt;complex.h&gt; 头文件添加具有以下完整名称、或具有以 <code>'f'</code> 或 <code>'l'</code> 为后缀的相同名称的符号：</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<p>如果包含了下表中的任何头文件，则可以定义具有所示前缀或后缀的宏。在某个头文件最后一次被包含之后，应用程序可以将具有相应前缀的标识符用于自身目的，前提是在使用它们之前先用 <b>#undef</b> 取消相应宏的定义。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<br>
+<p>以下名称用于为 &lt;stdint.h&gt; 头文件保留完整名称：</p>
+<blockquote><pre><code class="language-plaintext">INT[0-9A-Za-z_]*_MIN
+INT[0-9A-Za-z_]*_MAX
+INT[0-9A-Za-z_]*_C
+UINT[0-9A-Za-z_]*_MIN
+UINT[0-9A-Za-z_]*_MAX
+UINT[0-9A-Za-z_]*_C</code></pre></blockquote>
+
+<dl>
+<dt><b>注：</b></dt>
+<dd>记号 [0-9] 表示任意数字。记号 [A-Z] 表示可移植字符集中的任意大写字母。记号 [Xa-z] 表示字符 <code>'X'</code> 或可移植字符集中的任意小写字母。记号 [0-9A-Za-z_]* 表示以下任意项的零次或多次出现：数字、可移植字符集中的大写或小写字母，或 &lt;underscore&gt;。</dd>
+</dl>
+<br>
+<p><sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 以下保留名称用作 &lt;termios.h&gt; 的精确匹配：</p>
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+<img src=".pic/opt-end.gif" alt="[Option End]">
+<p>当功能测试宏__STDC_WANT_LIB_EXT1__ 被定义为值 1 时（见 <a href="#tag_16_02_01">2.2.1 POSIX.1 符号 (POSIX.1 Symbols)</a>），实现可以向下表所示的头文件添加符号，前提是这些符号的标识符具有表中相应的完整名称之一。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p>当功能测试宏__STDC_WANT_LIB_EXT1__ 被定义为值 1 时（见 <a href="#tag_16_02_01">2.2.1 POSIX.1 符号 (POSIX.1 Symbols)</a>），如果包含了下表中的任何头文件，则可以定义具有所示完整名称的宏。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr></tbody></table>
+
+
+<dl>
+<dt><b>注：</b></dt>
+<dd>上述两个表仅包含 ISO C 标准附录 K 中那些尚未由本节前面各表中的条目允许可见的符号。</dd>
+</dl>
+<br>
+<p>无论是否包含头文件，以下标识符均被保留：</p>
+<dl compact="None">
+<dd></dd>
+<dt>1.</dt>
+<dd>除以前缀 _POSIX_ 开头的标识符以及与 ISO C 标准定义的关键字在词法上相同的那些标识符（例如 <b>_Bool</b>）之外，所有以 &lt;underscore&gt; 后接大写字母或另一个 &lt;underscore&gt; 开头的标识符始终保留供实现用于任何用途。</dd>
+<dt>2.</dt>
+<dd>所有以 &lt;underscore&gt; 开头的标识符始终保留用作普通标识符名字空间和标记名字空间中具有文件作用域的标识符。</dd>
+<dt>3.</dt>
+<dd>下表中的所有标识符均保留用作具有外部链接的标识符。其中一些标识符未出现在本卷 POSIX.1-2024 中，但由 ISO C 标准保留供将来使用。</dd>
+<dt>4.</dt>
+<dd>XBD 14. 头文件 (Headers) 中定义的所有函数和外部标识符均保留用作具有外部链接的标识符。</dd>
+<dt>5.</dt>
+<dd>本卷 POSIX.1-2024 中定义的所有具有外部链接的标识符以及 <i>errno</i> 始终保留用作具有外部链接的标识符。</dd>
+</dl>
+
+<dl>
+<dt><b>注：</b></dt>
+<dd>记号 [a-z] 表示可移植字符集中的任意小写字母。记号 <code>'*'</code> 表示数字、可移植字符集中的字母或 &lt;underscore&gt; 的任意组合。</dd>
+</dl>
+
+<p>没有其他标识符被保留。</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+
+<dl>
+<dt><b>注：</b></dt>
+<dd>记号 [a-z] 表示可移植字符集中的任意小写字母。记号 <code>'*'</code> 表示零个或多个在具有外部链接的标识符中有效的字符的任意序列。</dd>
+</dl>
+
+<p>应用程序不应声明或定义与在同一上下文中保留的标识符同名的标识符。由于宏名无论在哪里出现都会被替换，与作用域和名字空间无关，因此如果包含任何相关头文件，应用程序不应定义与任何保留标识符名称匹配的宏名。</p>
+<p>除了每次包含 &lt;assert.h&gt; 的效果取决于 NDEBUG 的定义之外，头文件可以按任意顺序包含，并且每个头文件在给定作用域内可以包含多次，其效果与仅包含一次没有区别。</p>
+<p>如果使用，应用程序应确保头文件在任何外部声明或定义之外被包含，并且应在首次引用其定义的任何类型或宏、或其声明的任何函数或对象之前首次包含该头文件。但是，如果某个标识符在多个头文件中被声明或定义，则第二个及后续相关头文件可以在首次引用该标识符之后包含。在包含头文件之前，或当该头文件中定义的任何宏被展开时，应用程序不应定义任何名称与该头文件所定义符号在词法上相同的宏。</p>
+<a name="tag_16_03" id="tag_16_03"></a><h3>2.3 错误编号 (Error Numbers)</h3>
+<p>大多数函数可以提供错误编号。每个函数提供其错误编号的方式在其描述中规定。</p>
+<p>某些函数通过符号 <i>errno</i> 访问的变量提供错误编号，该变量通过包含 &lt;errno.h&gt; 头文件来定义。只有当函数的返回值表明 <i>errno</i> 有效时，才宜检查 <i>errno</i> 的值。POSIX.1-2024 本卷中的任何函数都不应将 <i>errno</i> 设置为零。对于进程的每个线程，<i>errno</i> 的值不应受其他线程的函数调用或对 <i>errno</i> 的赋值的影响。</p>
+<p>某些函数直接以函数值的形式返回错误编号。这些函数返回零值以表示成功。</p>
+<p>如果在处理函数调用时发生多个错误，可以返回其中任何一个可能的错误，因为检测顺序未定义。</p>
+<p>实现可以支持本列表之外的附加错误，可以在本文所述情况之外的情况下产生本列表中的错误，也可以包含阻止某些错误发生的扩展或限制。</p>
+<p>每个参考页上的 ERRORS 部分规定了哪些错误条件应被所有实现检测到（&quot;应失败&quot;），以及哪些错误条件可以由实现选择性地检测到（&quot;可以失败&quot;）。如果没有检测到错误条件，所请求的操作应成功。如果检测到错误条件，除非另有说明，所请求的操作可能已被部分执行。</p>
+<p>当且仅当所有这些错误条件总是能够与 POSIX.1-2024 本卷中所述的错误条件同样对待时，实现才可以在所述情况之外的情况下产生此处列出的错误编号。对于 POSIX.1-2024 本卷所述的错误条件，实现不应产生与本卷所要求的错误编号不同的错误编号；但除非对特定函数明确禁止，否则可以产生附加错误。</p>
+<p>每个实现应在一致性文档中记录检测到 POSIX.1-2024 中定义的每个可选条件的情形。一致性文档也可以包含一个或多个可选错误条件未被检测到的陈述。</p>
+<p>某些与线程相关的函数不允许返回 [EINTR] 错误码。在适用之处，这一点在单个函数页面的 ERRORS 部分中说明。</p>
+<p>在 POSIX.1-2024 本卷具体定义的函数的上下文中，以下宏名称标识可能的错误编号；这些一般性描述在返回这些错误编号的函数的 ERRORS 部分中有更精确的定义。程序中只宜使用这些宏名称，因为错误编号的实际值未指定。除非下文另有说明，本节列出的所有值应唯一。所有这些宏的值应能在 POSIX.1-2024 基础定义卷中定义的 &lt;errno.h&gt; 头文件中找到。实际值未由 POSIX.1-2024 本卷指定。</p>
+<dl compact="None">
+<dd></dd>
+<dt>[E2BIG]</dt>
+<dd>
+Argument list too long. The sum of the number of bytes used by the new process image's argument list and environment list is
+greater than the system-imposed limit of {ARG_MAX} bytes.
+<p>或：</p>
+<p>输出缓冲区中空间不足。</p>
+<p>或：</p>
+<p>参数大于系统规定的最大值。</p>
+</dd>
+<dt>[EACCES]</dt>
+<dd>权限被拒绝。试图以文件的文件访问权限所禁止的方式访问该文件。</dd>
+<dt>[EADDRINUSE]</dt>
+<dd>地址在使用中。指定的地址正在使用中。</dd>
+<dt>[EADDRNOTAVAIL]</dt>
+<dd>地址不可用。本地系统无法提供指定的地址。</dd>
+<dt>[EAFNOSUPPORT]</dt>
+<dd>不支持地址族。实现不支持指定的地址族，或者指定的地址对于指定套接字的地址族不是有效地址。</dd>
+<dt>[EAGAIN]</dt>
+<dd>资源暂时不可用。这是一种临时状况，之后对同一例程的调用可以正常完成。</dd>
+<dt>[EALREADY]</dt>
+<dd>连接已在建立中。指定的套接字已经有一个连接请求正在进行。</dd>
+<dt>[EBADF]</dt>
+<dd>错误的文件描述符。文件描述符参数超出范围、不指向任何打开的文件，或者对仅以写（读）方式打开的文件发出了读（写）请求。</dd>
+<dt>[EBADMSG]</dt>
+<dd>错误消息。实现检测到损坏的消息。</dd>
+<dt>[EBUSY]</dt>
+<dd>资源忙。试图使用当前不可用的系统资源，因为该资源正被另一个进程以会与本进程发出的请求冲突的方式使用。</dd>
+<dt>[ECANCELED]</dt>
+<dd>操作已取消。相关的异步操作在完成之前被取消。</dd>
+<dt>[ECHILD]</dt>
+<dd>没有子进程。某个进程执行了 wait()、waitid() 或 waitpid() 函数，而该进程没有已存在或尚未被等待的子进程。</dd>
+<dt>[ECONNABORTED]</dt>
+<dd>连接中止。该连接已被中止。</dd>
+<dt>[ECONNREFUSED]</dt>
+<dd>连接被拒绝。连接到套接字的尝试被拒绝，因为没有进程在监听，或者因为连接请求队列已满且底层协议不支持重传。</dd>
+<dt>[ECONNRESET]</dt>
+<dd>连接被重置。连接被对端强制关闭。</dd>
+<dt>[EDEADLK]</dt>
+<dd>会发生资源死锁。试图锁定一个本会导致死锁状况的系统资源。</dd>
+<dt>[EDESTADDRREQ]</dt>
+<dd>需要目标地址。没有建立绑定地址。</dd>
+<dt>[EDOM]</dt>
+<dd>定义域错误。某个输入参数超出了数学函数已定义的定义域（在 ISO C 标准中定义）。</dd>
+<dt>[EDQUOT]</dt>
+<dd>保留。</dd>
+<dt>[EEXIST]</dt>
+<dd>文件已存在。在不当的上下文中提到了一个已存在的文件；例如，在 link() 函数中作为新的链接名。</dd>
+<dt>[EFAULT]</dt>
+<dd>错误的地址。系统在试图使用调用参数时检测到无效地址。此错误的可靠检测无法保证，未检测到时可能导致产生一个指示地址违例的信号，该信号被发送到进程。</dd>
+<dt>[EFBIG]</dt>
+<dd>文件过大。文件的大小将超过实现的最大文件大小、进程的文件大小限制，或相应打开文件描述中建立的偏移量最大值。</dd>
+<dt>[EHOSTUNREACH]</dt>
+<dd>主机不可达。无法到达目标主机（可能是因为主机已关闭，或者远程路由器无法到达该主机）。</dd>
+<dt>[EIDRM]</dt>
+<dd>标识符已移除。在 XSI 进程间通信期间，如果某个标识符已从系统中移除，则返回此错误。</dd>
+<dt>[EILSEQ]</dt>
+<dd>非法的字节序列。检测到不对应于有效字符的宽字符码，或者某个字节序列不构成有效的宽字符码（在 ISO C 标准中定义）。</dd>
+<dt>[EINPROGRESS]</dt>
+<dd>
+Operation in progress. This code is used to indicate that an asynchronous operation has not yet completed.
+<p>或：</p>
+<p>套接字文件描述符设置了 O_NONBLOCK，并且无法立即建立连接。</p>
+</dd>
+<dt>[EINTR]</dt>
+<dd>被中断的函数调用。在执行可中断函数期间，进程捕获了一个异步信号。如果信号处理函数正常返回，被中断的函数调用可以返回此状况（参见 POSIX.1-2024 基础定义卷，&lt;signal.h&gt;）。</dd>
+<dt>[EINVAL]</dt>
+<dd>无效的参数。提供了某个无效参数；例如，在 signal() 函数或 kill() 函数中指定了未定义的信号。</dd>
+<dt>[EIO]</dt>
+<dd>输入/输出错误。发生了某种物理输入或输出错误。此错误可以在对同一文件描述符的后续操作中报告。对同一文件描述符的任何其他引起错误的操作都可能导致 [EIO] 错误指示丢失。</dd>
+<dt>[EISCONN]</dt>
+<dd>套接字已连接。指定的套接字已经连接。</dd>
+<dt>[EISDIR]</dt>
+<dd>是一个目录。试图打开一个指定了写模式的目录。</dd>
+<dt>[ELOOP]</dt>
+<dd>符号链接循环。在路径名解析期间遇到的符号链接中存在循环。如果在路径名解析期间遇到的符号链接超过 {SYMLOOP_MAX} 个，也可能返回此错误。</dd>
+<dt>[EMFILE]</dt>
+<dd>文件描述符值过大或打开的数据流过多。试图打开一个值大于或等于 {OPEN_MAX} 的文件描述符，<sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或大于或等于进程的软限制 RLIMIT_NOFILE（如果该值小于 {OPEN_MAX}）；<img src=".pic/opt-end.gif" alt="[Option End]">  或者试图打开的数据流超过进程中允许的最大数据流数量。</dd>
+<dt>[EMLINK]</dt>
+<dd>硬链接过多。试图使单个文件的链接计数超过 {LINK_MAX}。</dd>
+<dt>[EMSGSIZE]</dt>
+<dd>
+Message too large. A message sent on a transport provider was larger than an internal message buffer or some other network limit.
+<p>或：</p>
+<p>不合适的消息缓冲区长度。</p>
+</dd>
+<dt>[EMULTIHOP]</dt>
+<dd>保留。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>文件名过长。路径名的长度超过 {PATH_MAX}，且实现认为这是错误；或者路径名分量比 {NAME_MAX} 长。当路径名替换（即路径名解析期间遇到符号链接所导致的结果）产生大小超过 {PATH_MAX} 的路径名字符串时，也可能出现此错误。</dd>
+<dt>[ENETDOWN]</dt>
+<dd>网络已关闭。用于到达目标的本地网络接口已关闭。</dd>
+<dt>[ENETRESET]</dt>
+<dd>连接已被网络中止。</dd>
+<dt>[ENETUNREACH]</dt>
+<dd>网络不可达。不存在到达该网络的路由。</dd>
+<dt>[ENFILE]</dt>
+<dd>系统中打开的文件过多。系统中当前打开的文件过多。系统已达到其同时打开文件的预定义限制，暂时无法接受再打开一个文件的请求。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>没有可用的缓冲区空间。系统中可用于执行套接字操作的缓冲区资源不足。</dd>
+<dt>[ENODEV]</dt>
+<dd>没有这样的设备。试图对设备应用不适当的函数；例如，试图读取只写设备（如打印机）。</dd>
+<dt>[ENOENT]</dt>
+<dd>没有这样的文件或目录。指定路径名的某个分量不存在，或者路径名是空字符串。</dd>
+<dt>[ENOEXEC]</dt>
+<dd>可执行文件格式错误。请求执行一个文件，该文件虽然具有适当的权限，但不符合实现要求的可执行文件格式。</dd>
+<dt>[ENOLCK]</dt>
+<dd>没有可用的锁。已达到系统对同时存在的文件和记录锁数量的限制，目前不再有可用的锁。</dd>
+<dt>[ENOLINK]</dt>
+<dd>保留。</dd>
+<dt>[ENOMEM]</dt>
+<dd>空间不足。新的进程映像所需的内存超过硬件或系统施加的内存管理约束所允许的数量。</dd>
+<dt>[ENOMSG]</dt>
+<dd>没有所需类型的消息。在 XSI 进程间通信期间，消息队列中不包含所需类型的消息。</dd>
+<dt>[ENOPROTOOPT]</dt>
+<dd>协议不可用。实现不支持为 setsockopt() 指定的协议选项。</dd>
+<dt>[ENOSPC]</dt>
+<dd>设备上没有剩余空间。在对普通文件执行 write() 函数期间或扩展目录时，设备上没有剩余的空闲空间。</dd>
+<dt>[ENOSYS]</dt>
+<dd>功能不受支持。试图使用此实现不支持的可选功能。</dd>
+<dt>[ENOTCONN]</dt>
+<dd>套接字未连接。该套接字未连接。</dd>
+<dt>[ENOTDIR]</dt>
+<dd>不是目录。当预期是目录时，指定路径名的某个分量存在，但它不是目录；或者试图创建非目录文件，而指定的路径名包含至少一个非 &lt;slash&gt; 字符，并以一个或多个结尾的 &lt;slash&gt; 字符结束。</dd>
+<dt>[ENOTEMPTY]</dt>
+<dd>目录不为空。当预期是空目录时，提供的却是一个非空目录。</dd>
+<dt>[ENOTRECOVERABLE]</dt>
+<dd>状态不可恢复。由健壮互斥量保护的状态不可恢复。</dd>
+<dt>[ENOTSOCK]</dt>
+<dd>不是套接字。文件描述符不指向套接字。</dd>
+<dt>[ENOTSUP]</dt>
+<dd>不支持。实现不支持所请求的功能或值。</dd>
+<dt>[ENOTTY]</dt>
+<dd>不适当的 I/O 控制操作。对某个其操作不适当的文件或特殊文件尝试了控制函数。</dd>
+<dt>[ENXIO]</dt>
+<dd>没有这样的设备或地址。对特殊文件的输入或输出指向不存在的设备，或者提出了超出设备能力的请求。例如，当磁带机不在线时也可能出现此错误。</dd>
+<dt>[EOPNOTSUPP]</dt>
+<dd>套接字上不支持该操作。套接字的类型（地址族或协议）不支持所请求的操作。符合规范的实现可以为 [EOPNOTSUPP] 和 [ENOTSUP] 赋予相同的值。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>值过大，无法存储在数据类型中。尝试了某个操作，该操作将生成超出相关数据类型可表示的值范围或超出给定数据项允许的值范围的值。</dd>
+<dt>[EOWNERDEAD]</dt>
+<dd>先前的所有者已终止。健壮互斥量的所有者在持有互斥量锁期间终止。</dd>
+<dt>[EPERM]</dt>
+<dd>不允许该操作。试图执行限于具有适当特权的进程或限于文件或其他资源的所有者的操作。</dd>
+<dt>[EPIPE]</dt>
+<dd>管道破裂。试图在套接字、管道或 FIFO 上执行写操作，而该套接字、管道或 FIFO 没有进程来读取数据。</dd>
+<dt>[EPROTO]</dt>
+<dd>协议错误。发生了某种协议错误。此错误与具体设备相关，但通常与硬件故障无关。</dd>
+<dt>[EPROTONOSUPPORT]</dt>
+<dd>不支持该协议。地址族不支持该协议，或者实现不支持该协议。</dd>
+<dt>[EPROTOTYPE]</dt>
+<dd>套接字的协议类型错误。协议不支持该套接字类型。</dd>
+<dt>[ERANGE]</dt>
+<dd>结果过大或过小。函数的结果过大（溢出）或过小（下溢），无法在可用空间中表示（在 ISO C 标准中定义）。</dd>
+<dt>[EROFS]</dt>
+<dd>只读文件系统。试图修改只读文件系统上的文件或目录。</dd>
+<dt>[ESOCKTNOSUPPORT]</dt>
+<dd>不支持该套接字类型。地址族不支持该套接字类型，或者实现不支持该套接字类型。</dd>
+<dt>[ESPIPE]</dt>
+<dd>无效的查找。试图访问与管道或 FIFO 相关联的文件偏移量。</dd>
+<dt>[ESRCH]</dt>
+<dd>没有这样的进程。找不到与给定进程 ID 对应的进程。</dd>
+<dt>[ESTALE]</dt>
+<dd>保留。</dd>
+<dt>[ETIMEDOUT]</dt>
+<dd>
+Connection timed out. The connection to a remote machine has timed out. If the connection timed out during execution of the
+function that reported this error (as opposed to timing out prior to the function being called), it is unspecified whether the
+function has completed some or all of the documented behavior associated with a successful completion of the function.
+<p>或：</p>
+<p>操作超时。在操作完成之前，超出了与该操作相关联的时间限制。</p>
+</dd>
+<dt>[ETXTBSY]</dt>
+<dd>文本文件忙。试图执行当前正以写方式打开的纯过程程序，或者试图以写方式打开正在被执行的纯过程程序。</dd>
+<dt>[EWOULDBLOCK]</dt>
+<dd>
+Operation would block. An operation on a socket marked as non-blocking has encountered a situation such as no data available that
+otherwise would have caused the function to suspend execution.
+<p>符合规范的实现可以为 [EWOULDBLOCK] 和 [EAGAIN] 赋予相同的值。</p>
+</dd>
+<dt>[EXDEV]</dt>
+<dd>不适当的硬链接。试图创建指向另一个文件系统上的文件的硬链接。</dd>
+</dl>
+<a name="tag_16_03_01" id="tag_16_03_01"></a><h4>2.3.1 附加错误编号 (Additional Error Numbers)</h4>
+<p>附加的实现定义错误编号可以在 &lt;errno.h&gt; 中定义。</p>
+<a name="tag_16_04" id="tag_16_04"></a><h3>2.4 信号概念 (Signal Concepts)</h3>
+<a name="tag_16_04_01" id="tag_16_04_01"></a><h4>2.4.1 信号的产生与递送 (Signal Generation and Delivery)</h4>
+<p>当导致信号的事件首次发生时，即称该信号为针对某进程或线程而&quot;产生&quot;（或发送）的。此类事件的例子包括硬件故障的检测、定时器到期、通过 <b>sigevent</b> 结构产生的信号以及终端活动，此外还有 kill() 和 sigqueue() 函数的调用。在某些情况下，同一事件会为多个进程产生信号。</p>
+<p>在产生之时，应确定该信号是为进程产生的，还是为进程内的某个特定线程产生的。由可归因于特定线程的某些动作（如硬件故障）产生的信号，应为导致该信号产生的那个线程而产生。与进程 ID 或进程组 ID 或异步事件（如终端活动）相关联而产生的信号，应为进程而产生。</p>
+<p>每个进程对系统定义的每个信号都有一个要采取的动作（见 <a href="#tag_16_04_03">2.4.3 信号动作 (Signal Actions)</a>）。当针对该进程和信号采取了相应动作时，即称该信号被&quot;递送&quot;给进程。当信号被某个 sigwait() 函数选中并返回时，即称该信号被进程&quot;接受&quot;。</p>
+<p>在信号产生与其递送或接受之间的这段时间内，称该信号为&quot;未决&quot;。通常，应用程序无法检测到这一时间间隔。然而，信号可以被&quot;阻塞&quot;而无法递送给线程。如果与被阻塞信号相关联的动作不是忽略该信号，且该信号是为该线程产生的，则该信号应保持未决，直到它被解除阻塞、通过调用 sigwait() 函数被选中并返回而被接受，或与之相关联的动作被设置为忽略该信号。为进程产生的信号应递送给进程内满足以下条件的恰好一个线程：该线程正处于调用选中该信号的 sigwait() 函数之中，或未阻塞该信号的递送。如果没有线程正处于调用选中该信号的 sigwait() 函数之中，且进程内所有线程都阻塞该信号的递送，则该信号应在进程上保持未决，直到某个线程调用选中该信号的 sigwait() 函数、某个线程解除该信号的递送阻塞，或与该信号相关联的动作被设置为忽略该信号。如果与被阻塞信号相关联的动作是忽略该信号，且该信号是为进程产生的，则该信号是在产生时立即被丢弃还是保持未决，是未指定的。</p>
+<p>每个线程都有一个&quot;信号掩码&quot;，它定义当前被阻塞而无法递送给该线程的信号集合。线程的信号掩码应以其父线程或创建线程的信号掩码初始化；如果该线程是调用 fork() 的结果而创建的，则应从父进程中对应线程的信号掩码初始化。pthread_sigmask()、sigaction()、sigprocmask() 和 sigsuspend() 函数控制信号掩码的操作。</p>
+<p>对信号采取何种动作的确定是在信号递送之时作出的，并考虑到自产生以来的任何变化。该确定与信号最初产生的方式无关。如果未决信号随后又产生了一次，则在需要排队的情形之外，该信号是否会被递送或接受多次，是实现定义的。在 SIGRTMIN 到 SIGRTMAX 范围之外的多个同时未决信号被进程递送或接受的顺序，是未指定的。</p>
+<p>当任何停止信号（SIGSTOP、SIGTSTP、SIGTTIN、SIGTTOU）为某进程或线程产生时，该进程或其内任何线程的所有未决 SIGCONT 信号均应被丢弃。反之，当 SIGCONT 为某进程或线程产生时，该进程或其内任何线程的所有未决停止信号均应被丢弃。当 SIGCONT 为已停止的进程产生时，该进程应被继续执行，即使 SIGCONT 信号被该进程忽略，或被进程内所有线程阻塞，且没有线程正处于调用选中 SIGCONT 的 sigwait() 函数之中。如果 SIGCONT 被进程内所有线程阻塞，没有线程正处于调用选中 SIGCONT 的 sigwait() 函数之中，且 SIGCONT 未被进程忽略，则 SIGCONT 信号应在进程上保持未决，直到它被某个线程解除阻塞、或某个线程调用选中 SIGCONT 的 sigwait() 函数，或为进程或其内任何线程产生停止信号为止。</p>
+<p>对于本卷 POSIX.1-2024 未规定的、实现会产生信号的任何条件，实现应予以文档化。</p>
+<a name="tag_16_04_02" id="tag_16_04_02"></a><h4>2.4.2 实时信号的产生与递送 (Realtime Signal Generation and Delivery)</h4>
+<p>本节描述用于支持实时信号产生与递送的功能。</p>
+<p>某些产生信号的函数，如高分辨率定时器到期、异步 I/O 完成、进程间消息到达以及 sigqueue() 函数，支持指定应用程序定义的值，既可以显式地作为函数参数，也可以放在 <b>sigevent</b> 结构参数中。<b>sigevent</b> 结构在 &lt;signal.h&gt; 中定义，至少包含以下成员：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p><i>sigev_notify</i> 成员指定异步事件发生时使用的通知机制。本卷 POSIX.1-2024 为 <i>sigev_notify</i> 成员定义以下值：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SIGEV_NONE</dt>
+<dd>当所关注的事件发生时，不应递送任何异步通知。</dd>
+<dt>SIGEV_SIGNAL</dt>
+<dd>当所关注的事件发生时，应为进程产生 <i>sigev_signo</i> 中指定的信号。如果为该信号编号设置了 SA_SIGINFO 标志，则该信号应排入进程的队列，且 <i>sigev_value</i> 中指定的值应为所产生信号的 <i>si_value</i> 分量。如果未为该信号编号设置 SA_SIGINFO，则信号是否排队以及发送什么值（如有）是未指定的。</dd>
+<dt>SIGEV_THREAD</dt>
+<dd>应调用通知函数来执行通知。</dd>
+</dl>
+<p>实现可以定义额外的通知机制。</p>
+<p><i>sigev_signo</i> 成员指定要产生的信号。<i>sigev_value</i> 成员是应用程序定义的值，在信号递送时传递给信号捕获函数，或在信号接受时作为 <b>siginfo_t</b> 结构的 <i>si_value</i> 成员返回。</p>
+<p><b>sigval</b> 联合在 &lt;signal.h&gt; 中定义，至少包含以下成员：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr></tbody></table>
+
+<p>当应用程序定义的值类型为 <b>int</b> 时，应使用 <i>sival_int</i> 成员；当应用程序定义的值是指针时，应使用 <i>sival_ptr</i> 成员。</p>
+<p>当信号由 sigqueue() 函数或任何支持指定应用程序定义值的产生信号的函数产生时，该信号应被标记为未决，并且如果为该信号设置了 SA_SIGINFO 标志，则该信号应连同应用程序指定的信号值一起排入进程的队列。如此产生的多个信号实例按 FIFO 顺序排队。当未为该信号设置 SA_SIGINFO 标志时，如此产生的信号是否排队是未指定的。</p>
+<p>由 kill() 函数或导致信号发生的其他事件（如硬件故障的检测、alarm() 定时器到期或终端活动）产生、且实现不支持其排队的信号，对已为同一信号编号排队的信号应无影响。</p>
+<p>当有多个未阻塞信号（均处于 SIGRTMIN 到 SIGRTMAX 范围内）未决时，行为应如同实现递送该范围内信号编号最低的未决未阻塞信号。未规定信号递送的其他顺序。</p>
+<p>如果在递送未决信号时，还有更多信号排队在该信号编号下，则该信号应保持未决。否则，未决指示应被重置。</p>
+<p>多线程程序可以使用另一种事件通知机制。当通知被处理，且 <b>sigevent</b> 结构的 <i>sigev_notify</i> 成员值为 SIGEV_THREAD 时，将以参数 <i>sigev_value</i> 调用函数 <i>sigev_notify_function</i>。</p>
+<p>该函数应在一个新创建的线程中执行，如同它是调用 pthread_create() 时的 <i>start_routine</i>，并使用 <i>sigev_notify_attributes</i> 指定的线程属性。如果 <i>sigev_notify_attributes</i> 为 NULL，行为应如同线程创建时将 <i>detachstate</i> 属性设置为 PTHREAD_CREATE_DETACHED。提供 <i>detachstate</i> 属性为 PTHREAD_CREATE_JOINABLE 的属性结构会导致未定义行为。此线程的信号掩码是阻塞除 SIGKILL 和 SIGSTOP 之外的所有信号，还是与安装 <b>sigevent</b> 通知处理程序的线程在安装处理程序的那次调用时生效的掩码相同，是实现定义的。</p>
+<a name="tag_16_04_03" id="tag_16_04_03"></a><h4>2.4.3 信号动作 (Signal Actions)</h4>
+<p>可以与信号关联的动作有三种类型：SIG_DFL、SIG_IGN 或指向函数的指针。最初，在进入 <i>main</i>() 例程之前，所有信号均应设置为 SIG_DFL 或 SIG_IGN（见 <i>exec</i> 函数）。这些值规定的动作如下。</p>
+<a name="tag_16_04_03_01" id="tag_16_04_03_01"></a><h5>SIG_DFL</h5>
+<p>信号特定的默认动作。</p>
+<p>本卷 POSIX.1-2024 定义的信号的默认动作在 &lt;signal.h&gt; 中规定。SIGRTMIN 到 SIGRTMAX 范围内的实时信号的默认动作应为异常终止进程。</p>
+<p>如果默认动作是异常终止进程，则进程如同调用 _exit() 一样被终止，不同之处在于提供给 wait()、waitid() 和 waitpid() 的状态指示由该信号导致的异常终止。如果默认动作是附带附加动作地异常终止进程，则也可能发生实现定义的异常终止动作，如创建核心映像。</p>
+<p>如果默认动作是停止进程，则该进程的执行被暂时挂起。当进程停止时，应为其父进程产生 SIGCHLD 信号，除非父进程已设置 SA_NOCLDSTOP 标志。当进程处于停止状态时，发送给该进程的任何附加信号均不应被递送，直到进程被继续执行，但 SIGKILL 除外，它总是终止接收进程。孤儿进程组的成员进程不应被允许响应 SIGTSTP、SIGTTIN 或 SIGTTOU 信号而停止。在递送这些信号之一会使此类进程停止的情况下，该信号应被丢弃。</p>
+<p>如果默认动作是忽略信号，则该信号的递送对进程应无影响。</p>
+<p>对未决的、且其默认动作是忽略该信号的信号（例如 SIGCHLD）将信号动作设置为 SIG_DFL，应导致该未决信号被丢弃，无论它是否被阻塞。任何未决的已排队值均应被丢弃，用于排队它们的资源应被释放并归还系统以供其他用途。</p>
+<p>SIGCONT 的默认动作是首先处理任何未决的未阻塞信号，然后在进程被停止的位置恢复执行。</p>
+<p><sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 当已停止的进程被继续执行时，可以为它的父进程产生 SIGCHLD 信号，除非父进程已设置 SA_NOCLDSTOP 标志。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_04_03_02" id="tag_16_04_03_02"></a><h5>SIG_IGN</h5>
+<p>忽略信号。</p>
+<p>该信号的递送对进程应无影响。进程在忽略并非由 kill()、sigqueue() 或 raise() 产生的 SIGFPE、SIGILL、SIGSEGV 或 SIGBUS 信号之后，其行为是未定义的。</p>
+<p>系统不应允许将 SIGKILL 或 SIGSTOP 信号的动作设置为 SIG_IGN。</p>
+<p>对未决信号将信号动作设置为 SIG_IGN 应导致该未决信号被丢弃，无论它是否被阻塞。</p>
+<p>如果进程将 SIGCHLD 信号的动作设置为 SIG_IGN，则行为是未指定的，<sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 除非 _Exit() 函数描述中&quot;进程终止的后果 (Consequences of Process Termination)&quot;之下所规定的（见 XSH _Exit()）。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>任何未决的已排队值均应被丢弃，用于排队它们的资源应被释放并可用来排队其他信号。</p>
+<a name="tag_16_04_03_03" id="tag_16_04_03_03"></a><h5>指向函数的指针 (Pointer to a Function)</h5>
+<p>捕获信号。</p>
+<p>在信号递送时，接收进程应在指定地址执行信号捕获函数。从信号捕获函数返回后，接收进程应在其被中断的位置恢复执行。</p>
+<p>如果该信号的 SA_SIGINFO 标志被清除，信号捕获函数应作为 C 语言函数调用进入，如下所示：</p>
+<pre><code class="language-plaintext">void func(int signo);</code></pre>
+<p>如果该信号的 SA_SIGINFO 标志被设置，信号捕获函数应作为 C 语言函数调用进入，如下所示：</p>
+<pre><code class="language-plaintext">void func(int signo, siginfo_t *info, void *context);</code></pre>
+<p>其中 <i>func</i> 是指定的信号捕获函数，<i>signo</i> 是被递送信号的信号编号，<i>info</i> 是指向 &lt;signal.h&gt; 中定义的 <b>siginfo_t</b> 结构的指针，该结构至少包含以下成员：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p><i>si_signo</i> 成员应包含信号编号，这应与 <i>signo</i> 参数相同。<i>si_code</i> 成员应包含标识信号原因的代码。为 <i>si_code</i> 定义了以下非信号特定的值：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SI_USER</dt>
+<dd>该信号由 kill() 函数发送。如果信号由 raise() 或 abort() 函数或作为实现扩展提供的任何类似函数发送，实现可以将 <i>si_code</i> 设置为 SI_USER。</dd>
+<dt>SI_QUEUE</dt>
+<dd>该信号由 sigqueue() 函数发送。</dd>
+<dt>SI_TIMER</dt>
+<dd>该信号由 timer_settime() 设置的定时器到期而产生。</dd>
+<dt>SI_ASYNCIO</dt>
+<dd>该信号由异步 I/O 请求的完成而产生。</dd>
+<dt>SI_MESGQ</dt>
+<dd><sup>[MSG]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 该信号由消息到达空消息队列而产生。<img src=".pic/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p>如 XBD &lt;signal.h&gt; 所述，也为 <i>si_code</i> 定义了信号特定的值。</p>
+<p>如果信号不是由上面列出的函数或事件之一产生的，则 <i>si_code</i> 应设置为 XBD &lt;signal.h&gt; 中描述的某个信号特定值，或设置为不等于上面定义的任何值的实现定义值。</p>
+<p>如果 <i>si_code</i> 是 SI_USER 或 SI_QUEUE，<sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或任何小于或等于 0 的值，<img src=".pic/opt-end.gif" alt="[Option End]">  则该信号由某进程产生，且 <i>si_pid</i> 和 <i>si_uid</i> 应分别设置为发送者的进程 ID 和真实用户 ID。</p>
+<p>此外，如 XBD &lt;signal.h&gt; 所述，对于 <i>si_code</i> 的某些信号特定值，应设置 <i>si_addr</i>、<i>si_pid</i>、<i>si_status</i> 和 <i>si_uid</i>。</p>
+<p>如果 <i>si_code</i> 是 SI_QUEUE、SI_TIMER、SI_ASYNCIO 或 SI_MESGQ 之一，则 <i>si_value</i> 应包含应用程序指定的信号值。否则，<i>si_value</i> 的内容是未定义的。</p>
+<p>进程从针对并非由 kill()、sigqueue() 或 raise() 产生的 SIGBUS、SIGFPE、SIGILL 或 SIGSEGV 信号的信号捕获函数正常返回之后，其行为是未定义的。</p>
+<p>系统不应允许进程捕获 SIGKILL 和 SIGSTOP 信号。</p>
+<p>如果进程在有一个已终止但尚未等待的子进程时，为 SIGCHLD 信号建立了信号捕获函数，则是否产生 SIGCHLD 信号来表示该子进程是未指定的。</p>
+<p>如果进程是多线程的，或者进程是单线程的且信号处理程序的执行不是以下操作的结果：</p>
+<ul>
+<li>进程调用 abort()、raise()、kill()、pthread_kill() 或 sigqueue() 来产生未被阻塞的信号</li>
+<li>未决信号被解除阻塞并在解除阻塞的调用返回之前被递送</li>
+</ul>
+<p>则在以下情况下行为是未定义的：</p>
+<ul>
+<li>信号处理程序引用除 <i>errno</i> 之外的任何具有静态或线程存储期、且既不是无锁原子对象也不是不可修改对象（例如字符串字面量、以 const 限定类型定义的对象以及映射为只读的内存中的对象）的对象，除非是通过向声明为 <b>volatile sig_atomic_t</b> 的对象赋值，且对该对象的前一次修改（如有）发生在信号处理程序被调用之前、从信号处理程序返回发生在对该对象的下一次修改（如有）之前。</li>
+<li>信号处理程序调用本标准中定义的、除下面规定为异步信号安全的函数和宏之外的任何函数或类函数宏。</li>
+</ul>
+<p>下表定义了一组应为异步信号安全的函数和类函数宏。因此，应用程序可以在信号捕获函数中不受限制地调用它们。请注意，虽然对调用本身没有限制，但对于某些函数，从信号捕获函数调用该函数之后的行为有限制（见 longjmp()）。</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<p>此外，当原子参数为无锁时，&lt;stdatomic.h&gt; 中除 atomic_init() 之外的函数应为异步信号安全，并且 atomic_is_lock_free() 函数在以原子参数调用时应为异步信号安全。</p>
+<p>所有其他函数（包括泛型函数）和类函数宏对于信号而言可能是不安全的。还有哪些附加接口（如有）也是异步信号安全的，是实现定义的。在存在信号的情况下，本卷 POSIX.1-2024 定义的所有函数在被信号捕获函数调用或被其中断时，应按照定义的行为运行；例外情况是：当信号中断不安全的函数或类函数宏或等价物（例如从初次调用 <i>main</i>() 返回之后执行的与 exit() 等价的处理）时，且信号捕获函数调用不安全的函数或类函数宏，则行为是未定义的。其他例外在 longjmp() 等个别函数的描述中规定。</p>
+<p>获取 <i>errno</i> 值的操作和向 <i>errno</i> 赋值的操作应为异步信号安全，前提是信号捕获函数在进入时保存 <i>errno</i> 的值并在返回前恢复它。</p>
+<p>当信号递送给线程时，如果该信号的动作规定终止、停止或继续，则整个进程应分别被终止、停止或继续。</p>
+<a name="tag_16_04_04" id="tag_16_04_04"></a><h4>2.4.4 信号对其他函数的影响 (Signal Effects on Other Functions)</h4>
+<p>如果信号在进程执行本卷 POSIX.1-2024 定义的某个函数期间递送给进程，则会影响该函数的行为。如果信号的动作是终止进程，则进程应被终止，且该函数不应返回。如果信号的动作是停止进程，则进程应停止，直到被继续或终止。为进程产生 SIGCONT 信号应导致进程被继续执行，原函数应在进程被停止的位置继续执行。如果信号的动作是调用信号捕获函数，则应调用该信号捕获函数；在这种情况下，称原函数被信号&quot;中断&quot;。如果信号捕获函数执行 <b>return</b> 语句，则被中断函数的行为应如对该函数个别描述的那样，不安全的函数除外。从信号捕获函数返回后，如果信号捕获函数或其调用的任何函数向 <i>errno</i> 赋了值，且信号捕获函数未保存并恢复 <i>errno</i> 的原始值，则 <i>errno</i> 的值是未指定的。被忽略的信号不应影响任何函数的行为；被阻塞的信号在被解除阻塞并递送之前不应影响任何函数的行为，sigpending() 和 sigwait() 函数的规定除外。</p>
+<a name="tag_16_05" id="tag_16_05"></a><h3>2.5 标准 I/O 流 (Standard I/O Streams)</h3>
+<p>通过&quot;打开&quot;文件 <sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或缓冲区 <img src=".pic/opt-end.gif" alt="[Option End]">  ，流与外部文件（可以是物理设备）<sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或内存缓冲区 <img src=".pic/opt-end.gif" alt="[Option End]"> 相关联。这可能涉及&quot;创建&quot;新文件。创建已存在的文件会在必要时导致其先前内容被丢弃。如果文件能支持定位请求（如磁盘文件，与终端相对），则与该流关联的&quot;文件位置指示符&quot;被定位于文件起始处（字节编号 0），除非文件以追加模式打开；在这种情况下，文件位置指示符最初定位于文件开头还是末尾是实现定义的。文件位置指示符由随后的读取、写入和定位请求维护，以便于在文件中依序推进。</p>
+<p>宽字符输入函数应从流中读取字符并将它们转换为宽字符，如同它们是连续调用 fgetwc() 函数读取的一样。每次转换都应如同通过调用 mbrtowc() 函数进行，转换状态由流自身的 <b>mbstate_t</b> 对象描述（见 <a href="#tag_16_05_02">2.5.2 流的方向性与编码规则 (Stream Orientation and Encoding Rules)</a>）。字节输入函数应如同通过连续调用 fgetc() 函数一样从流中读取字符。</p>
+<p>宽字符输出函数应将宽字符转换为字符并写入流，如同它们是连续调用 fputwc() 函数写入的一样。每次转换都应如同通过调用 wcrtomb() 函数进行，转换状态由流自身的 <b>mbstate_t</b> 对象描述（见 <a href="#tag_16_05_02">2.5.2 流的方向性与编码规则 (Stream Orientation and Encoding Rules)</a>）。字节输出函数应如同通过连续调用 fputc() 函数一样将字符写入流。</p>
+<p>如果流已是字节方向的，则 perror()、psiginfo() 和 psignal() 函数应如上面对字节输出函数所述的行为运行；如果流已是宽字符方向的，则应如上面对宽字符输出函数所述的行为运行。如果流没有方向性，它们应如对字节输出函数所述的行为运行，但不应改变流的方向性。</p>
+<p>除 perror()、psiginfo() 和 psignal() 之外、向流写入但既不是宽字符输出也不是字节输出函数的函数（getopt() 和 wordexp()），应如上面对字节输出函数所述的行为运行，但如果流没有方向性，则它们是将流设置为字节方向还是让它保持无方向性，是未指定的。</p>
+<p>当流是&quot;无缓冲&quot;时，字节应尽快从源出现或在目的地出现；否则，字节可以被累积并以块的形式传输。当流是&quot;全缓冲&quot;时，字节应在缓冲区被填满时以块的形式传输。当流是&quot;行缓冲&quot;时，字节应在遇到 &lt;newline&gt; 字节时以块的形式传输。此外，当缓冲区被填满时、在无缓冲流上请求输入时、或在需要传输字节的行缓冲流上请求输入时，字节应以块的形式传输。对这些特性的支持是实现定义的，并且可以通过 setbuf() 和 setvbuf() 加以影响。</p>
+<p>可以通过&quot;关闭&quot;文件使文件与控制它的流分离。在流与文件分离之前，输出流被刷新（任何未写入的缓冲区内容都被传输）。相关联的文件被关闭（包括标准流）之后，指向 <b>FILE</b> 对象的指针的值是未指定的。</p>
+<p>文件以后可以被重新打开，由同一程序执行或另一程序执行，其内容可以被回收或修改（如果它能在其起始处重新定位）。如果 <i>main</i>() 函数返回到其最初的调用者，或调用了 exit() 函数，则所有打开的文件都在程序终止前被关闭（因此所有输出流都被刷新）。程序终止的其他途径，如调用 abort()，不必正确关闭所有文件。</p>
+<p>用于控制流的 <b>FILE</b> 对象的地址可能是重要的；<b>FILE</b> 对象的副本不一定要能代替原件使用。</p>
+<p>在程序启动时，应预定义三个流且它们已经打开：<i>stdin</i>（标准输入，用于常规输入）用于读取，<i>stdout</i>（标准输出，用于常规输出）用于写入，<i>stderr</i>（标准错误，用于诊断输出）用于写入。打开时，<i>stderr</i> 不应是全缓冲；当且仅当 <sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  确定与该流关联的文件描述符不与交互式设备关联时，<i>stdin</i> 和 <i>stdout</i> 应为全缓冲。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>每个流都应有一个关联的锁，用于在多个执行线程访问流时防止数据竞争，并限制多个线程所执行的流操作的交错。一次只能有一个线程持有此锁。该锁应是可重入的：单个线程在某一时刻可以多次持有该锁。所有读取、写入、定位或查询流位置的函数，<sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  除名称以 <i>_unlocked</i> 结尾的以外，<img src=".pic/opt-end.gif" alt="[Option End]">  在访问流之前应锁定流 <sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  ，如同通过调用 flockfile() <img src=".pic/opt-end.gif" alt="[Option End]">  一样，并在访问完成时释放锁 <sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  ，如同通过调用 funlockfile() <img src=".pic/opt-end.gif" alt="[Option End]">  一样。</p>
+<p><sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 如果锁不能立即可用，函数应等待它变为可用，以下情况除外。如果流是行缓冲的且以写入或更新模式打开，而函数试图锁定该流的原因是将要在另一个无缓冲、或行缓冲且需要从宿主环境传输字符（见上文）的流上请求输入，则函数应尝试确定是否存在死锁情形。如果确定存在死锁情形，函数应失败。如果函数能够确定不存在死锁情形，它应等待锁变为可用。如果函数未能确定是否存在死锁情形，它应继续执行，如同它已经锁定了流、发现其缓冲区为空并释放了锁。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 与内存缓冲区关联的流应具有与外部文件关联的流相同的文本文件操作。此外，流的方向性应以完全相同的方式确定。</p>
+<p>通过调用 fmemopen() 与内存缓冲区关联的流上的输入和输出操作，应由实现约束在内存缓冲区的边界内进行。对于由 open_memstream() 或 open_wmemstream() 打开的流，内存区域应按需要动态增长以容纳写操作。对于输出，如果流是全缓冲或行缓冲的，则在刷新或关闭操作期间，数据应从流的内部缓冲区或 setvbuf() 提供的缓冲区移动到内存缓冲区。对于输入，是否使用 setvbuf() 提供的缓冲区，或者读操作是否直接从提供给 fmemopen() 或由其分配的内存缓冲区读取，是未指定的。</p>
+<p>当标准 I/O 流有关联的内存缓冲区（无论是内部分配的、提供给 setvbuf() 的，还是提供给 fmemopen() 的）时，如果该缓冲区与传递给从流中读取的调用的目标缓冲区或与传递给向流写入的调用的源缓冲区重叠，则行为是未定义的。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_05_01" id="tag_16_05_01"></a><h4>2.5.1 文件描述符与标准 I/O 流的交互 (Interaction of File Descriptors and Standard I/O Streams)</h4>
+<p><sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 本节描述文件描述符与标准 I/O 流的交互。本节描述的功能是对 ISO C 标准的扩展（本节其余部分不再作 CX 阴影标注）。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>打开文件描述可以通过文件描述符访问，文件描述符使用 open() 或 pipe() 等函数创建；也可以通过流访问，流使用 fopen() 或 popen() 等函数创建。文件描述符或流都称为其所引用的打开文件描述上的&quot;句柄&quot;；一个打开文件描述可以有多个句柄。</p>
+<p>句柄可以通过用户的显式操作创建或销毁，而不影响底层打开文件描述。创建它们的一些方式包括 fcntl()、dup()、fdopen()、fileno() 和 fork()。它们至少可以通过 fclose()、close() 和 <i>exec</i> 函数销毁。</p>
+<p>从未在可能影响文件偏移量的操作（例如 read()、write() 或 lseek()）中使用过的文件描述符，在本讨论中不被视为句柄，但可能产生一个句柄（例如，作为 fdopen()、dup() 或 fork() 的结果）。此例外不包括流底层的文件描述符，无论它是用 fopen() 还是 fdopen() 创建的，只要应用程序没有直接使用它来影响文件偏移量。read() 和 write() 函数隐式影响文件偏移量；lseek() 显式影响它。</p>
+<p>涉及任一单个句柄（&quot;活动句柄&quot;）的函数调用的结果在本卷 POSIX.1-2024 的其他地方定义，但如果使用两个或更多句柄，且其中任何一个是流，则应用程序应确保它们的动作按下面所述的方式协调。如果不这样做，结果是未定义的。</p>
+<p>当对作为流的句柄执行 fclose() 或带非空文件名的 freopen() 时（对于带空文件名的 freopen()，是创建新句柄还是复用现有句柄是实现定义的），或者当拥有该流的进程以 exit()、abort() 终止或由于信号而终止时，该句柄被视为已关闭。若干函数会关闭文件描述符，包括 close()、dup2()、_exit()、在文件描述符上设置了 FD_CLOEXEC 时的 <i>exec</i> 函数、在文件描述符上设置了 FD_CLOFORK 时的 fork()，以及设置了 FD_CLOEXEC 或 FD_CLOFORK 任一标志时的 posix_spawn()。</p>
+<p>为使某个句柄成为活动句柄，应用程序应确保在第一个句柄的最后一次使用（当前活动句柄）与第二个句柄的第一次使用（未来活动句柄）之间执行下面的动作。第二个句柄随后成为活动句柄。应用程序在第一个句柄上影响文件偏移量的所有活动应被挂起，直到它再次成为活动文件句柄。（如果流函数的底层函数之一是影响文件偏移量的函数，则该流函数应被视为影响文件偏移量。）</p>
+<p>这些规则适用时，句柄不必位于同一进程中。</p>
+<p>注意，在 fork() 之后，以前存在一个句柄的地方现在存在两个句柄。应用程序应确保，如果两个句柄都可能被访问，则它们都处于对方可以先成为活动句柄的状态。应用程序应如同准备一次活动句柄的更换一样为 fork() 做准备。（如果其中一个进程执行的唯一动作是 <i>exec</i> 函数之一或 _exit()（不是 exit()），则该句柄在该进程中永远不会被访问。）</p>
+<p>对于第一个句柄，下面第一个适用的条件生效。在采取下面要求的动作之后，如果句柄仍然打开，应用程序可以关闭它。</p>
+<ul>
+<li>如果它是文件描述符，则不需要任何动作。</li>
+<li>如果对这个打开文件描述的任何句柄要执行的唯一进一步动作是关闭它，则无需采取任何动作。</li>
+<li>如果它是无缓冲的流，则无需采取任何动作。</li>
+<li>If it is a stream which is line buffered, and the last byte written to the stream was a &lt;newline&gt; (that is,
+as if a:
+<blockquote><pre><code class="language-plaintext">putc('\n')</code></pre></blockquote>
+<p>是该流上最近的操作），则无需采取任何动作。</p>
+</li>
+<li>如果它是为写入或追加而打开（但不同时也为读取打开）的流，则应用程序应执行 fflush()，或者该流应被关闭。</li>
+<li>如果流是为读取而打开且处于文件末尾（feof() 为真），则无需采取任何动作。</li>
+<li>如果流以允许读取的模式打开，且底层打开文件描述指向能够寻位的设备，则应用程序应执行 fflush()，或者该流应被关闭。</li>
+</ul>
+<p>对于第二个句柄：</p>
+<ul>
+<li>如果任何先前的活动句柄曾被显式改变文件偏移量的函数使用，则除上面为第一个句柄要求的情形外，应用程序应执行 lseek() 或 fseek()（视句柄类型而定）到合适的位置。</li>
+</ul>
+<p>如果在上面关于第一个句柄的要求得到满足之前，活动句柄变得不可访问，则打开文件描述的状态变为未定义。这可能发生在 fork() 或 _exit() 等函数执行期间。</p>
+<p><i>exec</i> 函数使调用它们时打开的所有流变得不可访问，无论哪些流或文件描述符可能对新进程映像可用。</p>
+<p>当遵循这些规则时，无论使用句柄的顺序如何，写入时都不应丢失或重复任何数据，并且除 seek 另有要求外，所有数据都应按顺序写入。所有输入是否恰好被看到一次以及在什么条件下，是实现定义的。</p>
+<p>每个对流进行操作的函数都被认为有零个或多个&quot;底层函数&quot;。这意味着流函数与底层函数共享某些特性，但并不要求流函数与其底层函数的实现之间存在任何关系。</p>
+<a name="tag_16_05_02" id="tag_16_05_02"></a><h4>2.5.2 流的方向性与编码规则 (Stream Orientation and Encoding Rules)</h4>
+<p>流的定义包含&quot;方向性&quot;。在流与外部文件关联之后、但在对它执行任何操作之前，流没有方向性。一旦对无方向性的流应用了宽字符输入/输出函数，该流应变为&quot;宽字符方向&quot;。类似地，一旦对无方向性的流应用了字节输入/输出函数，该流应变为&quot;字节方向&quot;。除此之外，只有调用 freopen() 函数或 fwide() 函数才能改变流的方向性。</p>
+<p>成功调用 freopen() 应去除任何方向性。三个预定义流 <i>标准输入</i>、<i>标准输出</i> 和 <i>标准错误</i> 在程序启动时应无方向性。</p>
+<p>字节输入/输出函数不能应用于宽字符方向的流，宽字符输入/输出函数不能应用于字节方向的流。其余的流操作不应影响流的方向性，也不应受流的方向性影响，但以下附加限制除外：</p>
+<ul>
+<li>对于宽字符方向的流，在成功调用将文件位置指示符留在文件末尾之前的文件定位函数之后，宽字符输出函数可以覆盖部分字符；所写字节之后的任何文件内容从此是未定义的。</li>
+</ul>
+<p>每个未用 open_wmemstream() <img src=".pic/opt-end.gif" alt="[Option End]"> 打开的宽字符方向流 <sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  都有一个关联的 <b>mbstate_t</b> 对象，用于存储该流的当前解析状态。成功调用 fgetpos() 应将此 <b>mbstate_t</b> 对象值的表示作为 <b>fpos_t</b> 对象值的一部分存储。随后使用同一已存储的 <b>fpos_t</b> 值成功调用 fsetpos()，应恢复关联的 <b>mbstate_t</b> 对象的值以及受控流内的位置。</p>
+<p>支持多种编码规则的实现为流关联一种编码规则。编码规则应由流变为宽字符方向时当前语言环境中 <i>LC_CTYPE</i> 类别的设置来确定。与流的方向性一样，流关联的编码规则一旦设置便不能更改，除非成功调用 freopen()，它会清除编码规则并将方向性重置为无方向性。</p>
+<p>尽管宽字符方向的流在概念上是宽字符序列，但与未用 open_wmemstream() <img src=".pic/opt-end.gif" alt="[Option End]"> 打开的宽字符方向流 <sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  关联的外部文件是（可能多字节的）字符序列，其广义化如下：</p>
+<ul>
+<li>文件内的多字节编码可以包含嵌入的空字节（不同于程序内部使用有效的多字节编码）。</li>
+<li>文件不必以初始移位状态开始或结束。</li>
+</ul>
+<p>此外，用于字符的编码在不同文件之间可以不同。此类编码的性质和选择都是实现定义的。</p>
+<p><sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 在未用 open_wmemstream() <img src=".pic/opt-end.gif" alt="[Option End]"> 打开的流上，宽字符输入函数从流中读取字符并将它们转换为宽字符，如同它们是连续调用 fgetwc() 函数读取的一样。每次转换都应如同通过调用 mbrtowc() 函数进行，转换状态由流自身的 <b>mbstate_t</b> 对象描述，<sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  不同之处在于使用与该流关联的编码规则，而不是当前语言环境 <i>LC_CTYPE</i> 类别所隐含的编码规则。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 在未用 open_wmemstream() <img src=".pic/opt-end.gif" alt="[Option End]"> 打开的流上，宽字符输出函数将宽字符转换为（可能多字节的）字符并写入流，如同它们是连续调用 fputwc() 函数写入的一样。每次转换都应如同通过调用 wcrtomb() 函数进行，转换状态由流自身的 <b>mbstate_t</b> 对象描述，<sup>[CX]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  不同之处在于使用与该流关联的编码规则，而不是当前语言环境 <i>LC_CTYPE</i> 类别所隐含的编码规则。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>如果提交给底层 mbrtowc() 函数的字符序列不能构成有效的（广义）字符，或者传递给底层 wcrtomb() 函数的代码值不对应于有效的（广义）字符，则应发生&quot;编码错误&quot;。宽字符输入/输出函数和字节输入/输出函数仅在发生编码错误时，才将宏 [EILSEQ] 的值存储到 <i>errno</i> 中。</p>
+<a name="tag_16_06" id="tag_16_06"></a><h3>2.6 文件描述符分配 (File Descriptor Allocation)</h3>
+<p>除非另有规定，所有打开一个或多个文件描述符的函数应在每次分配时以原子方式分配编号最小的可用（即调用进程中尚未打开的）文件描述符。当单个函数分配两个文件描述符时（例如 pipe() 或 socketpair()），这些分配可以是相互独立的，因此应用程序不应期望它们具有相邻的值，也不应依赖哪一个具有更高的值。</p>
+<a name="tag_16_07" id="tag_16_07"></a><h3>2.7 XSI 进程间通信 (XSI Interprocess Communication)</h3>
+<p><sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 本节描述支持进程间通信的扩展。本节所述功能应在支持 XSI 选项的实现上提供（本节的其余部分不再另行标记）。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>下列消息传递、信号量和共享内存服务构成一个 XSI 进程间通信设施。其操作的某些方面是共同的，定义如下。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr></tbody></table>
+
+<p>另一种进程间通信设施由实时选项组（Realtime Option Group）中的函数提供；参见 <a href="#tag_16_08">2.8 实时 (Realtime)</a>。</p>
+<a name="tag_16_07_01" id="tag_16_07_01"></a><h4>2.7.1 IPC 一般描述 (IPC General Description)</h4>
+<p>每个单独的共享内存段、消息队列和信号量集应由一个唯一的正整数标识，分别称为共享内存标识符 <i>shmid</i>、信号量标识符 <i>semid</i> 和消息队列标识符 <i>msqid</i>。这些标识符应由对 shmget()、semget() 和 msgget() 的调用分别返回。</p>
+<p>与每个标识符相关联的是一个数据结构，其中包含与可能正在执行或可能已经执行的操作相关的数据；其描述参见 POSIX.1-2024 的基本定义卷（Base Definitions volume），&lt;sys/shm.h&gt;、&lt;sys/sem.h&gt; 和 &lt;sys/msg.h&gt;。</p>
+<p>每个数据结构都包含所有权信息和 <b>ipc_perm</b> 结构（参见 POSIX.1-2024 的基本定义卷，&lt;sys/ipc.h&gt;），二者结合使用以确定是否应向使用 IPC 设施的进程授予读/写（对信号量为读/改）权限。<b>ipc_perm</b> 结构的 <i>mode</i> 成员充当决定权限的位字段。</p>
+<p>这些位的值以八进制记法给出如下，同时给出 &lt;sys/stat.h&gt; 中定义的、可用于表示它们的符号常量。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p><b>ipc_perm</b> 结构的名称是 <i>shm_perm</i>、<i>sem_perm</i> 或 <i>msg_perm</i>，具体取决于正在使用哪种服务。在每种情况下，如果下列一项或多项为真，则应向进程授予读和写/改权限（<code>"xxx"</code> 视情况替换为 <i>shm</i>、<i>sem</i> 或 <i>msg</i>）：</p>
+<ul>
+<li>该进程具有适当的特权。</li>
+<li>进程的有效用户 ID 与和该 IPC 标识符相关联的数据结构中的 <i>xxx_perm.cuid</i> 或 <i>xxx_perm.uid</i> 匹配，并且 <i>xxx_perm.mode</i> 中 <i>user</i> 字段的相应位已设置。</li>
+<li>进程的有效用户 ID 与和该 IPC 标识符相关联的数据结构中的 <i>xxx_perm.cuid</i> 或 <i>xxx_perm.uid</i> 不匹配，但进程的有效组 ID 与该数据结构中的 <i>xxx_perm.cgid</i> 或 <i>xxx_perm.gid</i> 匹配，并且 <i>xxx_perm.mode</i> 中 <i>group</i> 字段的相应位已设置。</li>
+<li>进程的有效用户 ID 与和该 IPC 标识符相关联的数据结构中的 <i>xxx_perm.cuid</i> 或 <i>xxx_perm.uid</i> 不匹配，且进程的有效组 ID 与该数据结构中的 <i>xxx_perm.cgid</i> 或 <i>xxx_perm.gid</i> 不匹配，但 <i>xxx_perm.mode</i> 中 <i>other</i> 字段的相应位已设置。</li>
+</ul>
+<p>否则，应拒绝该权限。</p>
+<p>除了 <b>ipc_perm</b> 结构之外，每个相关联的数据结构还包含若干 <b>time_t</b> 字段，用于记录特定操作的时间戳。当某个操作被描述为将时间戳设置为当前时间时，相关联数据结构中该特定时间戳成员应被设置为不大于当前时间的最大 <b>time_t</b> 值。</p>
+<a name="tag_16_08" id="tag_16_08"></a><h3>2.8 实时 (Realtime)</h3>
+<p>本节定义了用于支持具有实时要求的应用程序的源代码可移植性的函数。其中某些函数是否存在取决于对正文中所述实现选项的支持。</p>
+<p>本节包含的具体功能领域及其范围如下。这些术语的完整定义可以在 XBD 3. 定义 中找到。</p>
+<ul>
+<li>信号量</li>
+<li>进程内存锁定</li>
+<li>内存映射文件与共享内存对象</li>
+<li>优先级调度</li>
+<li>实时信号扩展</li>
+<li>定时器</li>
+<li>进程间通信</li>
+<li>同步输入与输出</li>
+<li>异步输入与输出</li>
+</ul>
+<p>POSIX.1-2024 本卷中定义的所有实时函数都是可移植的，尽管实现所使用的某些数值参数可能具有硬件依赖性。</p>
+<a name="tag_16_08_01" id="tag_16_08_01"></a><h4>2.8.1 实时信号 (Realtime Signals)</h4>
+<p>参见 <a href="#tag_16_04_02">2.4.2 实时信号的产生与投递</a>。</p>
+<a name="tag_16_08_02" id="tag_16_08_02"></a><h4>2.8.2 异步 I/O (Asynchronous I/O)</h4>
+<p>许多异步 I/O 函数都使用异步 I/O 控制块结构 <b>aiocb</b>。它定义于 POSIX.1-2024 的基础定义卷 &lt;aio.h&gt; 中，并且至少包含以下成员：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p><i>aio_fildes</i> 元素是执行异步操作所依据的文件描述符。</p>
+<p>如果文件描述符 <i>aio_fildes</i> 未设置 O_APPEND，并且 <i>aio_fildes</i> 与一个能够寻址的设备相关联，那么所请求的操作将在文件中由 <i>aio_offset</i> 给定的绝对位置处进行，就如同在操作之前立即以等于 <i>aio_offset</i> 的 <i>offset</i> 参数和等于 SEEK_SET 的 <i>whence</i> 参数调用了 lseek() 一样。如果文件描述符设置了 O_APPEND，或者 <i>aio_fildes</i> 与一个不能寻址的设备相关联，则写操作按调用发出的相同顺序追加到文件，但以下情况除外：在实现定义的情况下，例如在多处理器上操作，或在同一时刻提交不同优先级的请求时，顺序限制可以放宽。由于严格一致应用程序无法确定该放宽是否适用，因此所有依赖输出顺序的严格一致应用程序，其编写方式应使它们在放宽适用时仍能正确运行。在成功调用将异步 I/O 操作排入队列之后，该文件的文件偏移值是未指定的。<i>aio_nbytes</i> 和 <i>aio_buf</i> 元素分别与 read() 和 write() 所定义的 <i>nbyte</i> 和 <i>buf</i> 参数相同。</p>
+<p>如果定义了 _POSIX_PRIORITIZED_IO 和 _POSIX_PRIORITY_SCHEDULING，则异步 I/O 按优先级顺序排队，每个异步操作的优先级基于调用进程当前的调度优先级。<i>aio_reqprio</i> 成员可用于降低（但不能提高）异步 I/O 操作的优先级，其取值范围为零到 {AIO_PRIO_DELTA_MAX}（含）之间。除非同时定义了 _POSIX_PRIORITIZED_IO 和 _POSIX_PRIORITY_SCHEDULING，否则异步 I/O 请求的处理顺序是未指定的。当同时定义了 _POSIX_PRIORITIZED_IO 和 _POSIX_PRIORITY_SCHEDULING 时，由调度器不是 SCHED_FIFO、SCHED_RR 或 SCHED_SPORADIC 的进程所提交请求的处理顺序是未指定的。异步请求的优先级按（进程调度优先级）减去 <i>aio_reqprio</i> 计算。分配给每个异步 I/O 请求的优先级表示该请求相对于此文件的其他异步 I/O 请求所期望的执行顺序。如果定义了 _POSIX_PRIORITIZED_IO，则以相同优先级发给字符特殊文件的请求由底层设备按 FIFO 顺序处理；发给非字符特殊文件的相同优先级请求的处理顺序是未指定的。数值较大的优先级值表示请求的优先级较高。<i>aio_reqprio</i> 的值对进程调度优先级没有影响。当发往同一文件的带优先级的异步 I/O 请求被阻塞等待该 I/O 操作所需的资源时，较高优先级的 I/O 请求应先于较低优先级的 I/O 请求获得该资源。异步 I/O 与同步 I/O 的相对优先级是实现定义的。如果定义了 _POSIX_PRIORITIZED_IO，实现应定义哪些文件支持 I/O 优先级化。</p>
+<p><i>aio_sigevent</i> 决定在 I/O 完成时如何通知调用进程，如 <a href="#tag_16_04_01">2.4.1 信号产生与投递</a> 中所规定。如果 <i>aio_sigevent.sigev_notify</i> 是 SIGEV_NONE，则 I/O 完成时不应投递任何信号，但应适当设置该操作的错误状态和该操作的返回状态。</p>
+<p><i>aio_lio_opcode</i> 字段仅由 lio_listio() 调用使用。lio_listio() 调用允许在单次调用中提交多个异步 I/O 操作。该函数以指向 <b>aiocb</b> 结构的指针数组作为参数。每个 <b>aiocb</b> 结构通过 <i>aio_lio_opcode</i> 字段指示要执行的操作（读或写）。</p>
+<p><b>aiocb</b> 结构的地址被用作句柄，用于在异步操作进行期间检索该操作的错误状态和返回状态。</p>
+<p>在异步操作的错误状态等于 [EINPROGRESS] 期间，且仅在此期间，<b>aiocb</b> 结构及与该异步 I/O 操作关联的数据缓冲区正被系统用于异步 I/O。当该结构正被系统用于异步 I/O 时，应用程序不应修改 <b>aiocb</b> 结构。</p>
+<p>异步操作的返回状态是 I/O 操作传输的字节数。如果错误状态被设置为指示错误完成，则返回状态被设置为相应的 read()、write() 或 fsync() 调用本应返回的返回值。当错误状态不等于 [EINPROGRESS] 时，返回状态应反映相应同步操作的返回状态。</p>
+<a name="tag_16_08_03" id="tag_16_08_03"></a><h4>2.8.3 内存管理 (Memory Management)</h4>
+<a name="tag_16_08_03_01" id="tag_16_08_03_01"></a><h5>2.8.3.1 内存锁定 (Memory Locking)</h5>
+<p><sup>[MLR]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 范围内存锁定操作按页来定义。实现可以将范围锁定的尺寸和对齐限制在页大小的边界上。以字节为单位的页大小是可由系统配置的变量 {PAGESIZE} 的值。如果实现对尺寸或对齐没有限制，它可以指定 1 字节的页大小。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[ML|MLR]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 内存锁定保证地址空间的各部分的驻留。锁定内存是否保证虚拟地址（进程所见）与物理地址之间的固定转换是实现定义的。每进程的内存锁不会跨 fork() 继承，并且进程拥有的所有内存锁在 <i>exec</i> 或进程终止时被解锁。取消映射一个地址范围会解除此进程在该地址范围上建立的所有内存锁。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_08_03_02" id="tag_16_08_03_02"></a><h5>2.8.3.2 内存映射文件 (Memory Mapped Files)</h5>
+<p>范围内存映射操作按页来定义。实现可以将范围映射的尺寸和对齐限制在页大小的边界上。以字节为单位的页大小是可由系统配置的变量 {PAGESIZE} 的值。如果实现对尺寸或对齐没有限制，它可以指定 1 字节的页大小。</p>
+<p>内存映射文件提供了一种机制，允许进程通过将文件数据直接并入其地址空间来访问文件。一旦文件被映射到进程地址空间，数据就可以像内存一样被操作。如果多个进程映射同一个文件，其内容在它们之间共享。如果映射允许共享写访问，那么通过一个进程的地址空间写入内存对象的数据，会出现在所有以相同方式映射该内存对象同一部分的进程的地址空间中。</p>
+<p><sup>[SHM]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 共享内存对象是命名的存储区域，它们可以独立于文件系统，并且可以被映射到一个或多个进程的地址空间中，以允许这些进程共享相关联的内存。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>对文件执行 unlink() <sup>[SHM]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或对共享内存对象执行 shm_unlink()，<img src=".pic/opt-end.gif" alt="[Option End]"> 虽然会导致名称被移除，但不会取消映射为该对象建立的任何映射。名称一旦被移除，只要该内存对象仍被引用，其内容就得以保留。只要有进程打开着该内存对象，或映射了该内存对象的某个区域，该内存对象就保持被引用状态。</p>
+<a name="tag_16_08_03_03" id="tag_16_08_03_03"></a><h5>2.8.3.3 内存保护 (Memory Protection)</h5>
+<p>当对象被映射时，应用程序对映射区域的各种访问可能导致信号。在此上下文中，SIGBUS 用于指示使用被映射对象时的错误，SIGSEGV 用于指示保护违规或地址误用：</p>
+<ul>
+<li>映射可以被限制为不允许某些类型的访问。</li>
+<li>对以无写访问权限方式映射的内存的写尝试，或对以 PROT_NONE 映射的内存的任何访问，应产生 SIGSEGV 信号。</li>
+<li>对未映射地址的引用应产生 SIGSEGV 信号。</li>
+<li>对映射内但超出对象当前长度的整页的引用应产生 SIGBUS 信号。</li>
+<li>对象的大小不受超出对象末尾的访问的影响（即使没有产生 SIGBUS）。</li>
+</ul>
+<a name="tag_16_08_03_04" id="tag_16_08_03_04"></a><h5>2.8.3.4 类型化内存对象 (Typed Memory Objects)</h5>
+<p><sup>[TYM]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 支持类型化内存对象选项的实现应提供本节所述的功能（本节的其余部分不再为该选项作标记）。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>实现可以独立于对内存映射文件或共享内存对象的支持而支持类型化内存对象选项。类型化内存对象是可由系统配置的命名存储池，可从系统中的一个或多个处理器访问，每个处理器各通过一个或多个端口（如背板总线、LAN、I/O 通道等）访问。存储池与端口的每个有效组合通过一个名称来标识，该名称在系统配置时以实现定义的方式定义；该名称可以独立于文件系统。使用该名称，可以打开类型化内存对象并将其映射到进程地址空间。对于给定的存储池和端口，必须既支持从池中进行动态分配，也支持在池中应用程序提供的偏移处进行映射；当已执行动态分配时，应支持随后的释放。最后，从不同端口访问类型化内存对象需要一种方法来获取类型化内存某个区域的连续存储的偏移和长度（无论是否为动态分配的）；这使得类型化内存在从所需端口访问的同时，可以在进程和/或处理器之间共享。</p>
+<a name="tag_16_08_04" id="tag_16_08_04"></a><h4>2.8.4 进程调度 (Process Scheduling)</h4>
+<p><sup>[PS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 支持进程调度选项的实现应提供本节所述的功能（本节的其余部分不再为该选项作标记）。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_08_04_01" id="tag_16_08_04_01"></a><h5>调度策略 (Scheduling Policies)</h5>
+<p>POSIX.1-2024 本卷所述的调度语义是依据一个包含一组线程列表的概念模型来定义的。使用这一概念模型并不意味着任何实现结构。假定在使用该模型描述的操作期间没有时间流逝，因此不可能有同时发生的操作。该模型只讨论可运行线程的处理器调度，但应当注意，如果其他资源的排序考虑处理器调度策略，则实时应用程序的可预测性会大大增强。</p>
+<p>在概念上，每个优先级有一个线程列表。可运行线程应位于该线程优先级对应的线程列表上。应提供多种调度策略。每个非空线程列表是有序的，其顺序的一端为头部，另一端为尾部。调度策略的目的是定义对这组列表的允许操作（例如，在列表之间和列表内部移动线程）。</p>
+<p>POSIX 模型将 &quot;进程&quot; 视为系统资源的聚合，其中包括一个或多个可以由操作系统在其控制的一个或多个处理器上调度的线程。尽管进程有自己的一组调度属性，但这些属性对各个线程的调度行为的影响（如果有的话）是间接的，如下所述。</p>
+<p>每个线程应由相关联的调度策略和优先级控制。这些参数可以通过应用程序显式执行 pthread_setschedparam() 函数来指定。此外，线程的调度参数（但不包括其调度策略）可以通过应用程序执行 pthread_setschedprio() 函数来更改。</p>
+<p>每个进程应由相关联的调度策略和优先级控制。这些参数可以通过应用程序显式执行 sched_setscheduler() 或 sched_setparam() 函数来指定。</p>
+<p>进程调度属性对进程中各个线程的影响取决于线程的调度争用范围（参见 <a href="#tag_16_09_04">2.9.4 线程调度</a>）：</p>
+<ul>
+<li>对于具有系统调度争用范围的线程，进程调度属性对该线程的调度属性或行为，或对专用于该线程的底层内核调度实体的调度属性或行为，都不应有任何影响。</li>
+<li>对于具有进程调度争用范围的线程，进程调度属性对该线程的调度属性不应有任何影响。但是，这些线程使用的任何底层内核调度实体在任何时候都应按照包含进程的调度属性所规定的方式运行，并且该行为可能影响进程争用范围线程的调度行为。例如，在一个调度策略为 SCHED_RR 且系统最低优先级为 <i>L</i>（由 <i>sched_get_priority_min</i>(SCHED_RR) 返回的值）的进程中，一个调度策略为 SCHED_FIFO 且系统最高优先级为 <i>H</i>（由 <i>sched_get_priority_max</i>(SCHED_FIFO) 返回的值）的进程争用范围线程，应受时间片限制，并可被任何有效优先级高于 <i>L</i> 的线程抢占。</li>
+</ul>
+<p>每个策略都关联一个优先级范围。每个策略定义应指定该策略的最小优先级范围。每个策略的优先级范围可以但不必与其他策略的优先级范围重叠。</p>
+<p>一致实现应选择被定义为位于最高优先级非空线程列表头部的线程作为运行线程，无论其关联的策略如何。然后该线程从它的线程列表中被移除。</p>
+<p>明确要求四种调度策略。可以定义其他实现定义的调度策略。下列符号定义于 POSIX.1-2024 的基础定义卷 &lt;sched.h&gt; 中：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SCHED_FIFO</dt>
+<dd>先进先出 (FIFO) 调度策略。</dd>
+<dt>SCHED_RR</dt>
+<dd>轮转调度策略。</dd>
+<dt>SCHED_SPORADIC</dt>
+<dd><sup>[SS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 零星服务器调度策略。 <img src=".pic/opt-end.gif" alt="[Option End]"></dd>
+<dt>SCHED_OTHER</dt>
+<dd>另一种调度策略。</dd>
+</dl>
+<p>这些符号的值应互不相同。</p>
+<a name="tag_16_08_04_02" id="tag_16_08_04_02"></a><h5>SCHED_FIFO</h5>
+<p>一致实现应包括一种称为 FIFO 调度策略的调度策略。</p>
+<p>在此策略下调度的线程从这样一个线程列表中选择：该列表按各线程在列表上未被执行的时长排序；通常，列表的头部是在列表上时间最长的线程，而尾部是在列表上时间最短的线程。</p>
+<p>在 SCHED_FIFO 策略下，定义性线程列表的修改如下：</p>
+<ol>
+<li>当运行线程变为被抢占线程时，它成为其优先级线程列表的头部。</li>
+<li>当阻塞线程变为可运行线程时，它成为其优先级线程列表的尾部。</li>
+<li>当运行线程调用 sched_setscheduler() 函数时，函数调用中指定的进程被修改为指定的策略和 <i>param</i> 参数指定的优先级。</li>
+<li>当运行线程调用 sched_setparam() 函数时，函数调用中指定的进程的优先级被修改为 <i>param</i> 参数指定的优先级。</li>
+<li>当运行线程调用 pthread_setschedparam() 函数时，函数调用中指定的线程被修改为指定的策略和 <i>param</i> 参数指定的优先级。</li>
+<li>当运行线程调用 pthread_setschedprio() 函数时，函数调用中指定的线程被修改为 <i>prio</i> 参数指定的优先级。</li>
+<li>如果策略或优先级已通过 pthread_setschedprio() 之外的方式被修改的线程是运行线程或是可运行的，则它随后成为其新优先级线程列表的尾部。</li>
+<li>如果优先级已通过 pthread_setschedprio() 被修改的线程是运行线程或是可运行的，则对其在线程列表中位置的影响取决于修改的方向，如下：如果优先级被提高，该线程成为线程列表的尾部。如果优先级不变，该线程在线程列表中的位置不改变。如果优先级被降低，该线程成为线程列表的头部。</li>
+<li>当运行线程调用 sched_yield() 或 thrd_yield() 函数时，该线程成为其优先级线程列表的尾部。</li>
+<li>除此之外，在任何其他时候，具有此调度策略的线程在线程列表中的位置都不受影响。</li>
+</ol>
+<p>当线程因拥有以 PTHREAD_PRIO_INHERIT 或 PTHREAD_PRIO_PROTECT 协议初始化的互斥锁而以临时提升的优先级执行时（参见 pthread_mutexattr_getprotocol()），上述关于线程优先级的要求只适用于线程的正常优先级，而不适用于其被提升的优先级，并且上述要求中描述线程因优先级变化而被放入任何线程列表的那些要求不应适用。同样，当这样的线程因解锁这样的互斥锁而恢复到其正常优先级时，上述要求中描述线程因优先级变化而被放入任何线程列表的那些要求不应适用。</p>
+<p>对于此策略，有效优先级应在以 SCHED_FIFO 作为参数时由 sched_get_priority_max() 和 sched_get_priority_min() 函数返回的范围内。一致实现应为该策略提供至少 32 个优先级的优先级范围。</p>
+<a name="tag_16_08_04_03" id="tag_16_08_04_03"></a><h5>SCHED_RR</h5>
+<p>一致实现应包括一种称为 &quot;轮转&quot; 调度策略的调度策略。此策略应与 SCHED_FIFO 策略相同，外加一个条件：当实现检测到某个运行线程作为运行线程已执行的时间长度达到或超过 sched_rr_get_interval() 函数返回的时长时，该线程应成为其线程列表的尾部，并且该线程列表的头部应被移除并成为运行线程。</p>
+<p>此策略的效果是确保如果有多个同一优先级的 SCHED_RR 线程，其中一个不会独占处理器。如果应用程序包含在相同或更高优先级级别上使用 SCHED_FIFO 策略的线程，或在更高优先级级别上的 SCHED_RR 线程，则应用程序不应仅依赖使用 SCHED_RR 来确保多个线程间的应用程序进度。</p>
+<p>在此策略下被抢占并随后作为运行线程恢复执行的线程，会完成其轮转间隔时间段中未到期的那部分。</p>
+<p>对于此策略，有效优先级应在以 SCHED_RR 作为参数时由 sched_get_priority_max() 和 sched_get_priority_min() 函数返回的范围内。一致实现应为该策略提供至少 32 个优先级的优先级范围。</p>
+<a name="tag_16_08_04_04" id="tag_16_08_04_04"></a><h5>SCHED_SPORADIC</h5>
+<p><sup>[SS|TSP]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 支持进程零星服务器或线程零星服务器选项的实现应提供本节所述的功能（本节的其余部分不再为这些选项作标记）。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>如果定义了 _POSIX_SPORADIC_SERVER 或 _POSIX_THREAD_SPORADIC_SERVER，实现应包括一个以值 SCHED_SPORADIC 标识的调度策略。</p>
+<p>零星服务器策略主要基于两个时间参数：补充周期和可用执行容量。补充周期由 <b>sched_param</b> 结构的 <i>sched_ss_repl_period</i> 成员给出。可用执行容量被初始化为同一参数的 <i>sched_ss_init_budget</i> 成员给出的值。零星服务器策略与 SCHED_FIFO 策略相同，但附加了一些条件，这些条件使线程的指定优先级在 <b>sched_param</b> 结构的 <i>sched_priority</i> 和 <i>sched_ss_low_priority</i> 成员所指定的值之间切换。</p>
+<p>分配给使用零星服务器调度策略的线程的优先级按以下方式确定：如果可用执行容量大于零，并且挂起的补充操作数严格小于 <i>sched_ss_max_repl</i>，则线程被分配 <i>sched_priority</i> 指定的优先级；否则，分配的优先级应为 <i>sched_ss_low_priority</i>。如果 <i>sched_priority</i> 的值小于或等于 <i>sched_ss_low_priority</i> 的值，结果是未定义的。当处于活动状态时，根据上述优先级分配，线程应属于与其被分配优先级级别相对应的线程列表。可用执行容量以及随之而来的被分配优先级的修改方式如下：</p>
+<ol>
+<li>当 <i>sched_priority</i> 列表头部的线程成为运行线程时，其执行时间应最多限制为其可用执行容量加上用于此调度策略的执行时间时钟的分辨率。该分辨率应是实现定义的。</li>
+<li>每当线程被插入与 <i>sched_priority</i> 相关联的列表的尾部时——无论是因其作为阻塞线程以优先级 <i>sched_priority</i> 变为可运行，还是因执行了一次补充操作——执行该操作的时间都被登记为 <i>activation_time</i>。</li>
+<li>当被分配优先级等于 <i>sched_priority</i> 的运行线程变为被抢占线程时，它成为其优先级线程列表的头部，并且消耗的执行时间从可用执行容量中减去。如果该操作会使可用执行容量变为负数，则应将其设置为零。</li>
+<li>当被分配优先级等于 <i>sched_priority</i> 的运行线程变为阻塞线程时，消耗的执行时间从可用执行容量中减去，并且按 6 和 7 中所述安排一次补充操作。如果该操作会使可用执行容量变为负数，则应将其设置为零。</li>
+<li>当被分配优先级等于 <i>sched_priority</i> 的运行线程达到对其执行时间所施加的限制时，它成为 <i>sched_ss_low_priority</i> 线程列表的尾部，消耗的执行时间从可用执行容量（变为零）中减去，并且按 6 和 7 中所述安排一次补充操作。</li>
+<li>每当安排一次补充操作时，要补充的执行容量 <i>replenish_amount</i> 被设置为等于线程自 <i>activation_time</i> 以来消耗的执行时间。补充被安排在 <i>activation_time</i> 加上 <i>sched_ss_repl_period</i> 的时刻发生。如果得到的计划时间早于当前时间，则立即执行补充操作。可以有多个补充操作同时挂起，每个都应在各自计划的时间被处理。根据上述规则，在零星服务器策略下调度的给定线程同时挂起的补充操作数不应大于 <i>sched_ss_max_repl</i>。</li>
+<li>补充操作包括在计划时间将相应的 <i>replenish_amount</i> 加到可用执行容量上。如果由于该操作，执行容量将变得大于 <i>sched_ss_initial_budget</i>，则应向下取整为等于 <i>sched_ss_initial_budget</i> 的值。此外，如果该线程是可运行的或正在运行的，并且被分配优先级等于 <i>sched_ss_low_priority</i>，则它成为 <i>sched_priority</i> 线程列表的尾部。</li>
+</ol>
+<p>执行时间在 XBD 3.90 CPU 时间（执行时间） 中定义。</p>
+<p>对于此策略，通过 clock_settime() 更改 CPU 时间时钟的值对其行为不应有任何影响。</p>
+<p>对于此策略，有效优先级应在以 SCHED_SPORADIC 作为参数时由 sched_get_priority_min() 和 sched_get_priority_max() 函数返回的范围内。一致实现应为该策略提供至少 32 个不同优先级的优先级范围。</p>
+<p>如果目标进程的调度策略是 SCHED_FIFO 或 SCHED_RR，则 <i>param</i> 参数的 <i>sched_ss_low_priority</i>、<i>sched_ss_repl_period</i> 和 <i>sched_ss_init</i> budget 成员对调度行为不应有任何影响。如果此进程的调度策略不是 SCHED_FIFO、SCHED_RR 或 SCHED_SPORADIC，这些成员的影响是实现定义的；这种情况包括 SCHED_OTHER 策略。</p>
+<a name="tag_16_08_04_05" id="tag_16_08_04_05"></a><h5>SCHED_OTHER</h5>
+<p>一致实现应包括一种标识为 SCHED_OTHER 的调度策略（它可以与 FIFO 或轮转调度策略完全相同地执行）。在一个其他线程在 SCHED_FIFO、SCHED_RR、<sup>[SS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  或 SCHED_SPORADIC <img src=".pic/opt-end.gif" alt="[Option End]"> 下执行的系统中，使用 SCHED_OTHER 策略调度线程的效果是实现定义的。</p>
+<p>定义此策略是为了让严格一致应用程序能够以可移植的方式表明它们不再需要实时调度策略。</p>
+<p>对于在此策略下执行的线程，实现应只使用以 SCHED_OTHER 作为参数时由 sched_get_priority_max() 和 sched_get_priority_min() 函数返回的范围内的优先级。</p>
+<a name="tag_16_08_05" id="tag_16_08_05"></a><h4>2.8.5 时钟与定时器 (Clocks and Timers)</h4>
+<p>&lt;time.h&gt; 头文件定义计时设施所用的类型和清单常量。</p>
+<a name="tag_16_08_05_01" id="tag_16_08_05_01"></a><h5>时间值说明结构 (Time Value Specification Structures)</h5>
+<p>许多计时设施函数接受或返回时间值说明。时间值结构 <b>timespec</b> 说明单个时间值，并且至少包含以下成员：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr></tbody></table>
+
+<p><i>tv_nsec</i> 成员仅当其大于或等于零且小于一秒中的纳秒数（10 亿）时才有效。此结构描述的时间间隔为（<i>tv_sec</i> * 10<sup><small>9</small></sup> + <i>tv_nsec</i>）纳秒。</p>
+<p>时间值结构 <b>itimerspec</b> 为每进程定时器函数说明初始定时器值和重复间隔。此结构至少包含以下成员：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr></tbody></table>
+
+<p>如果 <i>it_value</i> 描述的值非零，则它指示距下一次定时器到期的时间或下一次定时器到期的时刻（分别针对相对和绝对定时器值）。如果 <i>it_value</i> 描述的值是零，定时器应被解除。</p>
+<p>如果 <i>it_interval</i> 描述的值非零，则它指定一个间隔，该间隔应在定时器到期时用于重新装载定时器；也就是说，指定了一个周期定时器。如果 <i>it_interval</i> 描述的值是零，则定时器在其下一次到期后被解除；也就是说，指定了一个一次性定时器。</p>
+<a name="tag_16_08_05_02" id="tag_16_08_05_02"></a><h5>定时器事件通知控制块 (Timer Event Notification Control Block)</h5>
+<p>可以创建每进程定时器，通过排队一个实时扩展信号来通知进程定时器到期。<b>sigevent</b> 结构定义于 POSIX.1-2024 的基础定义卷 &lt;signal.h&gt; 中，用于创建这样的定时器。<b>sigevent</b> 结构包含信号编号和应用程序特定的数据值，在通知调用进程定时器到期事件时应使用这些值。</p>
+<a name="tag_16_08_05_03" id="tag_16_08_05_03"></a><h5>清单常量 (Manifest Constants)</h5>
+<p>下列常量定义于 POSIX.1-2024 的基础定义卷 &lt;time.h&gt; 中：</p>
+<dl compact="None">
+<dd></dd>
+<dt>CLOCK_REALTIME</dt>
+<dd>系统范围实时时钟的标识符。</dd>
+<dt>TIMER_ABSTIME</dt>
+<dd>标志，指示时间是相对于与定时器相关联的时钟的绝对时间。</dd>
+<dt>CLOCK_MONOTONIC</dt>
+<dd>系统范围单调时钟的标识符，该时钟被定义为值不能通过 clock_settime() 设置、并且不能发生向后时钟跳变的时钟。最大可能的时钟跳变是实现定义的。</dd>
+</dl>
+<p>CLOCK_REALTIME 和 CLOCK_MONOTONIC 时钟以及基于这些时钟的所有时间服务所允许的最大分辨率由 {_POSIX_CLOCKRES_MIN} 表示，并且应定义为 20 ms（1/50 秒）。实现可以为这些时钟支持更小的分辨率值，以提供更细粒度的时间基准。实现为特定时钟支持的实际分辨率使用 clock_getres() 函数获取。如果为基于这些时钟之一的时间服务支持的实际分辨率不同于为该时钟支持的分辨率，实现应记录此差异。</p>
+<p>CLOCK_REALTIME 和 CLOCK_MONOTONIC 时钟以及基于它们的所有绝对时间服务所允许的最小最大值，与 ISO C 标准为 <b>time_t</b> 类型定义的值相同。如果基于这些时钟之一的时间服务所支持的最大值不同于该时钟所支持的最大值，实现应记录此差异。</p>
+<a name="tag_16_08_05_04" id="tag_16_08_05_04"></a><h5>执行时间监视 (Execution Time Monitoring)</h5>
+<p><sup>[CPT]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 如果定义了 _POSIX_CPUTIME，除 <a href="#tag_16_08_05_03">清单常量</a> 中所述的时钟之外，还应支持进程 CPU 时间时钟。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TCT]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 如果定义了 _POSIX_THREAD_CPUTIME，应支持线程 CPU 时间时钟。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CPT|TCT]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> CPU 时间时钟测量执行时间或 CPU 时间，其在 XBD 3.90 CPU 时间（执行时间） 中定义。用于测量执行时间的机制在 XBD 4.14 执行时间的测量 中描述。 <img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CPT]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 如果定义了 _POSIX_CPUTIME，则类型 <b>clockid_t</b> 的下列常量定义于 &lt;time.h&gt; 中：</p>
+<dl compact="None">
+<dd></dd>
+<dt>CLOCK_PROCESS_CPUTIME_ID</dt>
+<dd>当类型 <b>clockid_t</b> 的此值在 clock() 或 <i>timer*</i>() 函数调用中使用时，它被解释为与发出函数调用的进程相关联的 CPU 时间时钟的标识符。</dd>
+</dl>
+<img src=".pic/opt-end.gif" alt="[Option End]">
+<p><sup>[TCT]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 如果定义了 _POSIX_THREAD_CPUTIME，则类型 <b>clockid_t</b> 的下列常量定义于 &lt;time.h&gt; 中：</p>
+<dl compact="None">
+<dd></dd>
+<dt>CLOCK_THREAD_CPUTIME_ID</dt>
+<dd>当类型 <b>clockid_t</b> 的此值在 clock() 或 <i>timer*</i>() 函数调用中使用时，它被解释为与发出函数调用的线程相关联的 CPU 时间时钟的标识符。</dd>
+</dl>
+<img src=".pic/opt-end.gif" alt="[Option End]">
+<a name="tag_16_09" id="tag_16_09"></a><h3>2.9 线程 (Threads)</h3>
+<p>本节定义支持进程内多个控制流（称为 &quot;线程&quot;）的功能。线程的定义见 XBD 3.388 线程 (Thread)。</p>
+<p>线程所涵盖的具体功能领域及其范围包括：</p>
+<ul>
+<li>线程管理：在共同共享地址空间的假设下，同一进程中多个控制流的创建、控制和终止</li>
+<li>同步原语：针对在共同共享地址空间中紧密耦合运行的多个控制流进行优化</li>
+</ul>
+<a name="tag_16_09_01" id="tag_16_09_01"></a><h4>2.9.1 线程安全 (Thread-Safety)</h4>
+<p>本卷 POSIX.1-2024 定义的所有函数都应线程安全，但下列函数<a href="#tag_foot_1"><sup><small>1</small></sup></a>不必线程安全。</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<p>若传入空指针实参，ctermid() 和 tmpnam() 函数不必线程安全。若传入空 <i>ps</i> 实参，c16rtomb()、c32rtomb()、mbrlen()、mbrtoc16()、mbrtoc32()、mbrtowc()、mbsnrtowcs()、mbsrtowcs()、wcrtomb()、wcsnrtombs() 和 wcsrtombs() 函数不必线程安全。lgamma()、lgammaf() 和 lgammal() 函数应线程安全 <sup>[XSI]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">，但向 <i>signgam</i> 变量存储值时，它们不必避免数据竞争。<img src=".pic/opt-end.gif" alt="[Option End]"> 除非调用线程拥有该调用所访问的 (<b>FILE</b> *) 对象——如成功调用 flockfile() 或 ftrylockfile() 函数之后的情形——否则 getc_unlocked()、getchar_unlocked()、putc_unlocked() 和 putchar_unlocked() 函数不必线程安全。若对同一目录流进行并发调用，readdir() 函数不必线程安全。</p>
+<p>某些不要求线程安全的函数，仍被要求避免与所有或部分其他函数发生数据竞争，具体按各自参考页的规定。</p>
+<p>实现应在必要时提供内部同步，以满足线程安全要求。</p>
+<p>由于在任一其他线程并发修改任何环境变量时，多线程应用程序不得使用 <i>environ</i> 变量访问或修改任何环境变量，因此若另一线程修改环境，getenv() 和 secure_getenv() 函数以及任何依赖环境变量的函数都不线程安全；参见 XSH exec。</p>
+<h4><i><a name="tag_16_09_02" id="tag_16_09_02"></a>2.9.2 线程 ID (Thread IDs)</i></h4>
+<p><i>虽然实现的线程 ID 在系统内可能是唯一的，但应用程序只宜假定线程 ID 在单个进程内可用且唯一。调用本卷 POSIX.1-2024 定义的任一函数，并传入另一进程的线程的线程 ID 作为实参，其效果未指定。线程 ID 的生命周期在以下两者中较晚者之后结束：线程终止（见 3.392 线程终止 (Thread Termination)）以及线程不再可连接之时（见 3.183 可连接线程 (Joinable Thread)）。符合规范的实现可以在线程 ID 生命周期结束后自由复用该 ID。若应用程序试图使用生命周期已结束的线程 ID，其行为未定义。</i></p>
+<p>若线程已分离，则其线程 ID 用作 pthread_detach()、pthread_join()、thrd_detach() 或 thrd_join() 调用的实参时无效。</p>
+<a name="tag_16_09_03" id="tag_16_09_03"></a><h4>2.9.3 线程互斥量 (Thread Mutexes)</h4>
+<p>已阻塞的线程不应阻止任何有资格使用相同处理资源的未阻塞线程最终在其执行中取得进展。处理资源的资格由调度策略确定。</p>
+<p>当发生下列任一情况时，线程应成为类型为 <b>pthread_mutex_t</b> 的互斥量 <i>m</i> 的所有者：</p>
+<ul>
+<li>它以 <i>m</i> 作为 <i>mutex</i> 实参调用 pthread_mutex_clocklock()、pthread_mutex_lock()、pthread_mutex_timedlock() 或 pthread_mutex_trylock()，且该调用返回零或 [EOWNERDEAD]。</li>
+<li>它以 <i>m</i> 作为 <i>mutex</i> 实参调用 pthread_mutex_setprioceiling()，且该调用返回 [EOWNERDEAD]。</li>
+<li>它以 <i>m</i> 作为 <i>mutex</i> 实参调用 pthread_cond_clockwait()、pthread_cond_timedwait() 或 pthread_cond_wait()，且该调用返回零或某些错误号（见 pthread_cond_clockwait()）。</li>
+</ul>
+<p>直到发生下列任一情况，线程应一直是 <i>m</i> 的所有者：</p>
+<ul>
+<li>它以 <i>m</i> 作为 <i>mutex</i> 实参执行 pthread_mutex_unlock()</li>
+<li>它以 <i>m</i> 作为 <i>mutex</i> 实参在调用 pthread_cond_clockwait()、pthread_cond_timedwait() 或 pthread_cond_wait() 时阻塞。</li>
+</ul>
+<p>当发生下列任一情况时，线程应成为类型为 <b>mtx_t</b> 的互斥量 <i>m</i> 的所有者：</p>
+<ul>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参调用 mtx_lock()，且该调用返回 <code>thrd_success</code>。</li>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参调用 mtx_trylock()，且该调用返回 <code>thrd_success</code>。</li>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参调用 mtx_timedlock()，且该调用返回 <code>thrd_success</code>。</li>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参调用 cnd_wait()，且该调用返回 <code>thrd_success</code>。</li>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参调用 cnd_timedwait()，且该调用返回 <code>thrd_success</code> 或 <code>thrd_timedout</code>。</li>
+</ul>
+<p>直到发生下列任一情况，线程应一直是 <i>m</i> 的所有者：</p>
+<ul>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参执行 mtx_unlock()。</li>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参在调用 cnd_wait() 时阻塞。</li>
+<li>它以 <i>m</i> 作为 <i>mtx</i> 实参在调用 cnd_timedwait() 时阻塞。</li>
+</ul>
+<p>实现的行为应如同任何互斥量在任何时刻至多有一个所有者。</p>
+<p>成为互斥量所有者的线程被称为已&quot;获取&quot;该互斥量，该互斥量被称为已&quot;锁定&quot;；当线程放弃互斥量的所有权时，它被称为已&quot;释放&quot;该互斥量，该互斥量被称为已&quot;解锁&quot;。</p>
+<p>若进程在其某个线程持有互斥量锁时终止，则可能发生问题。取决于互斥量的类型，另一线程或许能够解锁该互斥量并恢复互斥量的状态。然而，可靠地执行这种恢复是困难的。</p>
+<p>健壮互斥量提供了一种手段，使实现能够在进程终止而其某个线程持有对类型为 <b>pthread_mutex_t</b> 的互斥量的锁时通知其他线程。下一个获取该互斥量的线程通过加锁函数返回的 [EOWNERDEAD] 返回值获知该终止。被通知的线程随后可以尝试恢复由该互斥量保护的状态，若恢复成功，则通过调用 pthread_mutex_consistent() 将该互斥量保护的状态标记为一致。若被通知的线程无法恢复该状态，它可以在不事先调用 pthread_mutex_consistent() 的情况下，通过调用 pthread_mutex_unlock() 将该状态声明为不可恢复。</p>
+<p>互斥量保护的状态能否恢复，完全取决于使用健壮互斥量的应用程序。实现提供的健壮互斥量支持仅提供如下通知：互斥量所有者在持有锁期间已终止，或者互斥量的状态不可恢复。</p>
+<a name="tag_16_09_04" id="tag_16_09_04"></a><h4>2.9.4 线程调度 (Thread Scheduling)</h4>
+<p><sup>[TPS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 支持线程执行调度选项的实现应提供本节所述功能（本节其余部分不再针对该选项作标记）。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_09_04_01" id="tag_16_09_04_01"></a><h5>线程调度属性 (Thread Scheduling Attributes)</h5>
+<p>为支持调度功能，线程具有属性，这些属性通过 <b>pthread_attr_t</b> 线程创建属性对象访问。</p>
+<p><i>contentionscope</i> 属性将线程的调度竞争范围定义为 PTHREAD_SCOPE_PROCESS 或 PTHREAD_SCOPE_SYSTEM 之一。</p>
+<p><i>inheritsched</i> 属性指定新创建的线程是继承创建线程的调度属性，还是按照 <b>pthread_attr_t</b> 对象中的其他调度属性来设置其调度值。</p>
+<p><i>schedpolicy</i> 属性定义线程的调度策略。<i>schedparam</i> 属性定义线程的调度参数。进程内具有不同策略的线程之间的相互作用，在那些策略的定义中加以描述。</p>
+<p>若定义了线程执行调度选项，且 <i>schedpolicy</i> 属性指定了该选项下定义的基于优先级的策略之一，则 <i>schedparam</i> 属性包含线程的调度优先级。符合规范的实现应确保：当使用线程属性对象创建线程，或动态修改线程的调度属性时，<i>schedparam</i> 中的优先级值处于与该调度策略关联的范围内。<i>schedparam</i> 中优先级值的含义与 <i>priority</i> 相同。</p>
+<p><sup>[TSP]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 若定义了 _POSIX_THREAD_SPORADIC_SERVER，则 <i>schedparam</i> 属性支持用于零星服务器调度策略的四个新成员。这些成员是 <i>sched_ss_low_priority</i>、<i>sched_ss_repl_period</i>、<i>sched_ss_init_budget</i> 和 <i>sched_ss_max_repl</i>。这些属性的含义与 <a href="#tag_16_08_04">2.8.4 进程调度 (Process Scheduling)</a> 下出现的定义相同。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>创建进程时，其单个线程具有与进程的策略和属性相等的调度策略和相关属性。默认的调度竞争范围值是实现定义的。其他调度属性的默认值是实现定义的。</p>
+<a name="tag_16_09_04_02" id="tag_16_09_04_02"></a><h5>线程调度竞争范围 (Thread Scheduling Contention Scope)</h5>
+<p>线程的调度竞争范围定义该线程与之竞争处理资源使用权的线程集合。调度操作在任一时刻最多选择一个线程在每个处理器上执行，而线程的调度属性（例如 <i>priority</i>），无论是处于进程调度竞争范围还是系统调度竞争范围，都是用于确定调度决策的参数。</p>
+<p>在调度混合竞争范围环境的背景下，调度竞争范围对线程的影响如下：</p>
+<ul>
+<li>以 PTHREAD_SCOPE_SYSTEM 调度竞争范围创建的线程，与同一调度分配域中所有其他线程竞争资源，依据的是各自的系统调度属性。以 PTHREAD_SCOPE_SYSTEM 调度竞争范围创建的线程，其系统调度属性就是创建该线程时所用的调度属性。以 PTHREAD_SCOPE_PROCESS 调度竞争范围创建的线程，其系统调度属性是创建该线程时所用的调度属性到系统属性空间的实现定义映射。</li>
+<li>以 PTHREAD_SCOPE_PROCESS 调度竞争范围创建的线程，与其进程内以 PTHREAD_SCOPE_PROCESS 调度竞争范围创建的其他线程直接竞争。该竞争基于各线程的调度属性和策略加以裁决。此类线程相对于其他进程中的线程或以 PTHREAD_SCOPE_SYSTEM 调度竞争范围创建的线程如何调度，未指定。</li>
+<li>符合规范的实现应支持 PTHREAD_SCOPE_PROCESS 调度竞争范围、PTHREAD_SCOPE_SYSTEM 调度竞争范围，或同时支持两者。</li>
+</ul>
+<a name="tag_16_09_04_03" id="tag_16_09_04_03"></a><h5>调度分配域 (Scheduling Allocation Domain)</h5>
+<p>实现应支持包含一个或多个处理器的调度分配域。应注意，存在多个处理器并不自动表示调度分配域大小大于一。多处理器上的符合规范的实现可以将全部或任意子集的 CPU 映射到一个或多个调度分配域，并且可以根据实现预期支持的应用程序类型，按每线程、每进程或每系统来定义这些调度分配域。调度分配域独立于调度竞争范围，因为调度竞争范围仅定义线程与之竞争处理器资源的线程集合，而调度分配域定义线程为之竞争的处理器集合。线程之间针对处理器的这种竞争如何裁决的语义，由各线程的调度策略决定。</p>
+<p>调度分配域大小的选择以及应用程序对调度分配域的控制级别是实现定义的。符合规范的实现可以随时更改调度分配域的大小以及线程与调度分配域的绑定。</p>
+<p>对于调度分配域大小等于一的应用程序线程，应使用为 SCHED_FIFO 和 SCHED_RR 定义的调度规则；参见 <a href="#tag_16_08_04_01">调度策略 (Scheduling Policies)</a>。所有具有系统调度竞争范围的线程，无论位于哪个进程中，都按照各自的优先级竞争处理器。具有进程调度竞争范围的线程，只与其进程内其他具有进程调度竞争范围的线程竞争。</p>
+<p>对于调度分配域大小大于一的应用程序线程，应以实现定义的方式使用为 SCHED_FIFO、SCHED_RR、<sup>[TSP]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  和 SCHED_SPORADIC <img src=".pic/opt-end.gif" alt="[Option End]"> 定义的规则。每个具有系统调度竞争范围的线程，以实现定义的方式根据其优先级竞争其调度分配域中的处理器。具有进程调度竞争范围的线程，相对于进程中同一调度竞争范围内的其他线程进行调度。</p>
+<p><sup>[TSP]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 若定义了 _POSIX_THREAD_SPORADIC_SERVER，则对于调度分配域大小大于一的应用程序线程，应以实现定义的方式使用 <a href="#tag_16_08_04_01">调度策略 (Scheduling Policies)</a> 中为 SCHED_SPORADIC 定义的规则。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_09_04_04" id="tag_16_09_04_04"></a><h5>调度文档 (Scheduling Documentation)</h5>
+<p>若定义了 _POSIX_PRIORITY_SCHEDULING，则 SCHED_OTHER、SCHED_FIFO、SCHED_RR、<sup>[TSP]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  和 SCHED_SPORADIC <img src=".pic/opt-end.gif" alt="[Option End]"> 之外的任何调度策略，以及这些其他值所指示的调度策略的效果和为支持此类策略所需的属性，都是实现定义的。此外，实现应记录为这些策略支持的所有处理器调度分配域值的效果。</p>
+<a name="tag_16_09_05" id="tag_16_09_05"></a><h4>2.9.5 线程取消 (Thread Cancellation)</h4>
+<p>线程取消机制允许线程以受控方式终止进程中任何其他线程的执行，但使用 thrd_create() 创建的线程除外。目标线程（即正被取消的线程）被允许以多种方式将取消请求保持为挂起状态，并在取消通知被执行时进行应用程序特定的清理处理。</p>
+<p>取消由取消控制函数控制。每个线程维护自己的可取消状态。取消只可以在取消点发生，或者在线程可异步取消时发生。</p>
+<p>本节所述的线程取消机制依赖于程序已设置 <i>deferred</i> 可取消状态，该状态被规定为默认状态。应用程序在执行行为中还应仔细遵循静态词法作用域规则。例如，使用 setjmp()、<i>return</i>、<i>goto</i> 等离开用户定义的取消作用域而不执行必要的作用域弹出操作，会导致未定义行为。</p>
+<p>在持有可能需要释放的资源时使用异步可取消性，可能导致资源丢失。类似地，只有当线程处于 <i>deferred</i> 或 <i>disabled</i> 可取消状态时，才能安全地操作（压入和弹出）取消作用域。</p>
+<a name="tag_16_09_05_01" id="tag_16_09_05_01"></a><h5>2.9.5.1 可取消状态 (Cancelability States)</h5>
+<p>线程的可取消状态决定收到取消请求时采取的动作。线程可以多种方式控制取消。</p>
+<p>每个线程维护自己的可取消状态，该状态可以编码在两个位中：</p>
+<ol>
+<li>可取消性使能：当可取消性为 PTHREAD_CANCEL_DISABLE（如 POSIX.1-2024 基础定义卷 &lt;pthread.h&gt; 中所定义）时，针对目标线程的取消请求保持挂起。默认情况下，可取消性设置为 PTHREAD_CANCEL_ENABLE（如 &lt;pthread.h&gt; 中所定义）。</li>
+<li>可取消性类型：当可取消性已使能且可取消性类型为 PTHREAD_CANCEL_ASYNCHRONOUS（如 &lt;pthread.h&gt; 中所定义）时，新的或挂起的取消请求可以在任何时候被执行。当可取消性已使能且可取消性类型为 PTHREAD_CANCEL_DEFERRED（如 &lt;pthread.h&gt; 中所定义）时，取消请求保持挂起，直到到达取消点（见下文）。若可取消性被禁用，则可取消性类型的设置没有即时效果，因为所有取消请求都保持挂起；然而，一旦可取消性再次使能，新类型即生效。在所有新创建的线程中，可取消性类型均为 PTHREAD_CANCEL_DEFERRED，包括首次在其中调用 <i>main</i>() 的线程。</li>
+</ol>
+<a name="tag_16_09_05_02" id="tag_16_09_05_02"></a><h5>2.9.5.2 取消点 (Cancellation Points)</h5>
+<p>当线程执行下列函数时，应出现取消点：</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<p>当线程执行下列函数时，也可以出现取消点：</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<p>此外，当线程执行本标准不要求线程安全、但实现文档声明为线程安全的任何函数时，也可以出现取消点。若线程在执行非线程安全函数时被取消，其行为未定义。</p>
+<p>实现不应在本卷 POSIX.1-2024 规定的任何其他函数中引入取消点。</p>
+<p>在函数调用期间挂起时执行取消请求所产生的副作用，与单线程程序中函数调用被信号中断且该给定函数返回 [EINTR] 时可能看到的副作用相同。任何此类副作用都发生在调用任何取消清理处理程序之前。对于明确要求被中断时不得返回的函数（例如 pclose()），若线程在执行该函数时被取消，其行为未定义。</p>
+<p>每当线程已使能可取消性、已以该线程为目标发出取消请求，且该线程随后调用任何属于取消点的函数（如 pthread_testcancel() 或 read()）时，应在该函数返回之前执行取消请求。若线程已使能可取消性，且在线程挂起于取消点期间以该线程为目标发出取消请求，则应唤醒该线程并执行取消请求。若线程挂起于取消点，并且发生以下任一情况，则取消请求是被执行，还是取消请求保持挂起且线程恢复正常执行，未指定：</p>
+<ul>
+<li>它所等待的事件发生</li>
+<li>指定的超时时间到期</li>
+</ul>
+<p>在取消请求被执行之前。</p>
+<a name="tag_16_09_05_03" id="tag_16_09_05_03"></a><h5>2.9.5.3 线程取消清理处理程序 (Thread Cancellation Cleanup Handlers)</h5>
+<p>每个不是使用 thrd_create() 创建的线程都维护一个取消清理处理程序列表。程序员使用 pthread_cleanup_push() 和 pthread_cleanup_pop() 函数将例程放入此列表以及从该列表中移除例程。</p>
+<p>当取消请求被执行时，或当线程调用 pthread_exit() 时，线程首先通过将其可取消状态设置为 PTHREAD_CANCEL_DISABLE、将其可取消性类型设置为 PTHREAD_CANCEL_DEFERRED 来禁用取消。可取消状态应保持设置为 PTHREAD_CANCEL_DISABLE，直到线程终止。若取消清理处理程序或线程特定数据析构例程将可取消状态改为 PTHREAD_CANCEL_ENABLE，其行为未定义。</p>
+<p>线程的取消清理处理程序列表中的例程应按 LIFO 顺序逐一调用；即最后压入列表的例程（后进）最先被调用（先出）。当某个作用域的取消清理处理程序被调用时，该作用域的存储仍然有效。若最后一个取消清理处理程序返回，则应按照 pthread_key_create() 和 tss_create() 中所述，以未指定的顺序，运行与该线程具有非 NULL 值的线程特定数据键关联的线程特定数据析构函数（若有）。</p>
+<p>在所有取消清理处理程序和线程特定数据析构函数都返回之后，线程的执行即终止。若线程因调用 pthread_exit() 而终止，则 <i>value_ptr</i> 实参可供任何与目标线程连接的线程使用。若线程因执行取消请求而终止，则状态 PTHREAD_CANCELED 可供任何与目标线程连接的线程使用。符号常量 PTHREAD_CANCELED 展开为类型 (<b>void *</b>) 的常量表达式，其值既不匹配内存中任何对象的指针，也不匹配 NULL 值。</p>
+<p>在条件变量等待期间执行取消请求的一个副作用是：在调用第一个取消清理处理程序之前，互斥量会被重新获取。此外，该线程不再被视为正在等待该条件，并且该线程不应已消耗该条件上任何挂起的条件信号。</p>
+<p>取消清理处理程序不能通过 longjmp() 或 siglongjmp() 退出。</p>
+<a name="tag_16_09_05_04" id="tag_16_09_05_04"></a><h5>2.9.5.4 异步取消安全 (Async-Cancel Safety)</h5>
+<p>pthread_cancel()、pthread_setcancelstate() 和 pthread_setcanceltype() 函数被定义为异步取消安全。</p>
+<p>本卷 POSIX.1-2024 中的其他函数都不被要求异步取消安全。</p>
+<p>若线程已使能异步取消，并在执行非异步取消安全函数期间被取消，其行为未定义。</p>
+<p>若线程已使能延迟取消，在该线程执行非异步取消安全函数期间调用了信号捕获函数，且该信号捕获函数在线程有取消请求挂起时，未先禁用取消就调用任何属于取消点的函数，其行为未定义。</p>
+<a name="tag_16_09_06" id="tag_16_09_06"></a><h4>2.9.6 线程读写锁 (Thread Read-Write Locks)</h4>
+<p>多读者单写者（读写）锁允许多个线程同时以只读方式访问数据，同时只允许一个线程在任一时刻具有排他性写访问。它们通常用于保护读取频率高于更改频率的数据。</p>
+<p>一个或多个读者通过对关联的读写锁执行读锁操作来获取对资源的读访问权。写者通过执行写锁操作获取排他性写访问权。基本上，所有读者排除任何写者，而一个写者排除所有读者以及任何其他写者。</p>
+<p>已阻塞在读写锁上的线程（例如，尚未从 pthread_rwlock_rdlock() 或 pthread_rwlock_wrlock() 调用返回）不应阻止任何有资格使用相同处理资源的未阻塞线程最终在其执行中取得进展。处理资源的资格应由调度策略确定。</p>
+<p>若读写锁分配在可写的、且在协作进程间共享的内存中，并已针对这种行为进行初始化，则它们可以用于同步当前进程和其他进程中的线程。</p>
+<a name="tag_16_09_07" id="tag_16_09_07"></a><h4>2.9.7 线程与文件操作的交互 (Thread Interactions with File Operations)</h4>
+<p>当下列所有函数操作文件层次结构中的文件时，在 POSIX.1-2024 规定的效果方面，它们相互之间应是原子的：</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<p>若两个线程各自调用这些函数之一，则每个调用应要么看到另一调用的全部规定效果，要么看不到其中任何效果。</p>
+<p>除非另有规定，当下列所有函数操作指向文件层次结构中文件的、已打开或正在打开的文件描述符时，在 POSIX.1-2024 规定的效果方面，它们相互之间应是原子的：</p>
+<table><thead><tr></tr></thead><tbody></tbody></table>
+<p>若两个线程各自调用这些函数之一，则每个调用应要么看到另一调用的全部规定效果，要么看不到其中任何效果。对 close() 函数的要求也应适用于文件描述符被成功关闭的任何情况，无论由何种原因引起（例如，由调用 close()、调用 dup2() 或进程终止所致）。</p>
+<a name="tag_16_09_08" id="tag_16_09_08"></a><h4>2.9.8 应用程序管理的线程栈的使用 (Use of Application-Managed Thread Stacks)</h4>
+<p>&quot;应用程序管理的线程栈&quot;是由应用程序分配的内存区域——例如，由 malloc() 或 mmap() 函数返回的内存——并通过将栈的地址和大小分别作为 <i>stackaddr</i> 和 <i>stacksize</i> 实参传递给 pthread_attr_setstack() 的行为而被指定为栈。应用程序管理的栈允许应用程序精确控制栈的位置和大小。</p>
+<p>当使用了其中已设置 <i>stack</i> 或 <i>stackaddr</i> 属性的属性对象时——无论是通过将该属性对象作为 <i>attr</i> 实参用于成功完成的 pthread_create() 调用，还是通过将指向属性对象的指针存入 <b>struct sigevent</b> 的 <i>sigev_notify_attributes</i> 成员并将该 <b>struct sigevent</b> 传给接受此类实参且成功完成的函数——应用程序即将该应用程序管理的栈的永久所有权和控制权授予实现。此后，应用程序只能在已由实现调度、其栈指针值处于该栈范围内的线程内或与该线程适当同步的栈使用的正常情境中，利用该栈内的内存。特别是，该内存区域不能被释放，也不能在以后被指定为另一线程的栈。</p>
+<p>当通过 <b>struct sigevent</b> 的 <i>sigev_notify_attributes</i> 成员指定带应用程序管理的栈的属性对象时，若请求的信号被多次产生（如重复定时器的情况），其结果未定义。</p>
+<p>在使用了其中已设置 <i>stack</i> 或 <i>stackaddr</i> 属性的属性对象之前，应用程序保留分配给栈的内存的拥有权和控制权。只要应用程序删除该属性对象，或者在使用该属性对象之前，通过额外调用最初用于指定该栈的 pthread_attr_setstack() 来替换该栈，它就可以释放或复用该内存。没有任何机制可以撤回现有属性对象对应用程序管理的栈的引用。</p>
+<p>一旦带应用程序管理的栈的属性对象被使用过，除非通过额外调用 pthread_attr_setstack() 指定一个未使用的应用程序管理的栈，否则该属性对象不能再被后续的 pthread_create() 调用或任何接受 <i>sigev_notify_attributes</i> 中含有指向该属性对象指针的 <b>struct sigevent</b> 的函数使用。</p>
+<a name="tag_16_09_09" id="tag_16_09_09"></a><h4>2.9.9 同步对象副本与替代映射 (Synchronization Object Copies and Alternative Mappings)</h4>
+<p>对于屏障、条件变量、互斥量和读写锁，<sup>[TSH]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  若进程共享属性设置为 PTHREAD_PROCESS_PRIVATE，<img src=".pic/opt-end.gif" alt="[Option End]">  则只有用于初始化它的地址处的同步对象可以用于执行同步。在锁定、解锁或销毁该对象时引用同一对象的另一映射，其效果未定义。<sup>[TSH]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  若进程共享属性设置为 PTHREAD_PROCESS_SHARED，则只有同步对象本身可以用于执行同步；不过，不必在用于初始化它的地址处引用它（即可以使用同一对象的另一映射）。<img src=".pic/opt-end.gif" alt="[Option End]">  在锁定、解锁或销毁该对象时引用该对象的副本，其效果未定义。</p>
+<p>对于自旋锁，上述要求应像自旋锁具有一个进程共享属性那样适用，该属性由传给 pthread_spin_init() 的 <i>pshared</i> 实参设置。对于信号量，上述要求应像信号量具有一个进程共享属性那样适用：若传给 sem_init() 的 <i>pshared</i> 实参为零，则该属性设置为 PTHREAD_PROCESS_PRIVATE；若 <i>pshared</i> 非零，则设置为 PTHREAD_PROCESS_SHARED。</p>
+<p>对于在 &lt;threads.h&gt; 中声明的 ISO C 函数，上述要求应像类型为 <b>cnd_t</b> 的条件变量和类型为 <b>mtx_t</b> 的互斥量具有一个设置为 PTHREAD_PROCESS_PRIVATE 的进程共享属性那样适用。</p>
+<a name="tag_16_10" id="tag_16_10"></a><h3>2.10 套接字 (Sockets)</h3>
+<p>套接字是使用本节所述设施进行通信的一个端点。套接字以特定的套接字类型创建，该类型在 <a href="#tag_16_10_06">2.10.6 套接字类型 (Socket Types)</a> 中描述，并与特定协议相关联，协议详情见 <a href="#tag_16_10_03">2.10.3 协议 (Protocols)</a>。套接字通过创建套接字时获得的文件描述符来访问。</p>
+<a name="tag_16_10_01" id="tag_16_10_01"></a><h4>2.10.1 地址族 (Address Families)</h4>
+<p>所有网络协议都与特定的地址族相关联。地址族向协议实现提供基本服务，使其能够在特定网络环境中运行。这些服务可以包括分组分片与重组、路由、寻址和基本传输。地址族通常由若干协议组成，每种套接字类型对应一个协议。每个协议以抽象的套接字类型为特征。并不要求地址族支持所有套接字类型。地址族可以包含支持同一套接字抽象的多个协议。</p>
+<p><a href="#tag_16_10_17">2.10.17 用于本地 UNIX 连接的套接字的使用 (Use of Sockets for Local UNIX Connections)</a>、<a href="#tag_16_10_19">2.10.19 基于 IPv4 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv4)</a> 和 <a href="#tag_16_10_20">2.10.20 基于 IPv6 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv6)</a> 分别描述了套接字用于本地 UNIX 连接、用于基于 IPv4 的 Internet 协议和用于基于 IPv6 的 Internet 协议的情况。</p>
+<a name="tag_16_10_02" id="tag_16_10_02"></a><h4>2.10.2 寻址 (Addressing)</h4>
+<p>地址族定义套接字地址的格式。所有网络地址都使用一种称为 <b>sockaddr</b> 的通用结构来描述，该结构定义于 POSIX.1-2024 的基础定义卷 &lt;sys/socket.h&gt; 中。不过，每个地址族都施加更精细、更具体的结构，通常定义带有该地址族特有字段的结构。<b>sockaddr</b> 结构中的 <i>sa_family</i> 字段包含地址族标识符，指明 <i>sa_data</i> 区域的格式。<i>sa_data</i> 区域的大小未指定。</p>
+<a name="tag_16_10_03" id="tag_16_10_03"></a><h4>2.10.3 协议 (Protocols)</h4>
+<p>协议支持 <a href="#tag_16_10_06">2.10.6 套接字类型 (Socket Types)</a> 中详述的某一种套接字抽象。选择协议需要向 socket() 函数指定地址族、套接字类型和协议号。基本套接字抽象的某些语义是协议特定的。所有协议都应支持其特定套接字类型的基本模型，但此外也可以提供非标准的设施或对某机制的扩展。</p>
+<a name="tag_16_10_04" id="tag_16_10_04"></a><h4>2.10.4 路由 (Routing)</h4>
+<p>套接字提供分组路由设施。系统维护一个路由信息数据库，在发送分组时用于选择适当的网络接口。</p>
+<a name="tag_16_10_05" id="tag_16_10_05"></a><h4>2.10.5 接口 (Interfaces)</h4>
+<p>系统中的每个网络接口对应一条可以发送和接收消息的路径。网络接口通常关联一个硬件设备，不过某些接口（如环回接口）没有。</p>
+<a name="tag_16_10_06" id="tag_16_10_06"></a><h4>2.10.6 套接字类型 (Socket Types)</h4>
+<p>套接字以特定类型创建，该类型定义通信语义，并允许选择适当的通信协议。定义了四种类型：SOCK_DGRAM、<sup>[RS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]">  SOCK_RAW、<img src=".pic/opt-end.gif" alt="[Option End]"> SOCK_SEQPACKET 和 SOCK_STREAM。实现可以规定额外的套接字类型。</p>
+<p>SOCK_STREAM 套接字类型在套接字与其所连接的对端之间提供可靠、有序、全双工的八位组流。SOCK_STREAM 类型的套接字在能够发送或接收任何数据之前需要处于已连接状态。不保持记录边界；以某种大小的输出操作在流套接字上发送的数据，可以用更小或更大大小的输入操作接收，且不丢失数据。数据可以被缓冲；输出函数成功返回并不表示数据已递交给对端，甚至不表示已从本地系统发出。如果数据在给定时间内无法成功发送，则认为连接已断开，后续操作应失败。如果线程试图在已断开的流（不再连接的流）上发送数据，则产生 SIGPIPE 信号；但在对 send()、sendto() 和 sendmsg() 的调用中使用了 MSG_NOSIGNAL 标志的情况下，该信号被抑制。对带外数据传输设施的支持是协议特定的。</p>
+<p>SOCK_SEQPACKET 套接字类型与 SOCK_STREAM 类型类似，同样面向连接。这两种类型之间唯一的区别是：使用 SOCK_SEQPACKET 类型时保持记录边界。一条记录可以用一次或多次输出操作发送，并用一次或多次输入操作接收，但单次操作绝不会传输多于一条记录的部分内容。接收方通过 recvmsg() 函数返回的接收消息标志中的 MSG_EOR 标志可以看到记录边界。是否施加最大记录大小是协议特定的。</p>
+<p>SOCK_DGRAM 套接字类型支持无连接的数据传输，这种传输不必然被确认或可靠。数据报可以发送到每次输出操作中指定的地址（可能是组播或广播地址），传入的数据报可以从多个源接收。接收数据报时可以获取每个数据报的源地址。应用程序还可以预先指定对端地址，在这种情况下，未指定对端地址的输出函数调用应发送到预先指定的对端。如果已指定对端，则只应接收来自该对端的数据报。数据报应在单次输出操作中发送，并且需要在单次输入操作中接收。数据报的最大大小是协议特定的；对于某些协议，该限制是实现定义的。输出数据报可以在系统内被缓冲；因此，输出函数成功返回并不保证数据报确实已发送或已接收。不过，实现宜在输出函数返回之前尝试检测任何可能的错误，并通过不成功的返回值报告任何错误。</p>
+<p><sup>[RS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> SOCK_RAW 套接字类型与 SOCK_DGRAM 类型类似。其区别在于，它通常与支撑其他套接字类型所用通信提供者的通信提供者一起使用。因此，创建 SOCK_RAW 类型的套接字应需要适当的权限。使用此套接字类型发送和接收的数据报格式通常包含特定的协议头，且这些格式是协议特定的和实现定义的。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_10_07" id="tag_16_10_07"></a><h4>2.10.7 套接字 I/O 模式 (Socket I/O Mode)</h4>
+<p>套接字的 I/O 模式由 O_NONBLOCK 文件状态标志描述，该标志隶属于套接字的打开文件描述。创建套接字时此标志初始为关闭，但可以使用 fcntl() 函数的 F_SETFL 命令来设置和清除。</p>
+<p>当设置了 O_NONBLOCK 标志时，某些通常会阻塞直到完成的函数应立即返回。</p>
+<p>bind() 函数发起地址分配，当设置 O_NONBLOCK 时应不阻塞地返回；如果套接字地址无法立即分配，bind() 应返回 [EINPROGRESS] 错误，以表示分配已成功发起，但尚未完成。</p>
+<p>connect() 函数发起连接，当设置 O_NONBLOCK 时应不阻塞地返回；它应返回 [EINPROGRESS] 错误，以表示连接已成功发起，但尚未完成。</p>
+<p>数据传输操作（read()、write()、send() 和 recv() 函数）应立即完成，只传输可用的数据量，然后不阻塞地返回；或者返回一个错误，表示不阻塞时无法进行任何传输。</p>
+<a name="tag_16_10_08" id="tag_16_10_08"></a><h4>2.10.8 套接字属主 (Socket Owner)</h4>
+<p>创建套接字时，套接字的属主未被设置。可以使用 fcntl() 函数的 F_SETOWN 命令将属主设置为进程 ID 或进程组 ID。</p>
+<a name="tag_16_10_09" id="tag_16_10_09"></a><h4>2.10.9 套接字队列限制 (Socket Queue Limits)</h4>
+<p>套接字的发送队列和接收队列大小在创建套接字时设置。所使用的默认大小既是协议特定的，也是实现定义的。可以使用 setsockopt() 函数更改这些大小。</p>
+<a name="tag_16_10_10" id="tag_16_10_10"></a><h4>2.10.10 待决错误 (Pending Error)</h4>
+<p>错误可能异步发生，并响应网络协议的输入而报告给套接字。套接字存储待决错误，以便在下次机会时报告给套接字的用户。该错误在随后对套接字执行的 send()、recv() 或 getsockopt() 操作中返回，然后待决错误被清除。</p>
+<a name="tag_16_10_11" id="tag_16_10_11"></a><h4>2.10.11 套接字接收队列 (Socket Receive Queue)</h4>
+<p>套接字有一个接收队列，当数据被系统接收时，该队列缓冲数据，直到数据被接收调用取走。根据套接字类型和通信提供者的不同，接收队列还可以包含辅助数据，例如与队列中正常数据相关联的寻址数据和其他协议数据，并且可以包含带外数据或加速数据。队列大小的限制包括队列中的任何正常数据、带外数据、数据报源地址和辅助数据。本节描述适用于所有套接字，尽管某些元素在某些情况下不能存在。</p>
+<p>接收缓冲区的内容在逻辑上被组织为一系列数据段，并带有相关联的辅助数据和其他信息。一个数据段可以包含正常数据或带外数据，但绝不会同时包含两者。如果协议支持记录，数据段可以完成一条记录（对于 SOCK_SEQPACKET 和 SOCK_DGRAM 类型始终成立）。一条记录可以存储为多个段；完整的记录可能永远不会同时存在于接收缓冲区中，因为一部分可能已经返回给应用程序，而另一部分可能尚未从通信提供者处接收到。数据段可以包含辅助协议数据，这些数据在逻辑上与段相关联。辅助数据被视为与段中的第一个正常数据八位组（如果有）一起排队而被接收。段可以只包含辅助数据，而不含正常数据或带外数据。就本节而言，数据报被视为终止一条记录的数据段，并且包含作为特殊类型辅助数据的源地址。当协议将数据递交给套接字时，数据段被放入队列。正常数据段在被递交时被放在队列末尾。如果新段包含与前一段相同类型的数据且不包含辅助数据，并且前一段不终止一条记录，则这些段在逻辑上合并为单个段。</p>
+<p>如果已收到文件结束指示或连接已终止，则接收队列在逻辑上终止。如果队列中该段之后还有另一个段、该段完成一条记录、或者已报告文件结束或其他连接终止，则应认为该段已终止。当套接字有待报告的待决错误时，接收队列中的最后一段也应被认为已终止。</p>
+<p>接收操作绝不应返回来自多于一个段的数据或辅助数据。</p>
+<a name="tag_16_10_12" id="tag_16_10_12"></a><h4>2.10.12 套接字带外数据状态 (Socket Out-of-Band Data State)</h4>
+<p>对接收到的带外数据的处理是协议特定的。带外数据可以被放入套接字接收队列，可以放在队列末尾，也可以放在队列中所有正常数据之前。在这种情况下，带外数据由普通的接收调用返回给应用程序。带外数据也可以单独排队，而不是放入套接字接收队列，在这种情况下，它应仅在响应请求带外数据的接收调用时返回。是否在接收队列中放置带外数据标记以划分带外数据之前的数据和带外数据之后的数据，是协议特定的。带外数据标记在逻辑上是一个空数据段，不能与队列中的其他段合并。带外数据标记绝不会响应输入操作而返回。sockatmark() 函数可用于测试带外数据标记是否为队列中的第一个元素。如果在未使用 MSG_PEEK 选项调用输入函数时带外数据标记是队列中的第一个元素，则该标记从队列中移除，后续数据（如果有）按标记不存在时的方式处理。</p>
+<a name="tag_16_10_13" id="tag_16_10_13"></a><h4>2.10.13 连接指示队列 (Connection Indication Queue)</h4>
+<p>用于接受传入连接的套接字维护一个未决连接指示队列。该队列是等待应用程序接受的连接列表；参见 listen()。</p>
+<a name="tag_16_10_14" id="tag_16_10_14"></a><h4>2.10.14 信号 (Signals)</h4>
+<p>套接字接口上的一类事件是信号的产生。这些信号报告与套接字状态相关的协议事件或进程错误。信号的产生或递送不会改变套接字的状态，尽管信号的产生可能是由状态变化引起的。</p>
+<p>SIGPIPE 信号应发送给试图在不再能够发送（不再连接）的套接字上发送数据的线程，但在对 send()、sendto() 和 sendmsg() 的调用中使用了 MSG_NOSIGNAL 标志的情况下，该信号被抑制。无论信号的产生是否被抑制，发送操作都应以 [EPIPE] 错误失败。</p>
+<p>如果套接字有属主，当套接字被通知有加速数据或带外数据时，SIGURG 信号被发送给套接字的属主。此时的套接字状态是协议相关的，套接字的状态在 <a href="#tag_16_10_17">2.10.17 用于本地 UNIX 连接的套接字的使用 (Use of Sockets for Local UNIX Connections)</a>、<a href="#tag_16_10_19">2.10.19 基于 IPv4 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv4)</a> 和 <a href="#tag_16_10_20">2.10.20 基于 IPv6 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv6)</a> 中规定。取决于协议，加速数据在产生信号时可能已经到达，也可能尚未到达。</p>
+<a name="tag_16_10_15" id="tag_16_10_15"></a><h4>2.10.15 异步错误 (Asynchronous Errors)</h4>
+<p>如果下列任一条件在套接字上异步发生，则下面列出的相应值应成为该套接字的待决错误：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ECONNABORTED]</dt>
+<dd>连接在本地被中止。</dd>
+<dt>[ECONNREFUSED]</dt>
+<dd>对于尝试进行非阻塞连接的连接模式套接字，连接尝试被强行拒绝。对于无连接模式套接字，递送数据报的尝试被强行拒绝。</dd>
+<dt>[ECONNRESET]</dt>
+<dd>对端已中止连接。</dd>
+<dt>[EHOSTUNREACH]</dt>
+<dd>目的主机不可达。</dd>
+<dt>[EMSGSIZE]</dt>
+<dd>对于无连接模式套接字，先前发送的数据报的大小阻止了递送。</dd>
+<dt>[ENETDOWN]</dt>
+<dd>本地网络连接不可用。</dd>
+<dt>[ENETRESET]</dt>
+<dd>连接被网络中止。</dd>
+<dt>[ENETUNREACH]</dt>
+<dd>目的网络不可达。</dd>
+</dl>
+<a name="tag_16_10_16" id="tag_16_10_16"></a><h4>2.10.16 选项的使用 (Use of Options)</h4>
+<p>有许多套接字选项，它们要么使套接字的行为专门化，要么提供有用的信息。这些选项可以在不同的协议层设置，并且总是存在于最上层的 &quot;socket&quot; 层。</p>
+<p>套接字选项由两个函数操作：getsockopt() 和 setsockopt()。这些函数允许应用程序定制套接字的行为和特性，以达到所需的效果。</p>
+<p>所有可与 setsockopt() 一起使用的选项都有默认值。对于每个默认值被列为实现定义的选项，实现还控制由 accept() 或 accept4() 创建的套接字，其选项是重置为原始默认值开始，还是继承为最初监听套接字上先前定制的值。这些值的类型和含义由它们所适用的协议层定义。应用程序可以不使用默认值，而选择定制一个或多个选项。不过，在大多数情况下，默认值对应用程序来说已足够。</p>
+<p>其中一些选项用于在协议模块内启用或禁用某些行为（例如，打开调试），而另一些选项可以用于设置协议特定的信息（例如，应用程序所有出站分组的 IP 生存时间）。在介绍每个选项时，都会描述它对底层协议模块的影响。</p>
+<p><a href="#tagtcjh_7">套接字选项的层值 (Value of Level for Socket Options)</a> 显示了套接字层的值。</p>
+<p><a name="tagtcjh_7" id="tagtcjh_7"></a> 表：套接字选项的层值 (Value of Level for Socket Options)</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr></tbody></table>
+
+<p><a href="#tagtcjh_8">套接字层选项 (Socket-Level Options)</a> 列出了存在于套接字层的那些选项；即当 getsockopt() 或 setsockopt() 函数的 <i>level</i> 参数为 SOL_SOCKET 时，与每个选项相关联的选项值参数的类型，以及选项值参数含义的简要说明。除非另有说明，每个选项都可以在所有类型的套接字上用 getsockopt() 检查，并用 setsockopt() 设置。其他协议层的选项在格式和名称上有所不同。</p>
+<p><a name="tagtcjh_8" id="tagtcjh_8"></a> 表：套接字层选项 (Socket-Level Options)</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p>SO_ACCEPTCONN 选项仅用于 getsockopt()。当指定此选项时，getsockopt() 应报告该套接字的套接字监听是否已启用。值零应表示套接字监听已禁用；非零表示已启用。SO_ACCEPTCONN 没有默认值。</p>
+<p>SO_BROADCAST 选项请求在套接字上发送广播数据报的权限。对 SO_BROADCAST 的支持是协议特定的。SO_BROADCAST 的默认值是：在套接字上发送广播数据报的能力被禁用。</p>
+<p>SO_DEBUG 选项在底层协议模块中启用调试。这在正常系统运行期间跟踪底层协议模块的行为时可能有用。调试报告的语义是实现定义的。SO_DEBUG 的默认值是关闭调试。</p>
+<p>SO_DOMAIN 选项仅用于 getsockopt()。当指定此选项时，getsockopt() 应返回套接字的域（例如，AF_INET6）。SO_DOMAIN 没有默认值。</p>
+<p>SO_DONTROUTE 选项请求出站消息绕过标准路由设施。目的地址需要位于直接相连的网络上，消息根据目的地址被定向到适当的网络接口。此选项是否有效以及如何选择出站网络接口是协议特定的。每个协议对此选项的支持是实现定义的。</p>
+<p>SO_ERROR 选项仅用于 getsockopt()。当指定此选项时，getsockopt() 应返回套接字上的任何待决错误并清除错误状态。如果没有待决错误，它应返回值 0。SO_ERROR 可以用于检查已连接的无连接模式套接字上的异步错误，或用于其他类型的异步错误。SO_ERROR 没有默认值。</p>
+<p>SO_KEEPALIVE 选项在已连接的套接字上启用周期性发送消息。此选项的行为是协议特定的。对于已建立连接的连接模式套接字，如果启用了 SO_KEEPALIVE 且已连接的套接字未能响应保活消息，则连接应被断开。SO_KEEPALIVE 的默认值为零，表示此能力被关闭。</p>
+<p>当套接字上有未发送的消息排队并且执行 close() 时，SO_LINGER 选项控制接口采取的动作。此选项的细节是协议特定的。如果启用了 SO_LINGER，系统应在 close() 期间阻塞调用线程，直到它可以发送数据，或直到 <i>l_linger</i> 成员指示的时间间隔结束，以先到者为准。如果未指定 SO_LINGER 并且发出了 close()，系统处理该调用的方式允许调用线程尽快继续执行。SO_LINGER 的默认值为零，即关闭，选项值的 <i>l_onoff</i> 元素为零，<i>l_linger</i> 元素指定的 linger 时间为零秒。</p>
+<p>SO_OOBINLINE 选项仅在支持带外数据的协议上有效。SO_OOBINLINE 选项请求将带外数据在接收时放入正常数据输入队列；然后可以使用 read() 或 recv() 函数在不设置 MSG_OOB 标志的情况下访问它。SO_OOBINLINE 的默认值是关闭；也就是说，带外数据不放入正常数据输入队列。</p>
+<p>SO_PROTOCOL 选项仅用于 getsockopt()。当指定此选项时，getsockopt() 应返回套接字协议（例如，IPPROTO_TCP）。SO_PROTOCOL 没有默认值。</p>
+<p>SO_RCVBUF 选项请求将为此套接字上的接收操作分配的缓冲区空间设置为选项值（以字节计）。对于高流量连接，应用程序可能希望增大缓冲区大小，或者可能减小缓冲区大小以限制可能的传入数据积压。SO_RCVBUF 选项值的默认值是实现定义的，并且可能因协议而异。</p>
+<p>SO_RCVLOWAT 选项设置套接字输入操作要处理的最小字节数。通常，接收调用会阻塞直到收到任意（非零）数量的数据，然后返回可用数量与请求数量中的较小者。SO_RCVLOWAT 的默认值为 1，不影响一般情况。如果将 SO_RCVLOWAT 设置为更大的值，阻塞式接收调用通常会等待，直到它们收到了低水位值或请求数量中的较小者。如果发生错误、捕获到信号，或者接收队列中下一个数据的类型与返回的数据类型不同（例如，带外数据），接收调用仍可能返回少于低水位的数据。如前所述，SO_RCVLOWAT 的默认值为 1 字节。是否可以设置 SO_RCVLOWAT 选项是实现定义的。</p>
+<p>SO_RCVTIMEO 选项是用于为输入操作设置超时值的选项。它接受一个 <b>timeval</b> 结构，其中的秒数和微秒数指定等待输入操作完成的时间限制。如果接收操作已阻塞了这么长时间而没有接收到额外数据，它应以部分计数返回；如果没有收到任何数据，<i>errno</i> 应被设置为 [EAGAIN] 或 [EWOULDBLOCK]。此选项的默认值为零，表示接收操作不会超时。是否可以设置 SO_RCVTIMEO 选项是实现定义的。</p>
+<p>SO_REUSEADDR 选项表示用于验证 bind() 中提供的地址的规则宜允许重用本地地址。此选项的操作是协议特定的。SO_REUSEADDR 的默认值是关闭；也就是说，不允许重用本地地址。</p>
+<p>SO_SNDBUF 选项请求将为此套接字上的发送操作分配的缓冲区空间设置为选项值（以字节计）。SO_SNDBUF 选项值的默认值是实现定义的，并且可能因协议而异。</p>
+<p>SO_SNDLOWAT 选项设置套接字输出操作要处理的最小字节数。大多数输出操作会处理调用提供的所有数据，将数据递交给协议进行发送，并在需要时因流量控制而阻塞。非阻塞输出操作在不阻塞的情况下处理流量控制所允许的尽可能多的数据，但如果流量控制不允许处理发送低水位值或整个请求中的较小者，则不处理任何数据。测试套接字可写能力的 select() 操作仅在可以处理发送低水位时才应返回 true。SO_SNDLOWAT 的默认值是实现定义的和协议特定的。是否可以设置 SO_SNDLOWAT 选项是实现定义的。</p>
+<p>SO_SNDTIMEO 选项是为输出函数因流量控制阻止数据发送而应阻塞的时间量设置超时值的选项。如 <a href="#tagtcjh_8">套接字层选项 (Socket-Level Options)</a> 所述，选项值是一个 <b>timeval</b> 结构，其中的秒数和微秒数指定等待输出操作完成的时间限制。如果发送操作已阻塞了这么长时间，它应以部分计数返回；如果没有发送任何数据，<i>errno</i> 被设置为 [EAGAIN] 或 [EWOULDBLOCK]。此选项的默认值为零，表示发送操作不会超时。是否可以设置 SO_SNDTIMEO 选项是实现定义的。</p>
+<p>SO_TYPE 选项仅用于 getsockopt()。当指定此选项时，getsockopt() 应返回套接字的类型（例如，SOCK_STREAM）。此选项对在启动时继承套接字的服务器很有用。SO_TYPE 没有默认值。</p>
+<a name="tag_16_10_17" id="tag_16_10_17"></a><h4>2.10.17 用于本地 UNIX 连接的套接字的使用 (Use of Sockets for Local UNIX Connections)</h4>
+<p>对 UNIX 域套接字的支持是强制性的。</p>
+<p>UNIX 域套接字在单个系统中提供进程间通信。</p>
+<a name="tag_16_10_17_01" id="tag_16_10_17_01"></a><h5>2.10.17.1 头文件 (Headers)</h5>
+<p>定义于 &lt;sys/socket.h&gt; 头文件中的符号常量 AF_UNIX 用于标识 UNIX 域地址族。&lt;sys/un.h&gt; 头文件包含与 UNIX 域套接字相关的其他定义。参见 XBD 14. 头文件 (Headers)。</p>
+<p>定义于 &lt;sys/socket.h&gt; 中的 <b>sockaddr_storage</b> 结构应足够大，以容纳 <b>sockaddr_un</b> 结构（参见 XBD 14. 头文件 (Headers) 中定义的 &lt;sys/un.h&gt; 头文件），并且应在适当的边界上对齐，以便指向它的指针可以转换为指向 <b>sockaddr_un</b> 结构的指针，并用于访问这些结构的字段而不会出现对齐问题。当 <b>sockaddr_storage</b> 结构被转换为 <b>sockaddr_un</b> 结构时，<i>ss_family</i> 字段映射到 <i>sun_family</i> 字段。</p>
+<a name="tag_16_10_18" id="tag_16_10_18"></a><h4>2.10.18 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols)</h4>
+<p>当在 Internet 地址族中以协议值零创建套接字时，实现应对所创建的套接字类型使用下面列出的协议。</p>
+<dl compact="None">
+<dd></dd>
+<dt>SOCK_STREAM</dt>
+<dd>IPPROTO_TCP。</dd>
+<dt>SOCK_DGRAM</dt>
+<dd>IPPROTO_UDP。</dd>
+<dt>SOCK_RAW</dt>
+<dd><sup>[RS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> IPPROTO_RAW。<img src=".pic/opt-end.gif" alt="[Option End]"></dd>
+<dt>SOCK_SEQPACKET</dt>
+<dd>未指定。</dd>
+</dl>
+<p><sup>[RS]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 通过创建 SOCK_RAW 类型的 Internet 套接字可以获得到 IP 的原始接口。SOCK_RAW 类型的默认协议应在 IP 头中以 IPPROTO_RAW 值标识。应用程序在创建 SOCK_RAW 类型的套接字时不宜使用默认协议，而应按值标识特定协议。通过为 protocol 指定 IPPROTO_ICMP 值，可以从原始套接字访问 ICMP 控制协议。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<a name="tag_16_10_19" id="tag_16_10_19"></a><h4>2.10.19 基于 IPv4 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv4)</h4>
+<p>对基于 IPv4 的 Internet 协议上套接字的支持是强制性的。IPv4 在 RFC 791 中描述。</p>
+<a name="tag_16_10_19_01" id="tag_16_10_19_01"></a><h5>2.10.19.1 头文件 (Headers)</h5>
+<p>定义于 &lt;sys/socket.h&gt; 头文件中的符号常量 AF_INET 用于标识 IPv4 Internet 地址族。&lt;netinet/in.h&gt; 头文件包含与 IPv4 Internet 套接字相关的其他定义。参见 XBD 14. 头文件 (Headers)。</p>
+<p>定义于 &lt;sys/socket.h&gt; 中的 <b>sockaddr_storage</b> 结构应足够大，以容纳 <b>sockaddr_in</b> 结构（参见 XBD 14. 头文件 (Headers) 中定义的 &lt;netinet/in.h&gt; 头文件），并且应在适当的边界上对齐，以便指向它的指针可以转换为指向 <b>sockaddr_in</b> 结构的指针，并用于访问这些结构的字段而不会出现对齐问题。当 <b>sockaddr_storage</b> 结构被转换为 <b>sockaddr_in</b> 结构时，<i>ss_family</i> 字段映射到 <i>sin_family</i> 字段。</p>
+<a name="tag_16_10_20" id="tag_16_10_20"></a><h4>2.10.20 基于 IPv6 的 Internet 协议上套接字的使用 (Use of Sockets over Internet Protocols Based on IPv6)</h4>
+<p><sup>[IP6]</sup> <img src=".pic/opt-start.gif" alt="[Option Start]"> 本节描述支持基于 IPv6 的 Internet 协议上套接字的扩展。本节所述功能应在支持 IPV6 选项的实现上提供（本节的其余部分不再为此选项加阴影）。<img src=".pic/opt-end.gif" alt="[Option End]"></p>
+<p>IPv6 在 RFC 8200 中描述。</p>
+<p>为实现从 IPv4 到 IPv6 的平滑过渡，本节定义的功能在某些情况下也可以与 IPv4 结合使用；参见 <a href="#tag_16_10_20_02">2.10.20.2 与 IPv4 的兼容性 (Compatibility with IPv4)</a>。</p>
+<a name="tag_16_10_20_01" id="tag_16_10_20_01"></a><h5>2.10.20.1 寻址 (Addressing)</h5>
+<p>IPv6 通过使用 128 位地址而不是 32 位地址，克服了早期版本的寻址限制。IPv6 地址体系结构在 RFC 4291 中描述。</p>
+<p>IPv6 地址有三种：</p>
+<dl compact="None">
+<dd></dd>
+<dt>单播</dt>
+<dd>
+Identifies a single interface.
+<p>单播地址可以是全局的、链路本地的（设计用于单个链路上）或站点本地的（设计用于未连接到 Internet 的系统）。链路本地和站点本地地址不需要全局唯一。</p>
+</dd>
+<dt>任播</dt>
+<dd>
+Identifies a set of interfaces such that a packet sent to the address can be delivered to any member of the set.
+<p>任播地址与单播地址类似；分配了任播地址的节点需要被显式配置，以知道该地址是任播地址。</p>
+</dd>
+<dt>组播</dt>
+<dd>
+Identifies a set of interfaces such that a packet sent to the address should be delivered to every member of the set.
+<p>应用程序只需在 sendto() 的 <i>address</i> 参数中指定一个 IPv6 组播地址，就可以发送组播数据报。要接收组播数据报，应用程序需要加入组播组（使用带 IPV6_JOIN_GROUP 的 setsockopt()），并将接收数据报所用的 UDP 端口绑定到套接字。某些应用程序还应将组播组地址绑定到套接字，以防止发往该端口的其他数据报被递交给该套接字。</p>
+<p>组播地址可以是全局的、节点本地的、链路本地的、站点本地的或组织本地的。</p>
+</dd>
+</dl>
+<p>定义了以下特殊的 IPv6 地址：</p>
+<dl compact="None">
+<dd></dd>
+<dt>未指定</dt>
+<dd>一种未分配给任何接口的地址，用于表示不存在地址。</dd>
+<dt>环回</dt>
+<dd>一种未分配给任何接口的单播地址，节点可以用它向自身发送分组。</dd>
+</dl>
+<p>定义了两组与 IPv4 地址相对应的 IPv6 地址：</p>
+<dl compact="None">
+<dd></dd>
+<dt>IPv4 兼容地址</dt>
+<dd>这些地址分配给支持 IPv6 的节点，可以在流量通过 IPv4 &quot;隧道化&quot;时使用。</dd>
+<dt>IPv4 映射地址</dt>
+<dd>这些地址用于以 IPv6 地址格式表示 IPv4 地址；参见 <a href="#tag_16_10_20_02">2.10.20.2 与 IPv4 的兼容性 (Compatibility with IPv4)</a>。</dd>
+</dl>
+<p>未指定地址和环回地址不应被视为 IPv4 兼容地址。</p>
+<a name="tag_16_10_20_02" id="tag_16_10_20_02"></a><h5>2.10.20.2 与 IPv4 的兼容性 (Compatibility with IPv4)</h5>
+<p>API 通过使用 IPv4 映射的 IPv6 地址，为 IPv6 应用程序提供了与使用 IPv4 的应用程序互操作的能力。当指定的主机只有 IPv4 地址时，这些地址可以由 getaddrinfo() 函数自动生成。</p>
+<p>应用程序只需将目的地的 IPv4 地址编码为 IPv4 映射的 IPv6 地址，并在 connect()、sendto() 或 sendmsg() 函数中于 <b>sockaddr_in6</b> 结构内传递该地址，就可以使用 AF_INET6 套接字向 IPv4 节点打开 TCP 连接，或向 IPv4 节点发送 UDP 分组。当应用程序使用 AF_INET6 套接字接受来自 IPv4 节点的 TCP 连接，或接收来自 IPv4 节点的 UDP 分组时，系统应在 accept()、accept4()、recvfrom()、recvmsg() 或 getpeername() 函数中使用以这种方式编码的 <b>sockaddr_in6</b> 结构将对端地址返回给应用程序。如果节点有 IPv4 地址，则实现应允许应用程序通过 AF_INET6 套接字使用该地址进行通信。在这种情况下，该地址应在 API 处以相应的 IPv4 映射的 IPv6 地址表示。此外，实现可以允许绑定到 <b>in6addr_any</b> 的 AF_INET6 套接字接收发往节点某个 IPv4 地址的入站连接和分组。</p>
+<p>应用程序可以通过在 bind() 函数的 <b>sockaddr_in6</b> 结构中将地址指定为 IPv4 映射的 IPv6 地址，使用 AF_INET6 套接字绑定到节点的 IPv4 地址。对于绑定到节点 IPv4 地址的 AF_INET6 套接字，系统应在 getsockname() 函数中返回该地址，形式为 <b>sockaddr_in6</b> 结构中的 IPv4 映射的 IPv6 地址。</p>
+<a name="tag_16_10_20_03" id="tag_16_10_20_03"></a><h5>2.10.20.3 接口标识 (Interface Identification)</h5>
+<p>每个本地接口都被分配一个唯一的正整数作为数值索引。索引从 1 开始；不使用零。索引可能存在空缺，因此某个特定的正整数当前可能没有对应的接口。每个接口还有一个唯一的实现定义的名称。</p>
+<a name="tag_16_10_20_04" id="tag_16_10_20_04"></a><h5>2.10.20.4 选项 (Options)</h5>
+<p>以下选项适用于 IPPROTO_IPV6 层：</p>
+<dl compact="None">
+<dd></dd>
+<dt>IPV6_JOIN_GROUP</dt>
+<dd>
+When set via setsockopt(), it joins the application to a multicast group on an
+interface (identified by its index) and addressed by a given multicast address, enabling packets sent to that address to be read
+via the socket. If the interface index is specified as zero, the system selects the interface (for example, by looking up the
+address in a routing table and using the resulting interface).
+<p>使用 getsockopt() 读取此选项的尝试应导致 [EOPNOTSUPP] 错误。</p>
+<p>此选项的参数类型是指向 <b>ipv6_mreq</b> 结构的指针。</p>
+</dd>
+<dt>IPV6_LEAVE_GROUP</dt>
+<dd>
+When set via setsockopt(), it removes the application from the multicast group on
+an interface (identified by its index) and addressed by a given multicast address.
+<p>使用 getsockopt() 读取此选项的尝试应导致 [EOPNOTSUPP] 错误。</p>
+<p>此选项的参数类型是指向 <b>ipv6_mreq</b> 结构的指针。</p>
+</dd>
+<dt>IPV6_MULTICAST_HOPS</dt>
+<dd>
+The value of this option is the hop limit for outgoing multicast IPv6 packets sent via the socket. Its possible values are the same
+as those of IPV6_UNICAST_HOPS. If the IPV6_MULTICAST_HOPS option is not set, a value of 1 is assumed. This option can be set via
+setsockopt() and read via getsockopt().
+<p>此选项的参数类型是指向 <b>int</b> 的指针。（默认值：1）</p>
+</dd>
+<dt>IPV6_MULTICAST_IF</dt>
+<dd>
+The index of the interface to be used for outgoing multicast packets. It can be set via setsockopt() and read via getsockopt().
+If the interface index is specified as zero, the system selects the interface (for example, by looking up the address in a routing
+table and using the resulting interface).
+<p>此选项的参数类型是指向 <b>unsigned int</b> 的指针。（默认值：0）</p>
+</dd>
+<dt>IPV6_MULTICAST_LOOP</dt>
+<dd>
+This option controls whether outgoing multicast packets should be delivered back to the local application when the sending
+interface is itself a member of the destination multicast group. If it is set to 1 they are delivered. If it is set to 0 they are
+not. Other values result in an [EINVAL] error. This option can be set via setsockopt() and read via getsockopt().
+<p>此选项的参数类型是指向 <b>unsigned int</b> 的指针，该值用作布尔值。（默认值：1）</p>
+</dd>
+<dt>IPV6_UNICAST_HOPS</dt>
+<dd>
+The value of this option is the hop limit for outgoing unicast IPv6 packets sent via the socket. If the option is not set, or is
+set to -1, the system selects a default value. Attempts to set a value less than -1 or greater than 255 shall result in an [EINVAL]
+error. This option can be set via setsockopt() and read via getsockopt().
+<p>此选项的参数类型是指向 <b>int</b> 的指针。（默认值：未指定）</p>
+</dd>
+<dt>IPV6_V6ONLY</dt>
+<dd>
+This socket option restricts AF_INET6 sockets to IPv6 communications only. AF_INET6 sockets may be used for both IPv4 and IPv6
+communications. Some applications may want to restrict their use of an AF_INET6 socket to IPv6 communications only. For these
+applications, the IPv6_V6ONLY socket option is defined. When this option is turned on, the socket can be used to send and receive
+IPv6 packets only. This is an IPPROTO_IPV6-level option.
+<p>此选项的参数类型是指向 <b>int</b> 的指针，该值用作布尔值。（默认值：0）</p>
+</dd>
+</dl>
+<p>如果将 IPV6_JOIN_GROUP 或 IPV6_LEAVE_GROUP 与 getsockopt() 一起使用，则应产生 [EOPNOTSUPP] 错误。</p>
+<a name="tag_16_10_20_05" id="tag_16_10_20_05"></a><h5>2.10.20.5 头文件 (Headers)</h5>
+<p>符号常量 AF_INET6 定义于 &lt;sys/socket.h&gt; 头文件中，用于标识 IPv6 Internet 地址族。参见 XBD 14. 头文件 (Headers)。</p>
+<p>定义于 &lt;sys/socket.h&gt; 中的 <b>sockaddr_storage</b> 结构应足够大，以容纳 <b>sockaddr_in6</b> 结构（参见 XBD 14. 头文件 (Headers) 中定义的 &lt;netinet/in.h&gt; 头文件），并且应在适当的边界上对齐，以便指向它的指针可以转换为指向 <b>sockaddr_in6</b> 结构的指针，并用于访问这些结构的字段而不会出现对齐问题。当 <b>sockaddr_storage</b> 结构被转换为 <b>sockaddr_in6</b> 结构时，<i>ss_family</i> 字段映射到 <i>sin6_family</i> 字段。</p>
+<p>&lt;netinet/in.h&gt;、&lt;arpa/inet.h&gt; 和 &lt;netdb.h&gt; 头文件包含与 IPv6 Internet 套接字相关的其他定义；参见 XBD 14. 头文件 (Headers)。</p>
+<a name="tag_16_11" id="tag_16_11"></a><h3>2.11 数据类型 (Data Types)</h3>
+<a name="tag_16_11_01" id="tag_16_11_01"></a><h4>2.11.1 已定义类型 (Defined Types)</h4>
+<p>各函数所使用的所有数据类型均由实现定义。下表描述了其中一些类型。在某个函数的描述中引用但此处未提及的其他类型，可以在该函数相应的头文件中找到。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<a name="tag_16_11_02" id="tag_16_11_02"></a><h4>2.11.2 char 类型 (The char Type)</h4>
+<p><b>char</b> 类型被定义为一个单字节；参见 XBD 3. 定义（字节和字符）。</p>
+<a name="tag_16_12" id="tag_16_12"></a><h3>2.12 状态信息 (Status Information)</h3>
+<p>状态信息是与进程相关联的数据，它详细说明进程状态的变化。它应包括：</p>
+<ul>
+<li>进程转变进入的状态（<i>已停止</i>、<i>已继续</i>或<i>已终止</i>）</li>
+<li>填充由waitid()提供的<b>siginfo_t</b>结构所需的信息</li>
+<li>如果新状态是<i>已终止</i>：进程传给_Exit()、_exit()或exit()的状态参数的低 8 位，或进程从<i>main</i>()返回的值的低 8 位。注意，这 8 位是用于设置由waitid()提供的<b>siginfo_t</b>结构的<i>si_status</i>成员的完整值的一部分。进程是否因收到未被捕获的信号而终止，若是，则还包括导致进程终止的信号编号。</li>
+<li>如果新状态是<i>已停止</i>：导致进程停止的信号编号</li>
+</ul>
+<p>进程可能没有任何状态信息（例如在进程刚启动之后）。</p>
+<p>当进程停止、继续或终止时，应生成进程的状态信息（使其对父进程可用），但以下情况除外：</p>
+<ul>
+<li>如果父进程将SIGCHLD信号的动作设置为SIG_IGN，或者父进程为SIGCHLD信号动作设置了SA_NOCLDWAIT标志，则进程终止不应生成新的状态信息，但应导致该进程已有的任何状态信息被丢弃。</li>
+</ul>
+<p>如果生成了新的状态信息，而该进程已有状态信息，则现有的状态信息应被丢弃，并替换为新的状态信息。</p>
+<p>只有进程的父进程能获得该进程的状态信息。父进程通过调用wait()、waitid()或waitpid()获得子进程的状态信息。除非在<i>options</i>参数中设置了WNOWAIT标志的情况下调用waitid()，否则wait函数获得的状态信息应由该wait函数消耗（丢弃）；对wait()、waitid()（不带WNOWAIT）或waitpid()的任何两次调用都不应获得相同的状态信息。</p>
+<p>当状态信息对父进程可用，且父进程中有多个线程正在等待该状态信息（阻塞在对wait()、waitid()或waitpid()的、参数会匹配该状态信息的调用中）时：</p>
+<ul>
+<li>如果匹配的线程中没有一个处于对waitid()的、在<i>options</i>参数中设置了WNOWAIT标志的调用中，则获得该状态信息的线程是未指定的。</li>
+<li>否则（匹配的线程中至少有一个处于对waitid()的、设置了WNOWAIT标志的调用中），获得该状态信息的匹配线程或线程组是未指定的，但匹配线程中至少有一个线程应获得该状态信息，且未以WNOWAIT标志调用waitid()的匹配线程中至多有一个应获得该状态信息。</li>
+</ul>
+
+<a name="tag_16_12_01" id="tag_16_12_01"></a><h4>脚注 (Footnotes)</h4>
+<p><a name="tag_foot_1" id="tag_foot_1"></a>1. 表中的函数未用阴影标注来表示适用的选项。宜查阅各个参考页。†</p>
+When the <i>cmd</i> argument is F_SETLKW or F_OFD_SETLKW. †† When the <i>function</i> argument is F_LOCK. ††† For any value of the
+<i>cmd</i> argument.
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -1,0 +1,25 @@
+<h1>XSH 函数导读：sprintf()</h1>
+
+<h2>0. 总览</h2>
+<p><code>sprintf()</code> 打印格式化输出到字符串：在 <code>format</code> 控制下转换、格式化并打印其参数，把输出及随后的空字节 <code>'\0'</code> 放到从 *<code>s</code> 开始的连续字节中。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>int sprintf(char *restrict s, const char *restrict format, ...)</code>——目标缓冲区是调用者提供的 <code>s</code>，确保有足够空间可用是用户的责任；成功时返回写入 <code>s</code> 的字节数（不包括终止空字节），遇到错误返回负值并设置 <code>errno</code>。</p>
+
+<h2>1. 机制</h2>
+<p>格式化输出的核心行为与 <code>printf()</code> 家族一致：format 由普通字符与转换说明组成，转换说明由 <code>%</code> 引入，后接标志、可选最小字段宽度、可选精度、可选长度修饰符（hh、h、l、ll、j、z、t、L）和转换说明符（d、i、o、u、x、X、f、F、e、E、g、G、a、A、c、s、p、n、%）。与输出到流的兄弟函数不同，<code>sprintf()</code> 直接把字节写入内存数组并在末尾追加 <code>'\0'</code>，没有缓冲、刷新问题。返回值是实际写入的字节数（不含结尾空字节），可用于计算字符串长度。若因调用 <code>sprintf()</code> 而在重叠的对象之间进行复制，结果是未定义的。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是 <code>sprintf()</code> 完全没有长度限制——若目标缓冲区不够大，就会越界写坏内存，这是缓冲区溢出漏洞的经典来源，新代码应优先用 <code>snprintf()</code>；二是返回值不含终止空字节，计算所需缓冲区大小时要 <code>+1</code>；三是 <code>%s</code> 无精度时源字符串必须以空字节结尾，否则越界读取；四是格式字符串与参数个数/类型不匹配是未定义行为；五是 <code>%n</code> 会把已写字节数写入指针参数，可被滥用做任意内存写，慎用；六是不要把 <code>sprintf()</code> 的输出缓冲区与其格式字符串或输入参数重叠，那会触发未定义行为。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void) {
+    char buf[64];
+    int len;
+
+    len = sprintf(buf, "count=%d\n", 10);
+    /* buf: "count=10\n\0"；len == 9（不含结尾空字节） */
+
+    if (len &lt; 0)
+        return 1;   /* 输出错误 */
+    return 0;
+}</code></pre>

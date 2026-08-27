@@ -1,0 +1,54 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] fstat — get file status
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]fstat[/I5]() function shall obtain information about an open file associated with the file descriptor [I6]fildes[/I6], and shall write it to the area pointed to by [I7]buf[/I7].
+[p_00007] [S8][[A9]SHM[/A9]][/S8] [IMG10] If [I11]fildes[/I11] references a shared memory object, the implementation shall update in the [B12]stat[/B12] structure pointed to by the [I13]buf[/I13] argument the [I14]st_uid[/I14], [I15]st_gid[/I15], [I16]st_size[/I16], and [I17]st_mode[/I17] fields, and only the S_IRUSR, S_IWUSR, S_IRGRP, S_IWGRP, S_IROTH, and S_IWOTH file permission bits need be valid. The implementation may update other fields and flags. [IMG18]
+[p_00008] [S19][[A20]TYM[/A20]][/S19] [IMG21] If [I22]fildes[/I22] references a typed memory object, the implementation shall update in the [B23]stat[/B23] structure pointed to by the [I24]buf[/I24] argument the [I25]st_uid[/I25], [I26]st_gid[/I26], [I27]st_size[/I27], and [I28]st_mode[/I28] fields, and only the S_IRUSR, S_IWUSR, S_IRGRP, S_IWGRP, S_IROTH, and S_IWOTH file permission bits need be valid. The implementation may update other fields and flags. [IMG29]
+[p_00009] The [I30]buf[/I30] argument is a pointer to a [B31]stat[/B31] structure, as defined in [A32][I33]&lt;sys/stat.h&gt;[/I33][/A32], into which information is placed concerning the file.
+[p_00010] For all other file types defined in this volume of POSIX.1-2024, the structure members [I34]st_mode[/I34], [I35]st_ino[/I35], [I36]st_dev[/I36], [I37]st_uid[/I37], [I38]st_gid[/I38], [I39]st_atim[/I39], [I40]st_ctim[/I40], and [I41]st_mtim[/I41] shall have meaningful values and the value of the [I42]st_nlink[/I42] member shall be set to the number of links to the file.
+[p_00011] An implementation that provides additional or alternative file access control mechanisms may, under implementation-defined conditions, cause [I43]fstat[/I43]() to fail.
+[p_00012] The [I44]fstat[/I44]() function shall update any time-related fields (as described in XBD [A45][I46]4.12 File Times Update[/I46][/A45]), before writing into the [B47]stat[/B47] structure.
+[h4_00013] [A48][/A48]RETURN VALUE
+[p_00014] Upon successful completion, 0 shall be returned. Otherwise, -1 shall be returned and [I49]errno[/I49] set to indicate the error.
+[h4_00015] [A50][/A50]ERRORS
+[p_00016] The [I51]fstat[/I51]() function shall fail if:
+[dt_00017] [EBADF]
+[dd_00018] The [I52]fildes[/I52] argument is not a valid file descriptor.
+[dt_00019] [EIO]
+[dd_00020] An I/O error occurred while reading from the file system.
+[dt_00021] [EOVERFLOW]
+[dd_00022] The file size in bytes or the number of blocks allocated to the file or the file serial number cannot be represented correctly in the structure pointed to by [I53]buf[/I53].
+[p_00023] The [I54]fstat[/I54]() function may fail if:
+[dt_00024] [EOVERFLOW]
+[dd_00025] One of the values is too large to store into the structure pointed to by the [I55]buf[/I55] argument.
+[h4_00026] [A56][/A56]EXAMPLES
+[h5_00027] [A57][/A57]Obtaining File Status Information
+[p_00028] The following example shows how to obtain file status information for a file named [B58]/home/cnd/mod1[/B58]. The structure variable [I59]buffer[/I59] is defined for the [B60]stat[/B60] structure. The [B61]/home/cnd/mod1[/B61] file is opened with read/write privileges and is passed to the open file descriptor [I62]fildes[/I62].
+[h4_00029] [A63][/A63]APPLICATION USAGE
+[p_00030] None.
+[h4_00031] [A64][/A64]RATIONALE
+[p_00032] None.
+[h4_00033] [A65][/A65]FUTURE DIRECTIONS
+[p_00034] None.
+[h4_00035] [A66][/A66]SEE ALSO
+[p_00036] [A67][I68]fstatat[/I68]()[/A67]
+[p_00037] XBD [A69][I70]4.12 File Times Update[/I70][/A69], [A71][I72]&lt;sys/stat.h&gt;[/I72][/A71], [A73][I74]&lt;sys/types.h&gt;[/I74][/A73]
+[h4_00038] [A75][/A75]CHANGE HISTORY
+[p_00039] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00040] [A76][/A76]Issue 5
+[p_00041] The DESCRIPTION is updated for alignment with the POSIX Realtime Extension.
+[p_00042] Large File Summit extensions are added.
+[h4_00043] [A77][/A77]Issue 6
+[p_00044] In the SYNOPSIS, the optional include of the [A78][I79]&lt;sys/types.h&gt;[/I79][/A78] header is removed.
+[p_00045] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00046] The requirement to include [A80][I81]&lt;sys/types.h&gt;[/I81][/A80] has been removed. Although [A82][I83]&lt;sys/types.h&gt;[/I83][/A82] was required for conforming implementations of previous POSIX specifications, it was not required for UNIX applications.
+[p_00047] The [EIO] mandatory error condition is added.
+[p_00048] The [EOVERFLOW] mandatory error condition is added. This change is to support large files.
+[p_00049] The [EOVERFLOW] optional error condition is added.
+[p_00050] The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by specifying that shared memory object semantics apply to typed memory objects.
+[h4_00051] [A84][/A84]Issue 7
+[p_00052] XSH-SD5-ERN-161 is applied, updating the DESCRIPTION to clarify to which file types [I85]st_nlink[/I85] applies.
+[p_00053] Changes are made related to support for finegrained timestamps.
+[p_00054] &nbsp;

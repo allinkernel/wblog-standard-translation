@@ -1,0 +1,213 @@
+<h1>XSH 函数：fopen()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fopen" id="fopen"></a> <a name="tag_17_171" id="tag_17_171"></a>
+<a name="tag_17_171_01" id="tag_17_171_01"></a><h4>[h4_00001] 名称 (NAME)</h4>
+<blockquote>[blockquote_00002] fopen — 打开流 (open a stream)</blockquote>
+<a name="tag_17_171_02" id="tag_17_171_02"></a><h4>[h4_00003] 提要 (SYNOPSIS)</h4>
+<blockquote>
+<p>[p_00004] <code><code>#include &lt;stdio.h&gt;<br>
+<br>
+FILE *fopen(const char *restrict</code> <i>pathname</i><code>, const char *restrict</code> <i>mode</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_171_03" id="tag_17_171_03"></a><h4>[h4_00005] 说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> Except for the &quot;exclusive access&quot; requirement (see below), the functionality described on this reference page is
+aligned with the ISO C standard. Any other conflict between the requirements described here and the ISO C standard is
+unintentional. This volume of POSIX.1-2024 defers to the ISO C standard for all <i>fopen</i>() functionality except in
+relation to &quot;exclusive access&quot;. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>[p_00006] <i>fopen</i>() 函数应打开其路径名为 <i>pathname</i> 所指向的字符串的文件，并将一个流与它关联。</p>
+<p>[p_00007] <i>mode</i> 参数指向一个字符串。如果字符串中任何字符出现不止一次，则行为未指定。如果字符串以下列字符之一开头，则文件应以所指示的模式打开。否则，行为未定义。</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00008] <code>'r'</code></dt>
+<dd>[dd_00009] 为读取而打开文件。</dd>
+<dt>[dt_00010] <code>'w'</code></dt>
+<dd>[dd_00011] 截断为零长度或创建文件用于写入。</dd>
+<dt>[dt_00012] <code>'a'</code></dt>
+<dd>[dd_00013] 追加；在文件末尾打开或创建文件用于写入。</dd>
+</dl>
+<p>[p_00014] 字符串的其余部分可以包含下列任何字符，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  以任意顺序，<img src="../images/opt-end.gif" alt="[Option End]"> 并进一步影响文件的打开方式：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00015] <code>'b'</code></dt>
+<dd>[dd_00016] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 该字符应无任何作用，但为符合 ISO C 标准而允许。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00017] <code>'e'</code></dt>
+<dd>[dd_00018] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 底层文件描述符应原子地设置 FD_CLOEXEC 标志。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00019] <code>'x'</code></dt>
+<dd>[dd_00020] 如果 <i>mode</i> 的第一个字符是 <code>'w'</code> <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或 <code>'a'</code>，<img src="../images/opt-end.gif" alt="[Option End]"> 那么如果文件已经存在或无法创建，则函数应失败；如果文件不存在且可以创建，则应以 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  实现定义的 <img src="../images/opt-end.gif" alt="[Option End]">  独占（也称为非共享）访问形式创建，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 前提是底层文件系统支持，并且所得文件权限与没有 <code>'x'</code> 修饰符时的权限相同。如果 mode 的第一个字符是 <code>'r'</code>，则效果为实现定义的。<img src="../images/opt-end.gif" alt="[Option End]"> <b>注：</b> ISO C 标准要求独占访问&quot;达到底层文件系统支持独占访问的程度&quot;，但未定义它对此的含义。从表面意义理解——即系统必须在文件系统层面做它们所能做的一切，以排除他人的访问——这将要求 POSIX.1 系统以阻止其他用户和组访问的方式设置文件权限。因此，本卷 POSIX.1-2024 在&quot;独占访问&quot;要求方面不遵从 ISO C 标准。</dd>
+<dt>[dt_00021] <code>'+'</code></dt>
+<dd>[dd_00022] 文件应以便于更新（既可读又可写）的方式打开，而不只是只读或只写。</dd>
+</dl>
+<p>[p_00023] 以读取模式（<code>'r'</code> 作为 <i>mode</i> 参数的第一个字符）打开文件时，如果文件不存在或无法读取，则应失败。</p>
+<p>[p_00024] 以追加模式（<code>'a'</code> 作为 <i>mode</i> 参数的第一个字符）打开文件，应使所有后续对文件的写入都被强制到当时的当前文件末尾，无论中间是否有对 fseek() 的调用。</p>
+<p>[p_00025] 当以更新模式（<i>mode</i> 参数中的 <code>'+'</code>）打开文件时，可以在关联的流上执行输入和输出。但是，应用程序应确保：输出之后不直接跟输入，除非中间调用了 fflush() 或文件定位函数（fseek()、fsetpos() 或 rewind()）；输入之后不直接跟输出，除非中间调用了文件定位函数，除非输入操作遇到文件末尾。</p>
+<p>[p_00026] 打开时，当且仅当可以确定流不指向交互式设备时，流才被完全缓冲。流的错误和文件末尾指示符应被清除。</p>
+<p>[p_00027] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>mode</i> 中的第一个字符是 <code>'w'</code> 或 <code>'a'</code>，且文件先前不存在，则成功完成后，<i>fopen</i>() 应标记更新文件的上次数据访问、上次数据修改和上次文件状态更改时间戳，以及父目录的上次文件状态更改和上次数据修改时间戳。</p>
+<p>[p_00028] 如果 <i>mode</i> 中的第一个字符是 <code>'w'</code> 或 <code>'a'</code>，且文件先前不存在，则 <i>fopen</i>() 函数应创建文件，如同它调用 open() 函数时使用了适合从 <i>pathname</i> 解释出的 <i>path</i> 参数的值、如下指定的 <i>oflag</i> 参数的值，以及第三个参数的 S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH 值。</p>
+<p>[p_00029] 如果 <i>mode</i> 中的第一个字符是 <code>'w'</code>，且文件先前已存在，则成功完成后，<i>fopen</i>() 应标记更新文件的上次数据修改和上次文件状态更改时间戳。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>[p_00030] 成功调用 <i>fopen</i>() 函数后，应清除流的方向，<sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  应清除编码规则，<img src="../images/opt-end.gif" alt="[Option End]"> 并且关联的 <b>mbstate_t</b> 对象应被设置为描述初始转换状态。</p>
+<p>[p_00031] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 与打开的流关联的文件描述符应如同通过使用以下标志调用 open() 一样被分配和打开：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p>[p_00050] 当且仅当指定了 <code>'e'</code> <i>mode</i> 字符串字符时，O_CLOEXEC 标志应被 OR 进上表中指定的初始 open() 标志。</p>
+<p>[p_00051] 当且仅当 <code>'x'</code> <i>mode</i> 字符串字符与 <code>'w'</code> 或 <code>'a'</code> 一起指定时，O_EXCL 标志应被 OR 进上表中指定的初始 open() 标志。</p>
+<p>[p_00052] 如果 <i>mode</i> 包含 <code>'x'</code>，并且底层文件系统支持通过使用特定于实现的标志调用 open() 来启用的独占访问（见上文），则行为应如同这些标志也被包含一样。</p>
+<p>[p_00053] 当使用本标准指定的 <i>mode</i> 字符串时，实现应表现得如同没有其他标志被传给 open() 一样。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_171_04" id="tag_17_171_04"></a><h4>[h4_00054] 返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>[p_00055] 成功完成后，<i>fopen</i>() 应返回指向控制该流的对象的指针。否则，应返回空指针，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并应设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_171_05" id="tag_17_171_05"></a><h4>[h4_00056] 错误 (ERRORS)</h4>
+<blockquote>
+<p>[p_00057] 在以下情况下，<i>fopen</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00058] [EACCES]</dt>
+<dd>[dd_00059] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 路径前缀的某个组件上拒绝搜索权限，或文件存在且拒绝 <i>mode</i> 指定的权限，或文件不存在且拒绝要创建的文件的父目录的写权限。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00060] [EEXIST]</dt>
+<dd>[dd_00061] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>mode</i> 参数以 <i>w</i> 或 <i>a</i> 开头并包含 <i>x</i>，但文件已经存在。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00062] [EILSEQ]</dt>
+<dd>[dd_00063] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>mode</i> 参数以 <i>w</i> 或 <i>a</i> 开头，文件先前不存在，且最后一个路径名组件不是可移植文件名，无法在目标目录中创建。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00064] [EINTR]</dt>
+<dd>[dd_00065] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在 <i>fopen</i>() 期间捕获到一个信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00066] [EISDIR]</dt>
+<dd>[dd_00067] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 指定的文件是目录，且 <i>mode</i> 要求写访问权限。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00068] [ELOOP]</dt>
+<dd>[dd_00069] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在解析 <i>pathname</i> 参数期间遇到的符号链接中存在循环。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00070] [EMFILE]</dt>
+<dd>[dd_00071] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 进程可用的所有文件描述符当前都已打开。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00072] [EMFILE]</dt>
+<dd>[dd_00073] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 调用进程中当前打开了 {STREAM_MAX} 个流。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00074] [ENAMETOOLONG]</dt>
+<dd>[dd_00075] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 路径名的长度超过 {PATH_MAX}，或符号链接的路径名解析产生了长度超过 {PATH_MAX} 的中间结果。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00076] [ENFILE]</dt>
+<dd>[dd_00077] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 系统中当前打开的文件数已达到允许的最大数量。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00078] [ENOENT]</dt>
+<dd>[dd_00079] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>mode</i> 字符串以 <code>'r'</code> 开头，且 <i>pathname</i> 的某个组件未命名现有文件；或 <i>mode</i> 以 <code>'w'</code> 或 <code>'a'</code> 开头，且 <i>pathname</i> 的路径前缀的某个组件未命名现有文件；或 <i>pathname</i> 是空字符串。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00080] [ENOENT] 或 [ENOTDIR]</dt>
+<dd>[dd_00081] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>pathname</i> 参数包含至少一个非 &lt;slash&gt; 字符，并以一个或多个尾部 &lt;slash&gt; 字符结尾。如果去掉尾部 &lt;slash&gt; 字符的 <i>pathname</i> 会命名一个现有文件，则不应发生 [ENOENT] 错误。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00082] [ENOSPC]</dt>
+<dd>[dd_00083] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 将包含新文件的目录或文件系统无法扩展，文件不存在，且该文件本应被创建。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00084] [ENOTDIR]</dt>
+<dd>[dd_00085] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 路径前缀的某个组件命名了一个既不是目录也不是指向目录的符号链接的现有文件，或者 <i>pathname</i> 参数包含至少一个非 &lt;slash&gt; 字符并以一个或多个尾部 &lt;slash&gt; 字符结尾，且最后一个路径名组件命名了一个既不是目录也不是指向目录的符号链接的现有文件。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00086] [ENXIO]</dt>
+<dd>[dd_00087] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 指定的文件是字符特殊文件或块特殊文件，且与该特殊文件关联的设备不存在。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00088] [EOVERFLOW]</dt>
+<dd>[dd_00089] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 指定的文件是普通文件，且文件的大小无法在 <b>off_t</b> 类型的对象中正确表示。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00090] [EROFS]</dt>
+<dd>[dd_00091] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 指定的文件位于只读文件系统上，且 <i>mode</i> 要求写访问权限。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p>[p_00092] 在以下情况下，<i>fopen</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00093] [EINVAL]</dt>
+<dd>[dd_00094] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>mode</i> 参数的值无效。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00095] [ELOOP]</dt>
+<dd>[dd_00096] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在解析 <i>pathname</i> 参数期间遇到的符号链接超过 {SYMLOOP_MAX} 个。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00097] [EMFILE]</dt>
+<dd>[dd_00098] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 调用进程中当前打开了 {FOPEN_MAX} 个流。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00099] [ENAMETOOLONG]</dt>
+<dd>[dd_00100] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 路径名某个组件的长度超过 {NAME_MAX}。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00101] [ENOMEM]</dt>
+<dd>[dd_00102] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 可用存储空间不足。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00103] [ETXTBSY]</dt>
+<dd>[dd_00104] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 该文件是正在执行的纯过程（共享文本）文件，且 <i>mode</i> 要求写访问权限。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_171_06" id="tag_17_171_06"></a><h4>[h4_00105] 示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_171_06_01" id="tag_17_171_06_01"></a><h5>[h5_00106] 打开文件 (Opening a File)</h5>
+<p>[p_00107] 以下示例尝试打开名为 <b>file</b> 的文件以供读取。<i>fopen</i>() 函数返回一个文件指针，该指针用于随后的 fgets() 和 fclose() 调用。如果程序无法打开该文件，则直接忽略它。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+...
+FILE *fp;
+...
+void rgrep(const char *file)
+{
+...
+    if ((fp = fopen(file, "r")) == NULL)
+        return;
+...
+}</code></pre></blockquote>
+<a name="tag_17_171_07" id="tag_17_171_07"></a><h4>[h4_00108] 应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>[p_00109] 如果应用程序需要以文件已存在则失败的方式创建文件，并且要么要求它不拥有对文件的独占访问权、要么不需要独占访问权，则它宜使用带 O_CREAT 和 O_EXCL 标志的 open()，而不是在模式中使用 <code>'x'</code> 的 <i>fopen</i>()。如果需要，随后可以通过对 open() 返回的文件描述符调用 fdopen() 来创建流。</p>
+</blockquote>
+<a name="tag_17_171_08" id="tag_17_171_08"></a><h4>[h4_00110] 理由 (RATIONALE)</h4>
+<blockquote>
+<p>[p_00111] <code>'e'</code> 模式字符作为避免多线程应用程序中数据竞争的一种便利而提供。没有它，在另一个线程用 <i>fopen</i>() 创建文件描述符、然后用 fileno() 和 fcntl() 设置 FD_CLOEXEC 标志之间的窗口内，文件描述符会泄漏到由一个线程创建的子进程中。也可以通过使用带 O_CLOEXEC 的 open() 后跟 fdopen() 来避免竞争，但是，对于 freopen() 函数没有安全的替代方案，而且一致性要求 <code>'e'</code> 修饰符应标准化用于所有接受 <i>mode</i> 字符串的函数。</p>
+<p>[p_00112] ISO C 标准只识别 <i>mode</i> 字符串中某些位置的 <code>'+'</code>、<code>'b'</code> 和 <code>'x'</code> 字符，将其他安排留作未指定，并且只允许在以 <code>'w'</code> 开头的 <i>mode</i> 字符串中出现 <code>'x'</code>。本标准特别要求 <i>mode</i> 字符串中除第一个字符外的所有字符都支持以任意顺序识别。因此，<code>"wxe"</code> 和 <code>"wex"</code> 行为相同，而虽然 <code>"wx+"</code> 在 ISO C 标准中未指定，本标准要求它具有与 <code>"w+x"</code> 相同的行为。本标准还要求 <code>'x'</code> 对以 <code>'a'</code> 开头的 <i>mode</i> 字符串有效，并且对以 <code>'r'</code> 开头的 <i>mode</i> 字符串具有实现定义的行为。因此，虽然如果在没有 O_CREAT 的情况下指定 O_EXCL，open() 具有未定义行为，但 <i>fopen</i>() 并非如此。</p>
+<p>[p_00113] 当 mode 中有 <code>'x'</code> 时，ISO C 标准要求在底层系统支持独占访问的程度上以独占访问方式创建文件。虽然 POSIX.1 未指定启用独占访问的任何方法，但它允许存在一个或多个启用它的实现特定标志。注意，如果要创建文件，它们应是文件创建标志，而不是文件访问模式标志（即包含在 O_ACCMODE 中的那些）或文件状态标志，这样它们就不会影响 fcntl() 以 F_GETFL 返回的值。在具有此类标志的实现上，如果对它们的支持依赖于文件系统，并且在使用 <i>fopen</i>() 在不支持它的文件系统上创建文件时请求独占访问，那么如果这些标志会导致 <i>fopen</i>() 失败，则必须不使用这些标志。</p>
+<p>[p_00114] 一些实现支持强制文件锁，作为启用对文件的独占访问的一种手段。锁按正常方式设置，但不是仅仅阻止他人设置冲突的锁，而是阻止他人以与锁冲突的方式访问文件被锁部分的内容。然而，除非实现有一种在创建文件时设置整个文件写锁的方法，否则这不满足 ISO C 标准中文件&quot;以底层系统支持独占访问的程度被创建为独占访问&quot;的要求。（让 <i>fopen</i>() 创建文件并在文件上设置锁作为两个单独的操作不是一回事，而且会引入竞争条件，即另一个进程可以在两个操作之间打开文件并向其写入（或设置锁）。）然而，在所有支持强制文件锁的实现上，都不鼓励使用它；因此，建议支持强制文件锁的实现不要添加创建带有整文件独占锁集的文件的手段，这样就不要求 <i>fopen</i>() 启用强制文件锁以符合 ISO C 标准。具有创建带有整文件独占锁集的文件的手段的实现，将需要提供一种根据调用进程是在 POSIX.1 一致环境中还是在 ISO C 一致环境中执行来改变 <i>fopen</i>() 行为的方法。</p>
+<p>[p_00115] 模式 <code>"rx"</code> 的典型实现定义行为是忽略 <code>'x'</code>，但标准开发者不希望强制规定这种行为。例如，实现可以允许共享读访问；也就是说，不允许以这种方式打开的文件再被打开用于写入。</p>
+<p>[p_00116] 鼓励实现让 <i>fopen</i>() 和 freopen() 在 <i>mode</i> 以 <code>'w'</code> 或 <code>'a'</code> 开头、文件先前不存在、且 <i>pathname</i> 的最后一个组件包含任何具有 &lt;newline&gt; 字符编码值的字节时报告 [EILSEQ] 错误。</p>
+</blockquote>
+<a name="tag_17_171_09" id="tag_17_171_09"></a><h4>[h4_00117] 未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>[p_00118] 无。</p>
+</blockquote>
+<a name="tag_17_171_10" id="tag_17_171_10"></a><h4>[h4_00119] 参见 (SEE ALSO)</h4>
+<blockquote>
+<p>[p_00120] 2.5 标准 I/O 流、creat()、fclose()、fdopen()、fmemopen()、freopen()、open_memstream()</p>
+<p>[p_00121] XBD &lt;stdio.h&gt;</p>
+</blockquote>
+<a name="tag_17_171_11" id="tag_17_171_11"></a><h4>[h4_00122] 变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>[p_00123] 首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_171_12" id="tag_17_171_12"></a><h4>[h4_00124] 第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>[p_00125] 添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_171_13" id="tag_17_171_13"></a><h4>[h4_00126] 第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>[p_00127] 超出 ISO C 标准的扩展被标记。</p>
+<p>[p_00128] 以下对 POSIX 实现的新要求源自与单一 UNIX 规范的协调：</p>
+<ul>
+<li>[li_00129] 在 DESCRIPTION 中，添加了文本以指示打开文件描述中偏移量最大值的设置。此更改是为了支持大型文件。</li>
+<li>[li_00130] 在 ERRORS 一节中，添加了 [EOVERFLOW] 条件。此更改是为了支持大型文件。</li>
+<li>[li_00131] 添加了 [ELOOP] 强制错误条件。</li>
+<li>[li_00132] 添加了 [EINVAL]、[EMFILE]、[ENAMETOOLONG]、[ENOMEM] 和 [ETXTBSY] 可选错误条件。</li>
+</ul>
+<p>[p_00133] 规范性文本已更新，以避免对应用程序要求使用&quot;必须&quot;一词。</p>
+<p>[p_00134] 为与 ISO/IEC 9899:1999 标准保持一致，进行了以下更改：</p>
+<ul>
+<li>[li_00135] <i>fopen</i>() 的原型已更新。</li>
+<li>[li_00136] DESCRIPTION 已更新，以说明如果参数 <i>mode</i> 指向所列字符串以外的字符串，则行为未定义。</li>
+</ul>
+<p>[p_00137] 强制 [ELOOP] 错误条件的措辞已更新，并添加了第二个可选 [ELOOP] 错误条件。</p>
+</blockquote>
+<a name="tag_17_171_14" id="tag_17_171_14"></a><h4>[h4_00138] 第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>[p_00139] 应用了 Austin Group 解释 1003.1-2001 #025，澄清了文件创建模式。</p>
+<p>[p_00140] 应用了 Austin Group 解释 1003.1-2001 #143。</p>
+<p>[p_00141] 应用了 Austin Group 解释 1003.1-2001 #159，澄清了对打开文件描述上设置的标志的要求。</p>
+<p>[p_00142] 应用了 SD5-XBD-ERN-4，更改了 [EMFILE] 错误的定义。</p>
+<p>[p_00143] 应用了 SD5-XSH-ERN-149，将 {STREAM_MAX} [EMFILE] 错误条件从&quot;可以失败&quot;改为&quot;应失败&quot;。</p>
+<p>[p_00144] 进行了与细粒度时间戳支持相关的更改。</p>
+<p>[p_00145] 应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0156 [291,433]、XSH/TC1-2008/0157 [146,433]、XSH/TC1-2008/0158 [324] 和 XSH/TC1-2008/0159 [14]。</p>
+<p>[p_00146] 应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0122 [822]。</p>
+</blockquote>
+<a name="tag_17_171_15" id="tag_17_171_15"></a><h4>[h4_00147] 第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>[p_00148] 应用了 Austin Group 缺陷 251，鼓励实现禁止创建包含任何具有 &lt;newline&gt; 字符编码值的字节的文件名。</p>
+<p>[p_00149] 应用了 Austin Group 缺陷 293，添加了 [EILSEQ] 错误。</p>
+<p>[p_00150] 应用了 Austin Group 缺陷 411 和 1524，添加了 <code>'e'</code> 和 <code>'x'</code> <i>mode</i> 字符串字符。</p>
+<p>[p_00151] 应用了 Austin Group 缺陷 1200，纠正了 [ELOOP] 错误中的参数名称。</p>
+<p>[p_00152] 应用了 Austin Group 缺陷 1302，使此函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p>[p_00153]  </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

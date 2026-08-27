@@ -1,0 +1,43 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] fread — binary input
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]fread[/I5]() function shall read into the array pointed to by [I6]ptr[/I6] up to [I7]nitems[/I7] elements whose size is specified by [I8]size[/I8] in bytes, from the stream pointed to by [I9]stream[/I9]. For each object, [I10]size[/I10] calls shall be made to the [A11][I12]fgetc[/I12]()[/A11] function and the results stored, in the order read, in an array of [B13]unsigned char[/B13] exactly overlaying the object. The file position indicator for the stream (if defined) shall be advanced by the number of bytes successfully read. If an error occurs, the resulting value of the file position indicator for the stream is unspecified. If a partial element is read, its value is unspecified.
+[p_00007] [S14][[A15]CX[/A15]][/S14] [IMG16] The [I17]fread[/I17]() function may mark the last data access timestamp of the file associated with [I18]stream[/I18] for update. The last data access timestamp shall be marked for update by the first successful execution of [A19][I20]fgetc[/I20]()[/A19], [A21][I22]fgets[/I22]()[/A21], [I23]fread[/I23](), [A24][I25]fscanf[/I25]()[/A24], [A26][I27]getc[/I27]()[/A26], [A28][I29]getchar[/I29]()[/A28], [A30][I31]getdelim[/I31]()[/A30], [A32][I33]getline[/I33]()[/A32], or [A34][I35]scanf[/I35]()[/A34] using [I36]stream[/I36] that returns data not supplied by a prior call to [A37][I38]ungetc[/I38]()[/A37]. [IMG39]
+[h4_00008] [A40][/A40]RETURN VALUE
+[p_00009] The [I41]fread[/I41]() function shall return the number of elements successfully read, which shall be less than [I42]nitems[/I42] only if an error or end-of-file is encountered, or [I43]size[/I43] is zero. If [I44]size[/I44] or [I45]nitems[/I45] is 0, [I46]fread[/I46]() shall return 0 and the contents of the array and the state of the stream shall remain unchanged. Otherwise, if an error occurs, the error indicator for the stream shall be set, [S47][[A48]CX[/A48]][/S47] [IMG49] &nbsp;and [I50]errno[/I50] shall be set to indicate the error. [IMG51]
+[h4_00010] [A52][/A52]ERRORS
+[p_00011] Refer to [A53][I54]fgetc[/I54]()[/A53].
+[h4_00012] [A55][/A55]EXAMPLES
+[h5_00013] [A56][/A56]Reading from a Stream
+[p_00014] The following example transfers a single 100-byte fixed length record from the [I57]fp[/I57] stream into the array pointed to by [I58]buf[/I58].
+[p_00015] If a read error occurs, [I59]elements_read[/I59] will be zero but the number of bytes read from the stream could be anything from zero to [I60]sizeof[/I60]([I61]buf[/I61])-1.
+[p_00016] The following example reads multiple single-byte elements from the [I62]fp[/I62] stream into the array pointed to by [I63]buf[/I63].
+[p_00017] If a read error occurs, [I64]bytes_read[/I64] will contain the number of bytes read from the stream.
+[h4_00018] [A65][/A65]APPLICATION USAGE
+[p_00019] The [A66][I67]ferror[/I67]()[/A66] or [A68][I69]feof[/I69]()[/A68] functions must be used to distinguish between an error condition and an end-of-file condition.
+[p_00020] Because of possible differences in element length and byte ordering, files written using [A70][I71]fwrite[/I71]()[/A70] are application-dependent, and possibly cannot be read using [I72]fread[/I72]() by a different application or by the same application on a different processor.
+[h4_00021] [A73][/A73]RATIONALE
+[p_00022] None.
+[h4_00023] [A74][/A74]FUTURE DIRECTIONS
+[p_00024] None.
+[h4_00025] [A75][/A75]SEE ALSO
+[p_00026] [A76][I77]2.5 Standard I/O Streams[/I77][/A76], [A78][I79]feof[/I79]()[/A78], [A80][I81]ferror[/I81]()[/A80], [A82][I83]fgetc[/I83]()[/A82], [A84][I85]fopen[/I85]()[/A84], [A86][I87]fscanf[/I87]()[/A86], [A88][I89]getc[/I89]()[/A88]
+[p_00027] XBD [A90][I91]&lt;stdio.h&gt;[/I91][/A90]
+[h4_00028] [A92][/A92]CHANGE HISTORY
+[p_00029] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00030] [A93][/A93]Issue 6
+[p_00031] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00032] The following changes are made for alignment with the ISO/IEC&nbsp;9899:1999 standard:
+[p_00033] The [I94]fread[/I94]() prototype is updated.
+[p_00034] The DESCRIPTION is updated to describe how the bytes from a call to [A95][I96]fgetc[/I96]()[/A95] are stored.
+[h4_00035] [A97][/A97]Issue 7
+[p_00036] Changes are made related to support for finegrained timestamps.
+[p_00037] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0178 [232] and XSH/TC1-2008/0179 [14] are applied.
+[p_00038] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0129 [926] is applied.
+[h4_00039] [A98][/A98]Issue 8
+[p_00040] Austin Group Defect 1196 is applied, clarifying the RETURN VALUE section.
+[p_00041] Austin Group Defect 1330 is applied, removing obsolescent interfaces.
+[p_00042] Austin Group Defect 1624 is applied, changing the RETURN VALUE section.
+[p_00043] &nbsp;

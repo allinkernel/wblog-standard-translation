@@ -1,0 +1,1818 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_44_01\" id=\"tag_17_44_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "bind — bind a name to a socket",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_44_02\" id=\"tag_17_44_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/sys_socket.h.html\">sys/socket.h</a>&gt;<br>\n<br>\nint bind(int</tt> <i>socket</i><tt>, const struct sockaddr *</tt><i>address</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; socklen_t</tt> <i>address_len</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_44_03\" id=\"tag_17_44_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]bind[/I5]() function shall assign a local socket address [I6]address[/I6] to a socket identified by descriptor [I7]socket[/I7]\nthat has no local socket address assigned. Sockets created with the [A8][I9]socket[/I9]()[/A8] function\nare initially unnamed; they are identified only by their address family.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A8": {
+      "open": "<a href=\"../functions/socket.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "The [I10]bind[/I10]() function takes the following arguments:",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00008",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     3
+    ],
+    "text": "[I11]socket[/I11]",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00009",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     5
+    ],
+    "text": "Specifies the file descriptor of the socket to be bound.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00010",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     7
+    ],
+    "text": "[I12]address[/I12]",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00011",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     9
+    ],
+    "text": "Points to a [B13]sockaddr[/B13] structure containing the address to be bound to the socket. The length and format of the address\ndepend on the address family of the socket.",
+    "placeholders": {
+     "B13": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00012",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     11
+    ],
+    "text": "[I14]address_len[/I14]",
+    "placeholders": {
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00013",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     13
+    ],
+    "text": "Specifies the length of the [B15]sockaddr[/B15] structure pointed to by the [I16]address[/I16] argument.",
+    "placeholders": {
+     "B15": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     7
+    ],
+    "text": "The socket specified by [I17]socket[/I17] may require the process to have appropriate privileges to use the [I18]bind[/I18]()\nfunction.",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     9
+    ],
+    "text": "If the address family of the socket is AF_UNIX, the application shall ensure that a null terminator after the pathname is\nincluded in the [I19]sun_path[/I19] member of [I20]address[/I20] as a [B21]sockaddr_un[/B21] structure, and that [I22]address_len[/I22] is at least\n[CODE23] plus the length of the pathname. If the pathname in the [I24]sun_path[/I24] member\nof [I25]address[/I25] names an existing file, including a symbolic link, [I26]bind[/I26]() shall treat the address as already in use; see\nERRORS below.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B21": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE23": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>offsetof(struct sockaddr_un, sun_path) + 1</tt>"
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     11
+    ],
+    "text": "If the socket address cannot be assigned immediately and O_NONBLOCK is set for the file descriptor for the socket, [I27]bind[/I27]()\nshall fail and set [I28]errno[/I28] to [EINPROGRESS], but the assignment request shall not be aborted, and the assignment shall be\ncompleted asynchronously. Subsequent calls to [I29]bind[/I29]() for the same socket, before the assignment is completed, shall fail and\nset [I30]errno[/I30] to [EALREADY].",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     13
+    ],
+    "text": "When the assignment has been performed asynchronously, [A31][I32]pselect[/I32]()[/A31], [A33][I34]select[/I34]()[/A33], [A35][I36]poll[/I36]()[/A35], and [A37][I38]ppoll[/I38]()[/A37] shall indicate that the file descriptor for the socket is ready for reading and\nwriting.",
+    "placeholders": {
+     "A31": {
+      "open": "<a href=\"../functions/pselect.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A33": {
+      "open": "<a href=\"../functions/select.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A35": {
+      "open": "<a href=\"../functions/poll.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A37": {
+      "open": "<a href=\"../functions/ppoll.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A39][/A39]RETURN VALUE",
+    "placeholders": {
+     "A39": {
+      "open": "<a name=\"tag_17_44_04\" id=\"tag_17_44_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I40]bind[/I40]() shall return 0; otherwise, -1 shall be returned and [I41]errno[/I41] set to indicate the\nerror.",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00020",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A42][/A42]ERRORS",
+    "placeholders": {
+     "A42": {
+      "open": "<a name=\"tag_17_44_05\" id=\"tag_17_44_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I43]bind[/I43]() function shall fail if:",
+    "placeholders": {
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     3
+    ],
+    "text": "[EADDRINUSE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     5
+    ],
+    "text": "The specified address is already in use.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     7
+    ],
+    "text": "[EADDRNOTAVAIL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     9
+    ],
+    "text": "The specified address is not available from the local machine.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     11
+    ],
+    "text": "[EAFNOSUPPORT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     13
+    ],
+    "text": "The specified address is not a valid address for the address family of the specified socket.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     15
+    ],
+    "text": "[EALREADY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00029",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     17
+    ],
+    "text": "An assignment request is already in progress for the specified socket.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00030",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     19
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00031",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     21
+    ],
+    "text": "The [I44]socket[/I44] argument is not a valid file descriptor.",
+    "placeholders": {
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00032",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     23
+    ],
+    "text": "[EINPROGRESS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00033",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     25
+    ],
+    "text": "O_NONBLOCK is set for the file descriptor for the socket and the assignment cannot be immediately performed; the assignment\nshall be performed asynchronously.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00034",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     27
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00035",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     29
+    ],
+    "text": "The socket is already bound to an address, and the protocol does not support binding to a new address; or the socket has been\nshut down.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00036",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     31
+    ],
+    "text": "[ENOBUFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00037",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     33
+    ],
+    "text": "Insufficient resources were available to complete the call.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00038",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     35
+    ],
+    "text": "[ENOTSOCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00039",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     37
+    ],
+    "text": "The [I45]socket[/I45] argument does not refer to a socket.",
+    "placeholders": {
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00040",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     39
+    ],
+    "text": "[EOPNOTSUPP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00041",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     41
+    ],
+    "text": "The socket type of the specified socket does not support binding to an address.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     5
+    ],
+    "text": "If the address family of the socket is AF_UNIX, then [I46]bind[/I46]() shall fail if:",
+    "placeholders": {
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00043",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00044",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     5
+    ],
+    "text": "A component of the path prefix denies search permission, or the requested name requires writing in a directory with a mode that\ndenies write permission.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00045",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     7
+    ],
+    "text": "[EDESTADDRREQ] or [EISDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00046",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     9
+    ],
+    "text": "The [I47]address[/I47] argument is a null pointer.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00047",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     11
+    ],
+    "text": "[EILSEQ]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00048",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     13
+    ],
+    "text": "The last pathname component is not a portable filename, and cannot be created in the target directory.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00049",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     15
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00050",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     17
+    ],
+    "text": "An I/O error occurred.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00051",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     19
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00052",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     21
+    ],
+    "text": "A loop exists in symbolic links encountered during resolution of the pathname in [I48]address[/I48].",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00053",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     23
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00054",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     25
+    ],
+    "text": "The length of a component of a pathname is longer than {NAME_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00055",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     27
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00056",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     29
+    ],
+    "text": "A component of the path prefix of the pathname in [I49]address[/I49] does not name an existing file or the pathname is an empty\nstring.",
+    "placeholders": {
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00057",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     31
+    ],
+    "text": "[ENOENT] or [ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00058",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     33
+    ],
+    "text": "The pathname in [I50]address[/I50] contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt;\ncharacters. If the pathname without the trailing &lt;slash&gt; characters would name an existing file, an [ENOENT] error shall not\noccur.",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00059",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     35
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00060",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     37
+    ],
+    "text": "A component of the path prefix of the pathname in [I51]address[/I51] names an existing file that is neither a directory nor a\nsymbolic link to a directory, or the pathname in [I52]address[/I52] contains at least one non-&lt;slash&gt; character and ends with one\nor more trailing &lt;slash&gt; characters and the last pathname component names an existing file that is neither a directory nor a\nsymbolic link to a directory.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00061",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     39
+    ],
+    "text": "[EROFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00062",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     41
+    ],
+    "text": "The name would reside on a read-only file system.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     9
+    ],
+    "text": "The [I53]bind[/I53]() function may fail if:",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00064",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00065",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     5
+    ],
+    "text": "The specified address is protected and the current user does not have permission to bind to it.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00066",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     7
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00067",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     9
+    ],
+    "text": "The [I54]address_len[/I54] argument is not a valid length for the address family.",
+    "placeholders": {
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00068",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     11
+    ],
+    "text": "[EISCONN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00069",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     13
+    ],
+    "text": "The socket is already connected.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00070",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     15
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00071",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     17
+    ],
+    "text": "More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the pathname in [I55]address[/I55].",
+    "placeholders": {
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00072",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     19
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00073",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     21
+    ],
+    "text": "The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00074",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A56][/A56]EXAMPLES",
+    "placeholders": {
+     "A56": {
+      "open": "<a name=\"tag_17_44_06\" id=\"tag_17_44_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "The following code segment shows how to create a socket and bind it to a name in the AF_UNIX domain.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00076",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A57][/A57]APPLICATION USAGE",
+    "placeholders": {
+     "A57": {
+      "open": "<a name=\"tag_17_44_07\" id=\"tag_17_44_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00077",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "An application program can retrieve the assigned socket name with the [A58][I59]getsockname[/I59]()[/A58] function.",
+    "placeholders": {
+     "A58": {
+      "open": "<a href=\"../functions/getsockname.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     3
+    ],
+    "text": "For AF_UNIX sockets, some implementations support an extension where [I60]address_len[/I60] does not have to include a null\nterminator for the pathname stored in [I61]sun_path[/I61], which in turn allows a pathname to be one byte longer. However, such usage\nis not portable, and carries a risk of accessing beyond the intended bounds of the pathname length.",
+    "placeholders": {
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00079",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A62][/A62]RATIONALE",
+    "placeholders": {
+     "A62": {
+      "open": "<a name=\"tag_17_44_08\" id=\"tag_17_44_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00080",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "Implementations are encouraged to have [I63]bind[/I63]() report an [EILSEQ] error if the last component of the address to be bound\nto an AF_UNIX family socket contains any bytes that have the encoded value of a &lt;newline&gt; character.",
+    "placeholders": {
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00081",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A64][/A64]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A64": {
+      "open": "<a name=\"tag_17_44_09\" id=\"tag_17_44_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00082",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00083",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A65][/A65]SEE ALSO",
+    "placeholders": {
+     "A65": {
+      "open": "<a name=\"tag_17_44_10\" id=\"tag_17_44_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00084",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A66][I67]connect[/I67]()[/A66], [A68][I69]getsockname[/I69]()[/A68],\n[A70][I71]listen[/I71]()[/A70], [A72][I73]socket[/I73]()[/A72]",
+    "placeholders": {
+     "A66": {
+      "open": "<a href=\"../functions/connect.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A68": {
+      "open": "<a href=\"../functions/getsockname.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../functions/listen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/socket.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00085",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A74][I75]&lt;sys/socket.h&gt;[/I75][/A74]",
+    "placeholders": {
+     "A74": {
+      "open": "<a href=\"../basedefs/sys_socket.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00086",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A76][/A76]CHANGE HISTORY",
+    "placeholders": {
+     "A76": {
+      "open": "<a name=\"tag_17_44_11\" id=\"tag_17_44_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00087",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 6. Derived from the XNS, Issue 5.2 specification.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00088",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A77][/A77]Issue 7",
+    "placeholders": {
+     "A77": {
+      "open": "<a name=\"tag_17_44_12\" id=\"tag_17_44_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00089",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #044 is applied, changing the &quot;may fail&quot; [ENOBUFS] error to become a &quot;shall fail&quot;\nerror.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00090",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00091",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     5
+    ],
+    "text": "SD5-XSH-ERN-185 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     7
+    ],
+    "text": "An example is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00093",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     9
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0042 [146], XSH/TC1-2008/0043 [146], and XSH/TC1-2008/0044 [324] are\napplied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00094",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     11
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0050 [822] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00095",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A78][/A78]Issue 8",
+    "placeholders": {
+     "A78": {
+      "open": "<a name=\"tag_17_44_13\" id=\"tag_17_44_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "Austin Group Defect 251 is applied, encouraging implementations to disallow the creation of filenames containing any bytes that\nhave the encoded value of a &lt;newline&gt; character.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     3
+    ],
+    "text": "Austin Group Defects 293 and 1482 are applied, adding the [EILSEQ] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     5
+    ],
+    "text": "Austin Group Defect 561 is applied, changing the requirements for the [I79]sun_path[/I79] member of the [B80]sockaddr_un[/B80]\nstructure.",
+    "placeholders": {
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B80": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00099",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     7
+    ],
+    "text": "Austin Group Defect 1263 is applied, adding [A81][I82]ppoll[/I82]()[/A81].",
+    "placeholders": {
+     "A81": {
+      "open": "<a href=\"../functions/ppoll.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     9
+    ],
+    "text": "Austin Group Defect 1605 is applied, clarifying how the [EADDRINUSE] error applies to AF_UNIX sockets.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

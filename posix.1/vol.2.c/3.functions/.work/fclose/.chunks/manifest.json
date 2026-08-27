@@ -1,0 +1,1724 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_138_01\" id=\"tag_17_138_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "fclose — close a stream",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_138_02\" id=\"tag_17_138_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdio.h.html\">stdio.h</a>&gt;<br>\n<br>\nint fclose(FILE *</tt><i>stream</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_138_03\" id=\"tag_17_138_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]fclose[/I5]() function shall cause the stream pointed to by [I6]stream[/I6] to be flushed and the associated file to be\nclosed. Any unwritten buffered data for the stream shall be written to the file; any unread buffered data shall be discarded.\nWhether or not the call succeeds, the stream shall be disassociated from the file and any buffer set by the [A7][I8]setbuf[/I8]()[/A7] or [A9][I10]setvbuf[/I10]()[/A9] function shall be\ndisassociated from the stream. If the associated buffer was automatically allocated, it shall be deallocated.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A7": {
+      "open": "<a href=\"../functions/setbuf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A9": {
+      "open": "<a href=\"../functions/setvbuf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "[S11][[A12]CX[/A12]][/S11] [IMG13] If\nthe file is not already at EOF, and the file is one capable of seeking, the file offset of the underlying open file description\nshall be set to the file position of the stream if the stream is the active handle to the underlying file description.",
+    "placeholders": {
+     "S11": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A12": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG13": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The [I14]fclose[/I14]() function shall mark for update the last data modification and last file status change timestamps of the\nunderlying file, if the stream was writable, and if buffered data remains that has not yet been written to the file. The\n[I15]fclose[/I15]() function shall perform the equivalent of a [A16][I17]close[/I17]()[/A16] on the file\ndescriptor that is associated with the stream pointed to by [I18]stream[/I18]. [IMG19]",
+    "placeholders": {
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A16": {
+      "open": "<a href=\"../functions/close.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG19": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "After the call to [I20]fclose[/I20](), any use of [I21]stream[/I21] results in undefined behavior.",
+    "placeholders": {
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00010",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A22][/A22]RETURN VALUE",
+    "placeholders": {
+     "A22": {
+      "open": "<a name=\"tag_17_138_04\" id=\"tag_17_138_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I23]fclose[/I23]() shall return 0; otherwise, it shall return EOF [S24][[A25]CX[/A25]][/S24] [IMG26] &nbsp;and set\n[I27]errno[/I27] to indicate the error. [IMG28]",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S24": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG26": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG28": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00012",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A29][/A29]ERRORS",
+    "placeholders": {
+     "A29": {
+      "open": "<a name=\"tag_17_138_05\" id=\"tag_17_138_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I30]fclose[/I30]() function shall fail if:",
+    "placeholders": {
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00014",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00015",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S31][[A32]CX[/A32]][/S31] [IMG33]\nThe O_NONBLOCK flag is set for the file descriptor underlying [I34]stream[/I34] and the thread would be delayed in the write operation.\n[IMG35]",
+    "placeholders": {
+     "S31": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A32": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG33": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG35": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00016",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00017",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "[S36][[A37]CX[/A37]][/S36] [IMG38]\nThe file descriptor underlying stream is not valid. [IMG39]",
+    "placeholders": {
+     "S36": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A37": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG38": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG39": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00018",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EFBIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00019",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "[S40][[A41]CX[/A41]][/S40] [IMG42] An\nattempt was made to write a file that exceeds the maximum file size. [IMG43]",
+    "placeholders": {
+     "S40": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A41": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG42": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG43": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00020",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EFBIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00021",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "[S44][[A45]CX[/A45]][/S44] [IMG46] An\nattempt was made to write a file that exceeds the file size limit of the process.\n\n[IMG47] [S48][[A49]XSI[/A49]][/S48]\n[IMG50] A SIGXFSZ signal shall also be generated for the thread.\n[IMG51]",
+    "placeholders": {
+     "S44": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A45": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG46": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG47": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S48": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A49": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG50": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG51": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EFBIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "[S52][[A53]CX[/A53]][/S52] [IMG54]\nThe file is a regular file and an attempt was made to write at or beyond the offset maximum associated with the corresponding\nstream. [IMG55]",
+    "placeholders": {
+     "S52": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A53": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG54": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG55": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "[S56][[A57]CX[/A57]][/S56] [IMG58]\nThe [I59]fclose[/I59]() function was interrupted by a signal. [IMG60]",
+    "placeholders": {
+     "S56": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A57": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG58": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG60": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "[S61][[A62]CX[/A62]][/S61] [IMG63]\nThe process is a member of a background process group attempting to write to its controlling terminal, TOSTOP is set, the calling\nthread is not blocking SIGTTOU, the process is not ignoring SIGTTOU, and the process group of the process is orphaned. This error\nmay also be returned under implementation-defined conditions. [IMG64]",
+    "placeholders": {
+     "S61": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A62": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG63": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG64": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00029",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "[S65][[A66]CX[/A66]][/S65] [IMG67]\nThe underlying stream was created by [A68][I69]open_memstream[/I69]()[/A68] or [A70][I71]open_wmemstream[/I71]()[/A70] and insufficient memory is available. [IMG72]",
+    "placeholders": {
+     "S65": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A66": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG67": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A68": {
+      "open": "<a href=\"../functions/open_memstream.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../functions/open_wmemstream.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG72": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00030",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     35
+    ],
+    "text": "[ENOSPC]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00031",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     37
+    ],
+    "text": "[S73][[A74]CX[/A74]][/S73] [IMG75]\nThere was no free space remaining on the device containing the file or in the buffer used by the [A76][I77]fmemopen[/I77]()[/A76] function. [IMG78]",
+    "placeholders": {
+     "S73": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A74": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG75": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A76": {
+      "open": "<a href=\"../functions/fmemopen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG78": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00032",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     39
+    ],
+    "text": "[EPIPE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00033",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     41
+    ],
+    "text": "[S79][[A80]CX[/A80]][/S79] [IMG81] An\nattempt is made to write to a pipe or FIFO that is not open for reading by any process. A SIGPIPE signal shall also be sent to the\nthread. [IMG82]",
+    "placeholders": {
+     "S79": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A80": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG81": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG82": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I83]fclose[/I83]() function may fail if:",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00035",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00036",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "[S84][[A85]CX[/A85]][/S84] [IMG86] A\nrequest was made of a nonexistent device, or the request was outside the capabilities of the device. [IMG87]",
+    "placeholders": {
+     "S84": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A85": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG86": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG87": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00037",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A88][/A88]EXAMPLES",
+    "placeholders": {
+     "A88": {
+      "open": "<a name=\"tag_17_138_06\" id=\"tag_17_138_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00039",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A89][/A89]APPLICATION USAGE",
+    "placeholders": {
+     "A89": {
+      "open": "<a name=\"tag_17_138_07\" id=\"tag_17_138_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Since after the call to [I90]fclose[/I90]() any use of [I91]stream[/I91] results in undefined behavior, [I92]fclose[/I92]() should not be\nused on [I93]stdin[/I93], [I94]stdout[/I94], or [I95]stderr[/I95] except immediately before process termination (see XBD [A96][I97]3.287 Process Termination[/I97][/A96]), so as to avoid triggering undefined behavior in\nother standard interfaces that rely on these streams. If there are any [A98][I99]atexit[/I99]()[/A98]\nhandlers registered by the application, such a call to [I100]fclose[/I100]() should not occur until the last handler is finishing. Once\n[I101]fclose[/I101]() has been used to close [I102]stdin[/I102], [I103]stdout[/I103], or [I104]stderr[/I104], there is no standard way to reopen any of\nthese streams.",
+    "placeholders": {
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A96": {
+      "open": "<a href=\"../basedefs/V1_chap03.html#tag_03_287\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A98": {
+      "open": "<a href=\"../functions/atexit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I103": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "Use of [A105][I106]freopen[/I106]()[/A105] to change [I107]stdin[/I107], [I108]stdout[/I108], or [I109]stderr[/I109] instead\nof closing them avoids the danger of a file unexpectedly being opened as one of the special file descriptors STDIN_FILENO,\nSTDOUT_FILENO, or STDERR_FILENO at a later time in the application.",
+    "placeholders": {
+     "A105": {
+      "open": "<a href=\"../functions/freopen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I109": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00042",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A110][/A110]RATIONALE",
+    "placeholders": {
+     "A110": {
+      "open": "<a name=\"tag_17_138_08\" id=\"tag_17_138_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00044",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A111][/A111]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A111": {
+      "open": "<a name=\"tag_17_138_09\" id=\"tag_17_138_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00046",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A112][/A112]SEE ALSO",
+    "placeholders": {
+     "A112": {
+      "open": "<a name=\"tag_17_138_10\" id=\"tag_17_138_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A113][I114]2.5 Standard I/O Streams[/I114][/A113], [A115][I116]atexit[/I116]()[/A115], [A117][I118]close[/I118]()[/A117], [A119][I120]fmemopen[/I120]()[/A119], [A121][I122]fopen[/I122]()[/A121], [A123][I124]freopen[/I124]()[/A123], [A125][I126]getrlimit[/I126]()[/A125], [A127][I128]open_memstream[/I128]()[/A127]",
+    "placeholders": {
+     "A113": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I114": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A115": {
+      "open": "<a href=\"../functions/atexit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I116": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A117": {
+      "open": "<a href=\"../functions/close.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A119": {
+      "open": "<a href=\"../functions/fmemopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A121": {
+      "open": "<a href=\"../functions/fopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A123": {
+      "open": "<a href=\"../functions/freopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A125": {
+      "open": "<a href=\"../functions/getrlimit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I126": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A127": {
+      "open": "<a href=\"../functions/open_memstream.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I128": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A129][I130]&lt;stdio.h&gt;[/I130][/A129]",
+    "placeholders": {
+     "A129": {
+      "open": "<a href=\"../basedefs/stdio.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00049",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A131][/A131]CHANGE HISTORY",
+    "placeholders": {
+     "A131": {
+      "open": "<a name=\"tag_17_138_11\" id=\"tag_17_138_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00051",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A132][/A132]Issue 5",
+    "placeholders": {
+     "A132": {
+      "open": "<a name=\"tag_17_138_12\" id=\"tag_17_138_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00053",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A133][/A133]Issue 6",
+    "placeholders": {
+     "A133": {
+      "open": "<a name=\"tag_17_138_13\" id=\"tag_17_138_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1,
+     1
+    ],
+    "text": "The [EFBIG] error is added as part of the large file support extensions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     3,
+     1
+    ],
+    "text": "The [ENXIO] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The DESCRIPTION is updated to note that the stream and any buffer are disassociated whether or not the call succeeds. This is\nfor alignment with the ISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/28 is applied, updating the [EAGAIN] error in the ERRORS section\nfrom &quot;the process would be delayed&quot; to &quot;the thread would be delayed&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00060",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A134][/A134]Issue 7",
+    "placeholders": {
+     "A134": {
+      "open": "<a name=\"tag_17_138_14\" id=\"tag_17_138_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00061",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #002 is applied, clarifying the interaction of file descriptors and streams.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "The [ENOSPC] error condition is updated and the [ENOMEM] error is added from The Open Group Technical Standard, 2006, Extended\nAPI Set Part 1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00064",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0113 [87], XSH/TC1-2008/0114 [79], and XSH/TC1-2008/0115 [14] are\napplied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0104 [555] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00066",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A135][/A135]Issue 8",
+    "placeholders": {
+     "A135": {
+      "open": "<a name=\"tag_17_138_15\" id=\"tag_17_138_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 308 is applied, clarifying the handling of [EFBIG] errors.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00068",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1669 is applied, removing XSI shading from part of the [EFBIG] error relating to the file size limit for the\nprocess.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,79 @@
+<h1>XSH 函数：pthread_exit()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="pthread_exit" id="pthread_exit"></a> <a name="tag_17_430" id="tag_17_430"></a>
+
+<a name="tag_17_430_01" id="tag_17_430_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_exit — 线程终止 (thread termination)</blockquote>
+<a name="tag_17_430_02" id="tag_17_430_02"></a><h4>简介 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+_Noreturn void pthread_exit(void *</code><i>value_ptr</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_430_03" id="tag_17_430_03"></a><h4>描述 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>pthread_exit</i>() 函数应终止调用线程，并使值 <i>value_ptr</i> 可供与终止线程的任何成功汇合（join）使用。任何已压入但尚未弹出的取消清理处理程序，都应按其压入的相反顺序弹出，然后执行。在所有取消清理处理程序执行完毕后，如果该线程有任何线程特定数据（无论是与键类型 <b>tss_t</b> 还是 <b>pthread_key_t</b> 相关联），都应以未指定的顺序调用适当的析构函数。线程终止不会释放任何应用程序可见的进程资源，包括但不限于互斥量和文件描述符，也不会执行任何进程级清理操作，包括但不限于调用可能存在的任何 atexit() 例程。</p>
+<p>当一个不是使用 thrd_create() 创建、也不是最初调用 <i>main</i>() 的那个线程，从用于创建它的启动例程返回时，会隐式调用 <i>pthread_exit</i>()。该函数的返回值应作为线程的退出状态。</p>
+<p>如果从因隐式或显式调用 <i>pthread_exit</i>() 而被调用的取消清理处理程序或析构函数中调用 <i>pthread_exit</i>()，则其行为未定义。</p>
+<p>在线程终止后，访问该线程局部 (auto) 变量的结果未定义。因此，不应将退出线程局部变量的引用用作 <i>pthread_exit</i>() 的 <i>value_ptr</i> 参数值。</p>
+<p>在最后一个线程终止后，进程应以退出状态 0 退出。其行为应如同实现在线程终止时以参数零调用了 exit()。</p>
+</blockquote>
+<a name="tag_17_430_04" id="tag_17_430_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p><i>pthread_exit</i>() 函数不能返回到其调用者。</p>
+</blockquote>
+<a name="tag_17_430_05" id="tag_17_430_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_430_06" id="tag_17_430_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_430_07" id="tag_17_430_07"></a><h4>应用用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>不应从使用 thrd_create() 创建的线程中调用 <i>pthread_exit</i>()，因为它们的退出状态具有不同的类型（<b>int</b> 而不是 <b>void *</b>）。如果从初始线程调用 <i>pthread_exit</i>() 而它又不是最后一个终止的线程，则其他线程不应尝试使用 thrd_join() 获取其退出状态。</p>
+</blockquote>
+<a name="tag_17_430_08" id="tag_17_430_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>使用 pthread_create() 启动的线程终止的正常机制，是从启动它的 pthread_create() 调用中指定的例程返回。<i>pthread_exit</i>() 函数提供了线程无需从其启动例程返回即可终止的能力，从而提供了与 exit() 类似的函数。</p>
+<p>无论线程终止的方法如何，任何已压入但尚未弹出的取消清理处理程序都会被执行，任何现有线程特定数据的析构函数也都会被执行。本卷 POSIX.1-2024 要求按顺序弹出并调用取消清理处理程序。在所有取消清理处理程序执行完毕后，对于线程中存在的每一项线程特定数据，都会以未指定的顺序调用线程特定数据析构函数。这种排序是必要的，因为取消清理处理程序可能依赖于线程特定数据。</p>
+<p>由于状态的含义由应用程序决定（除非线程已被取消，在这种情况下它是 PTHREAD_CANCELED），实现无法知道什么是非法的状态值，这就是为什么不进行任何地址错误检查。</p>
+</blockquote>
+<a name="tag_17_430_09" id="tag_17_430_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_430_10" id="tag_17_430_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>exit(), pthread_create(), pthread_join(), pthread_key_create(), thrd_create(), thrd_exit(), tss_create()</p>
+<p>XBD &lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_430_11" id="tag_17_430_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次在 Issue 5 中发布。为与 POSIX 线程扩展保持一致而纳入。</p>
+</blockquote>
+<a name="tag_17_430_12" id="tag_17_430_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_exit</i>() 函数被标记为 Threads 选项的一部分。</p>
+</blockquote>
+<a name="tag_17_430_13" id="tag_17_430_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_exit</i>() 函数从 Threads 选项移至 Base。</p>
+</blockquote>
+<a name="tag_17_430_14" id="tag_17_430_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 1302，在 SYNOPSIS 中增加了 <code>_Noreturn</code>，并更新了本页以说明 &lt;threads.h&gt; 接口的增加。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

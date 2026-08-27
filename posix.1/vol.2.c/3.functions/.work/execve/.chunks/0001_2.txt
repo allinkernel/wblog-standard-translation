@@ -1,0 +1,107 @@
+# start_index 151
+[p_00151] If the process image file has appropriate privileges but is not otherwise recognized:
+[p_00152] If this is a call to [I334]execlp[/I334]() or [I335]execvp[/I335](), then they invoke a command interpreter assuming that the process image file is a shell script.
+[p_00153] If this is not a call to [I336]execlp[/I336]() or [I337]execvp[/I337](), then an error occurs and [I338]errno[/I338] is set to [ENOEXEC].
+[p_00154] Applications that do not require to access their arguments may use the form:
+[p_00155] Some implementations provide a third argument to [I339]main[/I339]() called [I340]envp[/I340]. This is defined as a pointer to the environment. The ISO&nbsp;C standard specifies invoking [I341]main[/I341]() with two arguments, so implementations are required to support applications written this way. Since this volume of POSIX.1-2024 defines the global variable [I342]environ[/I342], which is also provided by historical implementations and can be used anywhere that [I343]envp[/I343] could be used, there is no functional need for the [I344]envp[/I344] argument. Applications should use the [A345][I346]getenv[/I346]()[/A345] function rather than accessing the environment directly via either [I347]envp[/I347] or [I348]environ[/I348]. Implementations are required to support the two-argument calling sequence, but this does not prohibit an implementation from supporting [I349]envp[/I349] as an optional third argument.
+[p_00156] This volume of POSIX.1-2024 specifies that signals set to SIG_IGN remain set to SIG_IGN, and that the new process image inherits the signal mask of the thread that called [I350]exec[/I350] in the old process image. This is consistent with historical implementations, and it permits some useful functionality, such as the [A351][I352]nohup[/I352][/A351] command. However, it should be noted that many existing applications wrongly assume that they start with certain signals set to the default action and/or unblocked. In particular, applications written with a simpler signal model that does not include blocking of signals, such as the one in the ISO&nbsp;C standard, may not behave properly if invoked with some signals blocked. Therefore, it is best not to block or ignore signals across [I353]exec[/I353]s without explicit reason to do so, and especially not to block signals across [I354]exec[/I354]s of arbitrary (not closely cooperating) programs.
+[p_00157] The [I355]exec[/I355] functions always save the value of the effective user ID and effective group ID of the process at the completion of the [I356]exec[/I356], whether or not the set-user-ID or the set-group-ID bit of the process image file is set.
+[p_00158] The statement about [I357]argv[/I357][] and [I358]envp[/I358][] being constants is included to make explicit to future writers of language bindings that these objects are completely constant. Due to a limitation of the ISO&nbsp;C standard, it is not possible to state that idea in standard C. Specifying two levels of [I359]const[/I359]-[I360]qualification[/I360] for the [I361]argv[/I361][] and [I362]envp[/I362][] parameters for the [I363]exec[/I363] functions may seem to be the natural choice, given that these functions do not modify either the array of pointers or the characters to which the function points, but this would disallow existing correct code. Instead, only the array of pointers is noted as constant. The table of assignment compatibility for [I364]dst[/I364]=[I365]src[/I365] derived from the ISO&nbsp;C standard summarizes the compatibility:
+[td_00159] ctx="行 1: [B366][I367]src[/I367]:[/B366]" [B366][I367]src[/I367]:[/B366]
+[td_00160] ctx="列头: char *[]" &nbsp;
+[td_00161] ctx="列头: const char *[]" &nbsp;
+[td_00162] ctx="列头: char *const[]" &nbsp;
+[td_00163] ctx="列头: const char *const[]" &nbsp;
+[td_00164] ctx="行 2: [B368]char *[][/B368]" [B368]char *[][/B368]
+[td_00165] ctx="列头: char *[]" VALID
+[td_00166] ctx="列头: const char *[]" —
+[td_00167] ctx="列头: char *const[]" VALID
+[td_00168] ctx="列头: const char *const[]" —
+[td_00169] ctx="行 3: [B369]const char *[][/B369]" [B369]const char *[][/B369]
+[td_00170] ctx="列头: char *[]" —
+[td_00171] ctx="列头: const char *[]" VALID
+[td_00172] ctx="列头: char *const[]" —
+[td_00173] ctx="列头: const char *const[]" VALID
+[td_00174] ctx="行 4: [B370]char * const [][/B370]" [B370]char * const [][/B370]
+[td_00175] ctx="列头: char *[]" —
+[td_00176] ctx="列头: const char *[]" —
+[td_00177] ctx="列头: char *const[]" VALID
+[td_00178] ctx="列头: const char *const[]" —
+[td_00179] ctx="行 5: [B371]const char *const[][/B37" [B371]const char *const[][/B371]
+[td_00180] ctx="列头: char *[]" —
+[td_00181] ctx="列头: const char *[]" —
+[td_00182] ctx="列头: char *const[]" —
+[td_00183] ctx="列头: const char *const[]" VALID
+[p_00184] Since all existing code has a source type matching the first row, the column that gives the most valid combinations is the third column. The only other possibility is the fourth column, but using it would require a cast on the [I372]argv[/I372] or [I373]envp[/I373] arguments. It is unfortunate that the fourth column cannot be used, because the declaration a non-expert would naturally use would be that in the second row.
+[p_00185] The ISO&nbsp;C standard and this volume of POSIX.1-2024 do not conflict on the use of [I374]environ[/I374], but some historical implementations of [I375]environ[/I375] may cause a conflict. As long as [I376]environ[/I376] is treated in the same way as an entry point (for example, [A377][I378]fork[/I378]()[/A377]), it conforms to both standards. A library can contain [A379][I380]fork[/I380]()[/A379], but if there is a user-provided [A381][I382]fork[/I382]()[/A381], that [A383][I384]fork[/I384]()[/A383] is given precedence and no problem ensues. The situation is similar for [I385]environ[/I385]: the definition in this volume of POSIX.1-2024 is to be used if there is no user-provided [I386]environ[/I386] to take precedence. At least three implementations are known to exist that solve this problem.
+[dt_00186] [E2BIG]
+[dd_00187] The limit {ARG_MAX} applies not just to the size of the argument list, but to the sum of that and the size of the environment list.
+[dt_00188] [EFAULT]
+[dd_00189] Some historical systems return [EFAULT] rather than [ENOEXEC] when the new process image file is corrupted. They are non-conforming.
+[dt_00190] [EINVAL]
+[dd_00191] This error condition was added to POSIX.1-2024 to allow an implementation to detect executable files generated for different architectures, and indicate this situation to the application. Historical implementations of shells, [I387]execvp[/I387](), and [I388]execlp[/I388]() that encounter an [ENOEXEC] error will execute a shell on the assumption that the file is a shell script. This will not produce the desired effect when the file is a valid executable for a different architecture. An implementation may now choose to avoid this problem by returning [EINVAL] when a valid executable for a different architecture is encountered. Some historical implementations return [EINVAL] to indicate that the [I389]path[/I389] argument contains a character with the high order bit set. The standard developers chose to deviate from historical practice for the following reasons:  The new utilization of [EINVAL] will provide some measure of utility to the user community. Historical use of [EINVAL] is not acceptable in an internationalized operating environment.
+[dt_00192] [ENAMETOOLONG]
+[dd_00193] Since the file pathname may be constructed by taking elements in the [I390]PATH[/I390] variable and putting them together with the filename, the [ENAMETOOLONG] error condition could also be reached this way.
+[dt_00194] [ETXTBSY]
+[dd_00195] System V returns this error when the executable file is currently open for writing by some process. This volume of POSIX.1-2024 neither requires nor prohibits this behavior.
+[p_00196] Other systems (such as System V) may return [EINTR] from [I391]exec[/I391]. This is not addressed by this volume of POSIX.1-2024, but implementations may have a window between the call to [I392]exec[/I392] and the time that a signal could cause one of the [I393]exec[/I393] calls to return with [EINTR].
+[p_00197] An explicit statement regarding the floating-point environment (as defined in the [A394][I395]&lt;fenv.h&gt;[/I395][/A394] header) was added to make it clear that the floating-point environment is set to its default when a call to one of the [I396]exec[/I396] functions succeeds. The requirements for inheritance or setting to the default for other process and thread start-up functions is covered by more generic statements in their descriptions and can be summarized as follows:
+[dt_00198] [I397]posix_spawn[/I397]()
+[dd_00199] Set to default.
+[dt_00200] [I398]fork[/I398]()
+[dd_00201] Inherit.
+[dt_00202] [I399]pthread_create[/I399]()
+[dd_00203] Inherit.
+[p_00204] The purpose of the [I400]fexecve[/I400]() function is to enable executing a file which has been verified to be the intended file. It is possible to actively check the file by reading from the file descriptor and be sure that the file is not exchanged for another between the reading and the execution. Alternatively, a function like [A401][I402]openat[/I402]()[/A401] can be used to open a file which has been found by reading the content of a directory using [A403][I404]readdir[/I404]()[/A403].
+[p_00205] When [I405]execlp[/I405]() or [I406]execvp[/I406]() fall back to invoking [A407][I408]sh[/I408][/A407] because of an [ENOEXEC] condition, the standard leaves the process name (what becomes [I409]argv[/I409][0] in the resulting [A410][I411]sh[/I411][/A410] process) unspecified. Existing implementations vary on whether they pass a variation of [CODE412], or preserve the original [I413]arg0[/I413]. There are existing implementations of [A414][I415]sh[/I415][/A414] that behave differently depending on the contents of [I416]argv[/I416][0], such that blindly passing the original [I417]arg0[/I417] on to the fallback execution can fail to invoke a compliant shell environment. Because of the requirements on how [A418][I419]sh[/I419][/A418] handles its command line arguments, the shell script will see [CODE420] containing the pathname of the script being executed, regardless of the value of [I421]argv[/I421][0].
+[h4_00206] [A422][/A422]FUTURE DIRECTIONS
+[p_00207] None.
+[h4_00208] [A423][/A423]SEE ALSO
+[p_00209] [A424][I425]alarm[/I425]()[/A424], [A426][I427]atexit[/I427]()[/A426], [A428][I429]chmod[/I429]()[/A428], [A430][I431]close[/I431]()[/A430], [A432][I433]confstr[/I433]()[/A432], [A434][I435]exit[/I435]()[/A434], [A436][I437]fcntl[/I437]()[/A436], [A438][I439]fork[/I439]()[/A438], [A440][I441]fstatvfs[/I441]()[/A440], [A442][I443]getenv[/I443]()[/A442], [A444][I445]getrlimit[/I445]()[/A444], [A446][I447]mknod[/I447]()[/A446], [A448][I449]mmap[/I449]()[/A448], [A450][I451]nice[/I451]()[/A450], [A452][I453]open[/I453]()[/A452], [A454][I455]posix_spawn[/I455]()[/A454], [A456][I457]pthread_atfork[/I457]()[/A456], [A458][I459]pthread_sigmask[/I459]()[/A458], [A460][I461]putenv[/I461]()[/A460], [A462][I463]readdir[/I463]()[/A462], [A464][I465]semop[/I465]()[/A464], [A466][I467]setlocale[/I467]()[/A466], [A468][I469]shmat[/I469]()[/A468], [A470][I471]sigaction[/I471]()[/A470], [A472][I473]sigaltstack[/I473]()[/A472], [A474][I475]sigpending[/I475]()[/A474], [A476][I477]system[/I477]()[/A476], [A478][I479]times[/I479]()[/A478], [A480][I481]umask[/I481]()[/A480]
+[p_00210] XBD [A482][I483]8. Environment Variables[/I483][/A482], [A484][I485]&lt;unistd.h&gt;[/I485][/A484]
+[p_00211] XCU [A486][I487]test[/I487][/A486]
+[h4_00212] [A488][/A488]CHANGE HISTORY
+[p_00213] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00214] [A489][/A489]Issue 5
+[p_00215] The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.
+[p_00216] Large File Summit extensions are added.
+[h4_00217] [A490][/A490]Issue 6
+[p_00218] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[li_00219] In the DESCRIPTION, behavior is defined for when the process image file is not a valid executable.
+[li_00220] In this version, _POSIX_SAVED_IDS is mandated, thus the effective user ID and effective group ID of the new process image shall be saved (as the saved set-user-ID and the saved set-group-ID) for use by the [A491][I492]setuid[/I492]()[/A491] function.
+[li_00221] The [ELOOP] mandatory error condition is added.
+[li_00222] A second [ENAMETOOLONG] is added as an optional error condition.
+[li_00223] The [ETXTBSY] optional error condition is added.
+[p_00224] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[li_00225] The [EINVAL] mandatory error condition is added.
+[li_00226] The [ELOOP] optional error condition is added.
+[p_00227] The description of CPU-time clock semantics is added for alignment with IEEE&nbsp;Std&nbsp;1003.1d-1999.
+[p_00228] The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by adding semantics for typed memory.
+[p_00229] The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.
+[p_00230] The description of tracing semantics is added for alignment with IEEE&nbsp;Std&nbsp;1003.1q-2000.
+[p_00231] IEEE PASC Interpretation 1003.1 #132 is applied.
+[p_00232] The DESCRIPTION is updated to make it explicit that the floating-point environment in the new process image is set to the default.
+[p_00233] The DESCRIPTION and RATIONALE are updated to include clarifications of how the contents of a process image file affect the behavior of the [I493]exec[/I493] functions.
+[p_00234] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/15 is applied, adding a new paragraph to the DESCRIPTION and text to the end of the APPLICATION USAGE section. This change addresses a security concern, where implementations may want to reopen file descriptors 0, 1, and 2 for programs with the set-user-id or set-group-id file mode bits calling the [I494]exec[/I494] family of functions.
+[p_00235] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/24 is applied, applying changes to the DESCRIPTION, addressing which attributes are inherited by threads, and behavioral requirements for threads attributes.
+[p_00236] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/25 is applied, updating text in the RATIONALE from &quot;the process signal mask be unchanged across an [I495]exec[/I495]&quot; to &quot;the new process image inherits the signal mask of the thread that called [I496]exec[/I496] in the old process image&quot;.
+[h4_00237] [A497][/A497]Issue 7
+[p_00238] Austin Group Interpretation 1003.1-2001 #047 is applied, adding the description of _CS_V7_ENV to the APPLICATION USAGE.
+[p_00239] Austin Group Interpretation 1003.1-2001 #143 is applied.
+[p_00240] The [I498]fexecve[/I498]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.
+[p_00241] Functionality relating to the Asynchronous Input and Output, Memory Mapped Files, Threads, and Timers options is moved to the Base.
+[p_00242] Changes are made related to support for finegrained timestamps.
+[p_00243] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0095 [386], XSH/TC1-2008/0096 [167], XSH/TC1-2008/0097 [291], XSH/TC1-2008/0098 [173], XSH/TC1-2008/0099 [296], XSH/TC1-2008/00100 [324], XSH/TC1-2008/00101 [296], XSH/TC1-2008/00102 [302], XSH/TC1-2008/00103 [167], XSH/TC1-2008/00104 [173], and XSH/TC1-2008/00105 [291,429] are applied.
+[p_00244] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0097 [584], XSH/TC2-2008/0098 [898], and XSH/TC2-2008/0099 [734] are applied.
+[h4_00245] [A499][/A499]Issue 8
+[p_00246] Austin Group Defects 51 and 1669 are applied, moving the [A500][I501]getrlimit[/I501]()[/A500] and [A502][I503]setrlimit[/I503]()[/A502] functions from the XSI option to the Base.
+[p_00247] Austin Group Defect 368 is applied, adding a requirement for unnamed semaphores to be destroyed.
+[p_00248] Austin Group Defect 768 is applied, adding OFD-owned file locks.
+[p_00249] Austin Group Defect 922 is applied, adding the [A504][I505]secure_getenv[/I505]()[/A504] function.
+[p_00250] Austin Group Defect 1284 is applied, changing &quot;checksum test&quot; to &quot;integrity test&quot; in the APPLICATION USAGE section.
+[p_00251] Austin Group Defect 1318 is applied, adding FD_CLOFORK.
+[p_00252] Austin Group Defect 1330 is applied, removing obsolescent interfaces and changing &quot;_V7_&quot; to &quot;_V8_&quot;.
+[p_00253] Austin Group Defect 1435 is applied, adding function lists to the descriptions of the [I506]path[/I506] and [I507]file[/I507] arguments.
+[p_00254] Austin Group Defect 1645 is applied, making it unspecified what string is passed to the shell in [I508]argv[/I508][0] when executed by [I509]execlp[/I509]() or [I510]execvp[/I510]().
+[p_00255] Austin Group Defect 1646 is applied, adding [A511][I512]at_quick_exit[/I512]()[/A511] to the list of registration functions whose registrations are not inherited across [I513]exec[/I513].
+[p_00256] &nbsp;

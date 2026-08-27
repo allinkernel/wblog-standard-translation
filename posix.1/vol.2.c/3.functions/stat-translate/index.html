@@ -1,0 +1,250 @@
+<h1>XSH 函数：stat()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fstatat" id="fstatat"></a> <a name="tag_17_190" id="tag_17_190"></a>
+<a name="tag_17_190_01" id="tag_17_190_01"></a><h4>名称 (NAME)</h4>
+<blockquote>fstatat、lstat、stat — 获取文件状态 (get file status)</blockquote>
+<a name="tag_17_190_02" id="tag_17_190_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code><sup>[OH]</sup> <img src="../images/opt-start.gif" alt="图片">#include
+&lt;fcntl.h&gt;<img src="../images/opt-end.gif" alt="图片"><br>
+#include &lt;sys/stat.h&gt;<br>
+<br>
+int fstatat(int fd, const char *restrict</code> <i>path</i><code>,<br>
+       struct stat *restrict</code> <i>buf</i><code>, int</code> <i>flag</i><code>);<br>
+int lstat(const char *restrict</code> <i>path</i><code>, struct stat *restrict</code> <i>buf</i><code>);<br>
+int stat(const char *restrict</code> <i>path</i><code>, struct stat *restrict</code> <i>buf</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_190_03" id="tag_17_190_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>stat</i>() 函数应获取关于指定文件的信息，并将其写入 <i>buf</i> 参数所指向的区域。<i>path</i> 参数指向一个命名文件的路径名。不需要指定文件的读、写或执行权限。提供附加或替代文件访问控制机制的实现可以在实现定义的条件下使 <i>stat</i>() 失败。特别是，系统可以否认 <i>path</i> 指定的文件的存在。</p>
+<p>如果指定的文件是符号链接，<i>stat</i>() 函数应使用符号链接的内容继续路径名解析，并且如果结果文件存在，应返回与该结果文件相关的信息。</p>
+<p><i>buf</i> 参数是指向 <b>stat</b> 结构的指针，如 &lt;sys/stat.h&gt; 头中所定义，关于文件的信息被放入该结构中。</p>
+<p><i>stat</i>() 函数应在写入 <b>stat</b> 结构之前更新任何与时间相关的字段（如 XBD 4.12 文件时间更新 中所述）。</p>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果指定的文件是共享内存对象，实现应在 <i>buf</i> 参数所指向的 <b>stat</b> 结构中更新 <i>st_uid</i>、<i>st_gid</i>、<i>st_size</i> 和 <i>st_mode</i> 字段，并且只有 S_IRUSR、S_IWUSR、S_IRGRP、S_IWGRP、S_IROTH 和 S_IWOTH 文件权限位需要有效。实现可以更新其他字段和标志。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果指定的文件是类型化内存对象，实现应在 <i>buf</i> 参数所指向的 <b>stat</b> 结构中更新 <i>st_uid</i>、<i>st_gid</i>、<i>st_size</i> 和 <i>st_mode</i> 字段，并且只有 S_IRUSR、S_IWUSR、S_IRGRP、S_IWGRP、S_IROTH 和 S_IWOTH 文件权限位需要有效。实现可以更新其他字段和标志。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>对于本卷 POSIX.1-2024 中定义的所有其他文件类型，结构成员 <i>st_mode</i>、<i>st_ino</i>、<i>st_dev</i>、<i>st_uid</i>、<i>st_gid</i>、<i>st_atim</i>、<i>st_ctim</i> 和 <i>st_mtim</i> 应具有有意义的值，并且成员 <i>st_nlink</i> 的值应被设置为指向该文件的硬链接数。</p>
+<p><i>lstat</i>() 函数应等同于 <i>stat</i>()，但当 <i>path</i> 指代符号链接时除外。在这种情况下，<i>lstat</i>() 应返回关于该链接的信息，而 <i>stat</i>() 应返回关于该链接所引用的文件的信息。</p>
+<p>对于符号链接，<i>st_mode</i> 成员在与文件类型宏一起使用时，应包含有意义的信息。<i>st_mode</i> 中的文件模式位是未指定的。结构成员 <i>st_ino</i>、<i>st_dev</i>、<i>st_uid</i>、<i>st_gid</i>、<i>st_atim</i>、<i>st_ctim</i> 和 <i>st_mtim</i> 应具有有意义的值，并且 <i>st_nlink</i> 成员的值应被设置为指向该符号链接的硬链接数。<i>st_size</i> 成员的值应被设置为符号链接中包含的路径名的长度，不包括任何终止的空字节。</p>
+<p><i>fstatat</i>() 函数应等同于 <i>stat</i>() 或 <i>lstat</i>() 函数，具体取决于 <i>flag</i> 的值（见下文），但在 <i>path</i> 指定相对路径的情况下除外。在这种情况下，状态应从相对于与文件描述符 <i>fd</i> 关联的目录的文件中获取，而不是相对于当前工作目录。如果与文件描述符关联的打开文件描述的访问模式不是 O_SEARCH，函数应使用该文件描述符所基于目录的当前权限检查是否允许目录搜索。如果访问模式是 O_SEARCH，函数不应执行该检查。</p>
+<p><i>flag</i> 的值由以下列表中的标志按位包含式 OR 构成，这些标志定义于 &lt;fcntl.h&gt;：</p>
+<dl compact="None">
+<dd></dd>
+<dt>AT_SYMLINK_NOFOLLOW</dt>
+<dd>如果 <i>path</i> 命名一个符号链接，则返回该符号链接的状态。</dd>
+</dl>
+<p>如果在 <i>fd</i> 参数中向 <i>fstatat</i>() 传递特殊值 AT_FDCWD，则应使用当前工作目录，并且行为应分别与调用 <i>stat</i>() 或 <i>lstat</i>() 相同，具体取决于 <i>flag</i> 中是否设置了 AT_SYMLINK_NOFOLLOW 位。</p>
+</blockquote>
+<a name="tag_17_190_04" id="tag_17_190_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，这些函数应返回 0。否则，这些函数应返回 -1 并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_190_05" id="tag_17_190_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>如果满足以下条件，这些函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>路径前缀的某个组件被拒绝搜索权限。</dd>
+<dt>[EIO]</dt>
+<dd>从文件系统读取时发生了错误。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接中存在循环。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的某个组件的长度长于 {NAME_MAX}。</dd>
+<dt>[ENOENT]</dt>
+<dd><i>path</i> 的某个组件没有命名存在的文件，或者 <i>path</i> 是空字符串。</dd>
+<dt>[ENOTDIR]</dt>
+<dd>路径前缀的某个组件命名的现有文件既不是目录也不是指向目录的符号链接，或者 <i>path</i> 参数包含至少一个非-&lt;slash&gt; 字符并以一个或多个尾随 &lt;slash&gt; 字符结尾，且最后一个路径名组件命名的现有文件既不是目录也不是指向目录的符号链接。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>以字节为单位的文件大小、分配给文件的块数或文件序列号无法在 <i>buf</i> 所指向的结构中被正确表示。</dd>
+</dl>
+<p>如果满足以下条件，<i>fstatat</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>与 <i>fd</i> 关联的打开文件描述的访问模式不是 O_SEARCH，且 <i>fd</i> 所基于目录的权限不允许目录搜索。</dd>
+<dt>[EBADF]</dt>
+<dd><i>path</i> 参数没有指定绝对路径，且 <i>fd</i> 参数既不是 AT_FDCWD，也不是为读取或搜索而打开的有效文件描述符。</dd>
+<dt>[ENOTDIR]</dt>
+<dd><i>path</i> 参数不是绝对路径，且 <i>fd</i> 是与非目录文件关联的文件描述符。</dd>
+</dl>
+<p>如果满足以下条件，这些函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接超过 {SYMLOOP_MAX} 个。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的长度超过 {PATH_MAX}，或者符号链接的路径名解析产生了长度超过 {PATH_MAX} 的中间结果。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>要存储的值将使 <b>stat</b> 结构的成员之一溢出。</dd>
+</dl>
+<br>
+<p>如果满足以下条件，<i>fstatat</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>flag</i> 参数的值无效。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_190_06" id="tag_17_190_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_190_06_01" id="tag_17_190_06_01"></a><h5>获取文件状态信息 (Obtaining File Status Information)</h5>
+<p>以下示例展示了如何获取名为 <b>/home/cnd/mod1</b> 的文件的状态信息。为 <b>stat</b> 结构定义了结构变量 <i>buffer</i>。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+ 
+struct stat buffer;
+int         status;
+...
+status = stat("/home/cnd/mod1", &amp;buffer);</code></pre>
+<a name="tag_17_190_06_02" id="tag_17_190_06_02"></a><h5>获取目录信息 (Getting Directory Information)</h5>
+<p>以下示例片段获取目录中每个条目的状态信息。对 <i>stat</i>() 函数的调用将文件信息存储在 <i>statbuf</i> 所指向的 <b>stat</b> 结构中。<i>stat</i>() 调用之后的行将 <b>stat</b> 结构中的字段格式化以呈现给程序的用户。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;dirent.h&gt;
+#include &lt;pwd.h&gt;
+#include &lt;grp.h&gt;
+#include &lt;time.h&gt;
+#include &lt;locale.h&gt;
+#include &lt;langinfo.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+ 
+struct dirent  *dp;
+struct stat     statbuf;
+struct passwd  *pwd;
+struct group   *grp;
+struct tm      *tm;
+char            datestring[256];
+...
+/* Loop through directory entries. */
+while ((dp = readdir(dir)) != NULL) {
+ 
+    /* Get entry's information. */
+    if (stat(dp-&gt;d_name, &amp;statbuf) == -1)
+        continue;
+ 
+    /* Print out type, permissions, and number of links. */
+    printf("%10.10s", mode_string(statbuf.st_mode));
+    printf(" %4ju", (uintmax_t)statbuf.st_nlink);
+ 
+    /* Print out owner's name if it is found using getpwuid(). */
+    if ((pwd = getpwuid(statbuf.st_uid)) != NULL)
+        printf(" %-8.8s", pwd-&gt;pw_name);
+    else
+        printf(" %-8ju", (uintmax_t)statbuf.st_uid);
+ 
+    /* Print out group name if it is found using getgrgid(). */
+    if ((grp = getgrgid(statbuf.st_gid)) != NULL)
+        printf(" %-8.8s", grp-&gt;gr_name);
+    else
+        printf(" %-8ju", (uintmax_t)statbuf.st_gid);
+ 
+    /* Print size of file. */
+    printf(" %9jd", (intmax_t)statbuf.st_size);
+ 
+    tm = localtime(&amp;statbuf.st_mtime);
+ 
+    /* Get localized date string. */
+    strftime(datestring, sizeof(datestring), nl_langinfo(D_T_FMT), tm);
+ 
+    printf(" %s %s\n", datestring, dp-&gt;d_name);
+}</code></pre>
+<a name="tag_17_190_06_03" id="tag_17_190_06_03"></a><h5>获取符号链接状态信息 (Obtaining Symbolic Link Status Information)</h5>
+<p>以下示例展示了如何获取名为 <b>/modules/pass1</b> 的符号链接的状态信息。为 <b>stat</b> 结构定义了结构变量 <i>buffer</i>。如果 <i>path</i> 参数指定了符号链接所指向的文件的路径名（<b>/home/cnd/mod1</b>），则调用该函数的结果将与调用 <i>stat</i>() 函数返回的结果相同。</p>
+<pre><code class="language-plaintext">#include &lt;sys/stat.h&gt;
+ 
+struct stat buffer;
+int status;
+...
+status = lstat("/modules/pass1", &amp;buffer);</code></pre></blockquote>
+<a name="tag_17_190_07" id="tag_17_190_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_190_08" id="tag_17_190_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>描述 &quot;附加或替代文件访问控制机制&quot; 的段落旨在允许一种安全实现：其标签不支配文件标签的进程无法执行 <i>stat</i>() 函数。这与读权限无关；标签支配文件标签的进程不需要读权限。支持向上写操作（write-up）的实现即使拥有为写入而打开的有效文件描述符，也可能使 fstat() 函数调用失败。</p>
+<p><i>fstatat</i>() 函数的目的是在不受竞争条件影响的情况下获取当前工作目录以外的目录中的文件的状态。文件的路径的任何部分都可能在调用 <i>stat</i>() 的同时被更改，导致未指定的行为。通过为目标目录打开文件描述符并使用 <i>fstatat</i>() 函数，可以保证返回状态的文件位于相对于所需目录的位置。</p>
+</blockquote>
+<a name="tag_17_190_09" id="tag_17_190_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_190_10" id="tag_17_190_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>access()、chmod()、fdopendir()、fstat()、mknod()、readlink()、symlink()</p>
+<p>XBD 4.12 文件时间更新、&lt;fcntl.h&gt;、&lt;sys/stat.h&gt;、&lt;sys/types.h&gt;</p>
+</blockquote>
+<a name="tag_17_190_11" id="tag_17_190_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_190_12" id="tag_17_190_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_190_13" id="tag_17_190_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>在 SYNOPSIS（摘要）中，&lt;sys/types.h&gt; 头的可选包含已被移除。</p>
+<p>对 POSIX 实现的以下新要求源自与单一 UNIX 规范（Single UNIX Specification）的一致性：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然 &lt;sys/types.h&gt; 对先前 POSIX 规范的符合性实现是必需的，但它对 UNIX 应用程序不是必需的。</p>
+</li>
+<li>
+<p>添加了 [EIO] 强制性错误条件。</p>
+</li>
+<li>
+<p>添加了 [ELOOP] 强制性错误条件。</p>
+</li>
+<li>
+<p>添加了 [EOVERFLOW] 强制性错误条件。此更改是为了支持大文件。</p>
+</li>
+<li>
+<p>添加了 [ENAMETOOLONG] 和第二个 [EOVERFLOW] 可选错误条件。</p>
+</li>
+</ul>
+<p>进行了以下更改，以与 IEEE P1003.1a 草案标准保持一致：</p>
+<ul>
+<li>
+<p>添加了关于符号链接处理的细节。</p>
+</li>
+<li>
+<p>添加了 [ELOOP] 可选错误条件。</p>
+</li>
+</ul>
+<p>规范文本已更新，以避免对应用程序要求使用 &quot;must&quot; 一词。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，<b>restrict</b> 关键字被添加到 <i>stat</i>() 原型中。</p>
+</blockquote>
+<a name="tag_17_190_14" id="tag_17_190_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #143。</p>
+<p>应用了 XSH-SD5-ERN-161，更新了 DESCRIPTION（说明）以澄清 <i>st_nlink</i> 适用于哪些文件类型。</p>
+<p>从开放集团技术标准（The Open Group Technical Standard）2006 年扩展 API 集第 2 部分添加了 <i>fstatat</i>() 函数。</p>
+<p>进行了与细粒度时间戳支持相关的更改。</p>
+<p><i>lstat</i>() 函数现在被要求在所有 <b>stat</b> 结构字段中为符号链接返回有意义的数据，但 <i>st_mode</i> 的权限位除外。</p>
+<p>进行了更改以允许目录为搜索而打开。</p>
+<p>[ENOTDIR] 错误条件被澄清为涵盖路径名的最后一个组件存在但不是目录或指向目录的符号链接的情况。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0198 [461]、XSH/TC1-2008/0199 [324]、XSH/TC1-2008/0200 [278]、XSH/TC1-2008/0201 [278] 和 XSH/TC1-2008/0202 [291]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0136 [591]、XSH/TC2-2008/0137 [817]、XSH/TC2-2008/0138 [817] 和 XSH/TC2-2008/0139 [889]。</p>
+</blockquote>
+<a name="tag_17_190_15" id="tag_17_190_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 1380，更改了使用 &quot;link&quot; 一词的文本，以符合其更新后的定义。</p>
+<p>应用了 Austin Group 缺陷 1409，更改了 EXAMPLES（示例）部分。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

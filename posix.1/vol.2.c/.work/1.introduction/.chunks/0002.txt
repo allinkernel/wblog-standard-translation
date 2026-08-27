@@ -1,0 +1,11 @@
+[h3_00003] [A2][/A2]1.1 Relationship to Other Formal Standards
+[p_00004] This volume of POSIX.1-2024 is aligned with the following standards, except where stated otherwise:
+[dt_00005] ISO C (C17)
+[dd_00006] ISO/IEC 9899:2018, Programming Languages — C.
+[p_00007] Parts of the ISO/IEC&nbsp;9899:2018 standard (hereinafter referred to as the ISO&nbsp;C standard) are referenced to describe
+requirements also mandated by this volume of POSIX.1-2024. Some functions and headers included within this volume of POSIX.1-2024
+have a version in the ISO&nbsp;C standard; in this case CX markings are added as appropriate to show where the ISO&nbsp;C standard
+has been extended (see [A3][I4]1.8.1 Codes[/I4][/A3]). Any conflict between this volume
+of POSIX.1-2024 and the ISO&nbsp;C standard is unintentional, except where stated otherwise.
+[p_00008] This volume of POSIX.1-2024 also allows, but does not require, mathematics functions to support IEEE&nbsp;Std&nbsp;754-1985 and
+IEEE&nbsp;Std&nbsp;854-1987.

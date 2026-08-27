@@ -1,0 +1,25 @@
+<h1>XSH 函数导读：kill()</h1>
+
+<h2>0. 总览</h2>
+<p>kill() 向一个进程或一组进程发送信号。它声明于 <code>&lt;signal.h&gt;</code>，原型为 <code>int kill(pid_t pid, int sig);</code>，成功完成后返回 0，否则返回 -1 并设置 errno。sig 为 0（空信号）时只执行错误检查、实际不发送信号，可用于检查 pid 的有效性。</p>
+
+<h2>1. 机制</h2>
+<p>pid 决定目标：大于 0 时，向进程 ID 等于 pid 的进程发送；等于 0 时，向所有进程组 ID 等于发送者进程组 ID 的进程发送；等于 -1 时，向发送者有权向其发送信号的所有进程发送；为负但不等于 -1 时，向所有进程组 ID 等于 pid 绝对值的进程发送（均不包括一组未指定的系统进程）。除非发送进程具有适当特权，否则发送进程的真实或有效用户 ID 应与接收进程的真实或保存的设置用户 ID 匹配；当向与发送进程属于同一会话的进程发送 SIGCONT 时，不应用该用户 ID 测试。若 kill() 失败，则不发送任何信号。若 pid 使发送进程为自身生成信号且该信号未被调用线程阻塞，则信号应在 kill() 返回前传递给发送线程。</p>
+
+<h2>2. 易错点</h2>
+<p>空信号探测存在性时要注意：僵尸进程在状态信息被父进程获取前依然"存在"，对僵尸进程发送空信号返回成功——不能用空信号轮询子进程是否已终止，应改用 waitpid() 或 waitid()。pid 为 -1 的广播会波及系统中几乎所有有权触达的进程，误用后果严重；按进程组发送前应确认进程组 ID。errno 为 [ESRCH] 表示找不到目标，[EPERM] 表示无权限（安全实现可能用 [ESRCH] 掩盖受限制进程的存在）。sig 必须来自 &lt;signal.h&gt; 的信号列表或 0，无效信号编号会得到 [EINVAL]。向自身发送被阻塞的信号不会立即生效。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) return 2;
+    long pid = strtol(argv[1], NULL, 10);
+    if (kill((pid_t)pid, SIGTERM) == -1) {
+        perror("kill");
+        return 1;
+    }
+    return 0;
+}</code></pre>

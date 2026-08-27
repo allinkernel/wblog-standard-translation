@@ -1,0 +1,91 @@
+<h1>XSH 函数：exit()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="exit" id="exit"></a> <a name="tag_17_130" id="tag_17_130"></a>
+<a name="tag_17_130_01" id="tag_17_130_01"></a><h4>名称 (NAME)</h4>
+<blockquote>exit — 终止进程 (terminate a process)</blockquote>
+<a name="tag_17_130_02" id="tag_17_130_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+void exit(int</code> <i>status</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_130_03" id="tag_17_130_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>exit</i>() 函数应导致正常进程终止发生。由 at_quick_exit() 函数注册的任何函数不应被调用。如果进程多次调用 <i>exit</i>() 函数，或者除了 <i>exit</i>() 函数之外还调用 quick_exit() 函数，则行为是未定义的。</p>
+<p><i>status</i> 的值可以是 0、EXIT_SUCCESS、EXIT_FAILURE、<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或任何其他值，尽管只有最低有效的 8 位（即 <i>status</i> &amp; 0377）应可从 wait() 和 waitpid() 获得；完整值应可从 waitid() 以及传递给 SIGCHLD 信号处理器的 <b>siginfo_t</b> 中获得。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>exit</i>() 函数应首先按注册的相反顺序调用由 atexit() 注册的所有函数，但某个函数在其被注册时已经被调用过的任何先前注册的函数之后被调用的情况除外。每个函数被调用的次数与其被注册的次数相同。如果在调用任何此类函数期间，进行了会终止对该注册函数的调用的 longjmp() 函数调用，则行为是未定义的。</p>
+<p>如果由调用 atexit() 注册的函数未能返回，则其余注册的函数不应被调用，并且 <i>exit</i>() 处理的其余部分不应完成。</p>
+<p><i>exit</i>() 函数然后应刷新所有具有未写入缓冲数据的打开流。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 对于作为其底层文件描述符的活动句柄、且文件尚未处于 EOF 且能够寻址的每个流，底层打开的文件描述的文件偏移量应被设置为该流的文件位置。对于每个打开的流，<i>exit</i>() 函数应对与该流关联的文件描述符执行等效的 close()。<img src="../images/opt-end.gif" alt="[Option End]"> 最后，进程应被终止，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  后果与 进程终止的后果() 中所述相同。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_130_04" id="tag_17_130_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p><i>exit</i>() 函数不返回。</p>
+</blockquote>
+<a name="tag_17_130_05" id="tag_17_130_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义任何错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_130_06" id="tag_17_130_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>参见 APPLICATION USAGE。</p>
+</blockquote>
+<a name="tag_17_130_07" id="tag_17_130_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>当具有未写入缓冲数据的流被 <i>exit</i>() 刷新时，调用进程无法发现 <i>exit</i>() 是否成功地将数据写入了底层文件描述符。因此，强烈建议应用程序在调用 <i>exit</i>() 或以指示未发生错误的 <i>status</i> 值从对 <i>main</i>() 的初始调用返回时，始终确保任何流中都没有未写入的缓冲数据。</p>
+<p>例如，以下代码演示了在以状态 0 调用 <i>exit</i>() 之前确保 <i>stdout</i> 已经成功刷新的方法之一。如果刷新失败，则关闭 <i>stdout</i> 底层的文件描述符，以便 <i>exit</i>() 不会尝试重复失败的写操作。如果刷新成功，则使用 ferror() 执行最终检查，以确保在早期刷新操作期间（当时未处理）没有写错误。</p>
+<pre><code class="language-plaintext">int status = 0;
+if (fflush(stdout) != 0) {
+    perror("appname: standard output");
+    close(fileno(stdout));
+    status = 1;
+}
+else if (ferror(stdout)) {
+    fputs("appname: write error on standard output\n", stderr);
+    status = 1;
+}
+exit(status);</code></pre>
+<p>另请参见 _Exit()。</p>
+</blockquote>
+<a name="tag_17_130_08" id="tag_17_130_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>参见 _Exit()。</p>
+</blockquote>
+<a name="tag_17_130_09" id="tag_17_130_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_130_10" id="tag_17_130_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>_Exit(), at_quick_exit(), atexit(), exec, fflush(), longjmp(), quick_exit(), tmpfile(), wait(), waitid()</p>
+<p>XBD &lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_130_11" id="tag_17_130_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<a name="tag_17_130_12" id="tag_17_130_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #031，将 _Exit() 和 _exit() 函数与 <i>exit</i>() 函数分离。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #085。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0100 [594]。</p>
+</blockquote>
+<a name="tag_17_130_13" id="tag_17_130_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 610，澄清了 <i>exit</i>() 对打开流的影响。</p>
+<p>应用了 Austin Group 缺陷 1302，使此函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+<p>应用了 Austin Group 缺陷 1490，更改了 EXAMPLES 和 APPLICATION USAGE 部分。</p>
+<p>应用了 Austin Group 缺陷 1629，更改了 APPLICATION USAGE 部分。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

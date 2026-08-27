@@ -1,0 +1,20 @@
+<h1>XSH 函数导读：stat()</h1>
+
+<h2>0. 总览</h2>
+<p>stat() 获取指定文件的状态信息（inode 元数据），写入调用者提供的 stat 结构。头文件为 <code>&lt;sys/stat.h&gt;</code>；原型为 <code>int stat(const char *restrict path, struct stat *restrict buf)</code>。成功返回 0，失败返回 -1 并设置 errno。获取状态并不需要对文件本身的读、写或执行权限。</p>
+
+<h2>1. 机制</h2>
+<p>stat() 按 path 解析路径名，把结果填入 buf 指向的 stat 结构：st_mode（类型与权限）、st_ino（文件序列号）、st_dev、st_uid/st_gid、st_atim/st_ctim/st_mtim 等成员应具有有意义的值，st_nlink 为指向该文件的硬链接数。若 path 是符号链接，stat() 会沿链接内容继续路径名解析，返回目标文件的信息；写入结构前还会按 XBD 4.12 更新与时间相关的字段。对共享内存对象或类型化内存对象，实现至少需更新 st_uid、st_gid、st_size 与 st_mode。</p>
+
+<h2>2. 易错点</h2>
+<p>常见误区是以为 stat() 总能返回"最新"大小：st_size 只是调用时刻的大小，若文件正被带缓冲的 stdio 写入，未冲刷的数据不会计入。路径相关错误也要留意：任一前缀组件被拒绝搜索权限返回 EACCES；组件不存在或 path 是空字符串返回 ENOENT；符号链接成环返回 ELOOP；大文件在 32 位 off_t 上可能返回 EOVERFLOW。另外 stat() 跟随符号链接，想查链接本身须用 lstat()。由于路径可能被并发改写，规范建议基于目录描述符使用 fstatat() 以避开竞态。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/stat.h&gt;
+
+struct stat st;
+if (stat("data.txt", &amp;st) == -1)
+    return 1;
+if (S_ISREG(st.st_mode))
+    /* st.st_size 为该时刻的文件大小 */;
+</code></pre>

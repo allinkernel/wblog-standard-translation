@@ -1,0 +1,4124 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_171_01\" id=\"tag_17_171_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "fopen — open a stream",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_171_02\" id=\"tag_17_171_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdio.h.html\">stdio.h</a>&gt;<br>\n<br>\nFILE *fopen(const char *restrict</tt> <i>pathname</i><tt>, const char *restrict</tt> <i>mode</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_171_03\" id=\"tag_17_171_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]fopen[/I5]() function shall open the file whose pathname is the string pointed to by [I6]pathname[/I6], and associates a\nstream with it.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The [I7]mode[/I7] argument points to a character string. The behavior is unspecified if any character occurs more than once in the\nstring. If the string begins with one of the following characters, then the file shall be opened in the indicated mode. Otherwise,\nthe behavior is undefined.",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00008",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     3
+    ],
+    "text": "[CODE8]",
+    "placeholders": {
+     "CODE8": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'r'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00009",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     5
+    ],
+    "text": "Open file for reading.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00010",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     7
+    ],
+    "text": "[CODE9]",
+    "placeholders": {
+     "CODE9": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00011",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     9
+    ],
+    "text": "Truncate to zero length or create file for writing.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00012",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     11
+    ],
+    "text": "[CODE10]",
+    "placeholders": {
+     "CODE10": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00013",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     13
+    ],
+    "text": "Append; open or create file for writing at end-of-file.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The remainder of the string can contain any of the following characters, [S11][[A12]CX[/A12]][/S11] [IMG13] &nbsp;in any order,\n[IMG14] and further affect how the file is opened:",
+    "placeholders": {
+     "S11": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A12": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG13": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG14": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00015",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     3
+    ],
+    "text": "[CODE15]",
+    "placeholders": {
+     "CODE15": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'b'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00016",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     5
+    ],
+    "text": "[S16][[A17]CX[/A17]][/S16] [IMG18]\nThis character shall have no effect, but is allowed for ISO&nbsp;C standard conformance. [IMG19]",
+    "placeholders": {
+     "S16": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A17": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG18": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG19": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     7
+    ],
+    "text": "[CODE20]",
+    "placeholders": {
+     "CODE20": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'e'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00018",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     9
+    ],
+    "text": "[S21][[A22]CX[/A22]][/S21] [IMG23]\nThe underlying file descriptor shall have the FD_CLOEXEC flag atomically set. [IMG24]",
+    "placeholders": {
+     "S21": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A22": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG23": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG24": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00019",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     11
+    ],
+    "text": "[CODE25]",
+    "placeholders": {
+     "CODE25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00020",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     13
+    ],
+    "text": "If the first character of [I26]mode[/I26] is [CODE27] [S28][[A29]CX[/A29]][/S28] [IMG30] &nbsp;or [CODE31], [IMG32] then the function shall fail if the file already exists, or cannot be created; if the file does not\nexist and can be created, it shall be created with [S33][[A34]CX[/A34]][/S33] [IMG35] &nbsp;an implementation-defined form of [IMG36] &nbsp;exclusive (also known as non-shared) access,\n\n[S37][[A38]CX[/A38]][/S37] [IMG39] if\nsupported by the underlying file system, provided the resulting file permissions are the same as they would be without the\n[CODE40] modifier. If the first character of mode is [CODE41], the effect is implementation-defined. [IMG42] \n\n[B43]Note:[/B43]\nThe ISO&nbsp;C standard requires exclusive access &quot;to the extent that the underlying file system supports exclusive access&quot;,\nbut does not define what it means by this. Taken at face value—that systems must do whatever they are capable of, at the file\nsystem level, in order to exclude access by others—this would require POSIX.1 systems to set the file permissions in a way that\nprevents access by other users and groups. Consequently, this volume of POSIX.1-2024 does not defer to the ISO&nbsp;C standard as\nregards the &quot;exclusive access&quot; requirement.",
+    "placeholders": {
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE27": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "S28": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG30": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE31": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "IMG32": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S33": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A34": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG35": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG36": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S37": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A38": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG39": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE40": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "CODE41": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'r'</tt>"
+     },
+     "IMG42": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "B43": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00021",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     15
+    ],
+    "text": "[CODE44]",
+    "placeholders": {
+     "CODE44": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'+'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00022",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     17
+    ],
+    "text": "The file shall be opened for update (both reading and writing), rather than just reading or just writing.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "Opening a file with read mode ([CODE45] as the first character in the [I46]mode[/I46] argument) shall fail if the file does not\nexist or cannot be read.",
+    "placeholders": {
+     "CODE45": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'r'</tt>"
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "Opening a file with append mode ([CODE47] as the first character in the [I48]mode[/I48] argument) shall cause all subsequent\nwrites to the file to be forced to the then current end-of-file, regardless of intervening calls to [A49][I50]fseek[/I50]()[/A49].",
+    "placeholders": {
+     "CODE47": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A49": {
+      "open": "<a href=\"../functions/fseek.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "When a file is opened with update mode ([CODE51] in the [I52]mode[/I52] argument), both input and output can be performed on the\nassociated stream. However, the application shall ensure that output is not directly followed by input without an intervening call\nto [A53][I54]fflush[/I54]()[/A53] or to a file positioning function ([A55][I56]fseek[/I56]()[/A55], [A57][I58]fsetpos[/I58]()[/A57], or [A59][I60]rewind[/I60]()[/A59]), and input is not directly followed by output without an intervening call to a file\npositioning function, unless the input operation encounters end-of-file.",
+    "placeholders": {
+     "CODE51": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'+'</tt>"
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A53": {
+      "open": "<a href=\"../functions/fflush.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A55": {
+      "open": "<a href=\"../functions/fseek.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A57": {
+      "open": "<a href=\"../functions/fsetpos.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A59": {
+      "open": "<a href=\"../functions/rewind.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "When opened, a stream is fully buffered if and only if it can be determined not to refer to an interactive device. The error and\nend-of-file indicators for the stream shall be cleared.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "[S61][[A62]CX[/A62]][/S61] [IMG63] If\nthe first character in [I64]mode[/I64] is [CODE65] or [CODE66] and the file did not previously exist, upon successful\ncompletion, [I67]fopen[/I67]() shall mark for update the last data access, last data modification, and last file status change\ntimestamps of the file and the last file status change and last data modification timestamps of the parent directory.",
+    "placeholders": {
+     "S61": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A62": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG63": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE65": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "CODE66": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "If the first character in [I68]mode[/I68] is [CODE69] or [CODE70] and the file did not previously exist, the [I71]fopen[/I71]()\nfunction shall create a file as if it called the [A72][I73]open[/I73]()[/A72] function with a value\nappropriate for the [I74]path[/I74] argument interpreted from [I75]pathname[/I75], a value for the [I76]oflag[/I76] argument as specified\nbelow, and a value of S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH for the third argument.",
+    "placeholders": {
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE69": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "CODE70": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25
+    ],
+    "text": "If the first character in [I77]mode[/I77] is [CODE78] and the file did previously exist, upon successful completion,\n[I79]fopen[/I79]() shall mark for update the last data modification and last file status change timestamps of the file. [IMG80]",
+    "placeholders": {
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE78": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG80": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "After a successful call to the [I81]fopen[/I81]() function, the orientation of the stream shall be cleared, [S82][[A83]XSI[/A83]][/S82] [IMG84] &nbsp;the encoding\nrule shall be cleared, [IMG85] and the associated [B86]mbstate_t[/B86] object\nshall be set to describe an initial conversion state.",
+    "placeholders": {
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S82": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A83": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG84": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG85": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "B86": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29
+    ],
+    "text": "[S87][[A88]CX[/A88]][/S87] [IMG89] The\nfile descriptor associated with the opened stream shall be allocated and opened as if by a call to [A90][I91]open[/I91]()[/A90] using the following flags:",
+    "placeholders": {
+     "S87": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A88": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG89": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A90": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00032",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     3,
+     1
+    ],
+    "text": "'r'",
+    "placeholders": {},
+    "context": "行 1: 'r'"
+   },
+   {
+    "id": "td_00033",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     3,
+     3
+    ],
+    "text": "no",
+    "placeholders": {},
+    "context": "列头: fopen() Mode Includes '+'"
+   },
+   {
+    "id": "td_00034",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     3,
+     5
+    ],
+    "text": "O_RDONLY",
+    "placeholders": {},
+    "context": "列头: Initial open() Flags"
+   },
+   {
+    "id": "td_00035",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     5,
+     1
+    ],
+    "text": "'w'",
+    "placeholders": {},
+    "context": "行 2: 'w'"
+   },
+   {
+    "id": "td_00036",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     5,
+     3
+    ],
+    "text": "no",
+    "placeholders": {},
+    "context": "列头: fopen() Mode Includes '+'"
+   },
+   {
+    "id": "td_00037",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     5,
+     5
+    ],
+    "text": "O_WRONLY|O_CREAT|O_TRUNC",
+    "placeholders": {},
+    "context": "列头: Initial open() Flags"
+   },
+   {
+    "id": "td_00038",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     7,
+     1
+    ],
+    "text": "'a'",
+    "placeholders": {},
+    "context": "行 3: 'a'"
+   },
+   {
+    "id": "td_00039",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     7,
+     3
+    ],
+    "text": "no",
+    "placeholders": {},
+    "context": "列头: fopen() Mode Includes '+'"
+   },
+   {
+    "id": "td_00040",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     7,
+     5
+    ],
+    "text": "O_WRONLY|O_CREAT|O_APPEND",
+    "placeholders": {},
+    "context": "列头: Initial open() Flags"
+   },
+   {
+    "id": "td_00041",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     9,
+     1
+    ],
+    "text": "'r'",
+    "placeholders": {},
+    "context": "行 4: 'r'"
+   },
+   {
+    "id": "td_00042",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     9,
+     3
+    ],
+    "text": "yes",
+    "placeholders": {},
+    "context": "列头: fopen() Mode Includes '+'"
+   },
+   {
+    "id": "td_00043",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     9,
+     5
+    ],
+    "text": "O_RDWR",
+    "placeholders": {},
+    "context": "列头: Initial open() Flags"
+   },
+   {
+    "id": "td_00044",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     11,
+     1
+    ],
+    "text": "'w'",
+    "placeholders": {},
+    "context": "行 5: 'w'"
+   },
+   {
+    "id": "td_00045",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     11,
+     3
+    ],
+    "text": "yes",
+    "placeholders": {},
+    "context": "列头: fopen() Mode Includes '+'"
+   },
+   {
+    "id": "td_00046",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     11,
+     5
+    ],
+    "text": "O_RDWR|O_CREAT|O_TRUNC",
+    "placeholders": {},
+    "context": "列头: Initial open() Flags"
+   },
+   {
+    "id": "td_00047",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     13,
+     1
+    ],
+    "text": "'a'",
+    "placeholders": {},
+    "context": "行 6: 'a'"
+   },
+   {
+    "id": "td_00048",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     13,
+     3
+    ],
+    "text": "yes",
+    "placeholders": {},
+    "context": "列头: fopen() Mode Includes '+'"
+   },
+   {
+    "id": "td_00049",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31,
+     1,
+     13,
+     5
+    ],
+    "text": "O_RDWR|O_CREAT|O_APPEND",
+    "placeholders": {},
+    "context": "列头: Initial open() Flags"
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33
+    ],
+    "text": "If, and only if, the [CODE92] [I93]mode[/I93] string character is specified, the O_CLOEXEC flag shall be OR'ed into\nthe initial [A94][I95]open[/I95]()[/A94] flags specified in the above table.",
+    "placeholders": {
+     "CODE92": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'e'</tt>"
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A94": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     35
+    ],
+    "text": "If, and only if, the [CODE96] [I97]mode[/I97] string character is specified together with either [CODE98] or\n[CODE99], the O_EXCL flag shall be OR'ed into the initial [A100][I101]open[/I101]()[/A100] flags specified in\nthe above table.",
+    "placeholders": {
+     "CODE96": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE98": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "CODE99": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "A100": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37
+    ],
+    "text": "If [I102]mode[/I102] includes [CODE103] and the underlying file system supports exclusive access (see above) enabled\nby the use of implementation-specific flags to [A104][I105]open[/I105]()[/A104], then the behavior shall be as if\nthose flags are also included.",
+    "placeholders": {
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE103": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "A104": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     39
+    ],
+    "text": "When using [I106]mode[/I106] strings specified by this standard, the implementation shall behave as if no other flags had\nbeen passed to [A107][I108]open[/I108]()[/A107]. [IMG109]",
+    "placeholders": {
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A107": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG109": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00054",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A110][/A110]RETURN VALUE",
+    "placeholders": {
+     "A110": {
+      "open": "<a name=\"tag_17_171_04\" id=\"tag_17_171_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I111]fopen[/I111]() shall return a pointer to the object controlling the stream. Otherwise, a null\npointer shall be returned, [S112][[A113]CX[/A113]][/S112] [IMG114] &nbsp;and [I115]errno[/I115] shall be set to indicate the error. [IMG116]",
+    "placeholders": {
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S112": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A113": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG114": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG116": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00056",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A117][/A117]ERRORS",
+    "placeholders": {
+     "A117": {
+      "open": "<a name=\"tag_17_171_05\" id=\"tag_17_171_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I118]fopen[/I118]() function shall fail if:",
+    "placeholders": {
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00058",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00059",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S119][[A120]CX[/A120]][/S119] [IMG121]\nSearch permission is denied on a component of the path prefix, or the file exists and the permissions specified by [I122]mode[/I122] are\ndenied, or the file does not exist and write permission is denied for the parent directory of the file to be created. [IMG123]",
+    "placeholders": {
+     "S119": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A120": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG121": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG123": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00060",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EEXIST]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00061",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "[S124][[A125]CX[/A125]][/S124] [IMG126]\nThe [I127]mode[/I127] argument begins with [I128]w[/I128] or [I129]a[/I129] and includes [I130]x[/I130], but the file already exists. [IMG131]",
+    "placeholders": {
+     "S124": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A125": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG126": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I127": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I128": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I129": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG131": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00062",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EILSEQ]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00063",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "[S132][[A133]CX[/A133]][/S132] [IMG134]\nThe [I135]mode[/I135] argument begins with [I136]w[/I136] or [I137]a[/I137], the file did not previously exist, and the last pathname component is\nnot a portable filename and cannot be created in the target directory. [IMG138]",
+    "placeholders": {
+     "S132": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A133": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG134": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I136": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I137": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG138": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00064",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00065",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "[S139][[A140]CX[/A140]][/S139] [IMG141] A\nsignal was caught during [I142]fopen[/I142](). [IMG143]",
+    "placeholders": {
+     "S139": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A140": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG141": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I142": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG143": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00066",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EISDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00067",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "[S144][[A145]CX[/A145]][/S144] [IMG146]\nThe named file is a directory and [I147]mode[/I147] requires write access. [IMG148]",
+    "placeholders": {
+     "S144": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A145": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG146": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG148": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00068",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00069",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "[S149][[A150]CX[/A150]][/S149] [IMG151] A\nloop exists in symbolic links encountered during resolution of the [I152]pathname[/I152] argument. [IMG153]",
+    "placeholders": {
+     "S149": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A150": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG151": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I152": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG153": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00070",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00071",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "[S154][[A155]CX[/A155]][/S154] [IMG156]\nAll file descriptors available to the process are currently open. [IMG157]",
+    "placeholders": {
+     "S154": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A155": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG156": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG157": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00072",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00073",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "[S158][[A159]CX[/A159]][/S158] [IMG160]\n{STREAM_MAX} streams are currently open in the calling process. [IMG161]",
+    "placeholders": {
+     "S158": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A159": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG160": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG161": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00074",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     35
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00075",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     37
+    ],
+    "text": "[S162][[A163]CX[/A163]][/S162] [IMG164]\n\nThe length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}. [IMG165]",
+    "placeholders": {
+     "S162": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A163": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG164": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG165": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00076",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     39
+    ],
+    "text": "[ENFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00077",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     41
+    ],
+    "text": "[S166][[A167]CX[/A167]][/S166] [IMG168]\nThe maximum allowable number of files is currently open in the system. [IMG169]",
+    "placeholders": {
+     "S166": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A167": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG168": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG169": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00078",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     43
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00079",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     45
+    ],
+    "text": "[S170][[A171]CX[/A171]][/S170] [IMG172]\nThe [I173]mode[/I173] string begins with [CODE174] and a component of [I175]pathname[/I175] does not name an existing file, or [I176]mode[/I176]\nbegins with [CODE177] or [CODE178] and a component of the path prefix of [I179]pathname[/I179] does not name an existing file, or\n[I180]pathname[/I180] is an empty string. [IMG181]",
+    "placeholders": {
+     "S170": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A171": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG172": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE174": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'r'</tt>"
+     },
+     "I175": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I176": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE177": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "CODE178": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "I179": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I180": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG181": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00080",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     47
+    ],
+    "text": "[ENOENT] or [ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00081",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     49
+    ],
+    "text": "[S182][[A183]CX[/A183]][/S182] [IMG184]\n\nThe [I185]pathname[/I185] argument contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt;\ncharacters. If [I186]pathname[/I186] without the trailing &lt;slash&gt; characters would name an existing file, an [ENOENT] error shall\nnot occur. [IMG187]",
+    "placeholders": {
+     "S182": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A183": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG184": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I185": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I186": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG187": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00082",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     51
+    ],
+    "text": "[ENOSPC]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00083",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     53
+    ],
+    "text": "[S188][[A189]CX[/A189]][/S188] [IMG190]\nThe directory or file system that would contain the new file cannot be expanded, the file does not exist, and the file was to be\ncreated. [IMG191]",
+    "placeholders": {
+     "S188": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A189": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG190": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG191": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00084",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     55
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00085",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     57
+    ],
+    "text": "[S192][[A193]CX[/A193]][/S192] [IMG194] A\ncomponent of the path prefix names an existing file that is neither a directory nor a symbolic link to a directory, or the\n[I195]pathname[/I195] argument contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt;\ncharacters and the last pathname component names an existing file that is neither a directory nor a symbolic link to a directory.\n[IMG196]",
+    "placeholders": {
+     "S192": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A193": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG194": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I195": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG196": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00086",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     59
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00087",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     61
+    ],
+    "text": "[S197][[A198]CX[/A198]][/S197] [IMG199]\nThe named file is a character special or block special file, and the device associated with this special file does not exist.\n[IMG200]",
+    "placeholders": {
+     "S197": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A198": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG199": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG200": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00088",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     63
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00089",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     65
+    ],
+    "text": "[S201][[A202]CX[/A202]][/S201] [IMG203]\nThe named file is a regular file and the size of the file cannot be represented correctly in an object of type [B204]off_t[/B204].\n[IMG205]",
+    "placeholders": {
+     "S201": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A202": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG203": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "B204": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "IMG205": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00090",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     67
+    ],
+    "text": "[EROFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00091",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     69
+    ],
+    "text": "[S206][[A207]CX[/A207]][/S206] [IMG208]\nThe named file resides on a read-only file system and [I209]mode[/I209] requires write access. [IMG210]",
+    "placeholders": {
+     "S206": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A207": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG208": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I209": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG210": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I211]fopen[/I211]() function may fail if:",
+    "placeholders": {
+     "I211": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00093",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00094",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "[S212][[A213]CX[/A213]][/S212] [IMG214]\nThe value of the [I215]mode[/I215] argument is not valid. [IMG216]",
+    "placeholders": {
+     "S212": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A213": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG214": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I215": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG216": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00095",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00096",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "[S217][[A218]CX[/A218]][/S217] [IMG219]\nMore than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I220]pathname[/I220] argument. [IMG221]",
+    "placeholders": {
+     "S217": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A218": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG219": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I220": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG221": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00097",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     11
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00098",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     13
+    ],
+    "text": "[S222][[A223]CX[/A223]][/S222] [IMG224]\n{FOPEN_MAX} streams are currently open in the calling process. [IMG225]",
+    "placeholders": {
+     "S222": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A223": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG224": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG225": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00099",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     15
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00100",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     17
+    ],
+    "text": "[S226][[A227]CX[/A227]][/S226] [IMG228]\n\nThe length of a component of a pathname is longer than {NAME_MAX}. [IMG229]",
+    "placeholders": {
+     "S226": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A227": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG228": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG229": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00101",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     19
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00102",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     21
+    ],
+    "text": "[S230][[A231]CX[/A231]][/S230] [IMG232]\nInsufficient storage space is available. [IMG233]",
+    "placeholders": {
+     "S230": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A231": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG232": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG233": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00103",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     23
+    ],
+    "text": "[ETXTBSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00104",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     25
+    ],
+    "text": "[S234][[A235]CX[/A235]][/S234] [IMG236]\nThe file is a pure procedure (shared text) file that is being executed and [I237]mode[/I237] requires write access. [IMG238]",
+    "placeholders": {
+     "S234": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A235": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG236": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I237": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG238": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00105",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A239][/A239]EXAMPLES",
+    "placeholders": {
+     "A239": {
+      "open": "<a name=\"tag_17_171_06\" id=\"tag_17_171_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00106",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A240][/A240]Opening a File",
+    "placeholders": {
+     "A240": {
+      "open": "<a name=\"tag_17_171_06_01\" id=\"tag_17_171_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00107",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example tries to open the file named [B241]file[/B241] for reading. The [I242]fopen[/I242]() function returns a\nfile pointer that is used in subsequent [A243][I244]fgets[/I244]()[/A243] and [A245][I246]fclose[/I246]()[/A245] calls. If the program cannot open the file, it just ignores it.",
+    "placeholders": {
+     "B241": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I242": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A243": {
+      "open": "<a href=\"../functions/fgets.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I244": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A245": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I246": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00108",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A247][/A247]APPLICATION USAGE",
+    "placeholders": {
+     "A247": {
+      "open": "<a name=\"tag_17_171_07\" id=\"tag_17_171_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00109",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "If an application needs to create a file in a way that fails if the file already exists, and either requires that it does not\nhave exclusive access to the file or does not need exclusive access, it should use [A248][I249]open[/I249]()[/A248] with the O_CREAT and O_EXCL flags instead of using [I250]fopen[/I250]() with an [CODE251]\nin the mode. A stream can then be created, if needed, by calling [A252][I253]fdopen[/I253]()[/A252] on the file\ndescriptor returned by [A254][I255]open[/I255]()[/A254].",
+    "placeholders": {
+     "A248": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I249": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I250": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE251": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "A252": {
+      "open": "<a href=\"../functions/fdopen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I253": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A254": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I255": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00110",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A256][/A256]RATIONALE",
+    "placeholders": {
+     "A256": {
+      "open": "<a name=\"tag_17_171_08\" id=\"tag_17_171_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00111",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The [CODE257] mode character is provided as a convenience to avoid a data race in multi-threaded applications. Without it, a\nfile descriptor is leaked into a child process created by one thread in the window between another thread creating a file\ndescriptor with [I258]fopen[/I258]() and then using [A259][I260]fileno[/I260]()[/A259] and [A261][I262]fcntl[/I262]()[/A261] to set the FD_CLOEXEC flag. It is also possible to avoid the race by using [A263][I264]open[/I264]()[/A263] with O_CLOEXEC followed by [A265][I266]fdopen[/I266]()[/A265],\nhowever, there is no safe alternative for the [A267][I268]freopen[/I268]()[/A267] function, and consistency\ndictates that the [CODE269] modifier should be standardized for all functions that accept [I270]mode[/I270] strings.",
+    "placeholders": {
+     "CODE257": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'e'</tt>"
+     },
+     "I258": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A259": {
+      "open": "<a href=\"../functions/fileno.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I260": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A261": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I262": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A263": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I264": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A265": {
+      "open": "<a href=\"../functions/fdopen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I266": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A267": {
+      "open": "<a href=\"../functions/freopen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I268": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE269": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'e'</tt>"
+     },
+     "I270": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00112",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The ISO&nbsp;C standard only recognizes the [CODE271], [CODE272], and [CODE273] characters in certain\npositions of the [I274]mode[/I274] string, leaving other arrangements as unspecified, and only permits [CODE275] in [I276]mode[/I276]\nstrings beginning with [CODE277]. This standard specifically requires support for all characters other than the first in the\n[I278]mode[/I278] string to be recognized in any order. Thus, [CODE279] and [CODE280] behave the same, and while [CODE281]\nis unspecified in the ISO&nbsp;C standard, this standard requires it to have the same behavior as [CODE282]. This standard\nalso requires that [CODE283] work for [I284]mode[/I284] strings beginning with [CODE285], as well as having implementation-defined\nbehavior for [I286]mode[/I286] strings beginning with [CODE287]. Therefore, while [A288][I289]open[/I289]()[/A288]\nhas undefined behavior if O_EXCL is specified without O_CREAT, the same is not true of [I290]fopen[/I290]().",
+    "placeholders": {
+     "CODE271": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'+'</tt>"
+     },
+     "CODE272": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'b'</tt>"
+     },
+     "CODE273": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "I274": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE275": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "I276": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE277": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "I278": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE279": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"wxe\"</tt>"
+     },
+     "CODE280": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"wex\"</tt>"
+     },
+     "CODE281": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"wx+\"</tt>"
+     },
+     "CODE282": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"w+x\"</tt>"
+     },
+     "CODE283": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "I284": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE285": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "I286": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE287": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'r'</tt>"
+     },
+     "A288": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I289": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I290": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00113",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "When [CODE291] is in mode, the ISO&nbsp;C standard requires that the file is created with exclusive access to\nthe extent that the underlying system supports exclusive access. Although POSIX.1 does not specify any method of enabling exclusive\naccess, it allows for the existence of an implementation-specific flag, or flags, that enable it. Note that they should be file\ncreation flags if a file is being created, not file access mode flags (that is, ones that are included in O_ACCMODE) or file status\nflags, so that they do not affect the value returned by [A292][I293]fcntl[/I293]()[/A292] with F_GETFL. On\nimplementations that have such flags, if support for them is file system dependent and exclusive access is requested when using\n[I294]fopen[/I294]() to create a file on a file system that does not support it, the flags must not be used if they would cause\n[I295]fopen[/I295]() to fail.",
+    "placeholders": {
+     "CODE291": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "A292": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I293": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I294": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I295": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00114",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "Some implementations support mandatory file locking as a means of enabling exclusive access to a file. Locks are\nset in the normal way, but instead of only preventing others from setting conflicting locks they prevent others from accessing the\ncontents of the locked part of the file in a way that conflicts with the lock. However, unless the implementation has a way of\nsetting a whole-file write lock on file creation, this does not satisfy the requirement in the ISO&nbsp;C standard that the file is\n&quot;created with exclusive access to the extent that the underlying system supports exclusive access&quot;. (Having [I296]fopen[/I296]() create\nthe file and set a lock on the file as two separate operations is not the same, and it would introduce a race condition whereby\nanother process could open the file and write to it (or set a lock) in between the two operations.) However, on all implementations\nthat support mandatory file locking, its use is discouraged; therefore, it is recommended that implementations which support\nmandatory file locking do not add a means of creating a file with a whole-file exclusive lock set, so that [I297]fopen[/I297]() is not\nrequired to enable mandatory file locking in order to conform to the ISO&nbsp;C standard. An implementation that has a means of\ncreating a file with a whole-file exclusive lock set would need to provide a way to change the behavior of [I298]fopen[/I298]() depending\non whether the calling process is executing in a POSIX.1 conforming environment or an ISO C conforming environment.",
+    "placeholders": {
+     "I296": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I297": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I298": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00115",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "The typical implementation-defined behavior for mode [CODE299] is to ignore the [CODE300], but the standard\ndevelopers did not wish to mandate this behavior. For example, an implementation could allow shared access for reading; that is,\ndisallow a file that has been opened this way from also being opened for writing.",
+    "placeholders": {
+     "CODE299": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"rx\"</tt>"
+     },
+     "CODE300": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00116",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "Implementations are encouraged to have [I301]fopen[/I301]() and [A302][I303]freopen[/I303]()[/A302]\nreport an [EILSEQ] error if [I304]mode[/I304] begins with [CODE305] or [CODE306], the file did not previously exist, and the last\ncomponent of [I307]pathname[/I307] contains any bytes that have the encoded value of a &lt;newline&gt; character.",
+    "placeholders": {
+     "I301": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A302": {
+      "open": "<a href=\"../functions/freopen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I303": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I304": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE305": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'w'</tt>"
+     },
+     "CODE306": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'a'</tt>"
+     },
+     "I307": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00117",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A308][/A308]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A308": {
+      "open": "<a name=\"tag_17_171_09\" id=\"tag_17_171_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00118",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00119",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A309][/A309]SEE ALSO",
+    "placeholders": {
+     "A309": {
+      "open": "<a name=\"tag_17_171_10\" id=\"tag_17_171_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00120",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A310][I311]2.5 Standard I/O Streams[/I311][/A310], [A312][I313]creat[/I313]()[/A312], [A314][I315]fclose[/I315]()[/A314], [A316][I317]fdopen[/I317]()[/A316], [A318][I319]fmemopen[/I319]()[/A318], [A320][I321]freopen[/I321]()[/A320], [A322][I323]open_memstream[/I323]()[/A322]",
+    "placeholders": {
+     "A310": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I311": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A312": {
+      "open": "<a href=\"../functions/creat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I313": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A314": {
+      "open": "<a href=\"../functions/fclose.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I315": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A316": {
+      "open": "<a href=\"../functions/fdopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I317": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A318": {
+      "open": "<a href=\"../functions/fmemopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I319": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A320": {
+      "open": "<a href=\"../functions/freopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I321": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A322": {
+      "open": "<a href=\"../functions/open_memstream.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I323": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00121",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A324][I325]&lt;stdio.h&gt;[/I325][/A324]",
+    "placeholders": {
+     "A324": {
+      "open": "<a href=\"../basedefs/stdio.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I325": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00122",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A326][/A326]CHANGE HISTORY",
+    "placeholders": {
+     "A326": {
+      "open": "<a name=\"tag_17_171_11\" id=\"tag_17_171_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00123",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00124",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A327][/A327]Issue 5",
+    "placeholders": {
+     "A327": {
+      "open": "<a name=\"tag_17_171_12\" id=\"tag_17_171_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00125",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00126",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A328][/A328]Issue 6",
+    "placeholders": {
+     "A328": {
+      "open": "<a name=\"tag_17_171_13\" id=\"tag_17_171_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00127",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00128",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX\nSpecification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00129",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1
+    ],
+    "text": "In the DESCRIPTION, text is added to indicate setting of the offset maximum in the open file description. This\nchange is to support large files.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00130",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     3
+    ],
+    "text": "In the ERRORS section, the [EOVERFLOW] condition is added. This change is to support large files.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00131",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     5
+    ],
+    "text": "The [ELOOP] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00132",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     7
+    ],
+    "text": "The [EINVAL], [EMFILE], [ENAMETOOLONG], [ENOMEM], and [ETXTBSY] optional error conditions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00133",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00134",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The following changes are made for alignment with the ISO/IEC&nbsp;9899:1999 standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00135",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11,
+     1
+    ],
+    "text": "The prototype for [I329]fopen[/I329]() is updated.",
+    "placeholders": {
+     "I329": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "li_00136",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11,
+     3
+    ],
+    "text": "The DESCRIPTION is updated to note that if the argument [I330]mode[/I330] points to a string other than those listed,\nthen the behavior is undefined.",
+    "placeholders": {
+     "I330": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00137",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "The wording of the mandatory [ELOOP] error condition is updated, and a second optional [ELOOP] error condition is\nadded.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00138",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A331][/A331]Issue 7",
+    "placeholders": {
+     "A331": {
+      "open": "<a name=\"tag_17_171_14\" id=\"tag_17_171_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00139",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #025 is applied, clarifying the file creation mode.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00140",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00141",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #159 is applied, clarifying requirements for the flags set on the open file\ndescription.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00142",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "SD5-XBD-ERN-4 is applied, changing the definition of the [EMFILE] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00143",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "SD5-XSH-ERN-149 is applied, changing the {STREAM_MAX} [EMFILE] error condition from a &quot;may fail&quot; to a &quot;shall\nfail&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00144",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00145",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0156 [291,433], XSH/TC1-2008/0157 [146,433], XSH/TC1-2008/0158\n[324], and XSH/TC1-2008/0159 [14] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00146",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     15
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0122 [822] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00147",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A332][/A332]Issue 8",
+    "placeholders": {
+     "A332": {
+      "open": "<a name=\"tag_17_171_15\" id=\"tag_17_171_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00148",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 251 is applied, encouraging implementations to disallow the creation of filenames containing any bytes that\nhave the encoded value of a &lt;newline&gt; character.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00149",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 293 is applied, adding the [EILSEQ] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00150",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defects 411 and 1524 are applied, adding the [CODE333] and [CODE334] [I335]mode[/I335] string\ncharacters.",
+    "placeholders": {
+     "CODE333": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'e'</tt>"
+     },
+     "CODE334": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'x'</tt>"
+     },
+     "I335": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00151",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defect 1200 is applied, correcting the argument name in the [ELOOP] errors.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00152",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     9
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00153",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

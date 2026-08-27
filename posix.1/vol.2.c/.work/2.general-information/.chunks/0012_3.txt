@@ -1,0 +1,30 @@
+# start_index 81
+[td_01432] ctx="列头: Description" Integer or structure type of an object used to represent sets of signals.
+[td_01433] ctx="行 40: [B1884]size_t[/B1884]" [B1884]size_t[/B1884]
+[td_01434] ctx="列头: Description" Unsigned integer type used for size of objects.
+[td_01435] ctx="行 41: [B1885]speed_t[/B1885]" [B1885]speed_t[/B1885]
+[td_01436] ctx="列头: Description" Type used for terminal baud rates.
+[td_01437] ctx="行 42: [B1886]ssize_t[/B1886]" [B1886]ssize_t[/B1886]
+[td_01438] ctx="列头: Description" Signed integer type used for a count of bytes or an error indication.
+[td_01439] ctx="行 43: [B1887]suseconds_t[/B1887]" [B1887]suseconds_t[/B1887]
+[td_01440] ctx="列头: Description" Signed integer type used for time in microseconds.
+[td_01441] ctx="行 44: [B1888]tcflag_t[/B1888]" [B1888]tcflag_t[/B1888]
+[td_01442] ctx="列头: Description" Type used for terminal modes.
+[td_01443] ctx="行 45: [B1889]time_t[/B1889]" [B1889]time_t[/B1889]
+[td_01444] ctx="列头: Description" Integer type used for time in seconds, as defined in the ISO&nbsp;C standard.
+[td_01445] ctx="行 46: [B1890]timer_t[/B1890]" [B1890]timer_t[/B1890]
+[td_01446] ctx="列头: Description" Used for timer ID returned by the [I1891]timer_create[/I1891]() function.
+[td_01447] ctx="行 47: [B1892]uid_t[/B1892]" [B1892]uid_t[/B1892]
+[td_01448] ctx="列头: Description" Integer type used for user IDs.
+[td_01449] ctx="行 48: [B1893]va_list[/B1893]" [B1893]va_list[/B1893]
+[td_01450] ctx="列头: Description" Type used for traversing variable argument lists.
+[td_01451] ctx="行 49: [B1894]wchar_t[/B1894]" [B1894]wchar_t[/B1894]
+[td_01452] ctx="列头: Description" Integer type whose range of values can represent distinct codes for all members of the largest extended character set specified by the supported locales.
+[td_01453] ctx="行 50: [B1895]wctype_t[/B1895]" [B1895]wctype_t[/B1895]
+[td_01454] ctx="列头: Description" Scalar type which represents a character class descriptor.
+[td_01455] ctx="行 51: [B1896]wint_t[/B1896]" [B1896]wint_t[/B1896]
+[td_01456] ctx="列头: Description" Integer type capable of storing any valid value of [B1897]wchar_t[/B1897] or WEOF.
+[td_01457] ctx="行 52: [B1898]wordexp_t[/B1898]" [B1898]wordexp_t[/B1898]
+[td_01458] ctx="列头: Description" Structure type used in word expansion.
+[h4_01459] [A1899][/A1899]2.11.2 The char Type
+[p_01460] The type [B1900]char[/B1900] is defined as a single byte; see XBD [A1901][I1902]3. Definitions[/I1902][/A1901] (Byte and Character).

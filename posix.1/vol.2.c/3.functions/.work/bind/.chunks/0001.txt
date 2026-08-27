@@ -1,0 +1,101 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] bind — bind a name to a socket
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]bind[/I5]() function shall assign a local socket address [I6]address[/I6] to a socket identified by descriptor [I7]socket[/I7] that has no local socket address assigned. Sockets created with the [A8][I9]socket[/I9]()[/A8] function are initially unnamed; they are identified only by their address family.
+[p_00007] The [I10]bind[/I10]() function takes the following arguments:
+[dt_00008] [I11]socket[/I11]
+[dd_00009] Specifies the file descriptor of the socket to be bound.
+[dt_00010] [I12]address[/I12]
+[dd_00011] Points to a [B13]sockaddr[/B13] structure containing the address to be bound to the socket. The length and format of the address depend on the address family of the socket.
+[dt_00012] [I14]address_len[/I14]
+[dd_00013] Specifies the length of the [B15]sockaddr[/B15] structure pointed to by the [I16]address[/I16] argument.
+[p_00014] The socket specified by [I17]socket[/I17] may require the process to have appropriate privileges to use the [I18]bind[/I18]() function.
+[p_00015] If the address family of the socket is AF_UNIX, the application shall ensure that a null terminator after the pathname is included in the [I19]sun_path[/I19] member of [I20]address[/I20] as a [B21]sockaddr_un[/B21] structure, and that [I22]address_len[/I22] is at least [CODE23] plus the length of the pathname. If the pathname in the [I24]sun_path[/I24] member of [I25]address[/I25] names an existing file, including a symbolic link, [I26]bind[/I26]() shall treat the address as already in use; see ERRORS below.
+[p_00016] If the socket address cannot be assigned immediately and O_NONBLOCK is set for the file descriptor for the socket, [I27]bind[/I27]() shall fail and set [I28]errno[/I28] to [EINPROGRESS], but the assignment request shall not be aborted, and the assignment shall be completed asynchronously. Subsequent calls to [I29]bind[/I29]() for the same socket, before the assignment is completed, shall fail and set [I30]errno[/I30] to [EALREADY].
+[p_00017] When the assignment has been performed asynchronously, [A31][I32]pselect[/I32]()[/A31], [A33][I34]select[/I34]()[/A33], [A35][I36]poll[/I36]()[/A35], and [A37][I38]ppoll[/I38]()[/A37] shall indicate that the file descriptor for the socket is ready for reading and writing.
+[h4_00018] [A39][/A39]RETURN VALUE
+[p_00019] Upon successful completion, [I40]bind[/I40]() shall return 0; otherwise, -1 shall be returned and [I41]errno[/I41] set to indicate the error.
+[h4_00020] [A42][/A42]ERRORS
+[p_00021] The [I43]bind[/I43]() function shall fail if:
+[dt_00022] [EADDRINUSE]
+[dd_00023] The specified address is already in use.
+[dt_00024] [EADDRNOTAVAIL]
+[dd_00025] The specified address is not available from the local machine.
+[dt_00026] [EAFNOSUPPORT]
+[dd_00027] The specified address is not a valid address for the address family of the specified socket.
+[dt_00028] [EALREADY]
+[dd_00029] An assignment request is already in progress for the specified socket.
+[dt_00030] [EBADF]
+[dd_00031] The [I44]socket[/I44] argument is not a valid file descriptor.
+[dt_00032] [EINPROGRESS]
+[dd_00033] O_NONBLOCK is set for the file descriptor for the socket and the assignment cannot be immediately performed; the assignment shall be performed asynchronously.
+[dt_00034] [EINVAL]
+[dd_00035] The socket is already bound to an address, and the protocol does not support binding to a new address; or the socket has been shut down.
+[dt_00036] [ENOBUFS]
+[dd_00037] Insufficient resources were available to complete the call.
+[dt_00038] [ENOTSOCK]
+[dd_00039] The [I45]socket[/I45] argument does not refer to a socket.
+[dt_00040] [EOPNOTSUPP]
+[dd_00041] The socket type of the specified socket does not support binding to an address.
+[p_00042] If the address family of the socket is AF_UNIX, then [I46]bind[/I46]() shall fail if:
+[dt_00043] [EACCES]
+[dd_00044] A component of the path prefix denies search permission, or the requested name requires writing in a directory with a mode that denies write permission.
+[dt_00045] [EDESTADDRREQ] or [EISDIR]
+[dd_00046] The [I47]address[/I47] argument is a null pointer.
+[dt_00047] [EILSEQ]
+[dd_00048] The last pathname component is not a portable filename, and cannot be created in the target directory.
+[dt_00049] [EIO]
+[dd_00050] An I/O error occurred.
+[dt_00051] [ELOOP]
+[dd_00052] A loop exists in symbolic links encountered during resolution of the pathname in [I48]address[/I48].
+[dt_00053] [ENAMETOOLONG]
+[dd_00054] The length of a component of a pathname is longer than {NAME_MAX}.
+[dt_00055] [ENOENT]
+[dd_00056] A component of the path prefix of the pathname in [I49]address[/I49] does not name an existing file or the pathname is an empty string.
+[dt_00057] [ENOENT] or [ENOTDIR]
+[dd_00058] The pathname in [I50]address[/I50] contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters. If the pathname without the trailing &lt;slash&gt; characters would name an existing file, an [ENOENT] error shall not occur.
+[dt_00059] [ENOTDIR]
+[dd_00060] A component of the path prefix of the pathname in [I51]address[/I51] names an existing file that is neither a directory nor a symbolic link to a directory, or the pathname in [I52]address[/I52] contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters and the last pathname component names an existing file that is neither a directory nor a symbolic link to a directory.
+[dt_00061] [EROFS]
+[dd_00062] The name would reside on a read-only file system.
+[p_00063] The [I53]bind[/I53]() function may fail if:
+[dt_00064] [EACCES]
+[dd_00065] The specified address is protected and the current user does not have permission to bind to it.
+[dt_00066] [EINVAL]
+[dd_00067] The [I54]address_len[/I54] argument is not a valid length for the address family.
+[dt_00068] [EISCONN]
+[dd_00069] The socket is already connected.
+[dt_00070] [ELOOP]
+[dd_00071] More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the pathname in [I55]address[/I55].
+[dt_00072] [ENAMETOOLONG]
+[dd_00073] The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a length that exceeds {PATH_MAX}.
+[h4_00074] [A56][/A56]EXAMPLES
+[p_00075] The following code segment shows how to create a socket and bind it to a name in the AF_UNIX domain.
+[h4_00076] [A57][/A57]APPLICATION USAGE
+[p_00077] An application program can retrieve the assigned socket name with the [A58][I59]getsockname[/I59]()[/A58] function.
+[p_00078] For AF_UNIX sockets, some implementations support an extension where [I60]address_len[/I60] does not have to include a null terminator for the pathname stored in [I61]sun_path[/I61], which in turn allows a pathname to be one byte longer. However, such usage is not portable, and carries a risk of accessing beyond the intended bounds of the pathname length.
+[h4_00079] [A62][/A62]RATIONALE
+[p_00080] Implementations are encouraged to have [I63]bind[/I63]() report an [EILSEQ] error if the last component of the address to be bound to an AF_UNIX family socket contains any bytes that have the encoded value of a &lt;newline&gt; character.
+[h4_00081] [A64][/A64]FUTURE DIRECTIONS
+[p_00082] None.
+[h4_00083] [A65][/A65]SEE ALSO
+[p_00084] [A66][I67]connect[/I67]()[/A66], [A68][I69]getsockname[/I69]()[/A68], [A70][I71]listen[/I71]()[/A70], [A72][I73]socket[/I73]()[/A72]
+[p_00085] XBD [A74][I75]&lt;sys/socket.h&gt;[/I75][/A74]
+[h4_00086] [A76][/A76]CHANGE HISTORY
+[p_00087] First released in Issue 6. Derived from the XNS, Issue 5.2 specification.
+[h4_00088] [A77][/A77]Issue 7
+[p_00089] Austin Group Interpretation 1003.1-2001 #044 is applied, changing the &quot;may fail&quot; [ENOBUFS] error to become a &quot;shall fail&quot; error.
+[p_00090] Austin Group Interpretation 1003.1-2001 #143 is applied.
+[p_00091] SD5-XSH-ERN-185 is applied.
+[p_00092] An example is added.
+[p_00093] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0042 [146], XSH/TC1-2008/0043 [146], and XSH/TC1-2008/0044 [324] are applied.
+[p_00094] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0050 [822] is applied.
+[h4_00095] [A78][/A78]Issue 8
+[p_00096] Austin Group Defect 251 is applied, encouraging implementations to disallow the creation of filenames containing any bytes that have the encoded value of a &lt;newline&gt; character.
+[p_00097] Austin Group Defects 293 and 1482 are applied, adding the [EILSEQ] error.
+[p_00098] Austin Group Defect 561 is applied, changing the requirements for the [I79]sun_path[/I79] member of the [B80]sockaddr_un[/B80] structure.
+[p_00099] Austin Group Defect 1263 is applied, adding [A81][I82]ppoll[/I82]()[/A81].
+[p_00100] Austin Group Defect 1605 is applied, clarifying how the [EADDRINUSE] error applies to AF_UNIX sockets.
+[p_00101] &nbsp;

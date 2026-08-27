@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：malloc()</h1>
+
+<h2>0. 总览</h2>
+<p><code>malloc()</code> 是内存分配器：按指定字节数从堆中分配未初始化的空间，成功时返回指向所分配空间起始位置（最低字节地址）的指针。头文件为 <code>&lt;stdlib.h&gt;</code>。原型关键点：<code>void *malloc(size_t size)</code>——参数只有字节数 <code>size</code>，返回值是 <code>void *</code>，可赋给任何对象指针类型；若无法分配则返回空指针并设置 <code>errno</code> 为 [ENOMEM]（存储空间不足）。注意：返回指针满足基础对齐要求，可安全地用于访问任何基础对齐类型的对象。</p>
+
+<h2>1. 机制</h2>
+<p>分配的核心行为：<code>malloc()</code> 在堆上划出一块"未使用的空间"，大小由 <code>size</code> 指定，但分配到的存储内容的值未指定——即不初始化。对 <code>malloc()</code> 的连续调用所分配存储的顺序与连续性未指定；每次成功分配产生的对象与其他任何对象不相交，因此不同分配的存储互不重叠。分配请求大小为 0 时行为是实现定义的：要么返回空指针，要么行为如同请求了某个非零大小——但若用返回的指针访问对象，则行为未定义。分配/释放同一内存区域的 <code>malloc()</code>、<code>free()</code>、<code>calloc()</code>、<code>realloc()</code> 等调用按单一全序发生，每次释放与该顺序中的下一次分配同步，这为数据竞争检测提供了依据。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是 <code>malloc()</code> 不初始化内存，读未写入的字节得到的是不确定值；二是每次调用后都必须检查返回值是否为空指针，失败时返回 NULL 且设 <code>errno</code>，直接解引用会崩溃；三是分配的字节数与 sizeof 混淆，例如 <code>malloc(n)</code> 应为 <code>malloc(n * sizeof(int))</code>；四是成功分配后必须配对 <code>free()</code>，否则泄漏；五是 size 为 0 时返回的指针不能用于访问对象，也不能据此判断成败。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int *p = malloc(10 * sizeof(int));
+    if (p == NULL) {
+        perror("malloc");
+        return 1;
+    }
+    p[0] = 42;              /* 分配后必须先赋值再读取 */
+    printf("%d\n", p[0]);
+    free(p);                /* 使用完毕释放，防止泄漏 */
+    return 0;
+}</code></pre>

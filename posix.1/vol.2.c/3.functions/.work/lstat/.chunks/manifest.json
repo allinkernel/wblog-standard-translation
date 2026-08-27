@@ -1,0 +1,2350 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_190_01\" id=\"tag_17_190_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "fstatat, lstat, stat — get file status",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_190_02\" id=\"tag_17_190_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt><sup>[<a href=\"javascript:open_code('OH')\">OH</a>]</sup> <img src=\"../images/opt-start.gif\" border=\"0\">#include\n&lt;fcntl.h&gt;<img src=\"../images/opt-end.gif\" border=\"0\"><br>\n#include &lt;<a href=\"../basedefs/sys_stat.h.html\">sys/stat.h</a>&gt;<br>\n<br>\nint fstatat(int fd, const char *restrict</tt> <i>path</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct stat *restrict</tt> <i>buf</i><tt>, int</tt> <i>flag</i><tt>);<br>\nint lstat(const char *restrict</tt> <i>path</i><tt>, struct stat *restrict</tt> <i>buf</i><tt>);<br>\nint stat(const char *restrict</tt> <i>path</i><tt>, struct stat *restrict</tt> <i>buf</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_190_03\" id=\"tag_17_190_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]stat[/I5]() function shall obtain information about the named file and write it to the area pointed to by the [I6]buf[/I6]\nargument. The [I7]path[/I7] argument points to a pathname naming a file. Read, write, or execute permission of the named file is not\nrequired. An implementation that provides additional or alternate file access control mechanisms may, under implementation-defined\nconditions, cause [I8]stat[/I8]() to fail. In particular, the system may deny the existence of the file specified by [I9]path[/I9].",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "If the named file is a symbolic link, the [I10]stat[/I10]() function shall continue pathname resolution using the contents of the\nsymbolic link, and shall return information pertaining to the resulting file if the file exists.",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The [I11]buf[/I11] argument is a pointer to a [B12]stat[/B12] structure, as defined in the [A13][I14]&lt;sys/stat.h&gt;[/I14][/A13] header, into which information is placed concerning the file.",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B12": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A13": {
+      "open": "<a href=\"../basedefs/sys_stat.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The [I15]stat[/I15]() function shall update any time-related fields (as described in XBD [A16][I17]4.12 File Times Update[/I17][/A16]), before writing into the [B18]stat[/B18] structure.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A16": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_12\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B18": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "[S19][[A20]SHM[/A20]][/S19] [IMG21]\nIf the named file is a shared memory object, the implementation shall update in the [B22]stat[/B22] structure pointed to by the\n[I23]buf[/I23] argument the [I24]st_uid[/I24], [I25]st_gid[/I25], [I26]st_size[/I26], and [I27]st_mode[/I27] fields, and only the S_IRUSR, S_IWUSR,\nS_IRGRP, S_IWGRP, S_IROTH, and S_IWOTH file permission bits need be valid. The implementation may update other fields and flags.\n[IMG28]",
+    "placeholders": {
+     "S19": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A20": {
+      "open": "<a href=\"javascript:open_code(&#x27;SHM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG21": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "B22": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG28": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "[S29][[A30]TYM[/A30]][/S29] [IMG31]\nIf the named file is a typed memory object, the implementation shall update in the [B32]stat[/B32] structure pointed to by the\n[I33]buf[/I33] argument the [I34]st_uid[/I34], [I35]st_gid[/I35], [I36]st_size[/I36], and [I37]st_mode[/I37] fields, and only the S_IRUSR, S_IWUSR,\nS_IRGRP, S_IWGRP, S_IROTH, and S_IWOTH file permission bits need be valid. The implementation may update other fields and flags.\n[IMG38]",
+    "placeholders": {
+     "S29": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A30": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG31": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "B32": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG38": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "For all other file types defined in this volume of POSIX.1-2024, the structure members [I39]st_mode[/I39], [I40]st_ino[/I40],\n[I41]st_dev[/I41], [I42]st_uid[/I42], [I43]st_gid[/I43], [I44]st_atim[/I44], [I45]st_ctim[/I45], and [I46]st_mtim[/I46] shall have meaningful values and\nthe value of the member [I47]st_nlink[/I47] shall be set to the number of hard links to the file.",
+    "placeholders": {
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "The [I48]lstat[/I48]() function shall be equivalent to [I49]stat[/I49](), except when [I50]path[/I50] refers to a symbolic link. In that\ncase [I51]lstat[/I51]() shall return information about the link, while [I52]stat[/I52]() shall return information about the file the link\nreferences.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "For symbolic links, the [I53]st_mode[/I53] member shall contain meaningful information when used with the file type macros. The file\nmode bits in [I54]st_mode[/I54] are unspecified. The structure members [I55]st_ino[/I55], [I56]st_dev[/I56], [I57]st_uid[/I57], [I58]st_gid[/I58],\n[I59]st_atim[/I59], [I60]st_ctim[/I60], and [I61]st_mtim[/I61] shall have meaningful values and the value of the [I62]st_nlink[/I62] member shall\nbe set to the number of hard links to the symbolic link. The value of the [I63]st_size[/I63] member shall be set to the length of the\npathname contained in the symbolic link not including any terminating null byte.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "The [I64]fstatat[/I64]() function shall be equivalent to the [I65]stat[/I65]() or [I66]lstat[/I66]() function, depending on the value of\n[I67]flag[/I67] (see below), except in the case where [I68]path[/I68] specifies a relative path. In this case the status shall be retrieved\nfrom a file relative to the directory associated with the file descriptor [I69]fd[/I69] instead of the current working directory. If\nthe access mode of the open file description associated with the file descriptor is not O_SEARCH, the function shall check whether\ndirectory searches are permitted using the current permissions of the directory underlying the file descriptor. If the access mode\nis O_SEARCH, the function shall not perform the check.",
+    "placeholders": {
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "Values for [I70]flag[/I70] are constructed by a bitwise-inclusive OR of flags from the following list, defined in [A71][I72]&lt;fcntl.h&gt;[/I72][/A71]:",
+    "placeholders": {
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A71": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     3
+    ],
+    "text": "AT_SYMLINK_NOFOLLOW",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00018",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     5
+    ],
+    "text": "If [I73]path[/I73] names a symbolic link, the status of the symbolic link is returned.",
+    "placeholders": {
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25
+    ],
+    "text": "If [I74]fstatat[/I74]() is passed the special value AT_FDCWD in the [I75]fd[/I75] parameter, the current working directory shall be used\nand the behavior shall be identical to a call to [I76]stat[/I76]() or [I77]lstat[/I77]() respectively, depending on whether or not the\nAT_SYMLINK_NOFOLLOW bit is set in [I78]flag[/I78].",
+    "placeholders": {
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00020",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A79][/A79]RETURN VALUE",
+    "placeholders": {
+     "A79": {
+      "open": "<a name=\"tag_17_190_04\" id=\"tag_17_190_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, these functions shall return 0. Otherwise, these functions shall return -1 and set [I80]errno[/I80] to\nindicate the error.",
+    "placeholders": {
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00022",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A81][/A81]ERRORS",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_190_05\" id=\"tag_17_190_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "These functions shall fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "Search permission is denied for a component of the path prefix.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "An error occurred while reading from the file system.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00029",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "A loop exists in symbolic links encountered during resolution of the [I82]path[/I82] argument.",
+    "placeholders": {
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00030",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00031",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "The length of a component of a pathname is longer than {NAME_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00032",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00033",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "A component of [I83]path[/I83] does not name an existing file or [I84]path[/I84] is an empty string.",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00034",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00035",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "A component of the path prefix names an existing file that is neither a directory nor a symbolic link to a directory, or the\n[I85]path[/I85] argument contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters\nand the last pathname component names an existing file that is neither a directory nor a symbolic link to a directory.",
+    "placeholders": {
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00036",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00037",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "The file size in bytes or the number of blocks allocated to the file or the file serial number cannot be represented correctly\nin the structure pointed to by [I86]buf[/I86].",
+    "placeholders": {
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I87]fstatat[/I87]() function shall fail if:",
+    "placeholders": {
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00039",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00040",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The access mode of the open file description associated with [I88]fd[/I88] is not O_SEARCH and the permissions of the directory\nunderlying [I89]fd[/I89] do not permit directory searches.",
+    "placeholders": {
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00041",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00042",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "The [I90]path[/I90] argument does not specify an absolute path and the [I91]fd[/I91] argument is neither AT_FDCWD nor a valid file\ndescriptor open for reading or searching.",
+    "placeholders": {
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00043",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     11
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00044",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     13
+    ],
+    "text": "The [I92]path[/I92] argument is not an absolute path and [I93]fd[/I93] is a file descriptor associated with a non-directory file.",
+    "placeholders": {
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "These functions may fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00046",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00047",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I94]path[/I94] argument.",
+    "placeholders": {
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00048",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     7
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00049",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     9
+    ],
+    "text": "The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00050",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     11
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00051",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     13
+    ],
+    "text": "A value to be stored would overflow one of the members of the [B95]stat[/B95] structure.",
+    "placeholders": {
+     "B95": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15
+    ],
+    "text": "The [I96]fstatat[/I96]() function may fail if:",
+    "placeholders": {
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00053",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     17,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00054",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     17,
+     5
+    ],
+    "text": "The value of the [I97]flag[/I97] argument is not valid.",
+    "placeholders": {
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00055",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A98][/A98]EXAMPLES",
+    "placeholders": {
+     "A98": {
+      "open": "<a name=\"tag_17_190_06\" id=\"tag_17_190_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00056",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A99][/A99]Obtaining File Status Information",
+    "placeholders": {
+     "A99": {
+      "open": "<a name=\"tag_17_190_06_01\" id=\"tag_17_190_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example shows how to obtain file status information for a file named [B100]/home/cnd/mod1[/B100]. The structure variable\n[I101]buffer[/I101] is defined for the [B102]stat[/B102] structure.",
+    "placeholders": {
+     "B100": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B102": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00058",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     7
+    ],
+    "text": "[A103][/A103]Getting Directory Information",
+    "placeholders": {
+     "A103": {
+      "open": "<a name=\"tag_17_190_06_02\" id=\"tag_17_190_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     9
+    ],
+    "text": "The following example fragment gets status information for each entry in a directory. The call to the [I104]stat[/I104]() function\nstores file information in the [B105]stat[/B105] structure pointed to by [I106]statbuf[/I106]. The lines that follow the [I107]stat[/I107]() call\nformat the fields in the [B108]stat[/B108] structure for presentation to the user of the program.",
+    "placeholders": {
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B105": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B108": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00060",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     13
+    ],
+    "text": "[A109][/A109]Obtaining Symbolic Link Status Information",
+    "placeholders": {
+     "A109": {
+      "open": "<a name=\"tag_17_190_06_03\" id=\"tag_17_190_06_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00061",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     15
+    ],
+    "text": "The following example shows how to obtain status information for a symbolic link named [B110]/modules/pass1[/B110]. The structure\nvariable [I111]buffer[/I111] is defined for the [B112]stat[/B112] structure. If the [I113]path[/I113] argument specified the pathname for the file\npointed to by the symbolic link ([B114]/home/cnd/mod1[/B114]), the results of calling the function would be the same as those returned by\na call to the [I115]stat[/I115]() function.",
+    "placeholders": {
+     "B110": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B112": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I113": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B114": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00062",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A116][/A116]APPLICATION USAGE",
+    "placeholders": {
+     "A116": {
+      "open": "<a name=\"tag_17_190_07\" id=\"tag_17_190_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00064",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A117][/A117]RATIONALE",
+    "placeholders": {
+     "A117": {
+      "open": "<a name=\"tag_17_190_08\" id=\"tag_17_190_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The intent of the paragraph describing &quot;additional or alternate file access control mechanisms&quot; is to allow a secure\nimplementation where a process with a label that does not dominate the file's label cannot perform a [I118]stat[/I118]() function. This\nis not related to read permission; a process with a label that dominates the file's label does not need read permission. An\nimplementation that supports write-up operations could fail [A119][I120]fstat[/I120]()[/A119] function calls\neven though it has a valid file descriptor open for writing.",
+    "placeholders": {
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A119": {
+      "open": "<a href=\"../functions/fstat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The purpose of the [I121]fstatat[/I121]() function is to obtain the status of files in directories other than the current working\ndirectory without exposure to race conditions. Any part of the path of a file could be changed in parallel to a call to\n[I122]stat[/I122](), resulting in unspecified behavior. By opening a file descriptor for the target directory and using the\n[I123]fstatat[/I123]() function it can be guaranteed that the file for which status is returned is located relative to the desired\ndirectory.",
+    "placeholders": {
+     "I121": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I123": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00067",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A124][/A124]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A124": {
+      "open": "<a name=\"tag_17_190_09\" id=\"tag_17_190_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00068",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00069",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A125][/A125]SEE ALSO",
+    "placeholders": {
+     "A125": {
+      "open": "<a name=\"tag_17_190_10\" id=\"tag_17_190_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00070",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A126][I127]access[/I127]()[/A126], [A128][I129]chmod[/I129]()[/A128],\n[A130][I131]fdopendir[/I131]()[/A130], [A132][I133]fstat[/I133]()[/A132], [A134][I135]mknod[/I135]()[/A134], [A136][I137]readlink[/I137]()[/A136], [A138][I139]symlink[/I139]()[/A138]",
+    "placeholders": {
+     "A126": {
+      "open": "<a href=\"../functions/access.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I127": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A128": {
+      "open": "<a href=\"../functions/chmod.html#tag_17_72\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I129": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A130": {
+      "open": "<a href=\"../functions/fdopendir.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A132": {
+      "open": "<a href=\"../functions/fstat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I133": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A134": {
+      "open": "<a href=\"../functions/mknod.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A136": {
+      "open": "<a href=\"../functions/readlink.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I137": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A138": {
+      "open": "<a href=\"../functions/symlink.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I139": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A140][I141]4.12 File Times Update[/I141][/A140], [A142][I143]&lt;fcntl.h&gt;[/I143][/A142], [A144][I145]&lt;sys/stat.h&gt;[/I145][/A144],\n[A146][I147]&lt;sys/types.h&gt;[/I147][/A146]",
+    "placeholders": {
+     "A140": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_12\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I141": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A142": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I143": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A144": {
+      "open": "<a href=\"../basedefs/sys_stat.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I145": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A146": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00072",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A148][/A148]CHANGE HISTORY",
+    "placeholders": {
+     "A148": {
+      "open": "<a name=\"tag_17_190_11\" id=\"tag_17_190_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00074",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A149][/A149]Issue 5",
+    "placeholders": {
+     "A149": {
+      "open": "<a name=\"tag_17_190_12\" id=\"tag_17_190_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00076",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A150][/A150]Issue 6",
+    "placeholders": {
+     "A150": {
+      "open": "<a name=\"tag_17_190_13\" id=\"tag_17_190_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00077",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "In the SYNOPSIS, the optional include of the [A151][I152]&lt;sys/types.h&gt;[/I152][/A151] header is\nremoved.",
+    "placeholders": {
+     "A151": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I152": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00079",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1,
+     1
+    ],
+    "text": "The requirement to include [A153][I154]&lt;sys/types.h&gt;[/I154][/A153] has been removed. Although\n[A155][I156]&lt;sys/types.h&gt;[/I156][/A155] was required for conforming implementations of previous POSIX\nspecifications, it was not required for UNIX applications.",
+    "placeholders": {
+     "A153": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I154": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A155": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I156": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00080",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     3,
+     1
+    ],
+    "text": "The [EIO] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00081",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     5,
+     1
+    ],
+    "text": "The [ELOOP] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00082",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     7,
+     1
+    ],
+    "text": "The [EOVERFLOW] mandatory error condition is added. This change is to support large files.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00083",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     9,
+     1
+    ],
+    "text": "The [ENAMETOOLONG] and the second [EOVERFLOW] optional error conditions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00084",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00085",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9,
+     1,
+     1
+    ],
+    "text": "Details are added regarding the treatment of symbolic links.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00086",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9,
+     3,
+     1
+    ],
+    "text": "The [ELOOP] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00087",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00088",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "The [B157]restrict[/B157] keyword is added to the [I158]stat[/I158]() prototype for alignment with the ISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {
+     "B157": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I158": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00089",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A159][/A159]Issue 7",
+    "placeholders": {
+     "A159": {
+      "open": "<a name=\"tag_17_190_14\" id=\"tag_17_190_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00090",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00091",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "XSH-SD5-ERN-161 is applied, updating the DESCRIPTION to clarify to which file types [I160]st_nlink[/I160] applies.",
+    "placeholders": {
+     "I160": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "The [I161]fstatat[/I161]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.",
+    "placeholders": {
+     "I161": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00093",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00094",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "The [I162]lstat[/I162]() function is now required to return meaningful data for symbolic links in all [B163]stat[/B163] structure fields,\nexcept for the permission bits of [I164]st_mode[/I164].",
+    "placeholders": {
+     "I162": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B163": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I164": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00095",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "Changes are made to allow a directory to be opened for searching.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "The [ENOTDIR] error condition is clarified to cover the condition where the last component of a pathname exists but is not a\ndirectory or a symbolic link to a directory.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     15
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0198 [461], XSH/TC1-2008/0199 [324], XSH/TC1-2008/0200 [278],\nXSH/TC1-2008/0201 [278], and XSH/TC1-2008/0202 [291] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     17
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0136 [591], XSH/TC2-2008/0137 [817], XSH/TC2-2008/0138 [817], and\nXSH/TC2-2008/0139 [889] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00099",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A165][/A165]Issue 8",
+    "placeholders": {
+     "A165": {
+      "open": "<a name=\"tag_17_190_15\" id=\"tag_17_190_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 1380 is applied, changing text using the term &quot;link&quot; in line with its updated definition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1409 is applied, changing the EXAMPLES section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00102",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

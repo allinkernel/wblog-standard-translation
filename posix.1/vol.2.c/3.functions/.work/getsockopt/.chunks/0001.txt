@@ -1,0 +1,47 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] getsockopt — get the socket options
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]getsockopt[/I5]() function manipulates options associated with a socket.
+[p_00007] The [I6]getsockopt[/I6]() function shall retrieve the value for the option specified by the [I7]option_name[/I7] argument for the socket specified by the [I8]socket[/I8] argument. If the size of the option value is greater than [I9]option_len[/I9], the value stored in the object pointed to by the [I10]option_value[/I10] argument shall be silently truncated. Otherwise, the object pointed to by the [I11]option_len[/I11] argument shall be modified to indicate the actual length of the value.
+[p_00008] The [I12]level[/I12] argument specifies the protocol level at which the option resides. To retrieve options at the socket level, specify the [I13]level[/I13] argument as SOL_SOCKET. To retrieve options at other levels, supply the appropriate level identifier for the protocol controlling the option. For example, to indicate that an option is interpreted by the TCP (Transmission Control Protocol), set [I14]level[/I14] to IPPROTO_TCP as defined in the [A15][I16]&lt;netinet/in.h&gt;[/I16][/A15] header.
+[p_00009] The socket in use may require the process to have appropriate privileges to use the [I17]getsockopt[/I17]() function.
+[p_00010] The [I18]option_name[/I18] argument specifies a single option to be retrieved. It can be one of the socket-level options defined in [A19][I20]&lt;sys/socket.h&gt;[/I20][/A19] and described in [A21][I22]2.10.16 Use of Options[/I22][/A21].
+[h4_00011] [A23][/A23]RETURN VALUE
+[p_00012] Upon successful completion, [I24]getsockopt[/I24]() shall return 0; otherwise, -1 shall be returned and [I25]errno[/I25] set to indicate the error.
+[h4_00013] [A26][/A26]ERRORS
+[p_00014] The [I27]getsockopt[/I27]() function shall fail if:
+[dt_00015] [EBADF]
+[dd_00016] The [I28]socket[/I28] argument is not a valid file descriptor.
+[dt_00017] [EINVAL]
+[dd_00018] The specified option is invalid at the specified socket level.
+[dt_00019] [ENOPROTOOPT]
+[dd_00020] The option is not supported by the protocol.
+[dt_00021] [ENOTSOCK]
+[dd_00022] The [I29]socket[/I29] argument does not refer to a socket.
+[p_00023] The [I30]getsockopt[/I30]() function may fail if:
+[dt_00024] [EACCES]
+[dd_00025] The calling process does not have appropriate privileges.
+[dt_00026] [EINVAL]
+[dd_00027] The socket has been shut down.
+[dt_00028] [ENOBUFS]
+[dd_00029] Insufficient resources are available in the system to complete the function.
+[h4_00030] [A31][/A31]EXAMPLES
+[p_00031] None.
+[h4_00032] [A32][/A32]APPLICATION USAGE
+[p_00033] None.
+[h4_00034] [A33][/A33]RATIONALE
+[p_00035] None.
+[h4_00036] [A34][/A34]FUTURE DIRECTIONS
+[p_00037] None.
+[h4_00038] [A35][/A35]SEE ALSO
+[p_00039] [A36][I37]2.10.16 Use of Options[/I37][/A36], [A38][I39]bind[/I39]()[/A38], [A40][I41]close[/I41]()[/A40], [A42][I43]endprotoent[/I43]()[/A42], [A44][I45]setsockopt[/I45]()[/A44], [A46][I47]socket[/I47]()[/A46]
+[p_00040] XBD [A48][I49]&lt;sys/socket.h&gt;[/I49][/A48], [A50][I51]&lt;netinet/in.h&gt;[/I51][/A50]
+[h4_00041] [A52][/A52]CHANGE HISTORY
+[p_00042] First released in Issue 6. Derived from the XNS, Issue 5.2 specification.
+[p_00043] The [B53]restrict[/B53] keyword is added to the [I54]getsockopt[/I54]() prototype for alignment with the ISO/IEC&nbsp;9899:1999 standard.
+[p_00044] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/47 is applied, updating the description of SO_LINGER in the DESCRIPTION so that it blocks the calling thread rather than the process.
+[h4_00045] [A55][/A55]Issue 7
+[p_00046] Austin Group Interpretation 1003.1-2001 #158 is applied, removing text relating to socket options that is now in [A56][I57]2.10.16 Use of Options[/I57][/A56].
+[p_00047] &nbsp;

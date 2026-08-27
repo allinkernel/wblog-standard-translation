@@ -1,0 +1,48 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] listen — listen for socket connections and limit the queue of incoming connections
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]listen[/I5]() function shall mark a connection-mode socket, specified by the [I6]socket[/I6] argument, as accepting connections.
+[p_00007] The [I7]backlog[/I7] argument provides a hint to the implementation which the implementation shall use to limit the number of outstanding connections in the socket's listen queue. Implementations may impose a limit on [I8]backlog[/I8] and silently reduce the specified value. Normally, a larger [I9]backlog[/I9] argument value shall result in a larger or equal length of the listen queue. Implementations shall support values of [I10]backlog[/I10] up to SOMAXCONN, defined in [A11][I12]&lt;sys/socket.h&gt;[/I12][/A11].
+[p_00008] The implementation may include incomplete connections in its listen queue. The limits on the number of incomplete connections and completed connections queued may be different.
+[p_00009] The implementation may have an upper limit on the length of the listen queue—either global or per accepting socket. If [I13]backlog[/I13] exceeds this limit, the length of the listen queue is set to the limit.
+[p_00010] If [I14]listen[/I14]() is called with a [I15]backlog[/I15] argument value that is less than 0, the function behaves as if it had been called with a [I16]backlog[/I16] argument value of 0.
+[p_00011] A [I17]backlog[/I17] argument of 0 may allow the socket to accept connections, in which case the length of the listen queue may be set to an implementation-defined minimum value.
+[p_00012] The socket in use may require the process to have appropriate privileges to use the [I18]listen[/I18]() function.
+[h4_00013] [A19][/A19]RETURN VALUE
+[p_00014] Upon successful completions, [I20]listen[/I20]() shall return 0; otherwise, -1 shall be returned and [I21]errno[/I21] set to indicate the error.
+[h4_00015] [A22][/A22]ERRORS
+[p_00016] The [I23]listen[/I23]() function shall fail if:
+[dt_00017] [EBADF]
+[dd_00018] The [I24]socket[/I24] argument is not a valid file descriptor.
+[dt_00019] [EDESTADDRREQ]
+[dd_00020] The socket is not bound to a local address, and the protocol does not support listening on an unbound socket.
+[dt_00021] [EINVAL]
+[dd_00022] The [I25]socket[/I25] is already connected.
+[dt_00023] [ENOTSOCK]
+[dd_00024] The [I26]socket[/I26] argument does not refer to a socket.
+[dt_00025] [EOPNOTSUPP]
+[dd_00026] The socket protocol does not support [I27]listen[/I27]().
+[p_00027] The [I28]listen[/I28]() function may fail if:
+[dt_00028] [EACCES]
+[dd_00029] The calling process does not have appropriate privileges.
+[dt_00030] [EINVAL]
+[dd_00031] The [I29]socket[/I29] has been shut down.
+[dt_00032] [ENOBUFS]
+[dd_00033] Insufficient resources are available in the system to complete the call.
+[h4_00034] [A30][/A30]EXAMPLES
+[p_00035] None.
+[h4_00036] [A31][/A31]APPLICATION USAGE
+[p_00037] None.
+[h4_00038] [A32][/A32]RATIONALE
+[p_00039] None.
+[h4_00040] [A33][/A33]FUTURE DIRECTIONS
+[p_00041] None.
+[h4_00042] [A34][/A34]SEE ALSO
+[p_00043] [A35][I36]accept[/I36]()[/A35], [A37][I38]connect[/I38]()[/A37], [A39][I40]socket[/I40]()[/A39]
+[p_00044] XBD [A41][I42]&lt;sys/socket.h&gt;[/I42][/A41]
+[h4_00045] [A43][/A43]CHANGE HISTORY
+[p_00046] First released in Issue 6. Derived from the XNS, Issue 5.2 specification.
+[p_00047] The DESCRIPTION is updated to describe the relationship of SOMAXCONN and the [I44]backlog[/I44] argument.
+[p_00048] &nbsp;

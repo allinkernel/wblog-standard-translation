@@ -1,0 +1,29 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pthread_self — get the calling thread ID
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]pthread_self[/I5]() function shall return the thread ID of the calling thread.
+[h4_00007] [A6][/A6]RETURN VALUE
+[p_00008] The [I7]pthread_self[/I7]() function shall always be successful and no return value is reserved to indicate an error.
+[h4_00009] [A8][/A8]ERRORS
+[p_00010] No errors are defined.
+[h4_00011] [A9][/A9]EXAMPLES
+[p_00012] None.
+[h4_00013] [A10][/A10]APPLICATION USAGE
+[p_00014] None.
+[h4_00015] [A11][/A11]RATIONALE
+[p_00016] The [I12]pthread_self[/I12]() function provides a capability similar to the [A13][I14]getpid[/I14]()[/A13] function for processes and the rationale is the same: the creation call does not provide the thread ID to the created thread.
+[h4_00017] [A15][/A15]FUTURE DIRECTIONS
+[p_00018] None.
+[h4_00019] [A16][/A16]SEE ALSO
+[p_00020] [A17][I18]pthread_create[/I18]()[/A17], [A19][I20]pthread_equal[/I20]()[/A19]
+[p_00021] XBD [A21][I22]&lt;pthread.h&gt;[/I22][/A21]
+[h4_00022] [A23][/A23]CHANGE HISTORY
+[p_00023] First released in Issue 5. Included for alignment with the POSIX Threads Extension.
+[h4_00024] [A24][/A24]Issue 6
+[p_00025] The [I25]pthread_self[/I25]() function is marked as part of the Threads option.
+[h4_00026] [A26][/A26]Issue 7
+[p_00027] Austin Group Interpretation 1003.1-2001 #063 is applied, updating the RETURN VALUE section.
+[p_00028] The [I27]pthread_self[/I27]() function is moved from the Threads option to the Base.
+[p_00029] &nbsp;

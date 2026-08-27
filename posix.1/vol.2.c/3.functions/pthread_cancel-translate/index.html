@@ -1,0 +1,83 @@
+<h1>XSH 函数：pthread_cancel()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="pthread_cancel" id="pthread_cancel"></a> <a name="tag_17_419" id="tag_17_419"></a>
+
+<a name="tag_17_419_01" id="tag_17_419_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_cancel — 取消线程的执行</blockquote>
+<a name="tag_17_419_02" id="tag_17_419_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+int pthread_cancel(pthread_t</code> <i>thread</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_419_03" id="tag_17_419_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>pthread_cancel</i>() 函数应请求取消 <i>thread</i>。目标线程的可取消状态和类型决定取消何时生效。当响应取消时，应为 <i>thread</i> 调用取消清理处理程序。当最后一个取消清理处理程序返回时，应为 <i>thread</i> 调用线程特定数据析构函数。当最后一个析构函数返回时，<i>thread</i> 应被终止。请求取消僵尸线程不应是错误。</p>
+<p>目标线程中的取消处理应相对于调用线程从 <i>pthread_cancel</i>() 返回异步运行。</p>
+<p>如果 <i>thread</i> 引用使用 thrd_create() 创建的线程，则行为未定义。</p>
+</blockquote>
+<a name="tag_17_419_04" id="tag_17_419_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果成功，<i>pthread_cancel</i>() 函数应返回零；否则，应返回错误号以指示错误。</p>
+</blockquote>
+<a name="tag_17_419_05" id="tag_17_419_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>pthread_cancel</i>() 函数不应返回 [EINTR] 错误码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_419_06" id="tag_17_419_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_419_07" id="tag_17_419_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_419_08" id="tag_17_419_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>考虑了两种向线程发送取消通知的替代函数。一种是定义一个新的 SIGCANCEL 信号，在递送时具有取消语义；另一种是定义新的 <i>pthread_cancel</i>() 函数，它将触发取消语义。</p>
+<p>新信号的优点在于，其递送标准的大部分与试图递送信号时使用的相同，因此将取消通知做成信号被视为一致的。事实上，许多实现使用特殊信号来实现取消。另一方面，除了 pthread_kill() 之外，没有可与此信号一起使用的信号函数，并且所递送的取消信号的行为将不同于任何先前存在的已定义信号。</p>
+<p>特殊函数的好处包括认识到：由于类似的递送标准而定义此信号，并且这是取消请求与信号之间唯一共同的行为。此外，取消递送机制不必实现为信号。与信号相比，与语言异常机制的相似之处也强（如果不是更强）于与信号的相似之处，而如果递送机制在表面上更接近信号，这些相似之处可能被掩盖。</p>
+<p>最终，人们认为由于将新信号与现有信号函数一起使用存在如此多的例外情况，这将是误导性的。特殊函数解决了这个问题。该函数被仔细定义，以便希望在信号之上提供取消函数的实现可以这样做。特殊函数也意味着实现没有义务用信号实现取消。</p>
+<p>如果实现检测到在其生命周期结束后使用线程 ID，则建议该函数应失败并报告 [ESRCH] 错误。</p>
+<p>历史实现在 <i>pthread_cancel</i>() 的线程 ID 指示僵尸线程的结果上各不相同。有些指示成功且无需进一步操作，因为线程已经终止，而另一些则给出 [ESRCH] 错误。由于本标准中线程生命周期的定义涵盖僵尸线程，因此所述 [ESRCH] 错误在这种情况下不合适，给出此错误的实现不符合标准。</p>
+<p>使用 <i>pthread_cancel</i>() 取消使用 thrd_create() 创建的线程是未定义的，因为 thrd_join() 无法指示线程已被取消。标准开发者曾考虑添加一个 <code>thrd_canceled</code> 枚举常量，thrd_join() 在这种情况下将返回该常量。然而，这种返回在按照 ISO C 标准编写的代码中将是意外的，而且它也不能解决这样的问题：仅使用 ISO C &lt;threads.h&gt; 接口的线程（例如由按照 ISO C 标准编写的第三方库创建的线程）无法处理被取消，因为 ISO C 标准不提供取消清理处理程序。</p>
+</blockquote>
+<a name="tag_17_419_09" id="tag_17_419_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_419_10" id="tag_17_419_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>pthread_exit()、pthread_cond_clockwait()、pthread_join()、pthread_setcancelstate()</p>
+<p>XBD &lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_419_11" id="tag_17_419_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>第 5 版首次发布。为与 POSIX 线程扩展保持一致而包含。</p>
+</blockquote>
+<a name="tag_17_419_12" id="tag_17_419_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_cancel</i>() 函数被标记为 Threads 选项的一部分。</p>
+</blockquote>
+<a name="tag_17_419_13" id="tag_17_419_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_cancel</i>() 函数从 Threads 选项移至 Base。</p>
+<p>应用了 Austin Group Interpretation 1003.1-2001 #142，移除 [ESRCH] 错误条件。</p>
+</blockquote>
+<a name="tag_17_419_14" id="tag_17_419_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 792，添加要求：将僵尸线程的线程 ID 传递给 <i>pthread_cancel</i>() 不被视为错误。</p>
+<p>应用了 Austin Group Defect 1302，更新页面以考虑 &lt;threads.h&gt; 接口的添加。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

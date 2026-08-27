@@ -1,0 +1,117 @@
+<h1>XSH 函数：fgets()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fgets" id="fgets"></a> <a name="tag_17_158" id="tag_17_158"></a>
+<a name="tag_17_158_01" id="tag_17_158_01"></a><h4>[h4_00001] 名称 (NAME)</h4>
+<blockquote>[blockquote_00002] fgets — 从流中获取字符串 (get a string from a stream)</blockquote>
+<a name="tag_17_158_02" id="tag_17_158_02"></a><h4>[h4_00003] 提要 (SYNOPSIS)</h4>
+<blockquote>
+<p>[p_00004] <code><code>#include &lt;stdio.h&gt;<br>
+<br>
+char *fgets(char *restrict</code> <i>s</i><code>, int</code> <i>n</i><code>, FILE *restrict</code> <i>stream</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_158_03" id="tag_17_158_03"></a><h4>[h4_00005] 说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>[p_00006] <i>fgets</i>() 函数应从 <i>stream</i> 读取字节到 <i>s</i> 指向的数组中，直到读取了 <i>n</i>-1 个字节，或读取到一个 &lt;newline&gt; 并将其传送到 <i>s</i>，或遇到文件末尾条件。在读取到数组中的最后一个字节之后，应立即写入一个空字节。如果在读取任何字节之前遇到文件末尾条件，则 <i>s</i> 指向的数组的内容不应被改变。</p>
+<p>[p_00007] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>fgets</i>() 函数可以标记更新与 <i>stream</i> 关联的文件的上次数据访问时间戳。当使用 <i>stream</i> 的 fgetc()、<i>fgets</i>()、fread()、fscanf()、getc()、getchar()、getdelim()、getline() 或 scanf() 首次成功执行并返回了不是由先前对 ungetc() 的调用提供的数据时，上次数据访问时间戳应被标记更新。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_158_04" id="tag_17_158_04"></a><h4>[h4_00008] 返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>[p_00009] 成功完成后，<i>fgets</i>() 应返回 <i>s</i>。如果流位于文件末尾，则应设置流的文件末尾指示符，并且 <i>fgets</i>() 应返回空指针。如果发生错误，应设置流的错误指示符，<i>fgets</i>() 应返回空指针，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并应设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_158_05" id="tag_17_158_05"></a><h4>[h4_00010] 错误 (ERRORS)</h4>
+<blockquote>
+<p>[p_00011] 参见 fgetc()。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_158_06" id="tag_17_158_06"></a><h4>[h4_00012] 示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_158_06_01" id="tag_17_158_06_01"></a><h5>[h5_00013] 读取输入 (Reading Input)</h5>
+<p>[p_00014] 以下示例使用 <i>fgets</i>() 读取输入行。它假设它正在读取的文件是文本文件，并且该文本文件中的行长度不超过 16384（或者如果在其运行所在的实现上小于 16384，则为 {LINE_MAX}）字节。（注意，如果 <i>sysconf</i>(_SC_LINE_MAX) 返回 -1 而未设置 <i>errno</i>，则标准实用程序没有行长度限制。此示例假设 <i>sysconf</i>(_SC_LINE_MAX) 不会失败。）</p>
+<pre><code class="language-plaintext">#include &lt;limits.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#define MYLIMIT 16384
+ 
+char *line;
+int line_max;
+if (LINE_MAX &gt;= MYLIMIT) {
+    // Use maximum line size of MYLIMIT. If LINE_MAX is
+    // bigger than our limit, sysconf() cannot report a
+    // smaller limit.
+    line_max = MYLIMIT;
+} else {
+    long limit = sysconf(_SC_LINE_MAX);
+    line_max = (limit &lt; 0 || limit &gt; MYLIMIT) ? MYLIMIT : (int)limit;
+}
+ 
+// line_max + 1 leaves room for the null byte added by fgets().
+line = malloc(line_max + 1);
+if (line == NULL) {
+    // out of space
+    ...
+    return error;
+}
+ 
+while (fgets(line, line_max + 1, fp) != NULL) {
+    // Verify that a full line has been read ...
+    // If not, report an error or prepare to treat the
+    // next time through the loop as a read of a
+    // continuation of the current line.
+    ...
+    // Process line ...
+    ...
+}
+free(line);
+...</code></pre></blockquote>
+<a name="tag_17_158_07" id="tag_17_158_07"></a><h4>[h4_00015] 应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>[p_00016] 无。</p>
+</blockquote>
+<a name="tag_17_158_08" id="tag_17_158_08"></a><h4>[h4_00017] 理由 (RATIONALE)</h4>
+<blockquote>
+<p>[p_00018] 无。</p>
+</blockquote>
+<a name="tag_17_158_09" id="tag_17_158_09"></a><h4>[h4_00019] 未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>[p_00020] 无。</p>
+</blockquote>
+<a name="tag_17_158_10" id="tag_17_158_10"></a><h4>[h4_00021] 参见 (SEE ALSO)</h4>
+<blockquote>
+<p>[p_00022] 2.5 标准 I/O 流、fgetc()、fopen()、fread()、fscanf()、getc()、getchar()、getdelim()、ungetc()</p>
+<p>[p_00023] XBD &lt;stdio.h&gt;</p>
+</blockquote>
+<a name="tag_17_158_11" id="tag_17_158_11"></a><h4>[h4_00024] 变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>[p_00025] 首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_158_12" id="tag_17_158_12"></a><h4>[h4_00026] 第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>[p_00027] 超出 ISO C 标准的扩展被标记。</p>
+<p>[p_00028] 为与 ISO/IEC 9899:1999 标准保持一致，更改了 <i>fgets</i>() 的原型。</p>
+</blockquote>
+<a name="tag_17_158_13" id="tag_17_158_13"></a><h4>[h4_00029] 第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>[p_00030] 应用了 Austin Group 解释 1003.1-2001 #051，更新了标记更新上次数据访问时间戳的函数列表。</p>
+<p>[p_00031] 应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0134 [182] 和 XSH/TC1-2008/0135 [14]。</p>
+<p>[p_00032] 应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0114 [468]。</p>
+</blockquote>
+<a name="tag_17_158_14" id="tag_17_158_14"></a><h4>[h4_00033] 第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>[p_00034] 应用了 Austin Group 缺陷 1330，移除了过时的接口。</p>
+<p>[p_00035] 应用了 Austin Group 缺陷 1624，更改了 RETURN VALUE 一节。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p>[p_00036]  </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

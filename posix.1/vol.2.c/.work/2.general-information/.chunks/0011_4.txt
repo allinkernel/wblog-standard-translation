@@ -1,0 +1,42 @@
+# start_index 181
+[p_01311] A multicast address can be global, node-local, link-local, site-local, or organization-local.
+[p_01312] The following special IPv6 addresses are defined:
+[dt_01313] Unspecified
+[dd_01314] An address that is not assigned to any interface and is used to indicate the absence of an address.
+[dt_01315] Loopback
+[dd_01316] A unicast address that is not assigned to any interface and can be used by a node to send packets to itself.
+[p_01317] Two sets of IPv6 addresses are defined to correspond to IPv4 addresses:
+[dt_01318] IPv4-compatible addresses
+[dd_01319] These are assigned to nodes that support IPv6 and can be used when traffic is &quot;tunneled&quot; through IPv4.
+[dt_01320] IPv4-mapped addresses
+[dd_01321] These are used to represent IPv4 addresses in IPv6 address format; see [A1766]2.10.20.2 Compatibility with IPv4[/A1766].
+[p_01322] The unspecified address and the loopback address shall not be treated as IPv4-compatible addresses.
+[h5_01323] [A1767][/A1767]2.10.20.2 Compatibility with IPv4
+[p_01324] The API provides the ability for IPv6 applications to interoperate with applications using IPv4, by using IPv4-mapped IPv6 addresses. These addresses can be generated automatically by the [A1768][I1769]getaddrinfo[/I1769]()[/A1768] function when the specified host has only IPv4 addresses.
+[p_01325] Applications can use AF_INET6 sockets to open TCP connections to IPv4 nodes, or send UDP packets to IPv4 nodes, by simply encoding the destination's IPv4 address as an IPv4-mapped IPv6 address, and passing that address, within a [B1770]sockaddr_in6[/B1770] structure, in the [A1771][I1772]connect[/I1772]()[/A1771], [A1773][I1774]sendto[/I1774]()[/A1773], or [A1775][I1776]sendmsg[/I1776]()[/A1775] function. When applications use AF_INET6 sockets to accept TCP connections from IPv4 nodes, or receive UDP packets from IPv4 nodes, the system shall return the peer's address to the application in the [A1777][I1778]accept[/I1778]()[/A1777], [A1779][I1780]accept4[/I1780]()[/A1779], [A1781][I1782]recvfrom[/I1782]()[/A1781], [A1783][I1784]recvmsg[/I1784]()[/A1783], or [A1785][I1786]getpeername[/I1786]()[/A1785] function using a [B1787]sockaddr_in6[/B1787] structure encoded this way. If a node has an IPv4 address, then the implementation shall allow applications to communicate using that address via an AF_INET6 socket. In such a case, the address shall be represented at the API by the corresponding IPv4-mapped IPv6 address. Also, the implementation may allow an AF_INET6 socket bound to [B1788]in6addr_any[/B1788] to receive inbound connections and packets destined to one of the node's IPv4 addresses.
+[p_01326] An application can use AF_INET6 sockets to bind to a node's IPv4 address by specifying the address as an IPv4-mapped IPv6 address in a [B1789]sockaddr_in6[/B1789] structure in the [A1790][I1791]bind[/I1791]()[/A1790] function. For an AF_INET6 socket bound to a node's IPv4 address, the system shall return the address in the [A1792][I1793]getsockname[/I1793]()[/A1792] function as an IPv4-mapped IPv6 address in a [B1794]sockaddr_in6[/B1794] structure.
+[h5_01327] [A1795][/A1795]2.10.20.3 Interface Identification
+[p_01328] Each local interface is assigned a unique positive integer as a numeric index. Indexes start at 1; zero is not used. There may be gaps so that there is no current interface for a particular positive index. Each interface also has a unique implementation-defined name.
+[h5_01329] [A1796][/A1796]2.10.20.4 Options
+[p_01330] The following options apply at the IPPROTO_IPV6 level:
+[dt_01331] IPV6_JOIN_GROUP
+[p_01332] An attempt to read this option using [A1797][I1798]getsockopt[/I1798]()[/A1797] shall result in an [EOPNOTSUPP] error.
+[p_01333] The parameter type of this option is a pointer to an [B1799]ipv6_mreq[/B1799] structure.
+[dt_01334] IPV6_LEAVE_GROUP
+[p_01335] An attempt to read this option using [A1800][I1801]getsockopt[/I1801]()[/A1800] shall result in an [EOPNOTSUPP] error.
+[p_01336] The parameter type of this option is a pointer to an [B1802]ipv6_mreq[/B1802] structure.
+[dt_01337] IPV6_MULTICAST_HOPS
+[p_01338] The parameter type of this option is a pointer to an [B1803]int[/B1803]. (Default value: 1)
+[dt_01339] IPV6_MULTICAST_IF
+[p_01340] The parameter type of this option is a pointer to an [B1804]unsigned int[/B1804]. (Default value: 0)
+[dt_01341] IPV6_MULTICAST_LOOP
+[p_01342] The parameter type of this option is a pointer to an [B1805]unsigned int[/B1805] which is used as a Boolean value. (Default value: 1)
+[dt_01343] IPV6_UNICAST_HOPS
+[p_01344] The parameter type of this option is a pointer to an [B1806]int[/B1806]. (Default value: Unspecified)
+[dt_01345] IPV6_V6ONLY
+[p_01346] The parameter type of this option is a pointer to an [B1807]int[/B1807] which is used as a Boolean value. (Default value: 0)
+[p_01347] An [EOPNOTSUPP] error shall result if IPV6_JOIN_GROUP or IPV6_LEAVE_GROUP is used with [A1808][I1809]getsockopt[/I1809]()[/A1808].
+[h5_01348] [A1810][/A1810]2.10.20.5 Headers
+[p_01349] The symbolic constant AF_INET6 is defined in the [A1811][I1812]&lt;sys/socket.h&gt;[/I1812][/A1811] header to identify the IPv6 Internet address family. See XBD [A1813][I1814]14. Headers[/I1814][/A1813].
+[p_01350] The [B1815]sockaddr_storage[/B1815] structure defined in [A1816][I1817]&lt;sys/socket.h&gt;[/I1817][/A1816] shall be large enough to accommodate a [B1818]sockaddr_in6[/B1818] structure (see the [A1819][I1820]&lt;netinet/in.h&gt;[/I1820][/A1819] header defined in XBD [A1821][I1822]14. Headers[/I1822][/A1821]) and shall be aligned at an appropriate boundary so that pointers to it can be cast as pointers to [B1823]sockaddr_in6[/B1823] structures and used to access the fields of those structures without alignment problems. When a [B1824]sockaddr_storage[/B1824] structure is cast as a [B1825]sockaddr_in6[/B1825] structure, the [I1826]ss_family[/I1826] field maps onto the [I1827]sin6_family[/I1827] field.
+[p_01351] The [A1828][I1829]&lt;netinet/in.h&gt;[/I1829][/A1828], [A1830][I1831]&lt;arpa/inet.h&gt;[/I1831][/A1830], and [A1832][I1833]&lt;netdb.h&gt;[/I1833][/A1832] headers contain other definitions used in connection with IPv6 Internet sockets; see XBD [A1834][I1835]14. Headers[/I1835][/A1834].

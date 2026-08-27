@@ -1,0 +1,30 @@
+<h1>XSH 函数导读：munmap()</h1>
+
+<h2>0. 总览</h2>
+<p><code>munmap()</code> 解除内存页的映射：移除从 <code>addr</code> 开始、长度 <code>len</code> 字节的进程地址空间任何部分所在的那些整页上的任何映射。头文件为 <code>&lt;sys/mman.h&gt;</code>。原型关键点：<code>int munmap(void *addr, size_t len)</code>——成功返回 0，失败返回 -1 并设置 <code>errno</code>；实现可以要求 <code>addr</code> 是 <code>sysconf()</code> 返回的页大小的倍数。</p>
+
+<h2>1. 机制</h2>
+<p>解除映射的核心行为：对移除范围内页的进一步引用应导致向进程产生 SIGSEGV 信号；若指定地址范围内没有映射，则 <code>munmap()</code> 没有效果。若要移除的映射是私有的（MAP_PRIVATE），则应丢弃在该地址范围内所做的任何修改。与此地址范围关联的内存锁（参见 <code>mlock()</code>、<code>mlockall()</code>）应被移除。解除映射还可能释放类型化内存对象中相应池的范围，使其可供未来分配。规范限定：若该映射不是通过调用 <code>mmap()</code> 建立的，则此函数的行为未指定——参数必须来自 <code>mmap()</code> 的返回值。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是 <code>len</code> 为 0 或 <code>[addr, addr+len)</code> 超出有效地址范围应失败（[EINVAL]）；二是 <code>addr</code> 未按页大小对齐可能失败；三是解除映射后继续访问该地址会触发 SIGSEGV，指针变成"悬垂映射"，须避免；四是 <code>munmap()</code> 只适用于 <code>mmap()</code> 建立的映射，传入其他来源地址行为未指定，也不能用它替代 <code>free()</code> 释放 malloc 堆内存；五是对 MAP_PRIVATE 映射的修改在解除映射时会被丢弃，若需持久化应先 <code>msync()</code>；六是解除映射不关闭文件描述符，文件引用在最后一个映射消失时才移除。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/mman.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int fd = open("data.bin", O_RDONLY);
+    void *p;
+    if (fd &lt; 0) return 1;
+
+    p = mmap(NULL, 4096, PROT_READ, MAP_PRIVATE, fd, 0);
+    if (p == MAP_FAILED) { close(fd); return 1; }
+
+    if (munmap(p, 4096) == -1)
+        perror("munmap");   /* 失败：len 为 0 或地址无效 */
+    /* 此后访问 p 将产生 SIGSEGV，不可再解引用 */
+    close(fd);
+    return 0;
+}</code></pre>

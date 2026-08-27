@@ -1,0 +1,585 @@
+{
+ "0001": {
+  "title": "1. Introduction",
+  "nodes": [
+   {
+    "id": "h2_00001",
+    "type": "h2",
+    "path": [
+     2,
+     3,
+     7
+    ],
+    "text": "[A1][/A1]1. Introduction",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_15\" id=\"tag_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00002",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     9
+    ],
+    "text": "The System Interfaces volume of POSIX.1-2024 describes the interfaces offered to application programs by POSIX-conformant\nsystems.",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ },
+ "0002": {
+  "title": "1.1 Relationship to Other Formal Standards",
+  "nodes": [
+   {
+    "id": "h3_00003",
+    "type": "h3",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A2][/A2]1.1 Relationship to Other Formal Standards",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_15_01\" id=\"tag_15_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "This volume of POSIX.1-2024 is aligned with the following standards, except where stated otherwise:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00005",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     15,
+     3
+    ],
+    "text": "ISO C (C17)",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00006",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     15,
+     5
+    ],
+    "text": "ISO/IEC 9899:2018, Programming Languages — C.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17
+    ],
+    "text": "Parts of the ISO/IEC&nbsp;9899:2018 standard (hereinafter referred to as the ISO&nbsp;C standard) are referenced to describe\nrequirements also mandated by this volume of POSIX.1-2024. Some functions and headers included within this volume of POSIX.1-2024\nhave a version in the ISO&nbsp;C standard; in this case CX markings are added as appropriate to show where the ISO&nbsp;C standard\nhas been extended (see [A3][I4]1.8.1 Codes[/I4][/A3]). Any conflict between this volume\nof POSIX.1-2024 and the ISO&nbsp;C standard is unintentional, except where stated otherwise.",
+    "placeholders": {
+     "A3": {
+      "open": "<a href=\"../basedefs/V1_chap01.html#tag_01_08_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I4": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "This volume of POSIX.1-2024 also allows, but does not require, mathematics functions to support IEEE&nbsp;Std&nbsp;754-1985 and\nIEEE&nbsp;Std&nbsp;854-1987.",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ },
+ "0003": {
+  "title": "1.2 Format of Entries",
+  "nodes": [
+   {
+    "id": "h3_00009",
+    "type": "h3",
+    "path": [
+     2,
+     3,
+     21
+    ],
+    "text": "[A5][/A5]1.2 Format of Entries",
+    "placeholders": {
+     "A5": {
+      "open": "<a name=\"tag_15_02\" id=\"tag_15_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "The entries in [A6][I7]3. System Interfaces[/I7][/A6] are based on a common format as\nfollows. The only sections relating to conformance are the SYNOPSIS, DESCRIPTION, RETURN VALUE, and ERRORS sections.",
+    "placeholders": {
+     "A6": {
+      "open": "<a href=\"../functions/V2_chap03.html#tag_17\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00011",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     3
+    ],
+    "text": "[B8]NAME[/B8]",
+    "placeholders": {
+     "B8": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00012",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     25,
+     5
+    ],
+    "text": "This section gives the name or names of the entry and briefly states its purpose.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00013",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     7
+    ],
+    "text": "[B9]SYNOPSIS[/B9]",
+    "placeholders": {
+     "B9": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00014",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     25,
+     9,
+     1
+    ],
+    "text": "[PRE10]",
+    "placeholders": {
+     "PRE10": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<pre>\n<tt>#include &lt;stdio.h&gt;\n</tt></pre>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00015",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     11
+    ],
+    "text": "[B11]DESCRIPTION[/B11]",
+    "placeholders": {
+     "B11": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00016",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     25,
+     13
+    ],
+    "text": "This section describes the functionality of the function or header.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     15
+    ],
+    "text": "[B12]RETURN VALUE[/B12]",
+    "placeholders": {
+     "B12": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     17,
+     1
+    ],
+    "text": "If the implementation can detect errors, &quot;successful completion&quot; means that no error has been detected during execution of the\nfunction. If the implementation does detect an error, the error is indicated.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     17,
+     3
+    ],
+    "text": "For functions where no errors are defined, &quot;successful completion&quot; means that if the implementation checks for errors, no\nerror has been detected. If the implementation can detect errors, and an error is detected, the indicated return value is returned\nand [I13]errno[/I13] may be set.",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00020",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     19
+    ],
+    "text": "[B14]ERRORS[/B14]",
+    "placeholders": {
+     "B14": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     21,
+     3
+    ],
+    "text": "&quot;No errors are defined&quot; means that error values returned by a function or stored into a variable accessed through the symbol\n[I15]errno[/I15], if any, depend on the implementation.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     23
+    ],
+    "text": "[B16]EXAMPLES[/B16]",
+    "placeholders": {
+     "B16": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     25,
+     1
+    ],
+    "text": "This section gives examples of usage, where appropriate. In the event of conflict between an example and a normative part of\nthis volume of POSIX.1-2024, the normative material is to be taken as correct.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     27
+    ],
+    "text": "[B17]APPLICATION USAGE[/B17]",
+    "placeholders": {
+     "B17": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     29,
+     1
+    ],
+    "text": "This section gives warnings and advice to application developers about the entry. In the event of conflict between warnings and\nadvice and a normative part of this volume of POSIX.1-2024, the normative material is to be taken as correct.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     31
+    ],
+    "text": "[B18]RATIONALE[/B18]",
+    "placeholders": {
+     "B18": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     33,
+     1
+    ],
+    "text": "This section contains historical information concerning the contents of this volume of POSIX.1-2024 and why features were\nincluded or discarded by the standard developers.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     35
+    ],
+    "text": "[B19]FUTURE DIRECTIONS[/B19]",
+    "placeholders": {
+     "B19": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     37,
+     1
+    ],
+    "text": "This section provides comments which should be used as a guide to current thinking; there is not necessarily a commitment to\nadopt these future directions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00030",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     39
+    ],
+    "text": "[B20]SEE ALSO[/B20]",
+    "placeholders": {
+     "B20": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     41,
+     1
+    ],
+    "text": "This section gives references to related information.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00032",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     25,
+     43
+    ],
+    "text": "[B21]CHANGE HISTORY[/B21]",
+    "placeholders": {
+     "B21": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     45,
+     1
+    ],
+    "text": "This section shows the derivation of the entry and any significant changes that have been made to it.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

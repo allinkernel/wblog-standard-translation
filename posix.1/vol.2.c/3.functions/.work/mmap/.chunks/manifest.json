@@ -1,0 +1,3847 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_345_01\" id=\"tag_17_345_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "mmap — map pages of memory",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_345_02\" id=\"tag_17_345_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/sys_mman.h.html\">sys/mman.h</a>&gt;<br>\n<br>\nvoid *mmap(void *</tt><i>addr</i><tt>, size_t</tt> <i>len</i><tt>, int</tt> <i>prot</i><tt>, int</tt> <i>flags</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int</tt> <i>fildes</i><tt>, off_t</tt> <i>off</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_345_03\" id=\"tag_17_345_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]mmap[/I5]() function shall establish a mapping between an address space of a process and a memory object.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I6]mmap[/I6]() function shall be supported for the following memory objects:",
+    "placeholders": {
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     1
+    ],
+    "text": "Regular files",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     3,
+     1
+    ],
+    "text": "Anonymous memory objects",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     5,
+     1
+    ],
+    "text": "[S7][[A8]SHM[/A8]][/S7] [IMG9]\nShared memory objects [IMG10]",
+    "placeholders": {
+     "S7": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A8": {
+      "open": "<a href=\"javascript:open_code(&#x27;SHM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG9": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG10": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     7,
+     1
+    ],
+    "text": "[S11][[A12]TYM[/A12]][/S11] [IMG13]\nTyped memory objects [IMG14]",
+    "placeholders": {
+     "S11": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A12": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG13": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG14": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "Support for any other type of file is unspecified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The format of the call is as follows:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "The [I15]mmap[/I15]() function shall establish a mapping between the address space of the process at an address [I16]pa[/I16] for\n[I17]len[/I17] bytes to the memory object represented by the file descriptor [I18]fildes[/I18] at offset [I19]off[/I19] for [I20]len[/I20] bytes,\nor to an anonymous memory object of [I21]len[/I21] bytes. The value of [I22]pa[/I22] is an implementation-defined function of the parameter\n[I23]addr[/I23] and the values of [I24]flags[/I24], further described below. A successful [I25]mmap[/I25]() call shall return [I26]pa[/I26] as its\nresult. The address range starting at [I27]pa[/I27] and continuing for [I28]len[/I28] bytes shall be legitimate for the possible (not\nnecessarily current) address space of the process. The range of bytes starting at [I29]off[/I29] and continuing for [I30]len[/I30] bytes\nshall be legitimate for the possible (not necessarily current) offsets in the memory object represented by [I31]fildes[/I31].",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "[S32][[A33]TYM[/A33]][/S32] [IMG34]\nIf [I35]fildes[/I35] represents a typed memory object opened with either the POSIX_TYPED_MEM_ALLOCATE flag or the\nPOSIX_TYPED_MEM_ALLOCATE_CONTIG flag, the memory object to be mapped shall be that portion of the typed memory object allocated by\nthe implementation as specified below. In this case, if [I36]off[/I36] is non-zero, the behavior of [I37]mmap[/I37]() is undefined. If\n[I38]fildes[/I38] refers to a valid typed memory object that is not accessible from the calling process, [I39]mmap[/I39]() shall fail.\n[IMG40]",
+    "placeholders": {
+     "S32": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A33": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG34": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG40": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "The mapping established by [I41]mmap[/I41]() shall replace any previous mappings for those whole pages containing any part of the\naddress space of the process starting at [I42]pa[/I42] and continuing for [I43]len[/I43] bytes.",
+    "placeholders": {
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "If the size of the mapped file changes after the call to [I44]mmap[/I44]() as a result of some other operation on the mapped file,\nthe effect of references to portions of the mapped region that correspond to added or removed portions of the file is\nunspecified.",
+    "placeholders": {
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "If [I45]len[/I45] is zero, [I46]mmap[/I46]() shall fail and no mapping shall be established.",
+    "placeholders": {
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "The parameter [I47]prot[/I47] determines whether read, write, execute, or some combination of accesses are permitted to the data\nbeing mapped. The [I48]prot[/I48] shall be either PROT_NONE or the bitwise-inclusive OR of one or more of the other flags in the\nfollowing table, defined in the [A49][I50]&lt;sys/mman.h&gt;[/I50][/A49] header.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A49": {
+      "open": "<a href=\"../basedefs/sys_mman.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00020",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     3,
+     1
+    ],
+    "text": "PROT_READ",
+    "placeholders": {},
+    "context": "行 1: PROT_READ"
+   },
+   {
+    "id": "td_00021",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     3,
+     3
+    ],
+    "text": "Data can be read.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00022",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     5,
+     1
+    ],
+    "text": "PROT_WRITE",
+    "placeholders": {},
+    "context": "行 2: PROT_WRITE"
+   },
+   {
+    "id": "td_00023",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     5,
+     3
+    ],
+    "text": "Data can be written.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00024",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     7,
+     1
+    ],
+    "text": "PROT_EXEC",
+    "placeholders": {},
+    "context": "行 3: PROT_EXEC"
+   },
+   {
+    "id": "td_00025",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     7,
+     3
+    ],
+    "text": "Data can be executed.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00026",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     9,
+     1
+    ],
+    "text": "PROT_NONE",
+    "placeholders": {},
+    "context": "行 4: PROT_NONE"
+   },
+   {
+    "id": "td_00027",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25,
+     1,
+     9,
+     3
+    ],
+    "text": "Data cannot be accessed.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "If an implementation cannot support the combination of access types specified by [I51]prot[/I51], the call to\n[I52]mmap[/I52]() shall fail.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29
+    ],
+    "text": "An implementation may permit accesses other than those specified by [I53]prot[/I53]; however, the implementation shall\nnot permit a write to succeed where PROT_WRITE has not been set and shall not permit any access where PROT_NONE alone has been set.\nThe implementation shall support at least the following values of [I54]prot[/I54]: PROT_NONE, PROT_READ, PROT_WRITE, and the\nbitwise-inclusive OR of PROT_READ and PROT_WRITE. The file descriptor [I55]fildes[/I55] shall have been opened with read permission,\nregardless of the protection options specified. If PROT_WRITE is specified, the application shall ensure that it has opened the\nfile descriptor [I56]fildes[/I56] with write permission unless MAP_PRIVATE is specified in the [I57]flags[/I57] parameter as described\nbelow.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31
+    ],
+    "text": "The parameter [I58]flags[/I58] provides other information about the handling of the mapped data. The value of\n[I59]flags[/I59] is the bitwise-inclusive OR of these options, defined in [A60][I61]&lt;sys/mman.h&gt;[/I61][/A60]:",
+    "placeholders": {
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A60": {
+      "open": "<a href=\"../basedefs/sys_mman.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00031",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     3,
+     1
+    ],
+    "text": "MAP_ANON",
+    "placeholders": {},
+    "context": "行 1: MAP_ANON"
+   },
+   {
+    "id": "td_00032",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     3,
+     3
+    ],
+    "text": "Synonym for MAP_ANONYMOUS.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00033",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     5,
+     1
+    ],
+    "text": "MAP_ANONYMOUS",
+    "placeholders": {},
+    "context": "行 2: MAP_ANONYMOUS"
+   },
+   {
+    "id": "td_00034",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     5,
+     3
+    ],
+    "text": "Map anonymous memory.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00035",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     7,
+     1
+    ],
+    "text": "MAP_SHARED",
+    "placeholders": {},
+    "context": "行 3: MAP_SHARED"
+   },
+   {
+    "id": "td_00036",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     7,
+     3
+    ],
+    "text": "Changes are shared.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00037",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     9,
+     1
+    ],
+    "text": "MAP_PRIVATE",
+    "placeholders": {},
+    "context": "行 4: MAP_PRIVATE"
+   },
+   {
+    "id": "td_00038",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     9,
+     3
+    ],
+    "text": "Changes are private.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00039",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     11,
+     1
+    ],
+    "text": "MAP_FIXED",
+    "placeholders": {},
+    "context": "行 5: MAP_FIXED"
+   },
+   {
+    "id": "td_00040",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     11,
+     3
+    ],
+    "text": "Interpret [I62]addr[/I62] exactly.",
+    "placeholders": {
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "列头: Description"
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     35
+    ],
+    "text": "It is implementation-defined whether MAP_FIXED shall be supported. [S63][[A64]XSI[/A64]][/S63] [IMG65] &nbsp;MAP_FIXED\nshall be supported on XSI-conformant systems. [IMG66]",
+    "placeholders": {
+     "S63": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A64": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG65": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG66": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37
+    ],
+    "text": "MAP_SHARED and MAP_PRIVATE describe the disposition of write references to the memory object. If MAP_SHARED is\nspecified, write references shall change the underlying object. If MAP_PRIVATE is specified, modifications to the mapped data by\nthe calling process shall be visible only to the calling process and shall not change the underlying object. It is unspecified\nwhether modifications to the underlying object done after the MAP_PRIVATE mapping is established are visible through the\nMAP_PRIVATE mapping. Either MAP_SHARED or MAP_PRIVATE can be specified, but not both. The mapping type is retained across [A67][I68]fork[/I68]()[/A67].",
+    "placeholders": {
+     "A67": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     39
+    ],
+    "text": "The state of synchronization objects such as mutexes, semaphores, barriers, and conditional variables placed in\nshared memory mapped with MAP_SHARED becomes undefined when the last region in any process containing the synchronization object is\nunmapped.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41
+    ],
+    "text": "[S69][[A70]TYM[/A70]][/S69] [IMG71] When [I72]fildes[/I72] represents a typed memory object opened with either the POSIX_TYPED_MEM_ALLOCATE flag or the\nPOSIX_TYPED_MEM_ALLOCATE_CONTIG flag, [I73]mmap[/I73]() shall, if there are enough resources available, map [I74]len[/I74] bytes allocated\nfrom the corresponding typed memory object which were not previously allocated to any process in any processor that may access that\ntyped memory object. If there are not enough resources available, the function shall fail. If [I75]fildes[/I75] represents a typed\nmemory object opened with the POSIX_TYPED_MEM_ALLOCATE_CONTIG flag, these allocated bytes shall be contiguous within the typed\nmemory object. If [I76]fildes[/I76] represents a typed memory object opened with the POSIX_TYPED_MEM_ALLOCATE flag, these allocated\nbytes may be composed of non-contiguous fragments within the typed memory object. If [I77]fildes[/I77] represents a typed memory object\nopened with neither the POSIX_TYPED_MEM_ALLOCATE_CONTIG flag nor the POSIX_TYPED_MEM_ALLOCATE flag, [I78]len[/I78] bytes starting at\noffset [I79]off[/I79] within the typed memory object are mapped, exactly as when mapping a file or shared memory object. In this case,\nif two processes map an area of typed memory using the same [I80]off[/I80] and [I81]len[/I81] values and using file descriptors that refer\nto the same memory pool (either from the same port or from a different port), both processes shall map the same region of storage.\n[IMG82]",
+    "placeholders": {
+     "S69": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG71": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG82": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     43
+    ],
+    "text": "When MAP_FIXED is set in the [I83]flags[/I83] argument, the implementation is informed that the value of [I84]pa[/I84]\nshall be [I85]addr[/I85], exactly. If MAP_FIXED is set, [I86]mmap[/I86]() may return MAP_FAILED and set [I87]errno[/I87] to [EINVAL]. If a\nMAP_FIXED request is successful, then any previous mappings [S88][[A89]ML|MLR[/A89]][/S88] [IMG90] &nbsp;or memory locks [IMG91] &nbsp;for those whole pages containing any part of the address range [[I92]pa[/I92],[I93]pa[/I93]+[I94]len[/I94])\nshall be removed, as if by an appropriate call to [A95][I96]munmap[/I96]()[/A95], before the new mapping is\nestablished.",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S88": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A89": {
+      "open": "<a href=\"javascript:open_code(&#x27;ML&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG90": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG91": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A95": {
+      "open": "<a href=\"../functions/munmap.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     45
+    ],
+    "text": "When MAP_FIXED is not set, the implementation uses [I97]addr[/I97] in an implementation-defined manner to arrive at\n[I98]pa[/I98]. The [I99]pa[/I99] so chosen shall be an area of the address space that the implementation deems suitable for a mapping of\n[I100]len[/I100] bytes to the file. All implementations interpret an [I101]addr[/I101] value of 0 as granting the implementation complete\nfreedom in selecting [I102]pa[/I102], subject to constraints described below. A non-zero value of [I103]addr[/I103] is taken to be a suggestion\nof a process address near which the mapping should be placed. When the implementation selects a value for [I104]pa[/I104], it never\nplaces a mapping at address 0, nor does it replace any extant mapping.",
+    "placeholders": {
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I103": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47
+    ],
+    "text": "If MAP_FIXED is specified and [I105]addr[/I105] is non-zero, it shall have the same remainder as the [I106]off[/I106]\nparameter, modulo the page size as returned by [A107][I108]sysconf[/I108]()[/A107] when passed _SC_PAGESIZE or\n_SC_PAGE_SIZE. The implementation may require that off is a multiple of the page size. If MAP_FIXED is specified, the\nimplementation may require that [I109]addr[/I109] is a multiple of the page size. The system performs mapping operations over whole\npages. Thus, while the parameter [I110]len[/I110] need not meet a size or alignment constraint, the system shall include, in any mapping\noperation, any partial page specified by the address range starting at [I111]pa[/I111] and continuing for [I112]len[/I112] bytes.",
+    "placeholders": {
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A107": {
+      "open": "<a href=\"../functions/sysconf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I109": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I112": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     49
+    ],
+    "text": "If MAP_ANONYMOUS (or its synonym MAP_ANON) is specified, [I113]fildes[/I113] is -1, and [I114]off[/I114] is 0, then\n[I115]mmap[/I115]() shall ignore [I116]fildes[/I116] and instead establish a mapping to a new anonymous memory object of size [I117]len[/I117]. The\neffect of specifying MAP_ANONYMOUS (or MAP_ANON) with other values of [I118]fildes[/I118] or [I119]off[/I119] is unspecified. Anonymous memory\nobjects shall be initialized to all bits zero.",
+    "placeholders": {
+     "I113": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I114": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I116": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I117": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I119": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     51
+    ],
+    "text": "The system shall always zero-fill any partial page at the end of an object. Further, the system shall never write\nout any modified portions of the last page of an object which are beyond its end. References within the address range starting at\n[I120]pa[/I120] and continuing for [I121]len[/I121] bytes to whole pages following the end of an object shall result in delivery of a SIGBUS\nsignal.",
+    "placeholders": {
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I121": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     53
+    ],
+    "text": "An implementation may generate SIGBUS signals when a reference would cause an error in the mapped object, such as\nout-of-space condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     55
+    ],
+    "text": "The [I122]mmap[/I122]() function shall add an extra reference to the file associated with the file descriptor\n[I123]fildes[/I123] which is not removed by a subsequent [A124][I125]close[/I125]()[/A124] on that file descriptor.\nThis reference shall be removed when there are no more mappings to the file.",
+    "placeholders": {
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I123": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A124": {
+      "open": "<a href=\"../functions/close.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I125": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     57
+    ],
+    "text": "The last data access timestamp of the mapped file may be marked for update at any time between the [I126]mmap[/I126]()\ncall and the corresponding [A127][I128]munmap[/I128]()[/A127] call. The initial read or write reference to a\nmapped region shall cause the file's last data access timestamp to be marked for update if it has not already been marked for\nupdate.",
+    "placeholders": {
+     "I126": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A127": {
+      "open": "<a href=\"../functions/munmap.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I128": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     59
+    ],
+    "text": "The last data modification and last file status change timestamps of a file that is mapped with MAP_SHARED and\nPROT_WRITE shall be marked for update at some point in the interval between a write reference to the mapped region and the next\ncall to [A129][I130]msync[/I130]()[/A129] with MS_ASYNC or MS_SYNC for that portion of the file by any process.\nIf there is no such call and if the underlying file is modified as a result of a write reference, then these timestamps shall be\nmarked for update at some time after the write reference.",
+    "placeholders": {
+     "A129": {
+      "open": "<a href=\"../functions/msync.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     61
+    ],
+    "text": "There may be implementation-defined limits on the number of memory regions that can be mapped (per process or per\nsystem).",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     63
+    ],
+    "text": "[S131][[A132]XSI[/A132]][/S131] [IMG133] If such a limit is imposed, whether the number of memory regions that can be mapped by a process is decreased by the\nuse of [A134][I135]shmat[/I135]()[/A134] is implementation-defined. [IMG136]",
+    "placeholders": {
+     "S131": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A132": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG133": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A134": {
+      "open": "<a href=\"../functions/shmat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG136": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     65
+    ],
+    "text": "If [I137]mmap[/I137]() fails for reasons other than [EBADF], [EINVAL], or [ENOTSUP], some of the mappings in the address\nrange starting at [I138]addr[/I138] and continuing for [I139]len[/I139] bytes may have been unmapped.",
+    "placeholders": {
+     "I137": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I138": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I139": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00057",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A140][/A140]RETURN VALUE",
+    "placeholders": {
+     "A140": {
+      "open": "<a name=\"tag_17_345_04\" id=\"tag_17_345_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, the [I141]mmap[/I141]() function shall return the address at which the mapping was placed ([I142]pa[/I142]);\notherwise, it shall return a value of MAP_FAILED and set [I143]errno[/I143] to indicate the error. The symbol MAP_FAILED is defined in\nthe [A144][I145]&lt;sys/mman.h&gt;[/I145][/A144] header. No successful return from [I146]mmap[/I146]() shall\nreturn the value MAP_FAILED.",
+    "placeholders": {
+     "I141": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I142": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I143": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A144": {
+      "open": "<a href=\"../basedefs/sys_mman.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I145": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I146": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00059",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A147][/A147]ERRORS",
+    "placeholders": {
+     "A147": {
+      "open": "<a name=\"tag_17_345_05\" id=\"tag_17_345_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I148]mmap[/I148]() function shall fail if:",
+    "placeholders": {
+     "I148": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00061",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00062",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S149][[A150]ML[/A150]][/S149] [IMG151]\nThe mapping could not be locked in memory, if required by [A152][I153]mlockall[/I153]()[/A152], due to a lack\nof resources. [IMG154]",
+    "placeholders": {
+     "S149": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A150": {
+      "open": "<a href=\"javascript:open_code(&#x27;ML&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG151": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A152": {
+      "open": "<a href=\"../functions/mlockall.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I153": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG154": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00063",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00064",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The value of [I155]len[/I155] is zero.",
+    "placeholders": {
+     "I155": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00065",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00066",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "The value of [I156]flags[/I156] is invalid (neither MAP_PRIVATE nor MAP_SHARED is set).",
+    "placeholders": {
+     "I156": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00067",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00068",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "The number of mapped regions would exceed an implementation-defined limit (per process or per system).",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00069",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00070",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "MAP_FIXED was specified, and the range [[I157]addr[/I157],[I158]addr[/I158]+[I159]len[/I159]) exceeds that allowed for the address space of a\nprocess; or, if MAP_FIXED was not specified and there is insufficient room in the address space to effect the mapping.",
+    "placeholders": {
+     "I157": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I158": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00071",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00072",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "[S160][[A161]ML[/A161]][/S160] [IMG162]\nThe mapping could not be locked in memory, if required by [A163][I164]mlockall[/I164]()[/A163], because it\nwould require more space than the system is able to supply. [IMG165]",
+    "placeholders": {
+     "S160": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A161": {
+      "open": "<a href=\"javascript:open_code(&#x27;ML&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG162": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A163": {
+      "open": "<a href=\"../functions/mlockall.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I164": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG165": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00073",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00074",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "[S166][[A167]TYM[/A167]][/S166] [IMG168]\nNot enough unallocated memory resources remain in the typed memory object designated by [I169]fildes[/I169] to allocate [I170]len[/I170] bytes.\n[IMG171]",
+    "placeholders": {
+     "S166": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A167": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG168": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I169": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I170": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG171": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00075",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[ENOTSUP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33,
+     3
+    ],
+    "text": "The implementation does not support the combination of accesses requested in the [I172]prot[/I172] argument.",
+    "placeholders": {
+     "I172": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00077",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     35
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00078",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     37
+    ],
+    "text": "MAP_FIXED was specified in [I173]flags[/I173] and the combination of [I174]addr[/I174], [I175]len[/I175], and [I176]off[/I176] is invalid for the\nspecified object.",
+    "placeholders": {
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I174": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I175": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I176": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00079",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     39
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00080",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     41
+    ],
+    "text": "[S177][[A178]TYM[/A178]][/S177] [IMG179]\nThe [I180]fildes[/I180] argument refers to a typed memory object that is not accessible from the calling process. [IMG181]",
+    "placeholders": {
+     "S177": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A178": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG179": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I180": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG181": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00081",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "In addition, if MAP_ANONYMOUS (or MAP_ANON) is not set in flags, the [I182]mmap[/I182]() function shall fail if:",
+    "placeholders": {
+     "I182": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00082",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00083",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The [I183]fildes[/I183] argument is not open for read, regardless of the protection specified, or [I184]fildes[/I184] is not open for write\nand PROT_WRITE was specified for a MAP_SHARED type mapping.",
+    "placeholders": {
+     "I183": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I184": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00084",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00085",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "The [I185]fildes[/I185] argument is not a valid open file descriptor.",
+    "placeholders": {
+     "I185": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00086",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     11
+    ],
+    "text": "[ENODEV]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00087",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     13
+    ],
+    "text": "The [I186]fildes[/I186] argument refers to a file whose type is not supported by [I187]mmap[/I187]().",
+    "placeholders": {
+     "I186": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I187": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00088",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     15
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00089",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     17
+    ],
+    "text": "The file is a regular file and the value of [I188]off[/I188] plus [I189]len[/I189] exceeds the offset maximum established in the open file\ndescription associated with [I190]fildes[/I190].",
+    "placeholders": {
+     "I188": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I189": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I190": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00090",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     19
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00091",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     21
+    ],
+    "text": "Addresses in the range [[I191]off[/I191],[I192]off[/I192]+[I193]len[/I193]) are invalid for the object specified by [I194]fildes[/I194].",
+    "placeholders": {
+     "I191": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I192": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I193": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I194": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "The [I195]mmap[/I195]() function may fail if:",
+    "placeholders": {
+     "I195": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00093",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00094",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "The [I196]addr[/I196] argument (if MAP_FIXED was specified) or [I197]off[/I197] is not a multiple of the page size as returned by [A198][I199]sysconf[/I199]()[/A198], or is considered invalid by the implementation.",
+    "placeholders": {
+     "I196": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I197": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A198": {
+      "open": "<a href=\"../functions/sysconf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I199": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00095",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A200][/A200]EXAMPLES",
+    "placeholders": {
+     "A200": {
+      "open": "<a name=\"tag_17_345_06\" id=\"tag_17_345_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00097",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A201][/A201]APPLICATION USAGE",
+    "placeholders": {
+     "A201": {
+      "open": "<a name=\"tag_17_345_07\" id=\"tag_17_345_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Use of [I202]mmap[/I202]() may reduce the amount of memory available to other memory allocation functions.",
+    "placeholders": {
+     "I202": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00099",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "Use of MAP_FIXED may result in unspecified behavior in further use of [A203][I204]malloc[/I204]()[/A203] and [A205][I206]shmat[/I206]()[/A205]. The use of MAP_FIXED is\ndiscouraged, as it may prevent an implementation from making the most effective use of resources. Most implementations require that\n[I207]off[/I207] and [I208]addr[/I208] are multiples of the page size as returned by [A209][I210]sysconf[/I210]()[/A209].",
+    "placeholders": {
+     "A203": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I204": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A205": {
+      "open": "<a href=\"../functions/shmat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I206": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I207": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I208": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A209": {
+      "open": "<a href=\"../functions/sysconf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I210": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5
+    ],
+    "text": "The application must ensure correct synchronization when using [I211]mmap[/I211]() in conjunction with any other file\naccess method, such as [A212][I213]read[/I213]()[/A212] and [A214][I215]write[/I215]()[/A214],\nstandard input/output, and [A216][I217]shmat[/I217]()[/A216].",
+    "placeholders": {
+     "I211": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A212": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I213": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A214": {
+      "open": "<a href=\"../functions/write.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I215": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A216": {
+      "open": "<a href=\"../functions/shmat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I217": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     7
+    ],
+    "text": "The [I218]mmap[/I218]() function allows access to resources via address space manipulations, instead of [A219][I220]read[/I220]()[/A219]/[A221][I222]write[/I222]()[/A221]. Once a file is mapped, all a\nprocess has to do to access it is use the data at the address to which the file was mapped. So, using pseudo-code to illustrate the\nway in which an existing program might be changed to use [I223]mmap[/I223](), the following:",
+    "placeholders": {
+     "I218": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A219": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I220": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A221": {
+      "open": "<a href=\"../functions/write.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I222": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I223": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00102",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     11
+    ],
+    "text": "becomes:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00103",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A224][/A224]RATIONALE",
+    "placeholders": {
+     "A224": {
+      "open": "<a name=\"tag_17_345_08\" id=\"tag_17_345_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "After considering several other alternatives, it was decided to adopt the [I225]mmap[/I225]() definition found in SVR4 for mapping\nmemory objects into process address spaces. The SVR4 definition is minimal, in that it describes only what has been built, and what\nappears to be necessary for a general and portable mapping facility.",
+    "placeholders": {
+     "I225": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00105",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "Note that while [I226]mmap[/I226]() was first designed for mapping files, it is actually a general-purpose mapping\nfacility. It can be used to map any appropriate object, such as memory, files, devices, and so on, into the address space of a\nprocess.",
+    "placeholders": {
+     "I226": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00106",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "When a mapping is established, it is possible that the implementation may need to map more than is requested into\nthe address space of the process because of hardware requirements. An application, however, cannot count on this behavior.\nImplementations that do not use a paged architecture may simply allocate a common memory region and return the address of it; such\nimplementations probably do not allocate any more than is necessary. References past the end of the requested area are\nunspecified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00107",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "If an application requests a mapping that overlaps existing mappings in the process, it might be desirable that an\nimplementation detect this and inform the application. However, if the program specifies a fixed address mapping (which requires\nsome implementation knowledge to determine a suitable address, if the function is supported at all), then the program is presumed\nto be successfully managing its own address space and should be trusted when it asks to map over existing data structures.\nFurthermore, it is also desirable to make as few system calls as possible, and it might be considered onerous to require an\n[A227][I228]munmap[/I228]()[/A227] before an [I229]mmap[/I229]() to the same address range. This volume of\nPOSIX.1-2024 specifies that the new mapping replaces any existing mappings (implying an automatic [A230][I231]munmap[/I231]()[/A230] on the address range), following existing practice in this regard. The standard\ndevelopers also considered whether there should be a way for new mappings to overlay existing mappings, but found no existing\npractice for this.",
+    "placeholders": {
+     "A227": {
+      "open": "<a href=\"../functions/munmap.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I228": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I229": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A230": {
+      "open": "<a href=\"../functions/munmap.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I231": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00108",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "It is not expected that all hardware implementations are able to support all combinations of permissions at all\naddresses. Implementations are required to disallow write access to mappings without write permission and to disallow access to\nmappings without any access permission. Other than these restrictions, implementations may allow access types other than those\nrequested by the application. For example, if the application requests only PROT_WRITE, the implementation may also allow read\naccess. A call to [I232]mmap[/I232]() fails if the implementation cannot support allowing all the access requested by the application.\nFor example, some implementations cannot support a request for both write access and execute access simultaneously. All\nimplementations must support requests for no access, read access, write access, and both read and write access. Strictly conforming\ncode must only rely on the required checks. These restrictions allow for portability across a wide range of hardware.",
+    "placeholders": {
+     "I232": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00109",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "The MAP_FIXED address treatment is likely to fail for non-page-aligned values and for certain\narchitecture-dependent address ranges. Conforming implementations cannot count on being able to choose address values for MAP_FIXED\nwithout utilizing non-portable, implementation-defined knowledge. Nonetheless, MAP_FIXED is provided as a standard interface\nconforming to existing practice for utilizing such knowledge when it is available.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00110",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "Similarly, in order to allow implementations that do not support virtual addresses, support for directly specifying\nany mapping addresses via MAP_FIXED is not required and thus a conforming application may not count on it.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00111",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15
+    ],
+    "text": "The MAP_PRIVATE function can be implemented efficiently when memory protection hardware is available. When such\nhardware is not available, implementations can implement such &quot;mappings&quot; by simply making a real copy of the relevant data into\nprocess private memory, though this tends to behave similarly to [A233][I234]read[/I234]()[/A233].",
+    "placeholders": {
+     "A233": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I234": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00112",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     17
+    ],
+    "text": "The function has been defined to allow for many different models of using shared memory. However, all uses are not\nequally portable across all machine architectures. In particular, the [I235]mmap[/I235]() function allows the system as well as the\napplication to specify the address at which to map a specific region of a memory object. The most portable way to use the function\nis always to let the system choose the address, specifying NULL as the value for the argument [I236]addr[/I236] and not to specify\nMAP_FIXED.",
+    "placeholders": {
+     "I235": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I236": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00113",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     19
+    ],
+    "text": "If it is intended that a particular region of a memory object be mapped at the same address in a group of processes\n(on machines where this is even possible), then MAP_FIXED can be used to pass in the desired mapping address. The system can still\nbe used to choose the desired address if the first such mapping is made without specifying MAP_FIXED, and then the resulting\nmapping address can be passed to subsequent processes for them to pass in via MAP_FIXED. The availability of a specific address\nrange cannot be guaranteed, in general.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00114",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     21
+    ],
+    "text": "The [I237]mmap[/I237]() function can be used to map a region of memory that is larger than the current size of the\nobject. Memory access within the mapping but beyond the current end of the underlying objects may result in SIGBUS signals being\nsent to the process. The reason for this is that the size of the object can be manipulated by other processes and can change at any\nmoment. The implementation should tell the application that a memory reference is outside the object where this can be detected;\notherwise, written data may be lost and read data may not reflect actual data in the object.",
+    "placeholders": {
+     "I237": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00115",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     23
+    ],
+    "text": "Note that references beyond the end of the object do not extend the object as the new end cannot be determined\nprecisely by most virtual memory hardware. Instead, the size can be directly manipulated by [A238][I239]ftruncate[/I239]()[/A238].",
+    "placeholders": {
+     "A238": {
+      "open": "<a href=\"../functions/ftruncate.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I239": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00116",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     25
+    ],
+    "text": "Process memory locking does apply to shared memory regions, and the MCL_FUTURE argument to [A240][I241]mlockall[/I241]()[/A240] can be relied upon to cause new shared memory regions to be automatically\nlocked.",
+    "placeholders": {
+     "A240": {
+      "open": "<a href=\"../functions/mlockall.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I241": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00117",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27
+    ],
+    "text": "Existing implementations of [I242]mmap[/I242]() return the value -1 when unsuccessful. Since the casting of this value to\ntype [B243]void *[/B243] cannot be guaranteed by the ISO&nbsp;C standard to be distinct from a successful value, this volume of\nPOSIX.1-2024 defines the symbol MAP_FAILED, which a conforming implementation does not return as the result of a successful\ncall.",
+    "placeholders": {
+     "I242": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B243": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00118",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     29
+    ],
+    "text": "Some historical implementations only supported MAP_ANON, some only supported MAP_ANONYMOUS, and some supported both\nspellings. This standard includes both spellings partly for application compatibility and partly because neither spelling was\nclearly more popular than the other at the time this feature was considered for standardization.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00119",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A244][/A244]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A244": {
+      "open": "<a name=\"tag_17_345_09\" id=\"tag_17_345_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00120",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00121",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A245][/A245]SEE ALSO",
+    "placeholders": {
+     "A245": {
+      "open": "<a name=\"tag_17_345_10\" id=\"tag_17_345_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00122",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A246][/A246][A247]exec[/A247], [A248][I249]fcntl[/I249]()[/A248], [A250][I251]fork[/I251]()[/A250], [A252][I253]lockf[/I253]()[/A252], [A254][I255]msync[/I255]()[/A254], [A256][I257]munmap[/I257]()[/A256], [A258][I259]mprotect[/I259]()[/A258], [A260][I261]posix_typed_mem_open[/I261]()[/A260], [A262][I263]shmat[/I263]()[/A262]\n, [A264][I265]sysconf[/I265]()[/A264]",
+    "placeholders": {
+     "A246": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A247": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A248": {
+      "open": "<a href=\"../functions/fcntl.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I249": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A250": {
+      "open": "<a href=\"../functions/fork.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I251": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A252": {
+      "open": "<a href=\"../functions/lockf.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I253": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A254": {
+      "open": "<a href=\"../functions/msync.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I255": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A256": {
+      "open": "<a href=\"../functions/munmap.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I257": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A258": {
+      "open": "<a href=\"../functions/mprotect.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I259": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A260": {
+      "open": "<a href=\"../functions/posix_typed_mem_open.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I261": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A262": {
+      "open": "<a href=\"../functions/shmat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I263": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A264": {
+      "open": "<a href=\"../functions/sysconf.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I265": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00123",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A266][I267]&lt;sys/mman.h&gt;[/I267][/A266]",
+    "placeholders": {
+     "A266": {
+      "open": "<a href=\"../basedefs/sys_mman.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I267": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00124",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A268][/A268]CHANGE HISTORY",
+    "placeholders": {
+     "A268": {
+      "open": "<a name=\"tag_17_345_11\" id=\"tag_17_345_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00125",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 4, Version 2.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00126",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A269][/A269]Issue 5",
+    "placeholders": {
+     "A269": {
+      "open": "<a name=\"tag_17_345_12\" id=\"tag_17_345_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00127",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Moved from X/OPEN UNIX extension to BASE.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00128",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "Aligned with [I270]mmap[/I270]() in the POSIX Realtime Extension as follows:",
+    "placeholders": {
+     "I270": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "li_00129",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     1
+    ],
+    "text": "The DESCRIPTION is extensively reworded.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00130",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     3
+    ],
+    "text": "The [EAGAIN] and [ENOTSUP] mandatory error conditions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00131",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     5
+    ],
+    "text": "New cases of [ENOMEM] and [ENXIO] are added as mandatory error conditions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00132",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     7
+    ],
+    "text": "The value returned on failure is the value of the constant MAP_FAILED; this was previously defined as -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00133",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     7
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00134",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A271][/A271]Issue 6",
+    "placeholders": {
+     "A271": {
+      "open": "<a name=\"tag_17_345_13\" id=\"tag_17_345_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00135",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "The [I272]mmap[/I272]() function is marked as part of the Memory Mapped Files option.",
+    "placeholders": {
+     "I272": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00136",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The Open Group Corrigendum U028/6 is applied, changing ([B273]void[/B273]&nbsp;*)-1 to MAP_FAILED.",
+    "placeholders": {
+     "B273": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00137",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX\nSpecification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00138",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     1
+    ],
+    "text": "The DESCRIPTION is updated to describe the use of MAP_FIXED.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00139",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     3
+    ],
+    "text": "The DESCRIPTION is updated to describe the addition of an extra reference to the file associated with the file\ndescriptor passed to [I274]mmap[/I274]().",
+    "placeholders": {
+     "I274": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "li_00140",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     5
+    ],
+    "text": "The DESCRIPTION is updated to state that there may be implementation-defined limits on the number of memory\nregions that can be mapped.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00141",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     7
+    ],
+    "text": "The DESCRIPTION is updated to describe constraints on the alignment and size of the [I275]off[/I275] argument.",
+    "placeholders": {
+     "I275": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "li_00142",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     9
+    ],
+    "text": "The [EINVAL] and [EMFILE] error conditions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00143",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     11
+    ],
+    "text": "The [EOVERFLOW] error condition is added. This change is to support large files.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00144",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The following changes are made for alignment with the ISO&nbsp;POSIX-1:1996 standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00145",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13,
+     1
+    ],
+    "text": "The DESCRIPTION is updated to describe the cases when MAP_PRIVATE and MAP_FIXED need not be supported.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00146",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "The following changes are made for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00147",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     17,
+     1
+    ],
+    "text": "Semantics for typed memory objects are added to the DESCRIPTION.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00148",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     17,
+     3
+    ],
+    "text": "New [ENOMEM] and [ENXIO] errors are added to the ERRORS section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00149",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     17,
+     5
+    ],
+    "text": "The [A276][I277]posix_typed_mem_open[/I277]()[/A276] function is added to the\nSEE ALSO section.",
+    "placeholders": {
+     "A276": {
+      "open": "<a href=\"../functions/posix_typed_mem_open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I277": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00150",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     19
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00151",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     21
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/34 is applied, changing the margin code in the\nSYNOPSIS from MF|SHM to MC3 (notation for MF|SHM|TYM).",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00152",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     23
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/60 is applied, updating the DESCRIPTION and ERRORS\nsections to add the [EINVAL] error when [I278]len[/I278] is zero.",
+    "placeholders": {
+     "I278": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00153",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A279][/A279]Issue 7",
+    "placeholders": {
+     "A279": {
+      "open": "<a name=\"tag_17_345_14\" id=\"tag_17_345_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00154",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretations 1003.1-2001 #078 and #079 are applied, clarifying page alignment requirements and adding a note\nabout the state of synchronization objects becoming undefined when a shared region is unmapped.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00155",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Functionality relating to the Memory Protection and Memory Mapped Files options is moved to the Base.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00156",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00157",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0229 [852] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00158",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A280][/A280]Issue 8",
+    "placeholders": {
+     "A280": {
+      "open": "<a name=\"tag_17_345_15\" id=\"tag_17_345_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00159",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 850 is applied, adding anonymous memory objects.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00160",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

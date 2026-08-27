@@ -1,0 +1,33 @@
+<h1>XSH 函数导读：fopen()</h1>
+
+<h2>0. 总览</h2>
+<p><code>fopen()</code> 打开路径名为 <i>pathname</i> 的文件，并将一个流与它关联，返回指向该流对象的指针；失败时返回空指针并设置 <i>errno</i>。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：两个参数均带 <code>restrict</code> 限定——<code>FILE *fopen(const char *restrict pathname, const char *restrict mode)</code>，调用方须保证两个字符串在生命周期内不被修改。</p>
+
+<h2>1. 机制</h2>
+<p><code>mode</code> 的第一个字符决定基本模式：<code>'r'</code> 读取、<code>'w'</code> 截断或创建、<code>'a'</code> 追加（所有后续写入都被强制到当时的文件末尾，即使中间调用了 <code>fseek()</code>）。其余字符可任意顺序出现：<code>'b'</code> 无任何作用（仅为符合 ISO C 而允许）；<code>'e'</code> 使底层文件描述符原子地设置 FD_CLOEXEC；<code>'x'</code> 与 <code>'w'</code>/<code>'a'</code> 组合时，若文件已存在则失败，并以独占方式创建；<code>'+'</code> 使文件便于更新（可读可写）。底层通过 <code>open()</code> 实现：如 <code>'w'</code> 映射 O_WRONLY|O_CREAT|O_TRUNC，<code>'a'</code> 映射 O_WRONLY|O_CREAT|O_APPEND，仅当指定 <code>'e'</code>/<code>'x'</code> 时才 OR 进 O_CLOEXEC/O_EXCL。打开成功后流的方向、编码规则被清除，<code>mbstate_t</code> 置为初始转换状态；当且仅当能确定流不指向交互式设备时才完全缓冲，错误与文件末尾指示符被清除。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><code>mode</code> 中任何字符出现不止一次则行为未指定；不以 <code>'r'</code>/<code>'w'</code>/<code>'a'</code> 开头则行为未定义，返回值也未必可靠。</li>
+<li><code>'x'</code> 只对以 <code>'w'</code> 或 <code>'a'</code> 开头的模式有意义；对 <code>'r'</code> 开头的模式效果是实现定义的，不要依赖。</li>
+<li>更新模式（<code>'+'</code>）下，输出之后不能直接跟输入，除非中间调用 <code>fflush()</code> 或文件定位函数；输入之后也不能直接跟输出，除非中间定位或输入遇到文件末尾。</li>
+<li>追加模式下 <code>fseek()</code> 到文件中间再写，数据仍会落到文件末尾。</li>
+<li>若需要“文件已存在则创建失败”且不要求独占访问，规范建议改用带 O_CREAT|O_EXCL 的 <code>open()</code>，再用 <code>fdopen()</code> 建流。</li>
+<li>不要忘记检查返回值：失败时返回空指针，可能伴随 EACCES、ENOENT、EMFILE、EISDIR 等错误。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    FILE *fp = fopen("note.txt", "wxe"); /* 已存在则失败；fd 带 FD_CLOEXEC */
+    if (fp == NULL) {
+        perror("fopen");
+        return 1;
+    }
+    fputs("hello\n", fp);
+    fclose(fp);
+    return 0;
+}
+</code></pre>

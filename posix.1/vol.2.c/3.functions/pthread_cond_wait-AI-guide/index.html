@@ -1,0 +1,33 @@
+<h1>XSH 函数导读：pthread_cond_wait()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_cond_wait()</code> 让调用线程阻塞在条件变量上等待某个条件成立，是"互斥量 + 条件变量"协作模型的核心。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_cond_wait(pthread_cond_t *restrict cond, pthread_mutex_t *restrict mutex);</code>——调用前必须已持有 <code>mutex</code>，成功返回零。</p>
+
+<h2>1. 机制</h2>
+<p>调用时，函数原子地完成两件事：释放 <code>mutex</code> 并让线程阻塞在 <code>cond</code> 上——"原子"指相对于其他线程对互斥量及随后的条件变量访问而言，因此不会丢失信号（若别的线程在释放后获取了互斥量，其后续 signal/broadcast 表现得如同在阻塞完成之后发出）。被唤醒返回时，互斥量应已被重新锁定且归调用线程所有。条件等待（无论是否定时）是取消点：延迟取消下响应取消时，会在调用第一个取消清理处理程序之前重新获取互斥量，保证清理程序运行时的锁状态与临界区内一致。条件变量与互斥量形成动态绑定，同一时刻所有等待者必须使用同一互斥量。</p>
+
+<h2>2. 易错点</h2>
+<p>最大坑是虚假唤醒：<code>pthread_cond_wait()</code> 返回并不暗示谓词为真，标准明确建议把等待包在检查谓词的 while 循环中。调用前未持有互斥量是错误（ERRORCHECK/健壮类型返回 [EPERM]，其他类型未定义）。等待者中途被取消同样要按惯例处理：清理处理程序执行时锁已被重新获取，别忘了在清理路径解锁。不要在条件变量上混合使用不同互斥量，绑定期间行为未定义。信号不中断等待，不需要为 EINTR 重试。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+
+static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t  cond = PTHREAD_COND_INITIALIZER;
+static int ready = 0;
+
+void *waiter(void *arg) {
+    pthread_mutex_lock(&amp;mtx);
+    while (!ready)                 /* 防虚假唤醒 */
+        pthread_cond_wait(&amp;cond, &amp;mtx); /* 原子释放锁 */
+    pthread_mutex_unlock(&amp;mtx);
+    return NULL;
+}
+
+void *signaler(void *arg) {
+    pthread_mutex_lock(&amp;mtx);
+    ready = 1;
+    pthread_cond_signal(&amp;cond);
+    pthread_mutex_unlock(&amp;mtx);
+    return NULL;
+}</code></pre>

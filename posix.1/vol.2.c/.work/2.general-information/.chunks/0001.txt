@@ -1,0 +1,2 @@
+[h2_00001] [A1][/A1]2. General Information
+[p_00002] This chapter covers information that is relevant to all the functions specified in [A2][I3]3. System Interfaces[/I3][/A2] and XBD [A4][I5]14. Headers[/I5][/A4].

@@ -1,0 +1,30 @@
+<h1>XSH 函数导读：socket()</h1>
+
+<h2>0. 总览</h2>
+<p><b>socket()</b> 为通信创建端点：在一个通信域中创建一个未绑定的套接字，并返回一个可用于后续套接字操作的文件描述符。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>int socket(int domain, int type, int protocol)</code>。三个参数分别指定通信域（即地址族，如 AF_UNIX）、套接字类型和具体协议；<i>protocol</i> 传 0 表示使用该地址族和类型的默认协议。</p>
+
+<h2>1. 机制</h2>
+<p>由 <i>domain</i> 指定的地址族决定地址格式，由 <i>type</i> 决定通信语义：SOCK_STREAM 提供有序、可靠、双向、连接模式的字节流，并可能提供带外数据传输机制；SOCK_DGRAM 提供无连接、不可靠、固定最大长度的数据报；SOCK_SEQPACKET 为记录提供有序、可靠、双向、连接模式的传输路径，记录边界通过 MSG_EOR 标志对接收方可见。<i>type</i> 还可以按位或（bitwise-inclusive OR）SOCK_CLOEXEC（原子设置 FD_CLOEXEC）、SOCK_CLOFORK（原子设置 FD_CLOFORK）和 SOCK_NONBLOCK（设置 O_NONBLOCK）等标志，以避免多线程下的数据竞争。新文件描述符按 2.6 文件描述符分配的规则分配。创建出的套接字最初是未命名的，只由地址族标识，后续常与 bind()、connect() 等配合使用。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>失败时返回 -1 并设置 errno：地址族不支持返回 [EAFNOSUPPORT]；进程 fd 耗尽返回 [EMFILE]；协议非零但不受支持返回 [EPROTONOSUPPORT]；协议与该套接字类型不匹配返回 [EPROTOTYPE]。套接字类型不受支持时，[ESOCKTNOSUPPORT]（已标记过时）、[EPROTONOSUPPORT] 或 [EPROTOTYPE] 三者都被允许。</li>
+<li>某些套接字的创建可能需要适当权限，失败时可能返回 [EACCES]。</li>
+<li>type 标志要与类型本身区分开：SOCK_CLOEXEC 等标志只影响新描述符的属性，不改变通信语义。</li>
+<li>创建套接字并不绑定地址也不建立连接，后续必须显式调用 bind()/connect() 等函数。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int sfd = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (sfd == -1) {
+        perror("socket");
+        return 1;
+    }
+    /* sfd 是未绑定、未连接的套接字描述符，
+       之后可用 bind() 绑定本地地址、listen() 进入监听 */
+    return 0;
+}</code></pre>

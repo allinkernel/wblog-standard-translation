@@ -1,0 +1,430 @@
+[h3_00019] [A11][/A11]2.2 The Compilation Environment
+[h4_00020] [A12][/A12]2.2.1 POSIX.1 Symbols
+[p_00021] Certain symbols in this volume of POSIX.1-2024 are defined in headers (see XBD [A13][I14]14. Headers[/I14][/A13]). Some of those headers could also define symbols other than those defined by POSIX.1-2024, potentially conflicting with symbols used by the application. Also, POSIX.1-2024 defines symbols that are not permitted by other standards to appear in those headers without some control on the visibility of those symbols.
+[p_00022] Symbols called &quot;feature test macros&quot; are used to control the visibility of symbols that might be included in a header. Implementations, future versions of this standard, and other standards may define additional feature test macros.
+[p_00023] In the compilation of an application that [B15]#define[/B15]s a feature test macro specified by POSIX.1-2024, no header defined by POSIX.1-2024 shall be included prior to the definition of the feature test macro. This restriction also applies to any implementation-provided header in which these feature test macros are used. If the definition of the macro does not precede the [B16]#include[/B16], the result is undefined.
+[p_00024] Feature test macros shall begin with the &lt;underscore&gt; character ([CODE17]).
+[h5_00025] [A18][/A18]2.2.1.1 The _POSIX_C_SOURCE Feature Test Macro
+[p_00026] A POSIX-conforming application shall ensure that the feature test macro _POSIX_C_SOURCE is defined before inclusion of any header.
+[p_00027] When an application includes a header described by POSIX.1-2024, and when this feature test macro is defined to have the value 202405L:
+[p_00028] All symbols required by POSIX.1-2024 to appear when the header is included shall be made visible.
+[p_00029] Symbols that are explicitly permitted, but not required, by POSIX.1-2024 to appear in that header (including those in reserved name spaces) may be made visible.
+[p_00030] Additional symbols not required or explicitly permitted by POSIX.1-2024 to be in that header shall not be made visible, except when enabled by another feature test macro.
+[p_00031] Identifiers in POSIX.1-2024 may only be undefined using the [B19]#undef[/B19] directive as described in [A20]2.1 Use and Implementation of Interfaces[/A20] or [A21]2.2.2 The Name Space[/A21]. These [B22]#undef[/B22] directives shall follow all [B23]#include[/B23] directives of any header in POSIX.1-2024.
+[dt_00032] [B24]Note:[/B24]
+[dd_00033] The POSIX.1-1990 standard specified a macro called _POSIX_SOURCE. This has been superseded by _POSIX_C_SOURCE.
+[h5_00034] [A25][/A25]2.2.1.2 The _XOPEN_SOURCE Feature Test Macro
+[p_00035] [S26][[A27]XSI[/A27]][/S26] [IMG28] An XSI-conforming application shall ensure that the feature test macro _XOPEN_SOURCE is defined with the value 800 before inclusion of any header. This is needed to enable the functionality described in [A29]2.2.1.1 The _POSIX_C_SOURCE Feature Test Macro[/A29] and to ensure that the XSI option is enabled.
+[p_00036] Since this volume of POSIX.1-2024 is aligned with the ISO&nbsp;C standard, and since all functionality enabled by _POSIX_C_SOURCE set equal to 202405L is enabled by _XOPEN_SOURCE set equal to 800, there should be no need to define _POSIX_C_SOURCE if _XOPEN_SOURCE is so defined. Therefore, if _XOPEN_SOURCE is set equal to 800 and _POSIX_C_SOURCE is set equal to 202405L, the behavior is the same as if only _XOPEN_SOURCE is defined and set equal to 800. However, should _POSIX_C_SOURCE be set to a value greater than 202405L, the behavior is unspecified.
+[p_00037] If _XOPEN_SOURCE is defined with the value 800 and _POSIX_C_SOURCE is undefined before inclusion of any header, then the header may define the _POSIX_C_SOURCE macro with the value 202405L. [IMG30]
+[h5_00038] [A31][/A31]2.2.1.3 The __STDC_WANT_LIB_EXT1__ Feature Test Macro
+[p_00039] A POSIX-conforming [S32][[A33]XSI[/A33]][/S32] [IMG34] &nbsp;or XSI-conforming [IMG35] &nbsp;application can define the feature test macro __STDC_WANT_LIB_EXT1__ before inclusion of any header.
+[p_00040] When an application includes a header described by POSIX.1-2024, and when this feature test macro is defined to have the value 1, the header may make visible those symbols specified for the header in Annex K of the ISO&nbsp;C standard that are not already explicitly permitted by POSIX.1-2024 to be made visible in the header. These symbols are listed in [A36]2.2.2 The Name Space[/A36] below.
+[p_00041] When an application includes a header described by POSIX.1-2024, and when this feature test macro is either undefined or defined to have the value 0, the header shall not make any additional symbols visible that are not already made visible by the feature test macro _POSIX_C_SOURCE [S37][[A38]XSI[/A38]][/S37] [IMG39] &nbsp;or _XOPEN_SOURCE [IMG40] &nbsp;as described above, except when enabled by another feature test macro.
+[h4_00042] [A41][/A41]2.2.2 The Name Space
+[p_00043] All identifiers in this volume of POSIX.1-2024, except [I42]environ[/I42], are defined in at least one of the headers, as shown in XBD [A43][I44]14. Headers[/I44][/A43]. When [S45][[A46]XSI[/A46]][/S45] [IMG47] &nbsp;_XOPEN_SOURCE or [IMG48] _POSIX_C_SOURCE is defined, each header defines or declares some identifiers, potentially conflicting with identifiers used by the application. The set of identifiers visible to the application consists of precisely those identifiers from the header pages of the included headers, as well as additional identifiers reserved for the implementation. In addition, some headers may make visible identifiers from other headers as indicated on the relevant header pages.
+[p_00044] Implementations may also add members to a structure or union without controlling the visibility of those members with a feature test macro, as long as a user-defined macro with the same name cannot interfere with the correct interpretation of the program. The identifiers reserved for use by the implementation are described below:
+[p_00045] Each identifier with external linkage described in the header section is reserved for use as an identifier with external linkage if the header is included.
+[p_00046] Each macro described in the header section is reserved for any use if the header is included.
+[p_00047] Each identifier with file scope described in the header section is reserved for use as a macro name and as an identifier with file scope in the same name space if the header is included.
+[p_00048] As described in [A49][I50]13. Namespace and Future Directions[/I50][/A49], the prefixes posix_, POSIX_, and _POSIX_ are reserved for use by POSIX.1-2024 and other POSIX standards. Implementations may add symbols to the headers shown in the following table, provided the identifiers for those symbols either:
+[p_00049] Begin with the corresponding reserved prefixes in the table, or
+[p_00050] Have one of the corresponding complete names in the table, or
+[p_00051] End in the string indicated as a reserved suffix in the table and do not use the reserved prefixes posix_, POSIX_, or _POSIX_, as long as the reserved suffix is in that part of the name considered significant by the implementation.
+[p_00052] Symbols that use the reserved prefix _POSIX_ may be made visible by implementations in any header defined by POSIX.1-2024.
+[td_00053] ctx="行 1: [B51]&lt;aio.h&gt;[/B51]" [B51]&lt;aio.h&gt;[/B51]
+[td_00054] ctx="列头: Prefix" aio_, lio_, AIO_, LIO_
+[td_00055] ctx="列头: Suffix" &nbsp;
+[td_00056] ctx="列头: Complete Name" &nbsp;
+[td_00057] ctx="行 2: [B52]&lt;arpa/inet.h&gt;[/B52]" [B52]&lt;arpa/inet.h&gt;[/B52]
+[td_00058] ctx="列头: Prefix" inet_
+[td_00059] ctx="列头: Suffix" &nbsp;
+[td_00060] ctx="列头: Complete Name" &nbsp;
+[td_00061] ctx="行 3: [B53]&lt;ctype.h&gt;[/B53]" [B53]&lt;ctype.h&gt;[/B53]
+[td_00062] ctx="列头: Prefix" to[a-z], is[a-z]
+[td_00063] ctx="列头: Suffix" &nbsp;
+[td_00064] ctx="列头: Complete Name" &nbsp;
+[td_00065] ctx="行 4: [B54]&lt;dlfcn.h&gt;[/B54]" [B54]&lt;dlfcn.h&gt;[/B54]
+[td_00066] ctx="列头: Prefix" RTLD_, dli_
+[td_00067] ctx="列头: Suffix" &nbsp;
+[td_00068] ctx="列头: Complete Name" &nbsp;
+[td_00069] ctx="行 5: [B55]&lt;dirent.h&gt;[/B55]" [B55]&lt;dirent.h&gt;[/B55]
+[td_00070] ctx="列头: Prefix" d_, DT_
+[td_00071] ctx="列头: Suffix" &nbsp;
+[td_00072] ctx="列头: Complete Name" &nbsp;
+[td_00073] ctx="行 6: [B56]&lt;fcntl.h&gt;[/B56]" [B56]&lt;fcntl.h&gt;[/B56]
+[td_00074] ctx="列头: Prefix" l_
+[td_00075] ctx="列头: Suffix" &nbsp;
+[td_00076] ctx="列头: Complete Name" &nbsp;
+[td_00077] ctx="行 7: [S57][[A58]XSI[/A58]][/S57] [I" [S57][[A58]XSI[/A58]][/S57] [IMG59] [B60]&lt;fmtmsg.h&gt;[/B60]
+[td_00078] ctx="列头: Prefix" MM_
+[td_00079] ctx="列头: Suffix" &nbsp;
+[td_00080] ctx="列头: Complete Name" &nbsp; [IMG61]
+[td_00081] ctx="行 8: [B62]&lt;fnmatch.h&gt;[/B62]" [B62]&lt;fnmatch.h&gt;[/B62]
+[td_00082] ctx="列头: Prefix" FNM_
+[td_00083] ctx="列头: Suffix" &nbsp;
+[td_00084] ctx="列头: Complete Name" &nbsp;
+[td_00085] ctx="行 9: [S63][[A64]XSI[/A64]][/S63] [I" [S63][[A64]XSI[/A64]][/S63] [IMG65] [B66]&lt;ftw.h&gt;[/B66]
+[td_00086] ctx="列头: Prefix" FTW
+[td_00087] ctx="列头: Suffix" &nbsp;
+[td_00088] ctx="列头: Complete Name" &nbsp; [IMG67]
+[td_00089] ctx="行 10: [B68]&lt;glob.h&gt;[/B68]" [B68]&lt;glob.h&gt;[/B68]
+[td_00090] ctx="列头: Prefix" gl_, GLOB_
+[td_00091] ctx="列头: Suffix" &nbsp;
+[td_00092] ctx="列头: Complete Name" &nbsp;
+[td_00093] ctx="行 11: [B69]&lt;grp.h&gt;[/B69]" [B69]&lt;grp.h&gt;[/B69]
+[td_00094] ctx="列头: Prefix" gr_
+[td_00095] ctx="列头: Suffix" &nbsp;
+[td_00096] ctx="列头: Complete Name" &nbsp;
+[td_00097] ctx="行 12: [B70]&lt;libintl.h&gt;[/B70]" [B70]&lt;libintl.h&gt;[/B70]
+[td_00098] ctx="列头: Prefix" &nbsp;
+[td_00099] ctx="列头: Suffix" &nbsp;
+[td_00100] ctx="列头: Complete Name" TEXTDOMAINMAX
+[td_00101] ctx="行 13: [B71]&lt;limits.h&gt;[/B71]" [B71]&lt;limits.h&gt;[/B71]
+[td_00102] ctx="列头: Prefix" &nbsp;
+[td_00103] ctx="列头: Suffix" _MAX, _MIN
+[td_00104] ctx="列头: Complete Name" &nbsp;
+[td_00105] ctx="行 14: [S72][[A73]XSI[/A73]][/S72] [I" [S72][[A73]XSI[/A73]][/S72] [IMG74] [B75]&lt;math.h&gt;[/B75]
+[td_00106] ctx="列头: Prefix" M_
+[td_00107] ctx="列头: Suffix" &nbsp;
+[td_00108] ctx="列头: Complete Name" &nbsp;
+[td_00109] ctx="行 15: [S76][[A77]MSG[/A77]][/S76] [I" [S76][[A77]MSG[/A77]][/S76] [IMG78] [B79]&lt;mqueue.h&gt;[/B79]
+[td_00110] ctx="列头: Prefix" mq_, MQ_
+[td_00111] ctx="列头: Suffix" &nbsp;
+[td_00112] ctx="列头: Complete Name" &nbsp;
+[td_00113] ctx="行 16: [S80][[A81]XSI[/A81]][/S80] [I" [S80][[A81]XSI[/A81]][/S80] [IMG82] [B83]&lt;ndbm.h&gt;[/B83]
+[td_00114] ctx="列头: Prefix" dbm_, DBM_
+[td_00115] ctx="列头: Suffix" &nbsp;
+[td_00116] ctx="列头: Complete Name" &nbsp; [IMG84]
+[td_00117] ctx="行 17: [B85]&lt;netdb.h&gt;[/B85]" [B85]&lt;netdb.h&gt;[/B85]
+[td_00118] ctx="列头: Prefix" ai_, h_, n_, p_, s_
+[td_00119] ctx="列头: Suffix" &nbsp;
+[td_00120] ctx="列头: Complete Name" &nbsp;
+[td_00121] ctx="行 18: [B86]&lt;net/if.h&gt;[/B86]" [B86]&lt;net/if.h&gt;[/B86]
+[td_00122] ctx="列头: Prefix" if_, IF_
+[td_00123] ctx="列头: Suffix" &nbsp;
+[td_00124] ctx="列头: Complete Name" &nbsp;
+[td_00125] ctx="行 19: [B87]&lt;netinet/in.h&gt;[/B87" [B87]&lt;netinet/in.h&gt;[/B87]
+[td_00126] ctx="列头: Prefix" in_, ip_, s_, sin_, INADDR_,
+[td_00127] ctx="列头: Suffix" &nbsp;
+[td_00128] ctx="列头: Complete Name" &nbsp;
+[td_00129] ctx="行 20: [B88]&nbsp;[/B88]" [B88]&nbsp;[/B88]
+[td_00130] ctx="列头: Prefix" IPPROTO_
+[td_00131] ctx="列头: Suffix" &nbsp;
+[td_00132] ctx="列头: Complete Name" &nbsp;
+[td_00133] ctx="行 21: [S89][[A90]IP6[/A90]][/S89] [I" [S89][[A90]IP6[/A90]][/S89] [IMG91] [B92]&nbsp;[/B92]
+[td_00134] ctx="列头: Prefix" in6_, in6addr_, s6_, sin6_, IPV6_
+[td_00135] ctx="列头: Suffix" &nbsp;
+[td_00136] ctx="列头: Complete Name" &nbsp; [IMG93]
+[td_00137] ctx="行 22: [B94]&lt;netinet/tcp.h&gt;[/B9" [B94]&lt;netinet/tcp.h&gt;[/B94]
+[td_00138] ctx="列头: Prefix" TCP_
+[td_00139] ctx="列头: Suffix" &nbsp;
+[td_00140] ctx="列头: Complete Name" &nbsp;
+[td_00141] ctx="行 23: [B95]&lt;nl_types.h&gt;[/B95]" [B95]&lt;nl_types.h&gt;[/B95]
+[td_00142] ctx="列头: Prefix" NL_
+[td_00143] ctx="列头: Suffix" &nbsp;
+[td_00144] ctx="列头: Complete Name" &nbsp;
+[td_00145] ctx="行 24: [B96]&lt;poll.h&gt;[/B96]" [B96]&lt;poll.h&gt;[/B96]
+[td_00146] ctx="列头: Prefix" pd_, ph_, ps_, POLL
+[td_00147] ctx="列头: Suffix" &nbsp;
+[td_00148] ctx="列头: Complete Name" &nbsp;
+[td_00149] ctx="行 25: [B97]&lt;pthread.h&gt;[/B97]" [B97]&lt;pthread.h&gt;[/B97]
+[td_00150] ctx="列头: Prefix" pthread_, PTHREAD_
+[td_00151] ctx="列头: Suffix" &nbsp;
+[td_00152] ctx="列头: Complete Name" &nbsp;
+[td_00153] ctx="行 26: [B98]&lt;pwd.h&gt;[/B98]" [B98]&lt;pwd.h&gt;[/B98]
+[td_00154] ctx="列头: Prefix" pw_
+[td_00155] ctx="列头: Suffix" &nbsp;
+[td_00156] ctx="列头: Complete Name" &nbsp;
+[td_00157] ctx="行 27: [B99]&lt;regex.h&gt;[/B99]" [B99]&lt;regex.h&gt;[/B99]
+[td_00158] ctx="列头: Prefix" re_, rm_, REG_
+[td_00159] ctx="列头: Suffix" &nbsp;
+[td_00160] ctx="列头: Complete Name" &nbsp;
+[td_00161] ctx="行 28: [B100]&lt;sched.h&gt;[/B100]" [B100]&lt;sched.h&gt;[/B100]
+[td_00162] ctx="列头: Prefix" sched_, SCHED_
+[td_00163] ctx="列头: Suffix" &nbsp;
+[td_00164] ctx="列头: Complete Name" &nbsp;
+[td_00165] ctx="行 29: [B101]&lt;semaphore.h&gt;[/B10" [B101]&lt;semaphore.h&gt;[/B101]
+[td_00166] ctx="列头: Prefix" sem_, SEM_
+[td_00167] ctx="列头: Suffix" &nbsp;
+[td_00168] ctx="列头: Complete Name" &nbsp;
+[td_00169] ctx="行 30: [S102][[A103]CX[/A103]][/S102]" [S102][[A103]CX[/A103]][/S102] [IMG104] [B105]&lt;signal.h&gt;[/B105]
+[td_00170] ctx="列头: Prefix" sa_, si_, sigev_, sival_, uc_, BUS_,
+[td_00171] ctx="列头: Suffix" &nbsp;
+[td_00172] ctx="列头: Complete Name" &nbsp;
+[td_00173] ctx="行 31: [B106]&nbsp;[/B106]" [B106]&nbsp;[/B106]
+[td_00174] ctx="列头: Prefix" CLD_, FPE_, ILL_, SA_, SEGV_, SI_,
+[td_00175] ctx="列头: Suffix" &nbsp;
+[td_00176] ctx="列头: Complete Name" &nbsp;
+[td_00177] ctx="行 32: [B107]&nbsp;[/B107]" [B107]&nbsp;[/B107]
+[td_00178] ctx="列头: Prefix" SIGEV_,
+[td_00179] ctx="列头: Suffix" &nbsp;
+[td_00180] ctx="列头: Complete Name" &nbsp;
+[td_00181] ctx="行 33: [S108][[A109]XSI[/A109]][/S108" [S108][[A109]XSI[/A109]][/S108] [IMG110] [B111]&nbsp;[/B111]
+[td_00182] ctx="列头: Prefix" ss_, sv_, SS_, TRAP_
+[td_00183] ctx="列头: Suffix" &nbsp;
+[td_00184] ctx="列头: Complete Name" &nbsp; [IMG112]
+[td_00185] ctx="行 34: [B113]&lt;stdatomic.h&gt;[/B11" [B113]&lt;stdatomic.h&gt;[/B113]
+[td_00186] ctx="列头: Prefix" atomic_[a-z], memory_[a-z]
+[td_00187] ctx="列头: Suffix" &nbsp;
+[td_00188] ctx="列头: Complete Name" &nbsp;
+[td_00189] ctx="行 35: [B114]&lt;stdlib.h&gt;[/B114]" [B114]&lt;stdlib.h&gt;[/B114]
+[td_00190] ctx="列头: Prefix" str[a-z]
+[td_00191] ctx="列头: Suffix" &nbsp;
+[td_00192] ctx="列头: Complete Name" &nbsp;
+[td_00193] ctx="行 36: [B115]&lt;string.h&gt;[/B115]" [B115]&lt;string.h&gt;[/B115]
+[td_00194] ctx="列头: Prefix" str[a-z], mem[a-z], wcs[a-z]
+[td_00195] ctx="列头: Suffix" &nbsp;
+[td_00196] ctx="列头: Complete Name" &nbsp;
+[td_00197] ctx="行 37: [S116][[A117]XSI[/A117]][/S116" [S116][[A117]XSI[/A117]][/S116] [IMG118] [B119]&lt;sys/ipc.h&gt;[/B119]
+[td_00198] ctx="列头: Prefix" ipc_, IPC_
+[td_00199] ctx="列头: Suffix" &nbsp;
+[td_00200] ctx="列头: Complete Name" key, pad, seq [IMG120]
+[td_00201] ctx="行 38: [B121]&lt;sys/mman.h&gt;[/B121" [B121]&lt;sys/mman.h&gt;[/B121]
+[td_00202] ctx="列头: Prefix" shm_, MAP_, MCL_, MS_,
+[td_00203] ctx="列头: Suffix" &nbsp;
+[td_00204] ctx="列头: Complete Name" &nbsp;
+[td_00205] ctx="行 39: [B122]&nbsp;[/B122]" [B122]&nbsp;[/B122]
+[td_00206] ctx="列头: Prefix" PROT_
+[td_00207] ctx="列头: Suffix" &nbsp;
+[td_00208] ctx="列头: Complete Name" &nbsp;
+[td_00209] ctx="行 40: [S123][[A124]XSI[/A124]][/S123" [S123][[A124]XSI[/A124]][/S123] [IMG125] [B126]&lt;sys/msg.h&gt;[/B126]
+[td_00210] ctx="列头: Prefix" msg, MSG_[A-Z]
+[td_00211] ctx="列头: Suffix" &nbsp;
+[td_00212] ctx="列头: Complete Name" msg
+[td_00213] ctx="行 41: [S127][[A128]XSI[/A128]][/S127" [S127][[A128]XSI[/A128]][/S127] [IMG129] [B130]&lt;sys/resource.h&gt;[/B130]
+[td_00214] ctx="列头: Prefix" rlim_, ru_, PRIO_, RLIMIT_,
+[td_00215] ctx="列头: Suffix" &nbsp;
+[td_00216] ctx="列头: Complete Name" &nbsp;
+[td_00217] ctx="行 42: [B131]&nbsp;[/B131]" [B131]&nbsp;[/B131]
+[td_00218] ctx="列头: Prefix" RUSAGE_
+[td_00219] ctx="列头: Suffix" &nbsp;
+[td_00220] ctx="列头: Complete Name" &nbsp; [IMG132]
+[td_00221] ctx="行 43: [B133]&lt;sys/select.h&gt;[/B1" [B133]&lt;sys/select.h&gt;[/B133]
+[td_00222] ctx="列头: Prefix" fd_, fds_, FD_
+[td_00223] ctx="列头: Suffix" &nbsp;
+[td_00224] ctx="列头: Complete Name" &nbsp;
+[td_00225] ctx="行 1: [S134][[A135]XSI[/A135]][/S134" [S134][[A135]XSI[/A135]][/S134] [IMG136] [B137]&lt;sys/sem.h&gt;[/B137]
+[td_00226] ctx="列头: Prefix" sem, SEM_
+[td_00227] ctx="列头: Suffix" &nbsp;
+[td_00228] ctx="列头: Complete Name" sem
+[td_00229] ctx="行 2: [S138][[A139]XSI[/A139]][/S138" [S138][[A139]XSI[/A139]][/S138] [IMG140] [B141]&lt;sys/shm.h&gt;[/B141]
+[td_00230] ctx="列头: Prefix" shm, SHM[A-Z], SHM_[A-Z]
+[td_00231] ctx="列头: Suffix" &nbsp;
+[td_00232] ctx="列头: Complete Name" &nbsp; [IMG142]
+[td_00233] ctx="行 3: [B143]&lt;sys/socket.h&gt;[/B1" [B143]&lt;sys/socket.h&gt;[/B143]
+[td_00234] ctx="列头: Prefix" cmsg_, if_, ifc_, ifra_, ifru_,
+[td_00235] ctx="列头: Suffix" &nbsp;
+[td_00236] ctx="列头: Complete Name" &nbsp;
+[td_00237] ctx="行 4: [B144]&nbsp;[/B144]" [B144]&nbsp;[/B144]
+[td_00238] ctx="列头: Prefix" infu_, l_, msg_, sa_, ss_,
+[td_00239] ctx="列头: Suffix" &nbsp;
+[td_00240] ctx="列头: Complete Name" &nbsp;
+[td_00241] ctx="行 5: [S145][[A146]XSI[/A146]][/S145" [S145][[A146]XSI[/A146]][/S145] [IMG147] [B148]&nbsp;[/B148]
+[td_00242] ctx="列头: Prefix" AF_, MSG_, PF_, SCM_,
+[td_00243] ctx="列头: Suffix" &nbsp;
+[td_00244] ctx="列头: Complete Name" &nbsp;
+[td_00245] ctx="行 6: [B149]&nbsp;[/B149]" [B149]&nbsp;[/B149]
+[td_00246] ctx="列头: Prefix" SHUT_, SO
+[td_00247] ctx="列头: Suffix" &nbsp;
+[td_00248] ctx="列头: Complete Name" &nbsp; [IMG150]
+[td_00249] ctx="行 7: [B151]&lt;sys/stat.h&gt;[/B151" [B151]&lt;sys/stat.h&gt;[/B151]
+[td_00250] ctx="列头: Prefix" st_
+[td_00251] ctx="列头: Suffix" &nbsp;
+[td_00252] ctx="列头: Complete Name" &nbsp;
+[td_00253] ctx="行 8: [B152]&lt;sys/statvfs.h&gt;[/B" [B152]&lt;sys/statvfs.h&gt;[/B152]
+[td_00254] ctx="列头: Prefix" f_, ST_
+[td_00255] ctx="列头: Suffix" &nbsp;
+[td_00256] ctx="列头: Complete Name" &nbsp;
+[td_00257] ctx="行 9: [S153][[A154]XSI[/A154]][/S153" [S153][[A154]XSI[/A154]][/S153] [IMG155] [B156]&lt;sys/time.h&gt;[/B156]
+[td_00258] ctx="列头: Prefix" tv_
+[td_00259] ctx="列头: Suffix" &nbsp;
+[td_00260] ctx="列头: Complete Name" &nbsp; [IMG157]
+[td_00261] ctx="行 10: [B158]&lt;sys/times.h&gt;[/B15" [B158]&lt;sys/times.h&gt;[/B158]
+[td_00262] ctx="列头: Prefix" tms_
+[td_00263] ctx="列头: Suffix" &nbsp;
+[td_00264] ctx="列头: Complete Name" &nbsp;
+[td_00265] ctx="行 11: [S159][[A160]XSI[/A160]][/S159" [S159][[A160]XSI[/A160]][/S159] [IMG161] [B162]&lt;sys/uio.h&gt;[/B162]
+[td_00266] ctx="列头: Prefix" iov_
+[td_00267] ctx="列头: Suffix" &nbsp;
+[td_00268] ctx="列头: Complete Name" UIO_MAXIOV [IMG163]
+[td_00269] ctx="行 12: [B164]&lt;sys/un.h&gt;[/B164]" [B164]&lt;sys/un.h&gt;[/B164]
+[td_00270] ctx="列头: Prefix" sun_
+[td_00271] ctx="列头: Suffix" &nbsp;
+[td_00272] ctx="列头: Complete Name" &nbsp;
+[td_00273] ctx="行 13: [B165]&lt;sys/utsname.h&gt;[/B" [B165]&lt;sys/utsname.h&gt;[/B165]
+[td_00274] ctx="列头: Prefix" uts_
+[td_00275] ctx="列头: Suffix" &nbsp;
+[td_00276] ctx="列头: Complete Name" &nbsp;
+[td_00277] ctx="行 14: [B166]&lt;sys/wait.h&gt;[/B166" [B166]&lt;sys/wait.h&gt;[/B166]
+[td_00278] ctx="列头: Prefix" P_, W[A-Z]
+[td_00279] ctx="列头: Suffix" &nbsp;
+[td_00280] ctx="列头: Complete Name" &nbsp;
+[td_00281] ctx="行 15: [S167][[A168]XSI[/A168]][/S167" [S167][[A168]XSI[/A168]][/S167] [IMG169] [B170]&lt;syslog.h&gt;[/B170]
+[td_00282] ctx="列头: Prefix" LOG_
+[td_00283] ctx="列头: Suffix" &nbsp;
+[td_00284] ctx="列头: Complete Name" &nbsp; [IMG171]
+[td_00285] ctx="行 16: [B172]&lt;termios.h&gt;[/B172]" [B172]&lt;termios.h&gt;[/B172]
+[td_00286] ctx="列头: Prefix" c_, B[0-9], TC, ws_
+[td_00287] ctx="列头: Suffix" &nbsp;
+[td_00288] ctx="列头: Complete Name" &nbsp;
+[td_00289] ctx="行 17: [B173]&lt;threads.h&gt;[/B173]" [B173]&lt;threads.h&gt;[/B173]
+[td_00290] ctx="列头: Prefix" cnd_[a-z], mtx_[a-z], thrd_[a-z],
+[td_00291] ctx="列头: Suffix" &nbsp;
+[td_00292] ctx="列头: Complete Name" &nbsp;
+[td_00293] ctx="行 18: [B174]&nbsp;[/B174]" [B174]&nbsp;[/B174]
+[td_00294] ctx="列头: Prefix" tss_[a-z]
+[td_00295] ctx="列头: Suffix" &nbsp;
+[td_00296] ctx="列头: Complete Name" &nbsp;
+[td_00297] ctx="行 19: [S175][[A176]CX[/A176]][/S175]" [S175][[A176]CX[/A176]][/S175] [IMG177] [B178]&lt;time.h&gt;[/B178]
+[td_00298] ctx="列头: Prefix" clock_, it_, timer_, tm_, tv_,
+[td_00299] ctx="列头: Suffix" &nbsp;
+[td_00300] ctx="列头: Complete Name" &nbsp;
+[td_00301] ctx="行 20: [B179]&nbsp;[/B179]" [B179]&nbsp;[/B179]
+[td_00302] ctx="列头: Prefix" CLOCK_, TIMER_
+[td_00303] ctx="列头: Suffix" &nbsp;
+[td_00304] ctx="列头: Complete Name" &nbsp;
+[td_00305] ctx="行 21: [S180][[A181]XSI[/A181]][/S180" [S180][[A181]XSI[/A181]][/S180] [IMG182] [B183]&lt;utmpx.h&gt;[/B183]
+[td_00306] ctx="列头: Prefix" ut_
+[td_00307] ctx="列头: Suffix" _LVL, _PROCESS,
+[td_00308] ctx="列头: Complete Name" &nbsp;
+[td_00309] ctx="行 22: [B184]&nbsp;[/B184]" [B184]&nbsp;[/B184]
+[td_00310] ctx="列头: Prefix" &nbsp;
+[td_00311] ctx="列头: Suffix" _TIME
+[td_00312] ctx="列头: Complete Name" &nbsp; [IMG185]
+[td_00313] ctx="行 23: [B186]&lt;wchar.h&gt;[/B186]" [B186]&lt;wchar.h&gt;[/B186]
+[td_00314] ctx="列头: Prefix" wcs[a-z]
+[td_00315] ctx="列头: Suffix" &nbsp;
+[td_00316] ctx="列头: Complete Name" &nbsp;
+[td_00317] ctx="行 24: [B187]&lt;wctype.h&gt;[/B187]" [B187]&lt;wctype.h&gt;[/B187]
+[td_00318] ctx="列头: Prefix" is[a-z], to[a-z]
+[td_00319] ctx="列头: Suffix" &nbsp;
+[td_00320] ctx="列头: Complete Name" &nbsp;
+[td_00321] ctx="行 25: [B188]&lt;wordexp.h&gt;[/B188]" [B188]&lt;wordexp.h&gt;[/B188]
+[td_00322] ctx="列头: Prefix" we_, WRDE_
+[td_00323] ctx="列头: Suffix" &nbsp;
+[td_00324] ctx="列头: Complete Name" &nbsp;
+[td_00325] ctx="行 26: [S189][[A190]CX[/A190]][/S189]" [S189][[A190]CX[/A190]][/S189] [IMG191] [B192]ANY header[/B192]
+[td_00326] ctx="列头: Prefix" &nbsp;
+[td_00327] ctx="列头: Suffix" _t
+[td_00328] ctx="列头: Complete Name" &nbsp; [IMG193]
+[dt_00329] [B194]Note:[/B194]
+[dd_00330] The notation [0-9] indicates any digit. The notation [A-Z] indicates any uppercase letter in the portable character set. The notation [a-z] indicates any lowercase letter in the portable character set. Commas and spaces in the lists of prefixes and complete names in the above table are not part of any prefix or complete name. The ISO&nbsp;C standard reserves int[0-9a-z_]*_t and uint[0-9a-z_]*_t in [A195][I196]&lt;stdint.h&gt;[/I196][/A195]; this is not included in the table above because it is covered by the reserved _t suffix for any header.
+[p_00331] Additional symbolic constants with the prefix _CS_, _PC_, and _SC_ may be defined by the inclusion of [A197][I198]&lt;unistd.h&gt;[/I198][/A197], but as these are already reserved for the implementation, they are not included in the table above. Extensions with these prefixes should be compatible with use by [A199][I200]confstr[/I200]()[/A199], [A201][I202]pathconf[/I202]()[/A201], and [A203][I204]sysconf[/I204]()[/A203], respectively.
+[p_00332] Implementations may also add symbols to the [A205][I206]&lt;complex.h&gt;[/I206][/A205] header with the following complete names or the same names suffixed with [CODE207] or [CODE208]:
+[p_00333] If any header in the following table is included, macros with the prefixes or suffixes shown may be defined. After the last inclusion of a given header, an application may use identifiers with the corresponding prefixes for its own purpose, provided their use is preceded by a [B209]#undef[/B209] of the corresponding macro.
+[td_00334] ctx="行 1: [B210]&lt;endian.h&gt;[/B210]" [B210]&lt;endian.h&gt;[/B210]
+[td_00335] ctx="列头: Prefix" &nbsp;
+[td_00336] ctx="列头: Suffix" _ENDIAN
+[td_00337] ctx="行 2: [B211]&lt;errno.h&gt;[/B211]" [B211]&lt;errno.h&gt;[/B211]
+[td_00338] ctx="列头: Prefix" E[0-9], E[A-Z]
+[td_00339] ctx="列头: Suffix" &nbsp;
+[td_00340] ctx="行 3: [B212]&lt;fcntl.h&gt;[/B212]" [B212]&lt;fcntl.h&gt;[/B212]
+[td_00341] ctx="列头: Prefix" F_, O_
+[td_00342] ctx="列头: Suffix" &nbsp;
+[td_00343] ctx="行 4: [B213]&lt;fenv.h&gt;[/B213]" [B213]&lt;fenv.h&gt;[/B213]
+[td_00344] ctx="列头: Prefix" FE_[A-Z]
+[td_00345] ctx="列头: Suffix" &nbsp;
+[td_00346] ctx="行 5: [B214]&lt;inttypes.h&gt;[/B214" [B214]&lt;inttypes.h&gt;[/B214]
+[td_00347] ctx="列头: Prefix" PRI[Xa-z], SCN[Xa-z]
+[td_00348] ctx="列头: Suffix" &nbsp;
+[td_00349] ctx="行 6: [B215]&lt;locale.h&gt;[/B215]" [B215]&lt;locale.h&gt;[/B215]
+[td_00350] ctx="列头: Prefix" LC_[A-Z]
+[td_00351] ctx="列头: Suffix" &nbsp;
+[td_00352] ctx="行 7: [B216]&lt;math.h&gt;[/B216]" [B216]&lt;math.h&gt;[/B216]
+[td_00353] ctx="列头: Prefix" FP_[A-Z]
+[td_00354] ctx="列头: Suffix" &nbsp;
+[td_00355] ctx="行 8: [B217]&lt;netinet/in.h&gt;[/B2" [B217]&lt;netinet/in.h&gt;[/B217]
+[td_00356] ctx="列头: Prefix" IMPLINK_, IN_, IP_, IPPORT_, SOCK_,
+[td_00357] ctx="列头: Suffix" &nbsp;
+[td_00358] ctx="行 9: [S218][[A219]IP6[/A219]][/S218" [S218][[A219]IP6[/A219]][/S218] [IMG220] [B221]&nbsp;[/B221]
+[td_00359] ctx="列头: Prefix" IN6_
+[td_00360] ctx="列头: Suffix" &nbsp; [IMG222]
+[td_00361] ctx="行 10: [B223]&lt;signal.h&gt;[/B223]" [B223]&lt;signal.h&gt;[/B223]
+[td_00362] ctx="列头: Prefix" SIG_, SIG[A-Z],
+[td_00363] ctx="列头: Suffix" &nbsp;
+[td_00364] ctx="行 11: [S224][[A225]XSI[/A225]][/S224" [S224][[A225]XSI[/A225]][/S224] [IMG226] [B227]&nbsp;[/B227]
+[td_00365] ctx="列头: Prefix" SV_
+[td_00366] ctx="列头: Suffix" &nbsp; [IMG228]
+[td_00367] ctx="行 12: [B229]&lt;stdatomic.h&gt;[/B22" [B229]&lt;stdatomic.h&gt;[/B229]
+[td_00368] ctx="列头: Prefix" ATOMIC_[A-Z]
+[td_00369] ctx="列头: Suffix" &nbsp;
+[td_00370] ctx="行 13: [S230][[A231]CX[/A231]][/S230]" [S230][[A231]CX[/A231]][/S230] [IMG232] [B233]&lt;stdio.h&gt;[/B233]
+[td_00371] ctx="列头: Prefix" SEEK_
+[td_00372] ctx="列头: Suffix" &nbsp;
+[td_00373] ctx="行 14: [S234][[A235]XSI[/A235]][/S234" [S234][[A235]XSI[/A235]][/S234] [IMG236] [B237]&lt;sys/resource.h&gt;[/B237]
+[td_00374] ctx="列头: Prefix" RLIM_
+[td_00375] ctx="列头: Suffix" &nbsp;
+[td_00376] ctx="行 15: [S238][[A239]XSI[/A239]][/S238" [S238][[A239]XSI[/A239]][/S238] [IMG240] [B241]&lt;sys/socket.h&gt;[/B241]
+[td_00377] ctx="列头: Prefix" CMSG_
+[td_00378] ctx="列头: Suffix" &nbsp; [IMG242]
+[td_00379] ctx="行 16: [B243]&lt;sys/stat.h&gt;[/B243" [B243]&lt;sys/stat.h&gt;[/B243]
+[td_00380] ctx="列头: Prefix" S_
+[td_00381] ctx="列头: Suffix" &nbsp;
+[td_00382] ctx="行 17: [S244][[A245]XSI[/A245]][/S244" [S244][[A245]XSI[/A245]][/S244] [IMG246] [B247]&lt;sys/uio.h&gt;[/B247]
+[td_00383] ctx="列头: Prefix" IOV_
+[td_00384] ctx="列头: Suffix" &nbsp; [IMG248]
+[td_00385] ctx="行 18: [B249]&lt;termios.h&gt;[/B249]" [B249]&lt;termios.h&gt;[/B249]
+[td_00386] ctx="列头: Prefix" I, O, V (See below.)
+[td_00387] ctx="列头: Suffix" &nbsp;
+[td_00388] ctx="行 19: [B250]&lt;time.h&gt;[/B250]" [B250]&lt;time.h&gt;[/B250]
+[td_00389] ctx="列头: Prefix" TIME_[A-Z]
+[td_00390] ctx="列头: Suffix" &nbsp;
+[td_00391] ctx="行 20: [B251]&lt;unistd.h&gt;[/B251]" [B251]&lt;unistd.h&gt;[/B251]
+[td_00392] ctx="列头: Prefix" SEEK_
+[td_00393] ctx="列头: Suffix" &nbsp;
+[p_00394] The following are used to reserve complete names for the [A252][I253]&lt;stdint.h&gt;[/I253][/A252] header:
+[blockquote_00395] [PRE254]
+[dt_00396] [B255]Note:[/B255]
+[dd_00397] The notation [0-9] indicates any digit. The notation [A-Z] indicates any uppercase letter in the portable character set. The notation [Xa-z] indicates the character [CODE256] or any lowercase letter in the portable character set. The notation [0-9A-Za-z_]* indicates zero or more occurrences of any of the following: a digit, an uppercase or lowercase letter in the portable character set, or an &lt;underscore&gt;.
+[p_00398] [S257][[A258]XSI[/A258]][/S257] [IMG259] The following reserved names are used as exact matches for [A260][I261]&lt;termios.h&gt;[/I261][/A260]:
+[td_00399] ctx="行 1: DEFECHO" DEFECHO
+[td_00400] ctx="列头: EXTB" FLUSHO
+[td_00401] ctx="列头: VDSUSP" VLNEXT
+[td_00402] ctx="行 2: ECHOCTL" ECHOCTL
+[td_00403] ctx="列头: EXTB" LOBLK
+[td_00404] ctx="列头: VDSUSP" VREPRINT
+[td_00405] ctx="行 3: ECHOKE" ECHOKE
+[td_00406] ctx="列头: EXTB" PENDIN
+[td_00407] ctx="列头: VDSUSP" VSTATUS
+[td_00408] ctx="行 4: ECHOPRT" ECHOPRT
+[td_00409] ctx="列头: EXTB" SWTCH
+[td_00410] ctx="列头: VDSUSP" VWERASE
+[td_00411] ctx="行 5: EXTA" EXTA
+[td_00412] ctx="列头: EXTB" VDISCARD
+[td_00413] ctx="列头: VDSUSP" &nbsp;
+[p_00414] When the feature test macro__STDC_WANT_LIB_EXT1__ is defined with the value 1 (see [A262]2.2.1 POSIX.1 Symbols[/A262]), implementations may add symbols to the headers shown in the following table provided the identifiers for those symbols have one of the corresponding complete names in the table.
+[td_00415] ctx="行 1: [B263]&lt;stdio.h&gt;[/B263]" [B263]&lt;stdio.h&gt;[/B263]
+[td_00416] ctx="列头: Complete Name" fopen_s, fprintf_s, freopen_s, fscanf_s, gets_s, printf_s, scanf_s, snprintf_s, sprintf_s, sscanf_s, tmpfile_s, tmpnam_s, vfprintf_s, vfscanf_s, vprintf_s, vscanf_s, vsnprintf_s, vsprintf_s, vsscanf_s
+[td_00417] ctx="行 2: [B264]&lt;stdlib.h&gt;[/B264]" [B264]&lt;stdlib.h&gt;[/B264]
+[td_00418] ctx="列头: Complete Name" abort_handler_s, bsearch_s, getenv_s, ignore_handler_s, mbstowcs_s, qsort_s, set_constraint_handler_s, wcstombs_s, wctomb_s
+[td_00419] ctx="行 3: [B265]&lt;time.h&gt;[/B265]" [B265]&lt;time.h&gt;[/B265]
+[td_00420] ctx="列头: Complete Name" asctime_s, ctime_s, gmtime_s, localtime_s
+[td_00421] ctx="行 4: [B266]&lt;wchar.h&gt;[/B266]" [B266]&lt;wchar.h&gt;[/B266]
+[td_00422] ctx="列头: Complete Name" fwprintf_s, fwscanf_s, mbsrtowcs_s, snwprintf_s, swprintf_s, swscanf_s, vfwprintf_s, vfwscanf_s, vsnwprintf_s, vswprintf_s, vswscanf_s, vwprintf_s, vwscanf_s, wcrtomb_s, wmemcpy_s, wmemmove_s, wprintf_s, wscanf_s
+[p_00423] When the feature test macro__STDC_WANT_LIB_EXT1__ is defined with the value 1 (see [A267]2.2.1 POSIX.1 Symbols[/A267]), if any header in the following table is included, macros with the complete names shown may be defined.
+[td_00424] ctx="行 1: [B268]&lt;stdint.h&gt;[/B268]" [B268]&lt;stdint.h&gt;[/B268]
+[td_00425] ctx="列头: Complete Name" RSIZE_MAX
+[td_00426] ctx="行 2: [B269]&lt;stdio.h&gt;[/B269]" [B269]&lt;stdio.h&gt;[/B269]
+[td_00427] ctx="列头: Complete Name" L_tmpnam_s, TMP_MAX_S
+[dt_00428] [B270]Note:[/B270]
+[dd_00429] The above two tables only include those symbols from Annex K of the ISO&nbsp;C standard that are not already allowed to be visible by entries in earlier tables in this section.
+[p_00430] The following identifiers are reserved regardless of the inclusion of headers:
+[dt_00431] 1.
+[dd_00432] With the exception of identifiers beginning with the prefix _POSIX_ and those identifiers which are lexically identical to keywords defined by the ISO&nbsp;C standard (for example [B271]_Bool[/B271]), all identifiers that begin with an &lt;underscore&gt; and either an uppercase letter or another &lt;underscore&gt; are always reserved for any use by the implementation.
+[dt_00433] 2.
+[dd_00434] All identifiers that begin with an &lt;underscore&gt; are always reserved for use as identifiers with file scope in both the ordinary identifier and tag name spaces.
+[dt_00435] 3.
+[dd_00436] All identifiers in the table below are reserved for use as identifiers with external linkage. Some of these identifiers do not appear in this volume of POSIX.1-2024, but are reserved for future use by the ISO&nbsp;C standard.
+[dt_00437] 4.
+[dd_00438] All functions and external identifiers defined in XBD [A272][I273]14. Headers[/I273][/A272] are reserved for use as identifiers with external linkage.
+[dt_00439] 5.
+[dd_00440] All the identifiers defined in this volume of POSIX.1-2024 that have external linkage and [I274]errno[/I274] are always reserved for use as identifiers with external linkage.
+[dt_00441] [B275]Note:[/B275]
+[dd_00442] The notation [a-z] indicates any lowercase letter in the portable character set. The notation [CODE276] indicates any combination of digits, letters in the portable character set, or &lt;underscore&gt;.
+[p_00443] No other identifiers are reserved.
+[dt_00444] [B277]Note:[/B277]
+[dd_00445] The notation [a-z] indicates any lowercase letter in the portable character set. The notation [CODE278] indicates any sequence of zero or more characters that are valid in identifiers with external linkage.
+[p_00446] Applications shall not declare or define identifiers with the same name as an identifier reserved in the same context. Since macro names are replaced whenever found, independent of scope and name space, macro names matching any of the reserved identifier names shall not be defined by an application if any associated header is included.
+[p_00447] Except that the effect of each inclusion of [A279][I280]&lt;assert.h&gt;[/I280][/A279] depends on the definition of NDEBUG, headers may be included in any order, and each may be included more than once in a given scope, with no difference in effect from that of being included only once.
+[p_00448] If used, the application shall ensure that a header is included outside of any external declaration or definition, and it shall be first included before the first reference to any type or macro it defines, or to any function or object it declares. However, if an identifier is declared or defined in more than one header, the second and subsequent associated headers may be included after the initial reference to the identifier. Prior to the inclusion of a header, or when any macro defined in the header is expanded, the application shall not define any macros with names lexically identical to symbols defined by that header.

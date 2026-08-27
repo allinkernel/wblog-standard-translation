@@ -1,0 +1,23 @@
+<h1>XSH 函数导读：dup2()</h1>
+
+<h2>0. 总览</h2>
+<p>dup2() 用于复制一个打开的文件描述符，把 fildes2 绑定到与 fildes 相同的打开文件描述。头文件为 <code>&lt;unistd.h&gt;</code>；原型为 <code>int dup2(int fildes, int fildes2)</code>。成功时返回 fildes2，失败时返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>dup2() 使 fildes2 指向与 fildes 相同的打开文件描述并共享任何锁，然后返回 fildes2。若 fildes2 已是有效的打开描述符，会先将其关闭，除非 fildes 等于 fildes2（此时不关闭、直接返回）。若关闭 fildes2 失败，dup2() 返回 -1 且不改变 fildes2 所指向的打开文件描述；若 fildes 不是有效的文件描述符，则返回 -1 且不会关闭 fildes2。成功且两参数不等时，fildes2 上的 FD_CLOEXEC 与 FD_CLOFORK 标志被清除。规范的"理由"部分强调：dup2() 是唯一能原子替换现有文件描述符的接口，这正是它区别于 dup() 与 fcntl() 的独特价值。</p>
+
+<h2>2. 易错点</h2>
+<p>fildes2 小于 0 或大于等于 {OPEN_MAX} 时返回 -1 且 errno 为 EBADF——注意该判定与 fildes2 当前是否已打开无关。规范同时提醒：实现可能占用必须继承给子进程的内部描述符，用任意整数作 fildes2 有产生不符合行为的风险，可移植的用法是只覆盖自己显式取得的描述符，或覆盖 0、1、2 三个标准流。此外 dup2() 可被信号中断（EINTR），关闭 fildes2 时可能因 I/O 错误返回 EIO。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+
+int main(void) {
+    int fd = open("err.log", O_WRONLY | O_CREAT, 0644);
+    if (fd == -1) return 1;
+    if (dup2(fd, 2) == -1) return 1;  /* 将 stderr 重定向到文件 */
+    write(2, "oops\n", 5);
+    close(fd);
+    return 0;
+}</code></pre>

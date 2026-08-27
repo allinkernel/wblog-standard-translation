@@ -1,0 +1,38 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] alarm — schedule an alarm signal
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]alarm[/I5]() function shall cause the system to generate a SIGALRM signal for the process after the number of realtime seconds specified by [I6]seconds[/I6] have elapsed. Processor scheduling delays may prevent the process from handling the signal as soon as it is generated.
+[p_00007] If [I7]seconds[/I7] is 0, a pending alarm request, if any, is canceled.
+[p_00008] Alarm requests are not stacked; only one SIGALRM generation can be scheduled in this manner. If the SIGALRM signal has not yet been generated, the call shall result in rescheduling the time at which the SIGALRM signal is generated.
+[h4_00009] [A8][/A8]RETURN VALUE
+[p_00010] If there is a previous [I9]alarm[/I9]() request with time remaining, [I10]alarm[/I10]() shall return a non-zero value that is the number of seconds until the previous request would have generated a SIGALRM signal. Otherwise, [I11]alarm[/I11]() shall return 0.
+[h4_00011] [A12][/A12]ERRORS
+[p_00012] The [I13]alarm[/I13]() function is always successful, and no return value is reserved to indicate an error.
+[h4_00013] [A14][/A14]EXAMPLES
+[p_00014] None.
+[h4_00015] [A15][/A15]APPLICATION USAGE
+[p_00016] The [A16][I17]fork[/I17]()[/A16] function clears pending alarms in the child process. A new process image created by one of the [I18][A19]exec[/A19][/I18] functions inherits the time left to an alarm signal in the image of the old process.
+[p_00017] Application developers should note that the type of the argument [I20]seconds[/I20] and the return value of [I21]alarm[/I21]() is [B22]unsigned[/B22]. That means that a Strictly Conforming POSIX System Interfaces Application cannot pass a value greater than the minimum guaranteed value for {UINT_MAX}, which the ISO&nbsp;C standard sets as 65535, and any application passing a larger value is restricting its portability. A different type was considered, but historical implementations, including those with a 16-bit [B23]int[/B23] type, consistently use either [B24]unsigned[/B24] or [B25]int[/B25].
+[p_00018] Application developers should be aware of possible interactions when the same process uses both the [I26]alarm[/I26]() and [A27][I28]sleep[/I28]()[/A27] functions.
+[h4_00019] [A29][/A29]RATIONALE
+[p_00020] Many historical implementations (including Version 7 and System V) allow an alarm to occur up to a second early. Other implementations allow alarms up to half a second or one clock tick early or do not allow them to occur early at all. The latter is considered most appropriate, since it gives the most predictable behavior, especially since the signal can always be delayed for an indefinite amount of time due to scheduling. Applications can thus choose the [I30]seconds[/I30] argument as the minimum amount of time they wish to have elapse before the signal.
+[p_00021] The term &quot;realtime&quot; here and elsewhere ([A31][I32]sleep[/I32]()[/A31], [A33][I34]times[/I34]()[/A33]) is intended to mean &quot;wall clock&quot; time as common English usage, and has nothing to do with &quot;realtime operating systems&quot;. It is in contrast to [I35]virtual time[/I35], which could be misinterpreted if just [I36]time[/I36] were used.
+[p_00022] In some implementations, including 4.3 BSD, very large values of the [I37]seconds[/I37] argument are silently rounded down to an implementation-specific maximum value. This maximum is large enough (to the order of several months) that the effect is not noticeable.
+[p_00023] There were two possible choices for alarm generation in multi-threaded applications: generation for the calling thread or generation for the process. The first option would not have been particularly useful since the alarm state is maintained on a per-process basis and the alarm that is established by the last invocation of [I38]alarm[/I38]() is the only one that would be active.
+[p_00024] Furthermore, allowing generation of an asynchronous signal for a thread would have introduced an exception to the overall signal model. This requires a compelling reason in order to be justified.
+[h4_00025] [A39][/A39]FUTURE DIRECTIONS
+[p_00026] None.
+[h4_00027] [A40][/A40]SEE ALSO
+[p_00028] [A41]alarm[/A41], [A42][/A42][A43]exec[/A43], [A44][I45]fork[/I45]()[/A44], [A46][I47]pause[/I47]()[/A46], [A48][I49]sigaction[/I49]()[/A48], [A50][I51]sleep[/I51]()[/A50], [A52][I53]timer_create[/I53]()[/A52]
+[p_00029] XBD [A54][I55]&lt;signal.h&gt;[/I55][/A54], [A56][I57]&lt;unistd.h&gt;[/I57][/A56]
+[h4_00030] [A58][/A58]CHANGE HISTORY
+[p_00031] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00032] [A59][/A59]Issue 6
+[p_00033] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00034] The DESCRIPTION is updated to indicate that interactions with the [I60]setitimer[/I60](), [I61]ualarm[/I61](), and [I62]usleep[/I62]() functions are unspecified.
+[p_00035] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/16 is applied, replacing &quot;an implementation-defined maximum value&quot; with &quot;an implementation-specific maximum value&quot; in the RATIONALE.
+[h4_00036] [A63][/A63]Issue 8
+[p_00037] Austin Group Defect 1330 is applied, removing obsolescent interfaces.
+[p_00038] &nbsp;

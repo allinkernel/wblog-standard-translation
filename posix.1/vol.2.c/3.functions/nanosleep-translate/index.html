@@ -1,0 +1,84 @@
+<h1>XSH 函数：nanosleep()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="nanosleep" id="nanosleep"></a> <a name="tag_17_365" id="tag_17_365"></a>
+<a name="tag_17_365_01" id="tag_17_365_01"></a><h4>名称 (NAME)</h4>
+<blockquote>nanosleep — 高分辨率睡眠</blockquote>
+<a name="tag_17_365_02" id="tag_17_365_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote><code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> #include &lt;time.h&gt;<br>
+<br>
+int nanosleep(const struct timespec *</code><i>rqtp</i><code>, struct timespec *</code><i>rmtp</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code> <code><br></code></blockquote>
+<a name="tag_17_365_03" id="tag_17_365_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>nanosleep</i>() 函数应使当前线程挂起执行，直到 <i>rqtp</i> 参数指定的时间间隔经过，或直到信号被传递给调用线程且其动作是调用信号捕获函数或终止进程。挂起时间可能比请求的时间长，因为参数值被向上舍入到睡眠分辨率的整数倍，或因为系统调度其他活动。但是，除了被信号中断的情况外，挂起时间不应少于 <i>rqtp</i> 指定的时间，如系统时钟 CLOCK_REALTIME 所测量。</p>
+<p>使用 <i>nanosleep</i>() 函数对任何信号的动作或阻塞没有影响。</p>
+</blockquote>
+<a name="tag_17_365_04" id="tag_17_365_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果 <i>nanosleep</i>() 函数因请求的时间已过而返回，则其返回值应为零。</p>
+<p>如果 <i>nanosleep</i>() 函数因被信号中断而返回，则它应返回 -1 并设置 <i>errno</i> 以指示中断。如果 <i>rmtp</i> 参数非 NULL，则更新它所引用的 <b>timespec</b> 结构以包含间隔中剩余的时间量（请求的时间减去实际睡眠的时间）。<i>rqtp</i> 和 <i>rmtp</i> 参数可以指向同一个对象。如果 <i>rmtp</i> 参数为 NULL，则不返回剩余时间。</p>
+<p>如果 <i>nanosleep</i>() 失败，则它应返回 -1 并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_365_05" id="tag_17_365_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>nanosleep</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINTR]</dt>
+<dd><i>nanosleep</i>() 函数被信号中断。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>rqtp</i> 参数指定的纳秒值小于零或大于或等于 1000 百万。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_365_06" id="tag_17_365_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_365_07" id="tag_17_365_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_365_08" id="tag_17_365_08"></a><h4>原理说明 (RATIONALE)</h4>
+<blockquote>
+<p>为了轮询不可中断函数的状态，挂起线程执行一段时间间隔是很常见的。通过为 sleep() 提供更精细分辨率的简单扩展，可以满足大量实际需求。</p>
+<p>在 POSIX.1-1990 标准和 SVR4 中，可以实现这样的例程，但唤醒频率受 alarm() 和 sleep() 函数分辨率的限制。在 4.3 BSD 中，可以编写不使用静态存储且不保留任何系统设施的此类例程。虽然可以使用其余的 <i>timer_*</i>() 函数编写具有与 sleep() 类似功能的函数，但这样的函数需要使用信号并保留某个信号编号。本卷 POSIX.1-2024 要求 <i>nanosleep</i>() 不干扰信号功能。</p>
+<p><i>nanosleep</i>() 函数应在成功时返回 0，在失败或被中断时返回 -1。后一种情况与 sleep() 不同。这样做是因为剩余时间通过参数结构指针 <i>rmtp</i> 返回，而不是作为返回值。</p>
+</blockquote>
+<a name="tag_17_365_09" id="tag_17_365_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_365_10" id="tag_17_365_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>clock_nanosleep()、sleep()</p>
+<p>XBD &lt;time.h&gt;</p>
+</blockquote>
+<a name="tag_17_365_11" id="tag_17_365_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 5。为与 POSIX 实时扩展保持一致而包含。</p>
+</blockquote>
+<a name="tag_17_365_12" id="tag_17_365_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>nanosleep</i>() 函数被标记为 Timers 选项的一部分。</p>
+<p>已删除 [ENOSYS] 错误条件，因为如果实现不支持 Timers 选项，则无需提供存根。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 第 XSH/TC1/D6/37 项，更新了 SEE ALSO（另见）部分以包含 clock_nanosleep() 函数。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/63 项，更正了 RATIONALE（原理说明）部分中的文本。</p>
+</blockquote>
+<a name="tag_17_365_13" id="tag_17_365_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 SD5-XBD-ERN-33。</p>
+<p><i>nanosleep</i>() 函数从 Timers 选项移到 Base。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0231 [909]。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

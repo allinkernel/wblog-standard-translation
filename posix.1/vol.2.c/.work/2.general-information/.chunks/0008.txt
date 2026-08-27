@@ -1,0 +1,37 @@
+[h3_00809] [A824][/A824]2.7 XSI Interprocess Communication
+[p_00810] [S825][[A826]XSI[/A826]][/S825] [IMG827] This section describes extensions to support interprocess communication. The functionality described in this section shall be provided on implementations that support the XSI option (and the rest of this section is not further marked). [IMG828]
+[p_00811] The following message passing, semaphore, and shared memory services form an XSI interprocess communication facility. Certain aspects of their operation are common, and are defined as follows.
+[td_00812] ctx="行 1: [A829][I830]msgctl[/I830]()[/A" [A829][I830]msgctl[/I830]()[/A829]  [A831][I832]msgget[/I832]()[/A831]  [A833][I834]msgrcv[/I834]()[/A833]  [A835][I836]msgsnd[/I836]()[/A835]  &nbsp;
+[td_00813] [A837][I838]semctl[/I838]()[/A837]  [A839][I840]semget[/I840]()[/A839]  [A841][I842]semop[/I842]()[/A841]  &nbsp;
+[td_00814] [A843][I844]shmat[/I844]()[/A843]  [A845][I846]shmctl[/I846]()[/A845]  [A847][I848]shmdt[/I848]()[/A847]  [A849][I850]shmget[/I850]()[/A849]  &nbsp;
+[p_00815] Another interprocess communication facility is provided by functions in the Realtime Option Group; see [A851]2.8 Realtime[/A851].
+[h4_00816] [A852][/A852]2.7.1 IPC General Description
+[p_00817] Each individual shared memory segment, message queue, and semaphore set shall be identified by a unique positive integer, called, respectively, a shared memory identifier, [I853]shmid[/I853], a semaphore identifier, [I854]semid[/I854], and a message queue identifier, [I855]msqid[/I855]. The identifiers shall be returned by calls to [A856][I857]shmget[/I857]()[/A856], [A858][I859]semget[/I859]()[/A858], and [A860][I861]msgget[/I861]()[/A860], respectively.
+[p_00818] Associated with each identifier is a data structure which contains data related to the operations which may be or may have been performed; see the Base Definitions volume of POSIX.1-2024, [A862][I863]&lt;sys/shm.h&gt;[/I863][/A862], [A864][I865]&lt;sys/sem.h&gt;[/I865][/A864], and [A866][I867]&lt;sys/msg.h&gt;[/I867][/A866] for their descriptions.
+[p_00819] Each of the data structures contains both ownership information and an [B868]ipc_perm[/B868] structure (see the Base Definitions volume of POSIX.1-2024, [A869][I870]&lt;sys/ipc.h&gt;[/I870][/A869]) which are used in conjunction to determine whether or not read/write (read/alter for semaphores) permissions should be granted to processes using the IPC facilities. The [I871]mode[/I871] member of the [B872]ipc_perm[/B872] structure acts as a bit field which determines the permissions.
+[p_00820] The values of the bits are given below in octal notation along with the symbolic constants defined in [A873][I874]&lt;sys/stat.h&gt;[/I874][/A873] that can be used to represent them.
+[td_00821] ctx="行 1: 0400" 0400
+[td_00822] ctx="列头: &lt;sys/stat.h&gt; Symbolic Constant" S_IRUSR
+[td_00823] ctx="列头: Meaning" Read by user.
+[td_00824] ctx="行 2: 0200" 0200
+[td_00825] ctx="列头: &lt;sys/stat.h&gt; Symbolic Constant" S_IWUSR
+[td_00826] ctx="列头: Meaning" Write (for shared memory & message queues) or alter (for semaphores) by user.
+[td_00827] ctx="行 3: 0040" 0040
+[td_00828] ctx="列头: &lt;sys/stat.h&gt; Symbolic Constant" S_IRGRP
+[td_00829] ctx="列头: Meaning" Read by group.
+[td_00830] ctx="行 4: 0020" 0020
+[td_00831] ctx="列头: &lt;sys/stat.h&gt; Symbolic Constant" S_IWGRP
+[td_00832] ctx="列头: Meaning" Write or alter by group.
+[td_00833] ctx="行 5: 0004" 0004
+[td_00834] ctx="列头: &lt;sys/stat.h&gt; Symbolic Constant" S_IROTH
+[td_00835] ctx="列头: Meaning" Read by others.
+[td_00836] ctx="行 6: 0002" 0002
+[td_00837] ctx="列头: &lt;sys/stat.h&gt; Symbolic Constant" S_IWOTH
+[td_00838] ctx="列头: Meaning" Write or alter by others.
+[p_00839] The name of the [B875]ipc_perm[/B875] structure is [I876]shm_perm[/I876], [I877]sem_perm[/I877], or [I878]msg_perm[/I878], depending on which service is being used. In each case, read and write/alter permissions shall be granted to a process if one or more of the following are true ([CODE879] is replaced by [I880]shm[/I880], [I881]sem[/I881], or [I882]msg[/I882], as appropriate):
+[li_00840] The process has appropriate privileges.
+[li_00841] The effective user ID of the process matches [I883]xxx_perm.cuid[/I883] or [I884]xxx_perm.uid[/I884] in the data structure associated with the IPC identifier, and the appropriate bit of the [I885]user[/I885] field in [I886]xxx_perm.mode[/I886] is set.
+[li_00842] The effective user ID of the process does not match [I887]xxx_perm.cuid[/I887] or [I888]xxx_perm.uid[/I888] but the effective group ID of the process matches [I889]xxx_perm.cgid[/I889] or [I890]xxx_perm.gid[/I890] in the data structure associated with the IPC identifier, and the appropriate bit of the [I891]group[/I891] field in [I892]xxx_perm.mode[/I892] is set.
+[li_00843] The effective user ID of the process does not match [I893]xxx_perm.cuid[/I893] or [I894]xxx_perm.uid[/I894] and the effective group ID of the process does not match [I895]xxx_perm.cgid[/I895] or [I896]xxx_perm.gid[/I896] in the data structure associated with the IPC identifier, but the appropriate bit of the [I897]other[/I897] field in [I898]xxx_perm.mode[/I898] is set.
+[p_00844] Otherwise, the permission shall be denied.
+[p_00845] In addition to the [B899]ipc_perm[/B899] structure, each associated data structure includes several [B900]time_t[/B900] fields for recording timestamps of particular operations. When an operation is described as setting a timestamp to the current time, that particular timestamp member of the associated data structure shall be set to the largest [B901]time_t[/B901] value which is not greater than the current time.

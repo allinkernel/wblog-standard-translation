@@ -1,0 +1,21 @@
+<h1>XSH 函数导读：close()</h1>
+
+<h2>0. 总览</h2>
+<p>close() 释放由文件描述符指示的资源，使该描述符编号可被后续 open() 等调用重新分配。所属头文件为 <code>&lt;unistd.h&gt;</code>。原型关键点：<code>int close(int fildes);</code> —— 成功返回 0，失败返回 -1 并设置 errno；另有变体 <code>int posix_close(int fildes, int flag);</code> 用于精确选择中断语义。</p>
+
+<h2>1. 机制</h2>
+<p>close() 使 fildes 不再引用文件，并释放调用进程在该描述符关联文件上拥有的进程所有的文件锁。当与同一打开文件描述关联的所有描述符都被关闭时，该打开文件描述被释放；当与管道或 FIFO 关联的所有描述符都被关闭时，其中剩余的数据被丢弃；若文件链接计数为 0，则关闭最后一个描述符时释放文件占用的空间。未完成的可取消异步 I/O 操作可以被取消，未被取消的则如同 close 未发生一样完成。对带非零 SO_LINGER 停留时间的已连接套接字，close() 应阻塞最多停留时间间隔直到数据传完（此要求不以 O_NONBLOCK 为条件）。信号中断语义（2024 版新规）：被捕获信号中断时，close() 返回 [EINTR] 且描述符保持打开、返回 [EINPROGRESS] 且描述符已关闭但操作异步继续、或返回 0，三者未指定；但除 [EBADF] 外，所有其他错误情形下 fildes 都应被关闭。posix_close() 以 flag 选择行为：flag 为 0 时绝不返回 [EINTR]，保证描述符总是被关闭；flag 含 POSIX_CLOSE_RESTART（且该宏非零）时才允许中断并保持打开。</p>
+
+<h2>2. 易错点</h2>
+<p><b>不可盲目重试 close()</b>：若第一次调用已关闭描述符，另一线程可能已复用了同一编号，重试会误关他人的描述符；可移植做法是仅在检查到 [EINTR] 后重试（POSIX_CLOSE_RESTART 为零的实现上重试循环是死代码）。EINTR 后描述符即使保持打开也可能不再可用（传给其他函数可能得到 [EIO]）。close() 被禁止返回 [EAGAIN]/[EWOULDBLOCK]。stdio 打开的文件应使用 fclose() 而非 close()。对 STDIN/STDOUT/STDERR 关闭后应立即重新打开，且 close 后跟 open/dup 不是原子的，改换标准描述符应使用 dup2()。fork() 后 exec 前循环 close 的做法在多线程父进程中有泄漏竞争，应改用 FD_CLOEXEC。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+int fd; /* 由 open() 等获得的有效文件描述符 */
+
+if (close(fd) == -1) {
+    /* 仅当 errno == EINTR 时才可考虑重试（且描述符仍打开）；
+       其他错误下描述符已被关闭，不得再次 close */
+}
+</code></pre>

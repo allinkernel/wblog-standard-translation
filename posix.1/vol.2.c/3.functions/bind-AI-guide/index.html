@@ -1,0 +1,41 @@
+<h1>XSH 函数导读：bind()</h1>
+
+<h2>0. 总览</h2>
+<p><b>bind()</b> 将本地套接字地址 <i>address</i> 分配给一个尚未分配本地地址的套接字（将名称绑定到套接字）。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>int bind(int socket, const struct sockaddr *address, socklen_t address_len)</code>。地址的长度和格式取决于套接字的地址族，因此必须通过 <i>address_len</i> 显式给出地址结构长度。</p>
+
+<h2>1. 机制</h2>
+<p>用 socket() 创建的套接字最初是未命名的，仅由其地址族标识；bind() 为它分配本地套接字地址。对 AF_UNIX 套接字，<i>address</i> 应按 <b>sockaddr_un</b> 结构使用，其中 <i>sun_path</i> 需包含路径名之后的空终止符，且 <i>address_len</i> 至少为 <code>offsetof(struct sockaddr_un, sun_path) + 1</code> 加上路径名的长度。如果地址无法立即分配且文件描述符设置了 O_NONBLOCK，bind() 应返回 [EINPROGRESS] 并异步完成分配；在分配完成前，对同一套接字再次调用 bind() 应返回 [EALREADY]，而 pselect()、select()、poll() 和 ppoll() 会将该描述符指示为已准备好读写。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>地址已被占用（含 AF_UNIX 下 <i>sun_path</i> 指向的现有文件，包括符号链接）返回 [EADDRINUSE]；已绑定过的套接字再绑定返回 [EINVAL]。</li>
+<li><i>address_len</i> 必须与地址族匹配：过小可能截断 sun_path 中的空终止符，过大或非法长度也可能导致 [EINVAL]（可以失败条件）。</li>
+<li>AF_UNIX 绑定前通常要先 memset 清零整个 sockaddr_un 结构，再用 strncpy 写入路径名，防止残留字节。</li>
+<li>套接字类型不支持绑定到地址时返回 [EOPNOTSUPP]；描述符不是套接字返回 [ENOTSOCK]；绑定的路径名相关错误（如 ENOENT、ENOTDIR、EACCES、EROFS）遵循一般路径名规则。</li>
+<li>异步分配场景下不要误解返回值：非阻塞时第一次返回 [EINPROGRESS] 并不表示失败，分配仍在进行。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+#include &lt;sys/un.h&gt;
+#include &lt;string.h&gt;
+
+#define MY_SOCK_PATH "/tmp/my.sock"
+
+int sfd;
+struct sockaddr_un my_addr;
+
+sfd = socket(AF_UNIX, SOCK_STREAM, 0);
+if (sfd == -1) {
+    /* 处理错误 */;
+}
+
+memset(&amp;my_addr, 0, sizeof(struct sockaddr_un)); /* 清除结构 */
+my_addr.sun_family = AF_UNIX;
+strncpy(my_addr.sun_path, MY_SOCK_PATH,
+        sizeof(my_addr.sun_path) - 1);
+
+if (bind(sfd, (struct sockaddr *) &amp;my_addr,
+         sizeof(struct sockaddr_un)) == -1) {
+    /* 处理错误 */;
+}</code></pre>

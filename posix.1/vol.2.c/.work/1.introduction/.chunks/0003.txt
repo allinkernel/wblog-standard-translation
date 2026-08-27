@@ -1,0 +1,35 @@
+[h3_00009] [A5][/A5]1.2 Format of Entries
+[p_00010] The entries in [A6][I7]3. System Interfaces[/I7][/A6] are based on a common format as
+follows. The only sections relating to conformance are the SYNOPSIS, DESCRIPTION, RETURN VALUE, and ERRORS sections.
+[dt_00011] [B8]NAME[/B8]
+[dd_00012] This section gives the name or names of the entry and briefly states its purpose.
+[dt_00013] [B9]SYNOPSIS[/B9]
+[blockquote_00014] [PRE10]
+[dt_00015] [B11]DESCRIPTION[/B11]
+[dd_00016] This section describes the functionality of the function or header.
+[dt_00017] [B12]RETURN VALUE[/B12]
+[p_00018] If the implementation can detect errors, &quot;successful completion&quot; means that no error has been detected during execution of the
+function. If the implementation does detect an error, the error is indicated.
+[p_00019] For functions where no errors are defined, &quot;successful completion&quot; means that if the implementation checks for errors, no
+error has been detected. If the implementation can detect errors, and an error is detected, the indicated return value is returned
+and [I13]errno[/I13] may be set.
+[dt_00020] [B14]ERRORS[/B14]
+[p_00021] &quot;No errors are defined&quot; means that error values returned by a function or stored into a variable accessed through the symbol
+[I15]errno[/I15], if any, depend on the implementation.
+[dt_00022] [B16]EXAMPLES[/B16]
+[p_00023] This section gives examples of usage, where appropriate. In the event of conflict between an example and a normative part of
+this volume of POSIX.1-2024, the normative material is to be taken as correct.
+[dt_00024] [B17]APPLICATION USAGE[/B17]
+[p_00025] This section gives warnings and advice to application developers about the entry. In the event of conflict between warnings and
+advice and a normative part of this volume of POSIX.1-2024, the normative material is to be taken as correct.
+[dt_00026] [B18]RATIONALE[/B18]
+[p_00027] This section contains historical information concerning the contents of this volume of POSIX.1-2024 and why features were
+included or discarded by the standard developers.
+[dt_00028] [B19]FUTURE DIRECTIONS[/B19]
+[p_00029] This section provides comments which should be used as a guide to current thinking; there is not necessarily a commitment to
+adopt these future directions.
+[dt_00030] [B20]SEE ALSO[/B20]
+[p_00031] This section gives references to related information.
+[dt_00032] [B21]CHANGE HISTORY[/B21]
+[p_00033] This section shows the derivation of the entry and any significant changes that have been made to it.
+[p_00034] &nbsp;

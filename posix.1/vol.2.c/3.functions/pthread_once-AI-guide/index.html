@@ -1,0 +1,34 @@
+<h1>XSH 函数导读：pthread_once()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_once()</code> 保证进程内给定的初始化例程只被执行一次，用于多线程场景下的动态包初始化。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_once(pthread_once_t *once_control, void (*init_routine)(void));</code>——控制对象需用 <code>PTHREAD_ONCE_INIT</code> 静态初始化，成功返回零。</p>
+
+<h2>1. 机制</h2>
+<p>进程中任何线程对同一个 <code>once_control</code> 的第一次调用会执行 <code>init_routine</code>，后续所有调用都不再执行；从 <code>pthread_once()</code> 返回时，<code>init_routine</code> 一定已经完成，所以"先到者执行、后到者等待"由实现保证。它本身不是取消点，但若 <code>init_routine</code> 是取消点并被取消，对 <code>once_control</code> 的影响视同从未调用过 <code>pthread_once()</code>，即下次调用会重新执行初始化。它取代了"检查静态标志 + 互斥量"的手工写法，是线程安全的一次性初始化原语。</p>
+
+<h2>2. 易错点</h2>
+<p><code>once_control</code> 必须具有静态存储期且由 <code>PTHREAD_ONCE_INIT</code> 初始化：使用自动存储期或未初始化对象行为未定义。不要在 <code>init_routine</code> 里用同一 <code>once_control</code> 递归调用 <code>pthread_once()</code>，那会死锁——递归调用不会执行例程、也不会返回。不要在 <code>init_routine</code> 中 longjmp/siglongjmp 跳出，行为未定义。不要复制或重用 <code>once_control</code> 值，其内部状态由实现私有持有。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+
+static pthread_once_t once = PTHREAD_ONCE_INIT;
+
+static void init_random(void) {
+    printf("初始化只执行一次\n");
+}
+
+void *worker(void *arg) {
+    pthread_once(&amp;once, init_random);   /* 多个线程并发调用 */
+    return NULL;
+}
+
+int main(void) {
+    pthread_t t1, t2;
+    pthread_create(&amp;t1, NULL, worker, NULL);
+    pthread_create(&amp;t2, NULL, worker, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    return 0;
+}</code></pre>

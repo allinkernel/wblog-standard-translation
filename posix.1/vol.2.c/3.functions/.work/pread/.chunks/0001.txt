@@ -1,0 +1,130 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pread, read — read from a file
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]read[/I5]() function shall attempt to read [I6]nbyte[/I6] bytes from the file associated with the open file descriptor, [I7]fildes[/I7], into the buffer pointed to by [I8]buf[/I8]. The behavior of multiple concurrent reads on the same pipe, FIFO, or terminal device is unspecified.
+[p_00007] Before any action described below is taken, and if [I9]nbyte[/I9] is zero, the [I10]read[/I10]() function may detect and return errors as described below. In the absence of errors, or if error detection is not performed, the [I11]read[/I11]() function shall return zero and have no other results.
+[p_00008] On files that support seeking (for example, a regular file), the [I12]read[/I12]() shall start at a position in the file given by the file offset associated with [I13]fildes[/I13]. The file offset shall be incremented by the number of bytes actually read.
+[p_00009] Files that do not support seeking—for example, terminals—always read from the current position. The value of a file offset associated with such a file is undefined.
+[p_00010] No data transfer shall occur past the current end-of-file. If the starting position is at or after the end-of-file, 0 shall be returned. If the file refers to a device special file, the result of subsequent [I14]read[/I14]() requests is implementation-defined.
+[p_00011] If the value of [I15]nbyte[/I15] is greater than {SSIZE_MAX}, the result is implementation-defined.
+[p_00012] When attempting to read from an empty pipe or FIFO:
+[p_00013] If no process has the pipe open for writing, [I16]read[/I16]() shall return 0 to indicate end-of-file.
+[p_00014] If some process has the pipe open for writing and O_NONBLOCK is set, [I17]read[/I17]() shall return -1 and set [I18]errno[/I18] to [EAGAIN].
+[p_00015] If some process has the pipe open for writing and O_NONBLOCK is clear, [I19]read[/I19]() shall block the calling thread until some data is written or the pipe is closed by all processes that had the pipe open for writing.
+[p_00016] When attempting to read a file (other than a pipe or FIFO) that supports non-blocking reads and has no data currently available:
+[p_00017] If O_NONBLOCK is set, [I20]read[/I20]() shall return -1 and set [I21]errno[/I21] to [EAGAIN].
+[p_00018] If O_NONBLOCK is clear, [I22]read[/I22]() shall block the calling thread until some data becomes available.
+[p_00019] The use of the O_NONBLOCK flag has no effect if there is some data available.
+[p_00020] The [I23]read[/I23]() function reads data previously written to a file. If any portion of a regular file prior to the end-of-file has not been written, [I24]read[/I24]() shall return bytes with value 0. For example, [A25][I26]lseek[/I26]()[/A25] allows the file offset to be set beyond the end of existing data in the file. If data is later written at this point, subsequent reads in the gap between the previous end of data and the newly written data shall return bytes with value 0 until data is written into the gap.
+[p_00021] Upon successful completion, where [I27]nbyte[/I27] is greater than 0, [I28]read[/I28]() shall mark for update the last data access timestamp of the file, and shall return the number of bytes read. This number shall never be greater than [I29]nbyte[/I29]. The value returned may be less than [I30]nbyte[/I30] if the number of bytes left in the file is less than [I31]nbyte[/I31], if the [I32]read[/I32]() request was interrupted by a signal, or if the file is a pipe or FIFO or special file and has fewer than [I33]nbyte[/I33] bytes immediately available for reading. For example, a [I34]read[/I34]() from a file associated with a terminal may return one typed line of data.
+[p_00022] If a [I35]read[/I35]() is interrupted by a signal before it reads any data, it shall return -1 with [I36]errno[/I36] set to [EINTR].
+[p_00023] If a [I37]read[/I37]() is interrupted by a signal after it has successfully read some data, it shall return the number of bytes read.
+[p_00024] For regular files, no data transfer shall occur past the offset maximum established in the open file description associated with [I38]fildes[/I38].
+[p_00025] If [I39]fildes[/I39] refers to a socket, [I40]read[/I40]() shall be equivalent to [A41][I42]recv[/I42]()[/A41] with no flags set.
+[p_00026] [S43][[A44]SIO[/A44]][/S43] [IMG45] If the O_DSYNC and O_RSYNC bits have been set, read I/O operations on the file descriptor shall complete as defined by synchronized I/O data integrity completion. If the O_SYNC and O_RSYNC bits have been set, read I/O operations on the file descriptor shall complete as defined by synchronized I/O file integrity completion. [IMG46]
+[p_00027] [S47][[A48]SHM[/A48]][/S47] [IMG49] If [I50]fildes[/I50] refers to a shared memory object, the result of the [I51]read[/I51]() function is unspecified. [IMG52]
+[p_00028] [S53][[A54]TYM[/A54]][/S53] [IMG55] If [I56]fildes[/I56] refers to a typed memory object, the result of the [I57]read[/I57]() function is unspecified. [IMG58]
+[p_00029] The [I59]pread[/I59]() function shall be equivalent to [I60]read[/I60](), except that it shall read from a given position in the file without changing the file offset. The first three arguments to [I61]pread[/I61]() are the same as [I62]read[/I62]() with the addition of a fourth argument [I63]offset[/I63] for the desired position inside the file. An attempt to perform a [I64]pread[/I64]() on a file that is incapable of seeking shall result in an error.
+[h4_00030] [A65][/A65]RETURN VALUE
+[p_00031] Upon successful completion, these functions shall return a non-negative integer indicating the number of bytes actually read. Otherwise, the functions shall return -1 and set [I66]errno[/I66] to indicate the error.
+[h4_00032] [A67][/A67]ERRORS
+[p_00033] These functions shall fail if:
+[dt_00034] [EAGAIN]
+[dd_00035] The file is neither a pipe, nor a FIFO, nor a socket, the O_NONBLOCK flag is set for the file descriptor, and the thread would be delayed in the read operation.
+[dt_00036] [EBADF]
+[dd_00037] The [I68]fildes[/I68] argument is not a valid file descriptor open for reading.
+[dt_00038] [EINTR]
+[dd_00039] The read operation was terminated due to the receipt of a signal, and no data was transferred.
+[dt_00040] [EIO]
+[dd_00041] The process is a member of a background process group attempting to read from its controlling terminal, and either the calling thread is blocking SIGTTIN or the process is ignoring SIGTTIN or the process group of the process is orphaned. This error may also be generated for implementation-defined reasons.
+[dt_00042] [EISDIR]
+[dd_00043] [S69][[A70]XSI[/A70]][/S69] [IMG71] The [I72]fildes[/I72] argument refers to a directory and the implementation does not allow the directory to be read using [I73]read[/I73]() or [I74]pread[/I74](). The [A75][I76]readdir[/I76]()[/A75] function should be used instead. [IMG77]
+[dt_00044] [EOVERFLOW]
+[dd_00045] The file is a regular file, [I78]nbyte[/I78] is greater than 0, the starting position is before the end-of-file, and the starting position is greater than or equal to the offset maximum established in the open file description associated with [I79]fildes[/I79].
+[p_00046] The [I80]pread[/I80]() function shall fail if:
+[dt_00047] [EINVAL]
+[dd_00048] The file is a regular file or block special file, and the [I81]offset[/I81] argument is negative. The file offset shall remain unchanged.
+[dt_00049] [ESPIPE]
+[dd_00050] The file is incapable of seeking.
+[p_00051] The [I82]read[/I82]() function shall fail if:
+[dt_00052] [EAGAIN]
+[dd_00053] The file is a pipe or FIFO, the O_NONBLOCK flag is set for the file descriptor, and the thread would be delayed in the read operation.
+[dt_00054] [EAGAIN] or [EWOULDBLOCK]
+[dd_00055] The file is a socket, the O_NONBLOCK flag is set for the file descriptor, and the thread would be delayed in the read operation.
+[dt_00056] [ECONNRESET]
+[dd_00057] A read was attempted on a socket and the connection was forcibly closed by its peer.
+[dt_00058] [ENOTCONN]
+[dd_00059] A read was attempted on a socket that is not connected.
+[dt_00060] [ETIMEDOUT]
+[dd_00061] A read was attempted on a socket and a transmission timeout occurred.
+[p_00062] These functions may fail if:
+[dt_00063] [EIO]
+[dd_00064] A physical I/O error has occurred.
+[dt_00065] [ENOBUFS]
+[dd_00066] Insufficient resources were available in the system to perform the operation.
+[dt_00067] [ENOMEM]
+[dd_00068] Insufficient memory was available to fulfill the request.
+[dt_00069] [ENXIO]
+[dd_00070] A request was made of a nonexistent device, or the request was outside the capabilities of the device.
+[h4_00071] [A83][/A83]EXAMPLES
+[h5_00072] [A84][/A84]Reading Data into a Buffer
+[p_00073] The following example reads data from the file associated with the file descriptor [I85]fd[/I85] into the buffer pointed to by [I86]buf[/I86].
+[h4_00074] [A87][/A87]APPLICATION USAGE
+[p_00075] None.
+[h4_00076] [A88][/A88]RATIONALE
+[p_00077] This volume of POSIX.1-2024 does not specify the value of the file offset after an error is returned; there are too many cases. For programming errors, such as [EBADF], the concept is meaningless since no file is involved. For errors that are detected immediately, such as [EAGAIN], clearly the offset should not change. After an interrupt or hardware error, however, an updated value would be very useful and is the behavior of many implementations.
+[p_00078] Note that a [I89]read[/I89]() of zero bytes does not modify the last data access timestamp. A [I90]read[/I90]() that requests more than zero bytes, but returns zero, is required to modify the last data access timestamp.
+[p_00079] Implementations are allowed, but not required, to perform error checking for [I91]read[/I91]() requests of zero bytes.
+[h5_00080] [A92][/A92]Input and Output
+[p_00081] The use of I/O with large byte counts has always presented problems. Ideas such as [I93]lread[/I93]() and [I94]lwrite[/I94]() (using and returning [B95]long[/B95]s) were considered at one time. The current solution is to use abstract types on the ISO&nbsp;C standard function to [I96]read[/I96]() and [A97][I98]write[/I98]()[/A97]. The abstract types can be declared so that existing functions work, but can also be declared so that larger types can be represented in future implementations. It is presumed that whatever constraints limit the maximum range of [B99]size_t[/B99] also limit portable I/O requests to the same range. This volume of POSIX.1-2024 also limits the range further by requiring that the byte count be limited so that a signed return value remains meaningful. Since the return type is also a (signed) abstract type, the byte count can be defined by the implementation to be larger than an [B100]int[/B100] can hold.
+[p_00082] The standard developers considered adding atomicity requirements to a pipe or FIFO, but recognized that due to the nature of pipes and FIFOs there could be no guarantee of atomicity of reads of {PIPE_BUF} or any other size that would be an aid to applications portability.
+[p_00083] This volume of POSIX.1-2024 requires that no action be taken for [I101]read[/I101]() or [A102][I103]write[/I103]()[/A102] when [I104]nbyte[/I104] is zero. This is not intended to take precedence over detection of errors (such as invalid buffer pointers or file descriptors). This is consistent with the rest of this volume of POSIX.1-2024, but the phrasing here could be misread to require detection of the zero case before any other errors. A value of zero is to be considered a correct value, for which the semantics are a no-op.
+[p_00084] I/O is intended to be atomic to ordinary files and pipes and FIFOs. Atomic means that all the bytes from a single operation that started out together end up together, without interleaving from other I/O operations. It is a known attribute of terminals that this is not honored, and terminals are explicitly (and implicitly permanently) excepted, making the behavior unspecified. The behavior for other device types is also left unspecified, but the wording is intended to imply that future standards might choose to specify atomicity (or not).
+[p_00085] There were recommendations to add format parameters to [I105]read[/I105]() and [A106][I107]write[/I107]()[/A106] in order to handle networked transfers among heterogeneous file system and base hardware types. Such a facility may be required for support by the OSI presentation of layer services. However, it was determined that this should correspond with similar C-language facilities, and that is beyond the scope of this volume of POSIX.1-2024. The concept was suggested to the developers of the ISO&nbsp;C standard for their consideration as a possible area for future work.
+[p_00086] In 4.3 BSD, a [I108]read[/I108]() or [A109][I110]write[/I110]()[/A109] that is interrupted by a signal before transferring any data does not by default return an [EINTR] error, but is restarted. In 4.2 BSD, 4.3 BSD, and the Eighth Edition, there is an additional function, [A111][I112]select[/I112]()[/A111], whose purpose is to pause until specified activity (data to read, space to write, and so on) is detected on specified file descriptors. It is common in applications written for those systems for [A113][I114]select[/I114]()[/A113] to be used before [I115]read[/I115]() in situations (such as keyboard input) where interruption of I/O due to a signal is desired.
+[p_00087] The issue of which files or file types are interruptible is considered an implementation design issue. This is often affected primarily by hardware and reliability issues.
+[p_00088] There are no references to actions taken following an &quot;unrecoverable error&quot;. It is considered beyond the scope of this volume of POSIX.1-2024 to describe what happens in the case of hardware errors.
+[p_00089] Earlier versions of this standard allowed two very different behaviors with regard to the handling of interrupts. In order to minimize the resulting confusion, it was decided that POSIX.1-2024 should support only one of these behaviors. Historical practice on AT&amp;T-derived systems was to have [I116]read[/I116]() and [A117][I118]write[/I118]()[/A117] return -1 and set [I119]errno[/I119] to [EINTR] when interrupted after some, but not all, of the data requested had been transferred. However, the US Department of Commerce FIPS 151-1 and FIPS 151-2 require the historical BSD behavior, in which [I120]read[/I120]() and [A121][I122]write[/I122]()[/A121] return the number of bytes actually transferred before the interrupt. If -1 is returned when any data is transferred, it is difficult to recover from the error on a seekable device and impossible on a non-seekable device. Most new implementations support this behavior. The behavior required by POSIX.1-2024 is to return the number of bytes transferred.
+[p_00090] POSIX.1-2024 does not specify when an implementation that buffers [I123]read[/I123]()s actually moves the data into the user-supplied buffer, so an implementation may choose to do this at the latest possible moment. Therefore, an interrupt arriving earlier may not cause [I124]read[/I124]() to return a partial byte count, but rather to return -1 and set [I125]errno[/I125] to [EINTR].
+[p_00091] Consideration was also given to combining the two previous options, and setting [I126]errno[/I126] to [EINTR] while returning a short count. However, not only is there no existing practice that implements this, it is also contradictory to the idea that when [I127]errno[/I127] is set, the function responsible shall return -1.
+[p_00092] This volume of POSIX.1-2024 intentionally does not specify any [I128]pread[/I128]() errors related to pipes, FIFOs, and sockets other than [ESPIPE].
+[h4_00093] [A129][/A129]FUTURE DIRECTIONS
+[p_00094] None.
+[h4_00095] [A130][/A130]SEE ALSO
+[p_00096] [A131][I132]fcntl[/I132]()[/A131], [A133][I134]lseek[/I134]()[/A133], [A135][I136]open[/I136]()[/A135], [A137][I138]pipe[/I138]()[/A137], [A139][I140]readv[/I140]()[/A139]
+[p_00097] XBD [A141][I142]11. General Terminal Interface[/I142][/A141], [A143][I144]&lt;sys/uio.h&gt;[/I144][/A143], [A145][I146]&lt;unistd.h&gt;[/I146][/A145]
+[h4_00098] [A147][/A147]CHANGE HISTORY
+[p_00099] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00100] [A148][/A148]Issue 5
+[p_00101] The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.
+[p_00102] Large File Summit extensions are added.
+[p_00103] The [I149]pread[/I149]() function is added.
+[h4_00104] [A150][/A150]Issue 6
+[p_00105] The DESCRIPTION and ERRORS sections are updated so that references to STREAMS are marked as part of the XSI STREAMS Option Group.
+[p_00106] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00107] The DESCRIPTION now states that if [I151]read[/I151]() is interrupted by a signal after it has successfully read some data, it returns the number of bytes read. In Issue 3, it was optional whether [I152]read[/I152]() returned the number of bytes read, or whether it returned -1 with [I153]errno[/I153] set to [EINTR]. This is a FIPS requirement.
+[p_00108] In the DESCRIPTION, text is added to indicate that for regular files, no data transfer occurs past the offset maximum established in the open file description associated with [I154]fildes[/I154]. This change is to support large files.
+[p_00109] The [EOVERFLOW] mandatory error condition is added.
+[p_00110] The [ENXIO] optional error condition is added.
+[p_00111] Text referring to sockets is added to the DESCRIPTION.
+[p_00112] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[p_00113] The effect of reading zero bytes is clarified.
+[p_00114] The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by specifying that [I155]read[/I155]() results are unspecified for typed memory objects.
+[p_00115] New RATIONALE is added to explain the atomicity requirements for input and output operations.
+[p_00116] The following error conditions are added for operations on sockets: [EAGAIN], [ECONNRESET], [ENOTCONN], and [ETIMEDOUT].
+[p_00117] The [EIO] error is made optional.
+[p_00118] The following error conditions are added for operations on sockets: [ENOBUFS] and [ENOMEM].
+[p_00119] The [A156][I157]readv[/I157]()[/A156] function is split out into a separate reference page.
+[p_00120] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/108 is applied, updating the [EAGAIN] error in the ERRORS section from &quot;the process would be delayed&quot; to &quot;the thread would be delayed&quot;.
+[p_00121] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/109 is applied, making an editorial correction in the RATIONALE section.
+[h4_00122] [A158][/A158]Issue 7
+[p_00123] The [I159]pread[/I159]() function is moved from the XSI option to the Base.
+[p_00124] Functionality relating to the XSI STREAMS option is marked obsolescent.
+[p_00125] Changes are made related to support for finegrained timestamps.
+[p_00126] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0480 [218], XSH/TC1-2008/0481 [79], XSH/TC1-2008/0482 [218], XSH/TC1-2008/0483 [218], XSH/TC1-2008/0484 [218], and XSH/TC1-2008/0485 [218,428] are applied.
+[p_00127] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0302 [710] and XSH/TC2-2008/0303 [676,710] are applied.
+[h4_00128] [A160][/A160]Issue 8
+[p_00129] Austin Group Defect 1330 is applied, removing obsolescent interfaces.
+[p_00130] &nbsp;

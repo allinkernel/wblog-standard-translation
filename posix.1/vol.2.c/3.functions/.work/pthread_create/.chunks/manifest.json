@@ -1,0 +1,1336 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_427_01\" id=\"tag_17_427_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "pthread_create — thread creation",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_427_02\" id=\"tag_17_427_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/pthread.h.html\">pthread.h</a>&gt;<br>\n<br>\nint pthread_create(pthread_t *restrict</tt> <i>thread</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const pthread_attr_t *restrict</tt> <i>attr</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void *(*</tt><i>start_routine</i><tt>)(void*), void *restrict</tt>\n<i>arg</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_427_03\" id=\"tag_17_427_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]pthread_create[/I5]() function shall create a new thread, with attributes specified by [I6]attr[/I6], within a process. If\n[I7]attr[/I7] is NULL, the default attributes shall be used. If the attributes specified by [I8]attr[/I8] are modified later, the\nthread's attributes shall not be affected. Upon successful completion, [I9]pthread_create[/I9]() shall store the ID of the created\nthread in the location referenced by [I10]thread[/I10].",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The thread is created executing [I11]start_routine[/I11] with [I12]arg[/I12] as its sole argument. If the [I13]start_routine[/I13] returns,\nthe effect shall be as if there was an implicit call to [A14][I15]pthread_exit[/I15]()[/A14] using\nthe return value of [I16]start_routine[/I16] as the exit status. Note that the thread in which [I17]main[/I17]() was originally invoked\ndiffers from this. When it returns from [I18]main[/I18](), the effect shall be as if there was an implicit call to [A19][I20]exit[/I20]()[/A19] using the return value of [I21]main[/I21]() as the exit status.",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"../functions/pthread_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The signal state of the new thread shall be initialized as follows:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     1,
+     1
+    ],
+    "text": "The signal mask shall be inherited from the creating thread.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     3,
+     1
+    ],
+    "text": "The set of signals pending for the new thread shall be empty.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The thread-local current locale [S22][[A23]XSI[/A23]][/S22] [IMG24] &nbsp;and the alternate stack [IMG25]\n&nbsp;shall not be inherited.",
+    "placeholders": {
+     "S22": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A23": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG24": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "The floating-point environment shall be inherited from the creating thread.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "If [I26]pthread_create[/I26]() fails, no new thread is created and the contents of the location referenced by [I27]thread[/I27] are\nundefined.",
+    "placeholders": {
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "[S28][[A29]TCT[/A29]][/S28] [IMG30]\nIf _POSIX_THREAD_CPUTIME is defined, the new thread shall have a CPU-time clock accessible, and the initial value of this clock\nshall be set to zero. [IMG31]",
+    "placeholders": {
+     "S28": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"javascript:open_code(&#x27;TCT&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG30": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG31": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "The behavior is undefined if the value specified by the [I32]attr[/I32] argument to [I33]pthread_create[/I33]() does not refer to an\ninitialized thread attributes object.",
+    "placeholders": {
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00016",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A34][/A34]RETURN VALUE",
+    "placeholders": {
+     "A34": {
+      "open": "<a name=\"tag_17_427_04\" id=\"tag_17_427_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "If successful, the [I35]pthread_create[/I35]() function shall return zero; otherwise, an error number shall be returned to indicate\nthe error.",
+    "placeholders": {
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A36][/A36]ERRORS",
+    "placeholders": {
+     "A36": {
+      "open": "<a name=\"tag_17_427_05\" id=\"tag_17_427_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I37]pthread_create[/I37]() function shall fail if:",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00020",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00021",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The system lacked the necessary resources to create another thread, or the system-imposed limit on the total number of threads\nin a process {PTHREAD_THREADS_MAX} would be exceeded.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EPERM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The caller does not have appropriate privileges to set the required scheduling parameters or scheduling policy.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I38]pthread_create[/I38]() function shall not return an error code of [EINTR].",
+    "placeholders": {
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00025",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A39][/A39]EXAMPLES",
+    "placeholders": {
+     "A39": {
+      "open": "<a name=\"tag_17_427_06\" id=\"tag_17_427_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00027",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A40][/A40]APPLICATION USAGE",
+    "placeholders": {
+     "A40": {
+      "open": "<a name=\"tag_17_427_07\" id=\"tag_17_427_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "There is no requirement on the implementation that the ID of the created thread be available before the newly created thread\nstarts executing. The calling thread can obtain the ID of the created thread through the [I41]thread[/I41] argument of the\n[I42]pthread_create[/I42]() function, and the newly created thread can obtain its ID by a call to [A43][I44]pthread_self[/I44]()[/A43].",
+    "placeholders": {
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/pthread_self.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A45][/A45]RATIONALE",
+    "placeholders": {
+     "A45": {
+      "open": "<a name=\"tag_17_427_08\" id=\"tag_17_427_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "A suggested alternative to [I46]pthread_create[/I46]() would be to define two separate operations: create and start. Some\napplications would find such behavior more natural. Ada, in particular, separates the &quot;creation&quot; of a task from its\n&quot;activation&quot;.",
+    "placeholders": {
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "Splitting the operation was rejected by the standard developers for many reasons:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     1,
+     1
+    ],
+    "text": "The number of calls required to start a thread would increase from one to two and thus place an additional burden on\napplications that do not require the additional synchronization. The second call, however, could be avoided by the additional\ncomplication of a start-up state attribute.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     3,
+     1
+    ],
+    "text": "An extra state would be introduced: &quot;created but not started&quot;. This would require the standard to specify the behavior of the\nthread operations when the target has not yet started executing.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     1
+    ],
+    "text": "For those applications that require such behavior, it is possible to simulate the two separate steps with the facilities that\nare currently provided. The [I47]start_routine[/I47]() can synchronize by waiting on a condition variable that is signaled by the start\noperation.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "An Ada implementor can choose to create the thread at either of two points in the Ada program: when the task object is created,\nor when the task is activated (generally at a &quot;begin&quot;). If the first approach is adopted, the [I48]start_routine[/I48]() needs to\nwait on a condition variable to receive the order to begin &quot;activation&quot;. The second approach requires no such condition variable\nor extra synchronization. In either approach, a separate Ada task control block would need to be created when the task object is\ncreated to hold rendezvous queues, and so on.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "An extension of the preceding model would be to allow the state of the thread to be modified between the create and start. This\nwould allow the thread attributes object to be eliminated. This has been rejected because:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11,
+     1,
+     1
+    ],
+    "text": "All state in the thread attributes object has to be able to be set for the thread. This would require the definition of\nfunctions to modify thread attributes. There would be no reduction in the number of function calls required to set up the thread.\nIn fact, for an application that creates all threads using identical attributes, the number of function calls required to set up\nthe threads would be dramatically increased. Use of a thread attributes object permits the application to make one set of attribute\nsetting function calls. Otherwise, the set of attribute setting function calls needs to be made for each thread creation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11,
+     3,
+     1
+    ],
+    "text": "Depending on the implementation architecture, functions to set thread state would require kernel calls, or for other\nimplementation reasons would not be able to be implemented as macros, thereby increasing the cost of thread creation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11,
+     5,
+     1
+    ],
+    "text": "The ability for applications to segregate threads by class would be lost.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "Another suggested alternative uses a model similar to that for process creation, such as &quot;thread fork&quot;. The fork semantics\nwould provide more flexibility and the &quot;create&quot; function can be implemented simply by doing a thread fork followed immediately by\na call to the desired &quot;start routine&quot; for the thread. This alternative has these problems:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15,
+     1,
+     1
+    ],
+    "text": "For many implementations, the entire stack of the calling thread would need to be duplicated, since in many architectures there\nis no way to determine the size of the calling frame.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15,
+     3,
+     1
+    ],
+    "text": "Efficiency is reduced since at least some part of the stack has to be copied, even though in most cases the thread never needs\nthe copied context, since it merely calls the desired start routine.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     17
+    ],
+    "text": "If an implementation detects that the value specified by the [I49]attr[/I49] argument to [I50]pthread_create[/I50]() does not refer to\nan initialized thread attributes object, it is recommended that the function should fail and report an [EINVAL] error.",
+    "placeholders": {
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00044",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A51][/A51]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A51": {
+      "open": "<a name=\"tag_17_427_09\" id=\"tag_17_427_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00046",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A52][/A52]SEE ALSO",
+    "placeholders": {
+     "A52": {
+      "open": "<a name=\"tag_17_427_10\" id=\"tag_17_427_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A53][I54]fork[/I54]()[/A53], [A55][I56]pthread_exit[/I56]()[/A55],\n[A57][I58]pthread_join[/I58]()[/A57]",
+    "placeholders": {
+     "A53": {
+      "open": "<a href=\"../functions/fork.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A55": {
+      "open": "<a href=\"../functions/pthread_exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A57": {
+      "open": "<a href=\"../functions/pthread_join.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A59][I60]4.15.2 Memory Synchronization[/I60][/A59], [A61][I62]&lt;pthread.h&gt;[/I62][/A61]",
+    "placeholders": {
+     "A59": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_15_02\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A61": {
+      "open": "<a href=\"../basedefs/pthread.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00049",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A63][/A63]CHANGE HISTORY",
+    "placeholders": {
+     "A63": {
+      "open": "<a name=\"tag_17_427_11\" id=\"tag_17_427_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 5. Included for alignment with the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00051",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A64][/A64]Issue 6",
+    "placeholders": {
+     "A64": {
+      "open": "<a name=\"tag_17_427_12\" id=\"tag_17_427_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The [I65]pthread_create[/I65]() function is marked as part of the Threads option.",
+    "placeholders": {
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     1,
+     1
+    ],
+    "text": "The [EPERM] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     7
+    ],
+    "text": "The thread CPU-time clock semantics are added for alignment with IEEE&nbsp;Std&nbsp;1003.1d-1999.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     9
+    ],
+    "text": "The [B66]restrict[/B66] keyword is added to the [I67]pthread_create[/I67]() prototype for alignment with the ISO/IEC&nbsp;9899:1999\nstandard.",
+    "placeholders": {
+     "B66": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     11
+    ],
+    "text": "The DESCRIPTION is updated to make it explicit that the floating-point environment is inherited from the creating thread.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     13
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/44 is applied, adding text that the alternate stack is not\ninherited.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     15
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/93 is applied, updating the ERRORS section to remove the\nmandatory [EINVAL] error (&quot;The value specified by [I68]attr[/I68] is invalid&quot;), and adding the optional [EINVAL] error (&quot;The\nattributes specified by [I69]attr[/I69] are invalid&quot;).",
+    "placeholders": {
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     17
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/94 is applied, adding the APPLICATION USAGE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00061",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A70][/A70]Issue 7",
+    "placeholders": {
+     "A70": {
+      "open": "<a name=\"tag_17_427_13\" id=\"tag_17_427_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "The [I71]pthread_create[/I71]() function is moved from the Threads option to the Base.",
+    "placeholders": {
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The [EINVAL] error for an uninitialized thread attributes object is removed; this condition results in undefined behavior.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00064",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0458 [302] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0274 [849] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

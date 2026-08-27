@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：unlink()</h1>
+
+<h2>0. 总览</h2>
+<p><code>unlink()</code> 用于移除一个目录项。头文件为 <code>&lt;unistd.h&gt;</code>；扩展函数 <code>unlinkat()</code> 还需 <code>&lt;fcntl.h&gt;</code>。原型：<code>int unlink(const char *path)</code>、<code>int unlinkat(int fd, const char *path, int flag)</code>。</p>
+
+<h2>1. 机制</h2>
+<p>函数移除 <code>path</code> 命名的目录项并递减该目录项所引用文件的链接计数。若 <code>path</code> 是符号链接，移除的是链接本身而不影响其目标。当链接计数变为 0 且没有进程通过打开的文件描述符或内存映射引用该文件时，空间被释放、文件不再可访问；若仍有引用，目录项先被移除，文件内容的移除推迟到所有引用关闭之后。<code>path</code> 不应命名目录，除非进程具有适当特权且实现支持。<code>unlinkat()</code> 相对 <code>fd</code> 关联的目录解析相对路径，传 <code>AT_FDCWD</code> 时使用当前工作目录；设置 <code>AT_REMOVEDIR</code> 标志则按 rmdir() 语义把目录作为目录移除。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>对已打开的文件 unlink 后，目录项虽消失，但通过已有文件描述符仍可继续读写——这正是临时文件常用惯用法的基础。</li>
+<li>unlink() 不能用来移除目录（返回 [EPERM]）；移除目录应使用 rmdir()。</li>
+<li>[EBUSY] 表示文件正被系统或另一进程使用（如挂载点、某进程的根或当前工作目录）；正在执行的纯过程文件的最后一个目录项可能返回 [ETXTBSY]。</li>
+<li>包含目标的目录设置了 S_ISVTX 标志且进程不满足 XBD 4.5 目录保护条件时，返回 [EPERM] 或 [EACCES]。</li>
+<li>返回 -1 时，所命名的文件不应被更改。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    if (unlink("/tmp/tmpfile") == -1)
+        perror("unlink");
+    return 0;
+}</code></pre>

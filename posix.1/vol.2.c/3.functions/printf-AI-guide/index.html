@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：printf()</h1>
+
+<h2>0. 总览</h2>
+<p><code>printf()</code> 打印格式化输出：在 <code>format</code> 控制下转换、格式化并打印其参数，输出放到标准输出流 stdout 上。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>int printf(const char *restrict format, ...)</code>——第一个参数是格式字符串，后面跟可变参数；成功时返回传输的字节数，遇到错误返回负值并设置 <code>errno</code>。它是 fprintf 家族的一员（同页还定义了 fprintf、sprintf、snprintf、dprintf、asprintf），此页行为与 ISO C 标准对齐。</p>
+
+<h2>1. 机制</h2>
+<p>格式化输出的核心行为：format 由零个或多个指令组成——普通字符（原样复制到输出流）和转换说明（每个取用零个或多个参数）。每个转换说明由 <code>%</code> 引入，之后依次是标志（如 <code>-</code> 左对齐、<code>+</code> 符号、<code>0</code> 零填充、<code>#</code>、<code>'</code> 千位分组）、可选最小字段宽度、可选精度、可选长度修饰符（hh、h、l、ll、j、z、t、L）和转换说明符（d、i、o、u、x、X、f、F、e、E、g、G、a、A、c、s、p、n、%）。字段宽度和精度也可用 <code>*</code> 从参数取；POSIX 还支持 <code>%n$</code> 编号参数以按语言习惯调整参数顺序。生成的字符打印方式如同调用 <code>fputc()</code>；小数点字符依赖语言环境（LC_NUMERIC）。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是格式字符串与参数不匹配——参数不足时结果是未定义的，类型错误（如 <code>%d</code> 配 double）也是未定义行为，编译器警告要当回事；二是格式字符串本身不可控（用户输入直接作 format）是典型安全漏洞；三是 <code>%s</code> 未指定精度时必须提供以空字节结尾的字符串，否则越界读取；四是 <code>%n</code> 会把已写字节数写入指针参数，滥用可被用于任意内存写入，一般不应用它；五是 <code>printf()</code> 是缓冲输出，未 <code>fflush()</code>/<code>fclose()</code>/<code>exit()</code> 前数据修改时间戳仅"标记为待更新"，程序崩溃可能丢数据；六是返回值表示传输字节数，应检查负值。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void) {
+    int n = 42;
+    double pi = 3.14159;
+
+    printf("%d, %-6.2f, %x, %c, %s\n",
+           n, pi, n, 'A', "hi");
+    /* 输出: 42, 3.14  , 2a, A, hi */
+
+    if (printf("hello\n") &lt; 0)
+        return 1;   /* 输出错误 */
+    return 0;
+}</code></pre>

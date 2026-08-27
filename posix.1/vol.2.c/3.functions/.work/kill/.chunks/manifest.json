@@ -1,0 +1,1436 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_296_01\" id=\"tag_17_296_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "kill — send a signal to a process or a group of processes",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_296_02\" id=\"tag_17_296_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00004",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     17
+    ],
+    "text": "[CODE3]\n[CODE4]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt><sup>[<a href=\"javascript:open_code('CX')\">CX</a>]</sup> <img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\"> #include &lt;<a href=\"../basedefs/signal.h.html\">signal.h</a>&gt;<br>\n<br>\nint kill(pid_t</tt> <i>pid</i><tt>, int</tt> <i>sig</i><tt>); <img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\"></tt></code>"
+     },
+     "CODE4": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt><br></tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A5][/A5]DESCRIPTION",
+    "placeholders": {
+     "A5": {
+      "open": "<a name=\"tag_17_296_03\" id=\"tag_17_296_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I6]kill[/I6]() function shall send a signal to a process or a group of processes specified by [I7]pid[/I7]. The signal to be\nsent is specified by [I8]sig[/I8] and is either one from the list given in [A9][I10]&lt;signal.h&gt;[/I10][/A9] or 0. If [I11]sig[/I11] is 0 (the null signal), error checking is performed but\nno signal is actually sent. The null signal can be used to check the validity of [I12]pid[/I12].",
+    "placeholders": {
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A9": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "For a process to have permission to send a signal to a process designated by [I13]pid[/I13], unless the sending process has\nappropriate privileges, the real or effective user ID of the sending process shall match the real or saved set-user-ID of the\nreceiving process.",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "If [I14]pid[/I14] is greater than 0, [I15]sig[/I15] shall be sent to the process whose process ID is equal to [I16]pid[/I16].",
+    "placeholders": {
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "If [I17]pid[/I17] is 0, [I18]sig[/I18] shall be sent to all processes (excluding an unspecified set of system processes) whose process\ngroup ID is equal to the process group ID of the sender, and for which the process has permission to send a signal.",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If [I19]pid[/I19] is -1, [I20]sig[/I20] shall be sent to all processes (excluding an unspecified set of system processes) for which the\nprocess has permission to send that signal.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If [I21]pid[/I21] is negative, but not -1, [I22]sig[/I22] shall be sent to all processes (excluding an unspecified set of system\nprocesses) whose process group ID is equal to the absolute value of [I23]pid[/I23], and for which the process has permission to send a\nsignal.",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "If the value of [I24]pid[/I24] causes [I25]sig[/I25] to be generated for the sending process, and if [I26]sig[/I26] is not blocked for the\ncalling thread and if no other thread has [I27]sig[/I27] unblocked or is waiting in a [A28][I29]sigwait[/I29]()[/A28] function for [I30]sig[/I30], either [I31]sig[/I31] or at least one pending unblocked\nsignal shall be delivered to the sending thread before [I32]kill[/I32]() returns.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A28": {
+      "open": "<a href=\"../functions/sigwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "The user ID tests described above shall not be applied when sending SIGCONT to a process that is a member of the same session as\nthe sending process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "An implementation that provides extended security controls may impose further implementation-defined restrictions on the sending\nof signals, including the null signal. In particular, the system may deny the existence of some or all of the processes specified\nby [I33]pid[/I33].",
+    "placeholders": {
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "The [I34]kill[/I34]() function is successful if the process has permission to send [I35]sig[/I35] to any of the processes specified by\n[I36]pid[/I36]. If [I37]kill[/I37]() fails, no signal shall be sent.",
+    "placeholders": {
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00016",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A38][/A38]RETURN VALUE",
+    "placeholders": {
+     "A38": {
+      "open": "<a name=\"tag_17_296_04\" id=\"tag_17_296_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, 0 shall be returned. Otherwise, -1 shall be returned and [I39]errno[/I39] set to indicate the error.",
+    "placeholders": {
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A40][/A40]ERRORS",
+    "placeholders": {
+     "A40": {
+      "open": "<a name=\"tag_17_296_05\" id=\"tag_17_296_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I41]kill[/I41]() function shall fail if:",
+    "placeholders": {
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00020",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00021",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The value of the [I42]sig[/I42] argument is an invalid or unsupported signal number.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EPERM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The process does not have permission to send the signal to any receiving process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[ESRCH]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "No process or process group can be found corresponding to that specified by [I43]pid[/I43].",
+    "placeholders": {
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00026",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A44][/A44]EXAMPLES",
+    "placeholders": {
+     "A44": {
+      "open": "<a name=\"tag_17_296_06\" id=\"tag_17_296_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00028",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A45][/A45]APPLICATION USAGE",
+    "placeholders": {
+     "A45": {
+      "open": "<a name=\"tag_17_296_07\" id=\"tag_17_296_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A46][/A46]RATIONALE",
+    "placeholders": {
+     "A46": {
+      "open": "<a name=\"tag_17_296_08\" id=\"tag_17_296_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The semantics for permission checking for [I47]kill[/I47]() differed between System V and most other implementations, such as\nVersion 7 or 4.3 BSD. The semantics chosen for this volume of POSIX.1-2024 agree with System V. Specifically, a set-user-ID process\ncannot protect itself against signals (or at least not against SIGKILL) unless it changes its real user ID. This choice allows the\nuser who starts an application to send it signals even if it changes its effective user ID. The other semantics give more power to\nan application that wants to protect itself from the user who ran it.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "Some implementations provide semantic extensions to the [I48]kill[/I48]() function when the absolute value of [I49]pid[/I49] is greater\nthan some maximum, or otherwise special, value. Negative values are a flag to [I50]kill[/I50](). Since most implementations return\n[ESRCH] in this case, this behavior is not included in this volume of POSIX.1-2024, although a conforming implementation could\nprovide such an extension.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "The unspecified processes to which a signal cannot be sent may include the scheduler or [I51]init[/I51].",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "There was initially strong sentiment to specify that, if [I52]pid[/I52] specifies that a signal be sent to the calling process and\nthat signal is not blocked, that signal would be delivered before [I53]kill[/I53]() returns. This would permit a process to call\n[I54]kill[/I54]() and be guaranteed that the call never return. However, historical implementations that provide only the [A55][I56]signal[/I56]()[/A55] function make only the weaker guarantee in this volume of POSIX.1-2024, because they\nonly deliver one signal each time a process enters the kernel. Modifications to such implementations to support the [A57][I58]sigaction[/I58]()[/A57] function generally require entry to the kernel following return from a\nsignal-catching function, in order to restore the signal mask. Such modifications have the effect of satisfying the stronger\nrequirement, at least when [A59][I60]sigaction[/I60]()[/A59] is used, but not necessarily when [A61][I62]signal[/I62]()[/A61] is used. The standard developers considered making the stronger requirement except\nwhen [A63][I64]signal[/I64]()[/A63] is used, but felt this would be unnecessarily complex. Implementors are\nencouraged to meet the stronger requirement whenever possible. In practice, the weaker requirement is the same, except in the rare\ncase when two signals arrive during a very short window. This reasoning also applies to a similar requirement for [A65][I66]sigprocmask[/I66]()[/A65].",
+    "placeholders": {
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A55": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A57": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A59": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A61": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A63": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A65": {
+      "open": "<a href=\"../functions/sigprocmask.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "In 4.2 BSD, the SIGCONT signal can be sent to any descendant process regardless of user-ID security checks. This allows a job\ncontrol shell to continue a job even if processes in the job have altered their user IDs (as in the [I67]su[/I67] command). In keeping\nwith the addition of the concept of sessions, similar functionality is provided by allowing the SIGCONT signal to be sent to any\nprocess in the same session regardless of user ID security checks. This is less restrictive than BSD in the sense that ancestor\nprocesses (in the same session) can now be the recipient. It is more restrictive than BSD in the sense that descendant processes\nthat form new sessions are now subject to the user ID checks. A similar relaxation of security is not necessary for the other job\ncontrol signals since those signals are typically sent by the terminal driver in recognition of special characters being typed; the\nterminal driver bypasses all security checks.",
+    "placeholders": {
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "In secure implementations, a process may be restricted from sending a signal to a process having a different security label. In\norder to prevent the existence or nonexistence of a process from being used as a covert channel, such processes should appear\nnonexistent to the sender; that is, [ESRCH] should be returned, rather than [EPERM], if [I68]pid[/I68] refers only to such\nprocesses.",
+    "placeholders": {
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "Historical implementations varied on the result of a [I69]kill[/I69]() with [I70]pid[/I70] indicating a zombie process. Some indicated\nsuccess on such a call (subject to permission checking), while others gave an error of [ESRCH]. Since the definition of process\nlifetime in this volume of POSIX.1-2024 covers zombie processes, the [ESRCH] error as described is inappropriate in this case and\nimplementations that give this error do not conform. This means that an application cannot have a parent process check for\ntermination of a particular child by sending it the null signal with [I71]kill[/I71](), but must instead use [A72][I73]waitpid[/I73]()[/A72] or [A74][I75]waitid[/I75]()[/A74].",
+    "placeholders": {
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/waitpid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A74": {
+      "open": "<a href=\"../functions/waitid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15
+    ],
+    "text": "There is some belief that the name [I76]kill[/I76]() is misleading, since the function is not always intended to cause process\ntermination. However, the name is common to all historical implementations, and any change would be in conflict with the goal of\nminimal changes to existing application code.",
+    "placeholders": {
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00039",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A77][/A77]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A77": {
+      "open": "<a name=\"tag_17_296_09\" id=\"tag_17_296_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00041",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A78][/A78]SEE ALSO",
+    "placeholders": {
+     "A78": {
+      "open": "<a name=\"tag_17_296_10\" id=\"tag_17_296_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A79][I80]getpid[/I80]()[/A79], [A81][I82]raise[/I82]()[/A81], [A83][I84]setsid[/I84]()[/A83], [A85][I86]sig2str[/I86]()[/A85], [A87][I88]sigaction[/I88]()[/A87], [A89][I90]sigqueue[/I90]()[/A89], [A91][I92]wait[/I92]()[/A91]",
+    "placeholders": {
+     "A79": {
+      "open": "<a href=\"../functions/getpid.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A81": {
+      "open": "<a href=\"../functions/raise.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A83": {
+      "open": "<a href=\"../functions/setsid.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A85": {
+      "open": "<a href=\"../functions/sig2str.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A87": {
+      "open": "<a href=\"../functions/sigaction.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A89": {
+      "open": "<a href=\"../functions/sigqueue.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A91": {
+      "open": "<a href=\"../functions/wait.html#tag_17_658\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A93][I94]&lt;signal.h&gt;[/I94][/A93], [A95][I96]&lt;sys/types.h&gt;[/I96][/A95]",
+    "placeholders": {
+     "A93": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A95": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00044",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A97][/A97]CHANGE HISTORY",
+    "placeholders": {
+     "A97": {
+      "open": "<a name=\"tag_17_296_11\" id=\"tag_17_296_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00046",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A98][/A98]Issue 5",
+    "placeholders": {
+     "A98": {
+      "open": "<a name=\"tag_17_296_12\" id=\"tag_17_296_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00048",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A99][/A99]Issue 6",
+    "placeholders": {
+     "A99": {
+      "open": "<a name=\"tag_17_296_13\" id=\"tag_17_296_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "In the SYNOPSIS, the optional include of the [A100][I101]&lt;sys/types.h&gt;[/I101][/A100] header is\nremoved.",
+    "placeholders": {
+     "A100": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1,
+     1
+    ],
+    "text": "In the DESCRIPTION, the second paragraph is reworded to indicate that the saved set-user-ID of the calling process is checked in\nplace of its effective user ID. This is a FIPS requirement.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     3,
+     1
+    ],
+    "text": "The requirement to include [A102][I103]&lt;sys/types.h&gt;[/I103][/A102] has been removed. Although\n[A104][I105]&lt;sys/types.h&gt;[/I105][/A104] was required for conforming implementations of previous POSIX\nspecifications, it was not required for UNIX applications.",
+    "placeholders": {
+     "A102": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I103": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A104": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     5,
+     1
+    ],
+    "text": "The behavior when [I106]pid[/I106] is -1 is now specified. It was previously explicitly unspecified in the POSIX.1-1988 standard.",
+    "placeholders": {
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/51 is applied, correcting the RATIONALE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00056",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A107][/A107]Issue 7",
+    "placeholders": {
+     "A107": {
+      "open": "<a name=\"tag_17_296_14\" id=\"tag_17_296_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0194 [765] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00058",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A108][/A108]Issue 8",
+    "placeholders": {
+     "A108": {
+      "open": "<a name=\"tag_17_296_15\" id=\"tag_17_296_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 1138 is applied, adding [A109][I110]sig2str[/I110]()[/A109] to the SEE ALSO\nsection.",
+    "placeholders": {
+     "A109": {
+      "open": "<a href=\"../functions/sig2str.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

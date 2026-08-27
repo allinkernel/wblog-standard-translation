@@ -1,0 +1,519 @@
+<h1>XSH 函数：snprintf()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fprintf" id="fprintf"></a> <a name="tag_17_175" id="tag_17_175"></a>
+<a name="tag_17_175_01" id="tag_17_175_01"></a><h4>名称 (NAME)</h4>
+<blockquote>asprintf, dprintf, fprintf, printf, snprintf, sprintf — 打印格式化输出 (print formatted output)</blockquote>
+<a name="tag_17_175_02" id="tag_17_175_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdio.h&gt;<br>
+<br></code></code></p>
+<code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> int asprintf(char **restrict</code> <i>ptr</i><code>, const char *restrict</code> <i>format</i><code>,
+...);<br>
+int dprintf(int</code> <i>fildes</i><code>, const char *restrict</code> <i>format</i><code>, ...); <img src="../images/opt-end.gif" alt="[Option End]"></code></code>
+<code><br>
+int fprintf(FILE *restrict</code> <i>stream</i><code>, const char *restrict</code> <i>format</i><code>, ...);<br>
+int printf(const char *restrict</code> <i>format</i><code>, ...);<br>
+int snprintf(char *restrict</code> <i>s</i><code>, size_t</code> <i>n</i><code>,<br>
+       const char *restrict</code> <i>format</i><code>, ...);<br>
+int sprintf(char *restrict</code> <i>s</i><code>, const char *restrict</code> <i>format</i><code>, ...);<br></code></blockquote>
+<a name="tag_17_175_03" id="tag_17_175_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> Except for <i>asprintf</i>(), <i>dprintf</i>(), and the behavior of the <code>%lc</code> conversion when passed a null wide
+character, the functionality described on this reference page is aligned with the ISO C standard. Any other conflict between
+the requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard for all <i>fprintf</i>(), <i>printf</i>(), <i>snprintf</i>(), and <i>sprintf</i>() functionality except in relation to the
+<code>%lc</code> conversion when passed a null wide character. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>fprintf</i>() 函数应将输出放到指定的输出<i>流</i>上。<i>printf</i>() 函数应将输出放到标准输出<i>流</i> stdout 上。<i>sprintf</i>() 函数应将输出及随后的空字节 <code>'\0'</code>，放到从 *<i>s</i> 开始的连续字节中；确保有足够空间可用是用户的责任。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>asprintf</i>() 函数应等同于 <i>sprintf</i>()，不同之处在于输出字符串应写入动态分配的内存中，该内存如同通过调用 malloc() 分配，长度足以容纳结果字符串（包括终止空字节）。如果对 <i>asprintf</i>() 的调用成功，此动态分配字符串的地址应存储在 <i>ptr</i> 所引用的位置中。</p>
+<p><i>dprintf</i>() 函数应等同于 <i>fprintf</i>() 函数，不同之处在于 <i>dprintf</i>() 应将输出写入与 <i>fildes</i> 参数指定的文件描述符相关联的文件，而不是将输出放到流上。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>snprintf</i>() 函数应等同于 <i>sprintf</i>()，外加 <i>n</i> 参数，该参数限制写入 <i>s</i> 所引用缓冲区的字节数。如果 <i>n</i> 为零，则不应写入任何内容，且 <i>s</i> 可以是空指针。否则，超出第 <i>n</i>-1 个的输出字节应被丢弃而不写入数组，并在实际写入数组的字节末尾写入一个空字节。</p>
+<p>如果因调用 <i>sprintf</i>() 或 <i>snprintf</i>() 而在重叠的对象之间进行复制，则结果是未定义的。</p>
+<p>这些函数中的每一个都在 <i>format</i> 的控制下转换、格式化并打印其参数。应用程序应确保 format 是一个字符串，在初始移位状态下开始和结束（如果有的话）。format 由零个或多个指令组成：<i>普通字符</i>（只是被复制到输出流）和<i>转换说明</i>（每一个都应导致取用零个或多个参数）。如果格式的参数不足，结果是未定义的。如果格式已用尽而仍有参数剩余，则多余参数应被求值但除此之外被忽略。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 转换可以应用于参数列表中 <i>format</i> 之后的第 <i>n</i> 个参数，而不是下一个未使用的参数。在这种情况下，转换说明符字符 <code>%</code>（见下文）被序列 <code>"%</code><i>n</i><code>$"</code> 替换，其中 <i>n</i> 是范围 [1,{NL_ARGMAX}] 内的十进制整数，给出参数在参数列表中的位置。此特性提供了定义按特定语言适宜的次序选择参数的格式字符串的能力（见 EXAMPLES 一节）。</p>
+<p>format 可以包含编号参数转换说明（即由 <code>"%</code><i>n</i><code>$"</code> 引入并且可选地包含 <code>"*</code><i>m</i><code>$"</code> 形式的字段宽度和精度的那些），或未编号参数转换说明（即由 <code>%</code> 字符引入并且可选地包含 <code>*</code> 形式的字段宽度和精度的那些），但不能同时包含两者。唯一的例外是 <code>%%</code> 可以与 <code>"%</code><i>n</i><code>$"</code> 形式混合。在格式字符串中混合编号和未编号参数说明的结果是未定义的。当使用编号参数说明时，指定第 <i>N</i> 个参数要求从第一个到第 (<i>N-1</i>) 个的所有前导参数都在格式字符串中指定。</p>
+<p>在包含 <code>"%</code><i>n</i><code>$"</code> 形式转换说明的格式字符串中，参数列表中的编号参数可以根据需要从格式字符串中引用任意多次。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>在包含 <code>%</code> 形式转换说明的格式字符串中，每个转换说明使用参数列表中的第一个未使用参数。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 所有形式的 <i>fprintf</i>() 函数都允许在输出字符串中插入依赖语言的小数点字符。小数点字符在当前语言环境中定义（类别 <i>LC_NUMERIC ).</i> 在 POSIX 语言环境中，或在未定义小数点字符的语言环境中，小数点字符应默认为 &lt;period&gt;（<code>'.'</code>）。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>每个转换说明由 <code>'%'</code> 字符 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或由字符序列 <code>"%</code><i>n</i><code>$"</code> <img src="../images/opt-end.gif" alt="[Option End]">  引入，之后按顺序出现以下内容：</p>
+<ul>
+<li>
+<p>零个或多个<i>标志</i>（按任意顺序），它们修改转换说明的含义。</p>
+</li>
+<li>
+<p>一个可选的最小<i>字段宽度</i>。如果转换后的值字节数少于字段宽度，则默认应在左侧用 &lt;space&gt; 字符填充；如果给字段宽度指定了下文描述的左对齐标志（<code>'-'</code>），则应在右侧填充。字段宽度采用 &lt;asterisk&gt;（<code>'*'</code>）的形式，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或者在由 <code>"%</code><i>n</i><code>$"</code> 引入的转换说明中采用 <code>"*</code><i>m</i><code>$"</code> 字符串（<img src="../images/opt-end.gif" alt="[Option End]"> 下文描述）的形式，或十进制整数。</p>
+</li>
+<li>
+<p>一个可选的<i>精度</i>，它给出 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 和 <code>X</code> 转换说明符要出现的最小数字个数；<code>a</code>、<code>A</code>、<code>e</code>、<code>E</code>、<code>f</code> 和 <code>F</code> 转换说明符的小数点字符之后要出现的数字个数；<code>g</code> 和 <code>G</code> 转换说明符的最大有效数字个数；或者 <code>s</code> <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <code>S</code> <img src="../images/opt-end.gif" alt="[Option End]">  转换说明符中要从字符串打印的最大字节数。精度采用 &lt;period&gt;（<code>'.'</code>）后跟 &lt;asterisk&gt;（<code>'*'</code>）的形式，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或者在由 <code>"%</code><i>n</i><code>$"</code> 引入的转换说明中采用 <code>"*</code><i>m</i><code>$"</code> 字符串（<img src="../images/opt-end.gif" alt="[Option End]"> 下文描述）的形式，或可选的十进制数字字符串，其中空数字字符串视为零。如果精度与任何其他转换说明符一起出现，则行为是未定义的。</p>
+</li>
+<li>
+<p>一个可选的长度修饰符，指定参数的大小。</p>
+</li>
+<li>
+<p>一个<i>转换说明符</i>字符，指示要应用的转换类型。</p>
+</li>
+</ul>
+<p>字段宽度、精度或两者都可以用 &lt;asterisk&gt;（<code>'*'</code>）指示。在这种情况下，类型为 <b>int</b> 的参数提供字段宽度或精度。应用程序应确保指定字段宽度、精度或两者的参数按该顺序出现在要转换的参数（如果有）之前。负的字段宽度被视为 <code>'-'</code> 标志后跟正的字段宽度。负的精度被视为省略了精度。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  在包含由 <code>"%</code><i>n</i><code>$"</code> 引入的转换说明的格式字符串中，除了用十进制数字字符串指示外，字段宽度还可以用序列 <code>"*</code><i>m</i><code>$"</code> 指示，精度用序列 <code>".*</code><i>m</i><code>$"</code> 指示，其中 <i>m</i> 是范围 [1,{NL_ARGMAX}] 内的十进制整数，给出包含字段宽度或精度的整数参数在参数列表（<i>format</i> 参数之后）中的位置，例如：</p>
+<pre><code class="language-plaintext">printf("%1$d:%2$.*3$d:%4$.*3$d\n", hour, min, precision, sec);</code></pre>
+<img src="../images/opt-end.gif" alt="[Option End]">
+<p>标志字符及其含义是：</p>
+<dl compact="None">
+<dd></dd>
+<dt><code>'</code></dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> （&lt;apostrophe&gt;。）十进制转换（<code>%i</code>、<code>%d</code>、<code>%u</code>、<code>%f</code>、<code>%F</code>、<code>%g</code> 或 <code>%G</code>）结果的整数部分应用千位分组字符格式化。对于其他转换，行为是未定义的。使用非货币分组字符。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt><code>-</code></dt>
+<dd>转换结果应在字段内左对齐。如果未指定此标志，则转换右对齐。</dd>
+<dt><code>+</code></dt>
+<dd>带符号转换的结果应始终以符号（<code>'+'</code> 或 <code>'-'</code>）开头。如果未指定此标志，则只有在转换负值时转换才以符号开头。</dd>
+<dt>&lt;space&gt;</dt>
+<dd>如果带符号转换的第一个字符不是符号，或者带符号转换不产生任何字符，则应在结果前加一个 &lt;space&gt;。这意味着如果 &lt;space&gt; 和 <code>'+'</code> 标志同时出现，则 &lt;space&gt; 标志应被忽略。</dd>
+<dt><code>#</code></dt>
+<dd>指定该值要转换为另一种形式。对于 <code>o</code> 转换，它应在必要且仅在必要时提高精度，以强制结果的第一个数字为零（如果值和精度都为 0，则打印单个 0）。对于 <code>x</code> 或 <code>X</code> 转换说明符，非零结果应在其前加 0x（或 0X）。对于 <code>a</code>、<code>A</code>、<code>e</code>、<code>E</code>、<code>f</code>、<code>F</code>、<code>g</code> 和 <code>G</code> 转换说明符，结果应始终包含小数点字符，即使小数点字符后没有数字也是如此。没有此标志时，只有在小数点字符后有数字时，这些转换的结果中才会出现小数点字符。对于 <code>g</code> 和 <code>G</code> 转换说明符，尾随零应<i>不</i>像通常那样从结果中删除。对于其他转换说明符，行为是未定义的。</dd>
+<dt><code>0</code></dt>
+<dd>对于 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code>、<code>X</code>、<code>a</code>、<code>A</code>、<code>e</code>、<code>E</code>、<code>f</code>、<code>F</code>、<code>g</code> 和 <code>G</code> 转换说明符，前导零（在符号或基数的任何指示之后）用于填充到字段宽度，而不是进行空格填充，除非在转换无穷大或 NaN 时。如果 <code>'0'</code> 和 <code>'-'</code> 标志同时出现，则 <code>'0'</code> 标志被忽略。对于 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 和 <code>X</code> 转换说明符，如果指定了精度，则 <code>'0'</code> 标志应被忽略。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  如果 <code>'0'</code> 和 &lt;apostrophe&gt; 标志同时出现，则在零填充之前插入分组字符。对于其他转换，行为是未定义的。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p>长度修饰符及其含义是：</p>
+<dl compact="None">
+<dd></dd>
+<dt><code>hh</code></dt>
+<dd>指定随后的 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 或 <code>X</code> 转换说明符适用于 <b>signed char</b> 或 <b>unsigned char</b> 参数（该参数将已根据整数提升进行提升，但其值应在打印前转换为 <b>signed char</b> 或 <b>unsigned char</b>）；或者随后的 <code>n</code> 转换说明符适用于指向 <b>signed char</b> 参数的指针。</dd>
+<dt><code>h</code></dt>
+<dd>指定随后的 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 或 <code>X</code> 转换说明符适用于 <b>short</b> 或 <b>unsigned short</b> 参数（该参数将已根据整数提升进行提升，但其值应在打印前转换为 <b>short</b> 或 <b>unsigned short</b>）；或者随后的 <code>n</code> 转换说明符适用于指向 <b>short</b> 参数的指针。</dd>
+<dt><code>l</code> (ell)</dt>
+<dd>指定随后的 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 或 <code>X</code> 转换说明符适用于 <b>long</b> 或 <b>unsigned long</b> 参数；随后的 <code>n</code> 转换说明符适用于指向 <b>long</b> 参数的指针；随后的 <code>c</code> 转换说明符适用于 <b>wint_t</b> 参数；随后的 <code>s</code> 转换说明符适用于指向 <b>wchar_t</b> 参数的指针；或者对随后的 <code>a</code>、<code>A</code>、<code>e</code>、<code>E</code>、<code>f</code>、<code>F</code>、<code>g</code> 或 <code>G</code> 转换说明符没有影响。</dd>
+<dt><code>ll</code> (ell-ell)</dt>
+<dd>指定随后的 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 或 <code>X</code> 转换说明符适用于 <b>long long</b> 或 <b>unsigned long long</b> 参数；或者随后的 <code>n</code> 转换说明符适用于指向 <b>long long</b> 参数的指针。</dd>
+<dt><code>j</code></dt>
+<dd>指定随后的 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 或 <code>X</code> 转换说明符适用于 <b>intmax_t</b> 或 <b>uintmax_t</b> 参数；或者随后的 <code>n</code> 转换说明符适用于指向 <b>intmax_t</b> 参数的指针。</dd>
+<dt><code>z</code></dt>
+<dd>指定随后的 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 或 <code>X</code> 转换说明符适用于 <b>size_t</b> 或相应的有符号整数类型参数；或者随后的 <code>n</code> 转换说明符适用于指向与 <b>size_t</b> 参数对应的有符号整数类型的指针。</dd>
+<dt><code>t</code></dt>
+<dd>指定随后的 <code>d</code>、<code>i</code>、<code>o</code>、<code>u</code>、<code>x</code> 或 <code>X</code> 转换说明符适用于 <b>ptrdiff_t</b> 或相应的 <b>unsigned</b> 类型参数；或者随后的 <code>n</code> 转换说明符适用于指向 <b>ptrdiff_t</b> 参数的指针。</dd>
+<dt><code>L</code></dt>
+<dd>指定随后的 <code>a</code>、<code>A</code>、<code>e</code>、<code>E</code>、<code>f</code>、<code>F</code>、<code>g</code> 或 <code>G</code> 转换说明符适用于 <b>long double</b> 参数。</dd>
+</dl>
+<p>如果长度修饰符与上述指定之外的任何转换说明符一起出现，则行为是未定义的。</p>
+<p>转换说明符及其含义是：</p>
+<dl compact="None">
+<dd></dd>
+<dt><code>d</code>, <code>i</code></dt>
+<dd><b>int</b> 参数应转换为 <code>"[-]</code><i>dddd</i><code>"</code> 样式的带符号十进制数。精度指定要出现的最小数字个数；如果要转换的值可以用更少的数字表示，则应用前导零扩展。默认精度为 1。用显式精度 0 转换零的结果应是不产生任何字符。</dd>
+<dt><code>o</code></dt>
+<dd><b>unsigned</b> 参数应转换为 <code>"</code><i>dddd</i><code>"</code> 样式的无符号八进制格式。精度指定要出现的最小数字个数；如果要转换的值可以用更少的数字表示，则应用前导零扩展。默认精度为 1。用显式精度 0 转换零的结果应是不产生任何字符。</dd>
+<dt><code>u</code></dt>
+<dd><b>unsigned</b> 参数应转换为 <code>"</code><i>dddd</i><code>"</code> 样式的无符号十进制格式。精度指定要出现的最小数字个数；如果要转换的值可以用更少的数字表示，则应用前导零扩展。默认精度为 1。用显式精度 0 转换零的结果应是不产生任何字符。</dd>
+<dt><code>x</code></dt>
+<dd><b>unsigned</b> 参数应转换为 <code>"</code><i>dddd</i><code>"</code> 样式的无符号十六进制格式；使用字母 <code>"abcdef"</code>。精度指定要出现的最小数字个数；如果要转换的值可以用更少的数字表示，则应用前导零扩展。默认精度为 1。用显式精度 0 转换零的结果应是不产生任何字符。</dd>
+<dt><code>X</code></dt>
+<dd>等同于 <code>x</code> 转换说明符，不同之处在于使用字母 <code>"ABCDEF"</code> 而不是 <code>"abcdef"</code>。</dd>
+<dt><code>f</code>, <code>F</code></dt>
+<dd>The <b>double</b> argument shall be converted to decimal notation in the style
+<code>"[-]</code><i>ddd</i><code>.</code><i>ddd</i><code>"</code>, where the number of digits after the radix character is equal to the
+precision specification. If the precision is missing, it shall be taken as 6; if the precision is explicitly zero and no
+<code>'#'</code> flag is present, no radix character shall appear. If a radix character appears, at least one digit appears before it.
+The low-order digit shall be rounded in an implementation-defined manner.
+<p>表示无穷大的 <b>double</b> 参数应转换为 <code>"[-]inf"</code> 或 <code>"[-]infinity"</code> 样式之一；采用哪种样式是实现定义的。表示 NaN 的 <b>double</b> 参数应转换为 <code>"[-]nan(</code><i>n-char-sequence</i><code>)"</code> 或 <code>"[-]nan"</code> 样式之一；采用哪种样式以及任何 <i>n-char-sequence</i> 的含义是实现定义的。<code>F</code> 转换说明符分别产生 <code>"INF"</code>、<code>"INFINITY"</code> 或 <code>"NAN"</code>，而不是 <code>"inf"</code>、<code>"infinity"</code> 或 <code>"nan"</code>。</p>
+</dd>
+<dt><code>e</code>, <code>E</code></dt>
+<dd>The <b>double</b> argument shall be converted in the style
+<code>"[-]</code><i>d</i><code>.</code><i>ddd</i><code>e±</code><i>dd</i><code>"</code>, where there is one digit before the radix character (which
+is non-zero if the argument is non-zero) and the number of digits after it is equal to the precision; if the precision is missing,
+it shall be taken as 6; if the precision is zero and no <code>'#'</code> flag is present, no radix character shall appear. The
+low-order digit shall be rounded in an implementation-defined manner. The <code>E</code> conversion specifier shall produce a number
+with <code>'E'</code> instead of <code>'e'</code> introducing the exponent. The exponent shall always contain at least two digits. If the
+value is zero, the exponent shall be zero.
+<p>表示无穷大或 NaN 的 <b>double</b> 参数应按照 <code>f</code> 或 <code>F</code> 转换说明符的样式转换。</p>
+</dd>
+<dt><code>g</code>, <code>G</code></dt>
+<dd>The <b>double</b> argument representing a floating-point number shall be converted in the style <code>f</code> or <code>e</code> (or in
+the style <code>F</code> or <code>E</code> in the case of a <code>G</code> conversion specifier), depending on the value converted and the
+precision. Let <code>P</code> equal the precision if non-zero, 6 if the precision is omitted, or 1 if the precision is zero. Then, if a
+conversion with style <code>E</code> would have an exponent of <i>X</i>:
+<ul>
+<li>
+<p>如果 <code>P</code>&gt;<i>X</i>&gt;=-4，则转换应采用样式 <code>f</code>（或 <code>F</code>）和精度 <code>P</code>-(<i>X</i>+1)。</p>
+</li>
+<li>
+<p>否则，转换应采用样式 <code>e</code>（或 <code>E</code>）和精度 <code>P</code>-1。</p>
+</li>
+</ul>
+<p>最后，除非使用 <code>'#'</code> 标志，否则应从结果的小数部分删除任何尾随零，如果不再有小数部分，则应删除小数点字符。</p>
+<p>表示无穷大或 NaN 的 <b>double</b> 参数应按照 <code>f</code> 或 <code>F</code> 转换说明符的样式转换。</p>
+</dd>
+<dt><code>a</code>, <code>A</code></dt>
+<dd>A <b>double</b> argument representing a floating-point number shall be converted in the style
+<code>"[-]0x</code><i>h</i><code>.</code><i>hhhh</i><code>p±</code><i>d</i><code>"</code>, where there is one hexadecimal digit (which shall be
+non-zero if the argument is a normalized floating-point number and is otherwise unspecified) before the decimal-point character and
+the number of hexadecimal digits after it is equal to the precision; if the precision is missing and FLT_RADIX is a power of 2,
+then the precision shall be sufficient for an exact representation of the value; if the precision is missing and FLT_RADIX is not a
+power of 2, then the precision shall be sufficient to distinguish values of type <b>double</b>, except that trailing zeros may be
+omitted; if the precision is zero and the <code>'#'</code> flag is not specified, no decimal-point character shall appear. The letters
+<code>"abcdef"</code> shall be used for <code>a</code> conversion and the letters <code>"ABCDEF"</code> for <code>A</code> conversion. The
+<code>A</code> conversion specifier produces a number with <code>'X'</code> and <code>'P'</code> instead of <code>'x'</code> and <code>'p'</code>. The
+exponent shall always contain at least one digit, and only as many more digits as necessary to represent the decimal exponent of 2.
+If the value is zero, the exponent shall be zero.
+<p>表示无穷大或 NaN 的 <b>double</b> 参数应按照 <code>f</code> 或 <code>F</code> 转换说明符的样式转换。</p>
+</dd>
+<dt><code>c</code></dt>
+<dd>The <b>int</b> argument shall be converted to an <b>unsigned char</b>, and the resulting byte shall be written.
+<p>如果存在 <code>l</code>（ell）限定符，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  则 <b>wint_t</b> 参数应转换为多字节序列，如同通过调用 wcrtomb() 一样，使用指向至少 MB_CUR_MAX 字节存储的指针，将 <b>wint_t</b> 参数转换为 <b>wchar_t</b>，并使用初始移位状态，然后写出得到的字节。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</dd>
+<dt><code>s</code></dt>
+<dd>The argument shall be a pointer to an array of <b>char</b>. Bytes from the array shall be written up to (but not including) any
+terminating null byte. If the precision is specified, no more than that many bytes shall be written. If the precision is not
+specified or is greater than the size of the array, the application shall ensure that the array contains a null byte.
+<p>如果存在 <code>l</code>（ell）限定符，则参数应是指向类型为 <b>wchar_t</b> 的数组的指针。数组中的宽字符应转换为字符（每个字符都如同通过调用 wcrtomb() 函数一样，转换状态由在转换第一个宽字符之前初始化为零的 <b>mbstate_t</b> 对象描述），直到并包括终止空宽字符。得到的字符应被写出，直到（但不包括）终止空字符（字节）。如果未指定精度，应用程序应确保数组包含空宽字符。如果指定了精度，则写出的字符（字节）数不应超过该数量（包括移位序列（如果有）），并且如果为了等于精度给定的字符序列长度，函数需要访问数组末尾之后的一个宽字符，则数组应包含空宽字符。在任何情况下都不应写出部分字符。</p>
+</dd>
+<dt><code>p</code></dt>
+<dd>参数应是指向 <b>void</b> 的指针。指针的值以实现定义的方式转换为可打印字符序列。</dd>
+<dt><code>n</code></dt>
+<dd>参数应是指向整数的指针，本次对某个 <i>fprintf</i>() 函数的调用到目前为止写入输出的字节数被写入该整数。不转换任何参数。</dd>
+<dt><code>C</code></dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 等同于 <code>lc</code>。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt><code>S</code></dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 等同于 <code>ls</code>。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt><code>%</code></dt>
+<dd>写出一个 <code>'%'</code> 字符；不应转换任何参数。应用程序应确保完整的转换说明是 <code>%%</code>。</dd>
+</dl>
+<p>如果转换说明与上述形式之一不匹配，则行为是未定义的。如果任何参数不是相应转换说明的正确类型，则行为是未定义的。</p>
+<p>在任何情况下，不存在或太小的字段宽度都不应导致字段截断；如果转换结果比字段宽度宽，则字段应扩展以容纳转换结果。由 <i>fprintf</i>() 和 <i>printf</i>() 生成的字符的打印方式如同调用了 fputc() 一样。</p>
+<p>对于 <code>a</code> 和 <code>A</code> 转换说明符，如果 FLT_RADIX 是 2 的幂，则该值应正确舍入为具有给定精度的十六进制浮点数。</p>
+<p>对于 <code>a</code> 和 <code>A</code> 转换，如果 FLT_RADIX 不是 2 的幂，并且结果在给定精度下不能精确表示，则结果宜是给定精度的十六进制浮点样式中两个相邻数字之一，并附加规定：对于当前舍入方向，误差宜具有正确的符号。</p>
+<p>对于 <code>e</code>、<code>E</code>、<code>f</code>、<code>F</code>、<code>g</code> 和 <code>G</code> 转换说明符，如果有效十进制数字个数至多为 DECIMAL_DIG，则结果宜被正确舍入。如果有效十进制数字个数多于 DECIMAL_DIG，但源值可以用 DECIMAL_DIG 个数字精确表示，则结果宜是带尾随零的精确表示。否则，源值以两个相邻的十进制字符串 <i>L</i> &lt; <i>U</i> 为界，两者都有 DECIMAL_DIG 个有效数字；结果十进制字符串 <i>D</i> 的值宜满足 <i>L</i> &lt;= <i>D</i> &lt;= <i>U</i>，并附加规定：对于当前舍入方向，误差宜具有正确的符号。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 文件的最后数据修改和最后文件状态更改时间戳应被标记为待更新：</p>
+<ol>
+<li>
+<p>在成功执行 <i>fprintf</i>() 或 <i>printf</i>() 的调用与下一次对同一流调用 fflush() 或 fclose() 或调用 exit() 或 abort() 成功完成之间</p>
+</li>
+<li>
+<p>在调用 <i>dprintf</i>() 成功完成时</p>
+</li>
+</ol>
+<img src="../images/opt-end.gif" alt="[Option End]"></blockquote>
+<a name="tag_17_175_04" id="tag_17_175_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>dprintf</i>()、<img src="../images/opt-end.gif" alt="[Option End]"> <i>fprintf</i>() 和 <i>printf</i>() 函数应返回传输的字节数。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 成功完成后，<i>asprintf</i>() 函数应返回写入存储在 <i>ptr</i> 所引用位置中的已分配字符串的字节数，不包括终止空字节。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>成功完成后，<i>sprintf</i>() 函数应返回写入 <i>s</i> 的字节数，不包括终止空字节。</p>
+<p>成功完成后，<i>snprintf</i>() 函数应返回如果 <i>n</i> 足够大将会写入 <i>s</i> 的字节数，不包括终止空字节。</p>
+<p>如果遇到错误，这些函数应返回负值 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并设置 <i>errno</i> 以指示错误。对于 <i>asprintf</i>()，如果无法分配内存，或者发生其他错误，函数应返回负值，并且 <i>ptr</i> 所引用位置的内容是未定义的，但不应指向已分配的内存。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>如果在调用 <i>snprintf</i>() 时 <i>n</i> 的值为零，则不应写入任何内容，应返回如果 <i>n</i> 足够大将会写入的字节数（不包括终止空字节），并且 <i>s</i> 可以是空指针。</p>
+</blockquote>
+<a name="tag_17_175_05" id="tag_17_175_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>关于 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>dprintf</i>()、<img src="../images/opt-end.gif" alt="[Option End]"> <i>fprintf</i>() 和 <i>printf</i>() 失败及可能失败的条件，请参阅 fputc() 或 fputwc()。</p>
+<p>此外，所有形式的 <i>fprintf</i>() 在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EILSEQ]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 检测到不对应有效字符的宽字符代码。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EOVERFLOW]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 要返回的值大于 {INT_MAX}。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在以下情况下，<i>asprintf</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ENOMEM]</dt>
+<dd>可用存储空间不足。</dd>
+</dl>
+<p>在以下情况下，<i>dprintf</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是有效的文件描述符。</dd>
+</dl>
+<img src="../images/opt-end.gif" alt="[Option End]">
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在以下情况下，<i>dprintf</i>()、<img src="../images/opt-end.gif" alt="[Option End]"> <i>fprintf</i>() 和 <i>printf</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ENOMEM]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 可用存储空间不足。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_175_06" id="tag_17_175_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_175_06_01" id="tag_17_175_06_01"></a><h5>打印语言无关的日期和时间 (Printing Language-Independent Date and Time)</h5>
+<p>以下语句可用于使用语言无关的格式打印日期和时间：</p>
+<pre><code class="language-plaintext">printf(format, weekday, month, day, hour, min);</code></pre>
+<p>对于美式用法，<i>format</i> 可以是指向以下字符串的指针：</p>
+<pre><code class="language-plaintext">"%s, %s %d, %d:%.2d\n"</code></pre>
+<p>此示例将产生以下消息：</p>
+<pre><code class="language-plaintext">Sunday, July 3, 10:02</code></pre>
+<p>对于德式用法，<i>format</i> 可以是指向以下字符串的指针：</p>
+<pre><code class="language-plaintext">"%1$s, %3$d. %2$s, %4$d:%5$.2d\n"</code></pre>
+<p><i>format</i> 的这种定义将产生以下消息：</p>
+<pre><code class="language-plaintext">Sonntag, 3. Juli, 10:02</code></pre>
+<a name="tag_17_175_06_02" id="tag_17_175_06_02"></a><h5>打印文件信息 (Printing File Information)</h5>
+<p>以下示例打印目录中特定文件的类型、权限和链接数的信息。</p>
+<p>前两次对 <i>printf</i>() 的调用使用从之前的 stat() 调用解码的数据。用户定义的 <i>strperm</i>() 函数应返回类似于以下命令输出开头字符串的字符串：</p>
+<pre><code class="language-plaintext">ls -l</code></pre>
+<p>下一次对 <i>printf</i>() 的调用，如果使用 getpwuid() 找到了所有者名称，则输出该名称；getpwuid() 函数应返回 <b>passwd</b> 结构，从中提取用户的名称。如果未找到用户名，程序则打印出用户 ID 的数值。</p>
+<p>下一次调用，如果使用 getgrgid() 找到了组名，则打印组名；getgrgid() 与 getpwuid() 非常相似，不同之处在于它应根据组号返回组信息。同样，如果未找到组，程序则为该条目打印组的数值。</p>
+<p>最后一次对 <i>printf</i>() 的调用打印文件的大小。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;pwd.h&gt;
+#include &lt;grp.h&gt;
+ 
+char *strperm (mode_t);
+...
+struct stat statbuf;
+struct passwd *pwd;
+struct group *grp;
+...
+printf("%10.10s", strperm (statbuf.st_mode));
+printf("%4d", statbuf.st_nlink);
+ 
+if ((pwd = getpwuid(statbuf.st_uid)) != NULL)
+    printf(" %-8.8s", pwd-&gt;pw_name);
+else
+    printf(" %-8ld", (long) statbuf.st_uid);
+ 
+if ((grp = getgrgid(statbuf.st_gid)) != NULL)
+    printf(" %-8.8s", grp-&gt;gr_name);
+else
+    printf(" %-8ld", (long) statbuf.st_gid);
+ 
+printf("%9jd", (intmax_t) statbuf.st_size);
+...</code></pre>
+<a name="tag_17_175_06_03" id="tag_17_175_06_03"></a><h5>打印本地化日期字符串 (Printing a Localized Date String)</h5>
+<p>以下示例获取本地化日期字符串。nl_langinfo() 函数应返回本地化日期字符串，它指定日期的顺序和布局。strftime() 函数获取此信息，并使用 <b>tm</b> 结构提供值，将日期和时间信息放入 <i>datestring</i>。然后 <i>printf</i>() 函数输出 <i>datestring</i> 和条目的名称。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+#include &lt;langinfo.h&gt;
+...
+struct dirent *dp;
+struct tm *tm;
+char datestring[256];
+...
+strftime(datestring, sizeof(datestring), nl_langinfo (D_T_FMT), tm);
+ 
+printf(" %s %s\n", datestring, dp-&gt;d_name);
+...</code></pre>
+<a name="tag_17_175_06_04" id="tag_17_175_06_04"></a><h5>打印错误信息 (Printing Error Information)</h5>
+<p>以下示例使用 <i>fprintf</i>() 将错误信息写入标准错误。</p>
+<p>在第一组调用中，程序尝试打开名为 <b>LOCKFILE</b> 的密码锁文件。如果文件已存在，这是一个错误，如 open() 函数上的 O_EXCL 标志所示。如果调用失败，程序假定其他人正在更新密码文件，然后程序退出。</p>
+<p>下一组调用通过在 <b>LOCKFILE</b> 和新密码文件 <b>PASSWDFILE</b> 之间创建链接，将新密码文件保存为当前密码文件。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+ 
+#define LOCKFILE "/etc/ptmp"
+#define PASSWDFILE "/etc/passwd"
+...
+int pfd;
+...
+if ((pfd = open(LOCKFILE, O_WRONLY | O_CREAT | O_EXCL,
+    S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
+{
+    fprintf(stderr, "Cannot open /etc/ptmp. Try again later.\n");
+    exit(1);
+}
+...
+if (link(LOCKFILE,PASSWDFILE) == -1) {
+    fprintf(stderr, "Link error: %s\n", strerror(errno));
+    exit(1);
+}
+...</code></pre>
+<a name="tag_17_175_06_05" id="tag_17_175_06_05"></a><h5>打印用法信息 (Printing Usage Information)</h5>
+<p>以下示例检查以确保程序具有必要的参数，并且如果参数数量不符合预期，则使用 <i>fprintf</i>() 打印用法信息。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+...
+char *Options = "hdbtl";
+...
+if (argc &lt; 2) {
+    fprintf(stderr, "Usage: %s -%s &lt;file\n", argv[0], Options); exit(1);
+}
+...</code></pre>
+<a name="tag_17_175_06_06" id="tag_17_175_06_06"></a><h5>格式化十进制字符串 (Formatting a Decimal String)</h5>
+<p>以下示例在 <i>stdout</i> 上打印键和数据对。注意格式字符串中 &lt;asterisk&gt;（<code>'*'</code>）的使用；这确保根据请求的元素数量，元素具有正确的小数位数。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+...
+long i;
+char *keystr;
+int elementlen, len;
+...
+while (len &lt; elementlen) {
+...
+    printf("%s Element%0*ld\n", keystr, elementlen, i);
+...
+}</code></pre>
+<a name="tag_17_175_06_07" id="tag_17_175_06_07"></a><h5>创建路径名 (Creating a Pathname)</h5>
+<p>以下示例使用之前 getpwnam() 函数返回的该用户密码数据库条目的信息创建路径名。</p>
+<pre><code class="language-plaintext">#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+...
+char *pathname;
+struct passwd *pw;
+size_t len;
+...
+// digits required for pid_t is number of bits times
+// log2(10) = approx 10/33
+len = strlen(pw-&gt;pw_dir) + 1 + 1+(sizeof(pid_t)*80+32)/33 +
+    sizeof ".out";
+pathname = malloc(len);
+if (pathname != NULL)
+{
+    snprintf(pathname, len, "%s/%jd.out", pw-&gt;pw_dir,
+        (intmax_t)getpid());
+    ...
+}</code></pre>
+<a name="tag_17_175_06_08" id="tag_17_175_06_08"></a><h5>报告事件 (Reporting an Event)</h5>
+<p>以下示例循环直到事件超时。pause() 函数永远等待，除非它收到信号。由于 pause() 可能的返回值，<i>fprintf</i>() 语句不应发生。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+...
+while (!event_complete) {
+...
+    if (pause() != -1 || errno != EINTR)
+        fprintf(stderr, "pause: unknown error: %s\n", strerror(errno));
+}
+...</code></pre>
+<a name="tag_17_175_06_09" id="tag_17_175_06_09"></a><h5>打印货币信息 (Printing Monetary Information)</h5>
+<p>以下示例使用 strfmon() 转换数字，并将其存储为名为 <i>convbuf</i> 的格式化货币字符串。如果打印第一个数字，程序打印格式和描述；否则，它只打印数字。</p>
+<pre><code class="language-plaintext">#include &lt;monetary.h&gt;
+#include &lt;stdio.h&gt;
+...
+struct tblfmt {
+    char *format;
+    char *description;
+};
+ 
+struct tblfmt table[] = {
+    { "%n", "default formatting" },
+    { "%11n", "right align within an 11 character field" },
+    { "%#5n", "aligned columns for values up to 99999" },
+    { "%=*#5n", "specify a fill character" },
+    { "%=0#5n", "fill characters do not use grouping" },
+    { "%^#5n", "disable the grouping separator" },
+    { "%^#5.0n", "round off to whole units" },
+    { "%^#5.4n", "increase the precision" },
+    { "%(#5n", "use an alternative pos/neg style" },
+    { "%!(#5n", "disable the currency symbol" },
+};
+...
+float input[3];
+int i, j;
+char convbuf[100];
+...
+strfmon(convbuf, sizeof(convbuf), table[i].format, input[j]);
+ 
+if (j == 0) {
+    printf("%s  %s      %s\n", table[i].format,
+        convbuf, table[i].description);
+}
+else {
+    printf("    %s\n", convbuf);
+}
+...</code></pre>
+<a name="tag_17_175_06_10" id="tag_17_175_06_10"></a><h5>打印宽字符 (Printing Wide Characters)</h5>
+<p>以下示例打印一系列宽字符。假设 <code>"L`@`"</code> 扩展为三个字节：</p>
+<pre><code class="language-plaintext">wchar_t wz [3] = L"@@";       // Zero-terminated
+wchar_t wn [3] = L"@@@";      // Unterminated
+ 
+fprintf (stdout,"%ls", wz);   // Outputs 6 bytes
+fprintf (stdout,"%ls", wn);   // Undefined because wn has no terminator
+fprintf (stdout,"%4ls", wz);  // Outputs 3 bytes
+fprintf (stdout,"%4ls", wn);  // Outputs 3 bytes; no terminator needed
+fprintf (stdout,"%9ls", wz);  // Outputs 6 bytes
+fprintf (stdout,"%9ls", wn);  // Outputs 9 bytes; no terminator needed
+fprintf (stdout,"%10ls", wz); // Outputs 6 bytes
+fprintf (stdout,"%10ls", wn); // Undefined because wn has no terminator</code></pre>
+<p>在示例的最后一行中，处理三个字符后，已输出九个字节。然后必须检查第四个字符，以确定它转换为一个字节还是更多字节。如果它转换为多个字节，输出只有九个字节。由于数组中不存在第四个字符，行为是未定义的。</p>
+</blockquote>
+<a name="tag_17_175_07" id="tag_17_175_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>如果调用 <i>fprintf</i>() 的应用程序具有任何类型为 <b>wint_t</b> 或 <b>wchar_t</b> 的对象，它还必须包含 &lt;wchar.h&gt; 头文件，以便定义这些对象。</p>
+<p>成功调用 <i>asprintf</i>() 分配的空间宜随后通过调用 free() 释放。</p>
+</blockquote>
+<a name="tag_17_175_08" id="tag_17_175_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>如果实现检测到格式的参数不足，建议函数应失败并报告 [EINVAL] 错误。</p>
+<p>为 <code>%lc</code> 转换指定的行为与 ISO C 标准中的规范略有不同，区别在于打印空宽字符产生一个空字节，而不是 0 个输出字节——严格解读 ISO C 标准关于如同将 <code>%ls</code> 说明符应用于首元素为空宽字符的 <b>wchar_t</b> 数组那样行事的指示，会要求 0 字节输出。要求每个可能的宽字符（包括空字符）都产生多字节输出，符合历史实践，并且与 <i>fprintf</i>() 中的 <code>%c</code> 以及 fwprintf() 中的 <code>%c</code> 和 <code>%lc</code> 保持一致。预期未来版本的 ISO C 标准将更改以匹配此处指定的行为。</p>
+</blockquote>
+<a name="tag_17_175_09" id="tag_17_175_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_175_10" id="tag_17_175_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>2.5 标准 I/O 流 (Standard I/O Streams), fputc(), fscanf(), setlocale(), strfmon(), strlcat(), wcrtomb(), wcslcat()</p>
+<p>XBD 7. 语言环境 (Locale), &lt;inttypes.h&gt;, &lt;stdio.h&gt;, &lt;wchar.h&gt;</p>
+</blockquote>
+<a name="tag_17_175_11" id="tag_17_175_11"></a><h4>更改历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 1。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_175_12" id="tag_17_175_12"></a><h4>Issue 5</h4>
+<blockquote>
+<p>与 ISO/IEC 9899:1990/Amendment 1:1995 (E) 保持一致。具体而言，<code>l</code>（ell）限定符现在可以与 <code>c</code> 和 <code>s</code> 转换说明符一起使用。</p>
+<p><i>snprintf</i>() 函数是 Issue 5 中新增的。</p>
+</blockquote>
+<a name="tag_17_175_13" id="tag_17_175_13"></a><h4>Issue 6</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展已被标记。</p>
+<p>规范性文本已更新，以避免对应用程序要求使用 &quot;must&quot; 一词。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p><i>fprintf</i>()、<i>printf</i>()、<i>snprintf</i>() 和 <i>sprintf</i>() 的原型已更新，并且从 <i>snprintf</i>() 中移除了 XSI 阴影标记。</p>
+</li>
+<li>
+<p><i>snprintf</i>() 的说明与 ISO C 标准保持一致。注意，这取代了 The Open Group Base Resolution bwg98-006 中的 <i>snprintf</i>() 说明，后者更改了 Issue 5 以来的行为。</p>
+</li>
+<li>
+<p>说明 (DESCRIPTION) 已更新。</p>
+</li>
+</ul>
+<p>说明 (DESCRIPTION) 已更新，以一致地使用 &quot;conversion specifier&quot; 和 &quot;conversion specification&quot; 这两个术语。</p>
+<p>纳入了 ISO/IEC 9899:1999 标准的技术勘误 1 (Technical Corrigendum 1)。</p>
+<p>添加了一个打印宽字符的示例。</p>
+</blockquote>
+<a name="tag_17_175_14" id="tag_17_175_14"></a><h4>Issue 7</h4>
+<blockquote>
+<p>应用了 Austin Group Interpretation 1003.1-2001 #161，更新了 0 标志的说明 (DESCRIPTION)。</p>
+<p>应用了 Austin Group Interpretation 1003.1-2001 #170。</p>
+<p>应用了 ISO/IEC 9899:1999 标准的技术勘误 2 #68 (SD5-XSH-ERN-70)，修订了 <code>g</code> 和 <code>G</code> 的说明。</p>
+<p>应用了 SD5-XSH-ERN-174。</p>
+<p>从 The Open Group Technical Standard, 2006, Extended API Set Part 1 添加了 <i>dprintf</i>() 函数。</p>
+<p>与 <code>%n$</code> 形式的转换说明和 &lt;apostrophe&gt; 标志相关的功能已从 XSI 选项移至 Base。</p>
+<p>进行了与支持细粒度时间戳相关的更改。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 中的 XSH/TC1-2008/0163 [302]、XSH/TC1-2008/0164 [316]、XSH/TC1-2008/0165 [316]、XSH/TC1-2008/0166 [451,291] 和 XSH/TC1-2008/0167 [14]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 中的 XSH/TC2-2008/0126 [894]、XSH/TC2-2008/0127 [557] 和 XSH/TC2-2008/0128 [936]。</p>
+</blockquote>
+<a name="tag_17_175_15" id="tag_17_175_15"></a><h4>Issue 8</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 986，将 strlcat() 和 wcslcat() 添加到 SEE ALSO 一节。</p>
+<p>应用了 Austin Group Defect 1020，阐明 <i>snprintf</i>() 的参数 <i>n</i> 限制写入 <i>s</i> 的字节数；它不一定与 <i>s</i> 的大小相同。</p>
+<p>应用了 Austin Group Defect 1021，将 RETURN VALUE 一节中的 &quot;output error&quot; 改为 &quot;error&quot;。</p>
+<p>应用了 Austin Group Defect 1137，阐明转换说明中 <code>"%</code><i>n</i><code>$"</code> 和 <code>"*</code><i>m</i><code>$"</code> 的使用。</p>
+<p>应用了 Austin Group Defect 1205，更改了 <code>%</code> 转换说明符的说明。</p>
+<p>应用了 Austin Group Defect 1219，移除了 <i>snprintf</i>() 特有的 [EOVERFLOW] 错误。</p>
+<p>应用了 Austin Group Defect 1496，添加了 <i>asprintf</i>() 函数。</p>
+<p>应用了 Austin Group Defect 1562，阐明确保 format 是一个字符串、在初始移位状态下开始和结束（如果有的话）是应用程序的责任。</p>
+<p>应用了 Austin Group Defect 1647，更改了 <code>c</code> 转换说明符的说明，并更新了本卷 POSIX.1-2024 遵从 ISO C 标准的陈述，使其在传入空宽字符时排除 <code>%lc</code> 转换。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

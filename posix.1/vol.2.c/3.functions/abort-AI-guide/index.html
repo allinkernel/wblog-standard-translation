@@ -1,0 +1,20 @@
+<h1>XSH 函数导读：abort()</h1>
+
+<h2>0. 总览</h2>
+<p>abort() 产生异常进程中止。它声明于 <code>&lt;stdlib.h&gt;</code>，原型为 <code>_Noreturn void abort(void);</code>，且不应返回。它向调用线程发送 SIGABRT 信号，如同通过使用参数 SIGABRT 的 raise() 发送一样，并应覆盖对 SIGABRT 信号的阻塞或忽略。</p>
+
+<h2>1. 机制</h2>
+<p>abort() 应导致异常进程终止发生，除非它产生的 SIGABRT 信号被捕获且信号处理器不返回。异常终止处理应包括为 SIGABRT 定义的默认动作，并且可以包括对所有打开的流实施 fclose() 的尝试。如果 SIGABRT 没有终止进程（例如信号被捕获后处理器返回），abort() 可以将 SIGABRT 的处置更改为 SIG_DFL 并再次发送该信号；即使第二次仍未终止进程，abort() 调用也不应返回。abort() 提供给 wait()、waitid() 或 waitpid() 的状态应是因 SIGABRT 信号而终止的进程的状态。abort() 是异步信号安全的（本卷遵从 ISO C 标准）。</p>
+
+<h2>2. 易错点</h2>
+<p>abort() 不调用 atexit() 注册的函数，也不保证刷新流缓冲，因此不能指望它完成资源清理。捕获 SIGABRT 的处理器若最终返回，abort() 不会就此罢休——它会改为默认动作并再次发送，进程仍将被终止。不要用 abort() 表达"普通失败"：它产生的是异常终止（可能伴随 core 文件等默认动作），与返回非零状态或调用 exit(EXIT_FAILURE) 的正常终止语义不同。也应注意，由于实现可以通过其他信号函数实现 abort()，其操作可能受其他线程中的并发动作影响（本标准的未来版本可以要求更强的保证）。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    if (fwrite("data", 1, 4, stdout) != 4)
+        abort();   /* 输出不完整：异常中止 */
+    return 0;
+}</code></pre>

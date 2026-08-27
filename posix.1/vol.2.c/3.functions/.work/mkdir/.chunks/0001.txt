@@ -1,0 +1,87 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] mkdir, mkdirat — make a directory
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]mkdir[/I5]() function shall create a new directory with name [I6]path[/I6]. The file permission bits [S7][[A8]XSI[/A8]][/S7] [IMG9] &nbsp;and S_ISVTX bit [IMG10] &nbsp;of the new directory shall be initialized from [I11]mode[/I11]. The file permission bits of the [I12]mode[/I12] argument shall be modified by the file creation mask of the process.
+[p_00007] When bits in [I13]mode[/I13] other than the file permission bits [S14][[A15]XSI[/A15]][/S14] [IMG16] &nbsp;and S_ISVTX [IMG17] &nbsp;are set, the meaning of these additional bits is implementation-defined.
+[p_00008] The directory's user ID shall be set to the process' effective user ID. The directory's group ID shall be set to the group ID of the parent directory or to the effective group ID of the process. Implementations shall provide a way to initialize the directory's group ID to the group ID of the parent directory. Implementations may, but need not, provide an implementation-defined way to initialize the directory's group ID to the effective group ID of the calling process.
+[p_00009] The newly created directory shall be an empty directory.
+[p_00010] If [I18]path[/I18] names a symbolic link, [I19]mkdir[/I19]() shall fail and set [I20]errno[/I20] to [EEXIST].
+[p_00011] Upon successful completion, [I21]mkdir[/I21]() shall mark for update the last data access, last data modification, and last file status change timestamps of the directory. Also, the last data modification and last file status change timestamps of the directory that contains the new entry shall be marked for update.
+[p_00012] The [I22]mkdirat[/I22]() function shall be equivalent to the [I23]mkdir[/I23]() function except in the case where [I24]path[/I24] specifies a relative path. In this case the newly created directory is created relative to the directory associated with the file descriptor [I25]fd[/I25] instead of the current working directory. If the access mode of the open file description associated with the file descriptor is not O_SEARCH, the function shall check whether directory searches are permitted using the current permissions of the directory underlying the file descriptor. If the access mode is O_SEARCH, the function shall not perform the check.
+[p_00013] If [I26]mkdirat[/I26]() is passed the special value AT_FDCWD in the [I27]fd[/I27] parameter, the current working directory shall be used and the behavior shall be identical to a call to [I28]mkdir[/I28]().
+[h4_00014] [A29][/A29]RETURN VALUE
+[p_00015] Upon successful completion, these functions shall return 0. Otherwise, these functions shall return -1 and set [I30]errno[/I30] to indicate the error. If -1 is returned, no directory shall be created.
+[h4_00016] [A31][/A31]ERRORS
+[p_00017] These functions shall fail if:
+[dt_00018] [EACCES]
+[dd_00019] Search permission is denied on a component of the path prefix, or write permission is denied on the parent directory of the directory to be created.
+[dt_00020] [EEXIST]
+[dd_00021] The named file exists.
+[dt_00022] [EILSEQ]
+[dd_00023] The last pathname component of [I32]path[/I32] is not a portable filename, and cannot be created in the target directory.
+[dt_00024] [ELOOP]
+[dd_00025] A loop exists in symbolic links encountered during resolution of the [I33]path[/I33] argument.
+[dt_00026] [EMLINK]
+[dd_00027] The link count of the parent directory would exceed {LINK_MAX}.
+[dt_00028] [ENAMETOOLONG]
+[dd_00029] The length of a component of a pathname is longer than {NAME_MAX}.
+[dt_00030] [ENOENT]
+[dd_00031] A component of the path prefix of [I34]path[/I34] does not name an existing file or [I35]path[/I35] is an empty string.
+[dt_00032] [ENOSPC]
+[dd_00033] The file system does not contain enough space to hold the contents of the new directory or to extend the parent directory of the new directory.
+[dt_00034] [ENOTDIR]
+[dd_00035] A component of the path prefix names an existing file that is neither a directory nor a symbolic link to a directory.
+[dt_00036] [EROFS]
+[dd_00037] The parent directory resides on a read-only file system.
+[p_00038] In addition, the [I36]mkdirat[/I36]() function shall fail if:
+[dt_00039] [EACCES]
+[dd_00040] The access mode of the open file description associated with [I37]fd[/I37] is not O_SEARCH and the permissions of the directory underlying [I38]fd[/I38] do not permit directory searches.
+[dt_00041] [EBADF]
+[dd_00042] The [I39]path[/I39] argument does not specify an absolute path and the [I40]fd[/I40] argument is neither AT_FDCWD nor a valid file descriptor open for reading or searching.
+[dt_00043] [ENOTDIR]
+[dd_00044] The [I41]path[/I41] argument is not an absolute path and [I42]fd[/I42] is a file descriptor associated with a non-directory file.
+[p_00045] These functions may fail if:
+[dt_00046] [ELOOP]
+[dd_00047] More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I43]path[/I43] argument.
+[dt_00048] [ENAMETOOLONG]
+[dd_00049] The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a length that exceeds {PATH_MAX}.
+[h4_00050] [A44][/A44]EXAMPLES
+[h5_00051] [A45][/A45]Creating a Directory
+[p_00052] The following example shows how to create a directory named [B46]/home/cnd/mod1[/B46], with read/write/search permissions for owner and group, and with read/search permissions for others.
+[h4_00053] [A47][/A47]APPLICATION USAGE
+[p_00054] None.
+[h4_00055] [A48][/A48]RATIONALE
+[p_00056] The [I49]mkdir[/I49]() function originated in 4.2 BSD and was added to System V in Release 3.0.
+[p_00057] 4.3 BSD detects [ENAMETOOLONG].
+[p_00058] The POSIX.1-1990 standard required that the group ID of a newly created directory be set to the group ID of its parent directory or to the effective group ID of the creating process. FIPS 151-2 required that implementations provide a way to have the group ID be set to the group ID of the containing directory, but did not prohibit implementations also supporting a way to set the group ID to the effective group ID of the creating process. Conforming applications should not assume which group ID will be used. If it matters, an application can use [A50][I51]chown[/I51]()[/A50] to set the group ID after the directory is created, or determine under what conditions the implementation will set the desired group ID.
+[p_00059] The purpose of the [I52]mkdirat[/I52]() function is to create a directory in directories other than the current working directory without exposure to race conditions. Any part of the path of a file could be changed in parallel to the call to [I53]mkdir[/I53](), resulting in unspecified behavior. By opening a file descriptor for the target directory and using the [I54]mkdirat[/I54]() function it can be guaranteed that the newly created directory is located relative to the desired directory.
+[p_00060] Implementations are encouraged to have [I55]mkdir[/I55]() and [I56]mkdirat[/I56]() report an [EILSEQ] error if the last component of [I57]path[/I57] contains any bytes that have the encoded value of a &lt;newline&gt; character.
+[h4_00061] [A58][/A58]FUTURE DIRECTIONS
+[p_00062] None.
+[h4_00063] [A59][/A59]SEE ALSO
+[p_00064] [A60][I61]chmod[/I61]()[/A60], [A62][I63]mkdtemp[/I63]()[/A62], [A64][I65]mknod[/I65]()[/A64], [A66][I67]umask[/I67]()[/A66]
+[p_00065] XBD [A68][I69]&lt;fcntl.h&gt;[/I69][/A68], [A70][I71]&lt;sys/stat.h&gt;[/I71][/A70], [A72][I73]&lt;sys/types.h&gt;[/I73][/A72]
+[h4_00066] [A74][/A74]CHANGE HISTORY
+[p_00067] First released in Issue 3. Included for alignment with the POSIX.1-1988 standard.
+[h4_00068] [A75][/A75]Issue 6
+[p_00069] In the SYNOPSIS, the optional include of the [A76][I77]&lt;sys/types.h&gt;[/I77][/A76] header is removed.
+[p_00070] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00071] The requirement to include [A78][I79]&lt;sys/types.h&gt;[/I79][/A78] has been removed. Although [A80][I81]&lt;sys/types.h&gt;[/I81][/A80] was required for conforming implementations of previous POSIX specifications, it was not required for UNIX applications.
+[p_00072] The [ELOOP] mandatory error condition is added.
+[p_00073] A second [ENAMETOOLONG] is added as an optional error condition.
+[p_00074] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[p_00075] The [ELOOP] optional error condition is added.
+[h4_00076] [A82][/A82]Issue 7
+[p_00077] Austin Group Interpretation 1003.1-2001 #143 is applied.
+[p_00078] The [I83]mkdirat[/I83]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.
+[p_00079] Changes are made related to support for finegrained timestamps.
+[p_00080] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0375 [461], XSH/TC1-2008/0376 [324], XSH/TC1-2008/0377 [277], XSH/TC1-2008/0378 [278], and XSH/TC1-2008/0379 [278] are applied.
+[p_00081] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0210 [873], XSH/TC2-2008/0211 [591], XSH/TC2-2008/0212 [817], XSH/TC2-2008/0213 [817], and XSH/TC2-2008/0214 [591] are applied.
+[h4_00082] [A84][/A84]Issue 8
+[p_00083] Austin Group Defect 251 is applied, encouraging implementations to disallow the creation of filenames containing any bytes that have the encoded value of a &lt;newline&gt; character.
+[p_00084] Austin Group Defects 293 and 1734 are applied, adding the [EILSEQ] error.
+[p_00085] Austin Group Defect 1522 is applied, adding requirements relating to the S_ISVTX bit.
+[p_00086] Austin Group Defect 1729 is applied, changing the description of the [ENOENT] error.
+[p_00087] &nbsp;

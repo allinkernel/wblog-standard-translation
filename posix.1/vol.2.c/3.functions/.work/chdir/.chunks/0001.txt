@@ -1,0 +1,50 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] chdir — change working directory
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]chdir[/I5]() function shall cause the directory named by the pathname pointed to by the [I6]path[/I6] argument to become the current working directory; that is, the starting point for path searches for pathnames not beginning with [CODE7].
+[h4_00007] [A8][/A8]RETURN VALUE
+[p_00008] Upon successful completion, 0 shall be returned. Otherwise, -1 shall be returned, the current working directory shall remain unchanged, and [I9]errno[/I9] shall be set to indicate the error.
+[h4_00009] [A10][/A10]ERRORS
+[p_00010] The [I11]chdir[/I11]() function shall fail if:
+[dt_00011] [EACCES]
+[dd_00012] Search permission is denied for any component of the pathname.
+[dt_00013] [ELOOP]
+[dd_00014] A loop exists in symbolic links encountered during resolution of the [I12]path[/I12] argument.
+[dt_00015] [ENAMETOOLONG]
+[dd_00016] The length of a component of a pathname is longer than {NAME_MAX}.
+[dt_00017] [ENOENT]
+[dd_00018] A component of [I13]path[/I13] does not name an existing directory or [I14]path[/I14] is an empty string.
+[dt_00019] [ENOTDIR]
+[dd_00020] A component of the pathname names an existing file that is neither a directory nor a symbolic link to a directory.
+[p_00021] The [I15]chdir[/I15]() function may fail if:
+[dt_00022] [ELOOP]
+[dd_00023] More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I16]path[/I16] argument.
+[dt_00024] [ENAMETOOLONG]
+[dd_00025] The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a length that exceeds {PATH_MAX}.
+[h4_00026] [A17][/A17]EXAMPLES
+[h5_00027] [A18][/A18]Changing the Current Working Directory
+[p_00028] The following example makes the value pointed to by [B19]directory[/B19], [B20]/tmp[/B20], the current working directory.
+[h4_00029] [A21][/A21]APPLICATION USAGE
+[p_00030] None.
+[h4_00031] [A22][/A22]RATIONALE
+[p_00032] The [I23]chdir[/I23]() function only affects the working directory of the current process.
+[h4_00033] [A24][/A24]FUTURE DIRECTIONS
+[p_00034] None.
+[h4_00035] [A25][/A25]SEE ALSO
+[p_00036] [A26][I27]getcwd[/I27]()[/A26]
+[p_00037] XBD [A28][I29]&lt;unistd.h&gt;[/I29][/A28]
+[h4_00038] [A30][/A30]CHANGE HISTORY
+[p_00039] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00040] [A31][/A31]Issue 6
+[p_00041] The APPLICATION USAGE section is added.
+[p_00042] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00043] The [ELOOP] mandatory error condition is added.
+[p_00044] A second [ENAMETOOLONG] is added as an optional error condition.
+[p_00045] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[p_00046] The [ELOOP] optional error condition is added.
+[h4_00047] [A32][/A32]Issue 7
+[p_00048] Austin Group Interpretation 1003.1-2001 #143 is applied.
+[p_00049] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0047 [324] is applied.
+[p_00050] &nbsp;

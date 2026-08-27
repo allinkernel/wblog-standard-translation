@@ -1,0 +1,36 @@
+<h1>XSH 函数导读：fflush()</h1>
+
+<h2>0. 总览</h2>
+<p><code>fflush()</code> 刷新流：把流中任何未写入的数据写入文件，并标记更新底层文件的上次数据修改与上次文件状态更改时间戳。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>int fflush(FILE *stream)</code>——成功返回 0，失败返回 EOF、设置流的错误指示符并设置 <i>errno</i>。</p>
+
+<h2>1. 机制</h2>
+<p>当 <i>stream</i> 指向输出流（或最近一次操作不是输入的更新流）时，未写入的缓冲数据被强制写到文件。若 <i>stream</i> 是空指针，则对所有定义了此行为的流执行刷新。规范还定义了读取流的处理：对于为读取而打开、有底层文件描述、文件尚未位于 EOF 且可寻位的流，底层打开文件描述的文件偏移量被设置为流的文件位置，由 <code>ungetc()</code>/<code>ungetwc()</code> 压回且尚未读出的字符被丢弃（不再进一步改变文件偏移量）。注意，理由一节说明：由于系统缓冲的数据可能使位置确定不切实际，规范<b>不强制要求</b>在 read() 打开的流上 <code>fflush()</code> 之后重新定位文件描述符。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><code>stdout</code> 通常被缓冲：向终端打印提示后不 <code>fflush(stdout)</code>，提示可能不会及时显示；读输入前应先刷新提示（见规范示例）。</li>
+<li>刷新不等于关闭：<code>fflush()</code> 只把缓冲数据交给内核，流仍可使用；想真正释放资源要 <code>fclose()</code>。</li>
+<li>失败必须检查：磁盘满（ENOSPC）、管道破裂（EPIPE）、超出文件大小限制（EFBIG）等都可能使 <code>fflush()</code> 返回 EOF，忽略它等于掩盖写失败。</li>
+<li>更新模式下，输出之后直接跟输入之前必须 <code>fflush()</code>（或调用文件定位函数），这是 <code>fopen()</code> 更新模式的要求。</li>
+<li>对读取流使用 <code>fflush()</code> 的效果依赖实现；不要把“刷新后文件描述符已重新定位”当作可移植保证。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    char line[128];
+
+    printf("请输入用户名: ");
+    fflush(stdout);              /* 先让提示真正上屏 */
+    if (fgets(line, sizeof(line), stdin) == NULL)
+        return 1;
+    printf("收到: %s", line);
+    if (fflush(stdout) == EOF) { /* 检查刷新是否成功 */
+        perror("fflush");
+        return 1;
+    }
+    return 0;
+}
+</code></pre>

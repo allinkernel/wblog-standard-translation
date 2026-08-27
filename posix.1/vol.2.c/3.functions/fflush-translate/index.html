@@ -1,0 +1,161 @@
+<h1>XSH 函数：fflush()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fflush" id="fflush"></a> <a name="tag_17_154" id="tag_17_154"></a>
+<a name="tag_17_154_01" id="tag_17_154_01"></a><h4>[h4_00001] 名称 (NAME)</h4>
+<blockquote>[blockquote_00002] fflush — 刷新流 (flush a stream)</blockquote>
+<a name="tag_17_154_02" id="tag_17_154_02"></a><h4>[h4_00003] 提要 (SYNOPSIS)</h4>
+<blockquote>
+<p>[p_00004] <code><code>#include &lt;stdio.h&gt;<br>
+<br>
+int fflush(FILE *</code><i>stream</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_154_03" id="tag_17_154_03"></a><h4>[h4_00005] 说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>[p_00006] 如果 <i>stream</i> 指向输出流或最近一次操作不是输入的更新流，则 <i>fflush</i>() 应使该流的任何未写入数据被写入文件，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并且底层文件的上次数据修改和上次文件状态更改时间戳应被标记更新。</p>
+<p>[p_00007] 对于具有底层文件描述、为读取而打开的流，如果文件尚未位于 EOF，且该文件是能够寻位的文件，则底层打开文件描述的文件偏移量应被设置为流的文件位置，并且由 ungetc() 或 ungetwc() 压回流中、随后尚未从流中读出的任何字符应被丢弃（不再进一步更改文件偏移量）。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>[p_00008] 如果 <i>stream</i> 是空指针，则 <i>fflush</i>() 应对上述为其定义了行为的所有流执行此刷新动作。</p>
+</blockquote>
+<a name="tag_17_154_04" id="tag_17_154_04"></a><h4>[h4_00009] 返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>[p_00010] 成功完成后，<i>fflush</i>() 应返回 0；否则，应设置流的错误指示符，返回 EOF，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_154_05" id="tag_17_154_05"></a><h4>[h4_00011] 错误 (ERRORS)</h4>
+<blockquote>
+<p>[p_00012] 在以下情况下，<i>fflush</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00013] [EAGAIN]</dt>
+<dd>[dd_00014] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 为 <i>stream</i> 底层的文件描述符设置了 O_NONBLOCK 标志，并且线程将在写操作中被延迟。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00015] [EBADF]</dt>
+<dd>[dd_00016] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>stream</i> 底层的文件描述符无效。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00017] [EFBIG]</dt>
+<dd>[dd_00018] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 试图写入超过最大文件大小的文件。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00019] [EFBIG]</dt>
+<dd>[dd_00020] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 试图写入超过进程文件大小限制的文件。<img src="../images/opt-end.gif" alt="[Option End]"> <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 还应为该线程生成 SIGXFSZ 信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00021] [EFBIG]</dt>
+<dd>[dd_00022] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 该文件是普通文件，并且试图在或超出与相应流关联的偏移量最大值处写入。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00023] [EINTR]</dt>
+<dd>[dd_00024] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>fflush</i>() 函数被信号中断。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00025] [EIO]</dt>
+<dd>[dd_00026] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 进程是试图向其控制终端写入的后台进程组的成员，设置了 TOSTOP，调用线程未阻塞 SIGTTOU，进程未忽略 SIGTTOU，并且该进程的进程组是孤儿进程组。在实现定义的条件下也可以返回此错误。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00027] [ENOMEM]</dt>
+<dd>[dd_00028] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 底层流是由 open_memstream() 或 open_wmemstream() 创建的，且可用内存不足。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00029] [ENOSPC]</dt>
+<dd>[dd_00030] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 包含该文件的设备上或 fmemopen() 函数使用的缓冲区中没有剩余可用空间。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00031] [EPIPE]</dt>
+<dd>[dd_00032] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 试图写入没有任何进程为读取而打开的管道或 FIFO。还应向该线程发送 SIGPIPE 信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p>[p_00033] 在以下情况下，<i>fflush</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00034] [ENXIO]</dt>
+<dd>[dd_00035] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 向不存在的设备发出了请求，或请求超出了设备的能力范围。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_154_06" id="tag_17_154_06"></a><h4>[h4_00036] 示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_154_06_01" id="tag_17_154_06_01"></a><h5>[h5_00037] 将提示发送到标准输出 (Sending Prompts to Standard Output)</h5>
+<p>[p_00038] 以下示例使用 printf() 调用来打印一系列提示，提示用户必须从标准输入输入的信息。<i>fflush</i>() 调用强制将输出写入标准输出。使用 <i>fflush</i>() 函数是因为标准输出通常被缓冲，提示可能不会立即打印在输出或终端上。getline() 函数调用从标准输入读取字符串，并将结果放入变量中，供程序稍后使用。</p>
+<pre><code class="language-plaintext">char *user;
+char *oldpasswd;
+char *newpasswd;
+ssize_t llen;
+size_t blen;
+struct termios term;
+tcflag_t saveflag;
+ 
+printf("User name: ");
+fflush(stdout);
+blen = 0;
+llen = getline(&amp;user, &amp;blen, stdin);
+user[llen-1] = 0;
+tcgetattr(fileno(stdin), &amp;term);
+saveflag = term.c_lflag;
+term.c_lflag &amp;= ~ECHO;
+tcsetattr(fileno(stdin), TCSANOW, &amp;term);
+printf("Old password: ");
+fflush(stdout);
+blen = 0;
+llen = getline(&amp;oldpasswd, &amp;blen, stdin);
+oldpasswd[llen-1] = 0;
+ 
+printf("\nNew password: ");
+fflush(stdout);
+blen = 0;
+llen = getline(&amp;newpasswd, &amp;blen, stdin);
+newpasswd[llen-1] = 0;
+term.c_lflag = saveflag;
+tcsetattr(fileno(stdin), TCSANOW, &amp;term);
+free(user);
+free(oldpasswd);
+free(newpasswd);</code></pre></blockquote>
+<a name="tag_17_154_07" id="tag_17_154_07"></a><h4>[h4_00039] 应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>[p_00040] 无。</p>
+</blockquote>
+<a name="tag_17_154_08" id="tag_17_154_08"></a><h4>[h4_00041] 理由 (RATIONALE)</h4>
+<blockquote>
+<p>[p_00042] 系统缓冲的数据可能使确定当前文件描述符位置的正确性变得不切实际。因此，POSIX.1-2024 不强制要求在为 read() 打开的流上 <i>fflush</i>() 之后重新定位文件描述符。</p>
+</blockquote>
+<a name="tag_17_154_09" id="tag_17_154_09"></a><h4>[h4_00043] 未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>[p_00044] 无。</p>
+</blockquote>
+<a name="tag_17_154_10" id="tag_17_154_10"></a><h4>[h4_00045] 参见 (SEE ALSO)</h4>
+<blockquote>
+<p>[p_00046] 2.5 标准 I/O 流、fmemopen()、getrlimit()、open_memstream()</p>
+<p>[p_00047] XBD &lt;stdio.h&gt;</p>
+</blockquote>
+<a name="tag_17_154_11" id="tag_17_154_11"></a><h4>[h4_00048] 变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>[p_00049] 首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_154_12" id="tag_17_154_12"></a><h4>[h4_00050] 第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>[p_00051] 添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_154_13" id="tag_17_154_13"></a><h4>[h4_00052] 第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>[p_00053] 超出 ISO C 标准的扩展被标记。</p>
+<p>[p_00054] 以下对 POSIX 实现的新要求源自与单一 UNIX 规范的协调：</p>
+<ul>
+<li>
+<p>[p_00055] 添加了 [EFBIG] 错误，作为大型文件支持扩展的一部分。</p>
+</li>
+<li>
+<p>[p_00056] 添加了 [ENXIO] 可选错误条件。</p>
+</li>
+</ul>
+<p>[p_00057] RETURN VALUE 一节已更新，以说明应为流设置错误指示符。这是为了与 ISO/IEC 9899:1999 标准保持一致。</p>
+<p>[p_00058] 应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/31，将 ERRORS 一节中的 [EAGAIN] 错误从&quot;进程将被延迟&quot;更新为&quot;线程将被延迟&quot;。</p>
+</blockquote>
+<a name="tag_17_154_14" id="tag_17_154_14"></a><h4>[h4_00059] 第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>[p_00060] 应用了 Austin Group 解释 1003.1-2001 #002，澄清了文件描述符与流的交互。</p>
+<p>[p_00061] 更新了 [ENOSPC] 错误条件，并添加了来自 The Open Group 技术标准 2006 扩展 API 集第 1 部分的 [ENOMEM] 错误。</p>
+<p>[p_00062] 修订了 EXAMPLES 一节。</p>
+<p>[p_00063] 进行了与细粒度时间戳支持相关的更改。</p>
+<p>[p_00064] 应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0126 [87]、XSH/TC1-2008/0127 [79] 和 XSH/TC1-2008/0128 [14]。</p>
+<p>[p_00065] 应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0112 [816] 和 XSH/TC2-2008/0113 [626]。</p>
+</blockquote>
+<a name="tag_17_154_15" id="tag_17_154_15"></a><h4>[h4_00066] 第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>[p_00067] 应用了 Austin Group 缺陷 308，澄清了 [EFBIG] 错误的处理。</p>
+<p>[p_00068] 应用了 Austin Group 缺陷 1669，移除了与进程文件大小限制相关的 [EFBIG] 错误部分的 XSI 阴影。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p>[p_00069]  </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

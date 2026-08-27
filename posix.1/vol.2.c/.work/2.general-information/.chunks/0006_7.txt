@@ -1,0 +1,2 @@
+# start_index 181
+[EILSEQ] in [I818]errno[/I818] if and only if an encoding error occurs.

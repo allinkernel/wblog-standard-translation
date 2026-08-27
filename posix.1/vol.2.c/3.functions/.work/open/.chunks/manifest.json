@@ -1,0 +1,4234 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_372_01\" id=\"tag_17_372_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "open, openat — open file",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_372_02\" id=\"tag_17_372_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt><sup>[<a href=\"javascript:open_code('OH')\">OH</a>]</sup> <img src=\"../images/opt-start.gif\" border=\"0\">#include\n&lt;sys/stat.h&gt;<img src=\"../images/opt-end.gif\" border=\"0\"><br>\n#include &lt;<a href=\"../basedefs/fcntl.h.html\">fcntl.h</a>&gt;<br>\n<br>\nint open(const char *</tt><i>path</i><tt>, int</tt> <i>oflag</i><tt>, ...);<br>\nint openat(int</tt> <i>fd</i><tt>, const char *</tt><i>path</i><tt>, int</tt> <i>oflag</i><tt>, ...);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_372_03\" id=\"tag_17_372_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]open[/I5]() function shall establish the connection between a file and a file descriptor. It shall create an open file\ndescription that refers to a file and a file descriptor that refers to that open file description. The file descriptor is used by\nother I/O functions to refer to that file. The [I6]path[/I6] argument points to a pathname naming the file.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I7]open[/I7]() function shall return a file descriptor for the named file, allocated as described in [A8][I9]2.6 File Descriptor Allocation[/I9][/A8]. The open file description is new, and therefore\nthe file descriptor shall not share it with any other process in the system. The FD_CLOEXEC file descriptor flag associated with\nthe new file descriptor shall be cleared unless the O_CLOEXEC flag is set in [I10]oflag[/I10]. The FD_CLOFORK file descriptor flag\nassociated with the new file descriptor shall be cleared unless the O_CLOFORK flag is set in [I11]oflag[/I11].",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A8": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_06\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The file offset used to mark the current position within the file shall be set to the beginning of the file.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The file status flags and file access modes of the open file description shall be set according to the value of\n[I12]oflag[/I12].",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "Values for [I13]oflag[/I13] are constructed by a bitwise-inclusive OR of flags from the following list, defined in [A14][I15]&lt;fcntl.h&gt;[/I15][/A14]. Applications shall specify exactly one of the first five values (file access\nmodes) below in the value of [I16]oflag[/I16]:",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00011",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     3
+    ],
+    "text": "O_EXEC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00012",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     5
+    ],
+    "text": "Open for execute only (non-directory files). If [I17]path[/I17] names a directory and O_EXEC is not the same value as O_SEARCH,\n[I18]open[/I18]() shall fail.",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00013",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     7
+    ],
+    "text": "O_RDONLY",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00014",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     9
+    ],
+    "text": "Open for reading only.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00015",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     11
+    ],
+    "text": "O_RDWR",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00016",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     13
+    ],
+    "text": "Open for reading and writing. If [I19]path[/I19] names a FIFO, and the implementation does not support opening a FIFO for\nsimultaneous read and write, then [I20]open[/I20]() shall fail.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     15
+    ],
+    "text": "O_SEARCH",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00018",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     17
+    ],
+    "text": "Open directory for search only. If [I21]path[/I21] names a non-directory file and O_SEARCH is not the same value as O_EXEC,\n[I22]open[/I22]() shall fail.",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00019",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     19
+    ],
+    "text": "O_WRONLY",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00020",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     21
+    ],
+    "text": "Open for writing only.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "Any combination of the following may be used:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     3
+    ],
+    "text": "O_APPEND",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     5
+    ],
+    "text": "If set, the file offset shall be set to the end of the file prior to each write.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     7
+    ],
+    "text": "O_CLOEXEC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     9
+    ],
+    "text": "If set, the FD_CLOEXEC flag for the new file descriptor shall be set.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     11
+    ],
+    "text": "O_CLOFORK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     13
+    ],
+    "text": "If set, the FD_CLOFORK flag for the new file descriptor shall be set.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     15
+    ],
+    "text": "O_CREAT",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00029",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     17
+    ],
+    "text": "If the file exists, this flag has no effect except as noted under O_EXCL below. Otherwise, if O_DIRECTORY is not set the file\nshall be created as a regular file; the user ID of the file shall be set to the effective user ID of the process; the group ID of\nthe file shall be set to the group ID of the file's parent directory or to the effective group ID of the process; and the access\npermission bits (see [A23][I24]&lt;sys/stat.h&gt;[/I24][/A23]) of the file mode shall be set to the\nvalue of the argument following the [I25]oflag[/I25] argument taken as type [B26]mode_t[/B26] modified as follows: a bitwise AND is\nperformed on the file-mode bits and the corresponding bits in the complement of the process' file mode creation mask. Thus, all\nbits in the file mode whose corresponding bit in the file mode creation mask is set are cleared. When bits other than the file\npermission bits are set, the effect is unspecified. The argument following the [I27]oflag[/I27] argument does not affect whether the\nfile is open for reading, writing, or for both. Implementations shall provide a way to initialize the file's group ID to the group\nID of the parent directory. Implementations may, but need not, provide an implementation-defined way to initialize the file's group\nID to the effective group ID of the calling process.",
+    "placeholders": {
+     "A23": {
+      "open": "<a href=\"../basedefs/sys_stat.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B26": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00030",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     19
+    ],
+    "text": "O_DIRECTORY",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00031",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     21
+    ],
+    "text": "If [I28]path[/I28] resolves to a non-directory file, fail and set [I29]errno[/I29] to [ENOTDIR].",
+    "placeholders": {
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00032",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     23
+    ],
+    "text": "O_DSYNC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00033",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     25
+    ],
+    "text": "[S30][[A31]SIO[/A31]][/S30] [IMG32]\nWrite I/O operations on the file descriptor shall complete as defined by synchronized I/O data integrity completion. [IMG33]",
+    "placeholders": {
+     "S30": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A31": {
+      "open": "<a href=\"javascript:open_code(&#x27;SIO&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG32": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG33": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00034",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     27
+    ],
+    "text": "O_EXCL",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00035",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     29
+    ],
+    "text": "If O_CREAT and O_EXCL are set, [I34]open[/I34]() shall fail if the file exists. The check for the existence of the file and the\ncreation of the file if it does not exist shall be atomic with respect to other threads executing [I35]open[/I35]() naming the same\nfilename in the same directory with O_EXCL and O_CREAT set. If O_EXCL and O_CREAT are set, and [I36]path[/I36] names a symbolic link,\n[I37]open[/I37]() shall fail and set [I38]errno[/I38] to [EEXIST], regardless of the contents of the symbolic link. If O_EXCL is set and\nO_CREAT is not set, the result is undefined.",
+    "placeholders": {
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00036",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     31
+    ],
+    "text": "O_NOCTTY",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00037",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     33
+    ],
+    "text": "If set and [I39]path[/I39] identifies a terminal device, [I40]open[/I40]() shall not cause the terminal device to become the\ncontrolling terminal for the process. If [I41]path[/I41] does not identify a terminal device, O_NOCTTY shall be ignored.",
+    "placeholders": {
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00038",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     35
+    ],
+    "text": "O_NOFOLLOW",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00039",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     37
+    ],
+    "text": "If [I42]path[/I42] names a symbolic link, fail and set [I43]errno[/I43] to [ELOOP].",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00040",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     39
+    ],
+    "text": "O_NONBLOCK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     41,
+     1,
+     1,
+     1
+    ],
+    "text": "If O_NONBLOCK is set, an [I44]open[/I44]() for reading-only shall return without delay. An [I45]open[/I45]() for writing-only shall\nreturn an error if no process currently has the file open for reading.",
+    "placeholders": {
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     41,
+     1,
+     3,
+     1
+    ],
+    "text": "If O_NONBLOCK is clear, an [I46]open[/I46]() for reading-only shall block the calling thread until a thread opens the file for\nwriting. An [I47]open[/I47]() for writing-only shall block the calling thread until a thread opens the file for reading.",
+    "placeholders": {
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     41,
+     3
+    ],
+    "text": "When opening a block special or character special file that supports non-blocking opens:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     41,
+     5,
+     1,
+     1
+    ],
+    "text": "If O_NONBLOCK is set, the [I48]open[/I48]() function shall return without blocking for the device to be ready or available.\nSubsequent behavior of the device is device-specific.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     41,
+     5,
+     3,
+     1
+    ],
+    "text": "If O_NONBLOCK is clear, the [I49]open[/I49]() function shall block the calling thread until the device is ready or available before\nreturning.",
+    "placeholders": {
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     41,
+     7
+    ],
+    "text": "Otherwise, the O_NONBLOCK flag shall not cause an error, but it is unspecified whether the file status flags will include the\nO_NONBLOCK flag.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00047",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     43
+    ],
+    "text": "O_RSYNC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00048",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     45
+    ],
+    "text": "[S50][[A51]SIO[/A51]][/S50] [IMG52]\nRead I/O operations on the file descriptor shall complete at the same level of integrity as specified by the O_DSYNC and O_SYNC\nflags. If both O_DSYNC and O_RSYNC are set in [I53]oflag[/I53], all I/O operations on the file descriptor shall complete as defined by\nsynchronized I/O data integrity completion. If both O_SYNC and O_RSYNC are set in flags, all I/O operations on the file descriptor\nshall complete as defined by synchronized I/O file integrity completion. [IMG54]",
+    "placeholders": {
+     "S50": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A51": {
+      "open": "<a href=\"javascript:open_code(&#x27;SIO&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG52": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG54": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00049",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     47
+    ],
+    "text": "O_SYNC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     49,
+     6
+    ],
+    "text": "[S55][[A56]XSI[/A56]][/S55] [IMG57]\nThe O_SYNC flag shall be supported for regular files, even if the Synchronized Input and Output option is not supported. [IMG58]",
+    "placeholders": {
+     "S55": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A56": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG57": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG58": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00051",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     51
+    ],
+    "text": "O_TRUNC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00052",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     53
+    ],
+    "text": "If the file exists and is a regular file, and the file is successfully opened O_RDWR or O_WRONLY, its length shall be truncated\nto 0, and the mode and owner shall be unchanged. It shall have no effect on FIFO special files or terminal device files. Its effect\non other file types is implementation-defined. The result of using O_TRUNC without either O_RDWR or O_WRONLY is undefined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00053",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     55
+    ],
+    "text": "O_TTY_INIT",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00054",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15,
+     57
+    ],
+    "text": "If [I59]path[/I59] identifies a terminal device other than a pseudo-terminal, the device is not already open in any process, and\neither O_TTY_INIT is set in [I60]oflag[/I60] or O_TTY_INIT has the value zero, [I61]open[/I61]() shall set any non-standard [B62]termios[/B62]\nstructure terminal parameters to a state that provides conforming behavior (see XBD [A63][I64]11.2 Parameters that Can be Set[/I64][/A63]) and initialize the [B65]winsize[/B65] structure\nassociated with the terminal to appropriate default settings. It is unspecified whether O_TTY_INIT has any effect if the device is\nalready open in any process. If [I66]path[/I66] identifies the subsidiary side of a pseudo-terminal that is not already open in any\nprocess, [I67]open[/I67]() shall set any non-standard [B68]termios[/B68] structure terminal parameters to a state that provides conforming\nbehavior and initialize the [B69]winsize[/B69] structure associated with the terminal to appropriate default settings, regardless of\nwhether O_TTY_INIT is set. If [I70]path[/I70] does not identify a terminal device, O_TTY_INIT shall be ignored.",
+    "placeholders": {
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B62": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A63": {
+      "open": "<a href=\"../basedefs/V1_chap11.html#tag_11_02\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B65": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B68": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B69": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "If O_CREAT and O_DIRECTORY are set and the requested access mode is neither O_WRONLY nor O_RDWR, the result is unspecified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "If O_CREAT is set and the file did not previously exist, upon successful completion, [I71]open[/I71]() shall mark for update the\nlast data access, last data modification, and last file status change timestamps of the file and the last data modification and\nlast file status change timestamps of the parent directory.",
+    "placeholders": {
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "If O_TRUNC is set and the file did previously exist, upon successful completion, [I72]open[/I72]() shall mark for update the last\ndata modification and last file status change timestamps of the file.",
+    "placeholders": {
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "[S73][[A74]SIO[/A74]][/S73] [IMG75]\nIf both the O_SYNC and O_DSYNC flags are set, the effect is as if only the O_SYNC flag was set. [IMG76]",
+    "placeholders": {
+     "S73": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A74": {
+      "open": "<a href=\"javascript:open_code(&#x27;SIO&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG75": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG76": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25
+    ],
+    "text": "The application shall ensure that it specifies the O_TTY_INIT flag on the first open of a terminal device since system boot or\nsince the device was closed by the process that last had it open. The application need not specify the O_TTY_INIT flag when opening\npseudo-terminals. [S77][[A78]XSI[/A78]][/S77] [IMG79] &nbsp;If [I80]path[/I80] names the manager side of a pseudo-terminal device, then it is unspecified\nwhether [I81]open[/I81]() locks the subsidiary side so that it cannot be opened. Conforming applications shall call [A82][I83]unlockpt[/I83]()[/A82] before opening the subsidiary side. [IMG84]",
+    "placeholders": {
+     "S77": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A78": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG79": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A82": {
+      "open": "<a href=\"../functions/unlockpt.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG84": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "The largest value that can be represented correctly in an object of type [B85]off_t[/B85] shall be established as the offset maximum\nin the open file description.",
+    "placeholders": {
+     "B85": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00061",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29
+    ],
+    "text": "The [I86]openat[/I86]() function shall be equivalent to the [I87]open[/I87]() function except in the case where [I88]path[/I88] specifies a\nrelative path. In this case the file to be opened is determined relative to the directory associated with the file descriptor\n[I89]fd[/I89] instead of the current working directory. If the access mode of the open file description associated with the file\ndescriptor is not O_SEARCH, the function shall check whether directory searches are permitted using the current permissions of the\ndirectory underlying the file descriptor. If the access mode is O_SEARCH, the function shall not perform the check.",
+    "placeholders": {
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31
+    ],
+    "text": "The [I90]oflag[/I90] parameter and the optional fourth parameter correspond exactly to the parameters of [I91]open[/I91]().",
+    "placeholders": {
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33
+    ],
+    "text": "If [I92]openat[/I92]() is passed the special value AT_FDCWD in the [I93]fd[/I93] parameter, the current working directory shall be used\nand the behavior shall be identical to a call to [I94]open[/I94]().",
+    "placeholders": {
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00064",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A95][/A95]RETURN VALUE",
+    "placeholders": {
+     "A95": {
+      "open": "<a name=\"tag_17_372_04\" id=\"tag_17_372_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, these functions shall open the file and return a non-negative integer representing the file\ndescriptor. Otherwise, these functions shall return -1 and set [I96]errno[/I96] to indicate the error. If -1 is returned, no files\nshall be created or modified.",
+    "placeholders": {
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00066",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A97][/A97]ERRORS",
+    "placeholders": {
+     "A97": {
+      "open": "<a name=\"tag_17_372_05\" id=\"tag_17_372_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "These functions shall fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00068",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00069",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "Search permission is denied on a component of the path prefix, or the file exists and the permissions specified by [I98]oflag[/I98]\nare denied, or the file does not exist and write permission is denied for the parent directory of the file to be created, or\nO_TRUNC is specified and write permission is denied.",
+    "placeholders": {
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00070",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EEXIST]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00071",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "O_CREAT and O_EXCL are set, and the named file exists.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00072",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EILSEQ]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00073",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "O_CREAT was specified, the file did not exist, and the last pathname component of [I99]path[/I99] is not a portable filename and\ncannot be created in the target directory.",
+    "placeholders": {
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00074",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00075",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "A signal was caught during [I100]open[/I100]().",
+    "placeholders": {
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00076",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00077",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "The [I101]path[/I101] argument names a FIFO, O_RDWR was specified, and the implementation considers this an error; [S102][[A103]SIO[/A103]][/S102] [IMG104] &nbsp;or\nsynchronized I/O flags were specified and the implementation does not support synchronized I/O for the file. [IMG105]",
+    "placeholders": {
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S102": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A103": {
+      "open": "<a href=\"javascript:open_code(&#x27;SIO&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG104": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG105": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00078",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[EISDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00079",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "The named file is a directory and [I106]oflag[/I106] includes O_WRONLY or O_RDWR, or includes O_CREAT without O_DIRECTORY, or\nincludes O_EXEC when O_EXEC is not the same value as O_SEARCH.",
+    "placeholders": {
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00080",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00081",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "A loop exists in symbolic links encountered during resolution of the [I107]path[/I107] argument, or O_NOFOLLOW was specified and the\n[I108]path[/I108] argument names a symbolic link.",
+    "placeholders": {
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00082",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00083",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "All file descriptors available to the process are currently open.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00084",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     35
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00085",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     37
+    ],
+    "text": "The length of a component of a pathname is longer than {NAME_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00086",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     39
+    ],
+    "text": "[ENFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00087",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     41
+    ],
+    "text": "The maximum allowable number of files is currently open in the system.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00088",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     43
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00089",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     45
+    ],
+    "text": "O_CREAT is not set and a component of [I109]path[/I109] does not name an existing file, or O_CREAT is set and a component of the path\nprefix of [I110]path[/I110] does not name an existing file, or [I111]path[/I111] points to an empty string.",
+    "placeholders": {
+     "I109": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00090",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     47
+    ],
+    "text": "[ENOENT] or [ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00091",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     49
+    ],
+    "text": "O_CREAT is set, and the [I112]path[/I112] argument contains at least one non-&lt;slash&gt; character and ends with one or more trailing\n&lt;slash&gt; characters. If [I113]path[/I113] without the trailing &lt;slash&gt; characters would name an existing file, an [ENOENT]\nerror shall not occur.",
+    "placeholders": {
+     "I112": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I113": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00092",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     51
+    ],
+    "text": "[ENOSPC]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00093",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     53
+    ],
+    "text": "The directory or file system that would contain the new file cannot be expanded, the file does not exist, and O_CREAT is\nspecified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00094",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     55
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00095",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     57
+    ],
+    "text": "A component of the path prefix names an existing file that is neither a directory nor a symbolic link to a directory; or\nO_CREAT and O_EXCL are not specified, the [I114]path[/I114] argument contains at least one non-&lt;slash&gt; character and ends with one\nor more trailing &lt;slash&gt; characters, and the last pathname component names an existing file that is neither a directory nor a\nsymbolic link to a directory; or O_DIRECTORY was specified and the [I115]path[/I115] argument names a non-directory file; or the\n[I116]path[/I116] argument names a non-directory file and O_SEARCH was specified when O_SEARCH is not the same value as O_EXEC.",
+    "placeholders": {
+     "I114": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I116": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00096",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     59
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00097",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     61
+    ],
+    "text": "O_NONBLOCK is set, the named file is a FIFO, O_WRONLY is set, and no process has the file open for reading.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00098",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     63
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00099",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     65
+    ],
+    "text": "The named file is a character special or block special file, and the device associated with this special file does not\nexist.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00100",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     67
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00101",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     69
+    ],
+    "text": "The named file is a regular file and the size of the file cannot be represented correctly in an object of type\n[B117]off_t[/B117].",
+    "placeholders": {
+     "B117": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00102",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     71
+    ],
+    "text": "[EROFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00103",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     73
+    ],
+    "text": "The named file resides on a read-only file system and either O_WRONLY, O_RDWR, O_CREAT (if the file does not exist), or O_TRUNC\nis set in the [I118]oflag[/I118] argument.",
+    "placeholders": {
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I119]openat[/I119]() function shall fail if:",
+    "placeholders": {
+     "I119": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00105",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00106",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The access mode of the open file description associated with [I120]fd[/I120] is not O_SEARCH and the permissions of the directory\nunderlying [I121]fd[/I121] do not permit directory searches.",
+    "placeholders": {
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I121": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00107",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00108",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "The [I122]path[/I122] argument does not specify an absolute path and the [I123]fd[/I123] argument is neither AT_FDCWD nor a valid file\ndescriptor open for reading or searching.",
+    "placeholders": {
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I123": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00109",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     11
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00110",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     13
+    ],
+    "text": "The [I124]path[/I124] argument is not an absolute path and [I125]fd[/I125] is a file descriptor associated with a non-directory file.",
+    "placeholders": {
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I125": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00111",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "These functions may fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00112",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00113",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "[S126][[A127]XSI[/A127]][/S126] [IMG128]\nThe [I129]path[/I129] argument names the subsidiary side of a pseudo-terminal device that is locked. [IMG130]",
+    "placeholders": {
+     "S126": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A127": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG128": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I129": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG130": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00114",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     7
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00115",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     9
+    ],
+    "text": "The value of the [I131]oflag[/I131] argument is not valid.",
+    "placeholders": {
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00116",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     11
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00117",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     13
+    ],
+    "text": "More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I132]path[/I132] argument.",
+    "placeholders": {
+     "I132": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00118",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     15
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00119",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     17
+    ],
+    "text": "The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00120",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     19
+    ],
+    "text": "[EOPNOTSUPP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00121",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     21
+    ],
+    "text": "The [I133]path[/I133] argument names a socket.",
+    "placeholders": {
+     "I133": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00122",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     23
+    ],
+    "text": "[ETXTBSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00123",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     25
+    ],
+    "text": "The file is a pure procedure (shared text) file that is being executed and [I134]oflag[/I134] is O_WRONLY or O_RDWR.",
+    "placeholders": {
+     "I134": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00124",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A135][/A135]EXAMPLES",
+    "placeholders": {
+     "A135": {
+      "open": "<a name=\"tag_17_372_06\" id=\"tag_17_372_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00125",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A136][/A136]Opening a File for Writing by the Owner",
+    "placeholders": {
+     "A136": {
+      "open": "<a name=\"tag_17_372_06_01\" id=\"tag_17_372_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00126",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example opens the file [B137]/tmp/file[/B137], either by creating it (if it does not already exist), or by truncating\nits length to 0 (if it does exist). In the former case, if the call creates a new file, the access permission bits in the file mode\nof the file are set to permit reading and writing by the owner, and to permit reading only by group members and others.",
+    "placeholders": {
+     "B137": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00127",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     5
+    ],
+    "text": "If the call to [I138]open[/I138]() is successful, the file is opened for writing.",
+    "placeholders": {
+     "I138": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00128",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     9
+    ],
+    "text": "[A139][/A139]Opening a File Using an Existence Check",
+    "placeholders": {
+     "A139": {
+      "open": "<a name=\"tag_17_372_06_02\" id=\"tag_17_372_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00129",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     11
+    ],
+    "text": "The following example uses the [I140]open[/I140]() function to try to create the [B141]LOCKFILE[/B141] file and open it for writing. Since\nthe [I142]open[/I142]() function specifies the O_EXCL flag, the call fails if the file already exists. In that case, the program assumes\nthat someone else is updating the password file and exits.",
+    "placeholders": {
+     "I140": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B141": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I142": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00130",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     15
+    ],
+    "text": "[A143][/A143]Opening a File for Writing",
+    "placeholders": {
+     "A143": {
+      "open": "<a name=\"tag_17_372_06_03\" id=\"tag_17_372_06_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00131",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     17
+    ],
+    "text": "The following example opens a file for writing, creating the file if it does not already exist. If the file does exist, the\nsystem truncates the file to zero bytes.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00132",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A144][/A144]APPLICATION USAGE",
+    "placeholders": {
+     "A144": {
+      "open": "<a name=\"tag_17_372_07\" id=\"tag_17_372_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00133",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "POSIX.1-2024 does not require that terminal parameters be automatically set to any state on first open, nor that they be reset\nafter the last close. It is possible for a non-conforming application to leave a terminal device in a state where the next process\nto use that device finds it in a non-conforming state, but has no way of determining this. To ensure that the device is set to a\nconforming initial state, applications which perform a first open of a terminal (other than a pseudo-terminal) should do so using\nthe O_TTY_INIT flag to set the parameters associated with the terminal to a conforming state.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00134",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "Except as specified in this volume of POSIX.1-2024, the flags allowed in [I145]oflag[/I145] are not mutually-exclusive and any number\nof them may be used simultaneously. Not all combinations of flags make sense. For example, using O_SEARCH | O_CREAT will\nsuccessfully open a pre-existing directory for searching, but if there is no existing file by that name, then it is unspecified\nwhether a regular file will be created. Likewise, if a non-directory file descriptor is successfully returned, it is unspecified\nwhether that descriptor will have execute permissions as if by O_EXEC (note that it is unspecified whether O_EXEC and O_SEARCH have\nthe same value).",
+    "placeholders": {
+     "I145": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00135",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5
+    ],
+    "text": "The O_CLOEXEC and O_CLOFORK flags of [I146]open[/I146]() are necessary to avoid a data race in multi-threaded applications. Without\nO_CLOFORK, a file descriptor is leaked into a child process created by one thread in the window between another thread creating a\nfile descriptor with [I147]open[/I147]() and then using [A148][I149]fcntl[/I149]()[/A148] to set the FD_CLOFORK flag.\nWithout O_CLOEXEC, a file descriptor intentionally inherited by child processes is similarly leaked into an executed program if\nFD_CLOEXEC is not set atomically.",
+    "placeholders": {
+     "I146": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A148": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I149": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00136",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A150][/A150]RATIONALE",
+    "placeholders": {
+     "A150": {
+      "open": "<a name=\"tag_17_372_08\" id=\"tag_17_372_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00137",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "Some implementations permit opening FIFOs with O_RDWR. Since FIFOs could be implemented in other ways, and since two file\ndescriptors can be used to the same effect, an implementation is allowed to reject the use of O_RDWR on a FIFO.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00138",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "See [A151][I152]getgroups[/I152]()[/A151] about the group of a newly created file.",
+    "placeholders": {
+     "A151": {
+      "open": "<a href=\"../functions/getgroups.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I152": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00139",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "The use of [I153]open[/I153]() to create a regular file is preferable to the use of [A154][I155]creat[/I155]()[/A154], because the latter is redundant and included only for historical reasons.",
+    "placeholders": {
+     "I153": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A154": {
+      "open": "<a href=\"../functions/creat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I155": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00140",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "The use of the O_TRUNC flag on FIFOs and directories (pipes cannot be [I156]open[/I156]()-ed) must be permissible without unexpected\nside-effects (for example, [A157][I158]creat[/I158]()[/A157] on a FIFO must not remove data). Since terminal\nspecial files might have type-ahead data stored in the buffer, O_TRUNC should not affect their content, particularly if a program\nthat normally opens a regular file should open the current controlling terminal instead. Other file types, particularly\nimplementation-defined ones, are left implementation-defined.",
+    "placeholders": {
+     "I156": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A157": {
+      "open": "<a href=\"../functions/creat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I158": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00141",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "POSIX.1-2024 permits [EACCES] to be returned for conditions other than those explicitly listed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00142",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "The O_NOCTTY flag was added to allow applications to avoid unintentionally acquiring a controlling terminal as a side-effect of\nopening a terminal file. This volume of POSIX.1-2024 does not specify how a controlling terminal is acquired, but it allows an\nimplementation to provide this on [I159]open[/I159]() if the O_NOCTTY flag is not set and other conditions specified in XBD [A160][I161]11. General Terminal Interface[/I161][/A160] are met.",
+    "placeholders": {
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A160": {
+      "open": "<a href=\"../basedefs/V1_chap11.html#tag_11\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I161": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00143",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "In historical implementations the value of O_RDONLY is zero. Because of that, it is not possible to detect the presence of\nO_RDONLY and another option. Future implementations should encode O_RDONLY and O_WRONLY as bit flags so that:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00144",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     17
+    ],
+    "text": "O_EXEC and O_SEARCH are specified as two of the five file access modes. Since O_EXEC does not apply to directories, and O_SEARCH\nonly applies to directories, their values need not be distinct. Although this standard requires [I162]open[/I162]() to fail on an attempt\nto use O_EXEC on a directory, or O_SEARCH on a non-directory, this only applies in implementations where the two modes have\ndistinct values. Since O_RDONLY has historically had the value zero, implementations are not able to distinguish between O_SEARCH\nand O_SEARCH | O_RDONLY, and similarly for O_EXEC.",
+    "placeholders": {
+     "I162": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00145",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     19
+    ],
+    "text": "In general, the [I163]open[/I163]() function follows the symbolic link if [I164]path[/I164] names a symbolic link. However, the\n[I165]open[/I165]() function, when called with O_CREAT and O_EXCL, is required to fail with [EEXIST] if [I166]path[/I166] names an existing\nsymbolic link, even if the symbolic link refers to a nonexistent file. This behavior is required so that privileged applications\ncan create a new file in a known location without the possibility that a symbolic link might cause the file to be created in a\ndifferent location.",
+    "placeholders": {
+     "I163": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I164": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I165": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I166": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00146",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     21
+    ],
+    "text": "For example, a privileged application that must create a file with a predictable name in a user-writable directory, such as the\nuser's home directory, could be compromised if the user creates a symbolic link with that name that refers to a nonexistent file in\na system directory. If the user can influence the contents of a file, the user could compromise the system by creating a new system\nconfiguration or spool file that would then be interpreted by the system. The test for a symbolic link which refers to a\nnonexisting file must be atomic with the creation of a new file.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00147",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     23
+    ],
+    "text": "In addition, the [I167]open[/I167]() function refuses to open non-directories if the O_DIRECTORY flag is set. This avoids race\nconditions whereby a user might compromise the system by substituting a hard link to a sensitive file (e.g., a device or a FIFO)\nwhile a privileged application is running, where opening a file even for read access might have undesirable side-effects.",
+    "placeholders": {
+     "I167": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00148",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     25
+    ],
+    "text": "In addition, the [I168]open[/I168]() function does not follow symbolic links if the O_NOFOLLOW flag is set. This avoids race\nconditions whereby a user might compromise the system by substituting a symbolic link to a sensitive file (e.g., a device) while a\nprivileged application is running, where opening a file even for read access might have undesirable side-effects.",
+    "placeholders": {
+     "I168": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00149",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27
+    ],
+    "text": "The POSIX.1-1990 standard required that the group ID of a newly created file be set to the group ID of its parent directory or\nto the effective group ID of the creating process. FIPS 151-2 required that implementations provide a way to have the group ID be\nset to the group ID of the containing directory, but did not prohibit implementations also supporting a way to set the group ID to\nthe effective group ID of the creating process. Conforming applications should not assume which group ID will be used. If it\nmatters, an application can use [A169][I170]chown[/I170]()[/A169] to set the group ID after the file is created,\nor determine under what conditions the implementation will set the desired group ID.",
+    "placeholders": {
+     "A169": {
+      "open": "<a href=\"../functions/chown.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I170": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00150",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     29
+    ],
+    "text": "The purpose of the [I171]openat[/I171]() function is to enable opening files in directories other than the current working directory\nwithout exposure to race conditions. Any part of the path of a file could be changed in parallel to a call to [I172]open[/I172](),\nresulting in unspecified behavior. By opening a file descriptor for the target directory and using the [I173]openat[/I173]() function it\ncan be guaranteed that the opened file is located relative to the desired directory. Some implementations use the [I174]openat[/I174]()\nfunction for other purposes as well. In some cases, if the [I175]oflag[/I175] parameter has the O_XATTR bit set, the returned file\ndescriptor provides access to extended attributes. This functionality is not standardized here.",
+    "placeholders": {
+     "I171": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I172": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I174": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I175": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00151",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     31
+    ],
+    "text": "Implementations are encouraged to have [I176]open[/I176]() and [I177]openat[/I177]() report an [EILSEQ] error if [I178]oflag[/I178] includes\nO_CREAT, the file did not previously exist, and the last component of [I179]path[/I179] contains any bytes that have the encoded value of\na &lt;newline&gt; character.",
+    "placeholders": {
+     "I176": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I177": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I178": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I179": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00152",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A180][/A180]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A180": {
+      "open": "<a name=\"tag_17_372_09\" id=\"tag_17_372_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00153",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "A future version of this standard may add an O_NOCLOBBER flag, specified as follows, for use by shells when the [I181]noclobber[/I181]\noption is set (see XRAT [A182][I183]C.2.7.2 Redirecting Output[/I183][/A182]):",
+    "placeholders": {
+     "I181": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A182": {
+      "open": "<a href=\"../xrat/V4_xcu_chap01.html#tag_23_02_07_02\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I183": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00154",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     3,
+     3
+    ],
+    "text": "O_NOCLOBBER",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00155",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     3,
+     5
+    ],
+    "text": "If O_CREAT and O_NOCLOBBER are set, [I184]open[/I184]() shall fail if the file exists and is either a regular file or a symbolic link\nthat resolves to a regular file. The check for the existence and type of the file and the creation of the file if it does not exist\nshall be atomic with respect to other threads executing [I185]open[/I185]() naming the same filename in the same directory with\nO_NOCLOBBER and O_CREAT set or with O_EXCL and O_CREAT set. If O_NOCLOBBER and O_CREAT are set, and the file exists and is either a\nnon-regular file or a symbolic link that resolves to a non-regular file, the file shall be opened as if neither flag was set. If\nO_NOCLOBBER and O_CREAT are set, and [I186]path[/I186] names a symbolic link that does not resolve to an existing file, an empty file\nshall be created such that [I187]path[/I187] resolves to the newly created file. If O_NOCLOBBER is set and O_CREAT is not set, the result\nis undefined.",
+    "placeholders": {
+     "I184": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I185": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I186": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I187": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00156",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A188][/A188]SEE ALSO",
+    "placeholders": {
+     "A188": {
+      "open": "<a name=\"tag_17_372_10\" id=\"tag_17_372_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00157",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A189][I190]chmod[/I190]()[/A189], [A191][I192]close[/I192]()[/A191],\n[A193][I194]creat[/I194]()[/A193], [A195][I196]dirfd[/I196]()[/A195], [A197][I198]dup[/I198]()[/A197], [A199][/A199][A200]exec[/A200], [A201][I202]fcntl[/I202]()[/A201], [A203][I204]fdopendir[/I204]()[/A203], [A205][I206]link[/I206]()[/A205], [A207][I208]lseek[/I208]()[/A207], [A209][I210]mkdtemp[/I210]()[/A209], [A211][I212]mknod[/I212]()[/A211], [A213][I214]read[/I214]()[/A213], [A215][I216]symlink[/I216]()[/A215], [A217][I218]umask[/I218]()[/A217], [A219][I220]unlockpt[/I220]()[/A219], [A221][I222]write[/I222]()[/A221]",
+    "placeholders": {
+     "A189": {
+      "open": "<a href=\"../functions/chmod.html#tag_17_72\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I190": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A191": {
+      "open": "<a href=\"../functions/close.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I192": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A193": {
+      "open": "<a href=\"../functions/creat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I194": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A195": {
+      "open": "<a href=\"../functions/dirfd.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I196": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A197": {
+      "open": "<a href=\"../functions/dup.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I198": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A199": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A200": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A201": {
+      "open": "<a href=\"../functions/fcntl.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I202": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A203": {
+      "open": "<a href=\"../functions/fdopendir.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I204": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A205": {
+      "open": "<a href=\"../functions/link.html#tag_17_304\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I206": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A207": {
+      "open": "<a href=\"../functions/lseek.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I208": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A209": {
+      "open": "<a href=\"../functions/mkdtemp.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I210": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A211": {
+      "open": "<a href=\"../functions/mknod.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I212": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A213": {
+      "open": "<a href=\"../functions/read.html#tag_17_476\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I214": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A215": {
+      "open": "<a href=\"../functions/symlink.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I216": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A217": {
+      "open": "<a href=\"../functions/umask.html#tag_17_645\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I218": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A219": {
+      "open": "<a href=\"../functions/unlockpt.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I220": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A221": {
+      "open": "<a href=\"../functions/write.html#tag_17_699\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I222": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00158",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A223][I224]11. General Terminal Interface[/I224][/A223], [A225][I226]&lt;fcntl.h&gt;[/I226][/A225], [A227][I228]&lt;sys/stat.h&gt;[/I228][/A227],\n[A229][I230]&lt;sys/types.h&gt;[/I230][/A229]",
+    "placeholders": {
+     "A223": {
+      "open": "<a href=\"../basedefs/V1_chap11.html#tag_11\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I224": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A225": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I226": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A227": {
+      "open": "<a href=\"../basedefs/sys_stat.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I228": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A229": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I230": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00159",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A231][/A231]CHANGE HISTORY",
+    "placeholders": {
+     "A231": {
+      "open": "<a name=\"tag_17_372_11\" id=\"tag_17_372_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00160",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00161",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A232][/A232]Issue 5",
+    "placeholders": {
+     "A232": {
+      "open": "<a name=\"tag_17_372_12\" id=\"tag_17_372_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00162",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00163",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00164",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A233][/A233]Issue 6",
+    "placeholders": {
+     "A233": {
+      "open": "<a name=\"tag_17_372_13\" id=\"tag_17_372_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00165",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "In the SYNOPSIS, the optional include of the [A234][I235]&lt;sys/types.h&gt;[/I235][/A234] header is\nremoved.",
+    "placeholders": {
+     "A234": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I235": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00166",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00167",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1,
+     1
+    ],
+    "text": "The requirement to include [A236][I237]&lt;sys/types.h&gt;[/I237][/A236] has been removed. Although\n[A238][I239]&lt;sys/types.h&gt;[/I239][/A238] was required for conforming implementations of previous POSIX\nspecifications, it was not required for UNIX applications.",
+    "placeholders": {
+     "A236": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I237": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A238": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I239": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00168",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     3,
+     1
+    ],
+    "text": "In the DESCRIPTION, O_CREAT is amended to state that the group ID of the file is set to the group ID of the file's parent\ndirectory or to the effective group ID of the process. This is a FIPS requirement.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00169",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     5,
+     1
+    ],
+    "text": "In the DESCRIPTION, text is added to indicate setting of the offset maximum in the open file description. This change is to\nsupport large files.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00170",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     7,
+     1
+    ],
+    "text": "In the ERRORS section, the [EOVERFLOW] condition is added. This change is to support large files.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00171",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     9,
+     1
+    ],
+    "text": "The [ENXIO] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00172",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     11,
+     1
+    ],
+    "text": "The [EINVAL], [ENAMETOOLONG], and [ETXTBSY] optional error conditions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00173",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The DESCRIPTION and ERRORS sections are updated so that items related to the optional XSI STREAMS Option Group are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00174",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00175",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11,
+     1,
+     1
+    ],
+    "text": "An explanation is added of the effect of the O_CREAT and O_EXCL flags when the path refers to a symbolic link.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00176",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11,
+     3,
+     1
+    ],
+    "text": "The [ELOOP] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00177",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00178",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "The DESCRIPTION of O_EXCL is updated in response to IEEE PASC Interpretation 1003.1c #48.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00179",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A240][/A240]Issue 7",
+    "placeholders": {
+     "A240": {
+      "open": "<a name=\"tag_17_372_14\" id=\"tag_17_372_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00180",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretations 1003.1-2001 #113 and #143 are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00181",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #144 is applied, adding the O_TTY_INIT flag.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00182",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #171 is applied, adding support to set the FD_CLOEXEC flag atomically at [I241]open[/I241](),\nand adding the F_DUPFD_CLOEXEC flag.",
+    "placeholders": {
+     "I241": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00183",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "SD5-XBD-ERN-4 is applied, changing the definition of the [EMFILE] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00184",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "This page is revised and the [I242]openat[/I242]() function is added from The Open Group Technical Standard, 2006, Extended API Set\nPart 2.",
+    "placeholders": {
+     "I242": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00185",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "Functionality relating to the XSI STREAMS option is marked obsolescent.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00186",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00187",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     15
+    ],
+    "text": "Changes are made to allow a directory to be opened for searching.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00188",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     17
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0418 [292], XSH/TC1-2008/0419 [141], XSH/TC1-2008/0420 [461],\nXSH/TC1-2008/0421 [390], XSH/TC1-2008/0422 [146], XSH/TC1-2008/0423 [324], XSH/TC1-2008/0424 [292], XSH/TC1-2008/0425 [278],\nXSH/TC1-2008/0426 [278], XSH/TC1-2008/0427 [291], and XSH/TC1-2008/0428 [307] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00189",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     19
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0235 [873], XSH/TC2-2008/0236 [835], XSH/TC2-2008/0237 [847],\nXSH/TC2-2008/0238 [817], XSH/TC2-2008/0239 [835], XSH/TC2-2008/0240 [847], XSH/TC2-2008/0241 [822], XSH/TC2-2008/0242 [817], and\nXSH/TC2-2008/0243 [943] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00190",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A243][/A243]Issue 8",
+    "placeholders": {
+     "A243": {
+      "open": "<a name=\"tag_17_372_15\" id=\"tag_17_372_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00191",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 251 is applied, encouraging implementations to disallow the creation of filenames containing any bytes that\nhave the encoded value of a &lt;newline&gt; character.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00192",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 293 is applied, adding the [EILSEQ] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00193",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defects 658 and 1665 are applied, restricting the allowed behaviors when O_EXEC is used on a directory, or O_SEARCH\non a non-directory file, or O_RDWR on a FIFO, so that the requirements for O_EXCL still apply.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00194",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defect 1016 is applied, changing the FUTURE DIRECTIONS section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00195",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     9
+    ],
+    "text": "Austin Group Defect 1151 is applied, changing the description of O_TTY_INIT to include requirements relating to the\n[B244]winsize[/B244] structure.",
+    "placeholders": {
+     "B244": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00196",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     11
+    ],
+    "text": "Austin Group Defect 1318 is applied, adding FD_CLOFORK and O_CLOFORK.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00197",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     13
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00198",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     15
+    ],
+    "text": "Austin Group Defect 1466 is applied, changing the terminology used for pseudo-terminal devices.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00199",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

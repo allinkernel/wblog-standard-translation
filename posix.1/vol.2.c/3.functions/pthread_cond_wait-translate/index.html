@@ -1,0 +1,180 @@
+<h1>XSH 函数：pthread_cond_wait()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="pthread_cond_clockwait" id="pthread_cond_clockwait"></a> <a name="tag_17_422" id="tag_17_422"></a>
+<a name="tag_17_422_01" id="tag_17_422_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_cond_clockwait、pthread_cond_timedwait、pthread_cond_wait — 等待条件</blockquote>
+<a name="tag_17_422_02" id="tag_17_422_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+int pthread_cond_clockwait(pthread_cond_t *restrict</code> <i>cond</i><code>,<br>
+       pthread_mutex_t *restrict</code> <i>mutex</i><code>, clockid_t</code> <i>clock_id</i><code>,<br>
+       const struct timespec *restrict</code> <i>abstime</i><code>);<br>
+int pthread_cond_timedwait(pthread_cond_t *restrict</code> <i>cond</i><code>,<br>
+       pthread_mutex_t *restrict</code> <i>mutex</i><code>,<br>
+       const struct timespec *restrict</code> <i>abstime</i><code>);<br>
+int pthread_cond_wait(pthread_cond_t *restrict</code> <i>cond</i><code>,<br>
+       pthread_mutex_t *restrict</code> <i>mutex</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_422_03" id="tag_17_422_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 和 <i>pthread_cond_wait</i>() 函数应阻塞在条件变量上。应用程序应确保在调用线程已锁定 <i>mutex</i> 的情况下调用这些函数；否则，将导致错误（对于 PTHREAD_MUTEX_ERRORCHECK 和健壮互斥量）或未定义行为（对于其他互斥量）。</p>
+<p>这些函数应原子地释放 <i>mutex</i> 并使调用线程阻塞在条件变量 <i>cond</i> 上；此处的原子是指 &quot;相对于另一线程对互斥量以及随后对条件变量的访问是原子的&quot;。也就是说，如果另一线程能够在即将阻塞的线程释放互斥量之后获取该互斥量，则该线程中对 pthread_cond_broadcast() 或 pthread_cond_signal() 的后续调用应表现得如同在即将阻塞的线程已阻塞之后发出。</p>
+<p>成功返回时，该互斥量应已被锁定，且应由调用线程拥有。</p>
+<p>如果 <i>mutex</i> 是健壮互斥量，其所有者持锁期间终止且状态可恢复，则即使函数返回 [EOWNERDEAD]，也应获取该互斥量。</p>
+<p>使用条件变量时，总是存在一个涉及共享变量的布尔谓词与每次条件等待相关联，该谓词在线程应继续时为真。来自 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 或 <i>pthread_cond_wait</i>() 函数的虚假唤醒可能发生。由于从 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 或 <i>pthread_cond_wait</i>() 返回并不暗示该谓词的值，因此在此类返回时应重新评估该谓词。</p>
+<p>当线程在条件变量上等待时，已向 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 或 <i>pthread_cond_wait</i>() 操作指定了特定互斥量，在该互斥量与条件变量之间形成动态绑定，只要至少有一个线程阻塞在该条件变量上，该绑定就一直有效。在此期间，任何线程使用不同互斥量在该条件变量上等待的尝试的效果未定义。一旦所有等待线程都被解除阻塞（如通过 pthread_cond_broadcast() 操作），该条件变量上的下一个等待操作应与该等待操作指定的互斥量形成新的动态绑定。即使在线程从条件变量上的等待被解除阻塞到其返回到调用者或开始取消清理之间的时间内，条件变量与互斥量之间的动态绑定可能被移除或替换，被解除阻塞的线程也应始终重新获取其从中返回的条件等待操作调用中指定的互斥量。</p>
+<p>条件等待（无论是否定时）是一个取消点。当线程的可取消类型设置为 PTHREAD_CANCEL_DEFERRED 时，在条件等待期间响应取消请求的一个副作用是：在调用第一个取消清理处理程序之前（实际上）重新获取互斥量。其效果如同该线程被解除阻塞，被允许执行到从对 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 或 <i>pthread_cond_wait</i>() 的调用返回的那一点，但在该点注意到取消请求，并且不是返回到调用者，而是启动线程取消活动，其中包括调用取消清理处理程序。</p>
+<p>由于在调用 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 或 <i>pthread_cond_wait</i>() 期间被阻塞时被取消而解除阻塞的线程，如果还有其他线程阻塞在该条件变量上，则不应消耗可能并发地指向该条件变量的任何条件信号。</p>
+<p><i>pthread_cond_clockwait</i>() 函数应等价于 <i>pthread_cond_wait</i>()，不同之处在于：如果在条件 <i>cond</i> 被发信号或广播之前，<i>abstime</i> 指定的、按 <i>clock_id</i> 指示的时钟测量的绝对时间已过（即该时钟测量的当前时间等于或超过 <i>abstime</i>），或者调用时 <i>abstime</i> 指定的绝对时间已经过去，则返回错误。实现应支持将 CLOCK_REALTIME 和 CLOCK_MONOTONIC 作为 <i>clock_id</i> 参数传递给 <i>pthread_cond_clockwait</i>()。当此类超时发生时，<i>pthread_cond_clockwait</i>() 仍应释放并重新获取 <i>mutex</i> 所引用的互斥量，并且可以消耗并发地指向该条件变量的条件信号。</p>
+<p><i>pthread_cond_timedwait</i>() 函数应等价于 <i>pthread_cond_clockwait</i>()，不同之处在于它缺少 <i>clock_id</i> 参数。用于测量 <i>abstime</i> 的时钟应改为来自条件变量的时钟属性，该属性可以在条件变量创建之前通过 pthread_condattr_setclock() 设置。如果未设置时钟属性，则默认应为 CLOCK_REALTIME。</p>
+<p>如果向等待条件变量的线程递送信号，则从信号处理程序返回后，该线程应如同未被中断一样继续等待该条件变量，或者由于虚假唤醒而返回零。</p>
+<p>如果这些函数的 <i>cond</i> 或 <i>mutex</i> 参数指定的值分别未引用已初始化的条件变量或已初始化的互斥量对象，则行为未定义。</p>
+</blockquote>
+<a name="tag_17_422_04" id="tag_17_422_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>除 [ETIMEDOUT]、[ENOTRECOVERABLE] 和 [EOWNERDEAD] 之外，所有这些错误检查应如同在函数处理开始时立即执行一样，并应在修改 <i>mutex</i> 指定的互斥量或 <i>cond</i> 指定的条件变量的状态之前导致错误返回。</p>
+<p>成功完成时，应返回零值；否则，应返回错误号以指示错误。</p>
+</blockquote>
+<a name="tag_17_422_05" id="tag_17_422_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>这些函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>该互斥量是健壮互斥量，且可用于被拥有的健壮互斥量的系统资源将被超出。</dd>
+<dt>[ENOTRECOVERABLE]</dt>
+<dd>该互斥量保护的状态不可恢复。</dd>
+<dt>[EOWNERDEAD]</dt>
+<dd>该互斥量是健壮互斥量，且包含先前拥有线程的进程在持有互斥量锁期间终止。互斥量锁应由调用线程获取，且由新所有者负责使状态保持一致。</dd>
+<dt>[EPERM]</dt>
+<dd>互斥量类型是 PTHREAD_MUTEX_ERRORCHECK 或该互斥量是健壮互斥量，且当前线程不拥有该互斥量。</dd>
+</dl>
+<p><i>pthread_cond_clockwait</i>() 和 <i>pthread_cond_timedwait</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ETIMEDOUT]</dt>
+<dd><i>abstime</i> 指定的时间已过。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>abstime</i> 参数指定的纳秒值小于零或大于或等于 1000 百万，或者传递给 <i>pthread_cond_clockwait</i>() 的 <i>clock_id</i> 参数无效或不受支持。</dd>
+</dl>
+<br>
+<p>这些函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EOWNERDEAD]</dt>
+<dd>该互斥量是健壮互斥量，且先前拥有线程在持有互斥量锁期间终止。互斥量锁应由调用线程获取，且由新所有者负责使状态保持一致。</dd>
+</dl>
+<p>这些函数不应返回 [EINTR] 错误码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_422_06" id="tag_17_422_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_422_07" id="tag_17_422_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>假定非零返回值是错误的应用程序将需要更新以用于健壮互斥量，因为线程获取保护当前不一致状态的互斥量时的有效返回值是 [EOWNERDEAD]。由于排除了此类错误出现的可能性而不检查错误返回值的应用程序，不应使用健壮互斥量。如果应用程序应同时适用于普通互斥量和健壮互斥量，则它应检查所有返回值的错误条件，并在必要时采取适当行动。</p>
+</blockquote>
+<a name="tag_17_422_08" id="tag_17_422_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>如果实现检测到传给 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 或 <i>pthread_cond_wait</i>() 的 <i>cond</i> 参数指定的值未引用已初始化的条件变量，或者检测到 <i>mutex</i> 参数指定的值未引用已初始化的互斥量对象，则建议该函数应失败并报告 [EINVAL] 错误。</p>
+<a name="tag_17_422_08_01" id="tag_17_422_08_01"></a><h5>条件等待语义 (Condition Wait Semantics)</h5>
+<p>重要的是要注意，当 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 和 <i>pthread_cond_wait</i>() 无错误返回时，关联的谓词可能仍然为假。类似地，当 <i>pthread_cond_clockwait</i>() 或 <i>pthread_cond_timedwait</i>() 以超时错误返回时，由于超时到期与谓词状态变化之间不可避免的竞争，关联的谓词可能为真。</p>
+<p>应用程序需要在任何返回时重新检查谓词，因为它无法确定是否有另一个线程在等待该线程处理信号，如果没有，则信号会丢失。检查谓词的责任在应用程序。</p>
+<p>某些实现，尤其是在多处理器上，有时可能在该条件变量在不同处理器上同时被发信号时导致多个线程被唤醒。</p>
+<p>一般而言，每当条件等待返回时，线程必须重新评估与该条件等待相关联的谓词，以确定它是可以安全继续、应该再次等待，还是应该宣告超时。从等待返回并不暗示关联的谓词为真或为假。</p>
+<p>因此建议将条件等待包含在检查谓词的等效 &quot;while 循环&quot; 中。</p>
+<a name="tag_17_422_08_02" id="tag_17_422_08_02"></a><h5>定时等待语义 (Timed Wait Semantics)</h5>
+<p>选择绝对时间度量来指定超时参数有两个原因。第一，相对时间度量可以容易地在指定绝对时间的函数之上实现，但在指定相对超时的函数之上指定绝对超时存在竞争条件。例如，假设 clock_gettime() 返回当前时间，且 <i>cond_relative_timed_wait</i>() 使用相对超时：</p>
+<pre><code class="language-plaintext">clock_gettime(CLOCK_REALTIME, &amp;now)
+reltime = sleep_til_this_absolute_time -now;
+cond_relative_timed_wait(c, m, &amp;reltime);</code></pre>
+<p>如果线程在第一条语句和最后一条语句之间被抢占，则线程阻塞时间过长。但是，如果使用绝对超时，阻塞则无关紧要。绝对超时如果在循环（例如包围条件等待的循环）中多次使用，也无需重新计算。</p>
+<p>对于系统时钟被操作员不连续地向前拨动的情况，预期实现将任何在介于其间的时间到期的定时等待处理为如同该时间确实发生过一样。</p>
+<a name="tag_17_422_08_03" id="tag_17_422_08_03"></a><h5>时钟的选择 (Choice of Clock)</h5>
+<p>在使用超时等待时，应谨慎决定哪个时钟最合适。系统时钟 CLOCK_REALTIME（<i>pthread_cond_timedwait</i>() 默认使用）可能为了对照实际时间进行校正而向前或向后跳变。CLOCK_MONOTONIC 保证不会向后跳变，并且还必须在实时中前进，因此通过 <i>pthread_cond_clockwait</i>() 或 pthread_condattr_setclock() 使用它可能更合适。</p>
+<a name="tag_17_422_08_04" id="tag_17_422_08_04"></a><h5>取消与条件等待 (Cancellation and Condition Wait)</h5>
+<p>条件等待，无论是否定时，都是一个取消点。也就是说，函数 <i>pthread_cond_clockwait</i>()、<i>pthread_cond_timedwait</i>() 和 <i>pthread_cond_wait</i>() 是注意到挂起（或并发）取消请求的点。其原因是在这些点可能发生无限期等待——无论等待的是什么事件，即使程序完全正确，也可能永远不会发生；例如，所等待的某些输入数据可能永远不会被发送。通过使条件等待成为取消点，即使线程可能卡在某个无限期等待中，它也能被取消并执行其取消清理处理程序。</p>
+<p>在线程阻塞在条件变量上时响应取消请求的一个副作用是：在调用任何取消清理处理程序之前重新获取互斥量。这样做是为了确保取消清理处理程序在与条件等待函数调用之前和之后的关键代码相同的状态下执行。当从诸如 Ada 或 C++ 之类的语言与 POSIX 线程接口时，此规则也是必需的，这些语言可以选择将取消映射到语言异常上；此规则确保保护关键段的每个异常处理程序总能安全地依赖关联互斥量已被锁定这一事实，无论异常在关键段内的确切何处被引发。没有此规则，异常处理程序就没有关于锁的统一条规则可循，编码将变得非常繁琐。</p>
+<p>因此，由于必须就等待期间递送取消时锁的状态作出 <i>某种</i> 声明，因此选择了使应用程序编码最方便且无错误的一个定义。</p>
+<p>当线程阻塞在条件变量上时响应取消请求，如果存在任何其他线程在等待该条件变量，则要求实现确保该线程不消耗指向该条件变量的任何条件信号。规定此规则是为了避免死锁条件，如果这两个独立请求（一个作用于线程，另一个作用于条件变量）未被独立处理，则可能发生死锁。</p>
+<a name="tag_17_422_08_05" id="tag_17_422_08_05"></a><h5>互斥量与条件变量的性能 (Performance of Mutexes and Condition Variables)</h5>
+<p>预期互斥量仅被锁定几条指令的时间。程序员避免长的串行执行区域（这会降低总的有效并行度）的愿望几乎自动地强制了这种做法。</p>
+<p>使用互斥量和条件变量时，人们试图确保通常的情况是锁定互斥量、访问共享数据、解锁互斥量。在条件变量上等待应是相对罕见的情况。例如，在实现读写锁时，获取读锁的代码通常只需要（在互斥下）递增读者计数并返回。仅当已有活动写者时，调用线程才会实际在条件变量上等待。因此，同步操作的效率受互斥量锁定/解锁成本的限制，而不是受条件等待的限制。注意，在通常的情况下没有上下文切换。</p>
+<p>这并不是说条件等待的效率不重要。由于每次 Ada 会合至少需要一次上下文切换，因此在条件变量上等待的效率很重要。在条件变量上等待的成本应比上下文切换的最小成本加上解锁和锁定互斥量的时间稍多一点。</p>
+<a name="tag_17_422_08_06" id="tag_17_422_08_06"></a><h5>互斥量与条件变量的特性 (Features of Mutexes and Condition Variables)</h5>
+<p>曾有人建议将互斥量获取和释放与条件等待解耦。这被拒绝了，因为正是操作的组合性质实际上促进了实时实现。这些实现可以原子地将高优先级线程在条件变量和互斥量之间移动，且对调用者透明。这可以防止额外的上下文切换，并在等待线程被发信号时提供更确定的互斥量获取。因此，公平性和优先级问题可以由调度规程直接处理。此外，当前的条件等待操作与现有实践相符。</p>
+<a name="tag_17_422_08_07" id="tag_17_422_08_07"></a><h5>互斥量与条件变量的调度行为 (Scheduling Behavior of Mutexes and Condition Variables)</h5>
+<p>试图通过指定排序规则来干扰调度策略的同步原语被认为是不可取的。等待互斥量和条件变量的线程被选择按取决于调度策略的顺序继续执行，而不是按某种固定顺序（例如 FIFO 或优先级）。因此，调度策略决定哪些线程被唤醒并被允许继续执行。</p>
+<a name="tag_17_422_08_08" id="tag_17_422_08_08"></a><h5>定时条件等待 (Timed Condition Wait)</h5>
+<p><i>pthread_cond_clockwait</i>() 和 <i>pthread_cond_timedwait</i>() 函数允许应用程序在给定时间量之后放弃等待特定条件。示例如下：</p>
+<pre><code class="language-plaintext">(void) pthread_mutex_lock(&amp;t.mn);
+    t.waiters++;
+    clock_gettime(CLOCK_MONOTONIC, &amp;ts);
+    ts.tv_sec += 5;
+    rc = 0;
+    while (! mypredicate(&amp;t) &amp;& rc == 0)
+        rc = pthread_cond_clockwait(&amp;t.cond, &amp;t.mn,
+            CLOCK_MONOTONIC, &amp;ts);
+    t.waiters--;
+    if (rc == 0 || mypredicate(&amp;t))
+        setmystate(&amp;t);
+(void) pthread_mutex_unlock(&amp;t.mn);</code></pre>
+<p>通过使超时参数为绝对时间，程序每次检查其阻塞谓词时都不需要重新计算它。如果超时是相对的，则必须在每次调用前重新计算。这将特别困难，因为此类代码需要考虑在谓词为真或超时到期之前发生的、由条件变量上的额外广播或信号导致的额外唤醒的可能性。使用 CLOCK_MONOTONIC 而不是 CLOCK_REALTIME 意味着超时不受系统时钟被更改的影响。</p>
+</blockquote>
+<a name="tag_17_422_09" id="tag_17_422_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_422_10" id="tag_17_422_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>pthread_cond_broadcast()</p>
+<p>XBD 4.15.2 内存同步、&lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_422_11" id="tag_17_422_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>第 5 版首次发布。为与 POSIX 线程扩展保持一致而包含。</p>
+</blockquote>
+<a name="tag_17_422_12" id="tag_17_422_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_cond_timedwait</i>() 和 <i>pthread_cond_wait</i>() 函数被标记为 Threads 选项的一部分。</p>
+<p>应用了开放集团勘误 U021/9，更正了 <i>pthread_cond_wait</i>() 函数的原型。</p>
+<p>通过添加 Clock Selection 选项的语义，DESCRIPTION 已更新，以与 IEEE Std 1003.1j-2000 保持一致。</p>
+<p>ERRORS 一节针对 IEEE PASC Interpretation 1003.1c #28 增加了 [EPERM] 的附加情形。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，<b>restrict</b> 关键字被添加到 <i>pthread_cond_timedwait</i>() 和 <i>pthread_cond_wait</i>() 原型中。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 项目 XSH/TC2/D6/89，更新了 DESCRIPTION，以与 pthread_cond_destroy() 函数保持一致，该函数说明销毁当前没有线程阻塞在其上的已初始化条件变量是安全的。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 项目 XSH/TC2/D6/90，将 DESCRIPTION 中的措辞从 &quot;the cancelability enable state&quot; 更新为 &quot;the cancelability type&quot;。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 项目 XSH/TC2/D6/91，更新了 ERRORS 一节，从 <i>pthread_cond_wait</i>() 函数中移除与 <i>abstime</i> 相关的错误情形，并为了与其他函数保持一致，使与 <i>abstime</i> 相关的错误情形对 <i>pthread_cond_timedwait</i>() 成为强制性的。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 项目 XSH/TC2/D6/92，在 RATIONALE 一节添加了一个新段落，说明应用程序应在此函数任何返回时检查谓词。</p>
+</blockquote>
+<a name="tag_17_422_13" id="tag_17_422_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 SD5-XSH-ERN-44，更改了 [EINVAL] 错误的 &quot;shall fail&quot; 情形的定义。</p>
+<p>变更来自开放集团技术标准 2006，扩展 API 集第 3 部分。</p>
+<p><i>pthread_cond_timedwait</i>() 和 <i>pthread_cond_wait</i>() 函数从 Threads 选项移至 Base。</p>
+<p>未初始化条件变量或未初始化互斥量对象的 [EINVAL] 错误被移除；此条件导致未定义行为"</p>
+<p>[EPERM] 错误被修订并移至 <i>pthread_cond_timedwait</i>() 函数的 &quot;shall fail&quot; 错误条件列表。</p>
+<p>更新了 DESCRIPTION，以澄清 <i>mutex</i> 是健壮互斥量时的行为。</p>
+<p>更新了 ERRORS 一节，以包含 PTHREAD_MUTEX_ERRORCHECK 互斥量的 &quot;shall fail&quot; 情形。</p>
+<p>重写了 DESCRIPTION，以澄清未定义行为仅发生在未强制要求 [EPERM] 错误的互斥量上。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0456 [91,286,437] 和 XSH/TC1-2008/0457 [239]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0271 [749]。</p>
+</blockquote>
+<a name="tag_17_422_14" id="tag_17_422_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 354，添加 [EAGAIN] 错误。</p>
+<p>应用了 Austin Group Defect 1162，将 &quot;an error code&quot; 改为 &quot;[EOWNERDEAD]&quot;。</p>
+<p>应用了 Austin Group Defects 1216 和 1485，添加 <i>pthread_cond_clockwait</i>()。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

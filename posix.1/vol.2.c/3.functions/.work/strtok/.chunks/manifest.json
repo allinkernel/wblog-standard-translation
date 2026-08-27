@@ -1,0 +1,1250 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_592_01\" id=\"tag_17_592_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "strtok, strtok_r — split string into tokens",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_592_02\" id=\"tag_17_592_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/string.h.html\">string.h</a>&gt;<br>\n<br>\nchar *strtok(char *restrict</tt> <i>s</i><tt>, const char *restrict</tt> <i>sep</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_592_03\" id=\"tag_17_592_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "For [I5]strtok[/I5](): [S6][[A7]CX[/A7]][/S6] [IMG8] &nbsp;The functionality described on this reference page is aligned with the ISO&nbsp;C standard. Any\nconflict between the requirements described here and the ISO&nbsp;C standard is unintentional. This volume of POSIX.1-2024 defers\nto the ISO&nbsp;C standard. [IMG9]",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S6": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A7": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG8": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG9": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "A sequence of calls to [I10]strtok[/I10]() breaks the string pointed to by [I11]s[/I11] into a sequence of tokens, each of which is\ndelimited by a byte from the string pointed to by [I12]sep[/I12]. The first call in the sequence has [I13]s[/I13] as its first argument,\nand is followed by calls with a null pointer as their first argument. The separator string pointed to by [I14]sep[/I14] may be\ndifferent from call to call.",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The first call in the sequence searches the string pointed to by [I15]s[/I15] for the first byte that is [I16]not[/I16] contained in the\ncurrent separator string pointed to by [I17]sep[/I17]. If no such byte is found, then there are no tokens in the string pointed to by\n[I18]s[/I18] and [I19]strtok[/I19]() shall return a null pointer. If such a byte is found, it is the start of the first token.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The [I20]strtok[/I20]() function then searches from there for a byte that [I21]is[/I21] contained in the current separator string. If no\nsuch byte is found, the current token extends to the end of the string pointed to by [I22]s[/I22], and subsequent searches for a token\nshall return a null pointer. If such a byte is found, it is overwritten by a NUL character, which terminates the current token. The\n[I23]strtok[/I23]() function saves a pointer to the following byte, from which the next search for a token shall start.",
+    "placeholders": {
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "Each subsequent call, with a null pointer as the value of the first argument, starts searching from the saved pointer and\nbehaves as described above.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "The implementation shall behave as if no function defined in this volume of POSIX.1-2024 calls [I24]strtok[/I24]().",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "The [I25]strtok[/I25]() function need not be thread-safe; however, [I26]strtok[/I26]() shall avoid data races with all other\nfunctions.",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "[S27][[A28]CX[/A28]][/S27] [IMG29] The\n[I30]strtok_r[/I30]() function shall be equivalent to [I31]strtok[/I31](), except that [I32]strtok_r[/I32]() shall be thread-safe and the\nargument [I33]state[/I33] points to a user-provided pointer that allows [I34]strtok_r[/I34]() to maintain state between calls which scan\nthe same string. The application shall ensure that the pointer pointed to by [I35]state[/I35] is unique for each string ([I36]s[/I36])\nbeing processed concurrently by [I37]strtok_r[/I37]() calls. The application need not initialize the pointer pointed to by [I38]state[/I38]\nto any particular value. The implementation shall not update the pointer pointed to by [I39]state[/I39] to point (directly or\nindirectly) to resources, other than within the string [I40]s[/I40], that need to be freed or released by the caller. [IMG41]",
+    "placeholders": {
+     "S27": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A28": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG29": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG41": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "[S42][[A43]CX[/A43]][/S42] [IMG44] The\n[I45]strtok[/I45]() and [I46]strtok_r[/I46]() functions shall not change the setting of [I47]errno[/I47] on valid input. [IMG48]",
+    "placeholders": {
+     "S42": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG44": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG48": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A49][/A49]RETURN VALUE",
+    "placeholders": {
+     "A49": {
+      "open": "<a name=\"tag_17_592_04\" id=\"tag_17_592_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I50]strtok[/I50]() shall return a pointer to the first byte of a token. Otherwise, if there is no\ntoken, [I51]strtok[/I51]() shall return a null pointer.",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3
+    ],
+    "text": "[S52][[A53]CX[/A53]][/S52] [IMG54] The\n[I55]strtok_r[/I55]() function shall return a pointer to the token found, or a null pointer when no token is found. [IMG56]",
+    "placeholders": {
+     "S52": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A53": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG54": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG56": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A57][/A57]ERRORS",
+    "placeholders": {
+     "A57": {
+      "open": "<a name=\"tag_17_592_05\" id=\"tag_17_592_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "No errors are defined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00020",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A58][/A58]EXAMPLES",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_592_06\" id=\"tag_17_592_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00021",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A59][/A59]Searching for Word Separators",
+    "placeholders": {
+     "A59": {
+      "open": "<a name=\"tag_17_592_06_01\" id=\"tag_17_592_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example searches for tokens separated by &lt;space&gt; characters.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h5_00023",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     7
+    ],
+    "text": "[A60][/A60]Find First two Fields in a Buffer",
+    "placeholders": {
+     "A60": {
+      "open": "<a name=\"tag_17_592_06_02\" id=\"tag_17_592_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     9
+    ],
+    "text": "The following example uses [I61]strtok[/I61]() to find two character strings (a key and data associated with that key) separated by\nany combination of &lt;space&gt;, &lt;tab&gt;, or &lt;newline&gt; characters at the start of the array of characters pointed to by\n[I62]buffer[/I62].",
+    "placeholders": {
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00025",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A63][/A63]APPLICATION USAGE",
+    "placeholders": {
+     "A63": {
+      "open": "<a name=\"tag_17_592_07\" id=\"tag_17_592_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Note that if [I64]sep[/I64] is the empty string, [I65]strtok[/I65]() and [I66]strtok_r[/I66]() return a pointer to the remainder of the\nstring being tokenized.",
+    "placeholders": {
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "The [I67]strtok_r[/I67]() function is thread-safe and stores its state in a user-supplied buffer instead of possibly using a static\ndata area that may be overwritten by an unrelated call from another thread.",
+    "placeholders": {
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00028",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A68][/A68]RATIONALE",
+    "placeholders": {
+     "A68": {
+      "open": "<a name=\"tag_17_592_08\" id=\"tag_17_592_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The [I69]strtok[/I69]() function searches for a separator string within a larger string. It returns a pointer to the last substring\nbetween separator strings. This function uses static storage to keep track of the current string position between calls. The new\nfunction, [I70]strtok_r[/I70](), takes an additional argument, [I71]state[/I71], to keep track of the current position in the string.",
+    "placeholders": {
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A72][/A72]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A72": {
+      "open": "<a name=\"tag_17_592_09\" id=\"tag_17_592_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A73][/A73]SEE ALSO",
+    "placeholders": {
+     "A73": {
+      "open": "<a name=\"tag_17_592_10\" id=\"tag_17_592_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "XBD [A74][I75]&lt;string.h&gt;[/I75][/A74]",
+    "placeholders": {
+     "A74": {
+      "open": "<a href=\"../basedefs/string.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A76][/A76]CHANGE HISTORY",
+    "placeholders": {
+     "A76": {
+      "open": "<a name=\"tag_17_592_11\" id=\"tag_17_592_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A77][/A77]Issue 5",
+    "placeholders": {
+     "A77": {
+      "open": "<a name=\"tag_17_592_12\" id=\"tag_17_592_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The [I78]strtok_r[/I78]() function is included for alignment with the POSIX Threads Extension.",
+    "placeholders": {
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "A note indicating that the [I79]strtok[/I79]() function need not be reentrant is added to the DESCRIPTION.",
+    "placeholders": {
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00039",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A80][/A80]Issue 6",
+    "placeholders": {
+     "A80": {
+      "open": "<a name=\"tag_17_592_13\" id=\"tag_17_592_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The [I81]strtok_r[/I81]() function is marked as part of the Thread-Safe Functions option.",
+    "placeholders": {
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "In the DESCRIPTION, the note about reentrancy is expanded to cover thread-safety.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The APPLICATION USAGE section is updated to include a note on the thread-safe function and its avoidance of possibly using a\nstatic data area.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The [B82]restrict[/B82] keyword is added to the [I83]strtok[/I83]() and [I84]strtok_r[/I84]() prototypes for alignment with the\nISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {
+     "B82": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00045",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A85][/A85]Issue 7",
+    "placeholders": {
+     "A85": {
+      "open": "<a name=\"tag_17_592_14\" id=\"tag_17_592_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #156 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "SD5-XSH-ERN-235 is applied, correcting an example.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "The [I86]strtok_r[/I86]() function is moved from the Thread-Safe Functions option to the Base.",
+    "placeholders": {
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0615 [177] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0350 [878] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00051",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A87][/A87]Issue 8",
+    "placeholders": {
+     "A87": {
+      "open": "<a name=\"tag_17_592_15\" id=\"tag_17_592_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 448 is applied, adding a requirement that [I88]strtok[/I88]() and [I89]strtok_r[/I89]() do not change the setting of\n[I90]errno[/I90] on valid input.",
+    "placeholders": {
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning the [I91]strtok[/I91]() function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

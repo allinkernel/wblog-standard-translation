@@ -1,0 +1,122 @@
+<h1>XSH 函数：ftruncate()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="ftruncate" id="ftruncate"></a> <a name="tag_17_195" id="tag_17_195"></a>
+<a name="tag_17_195_01" id="tag_17_195_01"></a><h4>名称 (NAME)</h4>
+<blockquote>ftruncate — 将文件截断为指定长度 (truncate a file to a specified length)</blockquote>
+<a name="tag_17_195_02" id="tag_17_195_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+int ftruncate(int</code> <i>fildes</i><code>, off_t</code> <i>length</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_195_03" id="tag_17_195_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p>如果 <i>fildes</i> 不是为写入而打开的有效文件描述符，则 <i>ftruncate</i>() 函数应失败。</p>
+<p>如果 <i>fildes</i> 指代一个普通文件，<i>ftruncate</i>() 函数应使文件的大小被截断为 <i>length</i>。如果文件的大小先前超过 <i>length</i>，多余的数据应不再对文件的读取可用。如果文件先前小于该大小，<i>ftruncate</i>() 应增大文件的大小。如果文件大小被增大，扩展的区域应看起来像是被零填充的。调用 <i>ftruncate</i>() 不应修改查找指针的值。</p>
+<p>成功完成后，如果 <i>fildes</i> 指代一个普通文件，<i>ftruncate</i>() 应标记文件的最后数据修改和最后文件状态更改时间戳以进行更新，并且文件模式的 S_ISUID 和 S_ISGID 位可以被清除。如果 <i>ftruncate</i>() 函数不成功，文件不受影响。</p>
+<p>如果请求将导致文件大小超过进程的软文件大小限制，请求应失败 <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并且实现应为该线程生成 SIGXFSZ 信号。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>如果 <i>fildes</i> 是为写入而打开的文件描述符，且指代既不是普通文件也不是共享内存对象的文件，则结果是未指定的。</p>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 指代一个共享内存对象，<i>ftruncate</i>() 应将共享内存对象的大小设置为 <i>length</i>。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>如果 <i>ftruncate</i>() 的效果是减小内存映射文件 <sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或共享内存对象 <img src="../images/opt-end.gif" alt="[Option End]">  的大小，并且先前映射了超出新末尾的整页，则超出新末尾的整页应被丢弃。</p>
+<p>对已丢弃页面的引用应导致生成 SIGBUS 信号。</p>
+<p>如果 <i>ftruncate</i>() 的效果是增大内存对象的大小，则旧文件末尾与新末尾之间的任何映射页面的内容是否被刷新到底层对象是未指定的。</p>
+</blockquote>
+<a name="tag_17_195_04" id="tag_17_195_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>ftruncate</i>() 应返回 0；否则，应返回 -1 并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_195_05" id="tag_17_195_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>如果满足以下条件，<i>ftruncate</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF] 或 [EINVAL]</dt>
+<dd><i>fildes</i> 参数不是为写入而打开的文件描述符。</dd>
+<dt>[EFBIG] 或 [EINVAL]</dt>
+<dd><i>length</i> 参数大于最大文件大小。</dd>
+<dt>[EFBIG]</dt>
+<dd><i>length</i> 参数超过进程的文件大小限制。<sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  还应为该线程生成 SIGXFSZ 信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EFBIG]</dt>
+<dd>该文件是普通文件，且 <i>length</i> 大于与 <i>fildes</i> 关联的打开文件描述中确定的偏移最大值。</dd>
+<dt>[EINTR]</dt>
+<dd>执行期间捕获到一个信号。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>length</i> 参数小于 0，或者 <i>fildes</i> 参数指代一个无法执行此操作的文件（例如，管道、FIFO 或套接字）。</dd>
+<dt>[EIO]</dt>
+<dd>从文件系统读取或向文件系统写入时发生了 I/O 错误。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_195_06" id="tag_17_195_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_195_07" id="tag_17_195_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_195_08" id="tag_17_195_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_195_09" id="tag_17_195_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_195_10" id="tag_17_195_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>open()、truncate()</p>
+<p>XBD &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_195_11" id="tag_17_195_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 4 版第 2 版次。</p>
+</blockquote>
+<a name="tag_17_195_12" id="tag_17_195_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>从 X/OPEN UNIX 扩展移至 BASE（基础），并与 POSIX 实时扩展中的 <i>ftruncate</i>() 保持一致。具体来说，DESCRIPTION（说明）被大量改写，并且 [EROFS] 被添加到 <i>ftruncate</i>() 可以返回的强制性错误列表中。</p>
+<p>添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_195_13" id="tag_17_195_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>truncate() 函数被拆分到单独的参考页中。</p>
+<p>对 POSIX 实现的以下新要求源自与单一 UNIX 规范（Single UNIX Specification）的一致性：</p>
+<ul>
+<li>
+<p>DESCRIPTION（说明）被更改，以表明如果文件大小被更改，且文件是普通文件，则文件模式中的 S_ISUID 和 S_ISGID 位可以被清除。</p>
+</li>
+</ul>
+<p>进行了以下更改，以与 IEEE P1003.1a 草案标准保持一致：</p>
+<ul>
+<li>
+<p>DESCRIPTION（说明）文本已更新。</p>
+</li>
+</ul>
+<p>符合 XSI 的系统被要求：如果文件先前小于请求的大小，则增大文件的大小。</p>
+</blockquote>
+<a name="tag_17_195_14" id="tag_17_195_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #056，修订了 ERRORS（错误）部分（尽管 [EINVAL] 的 &quot;可以失败&quot; 错误后来在审查 XSI 选项期间被移除）。</p>
+<p>与内存保护和内存映射文件选项相关的功能被移至 Base（基础）。</p>
+<p>DESCRIPTION（说明）已更新，使得当文件小于请求的大小时调用 <i>ftruncate</i>() 将增大文件的大小。以前，不符合 XSI 的实现被允许增大文件的大小或失败。</p>
+<p>进行了与细粒度时间戳支持相关的更改。</p>
+</blockquote>
+<a name="tag_17_195_15" id="tag_17_195_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 308，澄清了 [EFBIG] 错误的处理。</p>
+<p>应用了 Austin Group 缺陷 1169，移除了关于如果 <i>fildes</i> 指代目录则 <i>ftruncate</i>() 失败的冗余陈述。</p>
+<p>应用了 Austin Group 缺陷 1381，为 [EINVAL] 错误添加了第二个条件，并将 ERRORS（错误）部分重新排列为字母顺序。</p>
+<p>应用了 Austin Group 缺陷 1669，从与进程的文件大小限制相关的部分 [EFBIG] 错误中移除了 XSI 阴影标记。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -1,0 +1,818 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_419_01\" id=\"tag_17_419_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "pthread_cancel — cancel execution of a thread",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_419_02\" id=\"tag_17_419_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/pthread.h.html\">pthread.h</a>&gt;<br>\n<br>\nint pthread_cancel(pthread_t</tt> <i>thread</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_419_03\" id=\"tag_17_419_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]pthread_cancel[/I5]() function shall request that [I6]thread[/I6] be canceled. The target thread's cancelability state and\ntype determines when the cancellation takes effect. When the cancellation is acted on, the cancellation cleanup handlers for\n[I7]thread[/I7] shall be called. When the last cancellation cleanup handler returns, the thread-specific data destructor functions\nshall be called for [I8]thread[/I8]. When the last destructor function returns, [I9]thread[/I9] shall be terminated. It shall not be an\nerror to request cancellation of a zombie thread.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "The cancellation processing in the target thread shall run asynchronously with respect to the calling thread returning from\n[I10]pthread_cancel[/I10]().",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     5
+    ],
+    "text": "If [I11]thread[/I11] refers to a thread that was created using [A12][I13]thrd_create[/I13]()[/A12], the\nbehavior is undefined.",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A12": {
+      "open": "<a href=\"../functions/thrd_create.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00009",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A14][/A14]RETURN VALUE",
+    "placeholders": {
+     "A14": {
+      "open": "<a name=\"tag_17_419_04\" id=\"tag_17_419_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "If successful, the [I15]pthread_cancel[/I15]() function shall return zero; otherwise, an error number shall be returned to indicate\nthe error.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00011",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A16][/A16]ERRORS",
+    "placeholders": {
+     "A16": {
+      "open": "<a name=\"tag_17_419_05\" id=\"tag_17_419_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I17]pthread_cancel[/I17]() function shall not return an error code of [EINTR].",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A18][/A18]EXAMPLES",
+    "placeholders": {
+     "A18": {
+      "open": "<a name=\"tag_17_419_06\" id=\"tag_17_419_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A19][/A19]APPLICATION USAGE",
+    "placeholders": {
+     "A19": {
+      "open": "<a name=\"tag_17_419_07\" id=\"tag_17_419_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00017",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A20][/A20]RATIONALE",
+    "placeholders": {
+     "A20": {
+      "open": "<a name=\"tag_17_419_08\" id=\"tag_17_419_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "Two alternative functions were considered for sending the cancellation notification to a thread. One would be to define a new\nSIGCANCEL signal that had the cancellation semantics when delivered; the other was to define the new [I21]pthread_cancel[/I21]()\nfunction, which would trigger the cancellation semantics.",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     3
+    ],
+    "text": "The advantage of a new signal was that so much of the delivery criteria were identical to that used when trying to deliver a\nsignal that making cancellation notification a signal was seen as consistent. Indeed, many implementations implement cancellation\nusing a special signal. On the other hand, there would be no signal functions that could be used with this signal except [A22][I23]pthread_kill[/I23]()[/A22], and the behavior of the delivered cancellation signal would be unlike\nany previously existing defined signal.",
+    "placeholders": {
+     "A22": {
+      "open": "<a href=\"../functions/pthread_kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     5
+    ],
+    "text": "The benefits of a special function include the recognition that this signal would be defined because of the similar delivery\ncriteria and that this is the only common behavior between a cancellation request and a signal. In addition, the cancellation\ndelivery mechanism does not have to be implemented as a signal. There are also strong, if not stronger, parallels with language\nexception mechanisms than with signals that are potentially obscured if the delivery mechanism is visibly closer to signals.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     7
+    ],
+    "text": "In the end, it was considered that as there were so many exceptions to the use of the new signal with existing signals functions\nit would be misleading. A special function has resolved this problem. This function was carefully defined so that an implementation\nwishing to provide the cancellation functions on top of signals could do so. The special function also means that implementations\nare not obliged to implement cancellation with signals.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     9
+    ],
+    "text": "If an implementation detects use of a thread ID after the end of its lifetime, it is recommended that the function should fail\nand report an [ESRCH] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     11
+    ],
+    "text": "Historical implementations varied on the result of a [I24]pthread_cancel[/I24]() with a thread ID indicating a zombie thread. Some\nindicated success with nothing further to do because the thread had already terminated, while others gave an error of [ESRCH].\nSince the definition of thread lifetime in this standard covers zombie threads, the [ESRCH] error as described is inappropriate in\nthis case and implementations that give this error do not conform.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     13
+    ],
+    "text": "Use of [I25]pthread_cancel[/I25]() to cancel a thread that was created using [A26][I27]thrd_create[/I27]()[/A26] is undefined because [A28][I29]thrd_join[/I29]()[/A28] has no way to indicate a thread was cancelled. The standard developers\nconsidered adding a [CODE30] enumeration constant that [A31][I32]thrd_join[/I32]()[/A31]\nwould return in this case. However, this return would be unexpected in code that is written to conform to the ISO&nbsp;C standard,\nand it would also not solve the problem that threads which use only ISO C [A33][I34]&lt;threads.h&gt;[/I34][/A33] interfaces (such as ones created by third party libraries written to\nconform to the ISO&nbsp;C standard) have no way to handle being cancelled, as the ISO&nbsp;C standard does not provide cancellation\ncleanup handlers.",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A26": {
+      "open": "<a href=\"../functions/thrd_create.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A28": {
+      "open": "<a href=\"../functions/thrd_join.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE30": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>thrd_canceled</tt>"
+     },
+     "A31": {
+      "open": "<a href=\"../functions/thrd_join.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A33": {
+      "open": "<a href=\"../basedefs/threads.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00025",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A35][/A35]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A35": {
+      "open": "<a name=\"tag_17_419_09\" id=\"tag_17_419_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00027",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A36][/A36]SEE ALSO",
+    "placeholders": {
+     "A36": {
+      "open": "<a name=\"tag_17_419_10\" id=\"tag_17_419_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A37][I38]pthread_exit[/I38]()[/A37], [A39][I40]pthread_cond_clockwait[/I40]()[/A39], [A41][I42]pthread_join[/I42]()[/A41], [A43][I44]pthread_setcancelstate[/I44]()[/A43]",
+    "placeholders": {
+     "A37": {
+      "open": "<a href=\"../functions/pthread_exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A39": {
+      "open": "<a href=\"../functions/pthread_cond_clockwait.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A41": {
+      "open": "<a href=\"../functions/pthread_join.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/pthread_setcancelstate.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A45][I46]&lt;pthread.h&gt;[/I46][/A45]",
+    "placeholders": {
+     "A45": {
+      "open": "<a href=\"../basedefs/pthread.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A47][/A47]CHANGE HISTORY",
+    "placeholders": {
+     "A47": {
+      "open": "<a name=\"tag_17_419_11\" id=\"tag_17_419_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 5. Included for alignment with the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A48][/A48]Issue 6",
+    "placeholders": {
+     "A48": {
+      "open": "<a name=\"tag_17_419_12\" id=\"tag_17_419_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "The [I49]pthread_cancel[/I49]() function is marked as part of the Threads option.",
+    "placeholders": {
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A50][/A50]Issue 7",
+    "placeholders": {
+     "A50": {
+      "open": "<a name=\"tag_17_419_13\" id=\"tag_17_419_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "The [I51]pthread_cancel[/I51]() function is moved from the Threads option to the Base.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #142 is applied, removing the [ESRCH] error condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00037",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     67
+    ],
+    "text": "[A52][/A52]Issue 8",
+    "placeholders": {
+     "A52": {
+      "open": "<a name=\"tag_17_419_14\" id=\"tag_17_419_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     69,
+     1
+    ],
+    "text": "Austin Group Defect 792 is applied, adding a requirement that passing the thread ID of a zombie thread to\n[I53]pthread_cancel[/I53]() is not treated as an error.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     69,
+     3
+    ],
+    "text": "Austin Group Defect 1302 is applied, updating the page to account for the addition of [A54][I55]&lt;threads.h&gt;[/I55][/A54] interfaces.",
+    "placeholders": {
+     "A54": {
+      "open": "<a href=\"../basedefs/threads.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     75
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

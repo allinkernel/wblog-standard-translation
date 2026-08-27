@@ -1,0 +1,339 @@
+<h1>XSH 函数：open()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="open" id="open"></a> <a name="tag_17_372" id="tag_17_372"></a>
+<a name="tag_17_372_01" id="tag_17_372_01"></a><h4>名称</h4>
+<blockquote>open, openat — 打开文件</blockquote>
+<a name="tag_17_372_02" id="tag_17_372_02"></a><h4>概要</h4>
+<blockquote>
+<p><code><code><sup>[OH]</sup> <img src="../images/opt-start.gif" alt="图片">#include
+&lt;sys/stat.h&gt;<img src="../images/opt-end.gif" alt="图片"><br>
+#include &lt;fcntl.h&gt;<br>
+<br>
+int open(const char *</code><i>path</i><code>, int</code> <i>oflag</i><code>, ...);<br>
+int openat(int</code> <i>fd</i><code>, const char *</code><i>path</i><code>, int</code> <i>oflag</i><code>, ...);<br></code></code></p>
+</blockquote>
+<a name="tag_17_372_03" id="tag_17_372_03"></a><h4>说明</h4>
+<blockquote>
+<p><i>open</i>() 函数应建立文件与文件描述符之间的连接。它应创建一个引用某个文件的打开文件描述，以及一个引用该打开文件描述的文件描述符。其他 I/O 函数使用该文件描述符来引用该文件。<i>path</i> 参数指向命名该文件的路径名。</p>
+<p><i>open</i>() 函数应为命名的文件返回一个文件描述符，按 2.6 文件描述符分配 中所述进行分配。打开文件描述是新建的，因此该文件描述符不应与系统中的任何其他进程共享它。与新的文件描述符关联的 FD_CLOEXEC 文件描述符标志应被清除，除非在 <i>oflag</i> 中设置了 O_CLOEXEC 标志。与新的文件描述符关联的 FD_CLOFORK 文件描述符标志应被清除，除非在 <i>oflag</i> 中设置了 O_CLOFORK 标志。</p>
+<p>用于标记文件内当前位置的文件偏移应被设置为文件的开始处。</p>
+<p>打开文件描述的文件状态标志和文件访问模式应根据 <i>oflag</i> 的值来设置。</p>
+<p><i>oflag</i> 的值由下列列表中的标志按位或（bitwise-inclusive OR）构造而成，这些标志定义在 &lt;fcntl.h&gt; 中。应用程序应在 <i>oflag</i> 的值中精确指定下面前五个值（文件访问模式）之一：</p>
+<dl compact="None">
+<dd></dd>
+<dt>O_EXEC</dt>
+<dd>仅用于执行而打开（非目录文件）。如果 <i>path</i> 命名的是目录且 O_EXEC 与 O_SEARCH 不是相同的值，则 <i>open</i>() 应失败。</dd>
+<dt>O_RDONLY</dt>
+<dd>仅用于读取而打开。</dd>
+<dt>O_RDWR</dt>
+<dd>用于读取和写入而打开。如果 <i>path</i> 命名的是 FIFO，且实现不支持为了同时读取和写入而打开 FIFO，则 <i>open</i>() 应失败。</dd>
+<dt>O_SEARCH</dt>
+<dd>仅为搜索而打开目录。如果 <i>path</i> 命名的是非目录文件且 O_SEARCH 与 O_EXEC 不是相同的值，则 <i>open</i>() 应失败。</dd>
+<dt>O_WRONLY</dt>
+<dd>仅用于写入而打开。</dd>
+</dl>
+<p>可以使用下列标志的任意组合：</p>
+<dl compact="None">
+<dd></dd>
+<dt>O_APPEND</dt>
+<dd>如果设置，则在每次写入之前应将文件偏移设置为文件的末尾。</dd>
+<dt>O_CLOEXEC</dt>
+<dd>如果设置，则应为新的文件描述符设置 FD_CLOEXEC 标志。</dd>
+<dt>O_CLOFORK</dt>
+<dd>如果设置，则应为新的文件描述符设置 FD_CLOFORK 标志。</dd>
+<dt>O_CREAT</dt>
+<dd>如果文件已存在，则此标志没有效果，除非按下面 O_EXCL 下的说明。否则，如果未设置 O_DIRECTORY，则应将该文件创建为普通文件；文件的用户 ID 应设置为进程的有效用户 ID；文件的组 ID 应设置为文件父目录的组 ID 或进程的有效组 ID；文件模式的访问权限位（参见 &lt;sys/stat.h&gt;）应设置为 <i>oflag</i> 参数之后的那个参数的值，该参数取类型 <b>mode_t</b> 并按如下方式修改：对文件模式位与进程的文件模式创建掩码的补码中的相应位执行按位与。因此，文件模式中其对应位在文件模式创建掩码中被置位的所有位都被清除。当设置了文件权限位之外的位时，其效果未指定。跟在 <i>oflag</i> 参数之后的那个参数不影响文件是为读取、写入还是同时为两者而打开。实现应提供一种将该文件的组 ID 初始化为父目录的组 ID 的方式。实现可以但不必提供一种实现定义的方式，将该文件的组 ID 初始化为调用进程的有效组 ID。</dd>
+<dt>O_DIRECTORY</dt>
+<dd>如果 <i>path</i> 解析到一个非目录文件，则失败并将 <i>errno</i> 设置为 [ENOTDIR]。</dd>
+<dt>O_DSYNC</dt>
+<dd><sup>[SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 该文件描述符上的写 I/O 操作应按照同步 I/O 数据完整性完成所定义的方式完成。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>O_EXCL</dt>
+<dd>如果设置了 O_CREAT 和 O_EXCL，且文件已存在，则 <i>open</i>() 应失败。对文件存在性的检查以及在文件不存在时对文件的创建，相对于在同一目录中、设置了 O_EXCL 和 O_CREAT、命名相同文件名的其他执行 <i>open</i>() 的线程应是原子的。如果设置了 O_EXCL 和 O_CREAT，且 <i>path</i> 命名的是符号链接，则无论符号链接的内容如何，<i>open</i>() 都应失败并将 <i>errno</i> 设置为 [EEXIST]。如果设置了 O_EXCL 而未设置 O_CREAT，则结果未定义。</dd>
+<dt>O_NOCTTY</dt>
+<dd>如果设置且 <i>path</i> 标识的是终端设备，则 <i>open</i>() 不应导致该终端设备成为进程的控制终端。如果 <i>path</i> 标识的不是终端设备，则应忽略 O_NOCTTY。</dd>
+<dt>O_NOFOLLOW</dt>
+<dd>如果 <i>path</i> 命名的是符号链接，则失败并将 <i>errno</i> 设置为 [ELOOP]。</dd>
+<dt>O_NONBLOCK</dt>
+<dd>When opening a FIFO with O_RDONLY or O_WRONLY set:
+<ul>
+<li>
+<p>如果设置了 O_NONBLOCK，则仅用于读取的 <i>open</i>() 应立即返回。如果当前没有进程将该文件打开用于读取，则仅用于写入的 <i>open</i>() 应返回错误。</p>
+</li>
+<li>
+<p>如果 O_NONBLOCK 被清除，则仅用于读取的 <i>open</i>() 应阻塞调用线程，直到某个线程将该文件打开用于写入。仅用于写入的 <i>open</i>() 应阻塞调用线程，直到某个线程将该文件打开用于读取。</p>
+</li>
+</ul>
+<p>当打开一个支持非阻塞打开的块特殊文件或字符特殊文件时：</p>
+<ul>
+<li>
+<p>如果设置了 O_NONBLOCK，则 <i>open</i>() 函数应返回，而不阻塞等待设备就绪或可用。设备后续的行为是设备特定的。</p>
+</li>
+<li>
+<p>如果 O_NONBLOCK 被清除，则 <i>open</i>() 函数在返回之前应阻塞调用线程，直到设备就绪或可用。</p>
+</li>
+</ul>
+<p>否则，O_NONBLOCK 标志不应引起错误，但文件状态标志是否将包含 O_NONBLOCK 标志是未指定的。</p>
+</dd>
+<dt>O_RSYNC</dt>
+<dd><sup>[SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 该文件描述符上的读 I/O 操作应以与 O_DSYNC 和 O_SYNC 标志所指定的相同的完整性级别完成。如果在 <i>oflag</i> 中同时设置了 O_DSYNC 和 O_RSYNC，则该文件描述符上的所有 I/O 操作应按照同步 I/O 数据完整性完成所定义的方式完成。如果在 flags 中同时设置了 O_SYNC 和 O_RSYNC，则该文件描述符上的所有 I/O 操作应按照同步 I/O 文件完整性完成所定义的方式完成。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>O_SYNC</dt>
+<dd><sup>[XSI|SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> Write I/O operations on the file descriptor shall complete as defined by synchronized I/O file integrity completion. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 即使不支持同步输入和输出选项，也应为普通文件支持 O_SYNC 标志。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</dd>
+<dt>O_TRUNC</dt>
+<dd>如果文件存在且是普通文件，并且该文件以 O_RDWR 或 O_WRONLY 成功打开，则其长度应被截断为 0，且模式和所有者应保持不变。它对 FIFO 特殊文件或终端设备文件不应有影响。它对其他文件类型的影响是实现定义的。在既没有 O_RDWR 也没有 O_WRONLY 的情况下使用 O_TRUNC 的结果未定义。</dd>
+<dt>O_TTY_INIT</dt>
+<dd>如果 <i>path</i> 标识的是伪终端之外的终端设备，该设备在任意进程中尚未被打开，并且在 <i>oflag</i> 中设置了 O_TTY_INIT 或 O_TTY_INIT 的值为零，则 <i>open</i>() 应将任何非标准的 <b>termios</b> 结构终端参数设置为提供符合行为的状态（参见 XBD 11.2 可设置的参数），并将与该终端关联的 <b>winsize</b> 结构初始化为适当的默认设置。如果该设备在任意进程中已被打开，则 O_TTY_INIT 是否有任何效果是未指定的。如果 <i>path</i> 标识的是在任意进程中尚未被打开的伪终端的附属侧，则无论是否设置了 O_TTY_INIT，<i>open</i>() 都应将这些非标准的 <b>termios</b> 结构终端参数设置为提供符合行为的状态，并将与该终端关联的 <b>winsize</b> 结构初始化为适当的默认设置。如果 <i>path</i> 标识的不是终端设备，则应忽略 O_TTY_INIT。</dd>
+</dl>
+<p>如果设置了 O_CREAT 和 O_DIRECTORY，且请求的访问模式既不是 O_WRONLY 也不是 O_RDWR，则结果未指定。</p>
+<p>如果设置了 O_CREAT 且该文件先前不存在，则在成功完成后，<i>open</i>() 应将该文件的最后数据访问、最后数据修改和最后文件状态更改时间戳以及父目录的最后数据修改和最后文件状态更改时间戳标记为需要更新。</p>
+<p>如果设置了 O_TRUNC 且该文件先前确实存在，则在成功完成后，<i>open</i>() 应将该文件的最后数据修改和最后文件状态更改时间戳标记为需要更新。</p>
+<p><sup>[SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果同时设置了 O_SYNC 和 O_DSYNC 标志，则效果就如同只设置了 O_SYNC 标志一样。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>应用程序应确保在自系统启动以来或自该设备被最后一个打开它的进程关闭以来的首次打开终端设备时指定 O_TTY_INIT 标志。当打开伪终端时，应用程序不必指定 O_TTY_INIT 标志。<sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  如果 <i>path</i> 命名的是伪终端设备的管理器侧，则 <i>open</i>() 是否锁定附属侧使其无法被打开是未指定的。符合标准的应用程序在打开附属侧之前应调用 unlockpt()。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>在类型为 <b>off_t</b> 的对象中能被正确表示的最大值应被确立为打开文件描述中的偏移最大值。</p>
+<p><i>openat</i>() 函数应等同于 <i>open</i>() 函数，除非 <i>path</i> 指定的是相对路径。在这种情况下，要打开的文件是相对于与文件描述符 <i>fd</i> 关联的目录来确定的，而不是相对于当前工作目录。如果与该文件描述符关联的打开文件描述的访问模式不是 O_SEARCH，则该函数应使用该文件描述符底层目录的当前权限来检查是否允许目录搜索。如果访问模式是 O_SEARCH，则该函数不应执行该检查。</p>
+<p><i>oflag</i> 参数和可选的第四个参数与 <i>open</i>() 的参数完全对应。</p>
+<p>如果在 <i>fd</i> 参数中向 <i>openat</i>() 传递特殊值 AT_FDCWD，则应使用当前工作目录，且行为应与调用 <i>open</i>() 相同。</p>
+</blockquote>
+<a name="tag_17_372_04" id="tag_17_372_04"></a><h4>返回值</h4>
+<blockquote>
+<p>成功完成后，这些函数应打开文件并返回一个表示文件描述符的非负整数。否则，这些函数应返回 -1 并设置 <i>errno</i> 以指明错误。如果返回 -1，则不应创建或修改任何文件。</p>
+</blockquote>
+<a name="tag_17_372_05" id="tag_17_372_05"></a><h4>错误</h4>
+<blockquote>
+<p>在以下情况下，这些函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>对路径前缀的某个组成部分的搜索权限被拒绝，或者文件存在且 <i>oflag</i> 指定的权限被拒绝，或者文件不存在且要创建的文件的父目录的写权限被拒绝，或者指定了 O_TRUNC 且写权限被拒绝。</dd>
+<dt>[EEXIST]</dt>
+<dd>设置了 O_CREAT 和 O_EXCL，且命名的文件存在。</dd>
+<dt>[EILSEQ]</dt>
+<dd>指定了 O_CREAT，该文件不存在，且 <i>path</i> 的最后一个路径名组成部分不是可移植文件名，并且无法在目标目录中创建。</dd>
+<dt>[EINTR]</dt>
+<dd>在 <i>open</i>() 期间捕获到一个信号。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>path</i> 参数命名的是 FIFO，指定了 O_RDWR，且实现认为这是错误；<sup>[SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或者指定了同步 I/O 标志且该实现不支持对该文件进行同步 I/O。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EISDIR]</dt>
+<dd>命名的文件是目录，且 <i>oflag</i> 包含 O_WRONLY 或 O_RDWR，或者包含没有 O_DIRECTORY 的 O_CREAT，或者在 O_EXEC 与 O_SEARCH 不是相同值时包含 O_EXEC。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接中存在循环，或者指定了 O_NOFOLLOW 且 <i>path</i> 参数命名的是符号链接。</dd>
+<dt>[EMFILE]</dt>
+<dd>该进程可用的所有文件描述符当前都已打开。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的某个组成部分的长度长于 {NAME_MAX}。</dd>
+<dt>[ENFILE]</dt>
+<dd>系统中当前打开的文件数已达到允许的最大数量。</dd>
+<dt>[ENOENT]</dt>
+<dd>未设置 O_CREAT 且 <i>path</i> 的某个组成部分未命名现有文件，或者设置了 O_CREAT 且 <i>path</i> 的路径前缀的某个组成部分未命名现有文件，或者 <i>path</i> 指向空字符串。</dd>
+<dt>[ENOENT] 或 [ENOTDIR]</dt>
+<dd>设置了 O_CREAT，且 <i>path</i> 参数至少包含一个非&lt;slash&gt;字符并以一个或多个尾随&lt;slash&gt;字符结尾。如果去掉尾随&lt;slash&gt;字符的 <i>path</i> 将命名一个现有文件，则不应发生 [ENOENT] 错误。</dd>
+<dt>[ENOSPC]</dt>
+<dd>将包含新文件的目录或文件系统无法扩展，该文件不存在，且指定了 O_CREAT。</dd>
+<dt>[ENOTDIR]</dt>
+<dd>路径前缀的某个组成部分命名了一个既不是目录也不是指向目录的符号链接的现有文件；或者未指定 O_CREAT 和 O_EXCL，<i>path</i> 参数至少包含一个非&lt;slash&gt;字符并以一个或多个尾随&lt;slash&gt;字符结尾，且最后一个路径名组成部分命名了一个既不是目录也不是指向目录的符号链接的现有文件；或者指定了 O_DIRECTORY 且 <i>path</i> 参数命名的是非目录文件；或者 <i>path</i> 参数命名的是非目录文件且在 O_SEARCH 与 O_EXEC 不是相同值时指定了 O_SEARCH。</dd>
+<dt>[ENXIO]</dt>
+<dd>设置了 O_NONBLOCK，命名的文件是 FIFO，设置了 O_WRONLY，且没有进程将该文件打开用于读取。</dd>
+<dt>[ENXIO]</dt>
+<dd>命名的文件是字符特殊文件或块特殊文件，且与此特殊文件关联的设备不存在。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>命名的文件是普通文件，且该文件的大小无法在类型为 <b>off_t</b> 的对象中被正确表示。</dd>
+<dt>[EROFS]</dt>
+<dd>命名的文件位于只读文件系统上，且在 <i>oflag</i> 参数中设置了 O_WRONLY、O_RDWR、O_CREAT（如果文件不存在）或 O_TRUNC 中的某一个。</dd>
+</dl>
+<p>在以下情况下，<i>openat</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>与 <i>fd</i> 关联的打开文件描述的访问模式不是 O_SEARCH，且 <i>fd</i> 底层目录的权限不允许目录搜索。</dd>
+<dt>[EBADF]</dt>
+<dd><i>path</i> 参数未指定绝对路径，且 <i>fd</i> 参数既不是 AT_FDCWD，也不是为读取或搜索而打开的有效文件描述符。</dd>
+<dt>[ENOTDIR]</dt>
+<dd><i>path</i> 参数不是绝对路径，且 <i>fd</i> 是与非目录文件关联的文件描述符。</dd>
+</dl>
+<p>在以下情况下，这些函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>path</i> 参数命名的是被锁定的伪终端设备的附属侧。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EINVAL]</dt>
+<dd><i>oflag</i> 参数的值无效。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接超过 {SYMLOOP_MAX} 个。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的长度超过 {PATH_MAX}，或者符号链接的路径名解析产生了长度超过 {PATH_MAX} 的中间结果。</dd>
+<dt>[EOPNOTSUPP]</dt>
+<dd><i>path</i> 参数命名的是套接字。</dd>
+<dt>[ETXTBSY]</dt>
+<dd>该文件是正在被执行的纯过程（共享文本）文件，且 <i>oflag</i> 是 O_WRONLY 或 O_RDWR。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_372_06" id="tag_17_372_06"></a><h4>示例</h4>
+<blockquote>
+<a name="tag_17_372_06_01" id="tag_17_372_06_01"></a><h5>由所有者打开文件以进行写入</h5>
+<p>下面的示例打开文件 <b>/tmp/file</b>，要么通过创建它（如果它尚不存在），要么通过将其长度截断为 0（如果它确实存在）。在前一种情况下，如果该调用创建了一个新文件，则文件的文件模式中的访问权限位被设置为允许所有者读取和写入，并且只允许组成员和其他人读取。</p>
+<p>如果对 <i>open</i>() 的调用成功，则该文件被打开用于写入。</p>
+<pre><code class="language-plaintext">#include &lt;fcntl.h&gt;
+...
+int fd;
+mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+char *pathname = "/tmp/file";
+...
+fd = open(pathname, O_WRONLY | O_CREAT | O_TRUNC, mode);
+...</code></pre>
+<a name="tag_17_372_06_02" id="tag_17_372_06_02"></a><h5>使用存在性检查打开文件</h5>
+<p>下面的示例使用 <i>open</i>() 函数尝试创建 <b>LOCKFILE</b> 文件并将其打开用于写入。由于 <i>open</i>() 函数指定了 O_EXCL 标志，因此如果该文件已存在，则调用失败。在这种情况下，程序假定其他人正在更新口令文件并退出。</p>
+<pre><code class="language-plaintext">#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+#define LOCKFILE "/etc/ptmp"
+...
+int pfd; /* Integer for file descriptor returned by open() call. */
+...
+if ((pfd = open(LOCKFILE, O_WRONLY | O_CREAT | O_EXCL,
+    S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
+{
+    fprintf(stderr, "Cannot open /etc/ptmp. Try again later.\n");
+    exit(1);
+}
+...</code></pre>
+<a name="tag_17_372_06_03" id="tag_17_372_06_03"></a><h5>打开文件以进行写入</h5>
+<p>下面的示例打开一个文件以进行写入，如果该文件尚不存在则创建它。如果该文件确实存在，则系统将该文件截断为零字节。</p>
+<pre><code class="language-plaintext">#include &lt;fcntl.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+#define LOCKFILE "/etc/ptmp"
+...
+int pfd;
+char pathname[PATH_MAX+1];
+...
+if ((pfd = open(pathname, O_WRONLY | O_CREAT | O_TRUNC,
+    S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
+{
+    perror("Cannot open output file\n"); exit(1);
+}
+...</code></pre></blockquote>
+<a name="tag_17_372_07" id="tag_17_372_07"></a><h4>应用程序使用</h4>
+<blockquote>
+<p>POSIX.1-2024 不要求在首次打开时自动将终端参数设置为任何状态，也不要求在最后一次关闭后重置它们。不符合标准的应用程序有可能把终端设备留在一种状态下，使得下一个使用该设备的进程发现它处于不符合标准的状态，但无法确定这一点。为了确保设备被设置为符合标准的初始状态，对终端（伪终端除外）执行首次打开的应用程序应使用 O_TTY_INIT 标志来将与该终端关联的参数设置为符合标准的状态。</p>
+<p>除非 POSIX.1-2024 本卷另有规定，<i>oflag</i> 中允许的标志不是互斥的，并且可以同时使用其中任意数量。并非所有标志组合都有意义。例如，使用 O_SEARCH | O_CREAT 将成功打开一个预先存在的目录以进行搜索，但如果没有该名称的现有文件，则是否会创建普通文件是未指定的。同样，如果成功返回了非目录文件描述符，则该描述符是否会像通过 O_EXEC 那样具有执行权限是未指定的（注意，O_EXEC 和 O_SEARCH 是否具有相同的值是未指定的）。</p>
+<p><i>open</i>() 的 O_CLOEXEC 和 O_CLOFORK 标志对于避免多线程应用程序中的数据竞争是必要的。没有 O_CLOFORK，在一个线程用 <i>open</i>() 创建文件描述符、然后使用 fcntl() 设置 FD_CLOFORK 标志之间的窗口期，文件描述符会泄漏到另一个线程创建的子进程中。没有 O_CLOEXEC，如果 FD_CLOEXEC 不是原子地设置的，则子进程有意继承的文件描述符会类似地泄漏到被执行的程序中。</p>
+</blockquote>
+<a name="tag_17_372_08" id="tag_17_372_08"></a><h4>理由</h4>
+<blockquote>
+<p>一些实现允许以 O_RDWR 打开 FIFO。由于 FIFO 可以用其他方式实现，并且由于两个文件描述符可以达到相同的效果，因此允许实现拒绝在 FIFO 上使用 O_RDWR。</p>
+<p>关于新创建文件的组，参见 getgroups()。</p>
+<p>使用 <i>open</i>() 创建普通文件优于使用 creat()，因为后者是多余的，仅仅出于历史原因而被保留。</p>
+<p>在 FIFO 和目录上使用 O_TRUNC 标志（管道不能被 <i>open</i>() 打开）必须被允许而没有意外的副作用（例如，在 FIFO 上执行 creat() 不能移除数据）。由于终端特殊文件可能在缓冲区中存储有预输入数据，O_TRUNC 不应影响它们的内容，特别是当通常打开普通文件的程序反而打开了当前控制终端时。其他文件类型，特别是实现定义的文件类型，保持为实现定义的。</p>
+<p>POSIX.1-2024 允许为明确列出的情况之外的情况返回 [EACCES]。</p>
+<p>增加 O_NOCTTY 标志是为了允许应用程序避免作为打开终端文件的副作用而意外获得控制终端。POSIX.1-2024 本卷不规定控制终端是如何获得的，但它允许实现提供在 <i>open</i>() 上做到这一点，条件是未设置 O_NOCTTY 标志并且满足 XBD 11. 通用终端接口 中规定的其他条件。</p>
+<p>在历史实现中，O_RDONLY 的值是零。正因为如此，无法检测到 O_RDONLY 与另一个选项的同时存在。将来的实现应将 O_RDONLY 和 O_WRONLY 编码为位标志，以便：</p>
+<pre><code class="language-plaintext">O_RDONLY | O_WRONLY == O_RDWR</code></pre>
+<p>O_EXEC 和 O_SEARCH 被指定为五种文件访问模式中的两种。由于 O_EXEC 不适用于目录，而 O_SEARCH 只适用于目录，它们的值不必不同。虽然本标准要求 <i>open</i>() 在尝试对目录使用 O_EXEC、或对非目录使用 O_SEARCH 时失败，但这只适用于两种模式具有不同值的实现。由于 O_RDONLY 历史上一直具有值零，实现无法区分 O_SEARCH 与 O_SEARCH | O_RDONLY，对 O_EXEC 也是如此。</p>
+<p>一般来说，如果 <i>path</i> 命名的是符号链接，则 <i>open</i>() 函数会跟随该符号链接。但是，当以 O_CREAT 和 O_EXCL 调用时，如果 <i>path</i> 命名的是现有符号链接，即使该符号链接引用不存在的文件，<i>open</i>() 函数也被要求以 [EEXIST] 失败。要求此行为是为了让特权应用程序可以在已知位置创建新文件，而不会有符号链接可能导致文件被创建在不同位置的可能性。</p>
+<p>例如，必须在用户可写目录（如用户的主目录）中创建具有可预测名称的文件的特权应用程序，如果用户创建了具有该名称、引用系统目录中不存在文件的符号链接，则可能被攻破。如果用户能影响文件的内容，用户就能通过创建新的系统配置或假脱机文件来攻破系统，该文件随后会被系统解释。对引用不存在文件的符号链接的检查必须与新文件的创建是原子的。</p>
+<p>此外，如果设置了 O_DIRECTORY 标志，则 <i>open</i>() 函数拒绝打开非目录。这避免了竞争条件，即用户在特权应用程序运行期间，通过替换指向敏感文件（例如设备或 FIFO）的硬链接来攻破系统，而即使仅为读取访问打开文件也可能产生不期望的副作用。</p>
+<p>此外，如果设置了 O_NOFOLLOW 标志，则 <i>open</i>() 函数不跟随符号链接。这避免了竞争条件，即用户在特权应用程序运行期间，通过替换指向敏感文件（例如设备）的符号链接来攻破系统，而即使仅为读取访问打开文件也可能产生不期望的副作用。</p>
+<p>POSIX.1-1990 标准要求新创建文件的组 ID 被设置为其父目录的组 ID 或创建进程的有效组 ID。FIPS 151-2 要求实现提供一种将组 ID 设置为包含目录的组 ID 的方式，但没有禁止实现也支持将组 ID 设置为创建进程的有效组 ID 的方式。符合标准的应用程序不应假定将使用哪个组 ID。如果这很重要，应用程序可以使用 chown() 在文件创建后设置组 ID，或者确定在什么条件下实现将设置期望的组 ID。</p>
+<p><i>openat</i>() 函数的用途是：在不暴露于竞争条件的前提下，打开当前工作目录之外其他目录中的文件。文件路径的任何部分都可能在与 <i>open</i>() 调用并行的过程中被更改，从而导致未指定的行为。通过为目标目录打开一个文件描述符并使用 <i>openat</i>() 函数，可以保证所打开的文件相对于期望目录定位。某些实现还将 <i>openat</i>() 函数用于其他目的。在某些情况下，如果 <i>oflag</i> 参数设置了 O_XATTR 位，返回的文件描述符可提供对扩展属性的访问。此处未对此功能进行标准化。</p>
+<p>鼓励实现在 <i>oflag</i> 包含 O_CREAT、该文件先前不存在、且 <i>path</i> 的最后一个组成部分包含任何具有&lt;newline&gt;字符编码值的字节时，让 <i>open</i>() 和 <i>openat</i>() 报告 [EILSEQ] 错误。</p>
+</blockquote>
+<a name="tag_17_372_09" id="tag_17_372_09"></a><h4>未来方向</h4>
+<blockquote>
+<p>本标准的未来版本可以增加一个 O_NOCLOBBER 标志，按如下规定，供 shell 在设置 <i>noclobber</i> 选项时使用（参见 XRAT C.2.7.2 重定向输出）：</p>
+<dl compact="None">
+<dd></dd>
+<dt>O_NOCLOBBER</dt>
+<dd>如果设置了 O_CREAT 和 O_NOCLOBBER，且文件存在并且要么是普通文件、要么是解析到普通文件的符号链接，则 <i>open</i>() 应失败。对文件存在性和类型的检查以及在文件不存在时对文件的创建，相对于在同一目录中、设置了 O_NOCLOBBER 和 O_CREAT 或设置了 O_EXCL 和 O_CREAT、命名相同文件名的其他执行 <i>open</i>() 的线程应是原子的。如果设置了 O_NOCLOBBER 和 O_CREAT，且文件存在并且要么是非普通文件、要么是解析到非普通文件的符号链接，则该文件应像两个标志都未设置一样被打开。如果设置了 O_NOCLOBBER 和 O_CREAT，且 <i>path</i> 命名的是不解析到现有文件的符号链接，则应创建一个空文件，使得 <i>path</i> 解析到新创建的文件。如果设置了 O_NOCLOBBER 而未设置 O_CREAT，则结果未定义。</dd>
+</dl>
+</blockquote>
+<a name="tag_17_372_10" id="tag_17_372_10"></a><h4>另见</h4>
+<blockquote>
+<p>chmod(), close(), creat(), dirfd(), dup(), exec, fcntl(), fdopendir(), link(), lseek(), mkdtemp(), mknod(), read(), symlink(), umask(), unlockpt(), write()</p>
+<p>XBD 11. 通用终端接口, &lt;fcntl.h&gt;, &lt;sys/stat.h&gt;, &lt;sys/types.h&gt;</p>
+</blockquote>
+<a name="tag_17_372_11" id="tag_17_372_11"></a><h4>变更历史</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_372_12" id="tag_17_372_12"></a><h4>第 5 版</h4>
+<blockquote>
+<p>更新了说明部分，以与 POSIX 实时扩展和 POSIX 线程扩展保持一致。</p>
+<p>增加大文件峰会扩展。</p>
+</blockquote>
+<a name="tag_17_372_13" id="tag_17_372_13"></a><h4>第 6 版</h4>
+<blockquote>
+<p>在概要中，移除了对 &lt;sys/types.h&gt; 头文件的可选包含。</p>
+<p>以下对 POSIX 实现的新要求源自与单一 UNIX 规范的一致性：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然先前 POSIX 规范的符合实现要求 &lt;sys/types.h&gt;，但 UNIX 应用程序并不要求它。</p>
+</li>
+<li>
+<p>在说明中，对 O_CREAT 进行了修订，规定文件的组 ID 被设置为文件父目录的组 ID 或进程的有效组 ID。这是一项 FIPS 要求。</p>
+</li>
+<li>
+<p>在说明中，增加了文本以指明打开文件描述中偏移最大值的设置。此更改是为了支持大文件。</p>
+</li>
+<li>
+<p>在错误部分，增加了 [EOVERFLOW] 情况。此更改是为了支持大文件。</p>
+</li>
+<li>
+<p>增加 [ENXIO] 强制错误情况。</p>
+</li>
+<li>
+<p>增加 [EINVAL]、[ENAMETOOLONG] 和 [ETXTBSY] 可选错误情况。</p>
+</li>
+</ul>
+<p>更新了说明和错误部分，以便与可选 XSI STREAMS 选项组相关的条目被标记。</p>
+<p>为与 IEEE P1003.1a 草案标准保持一致，做了以下更改：</p>
+<ul>
+<li>
+<p>增加了当路径引用符号链接时 O_CREAT 和 O_EXCL 标志的效果的说明。</p>
+</li>
+<li>
+<p>增加 [ELOOP] 可选错误情况。</p>
+</li>
+</ul>
+<p>更新了规范性文本，以避免对应用程序要求使用 &quot;must&quot; 一词。</p>
+<p>根据 IEEE PASC 解释 1003.1c #48，更新了 O_EXCL 的说明。</p>
+</blockquote>
+<a name="tag_17_372_14" id="tag_17_372_14"></a><h4>第 7 版</h4>
+<blockquote>
+<p>应用 Austin Group 解释 1003.1-2001 #113 和 #143。</p>
+<p>应用 Austin Group 解释 1003.1-2001 #144，增加 O_TTY_INIT 标志。</p>
+<p>应用 Austin Group 解释 1003.1-2001 #171，增加在 <i>open</i>() 时原子地设置 FD_CLOEXEC 标志的支持，并增加 F_DUPFD_CLOEXEC 标志。</p>
+<p>应用 SD5-XBD-ERN-4，更改 [EMFILE] 错误的定义。</p>
+<p>修订本页，并从 The Open Group Technical Standard, 2006, Extended API Set Part 2 增加 <i>openat</i>() 函数。</p>
+<p>与 XSI STREAMS 选项相关的功能被标记为过时。</p>
+<p>做了与细粒度时间戳支持相关的更改。</p>
+<p>做了允许目录为搜索而被打开的更改。</p>
+<p>应用 POSIX.1-2008 技术勘误 1：XSH/TC1-2008/0418 [292]、XSH/TC1-2008/0419 [141]、XSH/TC1-2008/0420 [461]、XSH/TC1-2008/0421 [390]、XSH/TC1-2008/0422 [146]、XSH/TC1-2008/0423 [324]、XSH/TC1-2008/0424 [292]、XSH/TC1-2008/0425 [278]、XSH/TC1-2008/0426 [278]、XSH/TC1-2008/0427 [291] 和 XSH/TC1-2008/0428 [307]。</p>
+<p>应用 POSIX.1-2008 技术勘误 2：XSH/TC2-2008/0235 [873]、XSH/TC2-2008/0236 [835]、XSH/TC2-2008/0237 [847]、XSH/TC2-2008/0238 [817]、XSH/TC2-2008/0239 [835]、XSH/TC2-2008/0240 [847]、XSH/TC2-2008/0241 [822]、XSH/TC2-2008/0242 [817] 和 XSH/TC2-2008/0243 [943]。</p>
+</blockquote>
+<a name="tag_17_372_15" id="tag_17_372_15"></a><h4>第 8 版</h4>
+<blockquote>
+<p>应用 Austin Group Defect 251，鼓励实现不允许创建包含任何具有&lt;newline&gt;字符编码值的字节的文件名。</p>
+<p>应用 Austin Group Defect 293，增加 [EILSEQ] 错误。</p>
+<p>应用 Austin Group Defects 658 和 1665，限制在目录上使用 O_EXEC、在非目录文件上使用 O_SEARCH、或在 FIFO 上使用 O_RDWR 时允许的行为，以便对 O_EXCL 的要求仍然适用。</p>
+<p>应用 Austin Group Defect 1016，更改未来方向部分。</p>
+<p>应用 Austin Group Defect 1151，更改 O_TTY_INIT 的说明，以包含与 <b>winsize</b> 结构相关的要求。</p>
+<p>应用 Austin Group Defect 1318，增加 FD_CLOFORK 和 O_CLOFORK。</p>
+<p>应用 Austin Group Defect 1330，移除过时的接口。</p>
+<p>应用 Austin Group Defect 1466，更改用于伪终端设备的术语。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

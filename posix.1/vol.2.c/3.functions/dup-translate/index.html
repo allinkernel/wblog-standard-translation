@@ -1,0 +1,135 @@
+<h1>XSH 函数：dup()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="dup" id="dup"></a> <a name="tag_17_116" id="tag_17_116"></a>
+<a name="tag_17_116_01" id="tag_17_116_01"></a><h4>名称 (NAME)</h4>
+<blockquote>dup、dup2、dup3 — 复制一个打开的文件描述符 (duplicate an open file descriptor)</blockquote>
+<a name="tag_17_116_02" id="tag_17_116_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+int dup(int</code> <i>fildes</i><code>);<br>
+int dup2(int</code> <i>fildes</i><code>, int</code> <i>fildes2</i><code>);<br>
+int dup3(int</code> <i>fildes</i><code>, int</code> <i>fildes2</i><code>, int</code> <i>flag</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_116_03" id="tag_17_116_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>dup</i>() 函数为 fcntl() 使用 F_DUPFD 命令提供的服务提供了一种替代接口。调用 <i>dup</i>(<i>fildes</i>) 应等同于：</p>
+<pre><code class="language-plaintext">fcntl(fildes, F_DUPFD, 0);</code></pre>
+<p><i>dup2</i>() 函数应使文件描述符 <i>fildes2</i> 指向与文件描述符 <i>fildes</i> 相同的打开文件描述并共享任何锁，并应返回 <i>fildes2</i>。如果 <i>fildes2</i> 已经是一个有效的打开文件描述符，则应首先将其关闭，除非 <i>fildes</i> 等于 <i>fildes2</i>，在这种情况下 <i>dup2</i>() 应返回 <i>fildes2</i> 而不关闭它。如果关闭操作未能关闭 <i>fildes2</i>，<i>dup2</i>() 应返回 -1，而不改变 <i>fildes2</i> 所指向的打开文件描述。如果 <i>fildes</i> 不是有效的文件描述符，<i>dup2</i>() 应返回 -1 且不应关闭 <i>fildes2</i>。如果 <i>fildes2</i> 小于 0 或大于或等于 {OPEN_MAX}，<i>dup2</i>() 应返回 -1 并将 <i>errno</i> 设置为 [EBADF]。</p>
+<p>成功完成后，如果 <i>fildes</i> 不等于 <i>fildes2</i>，则与 <i>fildes2</i> 关联的 FD_CLOEXEC 和 FD_CLOFORK 标志应被清除。如果 <i>fildes</i> 等于 <i>fildes2</i>，则与 <i>fildes2</i> 关联的 FD_CLOEXEC 和 FD_CLOFORK 标志不应被更改。</p>
+<p><i>dup3</i>() 函数应等同于 <i>dup2</i>() 函数，不同之处在于，如果 <i>fildes</i> 等于 <i>fildes2</i> 则应是一个错误，且 <i>fildes2</i> 文件描述符上 FD_CLOEXEC 和 FD_CLOFORK 的状态应完全由 <i>flag</i> 参数决定，该参数可以由以下列表中的标志按位包含式 OR 构成：</p>
+<dl compact="None">
+<dd></dd>
+<dt>O_CLOEXEC</dt>
+<dd>在 <i>fildes2</i> 上原子地设置 FD_CLOEXEC 标志。</dd>
+<dt>O_CLOFORK</dt>
+<dd>在 <i>fildes2</i> 上原子地设置 FD_CLOFORK 标志。</dd>
+</dl>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 指代一个类型化内存对象，则 <i>dup2</i>() 或 <i>dup3</i>() 函数的结果是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_116_04" id="tag_17_116_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，应返回一个非负整数，即文件描述符；否则，应返回 -1 并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_116_05" id="tag_17_116_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>如果满足以下条件，<i>dup</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是有效的打开文件描述符。</dd>
+<dt>[EMFILE]</dt>
+<dd>进程可用的所有文件描述符当前都已打开。</dd>
+</dl>
+<p>如果满足以下条件，<i>dup2</i>() 和 <i>dup3</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是有效的打开文件描述符，或者参数 <i>fildes2</i> 为负或大于或等于 {OPEN_MAX}。</dd>
+<dt>[EINTR]</dt>
+<dd>函数被信号中断。</dd>
+</dl>
+<p>如果满足以下条件，<i>dup3</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>fildes</i> 和 <i>fildes2</i> 参数相等。</dd>
+</dl>
+<p>如果满足以下条件，<i>dup2</i>() 和 <i>dup3</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EIO]</dt>
+<dd>在尝试关闭 <i>fildes2</i> 时发生了 I/O 错误。</dd>
+</dl>
+<p>如果满足以下条件，<i>dup3</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>flag</i> 参数的值无效。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_116_06" id="tag_17_116_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_116_06_01" id="tag_17_116_06_01"></a><h5>将标准输出重定向到文件 (Redirecting Standard Output to a File)</h5>
+<p>以下示例关闭当前进程的标准输出，将标准输出重新分配为指向 <i>pfd</i> 引用的文件，并关闭原始文件描述符以进行清理。</p>
+<pre><code class="language-plaintext">#include &lt;unistd.h&gt;
+...
+int pfd;
+...
+close(1);
+dup(pfd);
+close(pfd);
+...</code></pre>
+<a name="tag_17_116_06_02" id="tag_17_116_06_02"></a><h5>重定向错误消息 (Redirecting Error Messages)</h5>
+<p>以下示例将消息从 <i>stderr</i> 重定向到 <i>stdout</i>。</p>
+<pre><code class="language-plaintext">#include &lt;unistd.h&gt;
+...
+dup2(1, 2);
+...</code></pre></blockquote>
+<a name="tag_17_116_07" id="tag_17_116_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>实现可以使用必须被继承到子进程中的文件描述符，以使子进程保持符合性，例如用于消息目录或跟踪目的。因此，使用任意整数作为 <i>fildes2</i> 调用 <i>dup2</i>() 的应用程序有产生不符合行为的风险，<i>dup2</i>() 只能可移植地用于覆盖应用程序通过显式操作获得的文件描述符值，或用于与标准文件流对应的三个文件描述符。为了避免将意外文件描述符泄漏到子进程或已执行程序中的竞争条件，应用程序宜考虑在打开所有文件描述符时设置 FD_CLOFORK 或 FD_CLOEXEC 标志，或同时设置两个标志，除非该文件描述符分别打算被子进程或已执行程序继承。</p>
+</blockquote>
+<a name="tag_17_116_08" id="tag_17_116_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p><i>dup</i>() 函数是多余的。它的服务也由 fcntl() 函数提供。它被包含在本卷 POSIX.1-2024 中主要是出于历史原因，因为许多现有应用程序使用它。另一方面，<i>dup2</i>() 函数提供了独特的服务，因为没有其他接口能够原子地替换现有的文件描述符。</p>
+<p><i>dup2</i>() 函数没有被标记为过时，因为它提供了由 fcntl() 以类型不安全版本提供的功能的类型安全版本。它被用于 POSIX Ada 绑定。</p>
+<p><i>dup2</i>() 函数不打算在临界区中用作同步机制。</p>
+<p>在 [EBADF] 的描述中，<i>fildes</i> 超出范围的情况已由 <i>fildes</i> 无效的给定情况涵盖。<i>fildes</i> 和 <i>fildes2</i> 的描述不同，因为与 <i>fildes2</i> 相关的无效性只有一种，即它是否超出范围；也就是说，在进行 <i>dup2</i>() 调用时 <i>fildes2</i> 是否指向打开的文件并不重要。</p>
+<p>带 O_CLOEXEC 和 O_CLOFORK 标志的 <i>dup3</i>() 函数对于避免多线程应用程序中的数据竞争是必要的。如果没有 O_CLOFORK，在一个线程用 <i>dup2</i>() 创建文件描述符然后使用 fcntl() 设置 FD_CLOFORK 标志之间的窗口期内，文件描述符会泄漏到另一个线程创建的子进程中。如果没有 O_CLOEXEC，如果 FD_CLOEXEC 没有被原子地设置，被子进程有意继承的文件描述符会同样泄漏到已执行的程序中。在使用 <i>dup</i>() 时避免相同竞争的对应安全做法是使用 fcntl() 函数的 F_DUPFD_CLOFORK 或 F_DUPFD_CLOEXEC 动作。</p>
+</blockquote>
+<a name="tag_17_116_09" id="tag_17_116_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_116_10" id="tag_17_116_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>close()、fcntl()、open()</p>
+<p>XBD &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_116_11" id="tag_17_116_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_116_12" id="tag_17_116_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 SD5-XSH-ERN-187。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0075 [149,428] 和 XSH/TC1-2008/0076 [149]。</p>
+</blockquote>
+<a name="tag_17_116_13" id="tag_17_116_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 411、1318、1483 和 1577，添加了 <i>dup3</i>() 和 FD_CLOFORK。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

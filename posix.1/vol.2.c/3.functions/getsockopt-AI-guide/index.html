@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：getsockopt()</h1>
+
+<h2>0. 总览</h2>
+<p><b>getsockopt()</b> 获取套接字选项：检索由 <i>option_name</i> 指定的、针对指定套接字的选项的当前值。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>int getsockopt(int socket, int level, int option_name, void *restrict option_value, socklen_t *restrict option_len)</code>。成功返回 0，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p><i>level</i> 指定选项所在的协议层：在套接字层检索选项时置为 SOL_SOCKET；在协议层检索时提供控制该选项的协议层标识符，例如想让 TCP 解释选项就把 level 设为 <code>&lt;netinet/in.h&gt;</code> 中定义的 IPPROTO_TCP。<i>option_name</i> 可以是 <code>&lt;sys/socket.h&gt;</code> 中定义并在"2.10.16 选项的使用"中描述的套接字层选项（如 SO_SNDBUF、SO_RCVTIMEO 等）。<i>option_len</i> 是"值-结果"参数：输入时给出 option_value 缓冲区的长度，如果选项值的实际大小更大，值被静默截断；否则 option_len 被修改为实际长度。与 setsockopt() 配对使用：先查询默认值或当前值，再按需修改。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>必须初始化 <i>option_len</i> 为 option_value 缓冲区大小，否则结果不可靠，甚至因长度小于选项所需而返回截断值。</li>
+<li>选项在指定套接字层无效返回 [EINVAL]；协议不支持该选项返回 [ENOPROTOOPT]；level 传错层（如把套接字层选项放到 IPPROTO_TCP）是常见错误。</li>
+<li>值大于缓冲区时被静默截断，不会报错，注意区分选项类型（int、linger 结构等）并给出足够大的缓冲区。</li>
+<li>描述符不是套接字返回 [ENOTSOCK]；某些选项可能需要适当权限，失败可能返回 [EACCES]。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+
+int sndbuf;
+socklen_t optlen = sizeof(sndbuf);
+
+if (getsockopt(sfd, SOL_SOCKET, SO_SNDBUF,
+               &amp;sndbuf, &amp;optlen) == -1) {
+    /* EINVAL、ENOPROTOOPT、ENOTSOCK 等 */;
+}</code></pre>

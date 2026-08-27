@@ -1,0 +1,30 @@
+<h1>XSH 函数导读：fcntl()</h1>
+
+<h2>0. 总览</h2>
+<p>fcntl() 对打开的文件执行文件控制操作，是文件描述符与打开文件描述的标志、锁与属主管理的总入口。所属头文件为 <code>&lt;fcntl.h&gt;</code>。原型关键点：<code>int fcntl(int fildes, int cmd, ...);</code> —— 第三个参数依 cmd 而变（int 标志值或 struct flock 指针等）；成功返回值取决于 cmd，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>cmd 按功能分四组。复制描述符：F_DUPFD 返回大于等于 arg 的最小可用描述符编号，与原件共享同一打开文件描述和锁，FD_CLOEXEC/FD_CLOFORK 被清除；F_DUPFD_CLOEXEC、F_DUPFD_CLOFORK 变体分别原子设置对应标志。描述符标志：F_GETFD/F_SETFD 读写与单个描述符关联的 FD_CLOEXEC、FD_CLOFORK 标志。文件状态：F_GETFL 取文件状态标志与访问模式（用 O_ACCMODE 提取访问模式），F_SETFL 设置文件状态标志，其中访问模式与文件创建标志对应的位被忽略；标志属于打开文件描述，不影响引用同一文件的其他描述符。套接字属主：F_GETOWN/F_SETOWN（进程 ID 为正、进程组 ID 为负、0 表示不发 SIGURG）及大 ID 用的 F_GETOWN_EX/F_SETOWN_EX。建议性记录锁：F_GETLK 查询阻塞锁，F_SETLK 非阻塞设置/清除（F_RDLCK/F_WRLCK/F_UNLCK），F_SETLKW 阻塞等待；F_OFD_GETLK/F_OFD_SETLK/F_OFD_SETLKW 是 2024 版新增的打开文件描述所有（OFD）锁。锁区域由 struct flock 的 l_type、l_whence、l_start、l_len、l_pid 描述；l_len 为 0 表示锁到文件偏移最大可能值。进程所有的锁随进程关闭该文件任何描述符或进程终止而移除，不被子进程继承；OFD 锁随打开文件描述关闭而移除；检测到死锁时 F_SETLKW/F_OFD_SETLKW 可失败 [EDEADLK]。</p>
+
+<h2>2. 易错点</h2>
+<p><b>标志操作必须读-改-写</b>：F_SETFD/F_SETFL 前先 F_GETFD/F_GETFL 取回再改，不能假定只有标准定义位有效——实现可能设置附加标志。共享锁要求描述符以读方式打开、排他锁要求以写方式打开，否则 [EBADF]。F_SETLK 被阻塞时返回 [EACCES] 或 [EAGAIN]（OFD 锁只返回 [EAGAIN]），这不是致命错误而是"稍后重试"。F_DUPFD 的 arg 为负或大于等于 {OPEN_MAX} 返回 [EINVAL]。F_SETLKW 等待期间被信号中断返回 -1/[EINTR] 且不执行锁操作；阻塞前锁定范围即已确定，此后文件大小变化不影响。进程所有的锁与 lockf() 锁的交互（XSI）未指定。记录锁不宜与带缓冲的标准 I/O 流混用，应使用非缓冲 I/O。F_GETOWN 返回值不应为 -1；进程 ID 大于 {INT_MAX} 时应改用 EX 变体，否则 [EOVERFLOW]。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+
+int fd; /* 已以 O_RDWR 打开的普通文件 */
+struct flock fl = {
+    .l_type = F_WRLCK, .l_whence = SEEK_SET,
+    .l_start = 0, .l_len = 0 /* 0 表示锁定整个文件 */
+};
+
+/* 非阻塞请求排他锁：失败不等待 */
+if (fcntl(fd, F_SETLK, &amp;fl) == -1) {
+    if (errno == EACCES || errno == EAGAIN) {
+        /* 被其他进程锁住，稍后重试 */
+    } else {
+        /* 其他错误 */
+    }
+}
+</code></pre>

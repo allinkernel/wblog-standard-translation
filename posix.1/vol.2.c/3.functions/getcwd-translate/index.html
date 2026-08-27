@@ -1,0 +1,127 @@
+<h1>XSH 函数：getcwd()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="getcwd" id="getcwd"></a> <a name="tag_17_205" id="tag_17_205"></a>
+<a name="tag_17_205_01" id="tag_17_205_01"></a><h4>名称 (NAME)</h4>
+<blockquote>getcwd — 获取当前工作目录的路径名</blockquote>
+<a name="tag_17_205_02" id="tag_17_205_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+char *getcwd(char *</code><i>buf</i><code>, size_t</code> <i>size</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_205_03" id="tag_17_205_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>getcwd</i>() 函数应将当前工作目录的绝对路径名放入由 <i>buf</i> 所指向的数组中，并返回 <i>buf</i>。该路径名应不包含任何是 dot 或 dot-dot、或是符号链接的组件。</p>
+<p>如果存在多个 <i>getcwd</i>() 可以放入由 <i>buf</i> 所指向的数组中的路径名，一个以单个 &lt;slash&gt; 字符开头，一个或多个以两个 &lt;slash&gt; 字符开头，则 <i>getcwd</i>() 应将那个以单个 &lt;slash&gt; 字符开头的路径名放入数组中。在开头的一个或两个 &lt;slash&gt; 字符之后，该路径名不应包含任何不必要的 &lt;slash&gt; 字符。</p>
+<p><i>size</i> 参数是由 <i>buf</i> 参数所指向的字符数组以字节为单位的大小。如果 <i>buf</i> 是空指针，则 <i>getcwd</i>() 的行为是未指定的。</p>
+</blockquote>
+<a name="tag_17_205_04" id="tag_17_205_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>getcwd</i>() 应返回 <i>buf</i> 参数。否则，<i>getcwd</i>() 应返回空指针并设置 <i>errno</i> 以指示错误。此时由 <i>buf</i> 所指向的数组的内容是未定义的。</p>
+</blockquote>
+<a name="tag_17_205_05" id="tag_17_205_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>getcwd</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>size</i> 参数为 0。</dd>
+<dt>[ERANGE]</dt>
+<dd><i>size</i> 参数大于 0，但小于字符串的长度 +1。</dd>
+</dl>
+<p>在以下情况下，<i>getcwd</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>当前目录被拒绝搜索权限，或者文件层次结构中当前目录之上的某个目录被拒绝读或搜索权限。</dd>
+<dt>[ENOMEM]</dt>
+<dd>可用的存储空间不足。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_205_06" id="tag_17_205_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>以下示例使用 {PATH_MAX} 作为初始缓冲区大小（除非它是不确定的或非常大），并使用逐渐增大的缓冲区调用 <i>getcwd</i>()，直到它不再给出 [ERANGE] 错误。</p>
+<pre><code class="language-plaintext">#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+ 
+...
+ 
+long path_max;
+size_t size;
+char *buf;
+char *ptr;
+ 
+path_max = pathconf(".", _PC_PATH_MAX);
+if (path_max == -1)
+    size = 1024;
+else if (path_max &gt; 10240)
+    size = 10240;
+else
+    size = path_max;
+ 
+for (buf = ptr = NULL; ptr == NULL; size *= 2)
+{
+    if ((buf = realloc(buf, size)) == NULL)
+    {
+        ... handle error ...
+    }
+ 
+    ptr = getcwd(buf, size);
+    if (ptr == NULL &amp;& errno != ERANGE)
+    {
+        ... handle error ...
+    }
+}
+...
+free (buf);</code></pre></blockquote>
+<a name="tag_17_205_07" id="tag_17_205_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>如果从 <i>getcwd</i>() 获得的路径名长于 {PATH_MAX} 字节，则将其传给 chdir() 时可能产生 [ENAMETOOLONG] 错误。因此，为了返回该目录，可能有必要将路径名分成短于 {PATH_MAX} 字节的若干段，并依次对每一段调用 chdir()（第一段是绝对路径名，后续各段是相对路径名）。当工作目录在文件层次结构中的深度可能超过 {PATH_MAX} 字节时，处理保存和恢复工作目录的一种更简单的方法是使用文件描述符和 fchdir()，而不是 <i>getcwd</i>() 和 chdir()。然而，这两种方法确实有一些差异。fchdir() 方法使程序即使目录在此期间被重命名也能恢复到该工作目录，而 chdir() 方法恢复到与原来同名的目录，即使目录在此期间被重命名。由于 fchdir() 方法不访问父目录，当 <i>getcwd</i>() 因权限问题而失败时，它可以成功。在符合本标准早期版本的应用程序中，当工作目录可搜索但不可读时，无法使用 fchdir() 方法，因为打开目录的唯一方式是使用 O_RDONLY，而 <i>getcwd</i>() 方法在这种情况下可以成功。</p>
+</blockquote>
+<a name="tag_17_205_08" id="tag_17_205_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>曾考虑让 <i>getcwd</i>() 不取参数，而是使用 malloc() 函数为返回的参数产生空间。其优点是 <i>getcwd</i>() 知道工作目录路径名有多大，可以分配适当数量的空间。但程序员将不得不使用 free() 函数释放结果对象，否则每次使用 <i>getcwd</i>() 都会进一步减少可用内存。最后，<i>getcwd</i>() 取自 SVID，在那里它具有本卷 POSIX.1-2024 中使用的两个参数。</p>
+<p>较旧的函数 <i>getwd</i>() 被否决用于此场景，因为它只有缓冲区参数而没有 <i>size</i> 参数，因此除了依赖程序员提供足够大的缓冲区之外，没有办法防止缓冲区被覆盖。</p>
+<p>在某些实现上，如果 <i>buf</i> 是空指针，<i>getcwd</i>() 可以使用 malloc() 获得 <i>size</i> 字节的内存。在这种情况下，由 <i>getcwd</i>() 返回的指针可以在后续调用 free() 时用作参数。在符合规范的应用程序中，不建议以 <i>buf</i> 作为空指针调用 <i>getcwd</i>()。</p>
+<p><i>getcwd</i>() 的早期实现有时在内部生成类似 <code>"../../../subdirname"</code> 的路径名，用它们来探索回到根的祖先目录路径。如果这些内部路径名之一的长度超过 {PATH_MAX}，实现可能会失败，并将 <i>errno</i> 设置为 [ENAMETOOLONG]。这不再被允许。</p>
+<p>如果程序在某个（祖）父目录不允许读的目录中运行，<i>getcwd</i>() 可能会失败，因为在大多数实现中，它必须读目录才能确定文件的名称。如果中间目录被授予搜索权限而未授予读权限，或者程序被某个更高特权的进程（例如 login）放入该目录，就可能发生这种情况。包含 [EACCES] 错误条件使错误的报告保持一致，并警告应用程序开发者 <i>getcwd</i>() 可能因应用程序开发者或用户无法控制的原因而失败。某些实现可以避免这种情况的发生（例如，通过使用 pwd 实现 <i>getcwd</i>()，其中 pwd 是 set-user-root 进程），因此该错误被设为可选。由于本卷 POSIX.1-2024 允许添加其他错误，这将是常见的添加，然而如果没有此添加，应用程序无法期望处理它。</p>
+</blockquote>
+<a name="tag_17_205_09" id="tag_17_205_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_205_10" id="tag_17_205_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>malloc()</p>
+<p>XBD &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_205_11" id="tag_17_205_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 1 中首次发布。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_205_12" id="tag_17_205_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>以下对 POSIX 实现的新要求源于与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>添加了 [ENOMEM] 可选错误条件。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_205_13" id="tag_17_205_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #140，更改文本以与 pwd 实用程序保持一致，添加文本来处理当前目录在文件层次结构中的深度超过 {PATH_MAX} 字节的情况，并添加与以两个 &lt;slash&gt; 字符开头的路径名相关的要求。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -1,0 +1,122 @@
+<h1>XSH 函数：realloc()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="realloc" id="realloc"></a> <a name="tag_17_480" id="tag_17_480"></a>
+<a name="tag_17_480_01" id="tag_17_480_01"></a><h4>名称 (NAME)</h4>
+<blockquote>realloc, reallocarray — 内存重新分配器</blockquote>
+<a name="tag_17_480_02" id="tag_17_480_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+void *realloc(void *</code><i>ptr</i><code>, size_t</code> <i>size</i><code>);<br></code></code></p>
+<code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> void *reallocarray(void *</code><i>ptr</i><code>, size_t</code> <i>nelem</i><code>, size_t</code>
+<i>elsize</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code>
+<code><br></code></blockquote>
+<a name="tag_17_480_03" id="tag_17_480_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p>对于 <i>realloc</i>()：<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 本参考页所述功能与 ISO C 标准对齐。此处所述要求与 ISO C 标准之间的任何冲突均属无意。POSIX.1-2024 本卷以 ISO C 标准为准。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>realloc</i>() 函数应释放 <i>ptr</i> 所指向的旧对象，并返回指向具有 <i>size</i> 所指定大小的新对象的指针。新对象的内容应与释放前的旧对象内容相同，直至新旧大小中较小者。新对象中超出旧对象大小的任何字节具有不确定的值。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>reallocarray</i>() 函数应等价于调用 <code>realloc(<i>ptr</i>, <i>nelem</i> * <i>elsize</i>)</code>，只是乘法中的溢出应视为错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>若 <i>ptr</i> 是空指针，则 <i>realloc</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或 <i>reallocarray</i>() <img src="../images/opt-end.gif" alt="[Option End]">  应等价于针对指定大小调用 malloc()。否则，若 <i>ptr</i> 与先前由 aligned_alloc()、calloc()、malloc()、<sup>[ADV]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  posix_memalign()、<img src="../images/opt-end.gif" alt="[Option End]">  realloc()、 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>reallocarray</i>() 或 POSIX.1-2024 中按 malloc() 的方式分配内存的函数返回的指针不匹配，<img src="../images/opt-end.gif" alt="[Option End]">  或者该空间已通过调用 free()、<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  reallocarray()、<img src="../images/opt-end.gif" alt="[Option End]">  或 <i>realloc</i>() 被释放， 则行为未定义。</p>
+<p>若 <i>size</i> 非零且未分配新对象的内存，则不应释放旧对象。</p>
+<p>对 <i>realloc</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或 <i>reallocarray</i>() <img src="../images/opt-end.gif" alt="[Option End]">  的连续调用所分配的存储的顺序和连续性未指定。若分配成功，返回的指针应适当对齐，使其可以赋给具有基础对齐要求的任何类型对象的指针，并用于访问所分配空间中此类对象（直到该空间被显式释放或重新分配）。每次此类分配应产生一个与其他任何对象不相交的对象的指针。返回的指针应指向所分配空间的起始位置（最低字节地址）。若无法分配空间，应返回空指针。</p>
+<p>为确定数据竞争是否存在，<i>realloc</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>reallocarray</i>() <img src="../images/opt-end.gif" alt="[Option End]">  应各自表现得如同只访问了通过其参数可访问的内存位置，而不访问其他静态存储期存储。但该函数可以明显地修改其分配的存储。分配或释放特定内存区域的 aligned_alloc()、calloc()、free()、malloc()、<sup>[ADV]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  posix_memalign()、<img src="../images/opt-end.gif" alt="[Option End]">  <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>reallocarray</i>()、<img src="../images/opt-end.gif" alt="[Option End]">  以及 <i>realloc</i>() 调用应按单一全序发生（参见 4.15.1 内存排序），并且每次此类释放调用应与此顺序中的下一次分配（若有）同步。</p>
+</blockquote>
+<a name="tag_17_480_04" id="tag_17_480_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成时，<i>realloc</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>reallocarray</i>() <img src="../images/opt-end.gif" alt="[Option End]">  应返回指向新对象的指针（其值可以与指向旧对象的指针相同），若未分配新对象，则返回空指针。</p>
+<p><sup>[OB]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 若 <i>size</i> 为 0， <img src="../images/opt-end.gif" alt="[Option End]"> <sup>[OB CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 或 <i>nelem</i> 或 <i>elsize</i> 中任一为 0， <img src="../images/opt-end.gif" alt="[Option End]"> <sup>[OB]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 则以下任一情况发生：<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<ul>
+<li>
+<p><sup>[OB]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 应返回空指针 <img src="../images/opt-end.gif" alt="[Option End]"> <sup>[OB CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 并且，若 <i>ptr</i> 不是空指针，则应将 <i>errno</i> 设置为 [EINVAL]。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p><sup>[OB]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 应返回指向所分配空间的指针，并且应释放 <i>ptr</i> 所指向的内存对象。应用程序应确保不使用该指针访问对象。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+</ul>
+<p>若可用内存不足，<i>realloc</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>reallocarray</i>() <img src="../images/opt-end.gif" alt="[Option End]">  应返回空指针 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 并将 <i>errno</i> 设置为 [ENOMEM]。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_480_05" id="tag_17_480_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>realloc</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>reallocarray</i>() <img src="../images/opt-end.gif" alt="[Option End]">  函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ENOMEM]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 可用内存不足。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>reallocarray</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ENOMEM]</dt>
+<dd>计算 <i>nelem</i> <code>*</code> <i>elsize</i> 会溢出。</dd>
+</dl>
+<img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>realloc</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>reallocarray</i>() <img src="../images/opt-end.gif" alt="[Option End]">  函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 所请求的分配大小为 0 且实现不支持 0 大小的分配。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_480_06" id="tag_17_480_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_480_07" id="tag_17_480_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>ISO C 标准规定，调用 <i>realloc</i>(<i>p</i>, 0) 时，若因未分配新对象的内存而返回空指针，则是否释放 <i>p</i> 所指向的空间是实现定义的。POSIX.1 则要求：若返回空指针且空间未被释放，实现应设置 <i>errno</i>；仅当 <i>errno</i> 被更改时，POSIX 应用程序才应释放该空间。</p>
+</blockquote>
+<a name="tag_17_480_08" id="tag_17_480_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>参见 malloc() 的 RATIONALE。</p>
+</blockquote>
+<a name="tag_17_480_09" id="tag_17_480_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>ISO C 标准指出，以等于零的 <i>size</i> 参数调用 <i>realloc</i>() 是一项过时特性。此特性可能会在本标准的未来版本中被移除。</p>
+</blockquote>
+<a name="tag_17_480_10" id="tag_17_480_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>aligned_alloc(), calloc() , free(), malloc()</p>
+<p>XBD &lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_480_11" id="tag_17_480_11"></a><h4>更改历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 第 1 版。</p>
+</blockquote>
+<a name="tag_17_480_12" id="tag_17_480_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展已标注。</p>
+<p>以下对 POSIX 实现的新要求源自与单一 UNIX 规范（Single UNIX Specification）的对齐：</p>
+<ul>
+<li>
+<p>在 RETURN VALUE 部分中，增加了在可用内存不足时将 <i>errno</i> 设置为 [ENOMEM]。</p>
+</li>
+<li>
+<p>增加了 [ENOMEM] 错误条件。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_480_13" id="tag_17_480_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 POSIX.1-2008 技术勘误 1（XSH/TC1-2008/0495 [400]、XSH/TC1-2008/0496 [400]、XSH/TC1-2008/0497 [400] 和 XSH/TC1-2008/0498 [400]）。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（XSH/TC2-2008/0309 [526] 和 XSH/TC2-2008/0310 [526,688]）。</p>
+</blockquote>
+<a name="tag_17_480_14" id="tag_17_480_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 374，增加了 [EINVAL] 错误。</p>
+<p>应用了 Austin Group 缺陷 1218，增加了 <i>reallocarray</i>()。</p>
+<p>应用了 Austin Group 缺陷 1302，使 <i>realloc</i>() 函数与 ISO/IEC 9899:2018 标准对齐。</p>
+<p>应用了 Austin Group 缺陷 1387，更改了 RATIONALE 部分。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

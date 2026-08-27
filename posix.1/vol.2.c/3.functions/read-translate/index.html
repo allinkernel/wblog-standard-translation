@@ -1,0 +1,230 @@
+<h1>XSH 函数：read()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="read" id="read"></a> <a name="tag_17_476" id="tag_17_476"></a>
+<a name="tag_17_476_01" id="tag_17_476_01"></a><h4>名称</h4>
+<blockquote>pread, read — 从文件读取</blockquote>
+<a name="tag_17_476_02" id="tag_17_476_02"></a><h4>概要</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+ssize_t pread(int</code> <i>fildes</i><code>, void *</code><i>buf</i><code>, size_t</code> <i>nbyte</i><code>, off_t</code>
+<i>offset</i><code>);<br>
+ssize_t read(int</code> <i>fildes</i><code>, void *</code><i>buf</i><code>, size_t</code> <i>nbyte</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_476_03" id="tag_17_476_03"></a><h4>说明</h4>
+<blockquote>
+<p><i>read</i>() 函数应尝试从与打开的文件描述符 <i>fildes</i> 关联的文件中读取 <i>nbyte</i> 个字节，读入由 <i>buf</i> 指向的缓冲区。在同一管道、FIFO 或终端设备上进行多个并发读取的行为未指定。</p>
+<p>在采取下面描述的任何动作之前，如果 <i>nbyte</i> 为零，<i>read</i>() 函数可以检测并返回如下所述的错误。在没有错误的情况下，或者如果没有执行错误检测，<i>read</i>() 函数应返回零且没有其他结果。</p>
+<p>在支持寻址（例如普通文件）的文件上，<i>read</i>() 应从文件中由与 <i>fildes</i> 关联的文件偏移所给定的位置开始。文件偏移应按实际读取的字节数递增。</p>
+<p>不支持寻址的文件——例如终端——总是从当前位置读取。与此类文件关联的文件偏移的值未定义。</p>
+<p>不应发生越过当前文件结尾的数据传输。如果起始位置在文件结尾处或之后，则应返回 0。如果该文件引用的是设备特殊文件，则后续 <i>read</i>() 请求的结果是实现定义的。</p>
+<p>如果 <i>nbyte</i> 的值大于 {SSIZE_MAX}，则结果实现定义。</p>
+<p>当尝试从空的管道或 FIFO 读取时：</p>
+<ul>
+<li>
+<p>如果没有进程将该管道打开用于写入，<i>read</i>() 应返回 0 以表示文件结尾。</p>
+</li>
+<li>
+<p>如果某个进程将该管道打开用于写入且设置了 O_NONBLOCK，<i>read</i>() 应返回 -1 并将 <i>errno</i> 设置为 [EAGAIN]。</p>
+</li>
+<li>
+<p>如果某个进程将该管道打开用于写入且 O_NONBLOCK 被清除，<i>read</i>() 应阻塞调用线程，直到写入了一些数据或所有曾将该管道打开用于写入的进程都关闭了该管道。</p>
+</li>
+</ul>
+<p>当尝试读取一个支持非阻塞读取且当前没有可用数据的文件（管道或 FIFO 除外）时：</p>
+<ul>
+<li>
+<p>如果设置了 O_NONBLOCK，<i>read</i>() 应返回 -1 并将 <i>errno</i> 设置为 [EAGAIN]。</p>
+</li>
+<li>
+<p>如果 O_NONBLOCK 被清除，<i>read</i>() 应阻塞调用线程，直到有一些数据可用。</p>
+</li>
+<li>
+<p>如果有一些数据可用，则使用 O_NONBLOCK 标志没有效果。</p>
+</li>
+</ul>
+<p><i>read</i>() 函数读取先前写入文件的数据。如果文件结尾之前的普通文件的任何部分尚未被写入，<i>read</i>() 应返回值为 0 的字节。例如，lseek() 允许将文件偏移设置到文件中现有数据结尾之后。如果稍后在此位置写入数据，则在先前数据结尾与新写入数据之间的间隙中的后续读取应返回值为 0 的字节，直到数据被写入该间隙。</p>
+<p>在成功完成时，当 <i>nbyte</i> 大于 0 时，<i>read</i>() 应将文件的最后数据访问时间戳标记为需要更新，并应返回读取的字节数。该数字绝不应大于 <i>nbyte</i>。如果文件中剩余的字节数少于 <i>nbyte</i>、<i>read</i>() 请求被信号中断、或者该文件是管道或 FIFO 或特殊文件且立即可供读取的字节少于 <i>nbyte</i>，则返回的值可以小于 <i>nbyte</i>。例如，从与终端关联的文件进行 <i>read</i>() 可以返回一行已键入的数据。</p>
+<p>如果 <i>read</i>() 在读取任何数据之前被信号中断，它应返回 -1，并将 <i>errno</i> 设置为 [EINTR]。</p>
+<p>如果 <i>read</i>() 在成功读取了一些数据之后被信号中断，它应返回读取的字节数。</p>
+<p>对于普通文件，不应发生越过与 <i>fildes</i> 关联的打开文件描述中确立的偏移最大值的数据传输。</p>
+<p>如果 <i>fildes</i> 引用的是套接字，<i>read</i>() 应等同于不设置任何标志的 recv()。</p>
+<p><sup>[SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果已设置 O_DSYNC 和 O_RSYNC 位，则该文件描述符上的读 I/O 操作应按照同步 I/O 数据完整性完成所定义的方式完成。如果已设置 O_SYNC 和 O_RSYNC 位，则该文件描述符上的读 I/O 操作应按照同步 I/O 文件完整性完成所定义的方式完成。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用的是共享内存对象，则 <i>read</i>() 函数的结果未指定。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用的是类型化内存对象，则 <i>read</i>() 函数的结果未指定。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>pread</i>() 函数应等同于 <i>read</i>()，不同之处在于它应从文件中的给定位置读取而不改变文件偏移。<i>pread</i>() 的前三个参数与 <i>read</i>() 相同，另外增加了第四个参数 <i>offset</i> 用于指定文件内的期望位置。尝试在无法寻址的文件上执行 <i>pread</i>() 应导致错误。</p>
+</blockquote>
+<a name="tag_17_476_04" id="tag_17_476_04"></a><h4>返回值</h4>
+<blockquote>
+<p>成功完成后，这些函数应返回一个表示实际读取的字节数的非负整数。否则，这些函数应返回 -1 并设置 <i>errno</i> 以指明错误。</p>
+</blockquote>
+<a name="tag_17_476_05" id="tag_17_476_05"></a><h4>错误</h4>
+<blockquote>
+<p>在以下情况下，这些函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>该文件既不是管道、也不是 FIFO、也不是套接字，为该文件描述符设置了 O_NONBLOCK 标志，且该线程将在读取操作中被延迟。</dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是为读取而打开的有效文件描述符。</dd>
+<dt>[EINTR]</dt>
+<dd>读取操作因收到信号而终止，且没有传输任何数据。</dd>
+<dt>[EIO]</dt>
+<dd>该进程是试图从其控制终端读取的后台进程组的成员，并且要么调用线程正在阻塞 SIGTTIN、要么该进程正在忽略 SIGTTIN、要么该进程的进程组是孤儿进程组。此错误也可以因实现定义的原因而产生。</dd>
+<dt>[EISDIR]</dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>fildes</i> 参数引用的是目录，且实现不允许使用 <i>read</i>() 或 <i>pread</i>() 读取该目录。应改用 readdir() 函数。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EOVERFLOW]</dt>
+<dd>该文件是普通文件，<i>nbyte</i> 大于 0，起始位置在文件结尾之前，且起始位置大于或等于与 <i>fildes</i> 关联的打开文件描述中确立的偏移最大值。</dd>
+</dl>
+<p>在以下情况下，<i>pread</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd>该文件是普通文件或块特殊文件，且 <i>offset</i> 参数为负数。文件偏移应保持不变。</dd>
+<dt>[ESPIPE]</dt>
+<dd>该文件无法寻址。</dd>
+</dl>
+<br>
+<p>在以下情况下，<i>read</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>该文件是管道或 FIFO，为该文件描述符设置了 O_NONBLOCK 标志，且该线程将在读取操作中被延迟。</dd>
+<dt>[EAGAIN] 或 [EWOULDBLOCK]</dt>
+<dd>该文件是套接字，为该文件描述符设置了 O_NONBLOCK 标志，且该线程将在读取操作中被延迟。</dd>
+<dt>[ECONNRESET]</dt>
+<dd>尝试在套接字上进行读取，且连接被其对端强制关闭。</dd>
+<dt>[ENOTCONN]</dt>
+<dd>尝试在未连接的套接字上进行读取。</dd>
+<dt>[ETIMEDOUT]</dt>
+<dd>尝试在套接字上进行读取，且发生了传输超时。</dd>
+</dl>
+<p>在以下情况下，这些函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EIO]</dt>
+<dd>发生了物理 I/O 错误。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>系统中可用于执行该操作的资源不足。</dd>
+<dt>[ENOMEM]</dt>
+<dd>可用于满足该请求的内存不足。</dd>
+<dt>[ENXIO]</dt>
+<dd>对不存在的设备发出了请求，或者该请求超出了设备的能力范围。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_476_06" id="tag_17_476_06"></a><h4>示例</h4>
+<blockquote>
+<a name="tag_17_476_06_01" id="tag_17_476_06_01"></a><h5>将数据读入缓冲区</h5>
+<p>下面的示例将数据从与文件描述符 <i>fd</i> 关联的文件读入由 <i>buf</i> 指向的缓冲区。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+...
+char buf[20];
+size_t nbytes;
+ssize_t bytes_read;
+int fd;
+...
+nbytes = sizeof(buf);
+bytes_read = read(fd, buf, nbytes);
+...</code></pre></blockquote>
+<a name="tag_17_476_07" id="tag_17_476_07"></a><h4>应用程序使用</h4>
+<blockquote>
+<p>不使用。</p>
+</blockquote>
+<a name="tag_17_476_08" id="tag_17_476_08"></a><h4>理由</h4>
+<blockquote>
+<p>POSIX.1-2024 本卷不规定返回错误后文件偏移的值；情况太多。对于编程错误，如 [EBADF]，由于不涉及文件，该概念没有意义。对于立即检测到的错误，如 [EAGAIN]，偏移显然不应改变。然而，在中断或硬件错误之后，更新后的值将非常有用，并且是许多实现的行为。</p>
+<p>注意，读取零字节的 <i>read</i>() 不修改最后数据访问时间戳。请求多于零字节但返回零的 <i>read</i>() 被要求修改最后数据访问时间戳。</p>
+<p>允许但不需要实现为读取零字节的 <i>read</i>() 请求执行错误检查。</p>
+<a name="tag_17_476_08_01" id="tag_17_476_08_01"></a><h5>输入和输出</h5>
+<p>使用大字节计数的 I/O 一直存在问题。诸如 <i>lread</i>() 和 <i>lwrite</i>()（使用并返回 <b>long</b>）之类的想法曾经被考虑过。当前的解决方案是在 ISO C 标准函数 <i>read</i>() 和 write() 上使用抽象类型。可以声明抽象类型以便现有函数可以工作，但也可以声明抽象类型以便在将来的实现中可以表示更大的类型。可以推定，任何限制 <b>size_t</b> 最大范围的约束也把可移植的 I/O 请求限制在相同的范围内。POSIX.1-2024 本卷还通过要求限制字节计数以便带符号的返回值保持有意义，进一步限制了该范围。由于返回类型也是（带符号的）抽象类型，实现可以将字节计数定义为大于 <b>int</b> 所能容纳的值。</p>
+<p>标准制定者考虑过对管道或 FIFO 增加原子性要求，但认识到由于管道和 FIFO 的性质，无法保证 {PIPE_BUF} 或任何其他有助于应用程序可移植性的大小的读取的原子性。</p>
+<p>POSIX.1-2024 本卷要求当 <i>nbyte</i> 为零时，<i>read</i>() 或 write() 不采取任何动作。这并不旨在优先于错误检测（如无效的缓冲区指针或文件描述符）。这与 POSIX.1-2024 本卷的其余部分一致，但这里的措辞可能被误读为要求在检测任何其他错误之前检测零的情况。值零应被视为正确的值，其语义是空操作。</p>
+<p>I/O 旨在对普通文件、管道和 FIFO 是原子的。原子意味着来自单个操作、一开始就一起的所有字节最终一起结束，不会被其他 I/O 操作穿插。众所周知，终端不具备这一属性，并且终端被明确地（并且隐含地永久地）排除在外，使得该行为未指定。其他设备类型的行为也保持未指定，但该措辞旨在暗示将来的标准可能会选择规定原子性（或不规定）。</p>
+<p>曾有人建议向 <i>read</i>() 和 write() 增加格式参数，以处理异构文件系统和基础硬件类型之间的网络化传输。OSI 表示层服务的支持可能需要这样的设施。然而，已确定这应与类似的 C 语言设施对应，而这超出了 POSIX.1-2024 本卷的范围。该概念已被建议给 ISO C 标准的制定者，供他们考虑作为未来工作的可能领域。</p>
+<p>在 4.3 BSD 中，在传输任何数据之前被信号中断的 <i>read</i>() 或 write() 默认不返回 [EINTR] 错误，而是被重新启动。在 4.2 BSD、4.3 BSD 和第八版中，有一个附加函数 select()，其目的是暂停，直到在指定的文件描述符上检测到指定的活动（要读取的数据、要写入的空间等）。在为这些系统编写的应用程序中，常见做法是在希望 I/O 因信号而中断的情况下（如键盘输入），在 <i>read</i>() 之前使用 select()。</p>
+<p>哪些文件或文件类型可被中断的问题被认为是实现设计问题。这通常主要受硬件和可靠性问题的影响。</p>
+<p>没有对在&quot;不可恢复错误&quot;之后采取的动作的引用。描述硬件错误情况下发生什么被认为超出了 POSIX.1-2024 本卷的范围。</p>
+<p>本标准的早期版本在中断的处理方面允许两种截然不同的行为。为了尽量减少由此产生的混乱，决定 POSIX.1-2024 应只支持这些行为中的一种。源自 AT&amp;T 的系统的历史实践是，当所请求的数据传输了一部分但不是全部后被中断时，<i>read</i>() 和 write() 返回 -1 并将 <i>errno</i> 设置为 [EINTR]。然而，美国商务部的 FIPS 151-1 和 FIPS 151-2 要求历史上的 BSD 行为，即 <i>read</i>() 和 write() 返回中断前实际传输的字节数。如果传输了任何数据却返回 -1，则在可寻址设备上很难从错误中恢复，在不可寻址设备上则不可能恢复。大多数新实现支持这种行为。POSIX.1-2024 要求的行为是返回传输的字节数。</p>
+<p>POSIX.1-2024 不规定对 <i>read</i>() 进行缓冲的实现何时实际将数据移入用户提供的缓冲区，因此实现可以选择在最晚可能的时刻这样做。因此，较早到达的中断可能不会导致 <i>read</i>() 返回部分字节计数，而是返回 -1 并将 <i>errno</i> 设置为 [EINTR]。</p>
+<p>还考虑过将先前两个选项结合起来，在返回短计数的同时将 <i>errno</i> 设置为 [EINTR]。然而，不仅没有实现这一点的现有实践，而且这与&quot;当设置了 <i>errno</i> 时，负责的函数应返回 -1&quot;的想法相矛盾。</p>
+<p>POSIX.1-2024 本卷有意不规定与管道、FIFO 和套接字相关的除 [ESPIPE] 之外的任何 <i>pread</i>() 错误。</p>
+</blockquote>
+<a name="tag_17_476_09" id="tag_17_476_09"></a><h4>未来方向</h4>
+<blockquote>
+<p>不使用。</p>
+</blockquote>
+<a name="tag_17_476_10" id="tag_17_476_10"></a><h4>另见</h4>
+<blockquote>
+<p>fcntl(), lseek(), open(), pipe(), readv()</p>
+<p>XBD 11. 通用终端接口, &lt;sys/uio.h&gt;, &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_476_11" id="tag_17_476_11"></a><h4>变更历史</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_476_12" id="tag_17_476_12"></a><h4>第 5 版</h4>
+<blockquote>
+<p>更新了说明部分，以与 POSIX 实时扩展和 POSIX 线程扩展保持一致。</p>
+<p>增加大文件峰会扩展。</p>
+<p>增加 <i>pread</i>() 函数。</p>
+</blockquote>
+<a name="tag_17_476_13" id="tag_17_476_13"></a><h4>第 6 版</h4>
+<blockquote>
+<p>更新了说明和错误部分，以便对 STREAMS 的引用被标记为 XSI STREAMS 选项组的一部分。</p>
+<p>以下对 POSIX 实现的新要求源自与单一 UNIX 规范的一致性：</p>
+<ul>
+<li>
+<p>说明现在规定，如果 <i>read</i>() 在成功读取了一些数据之后被信号中断，它返回读取的字节数。在第 3 版中，<i>read</i>() 是返回读取的字节数、还是返回 -1 并将 <i>errno</i> 设置为 [EINTR] 是可选的。这是一项 FIPS 要求。</p>
+</li>
+<li>
+<p>在说明中，增加了文本以指明对于普通文件，不会发生越过与 <i>fildes</i> 关联的打开文件描述中确立的偏移最大值的数据传输。此更改是为了支持大文件。</p>
+</li>
+<li>
+<p>增加 [EOVERFLOW] 强制错误情况。</p>
+</li>
+<li>
+<p>增加 [ENXIO] 可选错误情况。</p>
+</li>
+</ul>
+<p>在说明中增加了引用套接字的文本。</p>
+<p>为与 IEEE P1003.1a 草案标准保持一致，做了以下更改：</p>
+<ul>
+<li>
+<p>阐明了读取零字节的效果。</p>
+</li>
+</ul>
+<p>更新了说明部分，通过规定 <i>read</i>() 对类型化内存对象的结果未指定，以与 IEEE Std 1003.1j-2000 保持一致。</p>
+<p>增加了新的理由部分以解释输入和输出操作的原子性要求。</p>
+<p>为套接字上的操作增加以下错误情况：[EAGAIN]、[ECONNRESET]、[ENOTCONN] 和 [ETIMEDOUT]。</p>
+<p>[EIO] 错误变为可选的。</p>
+<p>为套接字上的操作增加以下错误情况：[ENOBUFS] 和 [ENOMEM]。</p>
+<p>readv() 函数被拆分到单独的参考页中。</p>
+<p>应用 IEEE Std 1003.1-2001/Cor 2-2004 项目 XSH/TC2/D6/108，将错误部分中的 [EAGAIN] 错误从&quot;进程将被延迟&quot;更新为&quot;线程将被延迟&quot;。</p>
+<p>应用 IEEE Std 1003.1-2001/Cor 2-2004 项目 XSH/TC2/D6/109，在理由部分做了编辑性更正。</p>
+</blockquote>
+<a name="tag_17_476_14" id="tag_17_476_14"></a><h4>第 7 版</h4>
+<blockquote>
+<p><i>pread</i>() 函数从 XSI 选项移至基础部分。</p>
+<p>与 XSI STREAMS 选项相关的功能被标记为过时。</p>
+<p>做了与细粒度时间戳支持相关的更改。</p>
+<p>应用 POSIX.1-2008 技术勘误 1：XSH/TC1-2008/0480 [218]、XSH/TC1-2008/0481 [79]、XSH/TC1-2008/0482 [218]、XSH/TC1-2008/0483 [218]、XSH/TC1-2008/0484 [218] 和 XSH/TC1-2008/0485 [218,428]。</p>
+<p>应用 POSIX.1-2008 技术勘误 2：XSH/TC2-2008/0302 [710] 和 XSH/TC2-2008/0303 [676,710]。</p>
+</blockquote>
+<a name="tag_17_476_15" id="tag_17_476_15"></a><h4>第 8 版</h4>
+<blockquote>
+<p>应用 Austin Group Defect 1330，移除过时的接口。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

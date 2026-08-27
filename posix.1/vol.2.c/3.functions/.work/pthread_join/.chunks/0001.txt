@@ -1,0 +1,52 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pthread_join — wait for thread termination
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]pthread_join[/I5]() function shall suspend execution of the calling thread until the target [I6]thread[/I6] terminates, unless the target [I7]thread[/I7] has already terminated. On return from a successful [I8]pthread_join[/I8]() call with a non-NULL [I9]value_ptr[/I9] argument, the value passed to [A10][I11]pthread_exit[/I11]()[/A10] by the terminating thread shall be made available in the location referenced by [I12]value_ptr[/I12]. When a [I13]pthread_join[/I13]() returns successfully, the target thread has been terminated. The results of multiple simultaneous calls to [I14]pthread_join[/I14]() specifying the same target thread are undefined. If the thread calling [I15]pthread_join[/I15]() is canceled, then the target thread shall not be detached.
+[p_00007] It is unspecified whether a zombie thread counts against {PTHREAD_THREADS_MAX}.
+[p_00008] The behavior is undefined if the value specified by the [I16]thread[/I16] argument to [I17]pthread_join[/I17]() does not refer to a joinable thread.
+[p_00009] The behavior is undefined if the value specified by the [I18]thread[/I18] argument to [I19]pthread_join[/I19]() refers to the calling thread.
+[p_00010] If [I20]thread[/I20] refers to a thread that was created using [A21][I22]thrd_create[/I22]()[/A21] and the thread terminates, or has already terminated, by returning from its start routine, the behavior of [I23]pthread_join[/I23]() is undefined. If [I24]thread[/I24] refers to a thread that terminates, or has already terminated, by calling [A25][I26]thrd_exit[/I26]()[/A25], the behavior of [I27]pthread_join[/I27]() is undefined.
+[h4_00011] [A28][/A28]RETURN VALUE
+[p_00012] If successful, the [I29]pthread_join[/I29]() function shall return zero; otherwise, an error number shall be returned to indicate the error.
+[h4_00013] [A30][/A30]ERRORS
+[p_00014] The [I31]pthread_join[/I31]() function may fail if:
+[dt_00015] [EDEADLK]
+[dd_00016] A deadlock was detected.
+[p_00017] The [I32]pthread_join[/I32]() function shall not return an error code of [EINTR].
+[h4_00018] [A33][/A33]EXAMPLES
+[p_00019] An example of thread creation and deletion follows:
+[h4_00020] [A34][/A34]APPLICATION USAGE
+[p_00021] None.
+[h4_00022] [A35][/A35]RATIONALE
+[p_00023] The [I36]pthread_join[/I36]() function is a convenience that has proven useful in multi-threaded applications. It is true that a programmer could simulate this function if it were not provided by passing extra state as part of the argument to the [I37]start_routine[/I37](). The terminating thread would set a flag to indicate termination and broadcast a condition that is part of that state; a joining thread would wait on that condition variable. While such a technique would allow a thread to wait on more complex conditions (for example, waiting for multiple threads to terminate), waiting on individual thread termination is considered widely useful. Also, including the [I38]pthread_join[/I38]() function in no way precludes a programmer from coding such complex waits. Thus, while not a primitive, including [I39]pthread_join[/I39]() in this volume of POSIX.1-2024 was considered valuable.
+[p_00024] The [I40]pthread_join[/I40]() function provides a simple mechanism allowing an application to wait for a thread to terminate. After the thread terminates, the application may then choose to clean up resources that were used by the thread. For instance, after [I41]pthread_join[/I41]() returns, any application-provided stack storage could be reclaimed.
+[p_00025] The [I42]pthread_join[/I42]() or [A43][I44]pthread_detach[/I44]()[/A43] function should eventually be called for every thread that is created with the [I45]detachstate[/I45] attribute set to PTHREAD_CREATE_JOINABLE so that storage associated with the thread may be reclaimed.
+[p_00026] The interaction between [I46]pthread_join[/I46]() and cancellation is well-defined for the following reasons:
+[p_00027] The [I47]pthread_join[/I47]() function, like all other non-async-cancel-safe functions, can only be called with deferred cancelability type.
+[p_00028] Cancellation cannot occur in the disabled cancelability state.
+[p_00029] Thus, only the default cancelability state need be considered. As specified, either the [I48]pthread_join[/I48]() call is canceled, or it succeeds, but not both. The difference is obvious to the application, since either a cancellation handler is run or [I49]pthread_join[/I49]() returns. There are no race conditions since [I50]pthread_join[/I50]() was called in the deferred cancelability state.
+[p_00030] If an implementation detects that the value specified by the [I51]thread[/I51] argument to [I52]pthread_join[/I52]() does not refer to a joinable thread, it is recommended that the function should fail and report an [EINVAL] error.
+[p_00031] If an implementation detects that the value specified by the [I53]thread[/I53] argument to [I54]pthread_join[/I54]() refers to the calling thread, it is recommended that the function should fail and report an [EDEADLK] error.
+[p_00032] If an implementation detects use of a thread ID after the end of its lifetime, it is recommended that the function should fail and report an [ESRCH] error.
+[p_00033] The [I55]pthread_join[/I55]() function cannot be used to obtain the exit status of a thread that was created using [A56][I57]thrd_create[/I57]()[/A56] and which terminates by returning from its start routine, or of a thread that terminates by calling [A58][I59]thrd_exit[/I59]()[/A58], because such threads have an [B60]int[/B60] exit status, instead of the [B61]void&nbsp;*[/B61] that [I62]pthread_join[/I62]() returns via its [I63]value_ptr[/I63] argument.
+[h4_00034] [A64][/A64]FUTURE DIRECTIONS
+[p_00035] None.
+[h4_00036] [A65][/A65]SEE ALSO
+[p_00037] [A66][I67]pthread_create[/I67]()[/A66], [A68][I69]thrd_create[/I69]()[/A68], [A70][I71]thrd_exit[/I71]()[/A70], [A72][I73]wait[/I73]()[/A72]
+[p_00038] XBD [A74][I75]4.15.2 Memory Synchronization[/I75][/A74], [A76][I77]&lt;pthread.h&gt;[/I77][/A76]
+[h4_00039] [A78][/A78]CHANGE HISTORY
+[p_00040] First released in Issue 5. Included for alignment with the POSIX Threads Extension.
+[h4_00041] [A79][/A79]Issue 6
+[p_00042] The [I80]pthread_join[/I80]() function is marked as part of the Threads option.
+[p_00043] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/97 is applied, updating the ERRORS section so that the [EINVAL] error is made optional and the words &quot;the implementation has detected&quot; are removed from it.
+[h4_00044] [A81][/A81]Issue 7
+[p_00045] The [I82]pthread_join[/I82]() function is moved from the Threads option to the Base.
+[p_00046] Austin Group Interpretation 1003.1-2001 #142 is applied, removing the [ESRCH] error condition.
+[p_00047] The [EINVAL] error for a non-joinable thread is removed; this condition results in undefined behavior.
+[p_00048] The [EDEADLK] error for the calling thread is removed; this condition results in undefined behavior.
+[h4_00049] [A83][/A83]Issue 8
+[p_00050] Austin Group Defect 792 is applied, changing &quot;a thread that has exited but remains unjoined&quot; to &quot;a zombie thread&quot;.
+[p_00051] Austin Group Defect 1302 is applied, updating the page to account for the addition of [A84][I85]&lt;threads.h&gt;[/I85][/A84] interfaces.
+[p_00052] &nbsp;

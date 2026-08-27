@@ -1,0 +1,49 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pthread_key_create — thread-specific data key creation
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]pthread_key_create[/I5]() function shall create a thread-specific data key visible to all threads in the process. Key values provided by [I6]pthread_key_create[/I6]() are opaque objects used to locate thread-specific data. Although the same key value may be used by different threads, the values bound to the key by [A7][I8]pthread_setspecific[/I8]()[/A7] are maintained on a per-thread basis and persist for the life of the calling thread.
+[p_00007] Upon key creation, the value NULL shall be associated with the new key in all active threads. Upon thread creation, the value NULL shall be associated with all defined keys in the new thread.
+[p_00008] An optional destructor function may be associated with each key value. At thread exit, if a key value has a non-NULL destructor pointer, and the thread has a non-NULL value associated with that key, the value of the key is set to NULL, and then the function pointed to is called with the previously associated value as its sole argument. The order of destructor calls is unspecified if more than one destructor exists for a thread when it exits.
+[p_00009] If, after all the destructors have been called for all non-NULL values with associated destructors, there are still some non-NULL values with associated destructors, then the process is repeated. If, after at least {PTHREAD_DESTRUCTOR_ITERATIONS} iterations of destructor calls for outstanding non-NULL values, there are still some non-NULL values with associated destructors, implementations may stop calling destructors, or they may continue calling destructors until no non-NULL values with associated destructors exist, even though this might result in an infinite loop.
+[h4_00010] [A9][/A9]RETURN VALUE
+[p_00011] If successful, the [I10]pthread_key_create[/I10]() function shall store the newly created key value at *[I11]key[/I11] and shall return zero. Otherwise, an error number shall be returned to indicate the error.
+[h4_00012] [A12][/A12]ERRORS
+[p_00013] The [I13]pthread_key_create[/I13]() function shall fail if:
+[dt_00014] [EAGAIN]
+[dd_00015] The system lacked the necessary resources to create another thread-specific data key, or the system-imposed limit on the total number of keys per process {PTHREAD_KEYS_MAX} has been exceeded.
+[dt_00016] [ENOMEM]
+[dd_00017] Insufficient memory exists to create the key.
+[p_00018] The [I14]pthread_key_create[/I14]() function shall not return an error code of [EINTR].
+[h4_00019] [A15][/A15]EXAMPLES
+[p_00020] The following example demonstrates a function that initializes a thread-specific data key when it is first called, and associates a thread-specific object with each calling thread, initializing this object when necessary.
+[p_00021] Note that the key has to be initialized before [A16][I17]pthread_getspecific[/I17]()[/A16] or [A18][I19]pthread_setspecific[/I19]()[/A18] can be used. The [I20]pthread_key_create[/I20]() call could either be explicitly made in a module initialization routine, or it can be done implicitly by the first call to a module as in this example. Any attempt to use the key before it is initialized is a programming error, making the code below incorrect.
+[h4_00022] [A21][/A21]APPLICATION USAGE
+[p_00023] None.
+[h4_00024] [A22][/A22]RATIONALE
+[h5_00025] [A23][/A23]Destructor Functions
+[p_00026] Normally, the value bound to a key on behalf of a particular thread is a pointer to storage allocated dynamically on behalf of the calling thread. The destructor functions specified with [I24]pthread_key_create[/I24]() are intended to be used to free this storage when the thread exits. Thread cancellation cleanup handlers cannot be used for this purpose because thread-specific data may persist outside the lexical scope in which the cancellation cleanup handlers operate.
+[p_00027] If the value associated with a key needs to be updated during the lifetime of the thread, it may be necessary to release the storage associated with the old value before the new value is bound. Although the [A25][I26]pthread_setspecific[/I26]()[/A25] function could do this automatically, this feature is not needed often enough to justify the added complexity. Instead, the programmer is responsible for freeing the stale storage:
+[dt_00028] [B27]Note:[/B27]
+[dd_00029] The above example could leak storage if run with asynchronous cancellation enabled. No such problems occur in the default cancellation state if no cancellation points occur between the get and set.
+[p_00030] There is no notion of a destructor-safe function. If an application does not call [A28][I29]pthread_exit[/I29]()[/A28] from a signal handler, or if it blocks any signal whose handler may call [A30][I31]pthread_exit[/I31]()[/A30] while calling async-unsafe functions, all functions may be safely called from destructors.
+[h5_00031] [A32][/A32]Non-Idempotent Data Key Creation
+[p_00032] There were requests to make [I33]pthread_key_create[/I33]() idempotent with respect to a given [I34]key[/I34] address parameter. This would allow applications to call [I35]pthread_key_create[/I35]() multiple times for a given [I36]key[/I36] address and be guaranteed that only one key would be created. Doing so would require the key value to be previously initialized (possibly at compile time) to a known null value and would require that implicit mutual-exclusion be performed based on the address and contents of the [I37]key[/I37] parameter in order to guarantee that exactly one key would be created.
+[p_00033] Unfortunately, the implicit mutual-exclusion would not be limited to only [I38]pthread_key_create[/I38](). On many implementations, implicit mutual-exclusion would also have to be performed by [A39][I40]pthread_getspecific[/I40]()[/A39] and [A41][I42]pthread_setspecific[/I42]()[/A41] in order to guard against using incompletely stored or not-yet-visible key values. This could significantly increase the cost of important operations, particularly [A43][I44]pthread_getspecific[/I44]()[/A43].
+[p_00034] Thus, this proposal was rejected. The [I45]pthread_key_create[/I45]() function performs no implicit synchronization. It is the responsibility of the programmer to ensure that it is called exactly once per key before use of the key. Several straightforward mechanisms can already be used to accomplish this, including calling explicit module initialization functions, using mutexes, and using [A46][I47]pthread_once[/I47]()[/A46]. This places no significant burden on the programmer, introduces no possibly confusing [I48]ad hoc[/I48] implicit synchronization mechanism, and potentially allows commonly used thread-specific data operations to be more efficient.
+[h4_00035] [A49][/A49]FUTURE DIRECTIONS
+[p_00036] None.
+[h4_00037] [A50][/A50]SEE ALSO
+[p_00038] [A51][I52]pthread_getspecific[/I52]()[/A51], [A53][I54]pthread_key_delete[/I54]()[/A53]
+[p_00039] XBD [A55][I56]&lt;pthread.h&gt;[/I56][/A55]
+[h4_00040] [A57][/A57]CHANGE HISTORY
+[p_00041] First released in Issue 5. Included for alignment with the POSIX Threads Extension.
+[h4_00042] [A58][/A58]Issue 6
+[p_00043] The [I59]pthread_key_create[/I59]() function is marked as part of the Threads option.
+[p_00044] IEEE PASC Interpretation 1003.1c #8 is applied, updating the DESCRIPTION.
+[h4_00045] [A60][/A60]Issue 7
+[p_00046] The [I61]pthread_key_create[/I61]() function is moved from the Threads option to the Base.
+[h4_00047] [A62][/A62]Issue 8
+[p_00048] Austin Group Defect 1059 is applied, changing the example code in the RATIONALE section.
+[p_00049] &nbsp;

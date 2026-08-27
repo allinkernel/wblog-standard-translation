@@ -1,0 +1,111 @@
+<h1>XSH 函数：pthread_cond_signal()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="pthread_cond_broadcast" id="pthread_cond_broadcast"></a> <a name="tag_17_421" id="tag_17_421"></a>
+<a name="tag_17_421_01" id="tag_17_421_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_cond_broadcast、pthread_cond_signal — 广播或发信号通知条件</blockquote>
+<a name="tag_17_421_02" id="tag_17_421_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+int pthread_cond_broadcast(pthread_cond_t *</code><i>cond</i><code>);<br>
+int pthread_cond_signal(pthread_cond_t *</code><i>cond</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_421_03" id="tag_17_421_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p>这些函数应解除阻塞阻塞在条件变量上的线程。</p>
+<p><i>pthread_cond_broadcast</i>() 函数应作为单个原子操作，确定哪些线程（如果有）阻塞在指定条件变量 <i>cond</i> 上，并解除所有这些线程的阻塞。</p>
+<p><i>pthread_cond_signal</i>() 函数应作为单个原子操作，确定哪些线程（如果有）阻塞在指定条件变量 <i>cond</i> 上，并解除这些线程中至少一个的阻塞。</p>
+<p>如果多个线程阻塞在条件变量上，则调度策略应决定线程被解除阻塞的顺序。当由于 <i>pthread_cond_broadcast</i>() 或 <i>pthread_cond_signal</i>() 而被解除阻塞的每个线程从其 pthread_cond_clockwait()、pthread_cond_timedwait() 或 pthread_cond_wait() 调用返回时，该线程应拥有其调用 pthread_cond_clockwait()、pthread_cond_timedwait() 或 pthread_cond_wait() 时所使用的互斥量。被解除阻塞的线程应根据调度策略（如果适用）竞争该互斥量，并且如同每个线程都调用了 pthread_mutex_lock() 一样。</p>
+<p><i>pthread_cond_broadcast</i>() 或 <i>pthread_cond_signal</i>() 函数可以被线程调用，无论该线程当前是否拥有调用 pthread_cond_clockwait()、pthread_cond_timedwait() 或 pthread_cond_wait() 的线程在等待期间与条件变量相关联的互斥量；但是，如果需要可预测的调度行为，则该互斥量应由调用 <i>pthread_cond_broadcast</i>() 或 <i>pthread_cond_signal</i>() 的线程锁定。</p>
+<p>如果 <i>pthread_cond_broadcast</i>() 和 <i>pthread_cond_signal</i>() 函数确定没有线程阻塞在 <i>cond</i> 上，则它们应无效果。</p>
+<p>如果传给 <i>pthread_cond_broadcast</i>() 或 <i>pthread_cond_signal</i>() 的 <i>cond</i> 参数指定的值未引用已初始化的条件变量，则行为未定义。</p>
+</blockquote>
+<a name="tag_17_421_04" id="tag_17_421_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果成功，<i>pthread_cond_broadcast</i>() 和 <i>pthread_cond_signal</i>() 函数应返回零；否则，应返回错误号以指示错误。</p>
+</blockquote>
+<a name="tag_17_421_05" id="tag_17_421_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>这些函数不应返回 [EINTR] 错误码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_421_06" id="tag_17_421_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_421_07" id="tag_17_421_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>每当共享变量状态以多个线程都能继续其任务的方式被更改时，就使用 <i>pthread_cond_broadcast</i>() 函数。考虑单个生产者/多个消费者问题，其中生产者可以在列表上插入多个项目，而消费者每次访问一个项目。通过调用 <i>pthread_cond_broadcast</i>() 函数，生产者将通知所有可能正在等待的消费者，从而应用程序将在多处理器上获得更多吞吐量。此外，<i>pthread_cond_broadcast</i>() 使实现读写锁更容易。当写者释放其锁时，需要 <i>pthread_cond_broadcast</i>() 函数来唤醒所有等待的读者。最后，两阶段提交算法可以使用此广播函数通知所有客户端即将进行的事务提交。</p>
+<p>在被异步调用的信号处理程序中使用 <i>pthread_cond_signal</i>() 函数是不安全的。即使它是安全的，布尔 pthread_cond_wait() 的测试与发信号之间仍会存在无法有效消除的竞争。</p>
+<p>因此，互斥量和条件变量不适合通过在信号处理程序中运行的代码发信号来释放等待线程。</p>
+</blockquote>
+<a name="tag_17_421_08" id="tag_17_421_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>如果实现检测到传给 <i>pthread_cond_broadcast</i>() 或 <i>pthread_cond_signal</i>() 的 <i>cond</i> 参数指定的值未引用已初始化的条件变量，则建议该函数应失败并报告 [EINVAL] 错误。</p>
+<a name="tag_17_421_08_01" id="tag_17_421_08_01"></a><h5>条件信号的多次唤醒 (Multiple Awakenings by Condition Signal)</h5>
+<p>在多处理器上，<i>pthread_cond_signal</i>() 的实现可能无法避免解除阻塞多个阻塞在条件变量上的线程。例如，考虑以下 pthread_cond_wait() 和 <i>pthread_cond_signal</i>() 的部分实现，由两个线程按给定顺序执行。一个线程试图在条件变量上等待，另一个线程并发执行 <i>pthread_cond_signal</i>()，而第三个线程已经在等待。</p>
+<pre><code class="language-plaintext">pthread_cond_wait(mutex, cond):
+    value = cond-&gt;value; /* 1 */
+    pthread_mutex_unlock(mutex); /* 2 */
+    pthread_mutex_lock(cond-&gt;mutex); /* 10 */
+    if (value == cond-&gt;value) { /* 11 */
+        me-&gt;next_cond = cond-&gt;waiter;
+        cond-&gt;waiter = me;
+        pthread_mutex_unlock(cond-&gt;mutex);
+        unable_to_run(me);
+    } else
+        pthread_mutex_unlock(cond-&gt;mutex); /* 12 */
+    pthread_mutex_lock(mutex); /* 13 */
+ 
+pthread_cond_signal(cond):
+    pthread_mutex_lock(cond-&gt;mutex); /* 3 */
+    cond-&gt;value++; /* 4 */
+    if (cond-&gt;waiter) { /* 5 */
+        sleeper = cond-&gt;waiter; /* 6 */
+        cond-&gt;waiter = sleeper-&gt;next_cond; /* 7 */
+        able_to_run(sleeper); /* 8 */
+    }
+    pthread_mutex_unlock(cond-&gt;mutex); /* 9 */</code></pre>
+<p>其效果是，由于一次对 <i>pthread_cond_signal</i>() 的调用，多个线程可以从其对 pthread_cond_clockwait()、pthread_cond_timedwait() 或 pthread_cond_wait() 的调用返回。这种效果被称为 &quot;虚假唤醒&quot;。注意，这种情况是自我纠正的，因为如此被唤醒的线程数量是有限的；例如，在上述事件序列之后下一个调用 pthread_cond_wait() 的线程会阻塞。</p>
+<p>虽然这个问题可以解决，但为了一种很少发生的边缘情况而损失效率是不可接受的，尤其是考虑到无论如何都必须检查与条件变量相关联的谓词。纠正这个问题将不必要地降低这个所有更高级同步操作的基本构建块中的并发程度。</p>
+<p>允许虚假唤醒的一个额外好处是应用程序被迫在条件等待周围编写谓词测试循环。这也使应用程序能够容忍可能在应用程序的其他部分编写的、对同一条件变量的多余条件广播或信号。由此产生的应用程序因此更健壮。因此，POSIX.1-2024 明确记载可能发生虚假唤醒。</p>
+</blockquote>
+<a name="tag_17_421_09" id="tag_17_421_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_421_10" id="tag_17_421_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>pthread_cond_clockwait()、pthread_cond_destroy()</p>
+<p>XBD 4.15.2 内存同步、&lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_421_11" id="tag_17_421_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>第 5 版首次发布。为与 POSIX 线程扩展保持一致而包含。</p>
+</blockquote>
+<a name="tag_17_421_12" id="tag_17_421_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_cond_broadcast</i>() 和 <i>pthread_cond_signal</i>() 函数被标记为 Threads 选项的一部分。</p>
+<p>添加了 APPLICATION USAGE 一节。</p>
+</blockquote>
+<a name="tag_17_421_13" id="tag_17_421_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_cond_broadcast</i>() 和 <i>pthread_cond_signal</i>() 函数从 Threads 选项移至 Base。</p>
+<p>未初始化条件变量的 [EINVAL] 错误被移除；此条件导致未定义行为。</p>
+</blockquote>
+<a name="tag_17_421_14" id="tag_17_421_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 609，添加原子性要求。</p>
+<p>应用了 Austin Group Defect 1216，添加 pthread_cond_clockwait()。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

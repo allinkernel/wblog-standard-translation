@@ -1,0 +1,1083 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_421_01\" id=\"tag_17_421_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "pthread_cond_broadcast, pthread_cond_signal — broadcast or signal a condition",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_421_02\" id=\"tag_17_421_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/pthread.h.html\">pthread.h</a>&gt;<br>\n<br>\nint pthread_cond_broadcast(pthread_cond_t *</tt><i>cond</i><tt>);<br>\nint pthread_cond_signal(pthread_cond_t *</tt><i>cond</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_421_03\" id=\"tag_17_421_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "These functions shall unblock threads blocked on a condition variable.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "The [I5]pthread_cond_broadcast[/I5]() function shall, as a single atomic operation, determine which threads, if any, are blocked\non the specified condition variable [I6]cond[/I6] and unblock all of these threads.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     5
+    ],
+    "text": "The [I7]pthread_cond_signal[/I7]() function shall, as a single atomic operation, determine which threads, if any, are blocked on\nthe specified condition variable [I8]cond[/I8] and unblock at least one of these threads.",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     7
+    ],
+    "text": "If more than one thread is blocked on a condition variable, the scheduling policy shall determine the order in which threads are\nunblocked. When each thread unblocked as a result of a [I9]pthread_cond_broadcast[/I9]() or [I10]pthread_cond_signal[/I10]() returns from\nits call to [A11][I12]pthread_cond_clockwait[/I12]()[/A11], [A13][I14]pthread_cond_timedwait[/I14]()[/A13], or [A15][I16]pthread_cond_wait[/I16]()[/A15], the thread shall own the mutex with which it called [A17][I18]pthread_cond_clockwait[/I18]()[/A17], [A19][I20]pthread_cond_timedwait[/I20]()[/A19], or [A21][I22]pthread_cond_wait[/I22]()[/A21]. The thread(s) that are unblocked shall contend for the mutex\naccording to the scheduling policy (if applicable), and as if each had called [A23][I24]pthread_mutex_lock[/I24]()[/A23].",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A11": {
+      "open": "<a href=\"../functions/pthread_cond_clockwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A13": {
+      "open": "<a href=\"../functions/pthread_cond_timedwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A15": {
+      "open": "<a href=\"../functions/pthread_cond_wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A17": {
+      "open": "<a href=\"../functions/pthread_cond_clockwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"../functions/pthread_cond_timedwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/pthread_cond_wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A23": {
+      "open": "<a href=\"../functions/pthread_mutex_lock.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     9
+    ],
+    "text": "The [I25]pthread_cond_broadcast[/I25]() or [I26]pthread_cond_signal[/I26]() functions may be called by a thread whether or not it\ncurrently owns the mutex that threads calling [A27][I28]pthread_cond_clockwait[/I28]()[/A27], [A29][I30]pthread_cond_timedwait[/I30]()[/A29], or [A31][I32]pthread_cond_wait[/I32]()[/A31] have associated with the condition variable during their\nwaits; however, if predictable scheduling behavior is required, then that mutex shall be locked by the thread calling\n[I33]pthread_cond_broadcast[/I33]() or [I34]pthread_cond_signal[/I34]().",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A27": {
+      "open": "<a href=\"../functions/pthread_cond_clockwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"../functions/pthread_cond_timedwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A31": {
+      "open": "<a href=\"../functions/pthread_cond_wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     11
+    ],
+    "text": "The [I35]pthread_cond_broadcast[/I35]() and [I36]pthread_cond_signal[/I36]() functions shall have no effect if they determine that there\nare no threads blocked on [I37]cond[/I37].",
+    "placeholders": {
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     13
+    ],
+    "text": "The behavior is undefined if the value specified by the [I38]cond[/I38] argument to [I39]pthread_cond_broadcast[/I39]() or\n[I40]pthread_cond_signal[/I40]() does not refer to an initialized condition variable.",
+    "placeholders": {
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A41][/A41]RETURN VALUE",
+    "placeholders": {
+     "A41": {
+      "open": "<a name=\"tag_17_421_04\" id=\"tag_17_421_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "If successful, the [I42]pthread_cond_broadcast[/I42]() and [I43]pthread_cond_signal[/I43]() functions shall return zero; otherwise, an\nerror number shall be returned to indicate the error.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A44][/A44]ERRORS",
+    "placeholders": {
+     "A44": {
+      "open": "<a name=\"tag_17_421_05\" id=\"tag_17_421_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "These functions shall not return an error code of [EINTR].",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00017",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A45][/A45]EXAMPLES",
+    "placeholders": {
+     "A45": {
+      "open": "<a name=\"tag_17_421_06\" id=\"tag_17_421_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00019",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A46][/A46]APPLICATION USAGE",
+    "placeholders": {
+     "A46": {
+      "open": "<a name=\"tag_17_421_07\" id=\"tag_17_421_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "The [I47]pthread_cond_broadcast[/I47]() function is used whenever the shared-variable state has been changed in a way that more than\none thread can proceed with its task. Consider a single producer/multiple consumer problem, where the producer can insert multiple\nitems on a list that is accessed one item at a time by the consumers. By calling the [I48]pthread_cond_broadcast[/I48]() function, the\nproducer would notify all consumers that might be waiting, and thereby the application would receive more throughput on a\nmulti-processor. In addition, [I49]pthread_cond_broadcast[/I49]() makes it easier to implement a read-write lock. The\n[I50]pthread_cond_broadcast[/I50]() function is needed in order to wake up all waiting readers when a writer releases its lock.\nFinally, the two-phase commit algorithm can use this broadcast function to notify all clients of an impending transaction\ncommit.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     3
+    ],
+    "text": "It is not safe to use the [I51]pthread_cond_signal[/I51]() function in a signal handler that is invoked asynchronously. Even if it\nwere safe, there would still be a race between the test of the Boolean [A52][I53]pthread_cond_wait[/I53]()[/A52] that could not be efficiently eliminated.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A52": {
+      "open": "<a href=\"../functions/pthread_cond_wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     5
+    ],
+    "text": "Mutexes and condition variables are thus not suitable for releasing a waiting thread by signaling from code running in a signal\nhandler.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00023",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A54][/A54]RATIONALE",
+    "placeholders": {
+     "A54": {
+      "open": "<a name=\"tag_17_421_08\" id=\"tag_17_421_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "If an implementation detects that the value specified by the [I55]cond[/I55] argument to [I56]pthread_cond_broadcast[/I56]() or\n[I57]pthread_cond_signal[/I57]() does not refer to an initialized condition variable, it is recommended that the function should fail\nand report an [EINVAL] error.",
+    "placeholders": {
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00025",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     45,
+     3
+    ],
+    "text": "[A58][/A58]Multiple Awakenings by Condition Signal",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_421_08_01\" id=\"tag_17_421_08_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     5
+    ],
+    "text": "On a multi-processor, it may be impossible for an implementation of [I59]pthread_cond_signal[/I59]() to avoid the unblocking of more\nthan one thread blocked on a condition variable. For example, consider the following partial implementation of [A60][I61]pthread_cond_wait[/I61]()[/A60] and [I62]pthread_cond_signal[/I62](), executed by two threads in\nthe order given. One thread is trying to wait on the condition variable, another is concurrently executing\n[I63]pthread_cond_signal[/I63](), while a third thread is already waiting.",
+    "placeholders": {
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A60": {
+      "open": "<a href=\"../functions/pthread_cond_wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     9
+    ],
+    "text": "The effect is that more than one thread can return from its call to [A64][I65]pthread_cond_clockwait[/I65]()[/A64], [A66][I67]pthread_cond_timedwait[/I67]()[/A66], or [A68][I69]pthread_cond_wait[/I69]()[/A68] as a result of one call to [I70]pthread_cond_signal[/I70](). This\neffect is called &quot;spurious wakeup&quot;. Note that the situation is self-correcting in that the number of threads that are so awakened\nis finite; for example, the next thread to call [A71][I72]pthread_cond_wait[/I72]()[/A71] after\nthe sequence of events above blocks.",
+    "placeholders": {
+     "A64": {
+      "open": "<a href=\"../functions/pthread_cond_clockwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A66": {
+      "open": "<a href=\"../functions/pthread_cond_timedwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A68": {
+      "open": "<a href=\"../functions/pthread_cond_wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A71": {
+      "open": "<a href=\"../functions/pthread_cond_wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     11
+    ],
+    "text": "While this problem could be resolved, the loss of efficiency for a fringe condition that occurs only rarely is unacceptable,\nespecially given that one has to check the predicate associated with a condition variable anyway. Correcting this problem would\nunnecessarily reduce the degree of concurrency in this basic building block for all higher-level synchronization operations.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     13
+    ],
+    "text": "An added benefit of allowing spurious wakeups is that applications are forced to code a predicate-testing-loop around the\ncondition wait. This also makes the application tolerate superfluous condition broadcasts or signals on the same condition variable\nthat may be coded in some other part of the application. The resulting applications are thus more robust. Therefore, POSIX.1-2024\nexplicitly documents that spurious wakeups may occur.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A73][/A73]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A73": {
+      "open": "<a name=\"tag_17_421_09\" id=\"tag_17_421_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A74][/A74]SEE ALSO",
+    "placeholders": {
+     "A74": {
+      "open": "<a name=\"tag_17_421_10\" id=\"tag_17_421_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A75][I76]pthread_cond_clockwait[/I76]()[/A75], [A77][I78]pthread_cond_destroy[/I78]()[/A77]",
+    "placeholders": {
+     "A75": {
+      "open": "<a href=\"../functions/pthread_cond_clockwait.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"../functions/pthread_cond_destroy.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A79][I80]4.15.2 Memory Synchronization[/I80][/A79], [A81][I82]&lt;pthread.h&gt;[/I82][/A81]",
+    "placeholders": {
+     "A79": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_15_02\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A81": {
+      "open": "<a href=\"../basedefs/pthread.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00035",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A83][/A83]CHANGE HISTORY",
+    "placeholders": {
+     "A83": {
+      "open": "<a name=\"tag_17_421_11\" id=\"tag_17_421_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 5. Included for alignment with the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00037",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A84][/A84]Issue 6",
+    "placeholders": {
+     "A84": {
+      "open": "<a name=\"tag_17_421_12\" id=\"tag_17_421_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "The [I85]pthread_cond_broadcast[/I85]() and [I86]pthread_cond_signal[/I86]() functions are marked as part of the Threads option.",
+    "placeholders": {
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3
+    ],
+    "text": "The APPLICATION USAGE section is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00040",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A87][/A87]Issue 7",
+    "placeholders": {
+     "A87": {
+      "open": "<a name=\"tag_17_421_13\" id=\"tag_17_421_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "The [I88]pthread_cond_broadcast[/I88]() and [I89]pthread_cond_signal[/I89]() functions are moved from the Threads option to the\nBase.",
+    "placeholders": {
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     3
+    ],
+    "text": "The [EINVAL] error for an uninitialized condition variable is removed; this condition results in undefined behavior.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00043",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     67
+    ],
+    "text": "[A90][/A90]Issue 8",
+    "placeholders": {
+     "A90": {
+      "open": "<a name=\"tag_17_421_14\" id=\"tag_17_421_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     69,
+     1
+    ],
+    "text": "Austin Group Defect 609 is applied, adding atomicity requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     69,
+     3
+    ],
+    "text": "Austin Group Defect 1216 is applied, adding [A91][I92]pthread_cond_clockwait[/I92]()[/A91].",
+    "placeholders": {
+     "A91": {
+      "open": "<a href=\"../functions/pthread_cond_clockwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     75
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

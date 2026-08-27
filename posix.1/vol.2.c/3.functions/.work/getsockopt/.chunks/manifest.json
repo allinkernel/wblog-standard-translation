@@ -1,0 +1,931 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_236_01\" id=\"tag_17_236_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "getsockopt — get the socket options",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_236_02\" id=\"tag_17_236_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/sys_socket.h.html\">sys/socket.h</a>&gt;<br>\n<br>\nint getsockopt(int</tt> <i>socket</i><tt>, int</tt> <i>level</i><tt>, int</tt> <i>option_name,</i> <tt><br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void *restrict</tt> <i>option_value</i><tt>, socklen_t *restrict</tt>\n<i>option_len</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_236_03\" id=\"tag_17_236_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]getsockopt[/I5]() function manipulates options associated with a socket.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "The [I6]getsockopt[/I6]() function shall retrieve the value for the option specified by the [I7]option_name[/I7] argument for the\nsocket specified by the [I8]socket[/I8] argument. If the size of the option value is greater than [I9]option_len[/I9], the value stored\nin the object pointed to by the [I10]option_value[/I10] argument shall be silently truncated. Otherwise, the object pointed to by the\n[I11]option_len[/I11] argument shall be modified to indicate the actual length of the value.",
+    "placeholders": {
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     5
+    ],
+    "text": "The [I12]level[/I12] argument specifies the protocol level at which the option resides. To retrieve options at the socket level,\nspecify the [I13]level[/I13] argument as SOL_SOCKET. To retrieve options at other levels, supply the appropriate level identifier for\nthe protocol controlling the option. For example, to indicate that an option is interpreted by the TCP (Transmission Control\nProtocol), set [I14]level[/I14] to IPPROTO_TCP as defined in the [A15][I16]&lt;netinet/in.h&gt;[/I16][/A15] header.",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A15": {
+      "open": "<a href=\"../basedefs/netinet_in.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     7
+    ],
+    "text": "The socket in use may require the process to have appropriate privileges to use the [I17]getsockopt[/I17]() function.",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     9
+    ],
+    "text": "The [I18]option_name[/I18] argument specifies a single option to be retrieved. It can be one of the socket-level options defined in\n[A19][I20]&lt;sys/socket.h&gt;[/I20][/A19] and described in [A21][I22]2.10.16 Use of Options[/I22][/A21].",
+    "placeholders": {
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"../basedefs/sys_socket.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_10_16\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00011",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A23][/A23]RETURN VALUE",
+    "placeholders": {
+     "A23": {
+      "open": "<a name=\"tag_17_236_04\" id=\"tag_17_236_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I24]getsockopt[/I24]() shall return 0; otherwise, -1 shall be returned and [I25]errno[/I25] set to indicate\nthe error.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A26][/A26]ERRORS",
+    "placeholders": {
+     "A26": {
+      "open": "<a name=\"tag_17_236_05\" id=\"tag_17_236_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I27]getsockopt[/I27]() function shall fail if:",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00015",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     3
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00016",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     5
+    ],
+    "text": "The [I28]socket[/I28] argument is not a valid file descriptor.",
+    "placeholders": {
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     7
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00018",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     9
+    ],
+    "text": "The specified option is invalid at the specified socket level.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00019",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     11
+    ],
+    "text": "[ENOPROTOOPT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00020",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     13
+    ],
+    "text": "The option is not supported by the protocol.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00021",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     15
+    ],
+    "text": "[ENOTSOCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00022",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     17
+    ],
+    "text": "The [I29]socket[/I29] argument does not refer to a socket.",
+    "placeholders": {
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     5
+    ],
+    "text": "The [I30]getsockopt[/I30]() function may fail if:",
+    "placeholders": {
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     5
+    ],
+    "text": "The calling process does not have appropriate privileges.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     7
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     9
+    ],
+    "text": "The socket has been shut down.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     11
+    ],
+    "text": "[ENOBUFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00029",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     13
+    ],
+    "text": "Insufficient resources are available in the system to complete the function.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A31][/A31]EXAMPLES",
+    "placeholders": {
+     "A31": {
+      "open": "<a name=\"tag_17_236_06\" id=\"tag_17_236_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A32][/A32]APPLICATION USAGE",
+    "placeholders": {
+     "A32": {
+      "open": "<a name=\"tag_17_236_07\" id=\"tag_17_236_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A33][/A33]RATIONALE",
+    "placeholders": {
+     "A33": {
+      "open": "<a name=\"tag_17_236_08\" id=\"tag_17_236_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A34][/A34]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A34": {
+      "open": "<a name=\"tag_17_236_09\" id=\"tag_17_236_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00038",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A35][/A35]SEE ALSO",
+    "placeholders": {
+     "A35": {
+      "open": "<a name=\"tag_17_236_10\" id=\"tag_17_236_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A36][I37]2.10.16 Use of Options[/I37][/A36], [A38][I39]bind[/I39]()[/A38], [A40][I41]close[/I41]()[/A40], [A42][I43]endprotoent[/I43]()[/A42], [A44][I45]setsockopt[/I45]()[/A44],\n[A46][I47]socket[/I47]()[/A46]",
+    "placeholders": {
+     "A36": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_10_16\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A38": {
+      "open": "<a href=\"../functions/bind.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A40": {
+      "open": "<a href=\"../functions/close.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A42": {
+      "open": "<a href=\"../functions/endprotoent.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A44": {
+      "open": "<a href=\"../functions/setsockopt.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A46": {
+      "open": "<a href=\"../functions/socket.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A48][I49]&lt;sys/socket.h&gt;[/I49][/A48], [A50][I51]&lt;netinet/in.h&gt;[/I51][/A50]",
+    "placeholders": {
+     "A48": {
+      "open": "<a href=\"../basedefs/sys_socket.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A50": {
+      "open": "<a href=\"../basedefs/netinet_in.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00041",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A52][/A52]CHANGE HISTORY",
+    "placeholders": {
+     "A52": {
+      "open": "<a name=\"tag_17_236_11\" id=\"tag_17_236_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 6. Derived from the XNS, Issue 5.2 specification.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     3
+    ],
+    "text": "The [B53]restrict[/B53] keyword is added to the [I54]getsockopt[/I54]() prototype for alignment with the ISO/IEC&nbsp;9899:1999\nstandard.",
+    "placeholders": {
+     "B53": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     5
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/47 is applied, updating the description of SO_LINGER in the\nDESCRIPTION so that it blocks the calling thread rather than the process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00045",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A55][/A55]Issue 7",
+    "placeholders": {
+     "A55": {
+      "open": "<a name=\"tag_17_236_12\" id=\"tag_17_236_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #158 is applied, removing text relating to socket options that is now in [A56][I57]2.10.16 Use of Options[/I57][/A56].",
+    "placeholders": {
+     "A56": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_10_16\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     67
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

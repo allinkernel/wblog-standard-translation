@@ -1,0 +1,36 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pthread_exit — thread termination
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]pthread_exit[/I5]() function shall terminate the calling thread and make the value [I6]value_ptr[/I6] available to any successful join with the terminating thread. Any cancellation cleanup handlers that have been pushed and not yet popped shall be popped in the reverse order that they were pushed and then executed. After all cancellation cleanup handlers have been executed, if the thread has any thread-specific data (whether associated with key type [B7]tss_t[/B7] or [B8]pthread_key_t[/B8]), appropriate destructor functions shall be called in an unspecified order. Thread termination does not release any application visible process resources, including, but not limited to, mutexes and file descriptors, nor does it perform any process-level cleanup actions, including, but not limited to, calling any [A9][I10]atexit[/I10]()[/A9] routines that may exist.
+[p_00007] An implicit call to [I11]pthread_exit[/I11]() is made when a thread that was not created using [A12][I13]thrd_create[/I13]()[/A12], and is not the thread in which [I14]main[/I14]() was first invoked, returns from the start routine that was used to create it. The function's return value shall serve as the thread's exit status.
+[p_00008] The behavior of [I15]pthread_exit[/I15]() is undefined if called from a cancellation cleanup handler or destructor function that was invoked as a result of either an implicit or explicit call to [I16]pthread_exit[/I16]().
+[p_00009] After a thread has terminated, the result of access to local (auto) variables of the thread is undefined. Thus, references to local variables of the exiting thread should not be used for the [I17]pthread_exit[/I17]() [I18]value_ptr[/I18] parameter value.
+[p_00010] The process shall exit with an exit status of 0 after the last thread has been terminated. The behavior shall be as if the implementation called [A19][I20]exit[/I20]()[/A19] with a zero argument at thread termination time.
+[h4_00011] [A21][/A21]RETURN VALUE
+[p_00012] The [I22]pthread_exit[/I22]() function cannot return to its caller.
+[h4_00013] [A23][/A23]ERRORS
+[p_00014] No errors are defined.
+[h4_00015] [A24][/A24]EXAMPLES
+[p_00016] None.
+[h4_00017] [A25][/A25]APPLICATION USAGE
+[p_00018] Calls to [I26]pthread_exit[/I26]() should not be made from threads created using [A27][I28]thrd_create[/I28]()[/A27], as their exit status has a different type ([B29]int[/B29] instead of [B30]void *[/B30]). If [I31]pthread_exit[/I31]() is called from the initial thread and it is not the last thread to terminate, other threads should not try to obtain its exit status using [A32][I33]thrd_join[/I33]()[/A32].
+[h4_00019] [A34][/A34]RATIONALE
+[p_00020] The normal mechanism by which a thread that was started using [A35][I36]pthread_create[/I36]()[/A35] terminates is to return from the routine that was specified in the [A37][I38]pthread_create[/I38]()[/A37] call that started it. The [I39]pthread_exit[/I39]() function provides the capability for a thread to terminate without requiring a return from the start routine of that thread, thereby providing a function analogous to [A40][I41]exit[/I41]()[/A40].
+[p_00021] Regardless of the method of thread termination, any cancellation cleanup handlers that have been pushed and not yet popped are executed, and the destructors for any existing thread-specific data are executed. This volume of POSIX.1-2024 requires that cancellation cleanup handlers be popped and called in order. After all cancellation cleanup handlers have been executed, thread-specific data destructors are called, in an unspecified order, for each item of thread-specific data that exists in the thread. This ordering is necessary because cancellation cleanup handlers may rely on thread-specific data.
+[p_00022] As the meaning of the status is determined by the application (except when the thread has been canceled, in which case it is PTHREAD_CANCELED), the implementation has no idea what an illegal status value is, which is why no address error checking is done.
+[h4_00023] [A42][/A42]FUTURE DIRECTIONS
+[p_00024] None.
+[h4_00025] [A43][/A43]SEE ALSO
+[p_00026] [A44][I45]exit[/I45]()[/A44], [A46][I47]pthread_create[/I47]()[/A46], [A48][I49]pthread_join[/I49]()[/A48], [A50][I51]pthread_key_create[/I51]()[/A50], [A52][I53]thrd_create[/I53]()[/A52], [A54][I55]thrd_exit[/I55]()[/A54], [A56][I57]tss_create[/I57]()[/A56]
+[p_00027] XBD [A58][I59]&lt;pthread.h&gt;[/I59][/A58]
+[h4_00028] [A60][/A60]CHANGE HISTORY
+[p_00029] First released in Issue 5. Included for alignment with the POSIX Threads Extension.
+[h4_00030] [A61][/A61]Issue 6
+[p_00031] The [I62]pthread_exit[/I62]() function is marked as part of the Threads option.
+[h4_00032] [A63][/A63]Issue 7
+[p_00033] The [I64]pthread_exit[/I64]() function is moved from the Threads option to the Base.
+[h4_00034] [A65][/A65]Issue 8
+[p_00035] Austin Group Defect 1302 is applied, adding [CODE66] to the SYNOPSIS, and updating the page to account for the addition of [A67][I68]&lt;threads.h&gt;[/I68][/A67] interfaces.
+[p_00036] &nbsp;

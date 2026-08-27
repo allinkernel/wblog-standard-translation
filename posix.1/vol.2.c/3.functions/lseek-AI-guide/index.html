@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：lseek()</h1>
+
+<h2>0. 总览</h2>
+<p>lseek() 移动与文件描述符关联的打开文件描述的文件偏移，即设置后续 read()/write() 的起始位置。所属头文件为 <code>&lt;unistd.h&gt;</code>。原型关键点：<code>off_t lseek(int fildes, off_t offset, int whence);</code> —— 成功返回结果偏移（距文件开头的字节数），失败返回 -1 且文件偏移保持不变。</p>
+
+<h2>1. 机制</h2>
+<p>whence 决定偏移的计算基准，符号常量定义于 <code>&lt;unistd.h&gt;</code>：SEEK_SET 设为 offset 字节；SEEK_CUR 设为其当前位置加上 offset；SEEK_END 设为文件大小加上 offset。偏移可以被设置到现有数据末尾之外，lseek() 本身不扩展文件大小——直到稍后写入数据，间隙中的读取返回 0 值字节。洞（hole）是文件内所有字节值均为零的连续区域；并非所有零字节都必须是洞，但所有可寻址文件都有一个从当前文件大小开始的虚拟洞。SEEK_HOLE 将偏移设为洞内不小于 offset 的最小字节位置（若 offset 落在非洞最后字节之后可设为文件大小）；SEEK_DATA 设为不在洞内且不小于 offset 的最小字节位置；两者在 offset 大于等于文件大小时都是错误（[ENXIO]）。在管道、FIFO 或套接字上调用返回 [ESPIPE]；无法寻址设备上的行为是实现定义的。</p>
+
+<h2>2. 易错点</h2>
+<p><b>返回值 -1 可能是合法偏移</b>：规范特意要求普通文件、块特殊文件或目录上结果偏移为负时设置 [EINVAL]，以消除歧义；调用前应清 errno 再检查。结果偏移无法在 off_t 中表示时返回 [EOVERFLOW]。whence 必须是 SEEK_SET/SEEK_CUR/SEEK_END/SEEK_HOLE/SEEK_DATA 之一，否则 [EINVAL]。对共享内存对象、类型化内存对象结果未指定。注意 lseek() 移动的是打开文件描述共有的偏移：dup() 出的描述符与原件共享同一偏移。多线程对同一描述符的 lseek+read/write 不是原子的，这正是 pread()/pwrite() 存在的意义。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+
+off_t pos;
+int fd; /* 普通文件描述符 */
+
+/* 移到文件末尾以便追加读取大小信息 */
+errno = 0;
+pos = lseek(fd, 0, SEEK_END);
+if (pos == (off_t)-1) {
+    /* 错误：errno 为 ESPIPE（管道）、EINVAL（负偏移）等 */
+}
+/* pos 现在等于文件大小，且未扩展文件 */
+</code></pre>

@@ -1,0 +1,1496 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_493_01\" id=\"tag_17_493_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "rmdir — remove a directory",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_493_02\" id=\"tag_17_493_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nint rmdir(const char *</tt><i>path</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_493_03\" id=\"tag_17_493_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]rmdir[/I5]() function shall remove a directory whose name is given by [I6]path[/I6]. The directory shall be removed only if\nit is an empty directory.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "If the directory is the root directory or the current working directory of any process, it is unspecified whether the function\nsucceeds, or whether it shall fail and set [I7]errno[/I7] to [EBUSY].",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "If [I8]path[/I8] names a symbolic link, then [I9]rmdir[/I9]() shall fail and set [I10]errno[/I10] to [ENOTDIR].",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "If the [I11]path[/I11] argument refers to a path whose final component is either dot or dot-dot, [I12]rmdir[/I12]() shall fail.",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If the directory's link count becomes 0 and no process has the directory open, the space occupied by the directory shall be\nfreed and the directory shall no longer be accessible. If one or more processes have the directory open when the last link is\nremoved, the dot and dot-dot entries, if present, shall be removed before [I13]rmdir[/I13]() returns and no new entries may be created\nin the directory, but the directory shall not be removed until all references to the directory are closed.",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If the directory is not an empty directory, [I14]rmdir[/I14]() shall fail and set [I15]errno[/I15] to [EEXIST] or [ENOTEMPTY].",
+    "placeholders": {
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "Upon successful completion, [I16]rmdir[/I16]() shall mark for update the last data modification and last file status change\ntimestamps of the parent directory.",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A17][/A17]RETURN VALUE",
+    "placeholders": {
+     "A17": {
+      "open": "<a name=\"tag_17_493_04\" id=\"tag_17_493_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, the function [I18]rmdir[/I18]() shall return 0. Otherwise, -1 shall be returned, and [I19]errno[/I19] set to\nindicate the error. If -1 is returned, the named directory shall not be changed.",
+    "placeholders": {
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A20][/A20]ERRORS",
+    "placeholders": {
+     "A20": {
+      "open": "<a name=\"tag_17_493_05\" id=\"tag_17_493_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I21]rmdir[/I21]() function shall fail if:",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00018",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "Search permission is denied on a component of the path prefix, or write permission is denied on the parent directory of the\ndirectory to be removed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00019",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EBUSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00020",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The directory to be removed is currently in use by the system or some process and the implementation considers this to be an\nerror.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00021",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EEXIST]&nbsp;or&nbsp;[ENOTEMPTY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00022",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "The [I22]path[/I22] argument names a directory that is not an empty directory, or there are hard links to the directory other than dot\nor a single entry in dot-dot.",
+    "placeholders": {
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00023",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00024",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "The [I23]path[/I23] argument contains a last component that is dot.",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00025",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00026",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "A physical I/O error has occurred.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00027",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00028",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "A loop exists in symbolic links encountered during resolution of the [I24]path[/I24] argument.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00029",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00030",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "The length of a component of a pathname is longer than {NAME_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00031",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00032",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "A component of [I25]path[/I25] does not name an existing file, or the [I26]path[/I26] argument names a nonexistent directory or points\nto an empty string.",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00033",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     35
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00034",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     37
+    ],
+    "text": "A component of [I27]path[/I27] names an existing file that is neither a directory nor a symbolic link to a directory.",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00035",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     39
+    ],
+    "text": "[EPERM]&nbsp;or&nbsp;[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00036",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     41
+    ],
+    "text": "[S28][[A29]XSI[/A29]][/S28] [IMG30]\n\nThe S_ISVTX flag is set on the directory containing the file referred to by the [I31]path[/I31] argument and the process does not\nsatisfy the criteria specified in XBD [A32][I33]4.5 Directory Protection[/I33][/A32].\n[IMG34]",
+    "placeholders": {
+     "S28": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG30": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A32": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG34": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00037",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     43
+    ],
+    "text": "[EROFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00038",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     45
+    ],
+    "text": "The directory entry to be removed resides on a read-only file system.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I35]rmdir[/I35]() function may fail if:",
+    "placeholders": {
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00040",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00041",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I36]path[/I36] argument.",
+    "placeholders": {
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00042",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00043",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00044",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A37][/A37]EXAMPLES",
+    "placeholders": {
+     "A37": {
+      "open": "<a name=\"tag_17_493_06\" id=\"tag_17_493_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00045",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A38][/A38]Removing a Directory",
+    "placeholders": {
+     "A38": {
+      "open": "<a name=\"tag_17_493_06_01\" id=\"tag_17_493_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example shows how to remove a directory named [B39]/home/cnd/mod1[/B39].",
+    "placeholders": {
+     "B39": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00047",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A40][/A40]APPLICATION USAGE",
+    "placeholders": {
+     "A40": {
+      "open": "<a name=\"tag_17_493_07\" id=\"tag_17_493_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00049",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A41][/A41]RATIONALE",
+    "placeholders": {
+     "A41": {
+      "open": "<a name=\"tag_17_493_08\" id=\"tag_17_493_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The [I42]rmdir[/I42]() and [A43][I44]rename[/I44]()[/A43] functions originated in 4.2 BSD, and they used\n[ENOTEMPTY] for the condition when the directory to be removed does not exist or [I45]new[/I45] already exists. When the 1984\n/usr/group standard was published, it contained [EEXIST] instead. When these functions were adopted into System V, the 1984\n/usr/group standard was used as a reference. Therefore, several existing applications and implementations support/use both forms,\nand no agreement could be reached on either value. All implementations are required to supply both [EEXIST] and [ENOTEMPTY] in\n[A46][I47]&lt;errno.h&gt;[/I47][/A46] with distinct values, so that applications can use both values in\nC-language [B48]case[/B48] statements.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/rename.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A46": {
+      "open": "<a href=\"../basedefs/errno.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B48": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The meaning of deleting [I49]pathname[/I49][B50]/dot[/B50] is unclear, because the name of the file (directory) in the parent directory\nto be removed is not clear, particularly in the presence of multiple links to a directory.",
+    "placeholders": {
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B50": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "The POSIX.1-1990 standard was silent with regard to the behavior of [I51]rmdir[/I51]() when there are multiple hard links to the\ndirectory being removed. The requirement to set [I52]errno[/I52] to [EEXIST] or [ENOTEMPTY] clarifies the behavior in this case.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "If the current working directory of the process is being removed, that should be an allowed error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "Virtually all existing implementations detect [ENOTEMPTY] or the case of dot-dot. The text in [A53][I54]2.3 Error Numbers[/I54][/A53] about returning any one of the possible errors permits that\nbehavior to continue. The [ELOOP] error may be returned if more than {SYMLOOP_MAX} symbolic links are encountered during resolution\nof the [I55]path[/I55] argument.",
+    "placeholders": {
+     "A53": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_03\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00055",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A56][/A56]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A56": {
+      "open": "<a name=\"tag_17_493_09\" id=\"tag_17_493_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00057",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A57][/A57]SEE ALSO",
+    "placeholders": {
+     "A57": {
+      "open": "<a name=\"tag_17_493_10\" id=\"tag_17_493_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A58][I59]2.3 Error Numbers[/I59][/A58], [A60][I61]mkdir[/I61]()[/A60], [A62][I63]remove[/I63]()[/A62], [A64][I65]rename[/I65]()[/A64], [A66][I67]unlink[/I67]()[/A66]",
+    "placeholders": {
+     "A58": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_03\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A60": {
+      "open": "<a href=\"../functions/mkdir.html#tag_17_338\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A62": {
+      "open": "<a href=\"../functions/remove.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A64": {
+      "open": "<a href=\"../functions/rename.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A66": {
+      "open": "<a href=\"../functions/unlink.html#tag_17_649\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A68][I69]4.5 Directory Protection[/I69][/A68], [A70][I71]&lt;unistd.h&gt;[/I71][/A70]",
+    "placeholders": {
+     "A68": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00060",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A72][/A72]CHANGE HISTORY",
+    "placeholders": {
+     "A72": {
+      "open": "<a name=\"tag_17_493_11\" id=\"tag_17_493_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00061",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 3. Included for alignment with the POSIX.1-1988 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00062",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A73][/A73]Issue 6",
+    "placeholders": {
+     "A73": {
+      "open": "<a name=\"tag_17_493_12\" id=\"tag_17_493_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00064",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3,
+     1,
+     1
+    ],
+    "text": "The DESCRIPTION is updated to indicate the results of naming a symbolic link in [I74]path[/I74].",
+    "placeholders": {
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3,
+     3,
+     1
+    ],
+    "text": "The [EIO] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3,
+     5,
+     1
+    ],
+    "text": "The [ELOOP] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3,
+     7,
+     1
+    ],
+    "text": "A second [ENAMETOOLONG] is added as an optional error condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00068",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     7,
+     1,
+     1
+    ],
+    "text": "The [ELOOP] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00070",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A75][/A75]Issue 7",
+    "placeholders": {
+     "A75": {
+      "open": "<a name=\"tag_17_493_13\" id=\"tag_17_493_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #181 is applied, updating the requirements for operations when the S_ISVTX bit is\nset.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00074",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0519 [324] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

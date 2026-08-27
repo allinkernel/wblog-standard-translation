@@ -1,0 +1,261 @@
+<h1>XSH 函数：unlink()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="unlink" id="unlink"></a> <a name="tag_17_649" id="tag_17_649"></a>
+<a name="tag_17_649_01" id="tag_17_649_01"></a><h4>名称 (NAME)</h4>
+<blockquote>unlink、unlinkat — 移除目录项</blockquote>
+<a name="tag_17_649_02" id="tag_17_649_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+int unlink(const char *</code><i>path</i><code>);<br>
+<br>
+<sup>[OH]</sup> <img src="../images/opt-start.gif" alt="图片">#include
+&lt;fcntl.h&gt;<img src="../images/opt-end.gif" alt="图片"><br>
+<br>
+int unlinkat(int</code> <i>fd</i><code>, const char *</code><i>path</i><code>, int</code> <i>flag</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_649_03" id="tag_17_649_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>unlink</i>() 函数应移除由 <i>path</i> 命名的目录项，并应递减该目录项所引用的文件的链接计数。如果 <i>path</i> 命名一个符号链接，<i>unlink</i>() 应移除该符号链接，并且不应影响由该符号链接的内容命名的任何文件。</p>
+<p>当文件的链接计数变为 0 且没有进程通过打开的文件描述符或内存映射（参见 mmap()）引用该文件时，文件占用的空间应被释放，并且该文件应不再可访问。如果移除最后一个链接时有一个或多个进程对文件有这样的引用，则链接应在 <i>unlink</i>() 返回之前被移除，但文件内容的移除应推迟到不再存在对该文件的此类引用时。当文件占用的空间已被释放时，文件的序列号（<i>st_ino</i>），从而文件身份（参见 XBD &lt;sys/stat.h&gt;），应变得可供重用。</p>
+<p><i>path</i> 参数不应命名目录，除非进程具有适当的特权并且实现支持对目录使用 <i>unlink</i>()。</p>
+<p>成功完成后，<i>unlink</i>() 应将父目录的最后数据修改和最后文件状态更改时间戳标记为需要更新。此外，如果文件的链接计数不为 0，则应将文件的最后文件状态更改时间戳标记为需要更新。</p>
+<p><i>unlinkat</i>() 函数应与 <i>unlink</i>() 或 rmdir() 函数等价，但 <i>path</i> 指定相对路径的情况除外。在这种情况下，要移除的目录项是相对于与文件描述符 <i>fd</i> 相关联的目录确定的，而不是相对于当前工作目录。如果与文件描述符相关联的打开文件描述的访问模式不是 O_SEARCH，则函数应使用文件描述符底层目录的当前权限检查是否允许目录搜索。如果访问模式是 O_SEARCH，则函数不应执行该检查。</p>
+<p><i>flag</i> 的值由以下列表中的标志按位包含 OR 构成，这些标志定义在 &lt;fcntl.h&gt; 中：</p>
+<dl compact="None">
+<dd></dd>
+<dt>AT_REMOVEDIR</dt>
+<dd>将 <i>fd</i> 和 <i>path</i> 指定的目录项作为目录而非普通文件移除。</dd>
+</dl>
+<p>如果在 <i>fd</i> 参数中向 <i>unlinkat</i>() 传入特殊值 AT_FDCWD，则应使用当前工作目录，并且行为应分别与调用 <i>unlink</i>() 或 rmdir() 相同，具体取决于 <i>flag</i> 中是否设置了 AT_REMOVEDIR 位。</p>
+</blockquote>
+<a name="tag_17_649_04" id="tag_17_649_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，这些函数应返回 0。否则，这些函数应返回 -1 并设置 <i>errno</i> 以指示错误。如果返回 -1，则所命名的文件不应被更改。</p>
+</blockquote>
+<a name="tag_17_649_05" id="tag_17_649_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，这些函数应失败并且不应 unlink 该文件：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>路径前缀的某个组件被拒绝搜索权限，或者包含要移除的目录项的目录被拒绝写权限。</dd>
+<dt>[EBUSY]</dt>
+<dd>由 <i>path</i> 参数命名的文件无法被 unlink，因为它正被系统或另一进程使用，并且实现认为这是一个错误。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接中存在循环。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的某个组件的长度长于 {NAME_MAX}。</dd>
+<dt>[ENOENT]</dt>
+<dd><i>path</i> 的某个组件没有命名一个现有文件，或者 <i>path</i> 是空字符串。</dd>
+<dt>[ENOTDIR]</dt>
+<dd>路径前缀的某个组件命名了一个既不是目录也不是指向目录的符号链接的现有文件，或者 <i>path</i> 参数包含至少一个非 &lt;slash&gt; 字符并以一个或多个尾部 &lt;slash&gt; 字符结尾，并且最后一个路径名组件命名了一个既不是目录也不是指向目录的符号链接的现有文件。</dd>
+<dt>[EPERM] 或 [EACCES]</dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  包含 <i>path</i> 参数所引用的文件的目录上设置了 S_ISVTX 标志，并且进程不满足 XBD 4.5 目录保护 中规定的条件。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EROFS]</dt>
+<dd>要 unlink 的目录项是只读文件系统的一部分。</dd>
+</dl>
+<p>在以下情况下，<i>unlink</i>() 函数应失败并且不应 unlink 该文件：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EPERM]</dt>
+<dd>由 <i>path</i> 命名的文件是目录，并且调用进程不具有适当的特权，或者实现禁止对目录使用 <i>unlink</i>()。</dd>
+</dl>
+<p>在以下情况下，<i>unlinkat</i>() 函数应失败并且不应 unlink 该文件：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>与 <i>fd</i> 相关联的打开文件描述的访问模式不是 O_SEARCH，并且 <i>fd</i> 底层目录的权限不允许目录搜索。</dd>
+<dt>[EBADF]</dt>
+<dd><i>path</i> 参数没有指定绝对路径，并且 <i>fd</i> 参数既不是 AT_FDCWD，也不是为读或搜索而打开的有效文件描述符。</dd>
+<dt>[ENOTDIR]</dt>
+<dd><i>path</i> 参数不是绝对路径，并且 <i>fd</i> 是与非目录文件相关联的文件描述符。</dd>
+<dt>[EEXIST] 或 [ENOTEMPTY]</dt>
+<dd><i>flag</i> 参数设置了 AT_REMOVEDIR 位，并且 <i>path</i> 参数命名的目录不是空目录，或者存在指向该目录的、除 dot 或 dot-dot 中的单个项以外的硬链接。</dd>
+<dt>[ENOTDIR]</dt>
+<dd><i>flag</i> 参数设置了 AT_REMOVEDIR 位，并且 <i>path</i> 没有命名目录。</dd>
+<dt>[EPERM]</dt>
+<dd>由 <i>path</i> 命名的文件是目录，<i>flag</i> 参数没有设置 AT_REMOVEDIR 位，并且调用进程不具有适当的特权，或者实现禁止对目录使用 <i>unlink</i>()。</dd>
+</dl>
+<p>在以下情况下，这些函数可以失败并且不 unlink 该文件：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接超过 {SYMLOOP_MAX} 个。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的长度超过 {PATH_MAX}，或者符号链接的路径名解析产生的中间结果的长度超过 {PATH_MAX}。</dd>
+<dt>[ETXTBSY]</dt>
+<dd>要 unlink 的项是正在执行的纯过程（共享文本）文件的最后一个目录项。</dd>
+</dl>
+<br>
+<p>在以下情况下，<i>unlinkat</i>() 函数可以失败并且不 unlink 该文件：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>flag</i> 参数的值无效。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_649_06" id="tag_17_649_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_649_06_01" id="tag_17_649_06_01"></a><h5>移除指向文件的链接 (Removing a Link to a File)</h5>
+<p>以下示例展示如何通过移除名为 <b>/modules/pass1</b> 的项来移除指向名为 <b>/home/cnd/mod1</b> 的文件的链接。</p>
+<pre><code class="language-plaintext">#include &lt;unistd.h&gt;
+ 
+char *path = "/modules/pass1";
+int   status;
+...
+status = unlink(path);</code></pre>
+<a name="tag_17_649_06_02" id="tag_17_649_06_02"></a><h5>检查错误 (Checking for an Error)</h5>
+<p>以下示例片段创建一个名为 <b>LOCKFILE</b> 的临时口令锁文件（定义为 <b>/etc/ptmp</b>），并为其获取文件描述符。如果该文件无法为写而打开，则使用 <i>unlink</i>() 移除文件描述符与 <b>LOCKFILE</b> 之间的链接。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+ 
+#define LOCKFILE "/etc/ptmp"
+ 
+int pfd;  /* Integer for file descriptor returned by open call. */
+FILE *fpfd;  /* File pointer for use in putpwent(). */
+...
+/* Open password Lock file. If it exists, this is an error. */
+if ((pfd = open(LOCKFILE, O_WRONLY| O_CREAT | O_EXCL, S_IRUSR
+    | S_IWUSR | S_IRGRP | S_IROTH)) == -1)  {
+    fprintf(stderr, "Cannot open /etc/ptmp. Try again later.\n");
+    exit(1);
+}
+ 
+/* Lock file created; proceed with fdopen of lock file so that
+   putpwent() can be used.
+ */
+if ((fpfd = fdopen(pfd, "w")) == NULL) {
+    close(pfd);
+    unlink(LOCKFILE);
+    exit(1);
+}</code></pre>
+<a name="tag_17_649_06_03" id="tag_17_649_06_03"></a><h5>替换文件 (Replacing Files)</h5>
+<p>以下示例片段使用 <i>unlink</i>() 丢弃指向文件的链接，以便可以用文件的新版本替换它们。第一次调用在发生错误时移除指向 <b>LOCKFILE</b> 的链接。随后的调用移除指向 <b>SAVEFILE</b> 和 <b>PASSWDFILE</b> 的链接，以便可以创建新链接，然后在不再需要时移除指向 <b>LOCKFILE</b> 的链接。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/stat.h&gt;
+ 
+#define LOCKFILE "/etc/ptmp"
+#define PASSWDFILE "/etc/passwd"
+#define SAVEFILE "/etc/opasswd"
+...
+/* If no change was made, assume error and leave passwd unchanged. */
+if (!valid_change) {
+    fprintf(stderr, "Could not change password for user %s\n", user);
+    unlink(LOCKFILE);
+    exit(1);
+}
+ 
+/* Change permissions on new password file. */
+chmod(LOCKFILE, S_IRUSR | S_IRGRP | S_IROTH);
+ 
+/* Remove saved password file. */
+unlink(SAVEFILE);
+ 
+/* Save current password file. */
+link(PASSWDFILE, SAVEFILE);
+ 
+/* Remove current password file. */
+unlink(PASSWDFILE);
+ 
+/* Save new password file as current password file. */
+link(LOCKFILE,PASSWDFILE);
+ 
+/* Remove lock file. */
+unlink(LOCKFILE);
+ 
+exit(0);</code></pre></blockquote>
+<a name="tag_17_649_07" id="tag_17_649_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>应用程序宜使用 rmdir() 移除目录。</p>
+</blockquote>
+<a name="tag_17_649_08" id="tag_17_649_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>在许多历史实现中，由于 link() 中给出的原因（另请参见 rename()），unlink 目录被限制为超级用户。</p>
+<p>[EBUSY] 在历史实现中的含义是 &quot;mount point busy&quot;（挂载点忙）。由于本卷 POSIX.1-2024 不涵盖挂载和卸载的系统管理概念，该错误的描述被更改为 &quot;resource busy&quot;（资源忙）。（当第二个进程试图打开独占使用的设备时，某些设备驱动程序使用此含义。）该措辞还旨在允许实现在目录是任何进程的根目录或当前工作目录时拒绝移除该目录。</p>
+<p>标准开发者审查了 TR 24715-2006，并注意到符合 LSB 的实现可能在 unlink 目录时返回 [EISDIR] 而不是 [EPERM]。曾考虑通过将 [EPERM] 的要求更改为 [EPERM] 或 [EISDIR] 来允许这种行为，但决定反对，因为这会破坏现有的严格符合和符合的应用程序。为可移植到 POSIX.1-2024 和 LSB 两者而编写的应用程序应准备好处理任一错误码。</p>
+<p><i>unlinkat</i>() 函数的目的是移除当前工作目录以外的目录中的目录项，而不暴露于竞争条件。文件的路径的任何部分都可能在与 <i>unlink</i>() 调用并行的情况下被更改，导致未指定的行为。通过为目标目录打开文件描述符并使用 <i>unlinkat</i>() 函数，可以保证被移除的目录项位于相对于所需目录的位置。</p>
+</blockquote>
+<a name="tag_17_649_09" id="tag_17_649_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_649_10" id="tag_17_649_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>close()、link()、remove()、rename()、rmdir()、symlink()</p>
+<p>XBD 4.5 目录保护、&lt;fcntl.h&gt;、&lt;sys/stat.h&gt;、&lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_649_11" id="tag_17_649_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 1 中首次发布。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_649_12" id="tag_17_649_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>[EBUSY] 错误被添加到 ERRORS 节的可选部分。</p>
+</blockquote>
+<a name="tag_17_649_13" id="tag_17_649_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>以下对 POSIX 实现的新要求源于与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>在 DESCRIPTION 中，规定了 <i>path</i> 指定符号链接时的效果。</p>
+</li>
+<li>
+<p>添加了 [ELOOP] 强制错误条件。</p>
+</li>
+<li>
+<p>添加了第二个 [ENAMETOOLONG] 作为可选错误条件。</p>
+</li>
+<li>
+<p>添加了 [ETXTBSY] 可选错误条件。</p>
+</li>
+</ul>
+<p>为与 IEEE P1003.1a 草案标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>添加了 [ELOOP] 可选错误条件。</p>
+</li>
+</ul>
+<p>规范性文本被更新，以避免对应用程序要求使用 &quot;must&quot; 一词。</p>
+</blockquote>
+<a name="tag_17_649_14" id="tag_17_649_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #143。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #181，更新了设置 S_ISVTX 位时操作的要求。</p>
+<p>源自 LSB Conflicts TR 的文本被添加到关于使用 [EPERM] 和 [EISDIR] 的 RATIONALE 中。</p>
+<p><i>unlinkat</i>() 函数依据 The Open Group Technical Standard, 2006, Extended API Set Part 2 被添加。</p>
+<p>进行了与细粒度时间戳支持相关的更改。</p>
+<p>进行了允许目录为搜索而打开的更改。</p>
+<p>[ENOTDIR] 错误条件被澄清，以涵盖路径名的最后一个组件存在但不是目录或指向目录的符号链接的情况。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1）：XSH/TC1-2008/0693 [461]、XSH/TC1-2008/0694 [324]、XSH/TC1-2008/0695 [278] 和 XSH/TC1-2008/0696 [278]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（Technical Corrigendum 2）：XSH/TC2-2008/0378 [873]、XSH/TC2-2008/0379 [591]、XSH/TC2-2008/0380 [817] 和 XSH/TC2-2008/0381 [817]。</p>
+</blockquote>
+<a name="tag_17_649_15" id="tag_17_649_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 1314，澄清了在文件占用的空间被释放后，文件身份变得可供重用。</p>
+<p>应用了 Austin Group 缺陷 1330，移除了过时的接口。</p>
+<p>应用了 Austin Group 缺陷 1380，根据 &quot;link&quot; 一词的更新定义更改使用该词的文本。</p>
+<p>应用了 Austin Group 缺陷 1385，澄清了在不存在通过打开的文件描述符或内存映射对文件的引用之前，文件内容不会被移除。</p>
+<p>应用了 Austin Group 缺陷 1574，将 [EPERM] 错误拆分为 <i>unlink</i>() 和 <i>unlinkat</i>() 的单独条目。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

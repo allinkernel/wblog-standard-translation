@@ -1,0 +1,44 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] sleep — suspend execution for an interval of time
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]sleep[/I5]() function shall cause the calling thread to be suspended from execution until either the number of realtime seconds specified by the argument [I6]seconds[/I6] has elapsed or a signal is delivered to the calling thread and its action is to invoke a signal-catching function or to terminate the process. The suspension time may be longer than requested due to the scheduling of other activity by the system.
+[p_00007] In single-threaded programs, [I7]sleep[/I7]() may make use of SIGALRM. In multi-threaded programs, [I8]sleep[/I8]() shall not make use of SIGALRM and the remainder of this DESCRIPTION does not apply.
+[p_00008] If a SIGALRM signal is generated for the calling process during execution of [I9]sleep[/I9]() and if the SIGALRM signal is being ignored or blocked from delivery, it is unspecified whether [I10]sleep[/I10]() returns when the SIGALRM signal is scheduled. If the signal is being blocked, it is also unspecified whether it remains pending after [I11]sleep[/I11]() returns or it is discarded.
+[p_00009] If a SIGALRM signal is generated for the calling process during execution of [I12]sleep[/I12](), except as a result of a prior call to [A13][I14]alarm[/I14]()[/A13], and if the SIGALRM signal is not being ignored or blocked from delivery, it is unspecified whether that signal has any effect other than causing [I15]sleep[/I15]() to return.
+[p_00010] If a signal-catching function interrupts [I16]sleep[/I16]() and examines or changes either the time a SIGALRM is scheduled to be generated, the action associated with the SIGALRM signal, or whether the SIGALRM signal is blocked from delivery, the results are unspecified.
+[p_00011] If a signal-catching function interrupts [I17]sleep[/I17]() and calls [A18][I19]siglongjmp[/I19]()[/A18] or [A20][I21]longjmp[/I21]()[/A20] to restore an environment saved prior to the [I22]sleep[/I22]() call, the action associated with the SIGALRM signal and the time at which a SIGALRM signal is scheduled to be generated are unspecified. It is also unspecified whether the SIGALRM signal is blocked, unless the signal mask of the process is restored as part of the environment.
+[h4_00012] [A23][/A23]RETURN VALUE
+[p_00013] If [I24]sleep[/I24]() returns because the requested time has elapsed, the value returned shall be 0. If [I25]sleep[/I25]() returns due to delivery of a signal, the return value shall be the &quot;unslept&quot; amount (the requested time minus the time actually slept) in seconds.
+[h4_00014] [A26][/A26]ERRORS
+[p_00015] No errors are defined.
+[h4_00016] [A27][/A27]EXAMPLES
+[p_00017] None.
+[h4_00018] [A28][/A28]APPLICATION USAGE
+[p_00019] None.
+[h4_00020] [A29][/A29]RATIONALE
+[p_00021] There are two general approaches to the implementation of the [I30]sleep[/I30]() function. One is to use the [A31][I32]alarm[/I32]()[/A31] function to schedule a SIGALRM signal and then suspend the calling thread waiting for that signal. The other is to implement an independent facility. This volume of POSIX.1-2024 permits either approach in single-threaded programs, but the simple alarm/suspend implementation is not appropriate for multi-threaded programs.
+[p_00022] In order to comply with the requirement that no primitive shall change a process attribute unless explicitly described by this volume of POSIX.1-2024, an implementation using SIGALRM must carefully take into account any SIGALRM signal scheduled by previous [A33][I34]alarm[/I34]()[/A33] calls, the action previously established for SIGALRM, and whether SIGALRM was blocked. If a SIGALRM has been scheduled before the [I35]sleep[/I35]() would ordinarily complete, the [I36]sleep[/I36]() must be shortened to that time and a SIGALRM generated (possibly simulated by direct invocation of the signal-catching function) before [I37]sleep[/I37]() returns. If a SIGALRM has been scheduled after the [I38]sleep[/I38]() would ordinarily complete, it must be rescheduled for the same time before [I39]sleep[/I39]() returns. The action and blocking for SIGALRM must be saved and restored.
+[p_00023] Historical implementations often implement the SIGALRM-based version using [A40][I41]alarm[/I41]()[/A40] and [A42][I43]pause[/I43]()[/A42]. One such implementation is prone to infinite hangups, as described in [A44][I45]pause[/I45]()[/A44]. Another such implementation uses the C-language [A46][I47]setjmp[/I47]()[/A46] and [A48][I49]longjmp[/I49]()[/A48] functions to avoid that window. That implementation introduces a different problem: when the SIGALRM signal interrupts a signal-catching function installed by the user to catch a different signal, the [A50][I51]longjmp[/I51]()[/A50] aborts that signal-catching function. An implementation based on [A52][I53]sigprocmask[/I53]()[/A52], [A54][I55]alarm[/I55]()[/A54], and [A56][I57]sigsuspend[/I57]()[/A56] can avoid these problems.
+[p_00024] Despite all reasonable care, there are several very subtle, but detectable and unavoidable, differences between the two types of implementations. These are the cases mentioned in this volume of POSIX.1-2024 where some other activity relating to SIGALRM takes place, and the results are stated to be unspecified. All of these cases are sufficiently unusual as not to be of concern to most applications.
+[p_00025] See also the discussion of the term [I58]realtime[/I58] in [A59][I60]alarm[/I60]()[/A59].
+[p_00026] Since [I61]sleep[/I61]() can be implemented using [A62][I63]alarm[/I63]()[/A62], the discussion about alarms occurring early under [A64][I65]alarm[/I65]()[/A64] applies to [I66]sleep[/I66]() as well.
+[p_00027] Application developers should note that the type of the argument [I67]seconds[/I67] and the return value of [I68]sleep[/I68]() is [B69]unsigned[/B69]. That means that a Strictly Conforming POSIX System Interfaces Application cannot pass a value greater than the minimum guaranteed value for {UINT_MAX}, which the ISO&nbsp;C standard sets as 65535, and any application passing a larger value is restricting its portability. A different type was considered, but historical implementations, including those with a 16-bit [B70]int[/B70] type, consistently use either [B71]unsigned[/B71] or [B72]int[/B72].
+[p_00028] Scheduling delays may cause the process to return from the [I73]sleep[/I73]() function significantly after the requested time. In such cases, the return value should be set to zero, since the formula (requested time minus the time actually spent) yields a negative number and [I74]sleep[/I74]() returns an [B75]unsigned[/B75].
+[h4_00029] [A76][/A76]FUTURE DIRECTIONS
+[p_00030] A future version of this standard may require that [I77]sleep[/I77]() does not make use of SIGALRM in all programs, not just multi-threaded programs.
+[h4_00031] [A78][/A78]SEE ALSO
+[p_00032] [A79][I80]alarm[/I80]()[/A79], [A81][I82]nanosleep[/I82]()[/A81], [A83][I84]pause[/I84]()[/A83], [A85][I86]sigaction[/I86]()[/A85], [A87][I88]sigsetjmp[/I88]()[/A87], [A89][I90]timer_create[/I90]()[/A89]
+[p_00033] XBD [A91][I92]&lt;unistd.h&gt;[/I92][/A91]
+[h4_00034] [A93][/A93]CHANGE HISTORY
+[p_00035] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00036] [A94][/A94]Issue 5
+[p_00037] The DESCRIPTION is updated for alignment with the POSIX Threads Extension.
+[h4_00038] [A95][/A95]Issue 6
+[p_00039] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/132 is applied, making a correction in the RATIONALE section.
+[h4_00040] [A96][/A96]Issue 7
+[p_00041] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0334 [625] is applied.
+[h4_00042] [A97][/A97]Issue 8
+[p_00043] Austin Group Defect 1330 is applied, removing obsolescent interfaces.
+[p_00044] &nbsp;

@@ -1,0 +1,1866 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_480_01\" id=\"tag_17_480_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "realloc, reallocarray — memory reallocators",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_480_02\" id=\"tag_17_480_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdlib.h.html\">stdlib.h</a>&gt;<br>\n<br>\nvoid *realloc(void *</tt><i>ptr</i><tt>, size_t</tt> <i>size</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_480_03\" id=\"tag_17_480_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "For [I5]realloc[/I5](): [S6][[A7]CX[/A7]][/S6] [IMG8] The functionality described on this reference page is aligned with the ISO&nbsp;C standard. Any\nconflict between the requirements described here and the ISO&nbsp;C standard is unintentional. This volume of POSIX.1-2024 defers\nto the ISO&nbsp;C standard. [IMG9]",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S6": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A7": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG8": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG9": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I10]realloc[/I10]() function shall deallocate the old object pointed to by [I11]ptr[/I11] and return a pointer to a new object that\nhas the size specified by [I12]size[/I12]. The contents of the new object shall be the same as that of the old object prior to\ndeallocation, up to the lesser of the new and old sizes. Any bytes in the new object beyond the size of the old object have\nindeterminate values.",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "[S13][[A14]CX[/A14]][/S13] [IMG15] The\n[I16]reallocarray[/I16]() function shall be equivalent to the call [CODE17] except\nthat overflow in the multiplication shall be an error. [IMG18]",
+    "placeholders": {
+     "S13": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG15": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE17": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>realloc(<i>ptr</i>, <i>nelem</i> * <i>elsize</i>)</tt>"
+     },
+     "IMG18": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "If [I19]ptr[/I19] is a null pointer, [I20]realloc[/I20]() [S21][[A22]CX[/A22]][/S21] [IMG23] &nbsp;or [I24]reallocarray[/I24]() [IMG25] &nbsp;shall be equivalent to [A26][I27]malloc[/I27]()[/A26] for the specified\nsize. Otherwise, if [I28]ptr[/I28] does not match a pointer earlier returned by [A29][I30]aligned_alloc[/I30]()[/A29], [A31][I32]calloc[/I32]()[/A31], [A33][I34]malloc[/I34]()[/A33], [S35][[A36]ADV[/A36]][/S35] [IMG37] &nbsp;[A38][I39]posix_memalign[/I39]()[/A38], [IMG40]\n&nbsp;[A41][I42]realloc[/I42]()[/A41],\n\n[S43][[A44]CX[/A44]][/S43] [IMG45]\n[I46]reallocarray[/I46](), or a function in POSIX.1-2024 that allocates memory as if by [A47][I48]malloc[/I48]()[/A47], [IMG49] &nbsp;or if the\nspace has been deallocated by a call to [A50][I51]free[/I51]()[/A50], [S52][[A53]CX[/A53]][/S52] [IMG54] &nbsp;[A55][I56]reallocarray[/I56]()[/A55], [IMG57]\n&nbsp;or [I58]realloc[/I58](), &nbsp;the behavior is undefined.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S21": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A22": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG23": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A26": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"../functions/aligned_alloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A31": {
+      "open": "<a href=\"../functions/calloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A33": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S35": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A36": {
+      "open": "<a href=\"javascript:open_code(&#x27;ADV&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG37": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A38": {
+      "open": "<a href=\"../functions/posix_memalign.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG40": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A41": {
+      "open": "<a href=\"../functions/realloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S43": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A44": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG45": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A47": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG49": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A50": {
+      "open": "<a href=\"../functions/free.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S52": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A53": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG54": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A55": {
+      "open": "<a href=\"../functions/reallocarray.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG57": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If [I59]size[/I59] is non-zero and memory for the new object is not allocated, the old object shall not be deallocated.",
+    "placeholders": {
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "The order and contiguity of storage allocated by successive calls to [I60]realloc[/I60]() [S61][[A62]CX[/A62]][/S61] [IMG63] &nbsp;or\n[I64]reallocarray[/I64]() [IMG65] &nbsp;is unspecified. The pointer returned if\nthe allocation succeeds shall be suitably aligned so that it may be assigned to a pointer to any type of object with a fundamental\nalignment requirement and then used to access such an object in the space allocated (until the space is explicitly freed or\nreallocated). Each such allocation shall yield a pointer to an object disjoint from any other object. The pointer returned shall\npoint to the start (lowest byte address) of the allocated space. If the space cannot be allocated, a null pointer shall be\nreturned.",
+    "placeholders": {
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S61": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A62": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG63": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG65": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "For purposes of determining the existence of a data race, [I66]realloc[/I66]() [S67][[A68]CX[/A68]][/S67] [IMG69] &nbsp;and\n[I70]reallocarray[/I70]() [IMG71] &nbsp;shall each behave as though it accessed\nonly memory locations accessible through its argument and not other static duration storage. The function may, however, visibly\nmodify the storage that it allocates. Calls to [A72][I73]aligned_alloc[/I73]()[/A72], [A74][I75]calloc[/I75]()[/A74], [A76][I77]free[/I77]()[/A76], [A78][I79]malloc[/I79]()[/A78], [S80][[A81]ADV[/A81]][/S80] [IMG82] &nbsp;[A83][I84]posix_memalign[/I84]()[/A83], [IMG85]\n\n[S86][[A87]CX[/A87]][/S86] [IMG88]\n[I89]reallocarray[/I89](), [IMG90] &nbsp;and [I91]realloc[/I91]() that allocate or\ndeallocate a particular region of memory shall occur in a single total order (see [A92][I93]4.15.1 Memory Ordering[/I93][/A92]), and each such deallocation call shall synchronize\nwith the next allocation (if any) in this order.",
+    "placeholders": {
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S67": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A68": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG69": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG71": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A72": {
+      "open": "<a href=\"../functions/aligned_alloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A74": {
+      "open": "<a href=\"../functions/calloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A76": {
+      "open": "<a href=\"../functions/free.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A78": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S80": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A81": {
+      "open": "<a href=\"javascript:open_code(&#x27;ADV&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG82": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A83": {
+      "open": "<a href=\"../functions/posix_memalign.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG85": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S86": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A87": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG88": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG90": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A92": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_15_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A94][/A94]RETURN VALUE",
+    "placeholders": {
+     "A94": {
+      "open": "<a name=\"tag_17_480_04\" id=\"tag_17_480_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I95]realloc[/I95]() [S96][[A97]CX[/A97]][/S96] [IMG98] &nbsp;and [I99]reallocarray[/I99]() [IMG100] &nbsp;shall return a pointer to the new object (which can have the same value as a pointer to the old\nobject), or a null pointer if the new object has not been allocated.",
+    "placeholders": {
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S96": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A97": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG98": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG100": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3
+    ],
+    "text": "[S101][[A102]OB[/A102]][/S101] [IMG103] If\n[I104]size[/I104] is 0,\n\n[IMG105] [S106][[A107]OB CX[/A107]][/S106]\n[IMG108] or either [I109]nelem[/I109] or [I110]elsize[/I110] is 0,\n\n[IMG111] [S112][[A113]OB[/A113]][/S112] [IMG114] either: [IMG115]",
+    "placeholders": {
+     "S101": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A102": {
+      "open": "<a href=\"javascript:open_code(&#x27;OB&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG103": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG105": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S106": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A107": {
+      "open": "<a href=\"javascript:open_code(&#x27;OB%20CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG108": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I109": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG111": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S112": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A113": {
+      "open": "<a href=\"javascript:open_code(&#x27;OB&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG114": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG115": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     5,
+     1,
+     1
+    ],
+    "text": "[S116][[A117]OB[/A117]][/S116] [IMG118] A\nnull pointer shall be returned\n\n[IMG119] [S120][[A121]OB CX[/A121]][/S120]\n[IMG122] and, if [I123]ptr[/I123] is not a null pointer, [I124]errno[/I124] shall be\nset to [EINVAL]. [IMG125]",
+    "placeholders": {
+     "S116": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A117": {
+      "open": "<a href=\"javascript:open_code(&#x27;OB&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG118": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG119": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S120": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A121": {
+      "open": "<a href=\"javascript:open_code(&#x27;OB%20CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG122": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I123": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG125": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     5,
+     3,
+     1
+    ],
+    "text": "[S126][[A127]OB[/A127]][/S126] [IMG128] A\npointer to the allocated space shall be returned, and the memory object pointed to by [I129]ptr[/I129] shall be freed. The application\nshall ensure that the pointer is not used to access an object. [IMG130]",
+    "placeholders": {
+     "S126": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A127": {
+      "open": "<a href=\"javascript:open_code(&#x27;OB&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG128": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I129": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG130": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     7
+    ],
+    "text": "If there is not enough available memory, [I131]realloc[/I131]() [S132][[A133]CX[/A133]][/S132] [IMG134] &nbsp;and [I135]reallocarray[/I135]() [IMG136] &nbsp;shall return a null pointer\n\n[S137][[A138]CX[/A138]][/S137] [IMG139] and\nset [I140]errno[/I140] to [ENOMEM]. [IMG141]",
+    "placeholders": {
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S132": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A133": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG134": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG136": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S137": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A138": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG139": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I140": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG141": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00019",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A142][/A142]ERRORS",
+    "placeholders": {
+     "A142": {
+      "open": "<a name=\"tag_17_480_05\" id=\"tag_17_480_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I143]realloc[/I143]() [S144][[A145]CX[/A145]][/S144] [IMG146] &nbsp;and [I147]reallocarray[/I147]() [IMG148]\n&nbsp;functions shall fail if:",
+    "placeholders": {
+     "I143": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S144": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A145": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG146": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG148": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00021",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00022",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S149][[A150]CX[/A150]][/S149] [IMG151]\nInsufficient memory is available. [IMG152]",
+    "placeholders": {
+     "S149": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A150": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG151": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG152": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "[S153][[A154]CX[/A154]][/S153] [IMG155] The\n[I156]reallocarray[/I156]() function shall fail if:",
+    "placeholders": {
+     "S153": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A154": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG155": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I156": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The calculation [I157]nelem[/I157] [CODE158] [I159]elsize[/I159] would overflow.",
+    "placeholders": {
+     "I157": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE158": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>*</tt>"
+     },
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11
+    ],
+    "text": "The [I160]realloc[/I160]() [S161][[A162]CX[/A162]][/S161] [IMG163] &nbsp;and [I164]reallocarray[/I164]() [IMG165]\n&nbsp;functions may fail if:",
+    "placeholders": {
+     "I160": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S161": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A162": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG163": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I164": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG165": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00027",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00028",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     5
+    ],
+    "text": "[S166][[A167]CX[/A167]][/S166] [IMG168]\nThe requested allocation size is 0 and the implementation does not support 0 sized allocations. [IMG169]",
+    "placeholders": {
+     "S166": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A167": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG168": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG169": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A170][/A170]EXAMPLES",
+    "placeholders": {
+     "A170": {
+      "open": "<a name=\"tag_17_480_06\" id=\"tag_17_480_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00031",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A171][/A171]APPLICATION USAGE",
+    "placeholders": {
+     "A171": {
+      "open": "<a name=\"tag_17_480_07\" id=\"tag_17_480_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "The ISO&nbsp;C standard makes it implementation-defined whether a call to [I172]realloc[/I172]([I173]p[/I173], 0) frees the space pointed to\nby [I174]p[/I174] if it returns a null pointer because memory for the new object was not allocated. POSIX.1 instead requires that\nimplementations set [I175]errno[/I175] if a null pointer is returned and the space has not been freed, and POSIX applications should only\nfree the space if [I176]errno[/I176] was changed.",
+    "placeholders": {
+     "I172": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I174": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I175": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I176": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A177][/A177]RATIONALE",
+    "placeholders": {
+     "A177": {
+      "open": "<a name=\"tag_17_480_08\" id=\"tag_17_480_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "See the RATIONALE for [A178][I179]malloc[/I179]()[/A178].",
+    "placeholders": {
+     "A178": {
+      "open": "<a href=\"../functions/malloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I179": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00035",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A180][/A180]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A180": {
+      "open": "<a name=\"tag_17_480_09\" id=\"tag_17_480_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "The ISO&nbsp;C standard states that invoking [I181]realloc[/I181]() with a [I182]size[/I182] argument equal to zero is an obsolescent\nfeature. This feature may be removed in a future version of this standard.",
+    "placeholders": {
+     "I181": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I182": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00037",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A183][/A183]SEE ALSO",
+    "placeholders": {
+     "A183": {
+      "open": "<a name=\"tag_17_480_10\" id=\"tag_17_480_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A184][I185]aligned_alloc[/I185]()[/A184], [A186][I187]calloc[/I187]()[/A186]\n, [A188][I189]free[/I189]()[/A188], [A190][I191]malloc[/I191]()[/A190]",
+    "placeholders": {
+     "A184": {
+      "open": "<a href=\"../functions/aligned_alloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I185": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A186": {
+      "open": "<a href=\"../functions/calloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I187": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A188": {
+      "open": "<a href=\"../functions/free.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I189": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A190": {
+      "open": "<a href=\"../functions/malloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I191": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A192][I193]&lt;stdlib.h&gt;[/I193][/A192]",
+    "placeholders": {
+     "A192": {
+      "open": "<a href=\"../basedefs/stdlib.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I193": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00040",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A194][/A194]CHANGE HISTORY",
+    "placeholders": {
+     "A194": {
+      "open": "<a name=\"tag_17_480_11\" id=\"tag_17_480_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00042",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A195][/A195]Issue 6",
+    "placeholders": {
+     "A195": {
+      "open": "<a name=\"tag_17_480_12\" id=\"tag_17_480_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     1,
+     1
+    ],
+    "text": "In the RETURN VALUE section, if there is not enough available memory, the setting of [I196]errno[/I196] to [ENOMEM] is added.",
+    "placeholders": {
+     "I196": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     3,
+     1
+    ],
+    "text": "The [ENOMEM] error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00047",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A197][/A197]Issue 7",
+    "placeholders": {
+     "A197": {
+      "open": "<a name=\"tag_17_480_13\" id=\"tag_17_480_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0495 [400], XSH/TC1-2008/0496 [400], XSH/TC1-2008/0497 [400], and\nXSH/TC1-2008/0498 [400] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0309 [526] and XSH/TC2-2008/0310 [526,688] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00050",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A198][/A198]Issue 8",
+    "placeholders": {
+     "A198": {
+      "open": "<a name=\"tag_17_480_14\" id=\"tag_17_480_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Defect 374 is applied, adding the [EINVAL] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Defect 1218 is applied, adding [I199]reallocarray[/I199]().",
+    "placeholders": {
+     "I199": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning the [I200]realloc[/I200]() function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {
+     "I200": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "Austin Group Defect 1387 is applied, changing the RATIONALE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     75
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

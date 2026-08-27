@@ -1,0 +1,37 @@
+<h1>XSH 函数导读：pthread_cancel()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_cancel()</code> 请求取消目标线程的执行，是协作式线程终止的手段。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_cancel(pthread_t thread);</code>——成功返回零，不应返回 [EINTR]。取消何时生效取决于目标线程的可取消状态（enable/disable）和可取消类型（deferred/async），本函数只是"请求"。</p>
+
+<h2>1. 机制</h2>
+<p>响应取消时，先为线程调用取消清理处理程序（cleanup handler），全部返回后再调用线程特定数据析构函数，最后线程终止。默认类型是延迟取消（PTHREAD_CANCEL_DEFERRED）：取消请求只在到达取消点（如 <code>pthread_cond_wait()</code>、<code>pthread_join()</code> 等）时才被处理，配合清理处理程序可安全释放锁与资源。取消处理在目标线程中异步进行，与调用者从 <code>pthread_cancel()</code> 返回无先后保证。取消被处理的线程终止时，其退出状态为 PTHREAD_CANCELED，可用 <code>pthread_join()</code> 回收。对僵尸线程请求取消不算错误。</p>
+
+<h2>2. 易错点</h2>
+<p>取消不是强制的：可取消状态被禁用（PTHREAD_CANCEL_DISABLE）的线程会挂起取消请求直到重新启用，且延迟取消下若无取消点请求可能长期不生效，不要假设立即终止。被取消线程若持有互斥量，须由清理处理程序负责解锁，否则互斥量"遗留"在终止的线程上（普通互斥量会因此死锁；健壮互斥量可返回 [EOWNERDEAD]）。对 <code>thrd_create()</code> 创建的线程调用 <code>pthread_cancel()</code> 行为未定义。线程 ID 生命周期结束后使用它并非错误场景，僵尸线程 ID 仍可用于 cancel。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+
+static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
+
+static void cleanup(void *arg) {
+    pthread_mutex_unlock(&amp;mtx);   /* 取消时确保解锁 */
+}
+
+void *worker(void *arg) {
+    pthread_mutex_lock(&amp;mtx);
+    pthread_cleanup_push(cleanup, NULL);
+    while (1)                      /* 忙循环，含取消点 */
+        pthread_testcancel();
+    pthread_cleanup_pop(0);
+    return NULL;
+}
+
+int main(void) {
+    pthread_t th;
+    pthread_create(&amp;th, NULL, worker, NULL);
+    pthread_cancel(th);            /* 请求取消 */
+    pthread_join(th, NULL);        /* 等待终止并回收 */
+    return 0;
+}</code></pre>

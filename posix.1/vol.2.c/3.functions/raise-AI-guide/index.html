@@ -1,0 +1,36 @@
+<h1>XSH 函数导读：raise()</h1>
+
+<h2>0. 总览</h2>
+<p><code>raise()</code> 向正在执行的线程（或进程）发送信号 <code>sig</code>，是进程给自己发信号的最简接口。头文件为 <code>&lt;signal.h&gt;</code>。原型关键点：<code>int raise(int sig)</code>——一个参数、无状态，成功返回 0，失败返回非零值并设置 <code>errno</code>。本页功能与 ISO C 标准对齐，冲突时以 ISO C 为准；"线程"一词是对 ISO C 标准的 POSIX 扩展。</p>
+
+<h2>1. 机制</h2>
+<p>在 POSIX 中，<code>raise()</code> 的效果应等同于调用 <code>pthread_kill(pthread_self(), sig)</code>——即向<em>当前线程自身</em>定向发送信号，而非发往整个进程。若该信号安装了处理程序，则 <code>raise()</code> 在信号处理程序返回之前不应返回，这保证了同步的"调用-处理-返回"语义。若 <code>sig</code> 是无效的信号编号，返回非零并置 <code>errno</code> 为 [EINVAL]。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><strong>目标范围</strong>：在多线程进程中，<code>raise()</code> 等同于 <code>pthread_kill(pthread_self(), sig)</code>，只投递到当前线程，而不是整个进程；想发给整个进程要用 kill()。</li>
+<li><strong>同步语义</strong>：处理程序未返回前 <code>raise()</code> 不返回。若处理程序又调用 <code>raise()</code>，须注意递归与信号掩码的交互（sigaction 安装的处理器默认阻塞自身信号）。</li>
+<li><strong>与 ISO C 的关系</strong>：ISO C 曾限制从信号处理程序中调用 <code>raise()</code>，POSIX 要求 <code>raise()</code> 是异步信号安全的，该限制对 POSIX 应用程序不适用。</li>
+<li><strong>返回值</strong>：ISO C 只规定"非零表示失败"；POSIX 进一步要求失败时设置 <code>errno</code>，成功时返回 0。别漏查返回值。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+
+static void handler(int sig) {
+    (void)sig; /* 仅做标记，可用 volatile sig_atomic_t 记录 */
+}
+
+int main(void) {
+    if (signal(SIGUSR1, handler) == SIG_ERR) {
+        perror("signal");
+        return 1;
+    }
+    if (raise(SIGUSR1) != 0) {   /* 处理程序返回后才返回 */
+        perror("raise");
+        return 1;
+    }
+    return 0;
+}
+</code></pre>

@@ -1,0 +1,55 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] realloc, reallocarray — memory reallocators
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] For [I5]realloc[/I5](): [S6][[A7]CX[/A7]][/S6] [IMG8] The functionality described on this reference page is aligned with the ISO&nbsp;C standard. Any conflict between the requirements described here and the ISO&nbsp;C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO&nbsp;C standard. [IMG9]
+[p_00007] The [I10]realloc[/I10]() function shall deallocate the old object pointed to by [I11]ptr[/I11] and return a pointer to a new object that has the size specified by [I12]size[/I12]. The contents of the new object shall be the same as that of the old object prior to deallocation, up to the lesser of the new and old sizes. Any bytes in the new object beyond the size of the old object have indeterminate values.
+[p_00008] [S13][[A14]CX[/A14]][/S13] [IMG15] The [I16]reallocarray[/I16]() function shall be equivalent to the call [CODE17] except that overflow in the multiplication shall be an error. [IMG18]
+[p_00009] If [I19]ptr[/I19] is a null pointer, [I20]realloc[/I20]() [S21][[A22]CX[/A22]][/S21] [IMG23] &nbsp;or [I24]reallocarray[/I24]() [IMG25] &nbsp;shall be equivalent to [A26][I27]malloc[/I27]()[/A26] for the specified size. Otherwise, if [I28]ptr[/I28] does not match a pointer earlier returned by [A29][I30]aligned_alloc[/I30]()[/A29], [A31][I32]calloc[/I32]()[/A31], [A33][I34]malloc[/I34]()[/A33], [S35][[A36]ADV[/A36]][/S35] [IMG37] &nbsp;[A38][I39]posix_memalign[/I39]()[/A38], [IMG40] &nbsp;[A41][I42]realloc[/I42]()[/A41],  [S43][[A44]CX[/A44]][/S43] [IMG45] [I46]reallocarray[/I46](), or a function in POSIX.1-2024 that allocates memory as if by [A47][I48]malloc[/I48]()[/A47], [IMG49] &nbsp;or if the space has been deallocated by a call to [A50][I51]free[/I51]()[/A50], [S52][[A53]CX[/A53]][/S52] [IMG54] &nbsp;[A55][I56]reallocarray[/I56]()[/A55], [IMG57] &nbsp;or [I58]realloc[/I58](), &nbsp;the behavior is undefined.
+[p_00010] If [I59]size[/I59] is non-zero and memory for the new object is not allocated, the old object shall not be deallocated.
+[p_00011] The order and contiguity of storage allocated by successive calls to [I60]realloc[/I60]() [S61][[A62]CX[/A62]][/S61] [IMG63] &nbsp;or [I64]reallocarray[/I64]() [IMG65] &nbsp;is unspecified. The pointer returned if the allocation succeeds shall be suitably aligned so that it may be assigned to a pointer to any type of object with a fundamental alignment requirement and then used to access such an object in the space allocated (until the space is explicitly freed or reallocated). Each such allocation shall yield a pointer to an object disjoint from any other object. The pointer returned shall point to the start (lowest byte address) of the allocated space. If the space cannot be allocated, a null pointer shall be returned.
+[p_00012] For purposes of determining the existence of a data race, [I66]realloc[/I66]() [S67][[A68]CX[/A68]][/S67] [IMG69] &nbsp;and [I70]reallocarray[/I70]() [IMG71] &nbsp;shall each behave as though it accessed only memory locations accessible through its argument and not other static duration storage. The function may, however, visibly modify the storage that it allocates. Calls to [A72][I73]aligned_alloc[/I73]()[/A72], [A74][I75]calloc[/I75]()[/A74], [A76][I77]free[/I77]()[/A76], [A78][I79]malloc[/I79]()[/A78], [S80][[A81]ADV[/A81]][/S80] [IMG82] &nbsp;[A83][I84]posix_memalign[/I84]()[/A83], [IMG85]  [S86][[A87]CX[/A87]][/S86] [IMG88] [I89]reallocarray[/I89](), [IMG90] &nbsp;and [I91]realloc[/I91]() that allocate or deallocate a particular region of memory shall occur in a single total order (see [A92][I93]4.15.1 Memory Ordering[/I93][/A92]), and each such deallocation call shall synchronize with the next allocation (if any) in this order.
+[h4_00013] [A94][/A94]RETURN VALUE
+[p_00014] Upon successful completion, [I95]realloc[/I95]() [S96][[A97]CX[/A97]][/S96] [IMG98] &nbsp;and [I99]reallocarray[/I99]() [IMG100] &nbsp;shall return a pointer to the new object (which can have the same value as a pointer to the old object), or a null pointer if the new object has not been allocated.
+[p_00015] [S101][[A102]OB[/A102]][/S101] [IMG103] If [I104]size[/I104] is 0,  [IMG105] [S106][[A107]OB CX[/A107]][/S106] [IMG108] or either [I109]nelem[/I109] or [I110]elsize[/I110] is 0,  [IMG111] [S112][[A113]OB[/A113]][/S112] [IMG114] either: [IMG115]
+[p_00016] [S116][[A117]OB[/A117]][/S116] [IMG118] A null pointer shall be returned  [IMG119] [S120][[A121]OB CX[/A121]][/S120] [IMG122] and, if [I123]ptr[/I123] is not a null pointer, [I124]errno[/I124] shall be set to [EINVAL]. [IMG125]
+[p_00017] [S126][[A127]OB[/A127]][/S126] [IMG128] A pointer to the allocated space shall be returned, and the memory object pointed to by [I129]ptr[/I129] shall be freed. The application shall ensure that the pointer is not used to access an object. [IMG130]
+[p_00018] If there is not enough available memory, [I131]realloc[/I131]() [S132][[A133]CX[/A133]][/S132] [IMG134] &nbsp;and [I135]reallocarray[/I135]() [IMG136] &nbsp;shall return a null pointer  [S137][[A138]CX[/A138]][/S137] [IMG139] and set [I140]errno[/I140] to [ENOMEM]. [IMG141]
+[h4_00019] [A142][/A142]ERRORS
+[p_00020] The [I143]realloc[/I143]() [S144][[A145]CX[/A145]][/S144] [IMG146] &nbsp;and [I147]reallocarray[/I147]() [IMG148] &nbsp;functions shall fail if:
+[dt_00021] [ENOMEM]
+[dd_00022] [S149][[A150]CX[/A150]][/S149] [IMG151] Insufficient memory is available. [IMG152]
+[p_00023] [S153][[A154]CX[/A154]][/S153] [IMG155] The [I156]reallocarray[/I156]() function shall fail if:
+[dt_00024] [ENOMEM]
+[dd_00025] The calculation [I157]nelem[/I157] [CODE158] [I159]elsize[/I159] would overflow.
+[p_00026] The [I160]realloc[/I160]() [S161][[A162]CX[/A162]][/S161] [IMG163] &nbsp;and [I164]reallocarray[/I164]() [IMG165] &nbsp;functions may fail if:
+[dt_00027] [EINVAL]
+[dd_00028] [S166][[A167]CX[/A167]][/S166] [IMG168] The requested allocation size is 0 and the implementation does not support 0 sized allocations. [IMG169]
+[h4_00029] [A170][/A170]EXAMPLES
+[p_00030] None.
+[h4_00031] [A171][/A171]APPLICATION USAGE
+[p_00032] The ISO&nbsp;C standard makes it implementation-defined whether a call to [I172]realloc[/I172]([I173]p[/I173], 0) frees the space pointed to by [I174]p[/I174] if it returns a null pointer because memory for the new object was not allocated. POSIX.1 instead requires that implementations set [I175]errno[/I175] if a null pointer is returned and the space has not been freed, and POSIX applications should only free the space if [I176]errno[/I176] was changed.
+[h4_00033] [A177][/A177]RATIONALE
+[p_00034] See the RATIONALE for [A178][I179]malloc[/I179]()[/A178].
+[h4_00035] [A180][/A180]FUTURE DIRECTIONS
+[p_00036] The ISO&nbsp;C standard states that invoking [I181]realloc[/I181]() with a [I182]size[/I182] argument equal to zero is an obsolescent feature. This feature may be removed in a future version of this standard.
+[h4_00037] [A183][/A183]SEE ALSO
+[p_00038] [A184][I185]aligned_alloc[/I185]()[/A184], [A186][I187]calloc[/I187]()[/A186] , [A188][I189]free[/I189]()[/A188], [A190][I191]malloc[/I191]()[/A190]
+[p_00039] XBD [A192][I193]&lt;stdlib.h&gt;[/I193][/A192]
+[h4_00040] [A194][/A194]CHANGE HISTORY
+[p_00041] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00042] [A195][/A195]Issue 6
+[p_00043] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00044] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00045] In the RETURN VALUE section, if there is not enough available memory, the setting of [I196]errno[/I196] to [ENOMEM] is added.
+[p_00046] The [ENOMEM] error condition is added.
+[h4_00047] [A197][/A197]Issue 7
+[p_00048] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0495 [400], XSH/TC1-2008/0496 [400], XSH/TC1-2008/0497 [400], and XSH/TC1-2008/0498 [400] are applied.
+[p_00049] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0309 [526] and XSH/TC2-2008/0310 [526,688] are applied.
+[h4_00050] [A198][/A198]Issue 8
+[p_00051] Austin Group Defect 374 is applied, adding the [EINVAL] error.
+[p_00052] Austin Group Defect 1218 is applied, adding [I199]reallocarray[/I199]().
+[p_00053] Austin Group Defect 1302 is applied, aligning the [I200]realloc[/I200]() function with the ISO/IEC&nbsp;9899:2018 standard.
+[p_00054] Austin Group Defect 1387 is applied, changing the RATIONALE section.
+[p_00055] &nbsp;

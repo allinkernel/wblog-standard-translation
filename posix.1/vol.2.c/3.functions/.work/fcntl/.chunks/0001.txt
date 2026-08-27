@@ -1,0 +1,208 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] fcntl — file control
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]fcntl[/I5]() function shall perform the operations described below on open files. The [I6]fildes[/I6] argument is a file descriptor.
+[p_00007] The available values for [I7]cmd[/I7] are defined in [A8][I9]&lt;fcntl.h&gt;[/I9][/A8] and are as follows:
+[dt_00008] F_DUPFD
+[dd_00009] Return a new file descriptor which shall be allocated as described in [A10][I11]2.6 File Descriptor Allocation[/I11][/A10], except that it shall be the lowest numbered available file descriptor greater than or equal to the third argument, [I12]arg[/I12], taken as an integer of type [B13]int[/B13]. The new file descriptor shall refer to the same open file description as the original file descriptor, and shall share any locks. The FD_CLOEXEC and FD_CLOFORK flags associated with the new file descriptor shall be cleared.
+[dt_00010] F_DUPFD_CLOEXEC
+[dd_00011] Like F_DUPFD, but the FD_CLOEXEC flag associated with the new file descriptor shall be set.
+[dt_00012] F_DUPFD_CLOFORK
+[dd_00013] Like F_DUPFD, but the FD_CLOFORK flag associated with the new file descriptor shall be set.
+[dt_00014] F_GETFD
+[dd_00015] Get the file descriptor flags defined in [A14][I15]&lt;fcntl.h&gt;[/I15][/A14] that are associated with the file descriptor [I16]fildes[/I16]. File descriptor flags are associated with a single file descriptor and do not affect other file descriptors that refer to the same file.
+[dt_00016] F_SETFD
+[dd_00017] Set the file descriptor flags defined in [A17][I18]&lt;fcntl.h&gt;[/I18][/A17], that are associated with [I19]fildes[/I19], to the third argument, [I20]arg[/I20], taken as type [B21]int[/B21]. If the FD_CLOEXEC flag in the third argument is set, the file descriptor shall be closed upon successful execution of an [I22][A23]exec[/A23][/I22] family function [S24][[A25]SPN[/A25]][/S24] [IMG26] and in the new process image created by [A27][I28]posix_spawn[/I28]()[/A27] or [A29][I30]posix_spawnp[/I30]()[/A29]; [IMG31] otherwise, the file descriptor shall remain open. If the FD_CLOFORK flag in the third argument is set, the file descriptor shall not be inherited by any child process created from a process that has the file descriptor open; otherwise, the file descriptor shall be inherited.
+[dt_00018] F_GETFL
+[dd_00019] Get the file status flags and file access modes, defined in [A32][I33]&lt;fcntl.h&gt;[/I33][/A32], for the file description associated with [I34]fildes[/I34]. The file access modes can be extracted from the return value using the mask O_ACCMODE, which is defined in [A35][I36]&lt;fcntl.h&gt;[/I36][/A35]. File status flags and file access modes are associated with the file description and do not affect other file descriptors that refer to the same file with different open file descriptions. The flags returned may include non-standard file status flags which the application did not set, provided that these additional flags do not alter the behavior of a conforming application.
+[dt_00020] F_SETFL
+[dd_00021] Set the file status flags, defined in [A37][I38]&lt;fcntl.h&gt;[/I38][/A37], for the file description associated with [I39]fildes[/I39] from the corresponding bits in the third argument, [I40]arg[/I40], taken as type [B41]int[/B41]. Bits corresponding to the file access mode and the file creation flags, as defined in [A42][I43]&lt;fcntl.h&gt;[/I43][/A42], that are set in [I44]arg[/I44] shall be ignored. If any bits in [I45]arg[/I45] other than those mentioned here are changed by the application, the result is unspecified. If [I46]fildes[/I46] does not support non-blocking operations, it is unspecified whether the O_NONBLOCK flag will be ignored.
+[dt_00022] F_GETOWN
+[dd_00023] If [I47]fildes[/I47] refers to a socket, get the process ID or process group ID specified to receive SIGURG signals when out-of-band data is available. Positive values shall indicate a process ID; negative values, other than -1, shall indicate a process group ID; the value zero shall indicate that no SIGURG signals are to be sent. If [I48]fildes[/I48] does not refer to a socket, the results are unspecified.
+[dt_00024] F_SETOWN
+[dd_00025] If [I49]fildes[/I49] refers to a socket, atomically set the process ID or process group ID specified to receive SIGURG signals when out-of-band data is available, using the value of the third argument, [I50]arg[/I50], taken as type [B51]int[/B51]. Positive values shall indicate a process ID; negative values, other than -1, shall indicate a process group ID; the value zero shall indicate that no SIGURG signals are to be sent. If [I52]fildes[/I52] does not refer to a socket, the results are unspecified.
+[dt_00026] F_GETOWN_EX
+[dd_00027] If [I53]fildes[/I53] refers to a socket, get the process ID or process group ID specified to receive SIGURG signals when out-of-band data is available, by setting the [I54]type[/I54] and [I55]pid[/I55] members of the [B56]f_owner_ex[/B56] structure pointed to by the third argument, [I57]arg[/I57]. The value of [I58]type[/I58] shall be F_OWNER_PID or F_OWNER_PGRP to indicate that [I59]pid[/I59] contains a process ID or a process group ID, respectively. The value of [I60]pid[/I60] shall be zero if no SIGURG signals are to be sent. If [I61]fildes[/I61] does not refer to a socket, the results are unspecified.
+[dt_00028] F_SETOWN_EX
+[p_00029] A [I62]pid[/I62] value of zero shall indicate that no SIGURG signals are to be sent.
+[p_00030] A [I63]type[/I63] value of F_OWNER_PID and a positive [I64]pid[/I64] value shall indicate that SIGURG signals are to be sent to the process ID specified in [I65]pid[/I65].
+[p_00031] A [I66]type[/I66] value of F_OWNER_PGRP and a positive [I67]pid[/I67] value shall indicate that SIGURG signals are to be sent to the process group ID specified in [I68]pid[/I68].
+[p_00032] If [I69]fildes[/I69] does not refer to a socket, the results are unspecified.
+[p_00033] For F_SETOWN and F_SETOWN_EX, each time a SIGURG signal is sent to the specified process or process group, permission checks equivalent to those performed by [A70][I71]kill[/I71]()[/A70] shall be performed, as if [A72][I73]kill[/I73]()[/A72] were called by a process with the same real user ID, effective user ID, and privileges that the process calling [I74]fcntl[/I74]() has at the time of the call; if the [A75][I76]kill[/I76]()[/A75] call would fail, no signal shall be sent. These permission checks may also be performed by the [I77]fcntl[/I77]() call. If the process specified by [I78]arg[/I78] later terminates, or the process group specified by [I79]arg[/I79] later becomes empty, while still being specified to receive SIGURG signals when out-of-band data is available from [I80]fildes[/I80], then no signals shall be sent to any subsequently created process that has the same process ID or process group ID, regardless of permission; it is unspecified whether this is achieved by the equivalent of a [I81]fcntl[/I81]([I82]fildes[/I82], F_SETOWN, 0) call at the time the process terminates or is waited for or the process group becomes empty, or by other means.
+[p_00034] The following values for [I83]cmd[/I83] are available for advisory record locking. Record locking shall be supported for regular files, and may be supported for other files.
+[dt_00035] F_GETLK
+[dd_00036] Get any lock which blocks the process-owned file lock description pointed to by the third argument, [I84]arg[/I84], taken as a pointer to type [B85]struct flock[/B85], defined in [A86][I87]&lt;fcntl.h&gt;[/I87][/A86]. The information retrieved shall overwrite the information passed to [I88]fcntl[/I88]() in the structure [B89]flock[/B89]. If no lock is found that would prevent this lock from being created, then the structure shall be left unchanged except for the lock type in [I90]l_type[/I90] which shall be set to F_UNLCK.
+[dt_00037] F_SETLK
+[dd_00038] Set or clear a process-owned file lock according to the lock description pointed to by the third argument, [I91]arg[/I91], taken as a pointer to type [B92]struct flock[/B92], defined in [A93][I94]&lt;fcntl.h&gt;[/I94][/A93]. F_SETLK can establish shared (or read) locks (F_RDLCK) or exclusive (or write) locks (F_WRLCK), as well as remove either type of lock (F_UNLCK). F_RDLCK, F_WRLCK, and F_UNLCK are defined in [A95][I96]&lt;fcntl.h&gt;[/I96][/A95]. If a shared or exclusive lock cannot be set, [I97]fcntl[/I97]() shall return immediately with a return value of -1.
+[dt_00039] F_SETLKW
+[dd_00040] This command shall be equivalent to F_SETLK except that if a shared or exclusive lock is blocked by other locks, the thread shall wait until the request can be satisfied. If a signal that is to be caught is received while [I98]fcntl[/I98]() is waiting for a region, [I99]fcntl[/I99]() shall be interrupted. Upon return from the signal handler, [I100]fcntl[/I100]() shall return -1 with [I101]errno[/I101] set to [EINTR], and the lock operation shall not be done.
+[dt_00041] F_OFD_GETLK
+[dd_00042] Get any lock which blocks the OFD-owned file lock description pointed to by the third argument, [I102]arg[/I102], taken as a pointer to type [B103]struct flock[/B103], defined in [A104][I105]&lt;fcntl.h&gt;[/I105][/A104]; the application shall ensure that the [I106]l_pid[/I106] member of the structure pointed to by [I107]arg[/I107] is set to 0 on input. The information retrieved shall overwrite the information passed to [I108]fcntl[/I108]() in the structure [B109]flock[/B109]. If no lock is found that would prevent this lock from being created, then the structure shall be left unchanged except for the lock type in [I110]l_type[/I110] which shall be set to F_UNLCK.
+[dt_00043] F_OFD_SETLK
+[dd_00044] Set or clear an OFD-owned file lock according to the lock description pointed to by the third argument, [I111]arg[/I111], taken as a pointer to type [B112]struct flock[/B112], defined in [A113][I114]&lt;fcntl.h&gt;[/I114][/A113]; the application shall ensure that the [I115]l_pid[/I115] member of the structure pointed to by [I116]arg[/I116] is set to 0 on input. F_OFD_SETLK can establish shared (or read) locks (F_RDLCK) or exclusive (or write) locks (F_WRLCK), as well as remove either type of lock (F_UNLCK). F_RDLCK, F_WRLCK, and F_UNLCK are defined in [A117][I118]&lt;fcntl.h&gt;[/I118][/A117]. If a shared or exclusive lock cannot be set, [I119]fcntl[/I119]() shall return immediately with a return value of -1.
+[dt_00045] F_OFD_SETLKW
+[dd_00046] This command shall be equivalent to F_OFD_SETLK except that if a shared or exclusive lock is blocked by other locks, the thread shall wait until the request can be satisfied. If a signal that is to be caught is received while [I120]fcntl[/I120]() is waiting for a region, [I121]fcntl[/I121]() shall be interrupted. Upon return from the signal handler, [I122]fcntl[/I122]() shall return -1 with [I123]errno[/I123] set to [EINTR], and the lock operation shall not be done.
+[p_00047] Additional implementation-defined values for [I124]cmd[/I124] may be defined in [A125][I126]&lt;fcntl.h&gt;[/I126][/A125]. Their names shall start with F_.
+[p_00048] When a shared lock is set on a segment of a file, other processes can set shared process-owned locks, and other open file descriptions can be used to set shared OFD-owned locks, on that segment or a portion of it. A shared process-owned lock shall prevent any other process from setting an exclusive process-owned lock, and shall prevent any exclusive OFD-owned lock from being set, on any portion of the protected area. A shared OFD-owned lock shall prevent any other open file description from being used to set an exclusive OFD-owned lock, and shall prevent any exclusive process-owned lock from being set, on any portion of the protected area. A request for a shared lock shall fail if the file descriptor is not open for reading.
+[p_00049] An exclusive process-owned lock shall prevent any other process from setting a shared or exclusive process-owned lock, and shall prevent any shared or exclusive OFD-owned lock from being set, on any portion of the protected area. An exclusive OFD-owned lock shall prevent any other open file description from being used to set a shared or exclusive OFD-owned lock, and shall prevent any shared or exclusive process-owned lock from being set, on any portion of the protected area. A request for an exclusive lock shall fail if the file descriptor is not open for writing.
+[p_00050] The structure [B127]flock[/B127] describes the type ([I128]l_type[/I128]), starting offset ([I129]l_whence[/I129]), relative offset ([I130]l_start[/I130]), size ([I131]l_len[/I131]), and process ID ([I132]l_pid[/I132]) of the segment of the file to be affected.
+[p_00051] The value of [I133]l_whence[/I133] is SEEK_SET, SEEK_CUR, or SEEK_END, to indicate that the relative offset [I134]l_start[/I134] bytes shall be measured from the start of the file, current position, or end of the file, respectively. The value of [I135]l_len[/I135] is the number of consecutive bytes to be locked. The value of [I136]l_len[/I136] may be negative (where the definition of [B137]off_t[/B137] permits negative values of [I138]l_len[/I138]). On input, the [I139]l_pid[/I139] field shall be ignored for F_GETLK, F_SETLK and F_SETLKW; the application shall ensure that it is set to zero for F_OFD_GETLK, F_OFD_SETLK and F_OFD_SETLKW. It is set by F_GETLK and F_OFD_GETLK when identifying a blocking lock. After a successful F_GETLK or F_OFD_GETLK request, when a blocking lock is found, the values returned in the [B140]flock[/B140] structure shall be as follows:
+[dt_00052] [I141]l_type[/I141]
+[dd_00053] Type of blocking lock found.
+[dt_00054] [I142]l_whence[/I142]
+[dd_00055] SEEK_SET.
+[dt_00056] [I143]l_start[/I143]
+[dd_00057] Start of the blocking lock.
+[dt_00058] [I144]l_len[/I144]
+[dd_00059] Length of the blocking lock.
+[dt_00060] [I145]l_pid[/I145]
+[dd_00061] Process ID of the process that holds the blocking lock if the blocking lock is a process-owned file lock, or ([B146]pid_t[/B146])-1 if the blocking lock is an OFD-owned file lock.
+[p_00062] If the command is F_SETLKW or F_OFD_SETLKW and the thread needs to wait for a blocking lock to be released, then the range of bytes to be locked shall be determined before the [I147]fcntl[/I147]() function blocks. If the file size or file descriptor seek offset change while [I148]fcntl[/I148]() is blocked, this shall not affect the range of bytes locked.
+[p_00063] If [I149]l_len[/I149] is positive, the area affected shall start at [I150]l_start[/I150] and end at [I151]l_start[/I151]+[I152]l_len[/I152]-1. If [I153]l_len[/I153] is negative, the area affected shall start at [I154]l_start[/I154]+[I155]l_len[/I155] and end at [I156]l_start[/I156]-1. Locks may start and extend beyond the current end of a file, but shall not extend before the beginning of the file. A lock shall be set to extend to the largest possible value of the file offset for that file by setting [I157]l_len[/I157] to 0. If such a lock also has [I158]l_start[/I158] set to 0 and [I159]l_whence[/I159] is set to SEEK_SET, the whole file shall be locked.
+[p_00064] Each byte in the file can be locked either with one or more shared locks (F_RDLCK) or with one exclusive lock (F_WRLCK).
+[p_00065] Before a successful return from an F_SETLK or an F_SETLKW request when the calling process has previously existing process-owned locks on bytes in the region specified by the request, the previous shared or exclusive lock for each byte in the specified region shall be replaced by the new shared or exclusive lock. An F_SETLK or an F_SETLKW request (respectively) shall fail or block when another process has existing process-owned locks, or any open file description (including the one associated with [I160]fildes[/I160]) has existing OFD-owned locks, on bytes in the specified region and any of those locks conflicts with the requested lock.
+[p_00066] Before a successful return from an F_OFD_SETLK or an F_OFD_SETLKW request when the open file description associated with fildes has previously existing OFD-owned locks on bytes in the region specified by the request, the previous shared or exclusive lock for each byte in the specified region shall be replaced by the new shared or exclusive lock. An F_OFD_SETLK or an F_OFD_SETLKW request (respectively) shall fail or block when another open file description has existing OFD-owned locks, or any process (including the calling process) has existing process-owned locks, on bytes in the specified region and any of those locks conflicts with the requested lock.
+[p_00067] All process-owned locks associated with a file for a given process shall be removed when any file descriptor for that file is closed by that process (even if via a different open file description) or the process holding that file descriptor terminates. Process-owned locks shall not be inherited by a child process.
+[p_00068] All OFD-owned locks associated with a given open file description shall be removed when all file descriptors associated with that open file description have been closed (either directly or as a side-effect of, for example, process termination or FD_CLOEXEC). OFD-owned locks shall be shared across all file descriptors that are associated with the owning open file description, regardless of which process holds the file descriptor.
+[p_00069] A potential for deadlock occurs if a process or thread controlling a locked region is put to sleep by attempting to lock a region that has an existing conflicting lock. If the system detects that sleeping until a locked region is unlocked would cause a deadlock, [I161]fcntl[/I161]() shall fail with an [EDEADLK] error. Deadlock detection may differ between process-owned locks and OFD-owned locks.
+[p_00070] [S162][[A163]XSI[/A163]][/S162] [IMG164] The interaction between [I165]fcntl[/I165]() and [A166][I167]lockf[/I167]()[/A166] locks is unspecified. [IMG168]
+[p_00071] An unlock (F_UNLCK) request in which [I169]l_len[/I169] is non-zero and the offset of the last byte of the requested segment is the maximum value for an object of type [B170]off_t[/B170], when the process (for F_SETLK and F_SETLKW) or open file description (for F_OFD_SETLK and F_OFD_SETLKW) has an existing lock in which [I171]l_len[/I171] is 0 and which includes the last byte of the requested segment, shall be treated as a request to unlock from the start of the requested segment with an [I172]l_len[/I172] equal to 0. Otherwise, an unlock (F_UNLCK) request shall attempt to unlock only the requested segment.
+[p_00072] [S173][[A174]SHM[/A174]][/S173] [IMG175] When the file descriptor [I176]fildes[/I176] refers to a shared memory object, the behavior of [I177]fcntl[/I177]() shall be the same as for a regular file except the effect of the following values for the argument [I178]cmd[/I178] is unspecified: F_SETFL, F_GETLK, F_SETLK, F_SETLKW, F_OFD_GETLK, F_OFD_SETLK, and F_OFD_SETLKW. [IMG179]
+[p_00073] [S180][[A181]TYM[/A181]][/S180] [IMG182] If [I183]fildes[/I183] refers to a typed memory object, the result of the [I184]fcntl[/I184]() function is unspecified. [IMG185]
+[h4_00074] [A186][/A186]RETURN VALUE
+[p_00075] Upon successful completion, the value returned shall depend on [I187]cmd[/I187] as follows:
+[dt_00076] F_DUPFD
+[dd_00077] A new file descriptor.
+[dt_00078] F_DUPFD_CLOEXEC
+[dd_00079] A new file descriptor.
+[dt_00080] F_DUPFD_CLOFORK
+[dd_00081] A new file descriptor.
+[dt_00082] F_GETFD
+[dd_00083] Value of flags defined in [A188][I189]&lt;fcntl.h&gt;[/I189][/A188]. The return value shall not be negative.
+[dt_00084] F_SETFD
+[dd_00085] Value other than -1.
+[dt_00086] F_GETFL
+[dd_00087] Value of file status flags and access modes. The return value shall not be negative.
+[dt_00088] F_SETFL
+[dd_00089] Value other than -1.
+[dt_00090] F_GETLK
+[dd_00091] Value other than -1.
+[dt_00092] F_SETLK
+[dd_00093] Value other than -1.
+[dt_00094] F_SETLKW
+[dd_00095] Value other than -1.
+[dt_00096] F_OFD_GETLK
+[dd_00097] Value other than -1.
+[dt_00098] F_OFD_SETLK
+[dd_00099] Value other than -1.
+[dt_00100] F_OFD_SETLKW
+[dd_00101] Value other than -1.
+[dt_00102] F_GETOWN
+[dd_00103] Value of the socket owner process or process group; this shall not be -1.
+[dt_00104] F_SETOWN
+[dd_00105] Value other than -1.
+[dt_00106] F_GETOWN_EX
+[dd_00107] Value other than -1.
+[dt_00108] F_SETOWN_EX
+[dd_00109] Value other than -1.
+[p_00110] Otherwise, -1 shall be returned and [I190]errno[/I190] set to indicate the error.
+[h4_00111] [A191][/A191]ERRORS
+[p_00112] The [I192]fcntl[/I192]() function shall fail if:
+[dt_00113] [EACCES] or [EAGAIN]
+[dd_00114] The [I193]cmd[/I193] argument is F_SETLK, the type of lock ([I194]l_type[/I194]) is a shared (F_RDLCK) or exclusive (F_WRLCK) lock, and the requested lock cannot be set because it is blocked by an existing lock on the file.
+[dt_00115] [EAGAIN]
+[dd_00116] The [I195]cmd[/I195] argument is F_OFD_SETLK, the type of lock ([I196]l_type[/I196]) is a shared (F_RDLCK) or exclusive (F_WRLCK) lock, and the requested lock cannot be set because it is blocked by an existing lock on the file.
+[dt_00117] [EBADF]
+[dd_00118] The [I197]fildes[/I197] argument is not a valid open file descriptor; or the argument [I198]cmd[/I198] is F_SETLK, F_SETLKW, F_OFD_SETLK, or F_OFD_SETLKW, the type of lock, [I199]l_type[/I199], is a shared lock (F_RDLCK), and [I200]fildes[/I200] is not a valid file descriptor open for reading, or the type of lock, [I201]l_type[/I201], is an exclusive lock (F_WRLCK), and [I202]fildes[/I202] is not a valid file descriptor open for writing.
+[dt_00119] [EINTR]
+[dd_00120] The [I203]cmd[/I203] argument is F_SETLKW or F_OFD_SETLKW and the function was interrupted by a signal.
+[dt_00121] [EINVAL]
+[dd_00122] The [I204]cmd[/I204] argument is invalid; or the [I205]cmd[/I205] argument is F_DUPFD, F_DUPFD_CLOEXEC, or F_DUPFD_CLOFORK and [I206]arg[/I206] is negative or is greater than or equal to {OPEN_MAX}; or the [I207]cmd[/I207] argument is F_SETOWN_EX and the [I208]type[/I208] member of the [B209]f_owner_ex[/B209] structure pointed to by [I210]arg[/I210] is invalid, or the [I211]pid[/I211] member is negative and the [I212]type[/I212] member is F_OWNER_PID or F_OWNER_PGRP; or the [I213]cmd[/I213] argument is F_GETLK, F_SETLK, F_SETLKW, F_OFD_GETLK, F_OFD_SETLK, or F_OFD_SETLKW and the data pointed to by [I214]arg[/I214] is not valid, or [I215]fildes[/I215] refers to a file that does not support locking.
+[dt_00123] [EMFILE]
+[dd_00124] The argument [I216]cmd[/I216] is F_DUPFD, F_DUPFD_CLOEXEC, or F_DUPFD_CLOFORK and all file descriptors available to the process are currently open, or no file descriptors greater than or equal to [I217]arg[/I217] are available.
+[dt_00125] [ENOLCK]
+[dd_00126] The argument [I218]cmd[/I218] is F_SETLK, F_SETLKW, F_OFD_SETLK, or F_OFD_SETLKW and satisfying the lock or unlock request would result in the number of locked regions in the system exceeding a system-imposed limit.
+[dt_00127] [EOVERFLOW]
+[dd_00128] One of the values to be returned cannot be represented correctly.
+[dt_00129] [EOVERFLOW]
+[dd_00130] The [I219]cmd[/I219] argument is F_GETLK, F_SETLK, F_SETLKW, F_OFD_GETLK, F_OFD_SETLK, or F_OFD_SETLKW and the smallest or, if [I220]l_len[/I220] is non-zero, the largest offset of any byte in the requested segment cannot be represented correctly in an object of type [B221]off_t[/B221].
+[dt_00131] [ESRCH]
+[dd_00132] The [I222]cmd[/I222] argument is F_SETOWN or F_SETOWN_EX and no process or process group can be found corresponding to that specified by [I223]arg[/I223].
+[p_00133] The [I224]fcntl[/I224]() function may fail if:
+[dt_00134] [EDEADLK]
+[dd_00135] The [I225]cmd[/I225] argument is F_SETLKW or F_OFD_SETLKW, the type of lock ([I226]l_type[/I226]) is a shared (F_RDLCK) or exclusive (F_WRLCK) lock, the requested lock is blocked by an existing lock on the file, and the system determines that waiting for that lock to be released would cause a deadlock.
+[dt_00136] [EINVAL]
+[dd_00137] The [I227]cmd[/I227] argument is F_SETOWN and the value of [I228]arg[/I228] is positive and is not valid as a process ID or the value of [I229]arg[/I229] is negative and its absolute value is not valid as a process group ID; or the [I230]cmd[/I230] argument is F_SETOWN_EX, the value of the [I231]type[/I231] member of the [B232]f_owner_ex[/B232] structure pointed to by [I233]arg[/I233] is F_OWNER_PID, and the value of the [I234]pid[/I234] member is not valid as a process ID; or the [I235]cmd[/I235] argument is F_SETOWN_EX, the value of the [I236]type[/I236] member of the [B237]f_owner_ex[/B237] structure pointed to by [I238]arg[/I238] is F_OWNER_PGRP, and the value of the [I239]pid[/I239] member is not valid as a process group ID.
+[dt_00138] [EPERM]
+[dd_00139] The [I240]cmd[/I240] argument is F_SETOWN or F_SETOWN_EX and the calling process does not have permission to send a SIGURG signal to any process specified by [I241]arg[/I241].
+[h4_00140] [A242][/A242]EXAMPLES
+[h5_00141] [A243][/A243]Locking and Unlocking a File
+[p_00142] The following example demonstrates how to place a lock on bytes 100 to 109 of a file and then later remove it. F_SETLK is used to perform a non-blocking lock request so that the process does not have to wait if an incompatible lock is held by another process; instead the process can take some other action.
+[h5_00143] [A244][/A244]Setting the Close-on-Exec Flag
+[p_00144] The following example demonstrates how to set the close-on-exec flag for the file descriptor [I245]fd[/I245].
+[h4_00145] [A246][/A246]APPLICATION USAGE
+[p_00146] The [I247]arg[/I247] values to F_GETFD, F_SETFD, F_GETFL, and F_SETFL all represent flag values to allow for future growth. Applications using these functions should do a read-modify-write operation on them, rather than assuming that only the values defined by this volume of POSIX.1-2024 are valid. It is a common error to forget this, particularly in the case of F_SETFD. Some implementations set additional file status flags to advise the application of default behavior, even though the application did not request these flags.
+[p_00147] In order to set both FD_CLOEXEC and FD_CLOFORK when duplicating a file descriptor, applications should use F_DUPFD_CLOFORK to obtain the new file descriptor with FD_CLOFORK already set, and then use F_SETFD to set the FD_CLOEXEC flag on the new descriptor. (The alternative of first using F_DUPFD_CLOEXEC and then setting FD_CLOFORK with F_SETFD has a timing window where another thread could create a child process which inherits the new descriptor because FD_CLOFORK has not yet been set.)
+[p_00148] The FD_CLOFORK flag takes effect for all child processes, not just those created using [A248][I249]fork[/I249]()[/A248] or [A250][I251]_Fork[/I251]()[/A250].
+[p_00149] On implementations where process IDs can be greater than {INT_MAX}, F_SETOWN cannot be used with process IDs greater than {INT_MAX} or process group IDs greater than {INT_MAX}+1 because the value is passed to [I252]fcntl[/I252]() in an argument of type [B253]int[/B253]. In this situation, F_SETOWN_EX should be used instead.
+[p_00150] Similarly, if a process ID greater than {INT_MAX} or a process group ID greater than {INT_MAX}+1 has been set to receive SIGURG signals (using F_SETOWN_EX), F_GETOWN cannot be used to obtain the value because [I254]fcntl[/I254]() returns the value as type [B255]int[/B255] and will thus give an [EOVERFLOW] error for such values. F_GETOWN_EX should be used instead.
+[p_00151] Note that the convention of negating a process group ID is only used with F_SETOWN and F_GETOWN; the [I256]pid[/I256] member of the [B257]f_owner_ex[/B257] structure used with F_SETOWN_EX and F_GETOWN_EX is not negated when it specifies a process group ID.
+[p_00152] On systems which do not perform permission checks at the time of an [I258]fcntl[/I258]() call with F_SETOWN or F_SETOWN_EX, if the permission checks performed at the time the signal is sent disallow sending the signal to any process, the process that called [I259]fcntl[/I259]() has no way of discovering that this has happened. A call to [A260][I261]kill[/I261]()[/A260] with signal 0 can be used as a prior check of permissions, although this is no guarantee that permission will be granted at the time a signal is sent, since the target process(es) could change user IDs or privileges in the meantime.
+[p_00153] Record-locking should not be used in combination with buffered standard I/O streams (see [A262][I263]2.5 Standard I/O Streams[/I263][/A262]). Instead, non-buffered I/O should be used. Unexpected results may occur in processes that do buffering in the user address space. The process may later read/write data which is/was locked. Functions that operate on standard I/O streams are the most common source of such buffering.
+[h4_00154] [A264][/A264]RATIONALE
+[p_00155] The ellipsis in the SYNOPSIS is the syntax specified by the ISO&nbsp;C standard for a variable number of arguments. It is used because System V uses pointers for the implementation of file locking functions.
+[p_00156] This volume of POSIX.1-2024 permits concurrent read and write access to file data using the [I265]fcntl[/I265]() function; this is a change from the 1984 /usr/group standard and early proposals. Without concurrency controls, this feature may not be fully utilized without occasional loss of data.
+[p_00157] Data losses occur in several ways. One case occurs when several processes try to update the same record, without sequencing controls; several updates may occur in parallel and the last writer &quot;wins&quot;. Another case is a bit-tree or other internal list-based database that is undergoing reorganization. Without exclusive use to the tree segment by the updating process, other reading processes chance getting lost in the database when the index blocks are split, condensed, inserted, or deleted. While [I266]fcntl[/I266]() is useful for many applications, it is not intended to be overly general and does not handle the bit-tree example well.
+[p_00158] This facility is only required for regular files because it is not appropriate for many devices such as terminals and network connections.
+[p_00159] Since [I267]fcntl[/I267]() works with &quot;any file descriptor associated with that file, however it is obtained&quot;, the file descriptor may have been inherited through a [A268][I269]fork[/I269]()[/A268] or [I270][A271]exec[/A271][/I270] operation and thus may affect a file that another process also has open.
+[p_00160] The use of the open file description to identify what to lock requires extra calls and presents problems if several processes are sharing an open file description, but there are too many implementations of the existing mechanism for this volume of POSIX.1-2024 to use different specifications.
+[p_00161] Another consequence of this model is that closing any file descriptor for a given file (whether or not it is the same open file description that created the lock) causes the locks on that file to be relinquished for that process. Equivalently, any close for any file/process pair relinquishes the locks owned on that file for that process. But note that while an open file description may be shared through [A272][I273]fork[/I273]()[/A272], locks are not inherited through [A274][I275]fork[/I275]()[/A274]. Yet locks may be inherited through one of the [I276][A277]exec[/A277][/I276] functions.
+[p_00162] The identification of a machine in a network environment is outside the scope of this volume of POSIX.1-2024. Thus, an [I278]l_sysid[/I278] member, such as found in System V, is not included in the locking structure.
+[p_00163] Changing of lock types can result in a previously locked region being split into smaller regions.
+[p_00164] Mandatory locking was a major feature of the 1984 /usr/group standard.
+[p_00165] For advisory file record locking to be effective, all processes that have access to a file must cooperate and use the advisory mechanism before doing I/O on the file. Enforcement-mode record locking is important when it cannot be assumed that all processes are cooperating. For example, if one user uses an editor to update a file at the same time that a second user executes another process that updates the same file and if only one of the two processes is using advisory locking, the processes are not cooperating. Enforcement-mode record locking would protect against accidental collisions.
+[p_00166] Secondly, advisory record locking requires a process using locking to bracket each I/O operation with lock (or test) and unlock operations. With enforcement-mode file and record locking, a process can lock the file once and unlock when all I/O operations have been completed. Enforcement-mode record locking provides a base that can be enhanced; for example, with sharable locks. That is, the mechanism could be enhanced to allow a process to lock a file so other processes could read it, but none of them could write it.
+[p_00167] Mandatory locks were omitted for several reasons:
+[p_00168] Mandatory lock setting was done by multiplexing the set-group-ID bit in most implementations; this was confusing, at best.
+[p_00169] The relationship to file truncation as supported in 4.2 BSD was not well specified.
+[p_00170] Any publicly readable file could be locked by anyone. Many historical implementations keep the password database in a publicly readable file. A malicious user could thus prohibit logins. Another possibility would be to hold open a long-distance telephone line.
+[p_00171] Some demand-paged historical implementations offer memory mapped files, and enforcement cannot be done on that type of file.
+[p_00172] Since sleeping on a region is interrupted with any signal, [A279][I280]alarm[/I280]()[/A279] may be used to provide a timeout facility in applications requiring it. This is useful in deadlock detection. Since implementation of full deadlock detection is not always feasible, the [EDEADLK] error was made optional.
+[p_00173] The F_SETOWN_EX and F_GETOWN_EX values for [I281]cmd[/I281] and the associated [B282]f_owner_ex[/B282] structure were adopted from the GNU C library. In addition to the values F_OWNER_PID and F_OWNER_PGRP for the [I283]type[/I283] member, this also has F_OWNER_TID to specify that the [I284]pid[/I284] member contains a thread ID. However, this relies on thread IDs being representable in a [B285]pid_t[/B285] and so was not included in POSIX.1-2024. The aim of adding F_SETOWN_EX and F_GETOWN_EX was to address the inability of F_SETOWN and F_GETOWN to handle process IDs greater than {INT_MAX} and process group IDs greater than {INT_MAX}+1, and this need is satisfied without including F_OWNER_TID.
+[h4_00174] [A286][/A286]FUTURE DIRECTIONS
+[p_00175] None.
+[h4_00176] [A287][/A287]SEE ALSO
+[p_00177] [A288][I289]alarm[/I289]()[/A288], [A290][I291]close[/I291]()[/A290], [A292][/A292][A293]exec[/A293], [A294][I295]kill[/I295]()[/A294], [A296][I297]open[/I297]()[/A296], [A298][I299]sigaction[/I299]()[/A298]
+[p_00178] XBD [A300][I301]&lt;fcntl.h&gt;[/I301][/A300], [A302][I303]&lt;signal.h&gt;[/I303][/A302]
+[h4_00179] [A304][/A304]CHANGE HISTORY
+[p_00180] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00181] [A305][/A305]Issue 5
+[p_00182] The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.
+[p_00183] Large File Summit extensions are added.
+[h4_00184] [A306][/A306]Issue 6
+[p_00185] In the SYNOPSIS, the optional include of the [A307][I308]&lt;sys/types.h&gt;[/I308][/A307] header is removed.
+[p_00186] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00187] The requirement to include [A309][I310]&lt;sys/types.h&gt;[/I310][/A309] has been removed. Although [A311][I312]&lt;sys/types.h&gt;[/I312][/A311] was required for conforming implementations of previous POSIX specifications, it was not required for UNIX applications.
+[p_00188] In the DESCRIPTION, sentences describing behavior when [I313]l_len[/I313] is negative are now mandated, and the description of unlock (F_UNLOCK) when [I314]l_len[/I314] is non-negative is mandated.
+[p_00189] In the ERRORS section, the [EINVAL] error condition has the case mandated when the [I315]cmd[/I315] is invalid, and two [EOVERFLOW] error conditions are added.
+[p_00190] The F_GETOWN and F_SETOWN values are added for sockets.
+[p_00191] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[p_00192] Clarification is added that the extent of the bytes locked is determined prior to the blocking action.
+[p_00193] The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by specifying that [I316]fcntl[/I316]() results are unspecified for typed memory objects.
+[p_00194] The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.
+[p_00195] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/29 is applied, adding the example to the EXAMPLES section.
+[h4_00196] [A317][/A317]Issue 7
+[p_00197] Austin Group Interpretation 1003.1-2001 #150 is applied, clarifying the file status flags returned when [I318]cmd[/I318] is F_GETFL.
+[p_00198] Austin Group Interpretation 1003.1-2001 #171 is applied, adding support to set the FD_CLOEXEC flag atomically at [A319][I320]open[/I320]()[/A319], and adding the F_DUPFD_CLOEXEC flag.
+[p_00199] The optional [A321][I322]&lt;unistd.h&gt;[/I322][/A321] header is removed from this function, since [A323][I324]&lt;fcntl.h&gt;[/I324][/A323] now defines SEEK_SET, SEEK_CUR, and SEEK_END as part of the Base.
+[p_00200] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0116 [141] is applied.
+[p_00201] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0105 [835], XSH/TC2-2008/0106 [677], XSH/TC2-2008/0107 [484], XSH/TC2-2008/0108 [675], and XSH/TC2-2008/0109 [675,677] are applied.
+[h4_00202] [A325][/A325]Issue 8
+[p_00203] Austin Group Defect 695 is applied, adding an atomicity requirement to the F_SETOWN operation.
+[p_00204] Austin Group Defects 768 and 1671 are applied, adding OFD-owned file locks.
+[p_00205] Austin Group Defect 1203 is applied, changing some wording in the RETURN VALUE section to use &quot;shall&quot;.
+[p_00206] Austin Group Defects 1274 and 1670 are applied, adding F_GETOWN_EX and F_SETOWN_EX.
+[p_00207] Austin Group Defect 1318 is applied, adding FD_CLOFORK and F_DUPFD_CLOFORK.
+[p_00208] &nbsp;

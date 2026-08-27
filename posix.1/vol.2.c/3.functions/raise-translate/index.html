@@ -1,0 +1,92 @@
+<h1>XSH 函数：raise()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="raise" id="raise"></a> <a name="tag_17_474" id="tag_17_474"></a>
+<a name="tag_17_474_01" id="tag_17_474_01"></a><h4>名称 (NAME)</h4>
+<blockquote>raise — 向正在执行的进程发送信号</blockquote>
+<a name="tag_17_474_02" id="tag_17_474_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;signal.h&gt;<br>
+<br>
+int raise(int</code> <i>sig</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_474_03" id="tag_17_474_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>raise</i>() 函数应向正在执行的 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  线程或进程发送信号 <i>sig</i>。<img src="../images/opt-end.gif" alt="[Option End]"> 如果调用了信号处理程序，则 <i>raise</i>() 函数在信号处理程序返回之前不应返回。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>raise</i>() 函数的效果应等同于调用：</p>
+<pre><code class="language-plaintext">pthread_kill(pthread_self(), sig);</code></pre>
+<img src="../images/opt-end.gif" alt="[Option End]"></blockquote>
+<a name="tag_17_474_04" id="tag_17_474_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，应返回 0。否则，应返回非零值 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_474_05" id="tag_17_474_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>raise</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>sig</i> 参数的值是无效的信号编号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_474_06" id="tag_17_474_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_474_07" id="tag_17_474_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_474_08" id="tag_17_474_08"></a><h4>原理说明 (RATIONALE)</h4>
+<blockquote>
+<p>术语 &quot;线程&quot; 是对 ISO C 标准的扩展。</p>
+</blockquote>
+<a name="tag_17_474_09" id="tag_17_474_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_474_10" id="tag_17_474_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>kill()、sigaction()</p>
+<p>XBD &lt;signal.h&gt;、&lt;sys/types.h&gt;</p>
+</blockquote>
+<a name="tag_17_474_11" id="tag_17_474_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 4。源自 ANSI C 标准。</p>
+</blockquote>
+<a name="tag_17_474_12" id="tag_17_474_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION（说明）部分已更新，以与 POSIX 线程扩展保持一致。</p>
+</blockquote>
+<a name="tag_17_474_13" id="tag_17_474_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展已标记。</p>
+<p>以下对 POSIX 实现的新要求源自与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>在 RETURN VALUE（返回值）部分，添加了出错时设置 <i>errno</i> 的要求。</p>
+</li>
+<li>
+<p>添加了 [EINVAL] 错误条件。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_474_14" id="tag_17_474_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>与 Threads 选项相关的功能被移到 Base。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

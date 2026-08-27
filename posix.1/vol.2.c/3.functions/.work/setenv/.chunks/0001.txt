@@ -1,0 +1,39 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] setenv — add or change environment variable
+[h4_00003] [A2][/A2]SYNOPSIS
+[blockquote_00004] [CODE3] [CODE4]
+[h4_00005] [A5][/A5]DESCRIPTION
+[p_00006] The [I6]setenv[/I6]() function shall update or add a variable in the environment of the calling process. The [I7]envname[/I7] argument points to a string containing the name of an environment variable to be added or altered. The environment variable shall be set to the value to which [I8]envval[/I8] points. The function shall fail if [I9]envname[/I9] points to a string which contains an [CODE10] character. If the environment variable named by [I11]envname[/I11] already exists and the value of [I12]overwrite[/I12] is non-zero, the function shall return success and the environment shall be updated. If the environment variable named by [I13]envname[/I13] already exists and the value of [I14]overwrite[/I14] is zero, the function shall return success and the environment shall remain unchanged.
+[p_00007] The [I15]setenv[/I15]() function shall update the list of pointers to which [I16]environ[/I16] points.
+[p_00008] The strings described by [I17]envname[/I17] and [I18]envval[/I18] are copied by this function.
+[p_00009] The [I19]setenv[/I19]() function need not be thread-safe.
+[h4_00010] [A20][/A20]RETURN VALUE
+[p_00011] Upon successful completion, zero shall be returned. Otherwise, -1 shall be returned, [I21]errno[/I21] set to indicate the error, and the environment shall be unchanged.
+[h4_00012] [A22][/A22]ERRORS
+[p_00013] The [I23]setenv[/I23]() function shall fail if:
+[dt_00014] [EINVAL]
+[dd_00015] The [I24]envname[/I24] argument points to an empty string or points to a string containing an [CODE25] character.
+[dt_00016] [ENOMEM]
+[dd_00017] Insufficient memory was available to add a variable or its value to the environment.
+[h4_00018] [A26][/A26]EXAMPLES
+[p_00019] None.
+[h4_00020] [A27][/A27]APPLICATION USAGE
+[p_00021] See [A28][I29]exec[/I29]()[/A28] for restrictions on changing the environment in multi-threaded applications.
+[h4_00022] [A30][/A30]RATIONALE
+[p_00023] Unanticipated results may occur if [I31]setenv[/I31]() changes the external variable [I32]environ[/I32]. In particular, if the optional [I33]envp[/I33] argument to [I34]main[/I34]() is present, it is not changed, and thus may point to an obsolete copy of the environment (as may any other copy of [I35]environ[/I35]). However, other than the aforementioned restriction, the standard developers intended that the traditional method of walking through the environment by way of the [I36]environ[/I36] pointer must be supported.
+[p_00024] It was decided that [I37]setenv[/I37]() should be required by this version because it addresses a piece of missing functionality, and does not impose a significant burden on the implementor.
+[p_00025] There was considerable debate as to whether the System V [A38][I39]putenv[/I39]()[/A38] function or the BSD [I40]setenv[/I40]() function should be required as a mandatory function. The [I41]setenv[/I41]() function was chosen because it permitted the implementation of the [A42][I43]unsetenv[/I43]()[/A42] function to delete environmental variables, without specifying an additional interface. The [A44][I45]putenv[/I45]()[/A44] function is available as part of the XSI option.
+[p_00026] The standard developers considered requiring that [I46]setenv[/I46]() indicate an error when a call to it would result in exceeding {ARG_MAX}. The requirement was rejected since the condition might be temporary, with the application eventually reducing the environment size. The ultimate success or failure depends on the size at the time of a call to [I47][A48]exec[/A48][/I47], which returns an indication of this error condition.
+[p_00027] See also the RATIONALE section in [A49][I50]getenv[/I50]()[/A49].
+[h4_00028] [A51][/A51]FUTURE DIRECTIONS
+[p_00029] None.
+[h4_00030] [A52][/A52]SEE ALSO
+[p_00031] [A53][/A53][A54]exec[/A54], [A55][I56]getenv[/I56]()[/A55], [A57][I58]putenv[/I58]()[/A57], [A59][I60]unsetenv[/I60]()[/A59]
+[p_00032] XBD [A61][I62]&lt;stdlib.h&gt;[/I62][/A61], [A63][I64]&lt;sys/types.h&gt;[/I64][/A63], [A65][I66]&lt;unistd.h&gt;[/I66][/A65]
+[h4_00033] [A67][/A67]CHANGE HISTORY
+[p_00034] First released in Issue 6. Derived from the IEEE&nbsp;P1003.1a draft standard.
+[p_00035] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/55 is applied, adding references to [I68][A69]exec[/A69][/I68] in the APPLICATION USAGE and SEE ALSO sections.
+[h4_00036] [A70][/A70]Issue 7
+[p_00037] Austin Group Interpretation 1003.1-2001 #156 is applied.
+[p_00038] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0549 [167], XSH/TC1-2008/0550 [185], XSH/TC1-2008/0551 [167], and XSH/TC1-2008/0552 [38] are applied.
+[p_00039] &nbsp;

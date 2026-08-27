@@ -1,0 +1,104 @@
+<h1>XSH 函数：pthread_once()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="pthread_once" id="pthread_once"></a> <a name="tag_17_449" id="tag_17_449"></a>
+
+<a name="tag_17_449_01" id="tag_17_449_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_once — 动态包初始化 (dynamic package initialization)</blockquote>
+<a name="tag_17_449_02" id="tag_17_449_02"></a><h4>简介 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+int pthread_once(pthread_once_t *</code><i>once_control</i><code>,<br>
+       void (*</code><i>init_routine</i><code>)(void));<br>
+pthread_once_t</code> <i>once_control</i> <code>= PTHREAD_ONCE_INIT;<br></code></code></p>
+</blockquote>
+<a name="tag_17_449_03" id="tag_17_449_03"></a><h4>描述 (DESCRIPTION)</h4>
+<blockquote>
+<p>进程中任何线程以给定的 <i>once_control</i> 对 <i>pthread_once</i>() 的第一次调用，应调用不带参数的 <i>init_routine</i>。以相同的 <i>once_control</i> 对 <i>pthread_once</i>() 的后续调用不应调用 <i>init_routine</i>。从 <i>pthread_once</i>() 返回时，<i>init_routine</i> 应已完成。<i>once_control</i> 参数应确定相关的初始化例程是否已被调用。</p>
+<p><i>pthread_once</i>() 函数不是取消点。但是，如果 <i>init_routine</i> 是取消点并被取消，则对 <i>once_control</i> 的影响应如同从未调用过 <i>pthread_once</i>()。</p>
+<p>如果对 <i>init_routine</i> 的调用因调用 longjmp() 或 siglongjmp() 而终止，则行为未定义。</p>
+<p>常量 PTHREAD_ONCE_INIT 在 &lt;pthread.h&gt; 头文件中定义。</p>
+<p>如果 <i>once_control</i> 具有自动存储期，或未由 PTHREAD_ONCE_INIT 初始化，则 <i>pthread_once</i>() 的行为未定义。</p>
+</blockquote>
+<a name="tag_17_449_04" id="tag_17_449_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>pthread_once</i>() 应返回零；否则，应返回错误号以指示错误。</p>
+</blockquote>
+<a name="tag_17_449_05" id="tag_17_449_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>pthread_once</i>() 函数不应返回 [EINTR] 错误码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_449_06" id="tag_17_449_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_449_07" id="tag_17_449_07"></a><h4>应用用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>如果 <i>init_routine</i> 以相同的 <i>once_control</i> 递归调用 <i>pthread_once</i>()，则该递归调用不会调用指定的 <i>init_routine</i>，因此指定的 <i>init_routine</i> 将无法完成，从而对 <i>pthread_once</i>() 的递归调用将不会返回。在 <i>init_routine</i> 中使用 longjmp() 或 siglongjmp() 跳转到 <i>init_routine</i> 之外的点，会阻止 <i>init_routine</i> 返回。</p>
+</blockquote>
+<a name="tag_17_449_08" id="tag_17_449_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>某些 C 库是为动态初始化而设计的。也就是说，库的全局初始化在库中的第一个过程被调用时执行。在单线程程序中，这通常使用一个静态变量来实现，在进入例程时检查该变量的值，如下所示：</p>
+<pre><code class="language-plaintext">static int random_is_initialized = 0;
+extern void initialize_random(void);
+ 
+int random_function()
+{
+    if (random_is_initialized == 0) {
+        initialize_random();
+        random_is_initialized = 1;
+    }
+    ... /* Operations performed after initialization. */
+}</code></pre>
+<p>为了在多线程程序中保持相同的结构，需要一个新的原语。否则，库初始化必须通过在使用库之前显式调用库导出的初始化函数来完成。</p>
+<p>对于多线程进程中的动态库初始化，如果使用初始化标志，则需要保护该标志免受同时调用该库的多个线程的修改。这可以通过使用互斥量（通过赋值 PTHREAD_MUTEX_INITIALIZER 初始化）来完成。然而，更好的解决方案是使用正是为此目的而设计的 <i>pthread_once</i>()，如下所示：</p>
+<pre><code class="language-plaintext">#include &lt;pthread.h&gt;
+static pthread_once_t random_is_initialized = PTHREAD_ONCE_INIT;
+extern void initialize_random(void);
+ 
+int random_function()
+{
+    (void) pthread_once(&amp;random_is_initialized, initialize_random);
+    ... /* Operations performed after initialization. */
+}</code></pre>
+<p>如果实现检测到 <i>pthread_once</i>() 的 <i>once_control</i> 参数所指定的值未指向由 PTHREAD_ONCE_INIT 初始化的 <b>pthread_once_t</b> 对象，则建议该函数应失败并报告 [EINVAL] 错误。</p>
+</blockquote>
+<a name="tag_17_449_09" id="tag_17_449_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_449_10" id="tag_17_449_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>XBD &lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_449_11" id="tag_17_449_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次在 Issue 5 中发布。为与 POSIX 线程扩展保持一致而纳入。</p>
+</blockquote>
+<a name="tag_17_449_12" id="tag_17_449_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_once</i>() 函数被标记为 Threads 选项的一部分。</p>
+<p>增加了 [EINVAL] 错误作为 &quot;可以失败&quot; 情形，用于任一参数无效的情况。</p>
+</blockquote>
+<a name="tag_17_449_13" id="tag_17_449_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_once</i>() 函数从 Threads 选项移至 Base。</p>
+<p>删除了针对未初始化的 <b>pthread_once_t</b> 对象的 [EINVAL] 错误；此情况导致未定义行为。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0284 [863]、XSH/TC2-2008/0285 [874]、XSH/TC2-2008/0286 [874] 和 XSH/TC2-2008/0287 [747]。</p>
+</blockquote>
+<a name="tag_17_449_14" id="tag_17_449_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 1330，移除了过时的接口。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

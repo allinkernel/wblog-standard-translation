@@ -1,0 +1,125 @@
+<h1>XSH 函数：send()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="send" id="send"></a> <a name="tag_17_516" id="tag_17_516"></a>
+<a name="tag_17_516_01" id="tag_17_516_01"></a><h4>名称 (NAME)</h4>
+<blockquote>send — 在套接字上发送消息 (send — send a message on a socket)</blockquote>
+<a name="tag_17_516_02" id="tag_17_516_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/socket.h&gt;<br>
+<br>
+ssize_t send(int</code> <i>socket</i><code>, const void *</code><i>buffer</i><code>, size_t</code> <i>length</i><code>, int</code>
+<i>flags</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_516_03" id="tag_17_516_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>send</i>() 函数应启动从指定套接字向其对端传输消息。只有在套接字已连接时，<i>send</i>() 函数才应发送消息。如果套接字是无连接模式的套接字，则消息应发送到预先指定的对端地址。</p>
+<p><i>send</i>() 函数接受以下参数：</p>
+<dl compact="None">
+<dd></dd>
+<dt><i>socket</i></dt>
+<dd>指定套接字文件描述符。</dd>
+<dt><i>buffer</i></dt>
+<dd>指向包含要发送的消息的缓冲区。</dd>
+<dt><i>length</i></dt>
+<dd>指定消息的长度（以字节为单位）。</dd>
+<dt><i>flags</i></dt>
+<dd>指定消息传输的类型。此参数的值通过对以下标志中的零个或多个进行逻辑或构成：  MSG_EOR 终止一条记录（如果协议支持）。MSG_OOB 在支持带外通信的套接字上发送带外数据。带外数据的重要性和语义是特定于协议的。MSG_NOSIGNAL 请求在不再连接的面向流的套接字上尝试发送时不要发送 SIGPIPE 信号。仍应返回 [EPIPE] 错误。</dd>
+</dl>
+<p>要发送的消息的长度由 <i>length</i> 参数指定。如果消息太长而无法通过底层协议传递，<i>send</i>() 应失败，并且不应传输任何数据。</p>
+<p>对 <i>send</i>() 调用的成功完成并不保证消息的送达。返回值为 -1 仅表示本地检测到的错误。</p>
+<p>如果发送套接字处没有可用空间来容纳要传输的消息，并且套接字文件描述符未设置 O_NONBLOCK，则 <i>send</i>() 应阻塞，直到有空间可用或发生超时（参见 2.10.16 选项的使用 中的 SO_SNDTIMEO）。如果发送套接字处没有可用空间来容纳要传输的消息，并且套接字文件描述符确实设置了 O_NONBLOCK，则 <i>send</i>() 应失败。select() 和 poll() 函数可用于确定何时可以发送更多数据。</p>
+<p>所使用的套接字可能要求进程拥有适当的权限才能使用 <i>send</i>() 函数。</p>
+</blockquote>
+<a name="tag_17_516_04" id="tag_17_516_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>send</i>() 应返回已发送的字节数。否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_516_05" id="tag_17_516_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>send</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN] 或 [EWOULDBLOCK]</dt>
+<dd>套接字的文件描述符被标记为 O_NONBLOCK，且请求的操作会阻塞。另请参见 2.10.16 选项的使用 中的 SO_SNDTIMEO。</dd>
+<dt>[EBADF]</dt>
+<dd><i>socket</i> 参数不是有效的文件描述符。</dd>
+<dt>[ECONNRESET]</dt>
+<dd>连接被对端强制关闭。</dd>
+<dt>[EDESTADDRREQ]</dt>
+<dd>套接字不是连接模式的，且未设置对端地址。</dd>
+<dt>[EINTR]</dt>
+<dd>在传输任何数据之前，一个信号中断了 <i>send</i>()。</dd>
+<dt>[EMSGSIZE]</dt>
+<dd>消息太大，无法像套接字所要求的那样一次全部发送。</dd>
+<dt>[ENOTCONN]</dt>
+<dd>套接字未连接。</dd>
+<dt>[ENOTSOCK]</dt>
+<dd><i>socket</i> 参数不引用套接字。</dd>
+<dt>[EOPNOTSUPP]</dt>
+<dd><i>socket</i> 参数与一个不支持 <i>flags</i> 中设置的一个或多个值的套接字相关联。</dd>
+<dt>[EPIPE]</dt>
+<dd>套接字已关闭写入功能，或套接字是连接模式的且不再连接。在后一种情况下，如果套接字是 SOCK_STREAM 或 SOCK_SEQPACKET 类型且未设置 MSG_NOSIGNAL 标志，则向调用线程生成 SIGPIPE 信号。</dd>
+</dl>
+<p>在以下情况下，<i>send</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>调用进程没有适当的权限。</dd>
+<dt>[EIO]</dt>
+<dd>在读取或写入文件系统时发生 I/O 错误。</dd>
+<dt>[ENETDOWN]</dt>
+<dd>用于到达目标的本地网络接口已关闭。</dd>
+<dt>[ENETUNREACH]</dt>
+<dd>不存在到达该网络的路由。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>系统中可用于执行该操作的资源不足。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_516_06" id="tag_17_516_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_516_07" id="tag_17_516_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>如果 <i>socket</i> 参数引用的是连接模式的套接字，则 <i>send</i>() 函数等效于 sendto()（<i>dest_addr</i> 和 <i>dest_len</i> 参数可取任意值，因为在这种情况下它们被忽略）。如果 <i>socket</i> 参数引用的是套接字且 <i>flags</i> 参数为 0，则 <i>send</i>() 函数等效于 write()。</p>
+</blockquote>
+<a name="tag_17_516_08" id="tag_17_516_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_516_09" id="tag_17_516_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_516_10" id="tag_17_516_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>connect()、getsockopt()、poll()、pselect()、recv()、recvfrom()、recvmsg()、sendmsg()、sendto()、setsockopt()、shutdown()、socket()、write()</p>
+<p>XBD &lt;sys/socket.h&gt;</p>
+</blockquote>
+<a name="tag_17_516_11" id="tag_17_516_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 6 版。源自 XNS 第 5.2 版规范。</p>
+</blockquote>
+<a name="tag_17_516_12" id="tag_17_516_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用 Austin Group Interpretation 1003.1-2001 #035，更新 DESCRIPTION 以阐明当套接字是无连接模式套接字时的行为。</p>
+<p>从 The Open Group Technical Standard, 2006, Extended API Set Part 2 添加 MSG_NOSIGNAL 标志。</p>
+<p>修改了 [EPIPE] 错误。</p>
+<p>应用 POSIX.1-2008 Technical Corrigendum 1 中的 XSH/TC1-2008/0543 [463]。</p>
+</blockquote>
+<a name="tag_17_516_13" id="tag_17_516_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用 Austin Group Defect 1429，通过添加对 2.10.16 选项的使用 的引用阐明超时时的行为。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -1,0 +1,80 @@
+<h1>XSH 函数：atexit()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="atexit" id="atexit"></a> <a name="tag_17_28" id="tag_17_28"></a>
+<a name="tag_17_28_01" id="tag_17_28_01"></a><h4>名称 (NAME)</h4>
+<blockquote>atexit — 注册一个将从 .I exit () 调用或在从 .I main () 返回后调用的函数 (register a function to be called from .I exit () or after return from .I main ())</blockquote>
+<a name="tag_17_28_02" id="tag_17_28_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+int atexit(void (*</code><i>func</i><code>)(void));<br></code></code></p>
+</blockquote>
+<a name="tag_17_28_03" id="tag_17_28_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>atexit</i>() 函数应注册由 <i>func</i> 指向的函数，该函数将从 exit() 无参数调用，或在从对 <i>main</i>() 的初始调用返回后调用，或在最后一个线程终止时调用。如果调用了 exit() 函数，则在调用 exit() 之前未发生的对 <i>atexit</i>() 函数的调用是否会成功是未指定的。</p>
+<p>至少可以用 <i>atexit</i>() 注册 32 个函数。</p>
+</blockquote>
+<a name="tag_17_28_04" id="tag_17_28_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>atexit</i>() 应返回 0；否则，它应返回非零值。</p>
+</blockquote>
+<a name="tag_17_28_05" id="tag_17_28_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义任何错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_28_06" id="tag_17_28_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_28_07" id="tag_17_28_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p><i>atexit</i>() 函数的注册与 at_quick_exit() 的注册不同，因此应用程序可能需要用相同的参数调用两个注册函数。</p>
+<p>由调用 <i>atexit</i>() 注册的函数必须返回以确保所有注册的函数都被调用。</p>
+<p>应用程序应调用 sysconf() 以获得 {ATEXIT_MAX} 的值，即可以注册的函数的数量。应用程序无法得知已经用 <i>atexit</i>() 注册了多少函数。</p>
+<p>由于多次调用 exit() 函数时行为是未定义的，调用 <i>atexit</i>() 的可移植应用程序必须确保在调用由 <i>atexit</i>() 函数注册的函数时不调用 exit() 函数。</p>
+<p>如果由 <i>atexit</i>() 函数注册的函数被调用，并且可移植应用程序需要停止进一步的 exit() 处理，它必须调用 _exit() 函数或 _Exit() 函数或导致异常进程终止的函数之一。</p>
+</blockquote>
+<a name="tag_17_28_08" id="tag_17_28_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_28_09" id="tag_17_28_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_28_10" id="tag_17_28_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>at_quick_exit(), exec, exit(), sysconf()</p>
+<p>XBD &lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_28_11" id="tag_17_28_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 4 版。源自 ANSI C 标准。</p>
+</blockquote>
+<a name="tag_17_28_12" id="tag_17_28_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>标记了超出 ISO C 标准的扩展。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，更新了 DESCRIPTION。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/19，向 APPLICATION USAGE 部分添加了进一步的澄清。</p>
+</blockquote>
+<a name="tag_17_28_13" id="tag_17_28_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 1302，使此函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+<p>应用了 Austin Group 缺陷 1646，移除了与 <i>exec</i> 函数族相关的冗余文本。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

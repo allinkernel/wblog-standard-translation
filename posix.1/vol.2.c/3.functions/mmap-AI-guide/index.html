@@ -1,0 +1,30 @@
+<h1>XSH 函数导读：mmap()</h1>
+
+<h2>0. 总览</h2>
+<p><code>mmap()</code> 映射内存页：在进程的地址空间与内存对象（普通文件、匿名内存对象、共享内存对象、类型化内存对象）之间建立映射。头文件为 <code>&lt;sys/mman.h&gt;</code>。原型关键点：<code>void *mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)</code>——<code>addr</code> 是期望地址（非 MAP_FIXED 时仅为建议，0 表示完全由实现选择），<code>len</code> 为映射字节数，<code>prot</code> 指定 PROT_NONE/PROT_READ/PROT_WRITE/PROT_EXEC 的组合，<code>flags</code> 必含 MAP_SHARED 或 MAP_PRIVATE 之一，成功返回实际映射地址 <code>pa</code>，失败返回 MAP_FAILED 并设 <code>errno</code>。若 <code>len</code> 为 0，应失败且不建立任何映射。</p>
+
+<h2>1. 机制</h2>
+<p>映射的核心行为：把文件描述符 <code>fildes</code> 所表示对象中偏移 <code>off</code> 起、长度 <code>len</code> 的区域映射到进程地址空间；系统按整页执行映射，会包含任何部分页。MAP_SHARED 的写引用更改底层对象，MAP_PRIVATE 的修改仅对调用进程可见；两者不能同时指定，映射类型在 fork() 之后保持不变。MAP_ANONYMOUS（或 MAP_ANON）配合 <code>fildes</code> 为 -1、<code>off</code> 为 0 时建立到新匿名内存对象的映射，内容初始化为全零。成功调用会给文件增加一个额外引用，不受 close() 影响，直到映射消失。映射区域中的同步对象状态语义、对象末尾部分页的零填充（越界引用产生 SIGBUS）都受规范约束。设置 MAP_FIXED 时 <code>pa</code> 必须精确等于 <code>addr</code>，并替换覆盖范围内的先前映射。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是 <code>off</code>（以及 MAP_FIXED 时的 <code>addr</code>）应按 <code>sysconf(_SC_PAGESIZE)</code> 返回的页大小对齐，未对齐会失败（[EINVAL]）或行为未定义；二是必须用 MAP_FAILED 而不是 NULL 判断失败，符号 MAP_FAILED 定义于 <code>&lt;sys/mman.h&gt;</code>；三是 PROT_WRITE 时文件必须已以写权限打开（MAP_PRIVATE 除外），且无论何种保护文件都须以读权限打开，否则 [EACCES]；四是 <code>len</code> 为 0 失败，映射超出对象末尾的区域可能触发 SIGBUS；五是 MAP_FIXED 会替换覆盖范围内的旧映射，可能影响 malloc()/shmat() 的后续使用，一般建议让系统选择地址（addr 为 0、不设 MAP_FIXED）。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/mman.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int fd = open("data.bin", O_RDONLY);
+    void *p;
+    if (fd &lt; 0) return 1;
+    /* 映射文件开头 4096 字节（off 需页对齐） */
+    p = mmap(NULL, 4096, PROT_READ, MAP_PRIVATE, fd, 0);
+    if (p == MAP_FAILED) { close(fd); return 1; }
+    /* 直接通过地址访问文件内容 */
+    printf("%d\n", ((unsigned char *)p)[0]);
+    munmap(p, 4096);   /* 解除映射 */
+    close(fd);
+    return 0;
+}</code></pre>

@@ -1,0 +1,29 @@
+<h1>XSH 函数导读：snprintf()</h1>
+
+<h2>0. 总览</h2>
+<p><code>snprintf()</code> 打印格式化输出到字符串并限制长度：等同于 <code>sprintf()</code>，外加 <code>n</code> 参数限制写入 <code>s</code> 所引用缓冲区的字节数。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>int snprintf(char *restrict s, size_t n, const char *restrict format, ...)</code>——若 <code>n</code> 为 0，不写入任何内容且 <code>s</code> 可以是空指针；否则超出第 <code>n</code>-1 个的输出字节被丢弃，并在实际写入数组的字节末尾写入一个空字节，保证结果以 <code>'\0'</code> 结尾（当 <code>n</code> &gt; 0 时）。</p>
+
+<h2>1. 机制</h2>
+<p>核心行为：先按 <code>format</code> 完整格式化所有参数，然后受 <code>n</code> 限制仅把前 <code>n</code>-1 个字节写入 <code>s</code> 并补空字节结尾；溢出部分被丢弃，不写坏缓冲区。返回值语义特别重要：成功时返回<em>如果 <code>n</code> 足够大将会写入 <code>s</code> 的字节数（不包括终止空字节）</em>——即完整结果所需的长度，可能大于 <code>n</code>-1。这个"所需长度"可用来判断是否发生截断，以及动态分配多大缓冲区。注意 <code>n</code> 限制的是写入 <code>s</code> 的字节数，它不一定与 <code>s</code> 的大小相同。遇到错误时返回负值并设置 <code>errno</code>。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是返回值语义——<code>snprintf()</code> 返回的是"如果没有限制将会写入的字节数"，不是实际写入的字节数；返回 <code>n</code> 或更大即说明输出被截断，需要用更大的缓冲区重试或改用动态分配；二是 <code>n</code> 应为缓冲区大小，若传入的 <code>n</code> 大于实际数组大小，仍会越界写；三是不检查返回值就假定字符串完整；四是与 <code>sprintf()</code> 一样，参数类型不匹配、<code>%s</code> 无结尾空字节、重叠复制都属未定义行为；五是 <code>%n</code> 同样应避免。正确用法是分配足够大的缓冲区并检查返回值是否小于 <code>n</code>。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void) {
+    char buf[8];
+    int need;
+
+    need = snprintf(buf, sizeof buf, "hello %d", 123456);
+    /* 完整结果 "hello 123456" 需 12 字节（不含 '\0'） */
+
+    if (need &lt; 0)
+        return 1;                       /* 输出错误 */
+    if ((size_t)need &gt;= sizeof buf) {
+        /* 已截断：buf 内容为 "hello 1\0"，需扩大缓冲区 */
+        return 1;
+    }
+    return 0;
+}</code></pre>

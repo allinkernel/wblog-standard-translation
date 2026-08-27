@@ -1,0 +1,699 @@
+1	a64l	a64l, l64a — convert between a 32-bit integer and a radix-64 ASCII string
+2	abort	abort — generate an abnormal process abort
+3	abs	abs — return an integer absolute value
+4	accept	accept, accept4 — accept a new connection on a socket
+5	access	access, faccessat — determine accessibility of a file descriptor
+6	acos	acos, acosf, acosl — arc cosine functions
+7	acosh	acosh, acoshf, acoshl — inverse hyperbolic cosine functions
+8	aio_cancel	aio_cancel — cancel an asynchronous I/O request
+9	aio_error	aio_error — retrieve errors status for an asynchronous I/O operation
+10	aio_fsync	aio_fsync — asynchronous file synchronization
+11	aio_read	aio_read — asynchronous read from a file
+12	aio_return	aio_return — retrieve return status of an asynchronous I/O operation
+13	aio_suspend	aio_suspend — wait for an asynchronous I/O request
+14	aio_write	aio_write — asynchronous write to a file
+15	alarm	alarm — schedule an alarm signal
+16	aligned_alloc	aligned_alloc — allocate memory with a specified alignment
+17	alphasort	alphasort, scandir — scan a directory
+18	asctime	asctime — convert date and time to a string
+19	asin	asin, asinf, asinl — arc sine function
+20	asinh	asinh, asinhf, asinhl — inverse hyperbolic sine functions
+21	assert	assert — insert program diagnostics
+22	at_quick_exit	at_quick_exit — register a function to to be called from quick_exit()
+23	atan	atan, atanf, atanl — arc tangent function
+24	atan2	atan2, atan2f, atan2l — arc tangent functions
+25	atanh	atanh, atanhf, atanhl — inverse hyperbolic tangent functions
+26	atexit	atexit — register a function to be called from .I exit () or after return from .I main ()
+27	atof	atof — convert a string to a double-precision number
+28	atoi	atoi — convert a string to an integer
+29	atol	atol, atoll — convert a string to a long integer
+30	atomic_compare_exchange_strong	atomic_compare_exchange_strong, atomic_compare_exchange_strong_explicit, atomic_compare_exchange_weak, atomic_compare_exchange_weak_explicit — atomically compare and exchange the values of two objects
+31	atomic_exchange	atomic_exchange, atomic_exchange_explicit — atomically exchange the value of an object
+32	atomic_fetch_add	atomic_fetch_add, atomic_fetch_add_explicit, atomic_fetch_and, atomic_fetch_and_explicit, atomic_fetch_or, atomic_fetch_or_explicit, atomic_fetch_sub, atomic_fetch_sub_explicit, atomic_fetch_xor, atomic_fetch_xor_explicit — atomically replace the value of an object with the result of a computation
+33	atomic_flag_clear	atomic_flag_clear, atomic_flag_clear_explicit — clear an atomic flag
+34	atomic_flag_test_and_set	atomic_flag_test_and_set, atomic_flag_test_and_set_explicit — test and set an atomic flag
+35	atomic_init	atomic_init — initialize an atomic object
+36	atomic_is_lock_free	atomic_is_lock_free — indicate whether or not atomic operations are lock-free
+37	atomic_load	atomic_load, atomic_load_explicit — atomically obtain the value of an object
+38	atomic_signal_fence	atomic_signal_fence, atomic_thread_fence — fence operations
+39	atomic_store	atomic_store, atomic_store_explicit — atomically store a value in an object
+40	basename	basename — return the last component of a pathname
+41	be16toh	be16toh, be32toh, be64toh, htobe16, htobe32, htobe64, htole16, htole32, htole64, le16toh, le32toh, le64toh — convert values between host and specified byte order
+42	bind	bind — bind a name to a socket
+43	bindtextdomain	bindtextdomain, bind_textdomain_codeset, textdomain — text domain manipulation functions
+44	bsearch	bsearch — binary search a sorted table
+45	btowc	btowc — single byte to wide character conversion
+46	c16rtomb	c16rtomb, c32rtomb — convert a Unicode character code to a character (restartable)
+47	cabs	cabs, cabsf, cabsl — return a complex absolute value
+48	cacos	cacos, cacosf, cacosl — complex arc cosine functions
+49	cacosh	cacosh, cacoshf, cacoshl — complex arc hyperbolic cosine functions
+50	call_once	call_once — dynamic package initialization
+51	calloc	calloc — a memory allocator
+52	carg	carg, cargf, cargl — complex argument functions
+53	casin	casin, casinf, casinl — complex arc sine functions
+54	casinh	casinh, casinhf, casinhl — complex arc hyperbolic sine functions
+55	catan	catan, catanf, catanl — complex arc tangent functions
+56	catanh	catanh, catanhf, catanhl — complex arc hyperbolic tangent functions
+57	catclose	catclose — close a message catalog descriptor
+58	catgets	catgets — read a program message
+59	catopen	catopen — open a message catalog
+60	cbrt	cbrt, cbrtf, cbrtl — cube root functions
+61	ccos	ccos, ccosf, ccosl — complex cosine functions
+62	ccosh	ccosh, ccoshf, ccoshl — complex hyperbolic cosine functions
+63	ceil	ceil, ceilf, ceill — ceiling value function
+64	cexp	cexp, cexpf, cexpl — complex exponential functions
+65	cfgetispeed	cfgetispeed — get input baud rate
+66	cfgetospeed	cfgetospeed — get output baud rate
+67	cfsetispeed	cfsetispeed — set input baud rate
+68	cfsetospeed	cfsetospeed — set output baud rate
+69	chdir	chdir — change working directory
+70	chmod	chmod, fchmodat — change mode of a file
+71	chown	chown, fchownat — change owner and group of a file
+72	cimag	cimag, cimagf, cimagl — complex imaginary functions
+73	clearerr	clearerr — clear indicators on a stream
+74	clock	clock — report CPU time used
+75	clock_getcpuclockid	clock_getcpuclockid — access a process CPU-time clock (ADVANCED REALTIME)
+76	clock_getres	clock_getres, clock_gettime, clock_settime — clock and timer functions
+77	clock_nanosleep	clock_nanosleep — high resolution sleep with specifiable clock
+78	clog	clog, clogf, clogl — complex natural logarithm functions
+79	close	close, posix_close — close a file descriptor
+80	closedir	closedir — close a directory stream
+81	closelog	closelog, openlog, setlogmask, syslog — control system log
+82	cnd_broadcast	cnd_broadcast, cnd_signal — broadcast or signal a condition
+83	cnd_destroy	cnd_destroy, cnd_init — destroy and initialize condition variables
+84	cnd_timedwait	cnd_timedwait, cnd_wait — wait on a condition
+85	confstr	confstr — get configurable variables
+86	conj	conj, conjf, conjl — complex conjugate functions
+87	connect	connect — connect a socket
+88	contents	
+89	copysign	copysign, copysignf, copysignl — number manipulation function
+90	cos	cos, cosf, cosl — cosine function
+91	cosh	cosh, coshf, coshl — hyperbolic cosine functions
+92	cpow	cpow, cpowf, cpowl — complex power functions
+93	cproj	cproj, cprojf, cprojl — complex projection functions
+94	creal	creal, crealf, creall — complex real functions
+95	creat	creat — create a new file or rewrite an existing one
+96	crypt	crypt — password hashing function (CRYPT)
+97	csin	csin, csinf, csinl — complex sine functions
+98	csinh	csinh, csinhf, csinhl — complex hyperbolic sine functions
+99	csqrt	csqrt, csqrtf, csqrtl — complex square root functions
+100	ctan	ctan, ctanf, ctanl — complex tangent functions
+101	ctanh	ctanh, ctanhf, ctanhl — complex hyperbolic tangent functions
+102	ctermid	ctermid — generate a pathname for the controlling terminal
+103	ctime	ctime — convert a time value to a date and time string
+104	dbm_clearerr	dbm_clearerr, dbm_close, dbm_delete, dbm_error, dbm_fetch, dbm_firstkey, dbm_nextkey, dbm_open, dbm_store — database functions
+105	difftime	difftime — compute the difference between two calendar time values
+106	dirfd	dirfd — extract the file descriptor used by a DIR stream
+107	dirname	dirname — report the parent directory name of a file pathname
+108	div	div — compute the quotient and remainder of an integer division
+109	dladdr	dladdr — get information relating to an address
+110	dlclose	dlclose — close a symbol table handle
+111	dlerror	dlerror — get diagnostic information
+112	dlopen	dlopen — open a symbol table handle
+113	dlsym	dlsym — get the address of a symbol from a symbol table handle
+114	drand48	drand48, erand48, jrand48, lcong48, lrand48, mrand48, nrand48, seed48, srand48 — generate uniformly distributed pseudo-random numbers
+115	dup	dup, dup2, dup3 — duplicate an open file descriptor
+116	duplocale	duplocale — duplicate a locale object
+117	encrypt	encrypt — encoding function (CRYPT)
+118	endgrent	endgrent, getgrent, setgrent — group database entry functions
+119	endhostent	endhostent, gethostent, sethostent — network host database functions
+120	endnetent	endnetent, getnetbyaddr, getnetbyname, getnetent, setnetent — network database functions
+121	endprotoent	endprotoent, getprotobyname, getprotobynumber, getprotoent, setprotoent — network protocol database functions
+122	endpwent	endpwent, getpwent, setpwent — user database functions
+123	endservent	endservent, getservbyname, getservbyport, getservent, setservent — network services database functions
+124	endutxent	endutxent, getutxent, getutxid, getutxline, pututxline, setutxent — user accounting database functions
+125	erf	erf, erff, erfl — error functions
+126	erfc	erfc, erfcf, erfcl — complementary error functions
+127	errno	errno — error return value
+128	exec	environ, execl, execle, execlp, execv, execve, execvp, fexecve — execute a file
+129	exit	exit — terminate a process
+130	exp	exp, expf, expl — exponential function
+131	exp2	exp2, exp2f, exp2l — exponential base 2 functions
+132	expm1	expm1, expm1f, expm1l — compute exponential functions
+133	fabs	fabs, fabsf, fabsl — absolute value function
+134	fchdir	fchdir — change working directory
+135	fchmod	fchmod — change mode of a file
+136	fchown	fchown — change owner and group of a file
+137	fclose	fclose — close a stream
+138	fcntl	fcntl — file control
+139	fdatasync	fdatasync — synchronize the data of a file (REALTIME)
+140	fdim	fdim, fdimf, fdiml — compute positive difference between two floating-point numbers
+141	fdopen	fdopen — associate a stream with a file descriptor
+142	fdopendir	fdopendir, opendir — open directory associated with file descriptor
+143	feclearexcept	feclearexcept — clear floating-point exception
+144	fegetenv	fegetenv, fesetenv — get and set current floating-point environment
+145	fegetexceptflag	fegetexceptflag, fesetexceptflag — get and set floating-point status flags
+146	fegetround	fegetround, fesetround — get and set current rounding direction
+147	feholdexcept	feholdexcept — save current floating-point environment
+148	feof	feof — test end-of-file indicator on a stream
+149	feraiseexcept	feraiseexcept — raise floating-point exception
+150	ferror	ferror — test error indicator on a stream
+151	fetestexcept	fetestexcept — test floating-point exception flags
+152	feupdateenv	feupdateenv — update floating-point environment
+153	fflush	fflush — flush a stream
+154	ffs	ffs, ffsl, ffsll — find first set bit
+155	fgetc	fgetc — get a byte from a stream
+156	fgetpos	fgetpos — get current file position information
+157	fgets	fgets — get a string from a stream
+158	fgetwc	fgetwc — get a wide-character code from a stream
+159	fgetws	fgetws — get a wide-character string from a stream
+160	fileno	fileno — map a stream pointer to a file descriptor
+161	flockfile	flockfile, ftrylockfile, funlockfile — stdio locking functions
+162	floor	floor, floorf, floorl — floor function
+163	fma	fma, fmaf, fmal — floating-point multiply-add
+164	fmax	fmax, fmaxf, fmaxl — determine maximum numeric value of two floating-point numbers
+165	fmemopen	fmemopen — open a memory buffer stream
+166	fmin	fmin, fminf, fminl — determine minimum numeric value of two floating-point numbers
+167	fmod	fmod, fmodf, fmodl — floating-point remainder value function
+168	fmtmsg	fmtmsg — display a message in the specified format on standard error and/or a system console
+169	fnmatch	fnmatch — match a filename string or a pathname
+170	fopen	fopen — open a stream
+171	fork	fork — create a new process
+172	fpathconf	fpathconf, pathconf — get configurable pathname variables
+173	fpclassify	fpclassify — classify real floating type
+174	fprintf	asprintf, dprintf, fprintf, printf, snprintf, sprintf — print formatted output
+175	fputc	fputc — put a byte on a stream
+176	fputs	fputs — put a string on a stream
+177	fputwc	fputwc — put a wide-character code on a stream
+178	fputws	fputws — put a wide-character string on a stream
+179	fread	fread — binary input
+180	free	free — free allocated memory
+181	freeaddrinfo	freeaddrinfo, getaddrinfo — get address information
+182	freelocale	freelocale — free resources allocated for a locale object
+183	freopen	freopen — open a stream
+184	frexp	frexp, frexpf, frexpl — extract significand and exponent from a double precision number
+185	fscanf	fscanf, scanf, sscanf — convert formatted input
+186	fseek	fseek, fseeko — reposition a file-position indicator in a stream
+187	fsetpos	fsetpos — set current file position
+188	fstat	fstat — get file status
+189	fstatat	fstatat, lstat, stat — get file status
+190	fstatvfs	fstatvfs, statvfs — get file system information
+191	fsync	fsync — synchronize changes to a file
+192	ftell	ftell, ftello — return a file offset in a stream
+193	ftok	ftok — generate an IPC key
+194	ftruncate	ftruncate — truncate a file to a specified length
+195	futimens	futimens, utimensat, utimes — set file access and modification times
+196	fwide	fwide — set stream orientation
+197	fwprintf	fwprintf, swprintf, wprintf — print formatted wide-character output
+198	fwrite	fwrite — binary output
+199	fwscanf	fwscanf, swscanf, wscanf — convert formatted wide-character input
+200	gai_strerror	gai_strerror — address and name information error description
+201	getc	getc — get a byte from a stream
+202	getc_unlocked	getc_unlocked, getchar_unlocked, putc_unlocked, putchar_unlocked — stdio with explicit client locking
+203	getchar	getchar — get a byte from a stdin stream
+204	getcwd	getcwd — get the pathname of the current working directory
+205	getdate	getdate — convert user format date and time
+206	getdelim	getdelim, getline — read a delimited record from stream
+207	getegid	getegid — get the effective group ID
+208	getentropy	getentropy — fill a buffer with random bytes
+209	getenv	getenv, secure_getenv — get value of an environment variable
+210	geteuid	geteuid — get the effective user ID
+211	getgid	getgid — get the real group ID
+212	getgrgid	getgrgid, getgrgid_r — get group database entry for a group ID
+213	getgrnam	getgrnam, getgrnam_r — search group database for a name
+214	getgroups	getgroups — get supplementary group IDs
+215	gethostid	gethostid — get an identifier for the current host
+216	gethostname	gethostname — get name of current host
+217	getlocalename_l	getlocalename_l — get a locale name from a locale object
+218	getlogin	getlogin, getlogin_r — get login name
+219	getnameinfo	getnameinfo — get name information
+220	getopt	getopt, optarg, opterr, optind, optopt — command option parsing
+221	getpeername	getpeername — get the name of the peer socket
+222	getpgid	getpgid — get the process group ID for a process
+223	getpgrp	getpgrp — get the process group ID of the calling process
+224	getpid	getpid — get the process ID
+225	getppid	getppid — get the parent process ID
+226	getpriority	getpriority, setpriority — get and set the nice value
+227	getpwnam	getpwnam, getpwnam_r — search user database for a name
+228	getpwuid	getpwuid, getpwuid_r — search user database for a user ID
+229	getresgid	getresgid — get real group ID, effective group ID, and saved set-group-ID
+230	getresuid	getresuid — get real user ID, effective user ID, and saved set-user-ID
+231	getrlimit	getrlimit, setrlimit — control maximum resource consumption
+232	getrusage	getrusage — get information about resource utilization
+233	getsid	getsid — get the process group ID of a session leader
+234	getsockname	getsockname — get the socket name
+235	getsockopt	getsockopt — get the socket options
+236	getsubopt	getsubopt — parse suboption arguments from a string
+237	gettext	dgettext, dgettext_l, dcgettext, dcgettext_l, gettext, gettext_l, ngettext, ngettext_l, dngettext, dngettext_l, dcngettext, dcngettext_l — message handling functions
+238	getuid	getuid — get a real user ID
+239	getwc	getwc — get a wide character from a stream
+240	getwchar	getwchar — get a wide character from a stdin stream
+241	glob	glob, globfree — generate pathnames matching a pattern
+242	gmtime	gmtime, gmtime_r — convert a time value to a broken-down UTC time
+243	grantpt	grantpt — grant access to the subsidiary pseudo-terminal device
+244	hcreate	hcreate, hdestroy, hsearch — manage hash search table
+245	htonl	htonl, htons, ntohl, ntohs — convert values between host and network byte order
+246	hypot	hypot, hypotf, hypotl — Euclidean distance function
+247	iconv	iconv — codeset conversion function
+248	iconv_close	iconv_close — codeset conversion deallocation function
+249	iconv_open	iconv_open — codeset conversion allocation function
+250	if_freenameindex	if_freenameindex — free memory allocated by if_nameindex
+251	if_indextoname	if_indextoname — map a network interface index to its corresponding name
+252	if_nameindex	if_nameindex — return all network interface names and indexes
+253	if_nametoindex	if_nametoindex — map a network interface name to its corresponding index
+254	ilogb	ilogb, ilogbf, ilogbl — return an unbiased exponent
+255	imaxabs	imaxabs — return absolute value
+256	imaxdiv	imaxdiv — return quotient and remainder
+257	in6addr_any	in6addr_any, in6addr_loopback — IPv6 address variables
+258	inet_addr	inet_addr, inet_ntoa — IPv4 address manipulation
+259	inet_ntop	inet_ntop, inet_pton — convert IPv4 and IPv6 addresses between binary and text form
+260	initstate	initstate, random, setstate, srandom — pseudo-random number functions
+261	insque	insque, remque — insert or remove an element in a queue
+262	isalnum	isalnum, isalnum_l — test for an alphanumeric character
+263	isalpha	isalpha, isalpha_l — test for an alphabetic character
+264	isatty	isatty — test for a terminal device
+265	isblank	isblank, isblank_l — test for a blank character
+266	iscntrl	iscntrl, iscntrl_l — test for a control character
+267	isdigit	isdigit, isdigit_l — test for a decimal digit
+268	isfinite	isfinite — test for finite value
+269	isgraph	isgraph, isgraph_l — test for a visible character
+270	isgreater	isgreater, isgreaterequal, isless, islessequal, islessgreater — real-floating relational tests
+271	isinf	isinf — test for infinity
+272	islower	islower, islower_l — test for a lowercase letter
+273	isnan	isnan — test for a NaN
+274	isnormal	isnormal — test for a normal value
+275	isprint	isprint, isprint_l — test for a printable character
+276	ispunct	ispunct, ispunct_l — test for a punctuation character
+277	isspace	isspace, isspace_l — test for a white-space character
+278	isunordered	isunordered — test if arguments are unordered
+279	isupper	isupper, isupper_l — test for an uppercase letter
+280	iswalnum	iswalnum, iswalnum_l — test for an alphanumeric wide-character code
+281	iswalpha	iswalpha, iswalpha_l — test for an alphabetic wide-character code
+282	iswblank	iswblank, iswblank_l — test for a blank wide-character code
+283	iswcntrl	iswcntrl, iswcntrl_l — test for a control wide-character code
+284	iswctype	iswctype, iswctype_l — test character for a specified class
+285	iswdigit	iswdigit, iswdigit_l — test for a decimal digit wide-character code
+286	iswgraph	iswgraph, iswgraph_l — test for a visible wide-character code
+287	iswlower	iswlower, iswlower_l — test for a lowercase letter wide-character code
+288	iswprint	iswprint, iswprint_l — test for a printable wide-character code
+289	iswpunct	iswpunct, iswpunct_l — test for a punctuation wide-character code
+290	iswspace	iswspace, iswspace_l — test for a white-space wide-character code
+291	iswupper	iswupper, iswupper_l — test for an uppercase letter wide-character code
+292	iswxdigit	iswxdigit, iswxdigit_l — test for a hexadecimal digit wide-character code
+293	isxdigit	isxdigit, isxdigit_l — test for a hexadecimal digit
+294	j0	j0, j1, jn — Bessel functions of the first kind
+295	kill	kill — send a signal to a process or a group of processes
+296	kill_dependency	kill_dependency — terminate a dependency chain
+297	killpg	killpg — send a signal to a process group
+298	labs	labs, llabs — return a long integer absolute value
+299	lchown	lchown — change the owner and group of a symbolic link
+300	ldexp	ldexp, ldexpf, ldexpl — load exponent of a floating-point number
+301	ldiv	ldiv, lldiv — compute quotient and remainder of a long division
+302	lgamma	lgamma, lgammaf, lgammal, signgam — log gamma function
+303	link	link, linkat — hard link one file to another file
+304	lio_listio	lio_listio — list directed I/O
+305	listen	listen — listen for socket connections and limit the queue of incoming connections
+306	llrint	llrint, llrintf, llrintl — round to the nearest integer value using current rounding direction
+307	llround	llround, llroundf, llroundl — round to nearest integer value
+308	localeconv	localeconv — return locale-specific information
+309	localtime	localtime, localtime_r — convert a time value to a broken-down local time
+310	lockf	lockf — record locking on files
+311	log	log, logf, logl — natural logarithm function
+312	log10	log10, log10f, log10l — base 10 logarithm function
+313	log1p	log1p, log1pf, log1pl — compute a natural logarithm
+314	log2	log2, log2f, log2l — compute base 2 logarithm functions
+315	logb	logb, logbf, logbl — radix-independent exponent
+316	longjmp	longjmp — non-local goto
+317	lrint	lrint, lrintf, lrintl — round to nearest integer value using current rounding direction
+318	lround	lround, lroundf, lroundl — round to nearest integer value
+319	lsearch	lsearch, lfind — linear search and update
+320	lseek	lseek — move the read/write file offset
+321	malloc	malloc — a memory allocator
+322	mblen	mblen — get number of bytes in a character
+323	mbrlen	mbrlen — get number of bytes in a character (restartable)
+324	mbrtoc16	mbrtoc16, mbrtoc32 — convert a character to a Unicode character code (restartable)
+325	mbrtowc	mbrtowc — convert a character to a wide-character code (restartable)
+326	mbsinit	mbsinit — determine conversion object status
+327	mbsrtowcs	mbsnrtowcs, mbsrtowcs — convert a character string to a wide-character string (restartable)
+328	mbstowcs	mbstowcs — convert a character string to a wide-character string
+329	mbtowc	mbtowc — convert a character to a wide-character code
+330	memccpy	memccpy — copy bytes in memory
+331	memchr	memchr — find byte in memory
+332	memcmp	memcmp — compare bytes in memory
+333	memcpy	memcpy — copy bytes in memory
+334	memmem	memmem — find a byte subsequence in a byte sequence
+335	memmove	memmove — copy bytes in memory with overlapping areas
+336	memset	memset — set bytes in memory
+337	mkdir	mkdir, mkdirat — make a directory
+338	mkdtemp	mkdtemp, mkostemp, mkstemp — create a unique directory or file
+339	mkfifo	mkfifo, mkfifoat — make a FIFO special file
+340	mknod	mknod, mknodat — make directory, special file, or regular file
+341	mktime	mktime — convert broken-down time into time since the Epoch
+342	mlock	mlock, munlock — lock or unlock a range of process address space (REALTIME)
+343	mlockall	mlockall, munlockall — lock/unlock the address space of a process (REALTIME)
+344	mmap	mmap — map pages of memory
+345	modf	modf, modff, modfl — decompose a floating-point number
+346	mprotect	mprotect — set protection of memory mapping
+347	mq_close	mq_close — close a message queue (REALTIME)
+348	mq_getattr	mq_getattr — get message queue attributes (REALTIME)
+349	mq_notify	mq_notify — notify process that a message is available (REALTIME)
+350	mq_open	mq_open — open a message queue (REALTIME)
+351	mq_receive	mq_receive, mq_timedreceive — receive a message from a message queue (REALTIME)
+352	mq_send	mq_send, mq_timedsend — send a message to a message queue (REALTIME)
+353	mq_setattr	mq_setattr — set message queue attributes (REALTIME)
+354	mq_unlink	mq_unlink — remove a message queue (REALTIME)
+355	msgctl	msgctl — XSI message control operations
+356	msgget	msgget — get the XSI message queue identifier
+357	msgrcv	msgrcv — XSI message receive operation
+358	msgsnd	msgsnd — XSI message send operation
+359	msync	msync — synchronize memory with physical storage
+360	mtx_destroy	mtx_destroy, mtx_init — destroy and initialize a mutex
+361	mtx_lock	mtx_lock, mtx_timedlock, mtx_trylock, mtx_unlock — lock and unlock a mutex
+362	munmap	munmap — unmap pages of memory
+363	nan	nan, nanf, nanl — return quiet NaN
+364	nanosleep	nanosleep — high resolution sleep
+365	nearbyint	nearbyint, nearbyintf, nearbyintl — floating-point rounding functions
+366	newlocale	newlocale — create or modify a locale object
+367	nextafter	nextafter, nextafterf, nextafterl, nexttoward, nexttowardf, nexttowardl — next representable floating-point number
+368	nftw	nftw — walk a file tree
+369	nice	nice — change the nice value of a process
+370	nl_langinfo	nl_langinfo, nl_langinfo_l — language information
+371	open	open, openat — open file
+372	open_memstream	open_memstream, open_wmemstream — open a dynamic memory buffer stream
+373	pause	pause — suspend the thread until a signal is received
+374	pclose	pclose — close a pipe stream to or from a process
+375	perror	perror — write error messages to standard error
+376	pipe	pipe, pipe2 — create an interprocess channel
+377	poll	poll, ppoll — input/output multiplexing
+378	popen	popen — initiate pipe streams to or from a process
+379	posix_devctl	posix_devctl — device control
+380	posix_fadvise	posix_fadvise — file advisory information (ADVANCED REALTIME)
+381	posix_fallocate	posix_fallocate — file space control (ADVANCED REALTIME)
+382	posix_getdents	posix_getdents — read directory entries
+383	posix_madvise	posix_madvise — memory advisory information and alignment control (ADVANCED REALTIME)
+384	posix_mem_offset	posix_mem_offset — find offset and length of a mapped typed memory block (ADVANCED REALTIME)
+385	posix_memalign	posix_memalign — aligned memory allocation (ADVANCED REALTIME)
+386	posix_openpt	posix_openpt — open a pseudo-terminal device
+387	posix_spawn	posix_spawn, posix_spawnp — spawn a process (ADVANCED REALTIME)
+388	posix_spawn_file_actions_addchdir	posix_spawn_file_actions_addchdir, posix_spawn_file_actions_addfchdir — add chdir or fchdir action to spawn file actions object (ADVANCED REALTIME)
+389	posix_spawn_file_actions_addclose	posix_spawn_file_actions_addclose, posix_spawn_file_actions_addopen — add close or open action to spawn file actions object (ADVANCED REALTIME)
+390	posix_spawn_file_actions_adddup2	posix_spawn_file_actions_adddup2 — add dup2 action to spawn file actions object (ADVANCED REALTIME)
+391	posix_spawn_file_actions_destroy	posix_spawn_file_actions_destroy, posix_spawn_file_actions_init — destroy and initialize spawn file actions object (ADVANCED REALTIME)
+392	posix_spawnattr_destroy	posix_spawnattr_destroy, posix_spawnattr_init — destroy and initialize spawn attributes object (ADVANCED REALTIME)
+393	posix_spawnattr_getflags	posix_spawnattr_getflags, posix_spawnattr_setflags — get and set the spawn-flags attribute of a spawn attributes object (ADVANCED REALTIME)
+394	posix_spawnattr_getpgroup	posix_spawnattr_getpgroup, posix_spawnattr_setpgroup — get and set the spawn-pgroup attribute of a spawn attributes object (ADVANCED REALTIME)
+395	posix_spawnattr_getschedparam	posix_spawnattr_getschedparam, posix_spawnattr_setschedparam — get and set the spawn-schedparam attribute of a spawn attributes object (ADVANCED REALTIME)
+396	posix_spawnattr_getschedpolicy	posix_spawnattr_getschedpolicy, posix_spawnattr_setschedpolicy — get and set the spawn-schedpolicy attribute of a spawn attributes object (ADVANCED REALTIME)
+397	posix_spawnattr_getsigdefault	posix_spawnattr_getsigdefault, posix_spawnattr_setsigdefault — get and set the spawn-sigdefault attribute of a spawn attributes object (ADVANCED REALTIME)
+398	posix_spawnattr_getsigmask	posix_spawnattr_getsigmask, posix_spawnattr_setsigmask — get and set the spawn-sigmask attribute of a spawn attributes object (ADVANCED REALTIME)
+399	posix_typed_mem_get_info	posix_typed_mem_get_info — query typed memory information (ADVANCED REALTIME)
+400	posix_typed_mem_open	posix_typed_mem_open — open a typed memory object (ADVANCED REALTIME)
+401	pow	pow, powf, powl — power function
+402	pselect	pselect, select — synchronous I/O multiplexing
+403	psiginfo	psiginfo, psignal — write signal information to standard error
+404	pthread_atfork	pthread_atfork — register fork handlers
+405	pthread_attr_destroy	pthread_attr_destroy, pthread_attr_init — destroy and initialize the thread attributes object
+406	pthread_attr_getdetachstate	pthread_attr_getdetachstate, pthread_attr_setdetachstate — get and set the detachstate attribute
+407	pthread_attr_getguardsize	pthread_attr_getguardsize, pthread_attr_setguardsize — get and set the thread guardsize attribute
+408	pthread_attr_getinheritsched	pthread_attr_getinheritsched, pthread_attr_setinheritsched — get and set the inheritsched attribute (REALTIME THREADS)
+409	pthread_attr_getschedparam	pthread_attr_getschedparam, pthread_attr_setschedparam — get and set the schedparam attribute
+410	pthread_attr_getschedpolicy	pthread_attr_getschedpolicy, pthread_attr_setschedpolicy — get and set the schedpolicy attribute (REALTIME THREADS)
+411	pthread_attr_getscope	pthread_attr_getscope, pthread_attr_setscope — get and set the contentionscope attribute (REALTIME THREADS)
+412	pthread_attr_getstack	pthread_attr_getstack, pthread_attr_setstack — get and set stack attributes
+413	pthread_attr_getstacksize	pthread_attr_getstacksize, pthread_attr_setstacksize — get and set the stacksize attribute
+414	pthread_barrier_destroy	pthread_barrier_destroy, pthread_barrier_init — destroy and initialize a barrier object
+415	pthread_barrier_wait	pthread_barrier_wait — synchronize at a barrier
+416	pthread_barrierattr_destroy	pthread_barrierattr_destroy, pthread_barrierattr_init — destroy and initialize the barrier attributes object
+417	pthread_barrierattr_getpshared	pthread_barrierattr_getpshared, pthread_barrierattr_setpshared — get and set the process-shared attribute of the barrier attributes object
+418	pthread_cancel	pthread_cancel — cancel execution of a thread
+419	pthread_cleanup_pop	pthread_cleanup_pop, pthread_cleanup_push — establish cancellation handlers
+420	pthread_cond_broadcast	pthread_cond_broadcast, pthread_cond_signal — broadcast or signal a condition
+421	pthread_cond_clockwait	pthread_cond_clockwait, pthread_cond_timedwait, pthread_cond_wait — wait on a condition
+422	pthread_cond_destroy	pthread_cond_destroy, pthread_cond_init — destroy and initialize condition variables
+423	pthread_condattr_destroy	pthread_condattr_destroy, pthread_condattr_init — destroy and initialize the condition variable attributes object
+424	pthread_condattr_getclock	pthread_condattr_getclock, pthread_condattr_setclock — get and set the clock selection condition variable attribute
+425	pthread_condattr_getpshared	pthread_condattr_getpshared, pthread_condattr_setpshared — get and set the process-shared condition variable attributes
+426	pthread_create	pthread_create — thread creation
+427	pthread_detach	pthread_detach — detach a thread
+428	pthread_equal	pthread_equal — compare thread IDs
+429	pthread_exit	pthread_exit — thread termination
+430	pthread_getcpuclockid	pthread_getcpuclockid — access a thread CPU-time clock (ADVANCED REALTIME THREADS)
+431	pthread_getschedparam	pthread_getschedparam, pthread_setschedparam — dynamic thread scheduling parameters access (REALTIME THREADS)
+432	pthread_getspecific	pthread_getspecific, pthread_setspecific — thread-specific data management
+433	pthread_join	pthread_join — wait for thread termination
+434	pthread_key_create	pthread_key_create — thread-specific data key creation
+435	pthread_key_delete	pthread_key_delete — thread-specific data key deletion
+436	pthread_kill	pthread_kill — send a signal to a thread
+437	pthread_mutex_clocklock	pthread_mutex_clocklock, pthread_mutex_timedlock — lock a mutex
+438	pthread_mutex_consistent	pthread_mutex_consistent — mark state protected by robust mutex as consistent
+439	pthread_mutex_destroy	pthread_mutex_destroy, pthread_mutex_init — destroy and initialize a mutex
+440	pthread_mutex_getprioceiling	pthread_mutex_getprioceiling, pthread_mutex_setprioceiling — get and set the priority ceiling of a mutex (REALTIME THREADS)
+441	pthread_mutex_lock	pthread_mutex_lock, pthread_mutex_trylock, pthread_mutex_unlock — lock and unlock a mutex
+442	pthread_mutexattr_destroy	pthread_mutexattr_destroy, pthread_mutexattr_init — destroy and initialize the mutex attributes object
+443	pthread_mutexattr_getprioceiling	pthread_mutexattr_getprioceiling, pthread_mutexattr_setprioceiling — get and set the prioceiling attribute of the mutex attributes object (REALTIME THREADS)
+444	pthread_mutexattr_getprotocol	pthread_mutexattr_getprotocol, pthread_mutexattr_setprotocol — get and set the protocol attribute of the mutex attributes object (REALTIME THREADS)
+445	pthread_mutexattr_getpshared	pthread_mutexattr_getpshared, pthread_mutexattr_setpshared — get and set the process-shared attribute
+446	pthread_mutexattr_getrobust	pthread_mutexattr_getrobust, pthread_mutexattr_setrobust — get and set the mutex robust attribute
+447	pthread_mutexattr_gettype	pthread_mutexattr_gettype, pthread_mutexattr_settype — get and set the mutex type attribute
+448	pthread_once	pthread_once — dynamic package initialization
+449	pthread_rwlock_clockrdlock	pthread_rwlock_clockrdlock, pthread_rwlock_timedrdlock — lock a read-write lock for reading
+450	pthread_rwlock_clockwrlock	pthread_rwlock_clockwrlock, pthread_rwlock_timedwrlock — lock a read-write lock for writing
+451	pthread_rwlock_destroy	pthread_rwlock_destroy, pthread_rwlock_init — destroy and initialize a read-write lock object
+452	pthread_rwlock_rdlock	pthread_rwlock_rdlock, pthread_rwlock_tryrdlock — lock a read-write lock object for reading
+453	pthread_rwlock_trywrlock	pthread_rwlock_trywrlock, pthread_rwlock_wrlock — lock a read-write lock object for writing
+454	pthread_rwlock_unlock	pthread_rwlock_unlock — unlock a read-write lock object
+455	pthread_rwlockattr_destroy	pthread_rwlockattr_destroy, pthread_rwlockattr_init — destroy and initialize the read-write lock attributes object
+456	pthread_rwlockattr_getpshared	pthread_rwlockattr_getpshared, pthread_rwlockattr_setpshared — get and set the process-shared attribute of the read-write lock attributes object
+457	pthread_self	pthread_self — get the calling thread ID
+458	pthread_setcancelstate	pthread_setcancelstate, pthread_setcanceltype, pthread_testcancel — set cancelability state
+459	pthread_setschedprio	pthread_setschedprio — dynamic thread scheduling parameters access (REALTIME THREADS)
+460	pthread_sigmask	pthread_sigmask, sigprocmask — examine and change blocked signals
+461	pthread_spin_destroy	pthread_spin_destroy, pthread_spin_init — destroy or initialize a spin lock object
+462	pthread_spin_lock	pthread_spin_lock, pthread_spin_trylock — lock a spin lock object
+463	pthread_spin_unlock	pthread_spin_unlock — unlock a spin lock object
+464	ptsname	ptsname, ptsname_r — get name of the subsidiary pseudo-terminal device
+465	putc	putc — put a byte on a stream
+466	putchar	putchar — put a byte on a stdout stream
+467	putenv	putenv — change or add a value to an environment
+468	puts	puts — put a string on standard output
+469	putwc	putwc — put a wide character on a stream
+470	putwchar	putwchar — put a wide character on a stdout stream
+471	qsort	qsort, qsort_r — sort a table of data
+472	quick_exit	quick_exit — terminate a process
+473	raise	raise — send a signal to the executing process
+474	rand	rand, srand — pseudo-random number generator
+475	read	pread, read — read from a file
+476	readdir	readdir, readdir_r — read a directory
+477	readlink	readlink, readlinkat — read the contents of a symbolic link
+478	readv	readv — read a vector
+479	realloc	realloc, reallocarray — memory reallocators
+480	realpath	realpath — resolve a pathname
+481	recv	recv — receive a message from a connected socket
+482	recvfrom	recvfrom — receive a message from a socket
+483	recvmsg	recvmsg — receive a message from a socket
+484	regcomp	regcomp, regerror, regexec, regfree — regular expression matching
+485	remainder	remainder, remainderf, remainderl — remainder function
+486	remove	remove — remove a file
+487	remquo	remquo, remquof, remquol — remainder functions
+488	rename	rename, renameat — rename file
+489	rewind	rewind — reset the file position indicator in a stream
+490	rewinddir	rewinddir — reset the position of a directory stream to the beginning of a directory
+491	rint	rint, rintf, rintl — round-to-nearest integral value
+492	rmdir	rmdir — remove a directory
+493	round	round, roundf, roundl — round to the nearest integer value in a floating-point format
+494	scalbln	scalbln, scalblnf, scalblnl, scalbn, scalbnf, scalbnl — compute exponent using FLT_RADIX
+495	sched_get_priority_max	sched_get_priority_max, sched_get_priority_min — get priority limits (REALTIME)
+496	sched_getparam	sched_getparam — get scheduling parameters (REALTIME)
+497	sched_getscheduler	sched_getscheduler — get scheduling policy (REALTIME)
+498	sched_rr_get_interval	sched_rr_get_interval — get execution time limits (REALTIME)
+499	sched_setparam	sched_setparam — set scheduling parameters (REALTIME)
+500	sched_setscheduler	sched_setscheduler — set scheduling policy and parameters (REALTIME)
+501	sched_yield	sched_yield — yield the processor
+502	seekdir	seekdir — set the position of a directory stream
+503	sem_clockwait	sem_clockwait, sem_timedwait — lock a semaphore
+504	sem_close	sem_close — close a named semaphore
+505	sem_destroy	sem_destroy — destroy an unnamed semaphore
+506	sem_getvalue	sem_getvalue — get the value of a semaphore
+507	sem_init	sem_init — initialize an unnamed semaphore
+508	sem_open	sem_open — initialize and open a named semaphore
+509	sem_post	sem_post — unlock a semaphore
+510	sem_trywait	sem_trywait, sem_wait — lock a semaphore
+511	sem_unlink	sem_unlink — remove a named semaphore
+512	semctl	semctl — XSI semaphore control operations
+513	semget	semget — get set of XSI semaphores
+514	semop	semop — XSI semaphore operations
+515	send	send — send a message on a socket
+516	sendmsg	sendmsg — send a message on a socket using a message structure
+517	sendto	sendto — send a message on a socket
+518	setbuf	setbuf — assign buffering to a stream
+519	setegid	setegid — set the effective group ID
+520	setenv	setenv — add or change environment variable
+521	seteuid	seteuid — set effective user ID
+522	setgid	setgid — set-group-ID
+523	setjmp	setjmp — set jump point for a non-local goto
+524	setkey	setkey — set encoding key (CRYPT)
+525	setlocale	setlocale — set program locale
+526	setpgid	setpgid — set process group ID for job control
+527	setregid	setregid — set real and effective group IDs
+528	setresgid	setresgid — set real group ID, effective group ID, and saved set-group-ID
+529	setresuid	setresuid — set real user ID, effective user ID, and saved set-user-ID
+530	setreuid	setreuid — set real and effective user IDs
+531	setsid	setsid — create session and set process group ID
+532	setsockopt	setsockopt — set the socket options
+533	setuid	setuid — set user ID
+534	setvbuf	setvbuf — assign buffering to a stream
+535	shm_open	shm_open — open a shared memory object (REALTIME)
+536	shm_unlink	shm_unlink — remove a shared memory object (REALTIME)
+537	shmat	shmat — XSI shared memory attach operation
+538	shmctl	shmctl — XSI shared memory control operations
+539	shmdt	shmdt — XSI shared memory detach operation
+540	shmget	shmget — get an XSI shared memory segment
+541	shutdown	shutdown — shut down socket send and receive operations
+542	sig2str	sig2str, str2sig — translate between signal names and numbers
+543	sigaction	sigaction — examine and change a signal action
+544	sigaddset	sigaddset — add a signal to a signal set
+545	sigaltstack	sigaltstack — set and get signal alternate stack context
+546	sigdelset	sigdelset — delete a signal from a signal set
+547	sigemptyset	sigemptyset — initialize and empty a signal set
+548	sigfillset	sigfillset — initialize and fill a signal set
+549	sigismember	sigismember — test for a signal in a signal set
+550	siglongjmp	siglongjmp — non-local goto with signal handling
+551	signal	signal — signal management
+552	signbit	signbit — test sign
+553	sigpending	sigpending — examine pending signals
+554	sigqueue	sigqueue — queue a signal to a process
+555	sigsetjmp	sigsetjmp — set jump point for a non-local goto
+556	sigsuspend	sigsuspend — wait for a signal
+557	sigtimedwait	sigtimedwait, sigwaitinfo — wait for queued signals
+558	sigwait	sigwait — wait for queued signals
+559	sin	sin, sinf, sinl — sine function
+560	sinh	sinh, sinhf, sinhl — hyperbolic sine functions
+561	sleep	sleep — suspend execution for an interval of time
+562	sockatmark	sockatmark — determine whether a socket is at the out-of-band mark
+563	socket	socket — create an endpoint for communication
+564	socketpair	socketpair — create a pair of connected sockets
+565	sqrt	sqrt, sqrtf, sqrtl — square root function
+566	stdin	stderr, stdin, stdout — standard I/O streams
+567	strcasecmp	strcasecmp, strcasecmp_l, strncasecmp, strncasecmp_l — case-insensitive string comparisons
+568	strcat	strcat — concatenate two strings
+569	strchr	strchr — string scanning operation
+570	strcmp	strcmp — compare two strings
+571	strcoll	strcoll, strcoll_l — string comparison using collating information
+572	strcpy	stpcpy, strcpy — copy a string
+573	strcspn	strcspn — get the length of a complementary substring
+574	strdup	strdup, strndup — duplicate a specific number of bytes from a string
+575	strerror	strerror, strerror_l, strerror_r — get error message string
+576	strfmon	strfmon, strfmon_l — convert monetary value to a string
+577	strftime	strftime, strftime_l — convert date and time to a string
+578	strlcat	strlcat, strlcpy — size-bounded string concatenation and copying
+579	strlen	strlen, strnlen — get length of fixed size string
+580	strncat	strncat — concatenate a string with part of another
+581	strncmp	strncmp — compare part of two strings
+582	strncpy	stpncpy, strncpy — copy fixed length string, returning a pointer to the array end
+583	strpbrk	strpbrk — scan a string for a byte
+584	strptime	strptime — date and time conversion
+585	strrchr	strrchr — string scanning operation
+586	strsignal	strsignal — get signal message string
+587	strspn	strspn — get length of a substring
+588	strstr	strstr — find a substring
+589	strtod	strtod, strtof, strtold — convert a string to a double-precision number
+590	strtoimax	strtoimax, strtoumax — convert string to integer type
+591	strtok	strtok, strtok_r — split string into tokens
+592	strtol	strtol, strtoll — convert a string to a long integer
+593	strtoul	strtoul, strtoull — convert a string to an unsigned long
+594	strxfrm	strxfrm, strxfrm_l — string transformation
+595	swab	swab — swap bytes
+596	symlink	symlink, symlinkat — make a symbolic link
+597	sync	sync — schedule file system updates
+598	sysconf	sysconf — get configurable system variables
+599	system	system — issue a command
+600	tan	tan, tanf, tanl — tangent function
+601	tanh	tanh, tanhf, tanhl — hyperbolic tangent functions
+602	tcdrain	tcdrain — wait for transmission of output
+603	tcflow	tcflow — suspend or restart the transmission or reception of data
+604	tcflush	tcflush — flush non-transmitted output data, non-read input data, or both
+605	tcgetattr	tcgetattr — get the parameters associated with the terminal
+606	tcgetpgrp	tcgetpgrp — get the foreground process group ID
+607	tcgetsid	tcgetsid — get the process group ID for the session leader for the controlling terminal
+608	tcgetwinsize	tcgetwinsize — get the size of a terminal window
+609	tcsendbreak	tcsendbreak — send a break for a specific duration
+610	tcsetattr	tcsetattr — set the parameters associated with the terminal
+611	tcsetpgrp	tcsetpgrp — set the foreground process group ID
+612	tcsetwinsize	tcsetwinsize — set the size of a terminal window
+613	tdelete	tdelete, tfind, tsearch, twalk — manage a binary search tree
+614	telldir	telldir — current location of a named directory stream
+615	tgamma	tgamma, tgammaf, tgammal — compute gamma() function
+616	thrd_create	thrd_create — thread creation
+617	thrd_current	thrd_current — get the calling thread ID
+618	thrd_detach	thrd_detach — detach a thread
+619	thrd_equal	thrd_equal — compare thread IDs
+620	thrd_exit	thrd_exit — thread termination
+621	thrd_join	thrd_join — wait for thread termination
+622	thrd_sleep	thrd_sleep — suspend execution for an interval
+623	thrd_yield	thrd_yield — yield the processor
+624	time	time — get time
+625	timer_create	timer_create — create a per-process timer
+626	timer_delete	timer_delete — delete a per-process timer
+627	timer_getoverrun	timer_getoverrun, timer_gettime, timer_settime — per-process timers
+628	times	times — get process and waited-for child process times
+629	timespec_get	timespec_get — get time
+630	tmpfile	tmpfile — create a temporary file
+631	tmpnam	tmpnam — create a name for a temporary file
+632	tolower	tolower, tolower_l — transliterate uppercase characters to lowercase
+633	toupper	toupper, toupper_l — transliterate lowercase characters to uppercase
+634	towctrans	towctrans, towctrans_l — wide-character transliteration
+635	towlower	towlower, towlower_l — transliterate uppercase wide-character code to lowercase
+636	towupper	towupper, towupper_l — transliterate lowercase wide-character code to uppercase
+637	trunc	trunc, truncf, truncl — round to truncated integer value
+638	truncate	truncate — truncate a file to a specified length
+639	tss_create	tss_create — thread-specific data key creation
+640	tss_delete	tss_delete — thread-specific data key deletion
+641	tss_get	tss_get, tss_set — thread-specific data management
+642	ttyname	ttyname, ttyname_r — find the pathname of a terminal
+643	tzset	daylight, timezone, tzname, tzset — set timezone conversion information
+644	umask	umask — set and get the file mode creation mask
+645	uname	uname — get the name of the current system
+646	ungetc	ungetc — push byte back into input stream
+647	ungetwc	ungetwc — push wide-character code back into the input stream
+648	unlink	unlink, unlinkat — remove a directory entry
+649	unlockpt	unlockpt — unlock a pseudo-terminal manager/subsidiary pair
+650	unsetenv	unsetenv — remove an environment variable
+651	uselocale	uselocale — use locale in current thread
+652	vfprintf	vasprintf, vdprintf, vfprintf, vprintf, vsnprintf, vsprintf — format output of a stdarg argument list
+653	vfscanf	vfscanf, vscanf, vsscanf — format input of a stdarg argument list
+654	vfwprintf	vfwprintf, vswprintf, vwprintf — wide-character formatted output of a stdarg argument list
+655	vfwscanf	vfwscanf, vswscanf, vwscanf — wide-character formatted input of a stdarg argument list
+656	wait	wait, waitpid — wait for a child process to stop or terminate
+657	waitid	waitid — wait for a child process to change state
+658	wcrtomb	wcrtomb — convert a wide-character code to a character (restartable)
+659	wcscasecmp	wcscasecmp, wcscasecmp_l, wcsncasecmp, wcsncasecmp_l — case-insensitive wide-character string comparison
+660	wcscat	wcscat — concatenate two wide-character strings
+661	wcschr	wcschr — wide-character string scanning operation
+662	wcscmp	wcscmp — compare two wide-character strings
+663	wcscoll	wcscoll, wcscoll_l — wide-character string comparison using collating information
+664	wcscpy	wcpcpy, wcscpy — copy a wide-character string, returning a pointer to its end
+665	wcscspn	wcscspn — get the length of a complementary wide substring
+666	wcsdup	wcsdup — duplicate a wide-character string
+667	wcsftime	wcsftime — convert date and time to a wide-character string
+668	wcslcat	wcslcat, wcslcpy — size-bounded wide string concatenation and copying
+669	wcslen	wcslen, wcsnlen — get length of a fixed-sized wide-character string
+670	wcsncat	wcsncat — concatenate a wide-character string with part of another
+671	wcsncmp	wcsncmp — compare part of two wide-character strings
+672	wcsncpy	wcpncpy, wcsncpy — copy a fixed-size wide-character string, returning a pointer to its end
+673	wcspbrk	wcspbrk — scan a wide-character string for a wide-character code
+674	wcsrchr	wcsrchr — wide-character string scanning operation
+675	wcsrtombs	wcsnrtombs, wcsrtombs — convert a wide-character string to a character string (restartable)
+676	wcsspn	wcsspn — get the length of a wide substring
+677	wcsstr	wcsstr — find a wide-character substring
+678	wcstod	wcstod, wcstof, wcstold — convert a wide-character string to a double-precision number
+679	wcstoimax	wcstoimax, wcstoumax — convert a wide-character string to an integer type
+680	wcstok	wcstok — split a wide-character string into tokens
+681	wcstol	wcstol, wcstoll — convert a wide-character string to a long integer
+682	wcstombs	wcstombs — convert a wide-character string to a character string
+683	wcstoul	wcstoul, wcstoull — convert a wide-character string to an unsigned long
+684	wcswidth	wcswidth — number of column positions of a wide-character string
+685	wcsxfrm	wcsxfrm, wcsxfrm_l — wide-character string transformation
+686	wctob	wctob — wide-character to single-byte conversion
+687	wctomb	wctomb — convert a wide-character code to a character
+688	wctrans	wctrans, wctrans_l — define character mapping
+689	wctype	wctype, wctype_l — define character class
+690	wcwidth	wcwidth — number of column positions of a wide-character code
+691	wmemchr	wmemchr — find a wide character in memory
+692	wmemcmp	wmemcmp — compare wide characters in memory
+693	wmemcpy	wmemcpy — copy wide characters in memory
+694	wmemmove	wmemmove — copy wide characters in memory with overlapping areas
+695	wmemset	wmemset — set wide characters in memory
+696	wordexp	wordexp, wordfree — perform word expansions
+697	write	pwrite, write — write on a file
+698	writev	writev — write a vector
+699	y0	y0, y1, yn — Bessel functions of the second kind

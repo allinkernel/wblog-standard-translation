@@ -1,0 +1,99 @@
+<h1>XSH 函数：fputs()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fputs" id="fputs"></a> <a name="tag_17_177" id="tag_17_177"></a>
+<a name="tag_17_177_01" id="tag_17_177_01"></a><h4>[h4_00001] 名称 (NAME)</h4>
+<blockquote>[blockquote_00002] fputs — 将字符串放到流上 (put a string on a stream)</blockquote>
+<a name="tag_17_177_02" id="tag_17_177_02"></a><h4>[h4_00003] 提要 (SYNOPSIS)</h4>
+<blockquote>
+<p>[p_00004] <code><code>#include &lt;stdio.h&gt;<br>
+<br>
+int fputs(const char *restrict</code> <i>s</i><code>, FILE *restrict</code> <i>stream</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_177_03" id="tag_17_177_03"></a><h4>[h4_00005] 说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>[p_00006] <i>fputs</i>() 函数应将 <i>s</i> 指向的以空字符结尾的字符串写入 <i>stream</i> 指向的流。结尾的空字节不应被写入。</p>
+<p>[p_00007] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 文件的上次数据修改和上次文件状态更改时间戳应被标记更新，在 <i>fputs</i>() 成功执行与对同一流调用 fflush() 或 fclose() 的下一次成功完成之间，或与调用 exit() 或 abort() 之间。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_177_04" id="tag_17_177_04"></a><h4>[h4_00008] 返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>[p_00009] 成功完成后，<i>fputs</i>() 应返回一个非负数。否则，应返回 EOF，设置流的错误指示符，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_177_05" id="tag_17_177_05"></a><h4>[h4_00010] 错误 (ERRORS)</h4>
+<blockquote>
+<p>[p_00011] 参见 fputc()。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_177_06" id="tag_17_177_06"></a><h4>[h4_00012] 示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_177_06_01" id="tag_17_177_06_01"></a><h5>[h5_00013] 打印到标准输出 (Printing to Standard Output)</h5>
+<p>[p_00014] 以下示例获取当前时间，使用 localtime() 和 asctime() 将其转换为字符串，并使用 <i>fputs</i>() 将其打印到标准输出。然后打印到它正在等待的事件还有多少分钟。</p>
+<pre><code class="language-plaintext">#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+...
+time_t now;
+int minutes_to_event;
+...
+time(&amp;now);
+printf("The time is ");
+fputs(asctime(localtime(&amp;now)), stdout);
+printf("There are still %d minutes to the event.\n",
+    minutes_to_event);
+...</code></pre></blockquote>
+<a name="tag_17_177_07" id="tag_17_177_07"></a><h4>[h4_00015] 应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>[p_00016] puts() 函数会追加一个 &lt;newline&gt;，而 <i>fputs</i>() 不会。</p>
+<p>[p_00017] 本卷 POSIX.1-2024 要求成功完成时简单地返回一个非负整数。对于此要求，已知至少有三种不同的实现约定：</p>
+<ul>
+<li>
+<p>[p_00018] 返回一个常量值。</p>
+</li>
+<li>
+<p>[p_00019] 返回最后写入的字符。</p>
+</li>
+<li>
+<p>[p_00020] 返回写入的字节数。注意，对于长于 {INT_MAX} 字节的字符串，无法遵循此实现约定，因为该值将无法在函数的返回类型中表示。为了向后兼容，实现可以对不超过 {INT_MAX} 字节的字符串返回字节数，并对所有更长的字符串返回 {INT_MAX}。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_177_08" id="tag_17_177_08"></a><h4>[h4_00021] 理由 (RATIONALE)</h4>
+<blockquote>
+<p>[p_00022] <i>fputs</i>() 函数是其源代码在引用的<i>The C Programming Language</i>中被指定的函数之一。在最初版本中，该函数没有定义的返回值，但许多实际实现会作为副作用返回最后写入的字符的值，因为那是用作返回值的累加器中剩余的值。在该书的第二版中，根据 ferror() 的返回值，将返回固定值 0 或 EOF；然而，为了与现存实现兼容，一些实现会在成功时返回表示最后写入字节的正值。</p>
+</blockquote>
+<a name="tag_17_177_09" id="tag_17_177_09"></a><h4>[h4_00023] 未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>[p_00024] 无。</p>
+</blockquote>
+<a name="tag_17_177_10" id="tag_17_177_10"></a><h4>[h4_00025] 参见 (SEE ALSO)</h4>
+<blockquote>
+<p>[p_00026] 2.5 标准 I/O 流、fopen()、putc()、puts()</p>
+<p>[p_00027] XBD &lt;stdio.h&gt;</p>
+</blockquote>
+<a name="tag_17_177_11" id="tag_17_177_11"></a><h4>[h4_00028] 变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>[p_00029] 首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_177_12" id="tag_17_177_12"></a><h4>[h4_00030] 第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>[p_00031] 超出 ISO C 标准的扩展被标记。</p>
+<p>[p_00032] 为与 ISO/IEC 9899:1999 标准保持一致，更新了 <i>fputs</i>() 的原型。</p>
+</blockquote>
+<a name="tag_17_177_13" id="tag_17_177_13"></a><h4>[h4_00033] 第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>[p_00034] 进行了与细粒度时间戳支持相关的更改。</p>
+<p>[p_00035] 应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0170 [174,412]、XSH/TC1-2008/0171 [412] 和 XSH/TC1-2008/0172 [14]。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p>[p_00036]  </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

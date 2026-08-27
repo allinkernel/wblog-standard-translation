@@ -1,0 +1,925 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_521_01\" id=\"tag_17_521_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "setenv — add or change environment variable",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_521_02\" id=\"tag_17_521_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00004",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     17
+    ],
+    "text": "[CODE3]\n[CODE4]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt><sup>[<a href=\"javascript:open_code('CX')\">CX</a>]</sup> <img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\"> #include &lt;<a href=\"../basedefs/stdlib.h.html\">stdlib.h</a>&gt;<br>\n<br>\nint setenv(const char *</tt><i>envname</i><tt>, const char *</tt><i>envval</i><tt>, int</tt> <i>overwrite</i><tt>); <img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\"></tt></code>"
+     },
+     "CODE4": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt><br></tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A5][/A5]DESCRIPTION",
+    "placeholders": {
+     "A5": {
+      "open": "<a name=\"tag_17_521_03\" id=\"tag_17_521_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I6]setenv[/I6]() function shall update or add a variable in the environment of the calling process. The [I7]envname[/I7]\nargument points to a string containing the name of an environment variable to be added or altered. The environment variable shall\nbe set to the value to which [I8]envval[/I8] points. The function shall fail if [I9]envname[/I9] points to a string which contains an\n[CODE10] character. If the environment variable named by [I11]envname[/I11] already exists and the value of [I12]overwrite[/I12] is\nnon-zero, the function shall return success and the environment shall be updated. If the environment variable named by\n[I13]envname[/I13] already exists and the value of [I14]overwrite[/I14] is zero, the function shall return success and the environment\nshall remain unchanged.",
+    "placeholders": {
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE10": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'='</tt>"
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I15]setenv[/I15]() function shall update the list of pointers to which [I16]environ[/I16] points.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The strings described by [I17]envname[/I17] and [I18]envval[/I18] are copied by this function.",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The [I19]setenv[/I19]() function need not be thread-safe.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00010",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A20][/A20]RETURN VALUE",
+    "placeholders": {
+     "A20": {
+      "open": "<a name=\"tag_17_521_04\" id=\"tag_17_521_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, zero shall be returned. Otherwise, -1 shall be returned, [I21]errno[/I21] set to indicate the error, and\nthe environment shall be unchanged.",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00012",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A22][/A22]ERRORS",
+    "placeholders": {
+     "A22": {
+      "open": "<a name=\"tag_17_521_05\" id=\"tag_17_521_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I23]setenv[/I23]() function shall fail if:",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00014",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00015",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The [I24]envname[/I24] argument points to an empty string or points to a string containing an [CODE25] character.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'='</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00016",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00017",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "Insufficient memory was available to add a variable or its value to the environment.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A26][/A26]EXAMPLES",
+    "placeholders": {
+     "A26": {
+      "open": "<a name=\"tag_17_521_06\" id=\"tag_17_521_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00020",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A27][/A27]APPLICATION USAGE",
+    "placeholders": {
+     "A27": {
+      "open": "<a name=\"tag_17_521_07\" id=\"tag_17_521_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "See [A28][I29]exec[/I29]()[/A28] for restrictions on changing the environment in multi-threaded\napplications.",
+    "placeholders": {
+     "A28": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00022",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A30][/A30]RATIONALE",
+    "placeholders": {
+     "A30": {
+      "open": "<a name=\"tag_17_521_08\" id=\"tag_17_521_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "Unanticipated results may occur if [I31]setenv[/I31]() changes the external variable [I32]environ[/I32]. In particular, if the optional\n[I33]envp[/I33] argument to [I34]main[/I34]() is present, it is not changed, and thus may point to an obsolete copy of the environment (as\nmay any other copy of [I35]environ[/I35]). However, other than the aforementioned restriction, the standard developers intended that\nthe traditional method of walking through the environment by way of the [I36]environ[/I36] pointer must be supported.",
+    "placeholders": {
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "It was decided that [I37]setenv[/I37]() should be required by this version because it addresses a piece of missing functionality,\nand does not impose a significant burden on the implementor.",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "There was considerable debate as to whether the System V [A38][I39]putenv[/I39]()[/A38] function or the\nBSD [I40]setenv[/I40]() function should be required as a mandatory function. The [I41]setenv[/I41]() function was chosen because it\npermitted the implementation of the [A42][I43]unsetenv[/I43]()[/A42] function to delete environmental\nvariables, without specifying an additional interface. The [A44][I45]putenv[/I45]()[/A44] function is\navailable as part of the XSI option.",
+    "placeholders": {
+     "A38": {
+      "open": "<a href=\"../functions/putenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A42": {
+      "open": "<a href=\"../functions/unsetenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A44": {
+      "open": "<a href=\"../functions/putenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "The standard developers considered requiring that [I46]setenv[/I46]() indicate an error when a call to it would result in exceeding\n{ARG_MAX}. The requirement was rejected since the condition might be temporary, with the application eventually reducing the\nenvironment size. The ultimate success or failure depends on the size at the time of a call to [I47][A48]exec[/A48][/I47], which returns an indication of this error condition.",
+    "placeholders": {
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A48": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "See also the RATIONALE section in [A49][I50]getenv[/I50]()[/A49].",
+    "placeholders": {
+     "A49": {
+      "open": "<a href=\"../functions/getenv.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00028",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A51][/A51]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A51": {
+      "open": "<a name=\"tag_17_521_09\" id=\"tag_17_521_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A52][/A52]SEE ALSO",
+    "placeholders": {
+     "A52": {
+      "open": "<a name=\"tag_17_521_10\" id=\"tag_17_521_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A53][/A53][A54]exec[/A54], [A55][I56]getenv[/I56]()[/A55], [A57][I58]putenv[/I58]()[/A57], [A59][I60]unsetenv[/I60]()[/A59]",
+    "placeholders": {
+     "A53": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A54": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A55": {
+      "open": "<a href=\"../functions/getenv.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A57": {
+      "open": "<a href=\"../functions/putenv.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A59": {
+      "open": "<a href=\"../functions/unsetenv.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A61][I62]&lt;stdlib.h&gt;[/I62][/A61], [A63][I64]&lt;sys/types.h&gt;[/I64][/A63], [A65][I66]&lt;unistd.h&gt;[/I66][/A65]",
+    "placeholders": {
+     "A61": {
+      "open": "<a href=\"../basedefs/stdlib.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A63": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A65": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A67][/A67]CHANGE HISTORY",
+    "placeholders": {
+     "A67": {
+      "open": "<a name=\"tag_17_521_11\" id=\"tag_17_521_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 6. Derived from the IEEE&nbsp;P1003.1a draft standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     3
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/55 is applied, adding references to [I68][A69]exec[/A69][/I68] in the APPLICATION USAGE and SEE ALSO sections.",
+    "placeholders": {
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A69": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A70][/A70]Issue 7",
+    "placeholders": {
+     "A70": {
+      "open": "<a name=\"tag_17_521_12\" id=\"tag_17_521_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #156 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0549 [167], XSH/TC1-2008/0550 [185], XSH/TC1-2008/0551 [167], and\nXSH/TC1-2008/0552 [38] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

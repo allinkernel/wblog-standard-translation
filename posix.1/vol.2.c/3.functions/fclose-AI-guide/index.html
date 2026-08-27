@@ -1,0 +1,34 @@
+<h1>XSH 函数导读：fclose()</h1>
+
+<h2>0. 总览</h2>
+<p><code>fclose()</code> 关闭流：刷新该流、关闭关联的文件，并释放与该流关联的缓冲区。头文件为 <code>&lt;stdio.h&gt;</code>。原型：<code>int fclose(FILE *stream)</code>——成功返回 0，否则返回 EOF 并设置 <i>errno</i>。</p>
+
+<h2>1. 机制</h2>
+<p><code>fclose()</code> 先把流中任何未写入的缓冲数据写回文件，未读取的缓冲数据则被丢弃；随后对底层文件描述符执行等效于 <code>close()</code> 的操作。关键点是：无论调用是否成功，流都与文件解除关联，由 <code>setbuf()</code>/<code>setvbuf()</code> 设置的缓冲区也被解除关联（若是自动分配的缓冲区则被释放）。如果文件尚未处于 EOF 且能够寻位，底层打开文件描述的文件偏移量会被设置为该流的文件位置。若流可写且仍有缓冲数据待写入，则标记更新文件的最后数据修改和最后文件状态更改时间戳。调用之后任何对 <i>stream</i> 的使用都是未定义行为。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><code>fclose()</code> 可能失败并返回 EOF（如写回缓冲时遇到 ENOSPC、EPIPE、EFBIG 等），且失败时流同样已与文件解除关联——不能认为“返回 EOF 就重试关闭”可行，也不能在失败后继续使用该流。</li>
+<li>关闭后再次使用 <i>stream</i> 指针是未定义行为（典型的 use-after-free 类问题）。</li>
+<li>不要在进程终止前关闭 <code>stdin</code>、<code>stdout</code>、<code>stderr</code>，除非是最后一个 <code>atexit()</code> 处理器即将结束时——关闭后没有标准的重新打开方法，还会让后续新打开的文件占用 STDIN_FILENO 等特殊描述符。需要更换标准流时应使用 <code>freopen()</code>。</li>
+<li>忘记检查返回值会掩盖写缓冲失败（如磁盘满），数据“看似写入”实则丢失。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    FILE *fp = fopen("out.txt", "w");
+    if (fp == NULL) {
+        perror("fopen");
+        return 1;
+    }
+    if (fputs("data\n", fp) == EOF ||
+        fclose(fp) == EOF) {   /* 缓冲写回失败在此暴露 */
+        perror("write/flush");
+        return 1;
+    }
+    return 0;
+}
+</code></pre>

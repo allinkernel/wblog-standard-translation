@@ -1,0 +1,19 @@
+<h1>XSH 函数导读：getpid()</h1>
+
+<h2>0. 总览</h2>
+<p>getpid() 获取调用进程的进程 ID。它声明于 <code>&lt;unistd.h&gt;</code>，原型为 <code>pid_t getpid(void);</code>。该函数应始终成功，并且没有保留返回值来指示错误——无需（也无法）通过返回值判断失败。</p>
+
+<h2>1. 机制</h2>
+<p>getpid() 返回调用进程的进程 ID（类型 pid_t）。进程 ID 在成功调用 exec 之后保持不变（新进程映像继承进程 ID），因此进程身份不因换入新程序而改变。fork() 之后，父子进程各自执行 continue，可通过比较 getpid() 与 fork() 的返回值来区分父、子两条路径。相关函数包括 getppid()（父进程 ID）与 getpgrp()（进程组 ID）。进程 ID 常被用于日志标识、构造临时文件名、配合 kill() 向自身或特定进程发送信号等。</p>
+
+<h2>2. 易错点</h2>
+<p>该函数没有错误路径，不要为它设计错误处理，也不要假设会返回 -1。注意区分 getpid() 与 getppid()：前者回答"我是谁"，后者回答"我的父进程是谁"。fork() 后父子进程的 getpid() 不同，但 exec 前后相同——不要用它判断"是否刚 exec"。此外，进程 ID 可能被系统重用，长时间运行的程序不应假设进程 ID 能唯一标识一个逻辑任务。只需包含 &lt;unistd.h&gt;，不必再为 pid_t 额外包含 &lt;sys/types.h&gt;。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    printf("my pid: %ld\n", (long)getpid());
+    return 0;
+}</code></pre>

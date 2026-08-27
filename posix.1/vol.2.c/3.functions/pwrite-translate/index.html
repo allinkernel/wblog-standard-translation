@@ -1,0 +1,306 @@
+<h1>XSH 函数：pwrite()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="write" id="write"></a> <a name="tag_17_699" id="tag_17_699"></a>
+<a name="tag_17_699_01" id="tag_17_699_01"></a><h4>名称</h4>
+<blockquote>pwrite, write — 在文件上写入</blockquote>
+<a name="tag_17_699_02" id="tag_17_699_02"></a><h4>概要</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+ssize_t pwrite(int</code> <i>fildes</i><code>, const void *</code><i>buf</i><code>, size_t</code> <i>nbyte</i><code>,<br>
+       off_t</code> <i>offset</i><code>);<br>
+ssize_t write(int</code> <i>fildes</i><code>, const void *</code><i>buf</i><code>, size_t</code> <i>nbyte</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_699_03" id="tag_17_699_03"></a><h4>说明</h4>
+<blockquote>
+<p><i>write</i>() 函数应尝试从由 <i>buf</i> 指向的缓冲区写入 <i>nbyte</i> 字节到与打开文件描述符 <i>fildes</i> 关联的文件。</p>
+<p>在采取下面描述的任何动作之前，并且如果 <i>nbyte</i> 为零且该文件是普通文件，<i>write</i>() 函数可以按如下所述检测并返回错误。在没有错误的情况下，或者如果未执行错误检测，<i>write</i>() 函数应返回零且没有其他结果。如果 <i>nbyte</i> 为零且该文件不是普通文件，结果未指定。</p>
+<p>在普通文件或其他能够寻址（seeking）的文件上，数据的实际写入应从与 <i>fildes</i> 关联的文件偏移所指示的文件位置开始进行。在 <i>write</i>() 成功返回之前，文件偏移应按实际写入的字节数递增。在普通文件上，如果最后写入的字节的位置大于或等于文件的长度，文件长度应被设置为该位置加一。</p>
+<p>在无法寻址的文件上，写入应总是从当前位置开始。与这种设备关联的文件偏移的值是未定义的。</p>
+<p>如果文件状态标志的 O_APPEND 标志被设置，文件偏移应在每次写入之前被设置为文件末尾，并且在更改文件偏移与写操作之间不应发生介入的文件修改操作。</p>
+<p>如果 <i>write</i>() 请求写入的字节数多于可容纳的空间（例如，进程的文件大小限制或介质的物理末尾），则只应写入可容纳的那么多字节。例如，假设在达到限制之前文件中还有 20 字节的空间。写入 512 字节将返回 20。下一次写入非零字节数将给出失败返回（如下所述除外）。</p>
+<p>如果该请求将导致文件大小超过进程的软文件大小限制，并且没有任何字节的空间可写，该请求应失败 <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  且实现应为该线程生成 SIGXFSZ 信号。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>如果 <i>write</i>() 在写入任何数据之前被信号中断，它应返回 -1 且 <i>errno</i> 设为 [EINTR]。</p>
+<p>如果 <i>write</i>() 在成功写入了一些数据之后被信号中断，它应返回写入的字节数。</p>
+<p>如果 <i>nbyte</i> 的值大于 {SSIZE_MAX}，结果为实现定义的。</p>
+<p>在向普通文件的 <i>write</i>() 成功返回之后：</p>
+<ul>
+<li>
+<p>从该次写入修改的每个字节位置进行的任何成功的 read() 应返回该 <i>write</i>() 为该位置指定的数据，直到这些字节位置再次被修改。</p>
+</li>
+<li>
+<p>随后对该文件中同一字节位置的任何成功 <i>write</i>() 应覆盖该文件数据。</p>
+</li>
+</ul>
+<br>
+<p>对管道或 FIFO 的写请求应以与普通文件相同的方式处理，但有以下例外：</p>
+<ul>
+<li>
+<p>管道或 FIFO 没有关联的文件偏移，因此每个写请求应追加到管道或 FIFO 的末尾。</p>
+</li>
+<li>
+<p>对 {PIPE_BUF} 字节或更少的写请求不应与在同一管道或 FIFO 上执行写操作的其他线程的数据交错。大于 {PIPE_BUF} 字节的写入可以在任意边界上与其它线程的写操作交错，无论文件状态标志的 O_NONBLOCK 标志是否被设置。</p>
+</li>
+<li>
+<p>如果 O_NONBLOCK 标志清除，写请求可以使线程阻塞，但在正常完成时它应返回 <i>nbyte</i>。</p>
+</li>
+<li>
+<p>如果 O_NONBLOCK 标志被设置，<i>write</i>() 请求应按以下方式以不同方式处理：</p>
+<ul>
+<li>
+<p><i>write</i>() 函数不应阻塞线程。</p>
+</li>
+<li>
+<p>对 {PIPE_BUF} 或更少字节的写请求应具有以下效果：如果管道或 FIFO 中有足够的可用空间，<i>write</i>() 应传输所有数据并返回请求的字节数。否则，<i>write</i>() 应不传输任何数据并返回 -1 且 <i>errno</i> 设为 [EAGAIN]。</p>
+</li>
+<li>
+<p>对多于 {PIPE_BUF} 字节的写请求应导致以下情况之一：</p>
+<ul>
+<li>
+<p>当至少一个字节可以被写入时，传输其能传输的并返回写入的字节数。当先前写入管道或 FIFO 的所有数据都被读取时，它应传输至少 {PIPE_BUF} 字节。</p>
+</li>
+<li>
+<p>当没有数据可以被写入时，不传输任何数据，并返回 -1 且 <i>errno</i> 设为 [EAGAIN]。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>当尝试写入一个支持非阻塞写入且无法立即接受数据的文件描述符（管道或 FIFO 除外）时：</p>
+<ul>
+<li>
+<p>如果 O_NONBLOCK 标志清除，<i>write</i>() 应阻塞调用线程，直到数据可以被接受。</p>
+</li>
+<li>
+<p>如果 O_NONBLOCK 标志被设置，<i>write</i>() 不应阻塞线程。如果可以在不阻塞线程的情况下写入一些数据，<i>write</i>() 应写入其能写入的并返回写入的字节数。否则，它应返回 -1 并将 <i>errno</i> 设为 [EAGAIN]。</p>
+</li>
+</ul>
+<p>成功完成时，当 <i>nbyte</i> 大于 0，<i>write</i>() 应将文件的最后数据修改和最后文件状态更改时间戳标记为更新，并且如果该文件是普通文件，文件模式的 S_ISUID 和 S_ISGID 位可以被清除。</p>
+<p>对于普通文件，不应发生越过与 <i>fildes</i> 关联的打开文件描述中建立的偏移最大值的数据传输。</p>
+<p>如果 <i>fildes</i> 引用套接字，<i>write</i>() 应等同于未设置标志的 send()。</p>
+<p><sup>[SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果已设置 O_DSYNC 位，文件描述符上的写 I/O 操作应按照同步 I/O 数据完整性完成所定义的方式完成。</p>
+<p>如果已设置 O_SYNC 位，文件描述符上的写 I/O 操作应按照同步 I/O 文件完整性完成所定义的方式完成。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用共享内存对象，<i>write</i>() 函数的结果是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用类型化内存对象，<i>write</i>() 函数的结果是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>pwrite</i>() 函数应等同于 <i>write</i>()，不同之处在于它写入给定位置并且不更改文件偏移（无论是否设置 O_APPEND）。<i>pwrite</i>() 的前三个参数与 <i>write</i>() 相同，另外增加了第四个参数 <i>offset</i>，用于指定文件内的期望位置。尝试在无法寻址的文件上执行 <i>pwrite</i>() 应导致错误。</p>
+</blockquote>
+<a name="tag_17_699_04" id="tag_17_699_04"></a><h4>返回值</h4>
+<blockquote>
+<p>成功完成时，这些函数应返回实际写入与 <i>fildes</i> 关联的文件中的字节数。此数字绝不应大于 <i>nbyte</i>。否则，应返回 -1 并将 <i>errno</i> 设为指示错误。</p>
+</blockquote>
+<a name="tag_17_699_05" id="tag_17_699_05"></a><h4>错误</h4>
+<blockquote>
+<p>如果以下情况，这些函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>该文件既不是管道，也不是 FIFO，也不是套接字，为该文件描述符设置了 O_NONBLOCK 标志，并且该线程将在 <i>write</i>() 操作中被延迟。</dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是打开用于写入的有效文件描述符。</dd>
+<dt>[EFBIG]</dt>
+<dd>尝试写入一个超过实现定义的最大文件大小的文件，并且没有任何字节的空间可写。</dd>
+<dt>[EFBIG]</dt>
+<dd>尝试写入一个超过进程文件大小限制的文件，并且没有任何字节的空间可写。<sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  还应为该线程生成 SIGXFSZ 信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EFBIG]</dt>
+<dd>该文件是普通文件，<i>nbyte</i> 大于 0，且起始位置大于或等于与 <i>fildes</i> 关联的打开文件描述中建立的偏移最大值。</dd>
+<dt>[EINTR]</dt>
+<dd>写操作因收到信号而终止，且未传输任何数据。</dd>
+<dt>[EIO]</dt>
+<dd>该进程是尝试写入其控制终端的后台进程组的成员，TOSTOP 被设置，调用线程未阻塞 SIGTTOU，该进程未忽略 SIGTTOU，且该进程的进程组是孤立的。此错误也可以在实现定义的条件下返回。</dd>
+<dt>[ENOSPC]</dt>
+<dd>包含该文件的设备上没有剩余可用空间。</dd>
+</dl>
+<p>如果以下情况，<i>pwrite</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd>该文件是普通文件或块特殊文件，且 <i>offset</i> 参数为负值。文件偏移应保持不变。</dd>
+<dt>[ESPIPE]</dt>
+<dd>该文件无法寻址。</dd>
+</dl>
+<p>如果以下情况，<i>write</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>该文件是管道或 FIFO，为该文件描述符设置了 O_NONBLOCK 标志，并且该线程将在写操作中被延迟。</dd>
+<dt>[EAGAIN] 或 [EWOULDBLOCK]</dt>
+<dd>该文件是套接字，为该文件描述符设置了 O_NONBLOCK 标志，并且该线程将在写操作中被延迟。</dd>
+<dt>[ECONNRESET]</dt>
+<dd>对未连接的套接字尝试了写入。</dd>
+<dt>[EPIPE]</dt>
+<dd>尝试向未被任何进程打开用于读取的管道或 FIFO 写入，或者该管道或 FIFO 只有一端打开。还应向该线程发送 SIGPIPE 信号。</dd>
+<dt>[EPIPE]</dt>
+<dd>对已关闭写入的套接字或不再连接的套接字尝试了写入。在后一种情况下，如果该套接字是 SOCK_STREAM 类型，还应向该线程发送 SIGPIPE 信号。</dd>
+</dl>
+<p>如果以下情况，这些函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EIO]</dt>
+<dd>发生了物理 I/O 错误。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>系统中可用于执行该操作的资源不足。</dd>
+<dt>[ENXIO]</dt>
+<dd>对不存在的设备提出了请求，或者该请求超出了设备的能力范围。</dd>
+</dl>
+<p>如果以下情况，<i>write</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>对套接字尝试了写入，且调用进程没有适当的权限。</dd>
+<dt>[ENETDOWN]</dt>
+<dd>对套接字尝试了写入，且用于到达目的地的本地网络接口已关闭。</dd>
+<dt>[ENETUNREACH]</dt>
+<dd>对套接字尝试了写入，且不存在到达网络的路径。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_699_06" id="tag_17_699_06"></a><h4>示例</h4>
+<blockquote>
+<a name="tag_17_699_06_01" id="tag_17_699_06_01"></a><h5>从缓冲区写入 (Writing from a Buffer)</h5>
+<p>下面的示例将数据从由 <i>buf</i> 指向的缓冲区写入与文件描述符 <i>fd</i> 关联的文件。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;string.h&gt;
+...
+char buf[20];
+size_t nbytes;
+ssize_t bytes_written;
+int fd;
+...
+strcpy(buf, "This is a test\n");
+nbytes = strlen(buf);
+ 
+bytes_written = write(fd, buf, nbytes);
+...</code></pre></blockquote>
+<a name="tag_17_699_07" id="tag_17_699_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_699_08" id="tag_17_699_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>另请参见 read() 中的 RATIONALE 部分。</p>
+<p>尝试写入管道或 FIFO 具有几个主要特征：</p>
+<ul>
+<li>
+<p><i>原子/非原子</i>：如果一次操作中写入的全部量不与任何其他线程的数据交错，则写入是原子的。当有多个写入者向单个读取者发送数据时，这很有用。应用程序需要知道多大的写请求可以被期望原子地执行。这个最大值被称为 {PIPE_BUF}。本卷 POSIX.1-2024 未说明超过 {PIPE_BUF} 字节的写请求是否原子，但要求 {PIPE_BUF} 或更少字节的写入应是原子的。</p>
+</li>
+<li>
+<p><i>阻塞/立即</i>：阻塞仅在 O_NONBLOCK 清除时才可能。如果有足够的空间可以立即写入所有请求的数据，实现应这样做。否则，调用线程可以阻塞；即暂停，直到有足够的空间可供写入。管道或 FIFO 的有效大小（一次操作中不阻塞即可写入的最大量）可以动态变化，取决于实现，因此不可能为其指定固定值。</p>
+</li>
+<li>
+<p><i>完整/部分/延迟</i>：一个写请求：</p>
+<pre><code class="language-plaintext">int fildes;
+size_t nbyte;
+ssize_t ret;
+char *buf;
+ 
+ret = write(fildes, buf, nbyte);</code></pre>
+<p>可以返回：</p>
+<dl compact="None">
+<dd></dd>
+<dt>完整 (Complete)</dt>
+<dd><i>ret</i>=<i>nbyte</i></dd>
+<dt>部分 (Partial)</dt>
+<dd><i>ret</i>&lt;<i>nbyte</i>
+<p>如果 <i>nbyte</i>&lt;={PIPE_BUF}，这绝不应发生。如果确实发生（<i>nbyte</i>&gt;{PIPE_BUF}），本卷 POSIX.1-2024 不保证原子性，即使 <i>ret</i>&lt;={PIPE_BUF}，因为原子性是根据 <i>请求的</i>量而不是 <i>写入的</i>量来保证的。</p>
+</dd>
+<dt>延迟 (Deferred):</dt>
+<dd><i>ret</i>=-1, <i>errno</i>=[EAGAIN]
+<p>此错误指示稍后的请求可以成功。它不指示它 <i>应</i> 成功，即使 <i>nbyte</i>&lt;={PIPE_BUF}，因为如果没有进程从管道或 FIFO 读取，写入永远不会成功。应用程序可以有效地统计 [EAGAIN] 由 <i>nbyte</i>&gt;{PIPE_BUF} 的特定值引起的次数，并可能在以后用较小的值进行写入，前提是管道或 FIFO 的有效大小可能已经减小。</p>
+</dd>
+</dl>
+<p>部分和延迟的写入仅在设置了 O_NONBLOCK 时才可能。</p>
+</li>
+</ul>
+<p>这些属性的关系如下表所示：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p>如果 O_NONBLOCK 标志清除，如果立即可写入的量少于请求的量，写请求应阻塞。如果该标志被设置（由 fcntl()），写请求绝不应阻塞。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p>当 O_NONBLOCK 被设置时，部分写入没有例外。除了写入空管道或 FIFO 之外，本卷 POSIX.1-2024 未具体指定何时执行部分写入，因为那将需要指定实现的内部细节。每个应用程序都应准备好处理当 O_NONBLOCK 被设置且请求的量大于 {PIPE_BUF} 时的部分写入，正如每个应用程序都应准备好处理其他种类的文件描述符上的部分写入一样。</p>
+<p>强制在可以写入任何字节时至少写入一个字节的意图是，确保如果管道或 FIFO 中有任何空间，每次写入都会取得进展。如果管道或 FIFO 为空，必须写入 {PIPE_BUF} 字节；如果不是，则至少必须取得一些进展。</p>
+<p>在本卷 POSIX.1-2024 要求返回 -1 并将 <i>errno</i> 设为 [EAGAIN] 的地方，大多数历史实现返回零（在设置了 O_NDELAY 标志的情况下，O_NDELAY 是 O_NONBLOCK 的历史前身，但其本身不在本卷 POSIX.1-2024 中）。选择本卷 POSIX.1-2024 中的错误指示是为了使应用程序能够将这些情况与文件末尾区分开。虽然 <i>write</i>() 不能接收文件末尾的指示，但 read() 可以，并且这两个函数具有相似的返回值。此外，一些现有系统（例如 Eighth Edition）允许写入零字节表示读取者应得到文件末尾指示；对于这些系统，<i>write</i>() 返回零表示成功写入了一个文件末尾指示。</p>
+<p>允许但并非要求实现为写入零字节的 <i>write</i>() 请求执行错误检查。</p>
+<p>曾考虑过 {PIPE_MAX} 限制的概念（指示可以在一次操作中写入管道或 FIFO 的最大字节数），但被否决了，因为该概念将不必要地限制应用程序写入。</p>
+<p>另请参见 read() 中关于 O_NONBLOCK 的讨论。</p>
+<p>写入可以相对于其他读取和写入被串行化。如果可以（以任何方式）证明对文件数据的 read() 发生在对该数据的 <i>write</i>() 之后，它必须反映该 <i>write</i>()，即使这些调用由不同的线程进行。对同一文件位置的多个写操作也有类似的要求。这需要保证数据从 <i>write</i>() 调用传播到后续的 read() 调用。该要求对于网络文件系统特别重要，因为某些缓存方案违反这些语义。</p>
+<p>注意，这是以 read() 和 <i>write</i>() 的术语来指定的。XSI 扩展 readv() 和 writev() 也遵守这些语义。一个不遵循这些串行化要求的新&quot;高性能&quot;写入类似物也将被此措辞所允许。本卷 POSIX.1-2024 对应用程序级缓存（如 <i>stdio</i> 所做的）的任何影响也保持沉默。</p>
+<p>本卷 POSIX.1-2024 未指定返回错误后文件偏移的值；情况太多。[EBADF] 之类的编程错误，由于不涉及文件，该概念毫无意义。对于立即检测到的错误，如 [EAGAIN]，指针显然不应改变。然而，在中断或硬件错误之后，更新后的值将非常有用，并且是许多实现的行为。</p>
+<p>本卷 POSIX.1-2024 未指定多个线程对普通文件的并发写入行为，除非每次写入是原子的（参见 2.9.7 线程与文件操作的交互 (Thread Interactions with File Operations)）。应用程序应使用某种形式的并发控制。</p>
+<p>本卷 POSIX.1-2024 有意不指定除 [ESPIPE] 之外与管道、FIFO 和套接字相关的任何 <i>pwrite</i>() 错误。</p>
+</blockquote>
+<a name="tag_17_699_09" id="tag_17_699_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_699_10" id="tag_17_699_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>chmod(), creat(), dup(), fcntl(), getrlimit(), lseek(), open(), pipe(), read(), writev()</p>
+<p>XBD &lt;limits.h&gt;, &lt;sys/uio.h&gt;, &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_699_11" id="tag_17_699_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 1。衍生自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_699_12" id="tag_17_699_12"></a><h4>Issue 5</h4>
+<blockquote>
+<p>DESCRIPTION 已更新以与 POSIX 实时扩展和 POSIX 线程扩展对齐。</p>
+<p>添加了 Large File Summit 扩展。</p>
+<p>添加了 <i>pwrite</i>() 函数。</p>
+</blockquote>
+<a name="tag_17_699_13" id="tag_17_699_13"></a><h4>Issue 6</h4>
+<blockquote>
+<p>DESCRIPTION 说明 <i>write</i>() 函数不阻塞线程。先前这说的是&quot;进程&quot;而不是&quot;线程&quot;。</p>
+<p>DESCRIPTION 和 ERRORS 部分已更新，使对 STREAMS 的引用被标记为 XSI STREAMS 选项组的一部分。</p>
+<p>以下对 POSIX 实现的新要求源自与 Single UNIX Specification 的对齐：</p>
+<ul>
+<li>DESCRIPTION 现在说明，如果 <i>write</i>() 在成功写入了一些数据之后被信号中断，它返回写入的字节数。在 POSIX.1-1988 标准中，<i>write</i>() 是返回写入的字节数还是返回 -1 且 <i>errno</i> 设为 [EINTR] 是可选的。这是一项 FIPS 要求。</li>
+<li>进行了以下更改以支持大文件：对于普通文件，不会发生越过与 <i>fildes</i> 关联的打开文件描述中建立的偏移最大值的数据传输。添加了第二个 [EFBIG] 错误条件。</li>
+<li>添加了 [EIO] 错误条件。</li>
+<li>添加了 [EPIPE] 错误条件，用于管道只有一端打开的情况。</li>
+<li>添加了 [ENXIO] 可选错误条件。</li>
+</ul>
+<p>涉及套接字的文本被添加到 DESCRIPTION。</p>
+<p>进行了以下更改以与 IEEE P1003.1a 草案标准对齐：</p>
+<ul>
+<li>澄清了读取零字节的效果。</li>
+</ul>
+<p>DESCRIPTION 已更新以与 IEEE Std 1003.1j-2000 对齐，指定 <i>write</i>() 对于类型化内存对象的结果是未指定的。</p>
+<p>为套接字上的操作添加了以下错误条件：[EAGAIN]、[EWOULDBLOCK]、[ECONNRESET]、[ENOTCONN] 和 [EPIPE]。</p>
+<p>[EIO] 错误变为可选。</p>
+<p>为套接字添加了 [ENOBUFS] 错误。</p>
+<p>为套接字上的操作添加了以下错误条件：[EACCES]、[ENETDOWN] 和 [ENETUNREACH]。</p>
+<p>writev() 函数被拆分到一个单独的参考页中。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的 XSH/TC2/D6/146 项，将 ERRORS 部分中的文本从&quot;向调用进程生成 SIGPIPE 信号&quot;更新为&quot;还应向该线程发送 SIGPIPE 信号&quot;。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的 XSH/TC2/D6/147 项，对 RATIONALE 进行了更正。</p>
+</blockquote>
+<a name="tag_17_699_14" id="tag_17_699_14"></a><h4>Issue 7</h4>
+<blockquote>
+<p><i>pwrite</i>() 函数从 XSI 选项移入 Base。</p>
+<p>与 XSI STREAMS 选项相关的功能被标记为过时。</p>
+<p>应用了 SD5-XSH-ERN-160，更新 DESCRIPTION 以澄清 <i>pwrite</i>() 函数的要求，并将短语&quot;文件指针&quot;的用法改为&quot;文件偏移&quot;。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0742 [219]、XSH/TC1-2008/0743 [215]、XSH/TC1-2008/0744 [79] 和 XSH/TC1-2008/0745 [215]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0401 [676,710] 和 XSH/TC2-2008/0402 [966]。</p>
+</blockquote>
+<a name="tag_17_699_15" id="tag_17_699_15"></a><h4>Issue 8</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 308，澄清了 [EFBIG] 错误的处理。</p>
+<p>应用了 Austin Group Defect 1330，移除了过时的接口。</p>
+<p>应用了 Austin Group Defect 1430，澄清了与管道和 FIFO 上数据交错相关的要求适用于其他线程中的写操作，而不仅仅是其他进程，并将一些&quot;管道&quot;的用法改为&quot;管道或 FIFO&quot;。</p>
+<p>应用了 Austin Group Defect 1669，移除了与进程文件大小限制相关的 [EFBIG] 错误部分上的 XSI 阴影。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

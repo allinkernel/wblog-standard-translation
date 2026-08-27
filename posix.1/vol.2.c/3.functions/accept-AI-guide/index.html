@@ -1,0 +1,31 @@
+<h1>XSH 函数导读：accept()</h1>
+
+<h2>0. 总览</h2>
+<p><b>accept()</b>（及 accept4()）在套接字上接受新连接：取出待处理连接队列上的第一个连接，创建一个与指定套接字具有相同套接字类型、协议和地址族的新套接字，并为其分配一个新的文件描述符。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>int accept(int socket, struct sockaddr *restrict address, socklen_t *restrict address_len)</code>；accept4() 多一个 <i>flag</i> 参数，用于完全决定新描述符上的 O_NONBLOCK、FD_CLOEXEC、FD_CLOFORK 状态。成功返回被接受套接字的非负文件描述符。</p>
+
+<h2>1. 机制</h2>
+<p>accept() 的前提是套接字已经 socket() 创建、bind() 绑定地址并成功 listen()。<i>address</i>/<i>address_len</i> 可传空指针；若 <i>address</i> 非空，则对端地址写入该 sockaddr 结构，地址长度写入 <i>address_len</i>（输入时给出结构长度，输出时给出实际地址长度）。实际地址长于所提供结构长度时存储的地址被截断。侦听队列为空且未设置 O_NONBLOCK 时 accept() 阻塞直到有连接出现；设置了 O_NONBLOCK 则返回 [EAGAIN] 或 [EWOULDBLOCK]。被接受的套接字本身不能再接受连接，原套接字保持打开并继续接受。accept() 返回的新描述符 FD_CLOEXEC、FD_CLOFORK 应清除；是否继承 O_NONBLOCK 是实现定义的，因此需要精确控制时应使用 accept4() 的 flag 参数（SOCK_CLOEXEC、SOCK_CLOFORK、SOCK_NONBLOCK）。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>accept() 返回的是<strong>新文件描述符</strong>，与原侦听套接字无关；用完后要 close() 每个被接受的 fd，否则会泄漏。</li>
+<li>原侦听套接字不能被关闭，否则无法继续接受连接。</li>
+<li>对未在监听状态的套接字调用返回 [EINVAL]；无连接请求且非阻塞时返回 [EAGAIN]/[EWOULDBLOCK]，阻塞时可能被信号打断返回 [EINTR]，需要重试。</li>
+<li>进程 fd 耗尽时返回 [EMFILE]；收到已中止的连接返回 [ECONNABORTED]。</li>
+<li>对端未绑定、协议又允许无绑定客户端连接时，address 中的值未指定，不要依赖。</li>
+<li>用 select() 判断"可读"可以预判有连接可接受，但大流量下仍可能有竞争。</li>
+<li>接受后需要定制选项（如 SO_SNDBUF）时，对每个被接受的套接字显式 setsockopt()，因为继承行为是实现定义的。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+
+int lfd, cfd;
+struct sockaddr_storage peer;
+socklen_t peer_len = sizeof(peer);
+
+cfd = accept(lfd, (struct sockaddr *) &amp;peer, &amp;peer_len);
+if (cfd == -1) {
+    /* EAGAIN/EWOULDBLOCK（非阻塞）、EINTR 等，视情况重试 */;
+}
+/* 此后用 cfd 读写，用完 close(cfd)；lfd 继续监听 */</code></pre>

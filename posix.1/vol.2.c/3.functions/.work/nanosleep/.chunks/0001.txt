@@ -1,0 +1,42 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] nanosleep — high resolution sleep
+[h4_00003] [A2][/A2]SYNOPSIS
+[blockquote_00004] [CODE3] [CODE4]
+[h4_00005] [A5][/A5]DESCRIPTION
+[p_00006] The [I6]nanosleep[/I6]() function shall cause the current thread to be suspended from execution until either the time interval specified by the [I7]rqtp[/I7] argument has elapsed or a signal is delivered to the calling thread, and its action is to invoke a signal-catching function or to terminate the process. The suspension time may be longer than requested because the argument value is rounded up to an integer multiple of the sleep resolution or because of the scheduling of other activity by the system. But, except for the case of being interrupted by a signal, the suspension time shall not be less than the time specified by [I8]rqtp[/I8], as measured by the system clock CLOCK_REALTIME.
+[p_00007] The use of the [I9]nanosleep[/I9]() function has no effect on the action or blockage of any signal.
+[h4_00008] [A10][/A10]RETURN VALUE
+[p_00009] If the [I11]nanosleep[/I11]() function returns because the requested time has elapsed, its return value shall be zero.
+[p_00010] If the [I12]nanosleep[/I12]() function returns because it has been interrupted by a signal, it shall return a value of -1 and set [I13]errno[/I13] to indicate the interruption. If the [I14]rmtp[/I14] argument is non-NULL, the [B15]timespec[/B15] structure referenced by it is updated to contain the amount of time remaining in the interval (the requested time minus the time actually slept). The [I16]rqtp[/I16] and [I17]rmtp[/I17] arguments can point to the same object. If the [I18]rmtp[/I18] argument is NULL, the remaining time is not returned.
+[p_00011] If [I19]nanosleep[/I19]() fails, it shall return a value of -1 and set [I20]errno[/I20] to indicate the error.
+[h4_00012] [A21][/A21]ERRORS
+[p_00013] The [I22]nanosleep[/I22]() function shall fail if:
+[dt_00014] [EINTR]
+[dd_00015] The [I23]nanosleep[/I23]() function was interrupted by a signal.
+[dt_00016] [EINVAL]
+[dd_00017] The [I24]rqtp[/I24] argument specified a nanosecond value less than zero or greater than or equal to 1000 million.
+[h4_00018] [A25][/A25]EXAMPLES
+[p_00019] None.
+[h4_00020] [A26][/A26]APPLICATION USAGE
+[p_00021] None.
+[h4_00022] [A27][/A27]RATIONALE
+[p_00023] It is common to suspend execution of a thread for an interval in order to poll the status of a non-interrupting function. A large number of actual needs can be met with a simple extension to [A28][I29]sleep[/I29]()[/A28] that provides finer resolution.
+[p_00024] In the POSIX.1-1990 standard and SVR4, it is possible to implement such a routine, but the frequency of wakeup is limited by the resolution of the [A30][I31]alarm[/I31]()[/A30] and [A32][I33]sleep[/I33]()[/A32] functions. In 4.3 BSD, it is possible to write such a routine using no static storage and reserving no system facilities. Although it is possible to write a function with similar functionality to [A34][I35]sleep[/I35]()[/A34] using the remainder of the [I36]timer_*[/I36]() functions, such a function requires the use of signals and the reservation of some signal number. This volume of POSIX.1-2024 requires that [I37]nanosleep[/I37]() be non-intrusive of the signals function.
+[p_00025] The [I38]nanosleep[/I38]() function shall return a value of 0 on success and -1 on failure or if interrupted. This latter case is different from [A39][I40]sleep[/I40]()[/A39]. This was done because the remaining time is returned via an argument structure pointer, [I41]rmtp[/I41], instead of as the return value.
+[h4_00026] [A42][/A42]FUTURE DIRECTIONS
+[p_00027] None.
+[h4_00028] [A43][/A43]SEE ALSO
+[p_00029] [A44][I45]clock_nanosleep[/I45]()[/A44], [A46][I47]sleep[/I47]()[/A46]
+[p_00030] XBD [A48][I49]&lt;time.h&gt;[/I49][/A48]
+[h4_00031] [A50][/A50]CHANGE HISTORY
+[p_00032] First released in Issue 5. Included for alignment with the POSIX Realtime Extension.
+[h4_00033] [A51][/A51]Issue 6
+[p_00034] The [I52]nanosleep[/I52]() function is marked as part of the Timers option.
+[p_00035] The [ENOSYS] error condition has been removed as stubs need not be provided if an implementation does not support the Timers option.
+[p_00036] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/37 is applied, updating the SEE ALSO section to include the [A53][I54]clock_nanosleep[/I54]()[/A53] function.
+[p_00037] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/63 is applied, correcting text in the RATIONALE section.
+[h4_00038] [A55][/A55]Issue 7
+[p_00039] SD5-XBD-ERN-33 is applied.
+[p_00040] The [I56]nanosleep[/I56]() function is moved from the Timers option to the Base.
+[p_00041] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0231 [909] is applied.
+[p_00042] &nbsp;

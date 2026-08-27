@@ -1,0 +1,127 @@
+<h1>XSH 函数：strtok()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="strtok" id="strtok"></a> <a name="tag_17_592" id="tag_17_592"></a>
+<a name="tag_17_592_01" id="tag_17_592_01"></a><h4>名称 (NAME)</h4>
+<blockquote>strtok、strtok_r — 将字符串拆分为 token（标记）</blockquote>
+<a name="tag_17_592_02" id="tag_17_592_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;string.h&gt;<br>
+<br>
+char *strtok(char *restrict</code> <i>s</i><code>, const char *restrict</code> <i>sep</i><code>);<br></code></code></p>
+<code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> char *strtok_r(char *restrict</code> <i>s</i><code>, const char *restrict</code> <i>sep</i><code>,<br>
+       char **restrict</code> <i>state</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code>
+<code><br></code></blockquote>
+<a name="tag_17_592_03" id="tag_17_592_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p>对于 <i>strtok</i>()：<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  本参考页所述功能与 ISO C 标准一致。此处所述要求与 ISO C 标准之间的任何冲突均属无意。本卷 POSIX.1-2024 遵从 ISO C 标准。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>对 <i>strtok</i>() 的一系列调用将 <i>s</i> 所指向的字符串拆分为一序列 token（标记），每个 token（标记）由 <i>sep</i> 所指向的字符串中的一个字节分隔。该序列中的第一次调用以 <i>s</i> 作为其第一个参数，随后是以空指针作为其第一个参数的调用。由 <i>sep</i> 所指向的分隔符字符串在每次调用之间可以不同。</p>
+<p>该序列中的第一次调用在 <i>s</i> 所指向的字符串中搜索第一个<i>不</i>包含在由 <i>sep</i> 所指向的当前分隔符字符串中的字节。如果未找到这样的字节，则 <i>s</i> 所指向的字符串中没有 token（标记），且 <i>strtok</i>() 应返回空指针。如果找到这样的字节，它就是第一个 token（标记）的开始。</p>
+<p><i>strtok</i>() 函数随后从那里搜索包含在当前分隔符字符串中的字节。如果未找到这样的字节，则当前 token（标记）延伸到 <i>s</i> 所指向的字符串的末尾，且后续对 token（标记）的搜索应返回空指针。如果找到这样的字节，则用 NUL 字符覆盖它，该字符终止当前 token（标记）。<i>strtok</i>() 函数保存指向后续字节的指针，下一次 token（标记）搜索应从此指针开始。</p>
+<p>随后的每次调用，以空指针作为第一个参数的值，从保存的指针开始搜索，并按上述方式运行。</p>
+<p>实现应表现得如同本卷 POSIX.1-2024 中定义的任何函数都不调用 <i>strtok</i>()。</p>
+<p><i>strtok</i>() 函数不必是线程安全的；然而，<i>strtok</i>() 应避免与所有其他函数发生数据竞争。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>strtok_r</i>() 函数应与 <i>strtok</i>() 等价，不同之处在于 <i>strtok_r</i>() 应是线程安全的，并且参数 <i>state</i> 指向一个用户提供的指针，该指针允许 <i>strtok_r</i>() 在扫描同一字符串的调用之间维持状态。应用程序应确保 <i>state</i> 所指向的指针对于由 <i>strtok_r</i>() 调用并发处理的每个字符串（<i>s</i>）都是唯一的。应用程序不必将 <i>state</i> 所指向的指针初始化为任何特定值。实现不应更新 <i>state</i> 所指向的指针，使其（直接或间接地）指向 <i>s</i> 字符串内以外的、需要由调用方释放或解除的资源。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>strtok</i>() 和 <i>strtok_r</i>() 函数在有效输入上不应改变 <i>errno</i> 的设置。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_592_04" id="tag_17_592_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>strtok</i>() 应返回指向 token（标记）的第一个字节的指针。否则，如果没有 token（标记），<i>strtok</i>() 应返回空指针。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>strtok_r</i>() 函数应返回指向所找到的 token（标记）的指针，或者在未找到 token（标记）时返回空指针。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_592_05" id="tag_17_592_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义任何错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_592_06" id="tag_17_592_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_592_06_01" id="tag_17_592_06_01"></a><h5>搜索单词分隔符 (Searching for Word Separators)</h5>
+<p>以下示例搜索由 &lt;space&gt; 字符分隔的 token（标记）。</p>
+<pre><code class="language-plaintext">#include &lt;string.h&gt;
+...
+char *token;
+char line[] = "LINE TO BE SEPARATED";
+char *search = " ";
+ 
+/* Token will point to "LINE". */
+token = strtok(line, search);
+ 
+/* Token will point to "TO". */
+token = strtok(NULL, search);</code></pre>
+<a name="tag_17_592_06_02" id="tag_17_592_06_02"></a><h5>在缓冲区中查找前两个字段 (Find First two Fields in a Buffer)</h5>
+<p>以下示例使用 <i>strtok</i>() 在由 <i>buffer</i> 所指向的字符数组的开头查找由 &lt;space&gt;、&lt;tab&gt; 或 &lt;newline&gt; 字符的任意组合分隔的两个字符串（一个键和与该键关联的数据）。</p>
+<pre><code class="language-plaintext">#include &lt;string.h&gt;
+...
+char    *buffer;
+...
+struct element {
+    char *key;
+    char *data;
+} e;
+...
+// Load the buffer...
+...
+// Get the key and its data...
+e.key = strtok(buffer, " \t\n");
+e.data = strtok(NULL, " \t\n");
+// Process the rest of the contents of the buffer...
+...</code></pre></blockquote>
+<a name="tag_17_592_07" id="tag_17_592_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>注意，如果 <i>sep</i> 是空字符串，<i>strtok</i>() 和 <i>strtok_r</i>() 返回指向正在被 token（标记）化的字符串余下部分的指针。</p>
+<p><i>strtok_r</i>() 函数是线程安全的，并将状态存储在用户提供的缓冲区中，而不是可能使用可能被来自另一线程的不相关调用覆盖的静态数据区。</p>
+</blockquote>
+<a name="tag_17_592_08" id="tag_17_592_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p><i>strtok</i>() 函数在较大的字符串中搜索分隔符字符串。它返回指向分隔符字符串之间的最后一个子串的指针。该函数使用静态存储来跟踪调用之间的当前字符串位置。新函数 <i>strtok_r</i>() 接受一个附加参数 <i>state</i>，用于跟踪字符串中的当前位置。</p>
+</blockquote>
+<a name="tag_17_592_09" id="tag_17_592_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_592_10" id="tag_17_592_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>XBD &lt;string.h&gt;</p>
+</blockquote>
+<a name="tag_17_592_11" id="tag_17_592_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 1 中首次发布。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_592_12" id="tag_17_592_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p><i>strtok_r</i>() 函数被纳入，以与 POSIX 线程扩展保持一致。</p>
+<p>一条指出 <i>strtok</i>() 函数不必可重入的注记被添加到 DESCRIPTION。</p>
+</blockquote>
+<a name="tag_17_592_13" id="tag_17_592_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展被标记。</p>
+<p><i>strtok_r</i>() 函数被标记为线程安全函数（Thread-Safe Functions）选项的一部分。</p>
+<p>在 DESCRIPTION 中，关于可重入性的注记被扩展以涵盖线程安全性。</p>
+<p>APPLICATION USAGE 节被更新，以包含关于线程安全函数及其避免可能使用静态数据区的注记。</p>
+<p><b>restrict</b> 关键字被添加到 <i>strtok</i>() 和 <i>strtok_r</i>() 原型中，以与 ISO/IEC 9899:1999 标准保持一致。</p>
+</blockquote>
+<a name="tag_17_592_14" id="tag_17_592_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #156。</p>
+<p>应用了 SD5-XSH-ERN-235，更正了一个示例。</p>
+<p><i>strtok_r</i>() 函数从线程安全函数（Thread-Safe Functions）选项移至 Base。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1），XSH/TC1-2008/0615 [177]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（Technical Corrigendum 2），XSH/TC2-2008/0350 [878]。</p>
+</blockquote>
+<a name="tag_17_592_15" id="tag_17_592_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 448，添加了一项要求：<i>strtok</i>() 和 <i>strtok_r</i>() 在有效输入上不改变 <i>errno</i> 的设置。</p>
+<p>应用了 Austin Group 缺陷 1302，使 <i>strtok</i>() 函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

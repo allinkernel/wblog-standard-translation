@@ -1,0 +1,61 @@
+# start_index 61
+[dt_01191] [ENETUNREACH]
+[dd_01192] The destination network is not reachable.
+[h4_01193] [A1605][/A1605]2.10.16 Use of Options
+[p_01194] There are a number of socket options which either specialize the behavior of a socket or provide useful information. These options may be set at different protocol levels and are always present at the uppermost &quot;socket&quot; level.
+[p_01195] Socket options are manipulated by two functions, [A1606][I1607]getsockopt[/I1607]()[/A1606] and [A1608][I1609]setsockopt[/I1609]()[/A1608]. These functions allow an application program to customize the behavior and characteristics of a socket to provide the desired effect.
+[p_01196] All of the options usable with [A1610][I1611]setsockopt[/I1611]()[/A1610] have defaults. For each option where a default value is listed as implementation-defined, the implementation also controls whether a socket created by [A1612][I1613]accept[/I1613]()[/A1612] or [A1614][I1615]accept4[/I1615]()[/A1614] starts with the option reset to the original default value, or inherited as the value previously customized on the original listening socket. The type and meaning of these values is defined by the protocol level to which they apply. Instead of using the default values, an application program may choose to customize one or more of the options. However, in the bulk of cases, the default values are sufficient for the application.
+[p_01197] Some of the options are used to enable or disable certain behavior within the protocol modules (for example, turn on debugging) while others may be used to set protocol-specific information (for example, IP time-to-live on all the application's outgoing packets). As each of the options is introduced, its effect on the underlying protocol modules is described.
+[p_01198] [A1616]Value of Level for Socket Options[/A1616] shows the value for the socket level.
+[p_01199] [A1617][/A1617] Table: Value of Level for Socket Options
+[td_01200] ctx="行 1: SOL_SOCKET" SOL_SOCKET
+[td_01201] ctx="列头: Description" Options are intended for the sockets level.
+[p_01202] [A1618]Socket-Level Options[/A1618] lists those options present at the socket level; that is, when the [I1619]level[/I1619] parameter of the [A1620][I1621]getsockopt[/I1621]()[/A1620] or [A1622][I1623]setsockopt[/I1623]()[/A1622] function is SOL_SOCKET, the types of the option value parameters associated with each option, and a brief synopsis of the meaning of the option value parameter. Unless otherwise noted, each may be examined with [A1624][I1625]getsockopt[/I1625]()[/A1624] and set with [A1626][I1627]setsockopt[/I1627]()[/A1626] on all types of socket. Options at other protocol levels vary in format and name.
+[p_01203] [A1628][/A1628] Table: Socket-Level Options
+[td_01204] ctx="行 1: SO_ACCEPTCONN" SO_ACCEPTCONN
+[td_01205] ctx="列头: Parameter Type" [B1629]int[/B1629]
+[td_01206] ctx="列头: Parameter Meaning" Non-zero indicates that socket listening is enabled ([A1630][I1631]getsockopt[/I1631]()[/A1630] only).
+[td_01207] ctx="行 2: SO_BROADCAST" SO_BROADCAST
+[td_01208] ctx="列头: Parameter Type" [B1632]int[/B1632]
+[td_01209] ctx="列头: Parameter Meaning" Non-zero requests permission to transmit broadcast datagrams (SOCK_DGRAM sockets only).
+[td_01210] ctx="行 3: SO_DEBUG" SO_DEBUG
+[td_01211] ctx="列头: Parameter Type" [B1633]int[/B1633]
+[td_01212] ctx="列头: Parameter Meaning" Non-zero requests debugging in underlying protocol modules.
+[td_01213] ctx="行 4: SO_DOMAIN" SO_DOMAIN
+[td_01214] ctx="列头: Parameter Type" [B1634]int[/B1634]
+[td_01215] ctx="列头: Parameter Meaning" Identify socket domain ([A1635][I1636]getsockopt[/I1636]()[/A1635] only).
+[td_01216] ctx="行 5: SO_DONTROUTE" SO_DONTROUTE
+[td_01217] ctx="列头: Parameter Type" [B1637]int[/B1637]
+[td_01218] ctx="列头: Parameter Meaning" Non-zero requests bypass of normal routing; route based on destination address only.
+[td_01219] ctx="行 6: SO_ERROR" SO_ERROR
+[td_01220] ctx="列头: Parameter Type" [B1638]int[/B1638]
+[td_01221] ctx="列头: Parameter Meaning" Requests and clears pending error information on the socket ([A1639][I1640]getsockopt[/I1640]()[/A1639] only).
+[td_01222] ctx="行 7: SO_KEEPALIVE" SO_KEEPALIVE
+[td_01223] ctx="列头: Parameter Type" [B1641]int[/B1641]
+[td_01224] ctx="列头: Parameter Meaning" Non-zero requests periodic transmission of keepalive messages (protocol-specific).
+[td_01225] ctx="行 8: SO_LINGER" SO_LINGER
+[td_01226] ctx="列头: Parameter Type" [B1642]struct linger[/B1642]
+[td_01227] ctx="列头: Parameter Meaning" Specify actions to be taken for queued, unsent data on [A1643][I1644]close[/I1644]()[/A1643]: linger on/off and linger time in seconds.
+[td_01228] ctx="行 9: SO_OOBINLINE" SO_OOBINLINE
+[td_01229] ctx="列头: Parameter Type" [B1645]int[/B1645]
+[td_01230] ctx="列头: Parameter Meaning" Non-zero requests that out-of-band data be placed into normal data input queue as received.
+[td_01231] ctx="行 10: SO_PROTOCOL" SO_PROTOCOL
+[td_01232] ctx="列头: Parameter Type" [B1646]int[/B1646]
+[td_01233] ctx="列头: Parameter Meaning" Identify socket protocol ([A1647][I1648]getsockopt[/I1648]()[/A1647] only).
+[td_01234] ctx="行 11: SO_RCVBUF" SO_RCVBUF
+[td_01235] ctx="列头: Parameter Type" [B1649]int[/B1649]
+[td_01236] ctx="列头: Parameter Meaning" Size of receive buffer (in bytes).
+[td_01237] ctx="行 12: SO_RCVLOWAT" SO_RCVLOWAT
+[td_01238] ctx="列头: Parameter Type" [B1650]int[/B1650]
+[td_01239] ctx="列头: Parameter Meaning" Minimum amount of data to return to application for input operations (in bytes).
+[td_01240] ctx="行 13: SO_RCVTIMEO" SO_RCVTIMEO
+[td_01241] ctx="列头: Parameter Type" [B1651]struct timeval[/B1651]
+[td_01242] ctx="列头: Parameter Meaning" Timeout value for a socket receive operation.
+[td_01243] ctx="行 14: SO_REUSEADDR" SO_REUSEADDR
+[td_01244] ctx="列头: Parameter Type" [B1652]int[/B1652]
+[td_01245] ctx="列头: Parameter Meaning" Non-zero requests reuse of local addresses in [A1653][I1654]bind[/I1654]()[/A1653] (protocol-specific).
+[td_01246] ctx="行 15: SO_SNDBUF" SO_SNDBUF
+[td_01247] ctx="列头: Parameter Type" [B1655]int[/B1655]
+[td_01248] ctx="列头: Parameter Meaning" Size of send buffer (in bytes).
+[td_01249] ctx="行 16: SO_SNDLOWAT" SO_SNDLOWAT
+[td_01250] ctx="列头: Parameter Type" [B1656]int[/B1656]

@@ -1,0 +1,25 @@
+<h1>XSH 函数导读：send()</h1>
+
+<h2>0. 总览</h2>
+<p><b>send()</b> 在套接字上发送消息：从指定套接字向其对端传输消息，仅在套接字已连接时才应发送；无连接模式套接字则发送到预先指定的对端地址。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>ssize_t send(int socket, const void *buffer, size_t length, int flags)</code>。成功返回已发送的字节数，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>消息长度由 <i>length</i> 指定；若消息太长而底层协议无法一次传递，send() 失败且不传输任何数据。flags 通过对零个或多个标志逻辑或构成：MSG_EOR 终止一条记录（协议支持时，如 SOCK_SEQPACKET）；MSG_OOB 在支持带外通信的套接字上发送带外数据，其重要性和语义特定于协议；MSG_NOSIGNAL 请求在不再连接的面向流套接字上尝试发送时不发送 SIGPIPE 信号，但 [EPIPE] 错误仍返回。发送缓冲区无空间时：未设置 O_NONBLOCK 则阻塞直到有空间或超时（参见 SO_SNDTIMEO）；设置了 O_NONBLOCK 则失败（返回 [EAGAIN] 或 [EWOULDBLOCK]），可用 select()/poll() 判断何时可再发送。对连接模式套接字，send() 等效于 sendto()；flags 为 0 时等效于 write()。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>send() 成功并不保证消息送达，返回 -1 只表示本地检测到的错误；返回值可能小于 length，调用方需循环发送剩余部分。</li>
+<li>连接模式套接字未连接时返回 [ENOTCONN]；对端已关闭写入功能或连接已断开返回 [EPIPE]，且对 SOCK_STREAM/SOCK_SEQPACKET，未设 MSG_NOSIGNAL 时会给调用线程生成 SIGPIPE 信号——这常导致进程被默认终止，宜用 MSG_NOSIGNAL 或忽略 SIGPIPE。</li>
+<li>无连接模式套接字未设置对端地址（未 connect() 或 sendto()）时返回 [EDESTADDRREQ]。</li>
+<li>消息超过底层限制时返回 [EMSGSIZE]，尤其是 SOCK_DGRAM 的数据报大小。</li>
+<li>被信号中断且未传输任何数据时返回 [EINTR]。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+
+const char msg[] = "hello";
+ssize_t n = send(cfd, msg, sizeof(msg) - 1, MSG_NOSIGNAL);
+if (n == -1) {
+    /* EAGAIN/EWOULDBLOCK（非阻塞）、EPIPE、ENOTCONN 等 */;
+}</code></pre>

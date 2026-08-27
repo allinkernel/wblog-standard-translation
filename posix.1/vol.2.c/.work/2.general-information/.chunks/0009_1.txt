@@ -1,0 +1,61 @@
+# start_index 1
+[h3_00846] [A902][/A902]2.8 Realtime
+[p_00847] This section defines functions to support the source portability of applications with realtime requirements. The presence of some of these functions is dependent on support for implementation options described in the text.
+[p_00848] The specific functional areas included in this section and their scope include the following. Full definitions of these terms can be found in XBD [A903][I904]3. Definitions[/I904][/A903].
+[li_00849] Semaphores
+[li_00850] Process Memory Locking
+[li_00851] Memory Mapped Files and Shared Memory Objects
+[li_00852] Priority Scheduling
+[li_00853] Realtime Signal Extension
+[li_00854] Timers
+[li_00855] Interprocess Communication
+[li_00856] Synchronized Input and Output
+[li_00857] Asynchronous Input and Output
+[p_00858] All the realtime functions defined in this volume of POSIX.1-2024 are portable, although some of the numeric parameters used by an implementation may have hardware dependencies.
+[h4_00859] [A905][/A905]2.8.1 Realtime Signals
+[p_00860] See [A906]2.4.2 Realtime Signal Generation and Delivery[/A906].
+[h4_00861] [A907][/A907]2.8.2 Asynchronous I/O
+[p_00862] An asynchronous I/O control block structure [B908]aiocb[/B908] is used in many asynchronous I/O functions. It is defined in the Base Definitions volume of POSIX.1-2024, [A909][I910]&lt;aio.h&gt;[/I910][/A909] and has at least the following members:
+[td_00863] ctx="行 1: [B911]int[/B911]" [B911]int[/B911]
+[td_00864] ctx="列头: Member Name" [I912]aio_fildes[/I912]
+[td_00865] ctx="列头: Description" File descriptor.
+[td_00866] ctx="行 2: [B913]off_t[/B913]" [B913]off_t[/B913]
+[td_00867] ctx="列头: Member Name" [I914]aio_offset[/I914]
+[td_00868] ctx="列头: Description" File offset.
+[td_00869] ctx="行 3: [B915]volatile void*[/B915]" [B915]volatile void*[/B915]
+[td_00870] ctx="列头: Member Name" [I916]aio_buf[/I916]
+[td_00871] ctx="列头: Description" Location of buffer.
+[td_00872] ctx="行 4: [B917]size_t[/B917]" [B917]size_t[/B917]
+[td_00873] ctx="列头: Member Name" [I918]aio_nbytes[/I918]
+[td_00874] ctx="列头: Description" Length of transfer.
+[td_00875] ctx="行 5: [B919]int[/B919]" [B919]int[/B919]
+[td_00876] ctx="列头: Member Name" [I920]aio_reqprio[/I920]
+[td_00877] ctx="列头: Description" Request priority offset.
+[td_00878] ctx="行 6: [B921]struct sigevent[/B921]" [B921]struct sigevent[/B921]
+[td_00879] ctx="列头: Member Name" [I922]aio_sigevent[/I922]
+[td_00880] ctx="列头: Description" Signal number and value.
+[td_00881] ctx="行 7: [B923]int[/B923]" [B923]int[/B923]
+[td_00882] ctx="列头: Member Name" [I924]aio_lio_opcode[/I924]
+[td_00883] ctx="列头: Description" Operation to be performed.
+[p_00884] The [I925]aio_fildes[/I925] element is the file descriptor on which the asynchronous operation is performed.
+[p_00885] If O_APPEND is not set for the file descriptor [I926]aio_fildes[/I926] and if [I927]aio_fildes[/I927] is associated with a device that is capable of seeking, then the requested operation takes place at the absolute position in the file as given by [I928]aio_offset[/I928], as if [A929][I930]lseek[/I930]()[/A929] were called immediately prior to the operation with an [I931]offset[/I931] argument equal to [I932]aio_offset[/I932] and a [I933]whence[/I933] argument equal to SEEK_SET. If O_APPEND is set for the file descriptor, or if [I934]aio_fildes[/I934] is associated with a device that is incapable of seeking, write operations append to the file in the same order as the calls were made, with the following exception: under implementation-defined circumstances, such as operation on a multi-processor or when requests of differing priorities are submitted at the same time, the ordering restriction may be relaxed. Since there is no way for a strictly conforming application to determine whether this relaxation applies, all strictly conforming applications which rely on ordering of output shall be written in such a way that they operate correctly if the relaxation applies. After a successful call to enqueue an asynchronous I/O operation, the value of the file offset for the file is unspecified. The [I935]aio_nbytes[/I935] and [I936]aio_buf[/I936] elements are the same as the [I937]nbyte[/I937] and [I938]buf[/I938] arguments defined by [A939][I940]read[/I940]()[/A939] and [A941][I942]write[/I942]()[/A941], respectively.
+[p_00886] If _POSIX_PRIORITIZED_IO and _POSIX_PRIORITY_SCHEDULING are defined, then asynchronous I/O is queued in priority order, with the priority of each asynchronous operation based on the current scheduling priority of the calling process. The [I943]aio_reqprio[/I943] member can be used to lower (but not raise) the asynchronous I/O operation priority and is within the range zero through {AIO_PRIO_DELTA_MAX}, inclusive. Unless both _POSIX_PRIORITIZED_IO and _POSIX_PRIORITY_SCHEDULING are defined, the order of processing asynchronous I/O requests is unspecified. When both _POSIX_PRIORITIZED_IO and _POSIX_PRIORITY_SCHEDULING are defined, the order of processing of requests submitted by processes whose schedulers are not SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC is unspecified. The priority of an asynchronous request is computed as (process scheduling priority) minus [I944]aio_reqprio[/I944]. The priority assigned to each asynchronous I/O request is an indication of the desired order of execution of the request relative to other asynchronous I/O requests for this file. If _POSIX_PRIORITIZED_IO is defined, requests issued with the same priority to a character special file are processed by the underlying device in FIFO order; the order of processing of requests of the same priority issued to files that are not character special files is unspecified. Numerically higher priority values indicate requests of higher priority. The value of [I945]aio_reqprio[/I945] has no effect on process scheduling priority. When prioritized asynchronous I/O requests to the same file are blocked waiting for a resource required for that I/O operation, the higher-priority I/O requests shall be granted the resource before lower-priority I/O requests are granted the resource. The relative priority of asynchronous I/O and synchronous I/O is implementation-defined. If _POSIX_PRIORITIZED_IO is defined, the implementation shall define for which files I/O prioritization is supported.
+[p_00887] The [I946]aio_sigevent[/I946] determines how the calling process shall be notified upon I/O completion, as specified in [A947]2.4.1 Signal Generation and Delivery[/A947]. If [I948]aio_sigevent.sigev_notify[/I948] is SIGEV_NONE, then no signal shall be posted upon I/O completion, but the error status for the operation and the return status for the operation shall be set appropriately.
+[p_00888] The [I949]aio_lio_opcode[/I949] field is used only by the [A950][I951]lio_listio[/I951]()[/A950] call. The [A952][I953]lio_listio[/I953]()[/A952] call allows multiple asynchronous I/O operations to be submitted at a single time. The function takes as an argument an array of pointers to [B954]aiocb[/B954] structures. Each [B955]aiocb[/B955] structure indicates the operation to be performed (read or write) via the [I956]aio_lio_opcode[/I956] field.
+[p_00889] The address of the [B957]aiocb[/B957] structure is used as a handle for retrieving the error status and return status of the asynchronous operation while it is in progress.
+[p_00890] The [B958]aiocb[/B958] structure and the data buffers associated with the asynchronous I/O operation are being used by the system for asynchronous I/O while, and only while, the error status of the asynchronous operation is equal to [EINPROGRESS]. Applications shall not modify the [B959]aiocb[/B959] structure while the structure is being used by the system for asynchronous I/O.
+[p_00891] The return status of the asynchronous operation is the number of bytes transferred by the I/O operation. If the error status is set to indicate an error completion, then the return status is set to the return value that the corresponding [A960][I961]read[/I961]()[/A960], [A962][I963]write[/I963]()[/A962], or [A964][I965]fsync[/I965]()[/A964] call would have returned. When the error status is not equal to [EINPROGRESS], the return status shall reflect the return status of the corresponding synchronous operation.
+[h4_00892] [A966][/A966]2.8.3 Memory Management
+[h5_00893] [A967][/A967]2.8.3.1 Memory Locking
+[p_00894] [S968][[A969]MLR[/A969]][/S968] [IMG970] Range memory locking operations are defined in terms of pages. Implementations may restrict the size and alignment of range lockings to be on page-size boundaries. The page size, in bytes, is the value of the configurable system variable {PAGESIZE}. If an implementation has no restrictions on size or alignment, it may specify a 1-byte page size. [IMG971]
+[p_00895] [S972][[A973]ML|MLR[/A973]][/S972] [IMG974] Memory locking guarantees the residence of portions of the address space. It is implementation-defined whether locking memory guarantees fixed translation between virtual addresses (as seen by the process) and physical addresses. Per-process memory locks are not inherited across a [A975][I976]fork[/I976]()[/A975], and all memory locks owned by a process are unlocked upon [I977][A978]exec[/A978][/I977] or process termination. Unmapping of an address range removes any memory locks established on that address range by this process. [IMG979]
+[h5_00896] [A980][/A980]2.8.3.2 Memory Mapped Files
+[p_00897] Range memory mapping operations are defined in terms of pages. Implementations may restrict the size and alignment of range mappings to be on page-size boundaries. The page size, in bytes, is the value of the configurable system variable {PAGESIZE}. If an implementation has no restrictions on size or alignment, it may specify a 1-byte page size.
+[p_00898] Memory mapped files provide a mechanism that allows a process to access files by directly incorporating file data into its address space. Once a file is mapped into a process address space, the data can be manipulated as memory. If more than one process maps a file, its contents are shared among them. If the mappings allow shared write access, then data written into the memory object through the address space of one process appears in the address spaces of all processes that similarly map the same portion of the memory object.
+[p_00899] [S981][[A982]SHM[/A982]][/S981] [IMG983] Shared memory objects are named regions of storage that may be independent of the file system and can be mapped into the address space of one or more processes to allow them to share the associated memory. [IMG984]
+[p_00900] An [A985][I986]unlink[/I986]()[/A985] of a file [S987][[A988]SHM[/A988]][/S987] [IMG989] &nbsp;or [A990][I991]shm_unlink[/I991]()[/A990] of a shared memory object, [IMG992] while causing the removal of the name, does not unmap any mappings established for the object. Once the name has been removed, the contents of the memory object are preserved as long as it is referenced. The memory object remains referenced as long as a process has the memory object open or has some area of the memory object mapped.
+[h5_00901] [A993][/A993]2.8.3.3 Memory Protection
+[p_00902] When an object is mapped, various application accesses to the mapped region may result in signals. In this context, SIGBUS is used to indicate an error using the mapped object, and SIGSEGV is used to indicate a protection violation or misuse of an address:
+[li_00903] A mapping may be restricted to disallow some types of access.
+[li_00904] Write attempts to memory that was mapped without write access, or any access to memory mapped PROT_NONE, shall result in a SIGSEGV signal.
+[li_00905] References to unmapped addresses shall result in a SIGSEGV signal.

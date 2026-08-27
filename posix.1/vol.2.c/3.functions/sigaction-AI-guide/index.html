@@ -1,0 +1,38 @@
+<h1>XSH 函数导读：sigaction()</h1>
+
+<h2>0. 总览</h2>
+<p><code>sigaction()</code> 用于检查并更改与特定信号关联的动作，是 POSIX 中安装信号处理程序的首选接口。头文件为 <code>&lt;signal.h&gt;</code>。原型关键点：<code>int sigaction(int sig, const struct sigaction *restrict act, struct sigaction *restrict oact)</code>——<code>act</code> 指定新动作（可为 NULL 仅查询），<code>oact</code> 接收旧动作（可为 NULL）。核心数据结构是 <b>sigaction</b> 结构，含 <code>sa_handler</code>、<code>sa_sigaction</code>（两者存储可重叠，不应同时使用）、<code>sa_mask</code> 与 <code>sa_flags</code>。</p>
+
+<h2>1. 机制</h2>
+<p>通过 <code>sa_flags</code> 控制行为：设置 SA_SIGINFO 时用三参数捕获函数 <code>void func(int signo, siginfo_t *info, void *context)</code>（<code>info</code> 说明信号原因与 <code>si_value</code> 等，<code>context</code> 可转换为 <code>ucontext_t *</code>），否则用一参数的 <code>sa_handler</code>。SA_RESTART 使被中断的可中断函数自动重启而非以 [EINTR] 失败；SA_RESETHAND 在进入处理程序时将处置重置为 SIG_DFL（SIGILL/SIGTRAP 例外）；SA_NODEFER 阻止把 <code>sig</code> 本身加入执行期间的掩码。执行期间的掩码 = 当前掩码 ∪ <code>sa_mask</code> ∪（默认含 <code>sig</code> 自身），正常返回后恢复。动作持续有效，直到再次 <code>sigaction()</code>、SA_RESETHAND 重置或调用 exec。成功返回 0；失败返回 -1、置 <code>errno</code> 且不安装任何新处理程序。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><strong>与 signal() 混用</strong>：同一进程中对同一信号混用二者，经 <code>oact</code> 读回的字段值未指定；库例程应始终使用 <code>sigaction()</code>。规范明确要求 <code>sigaction()</code> 能正确保存/恢复 signal() 建立的动作，反之不保证。</li>
+<li><strong>处理程序内调用限制</strong>：只应调用异步信号安全函数；即使"安全"函数也可能改 <code>errno</code>，处理程序应保存并恢复 <code>errno</code>。longjmp()/siglongjmp() 不在安全列表内，用它离开处理程序必须显式恢复信号掩码。</li>
+<li><strong>SIGKILL/SIGSTOP</strong>：不可捕获/忽略，把它们加入掩码或设为 SIG_DFL 由系统静默强制或不报错（NULL <code>act</code> 查询必须成功）。</li>
+<li><strong>SA_RESETHAND 与 SA_NODEFER</strong>：实现可"如同也设置了 SA_NODEFER"，依赖重置语义时必须显式设置 SA_NODEFER 以保证可移植。</li>
+<li><strong>并发 sigwait()</strong>：进程内同一信号并发使用 <code>sigaction()</code> 与 sigwait() 结果未指定；设置 SA_SIGINFO 时应用方不应同时动 <code>sa_handler</code>。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+
+static void handler(int signum) {
+    /* 仅可调用异步信号安全函数 */
+    (void)signum;
+}
+
+int main(void) {
+    struct sigaction sa;
+    sa.sa_handler = handler;
+    sigemptyset(&amp;sa.sa_mask);
+    sa.sa_flags = SA_RESTART; /* 被处理程序中断的调用自动重启 */
+    if (sigaction(SIGINT, &amp;sa, NULL) == -1) {
+        perror("sigaction");
+        return 1;
+    }
+    return 0;
+}
+</code></pre>

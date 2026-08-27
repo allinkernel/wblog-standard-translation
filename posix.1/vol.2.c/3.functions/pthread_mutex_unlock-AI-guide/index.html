@@ -1,0 +1,23 @@
+<h1>XSH 函数导读：pthread_mutex_unlock()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_mutex_unlock()</code> 释放调用线程持有的互斥量，使其他等待线程有机会获取它。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_mutex_unlock(pthread_mutex_t *mutex);</code>——成功返回零，失败返回错误号，且不应返回 [EINTR]。</p>
+
+<h2>1. 机制</h2>
+<p>互斥量具有所有权：只有持有者才能解锁。解锁时若存在阻塞在该互斥量上的线程，互斥量变为可用后由调度策略决定哪个线程获得它。对递归类型（PTHREAD_MUTEX_RECURSIVE），每次解锁使锁计数减一，只有计数归零且调用线程不再持有任何锁时互斥量才真正可供他人获取。若等待互斥量的线程收到信号，从信号处理程序返回后应如同未被中断一样继续等待。健壮互斥量的场景中，若持有者进程崩溃导致锁被 [EOWNERDEAD] 方式获取，新所有者无法恢复状态时应在不调用 <code>pthread_mutex_consistent()</code> 的情况下解锁，此后该互斥量被标记为永久不可用。</p>
+
+<h2>2. 易错点</h2>
+<p>解锁自己并不拥有的互斥量是典型错误：ERRORCHECK 或递归类型返回 [EPERM]，默认类型行为未定义。重复解锁同一个互斥量同样非法。递归互斥量必须按锁定次数成对解锁，否则计数不归零、锁永远不释放。注意健壮互斥量的两种结局：要么调用 <code>pthread_mutex_consistent()</code> 后继续使用，要么直接解锁使其永久不可用，绝不要恢复失败后还当作正常互斥量使用。信号中断不影响互斥量等待，不要为 EINTR 写重试循环。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+
+static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
+static long counter = 0;
+
+void *worker(void *arg) {
+    pthread_mutex_lock(&amp;mtx);
+    counter++;                  /* 临界区 */
+    pthread_mutex_unlock(&amp;mtx); /* 与 lock 严格配对 */
+    return NULL;
+}</code></pre>

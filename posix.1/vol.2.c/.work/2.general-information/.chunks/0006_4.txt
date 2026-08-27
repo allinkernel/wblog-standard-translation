@@ -1,0 +1,31 @@
+# start_index 91
+of POSIX.1-2024, but if two or more handles are used, and any one of them is a stream, the application shall ensure that their
+actions are coordinated as described below. If this is not done, the result is undefined.
+[p_00774] A handle which is a stream is considered to be closed when either an [A699][I700]fclose[/I700]()[/A699], or [A701][I702]freopen[/I702]()[/A701] with non-null filename,
+is executed on it (for [A703][I704]freopen[/I704]()[/A703] with a null filename, it is implementation-defined
+whether a new handle is created or the existing one reused), or when the process owning that stream terminates with [A705][I706]exit[/I706]()[/A705], [A707][I708]abort[/I708]()[/A707], or due to a signal. Several
+functions close file descriptors, including [A709][I710]close[/I710]()[/A709], [A711][I712]dup2[/I712]()[/A711], [A713][I714]_exit[/I714]()[/A713], the [I715][A716]exec[/A716][/I715] functions when FD_CLOEXEC is set on a file descriptor, [A717][I718]fork[/I718]()[/A717] when FD_CLOFORK is set on a file descriptor, and [A719][I720]posix_spawn[/I720]()[/A719] when either FD_CLOEXEC or FD_CLOFORK is set.
+[p_00775] For a handle to become the active handle, the application shall ensure that the actions below are performed between
+the last use of the handle (the current active handle) and the first use of the second handle (the future active handle). The
+second handle then becomes the active handle. All activity by the application affecting the file offset on the first handle shall
+be suspended until it again becomes the active file handle. (If a stream function has as an underlying function one that affects
+the file offset, the stream function shall be considered to affect the file offset.)
+[p_00776] The handles need not be in the same process for these rules to apply.
+[p_00777] Note that after a [A721][I722]fork[/I722]()[/A721], two handles exist where one existed before.
+The application shall ensure that, if both handles can ever be accessed, they are both in a state where the other could become the
+active handle first. The application shall prepare for a [A723][I724]fork[/I724]()[/A723] exactly as if it were a
+change of active handle. (If the only action performed by one of the processes is one of the [I725][A726]exec[/A726][/I725] functions or [A727][I728]_exit[/I728]()[/A727] (not [A729][I730]exit[/I730]()[/A729]), the handle is never accessed in that process.)
+[p_00778] For the first handle, the first applicable condition below applies. After the actions required below are taken, if
+the handle is still open, the application can close it.
+[li_00779] If it is a file descriptor, no action is required.
+[li_00780] If the only further action to be performed on any handle to this open file descriptor is to close it, no action
+need be taken.
+[li_00781] If it is a stream which is unbuffered, no action need be taken.
+[blockquote_00782] [PRE731]
+[p_00783] was the most recent operation on that stream), no action need be taken.
+[li_00784] If it is a stream which is open for writing or appending (but not also open for reading), the application shall
+either perform an [A732][I733]fflush[/I733]()[/A732], or the stream shall be closed.
+[li_00785] If the stream is open for reading and it is at the end of the file ([A734][I735]feof[/I735]()[/A734] is true), no action need be taken.
+[li_00786] If the stream is open with a mode that allows reading and the underlying open file description refers to a device
+that is capable of seeking, the application shall either perform an [A736][I737]fflush[/I737]()[/A736], or the
+stream shall be closed.

@@ -1,0 +1,170 @@
+<h1>XSH 函数：bind()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="bind" id="bind"></a> <a name="tag_17_44" id="tag_17_44"></a>
+<a name="tag_17_44_01" id="tag_17_44_01"></a><h4>名称 (NAME)</h4>
+<blockquote>bind — 将名称绑定到套接字 (bind — bind a name to a socket)</blockquote>
+<a name="tag_17_44_02" id="tag_17_44_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/socket.h&gt;<br>
+<br>
+int bind(int</code> <i>socket</i><code>, const struct sockaddr *</code><i>address</i><code>,<br>
+       socklen_t</code> <i>address_len</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_44_03" id="tag_17_44_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>bind</i>() 函数应将本地套接字地址 <i>address</i> 分配给由描述符 <i>socket</i> 标识的、尚未分配本地套接字地址的套接字。使用 socket() 函数创建的套接字最初是未命名的；它们仅由其地址族标识。</p>
+<p><i>bind</i>() 函数接受以下参数：</p>
+<dl compact="None">
+<dd></dd>
+<dt><i>socket</i></dt>
+<dd>指定要绑定的套接字的文件描述符。</dd>
+<dt><i>address</i></dt>
+<dd>指向包含要绑定到套接字的地址的 <b>sockaddr</b> 结构。地址的长度和格式取决于套接字的地址族。</dd>
+<dt><i>address_len</i></dt>
+<dd>指定由 <i>address</i> 参数指向的 <b>sockaddr</b> 结构的长度。</dd>
+</dl>
+<p>由 <i>socket</i> 指定的套接字可能要求进程拥有适当的权限才能使用 <i>bind</i>() 函数。</p>
+<p>如果套接字的地址族是 AF_UNIX，应用程序应确保作为 <b>sockaddr_un</b> 结构的 <i>address</i> 的 <i>sun_path</i> 成员中包含路径名之后的空终止符，并且 <i>address_len</i> 至少为 <code>offsetof(struct sockaddr_un, sun_path) + 1</code> 加上路径名的长度。如果 <i>address</i> 的 <i>sun_path</i> 成员中的路径名指向一个现有文件（包括符号链接），<i>bind</i>() 应将此地址视为已被占用；参见下面的 ERRORS。</p>
+<p>如果套接字地址无法立即分配，并且为套接字的文件描述符设置了 O_NONBLOCK，则 <i>bind</i>() 应失败并将 <i>errno</i> 设置为 [EINPROGRESS]，但分配请求不应被中止，分配应异步完成。在分配完成之前，针对同一套接字对 <i>bind</i>() 的后续调用应失败并将 <i>errno</i> 设置为 [EALREADY]。</p>
+<p>当分配已异步执行时，pselect()、select()、poll() 和 ppoll() 应指示套接字的文件描述符已准备好进行读取和写入。</p>
+</blockquote>
+<a name="tag_17_44_04" id="tag_17_44_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>bind</i>() 应返回 0；否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_44_05" id="tag_17_44_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>bind</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EADDRINUSE]</dt>
+<dd>指定的地址已被占用。</dd>
+<dt>[EADDRNOTAVAIL]</dt>
+<dd>指定的地址在本地机器上不可用。</dd>
+<dt>[EAFNOSUPPORT]</dt>
+<dd>对于指定套接字的地址族，指定的地址不是有效地址。</dd>
+<dt>[EALREADY]</dt>
+<dd>针对指定套接字的分配请求已在进行中。</dd>
+<dt>[EBADF]</dt>
+<dd><i>socket</i> 参数不是有效的文件描述符。</dd>
+<dt>[EINPROGRESS]</dt>
+<dd>为套接字的文件描述符设置了 O_NONBLOCK，且分配无法立即执行；分配应异步执行。</dd>
+<dt>[EINVAL]</dt>
+<dd>套接字已绑定到某个地址，且协议不支持绑定到新地址；或套接字已被关闭。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>可用于完成调用的资源不足。</dd>
+<dt>[ENOTSOCK]</dt>
+<dd><i>socket</i> 参数不引用套接字。</dd>
+<dt>[EOPNOTSUPP]</dt>
+<dd>指定套接字的套接字类型不支持绑定到地址。</dd>
+</dl>
+<p>如果套接字的地址族是 AF_UNIX，则 <i>bind</i>() 在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>路径前缀的某个组件拒绝搜索权限，或所请求的名称需要在模式拒绝写权限的目录中进行写入。</dd>
+<dt>[EDESTADDRREQ] 或 [EISDIR]</dt>
+<dd><i>address</i> 参数是空指针。</dd>
+<dt>[EILSEQ]</dt>
+<dd>路径名的最后一个组件不是可移植文件名，且无法在目标目录中创建。</dd>
+<dt>[EIO]</dt>
+<dd>发生 I/O 错误。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>address</i> 中的路径名时遇到的符号链接中存在循环。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名某个组件的长度长于 {NAME_MAX}。</dd>
+<dt>[ENOENT]</dt>
+<dd><i>address</i> 中路径名的路径前缀的某个组件未指向现有文件，或路径名是空字符串。</dd>
+<dt>[ENOENT] 或 [ENOTDIR]</dt>
+<dd><i>address</i> 中的路径名包含至少一个非 &lt;slash&gt; 字符，并以一个或多个尾随的 &lt;slash&gt; 字符结尾。如果去掉尾随的 &lt;slash&gt; 字符后的路径名会指向一个现有文件，则不应发生 [ENOENT] 错误。</dd>
+<dt>[ENOTDIR]</dt>
+<dd><i>address</i> 中路径名的路径前缀的某个组件指向一个既不是目录也不是指向目录的符号链接的现有文件，或者 <i>address</i> 中的路径名包含至少一个非 &lt;slash&gt; 字符并以一个或多个尾随的 &lt;slash&gt; 字符结尾，且最后一个路径名组件指向一个既不是目录也不是指向目录的符号链接的现有文件。</dd>
+<dt>[EROFS]</dt>
+<dd>该名称将位于只读文件系统上。</dd>
+</dl>
+<p>在以下情况下，<i>bind</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>指定的地址受保护，当前用户没有权限绑定到它。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>address_len</i> 参数对于该地址族不是有效长度。</dd>
+<dt>[EISCONN]</dt>
+<dd>套接字已连接。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>address</i> 中的路径名时遇到的符号链接超过 {SYMLOOP_MAX} 个。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的长度超过 {PATH_MAX}，或符号链接的路径名解析产生的中间结果的长度超过 {PATH_MAX}。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_44_06" id="tag_17_44_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>以下代码片段演示了如何创建套接字并将其绑定到 AF_UNIX 域中的名称。</p>
+<pre><code class="language-plaintext">#define MY_SOCK_PATH "/somepath"
+ 
+int sfd;
+struct sockaddr_un my_addr;
+ 
+sfd = socket(AF_UNIX, SOCK_STREAM, 0);
+if (sfd == -1)
+    /* Handle error */;
+ 
+memset(&amp;my_addr, '\0', sizeof(struct sockaddr_un));
+                     /* Clear structure */
+my_addr.sun_family = AF_UNIX;
+strncpy(my_addr.sun_path, MY_SOCK_PATH, sizeof(my_addr.sun_path) -1);
+ 
+if (bind(sfd, (struct sockaddr *) &amp;my_addr,
+    sizeof(struct sockaddr_un)) == -1)
+    /* Handle error */;</code></pre></blockquote>
+<a name="tag_17_44_07" id="tag_17_44_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>应用程序可以使用 getsockname() 函数检索已分配的套接字名称。</p>
+<p>对于 AF_UNIX 套接字，某些实现支持一种扩展，其中 <i>address_len</i> 不必为存储在 <i>sun_path</i> 中的路径名包含空终止符，这反过来允许路径名长一个字节。但是，此类用法不可移植，并且存在访问超出路径名长度预期边界之外的风险。</p>
+</blockquote>
+<a name="tag_17_44_08" id="tag_17_44_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>鼓励实现使 <i>bind</i>() 在要绑定到 AF_UNIX 族套接字的地址的最后一个组件包含任何具有 &lt;newline&gt; 字符编码值的字节时报告 [EILSEQ] 错误。</p>
+</blockquote>
+<a name="tag_17_44_09" id="tag_17_44_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_44_10" id="tag_17_44_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>connect()、getsockname()、listen()、socket()</p>
+<p>XBD &lt;sys/socket.h&gt;</p>
+</blockquote>
+<a name="tag_17_44_11" id="tag_17_44_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 6 版。源自 XNS 第 5.2 版规范。</p>
+</blockquote>
+<a name="tag_17_44_12" id="tag_17_44_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用 Austin Group Interpretation 1003.1-2001 #044，将 &quot;可以失败&quot; [ENOBUFS] 错误更改为 &quot;应失败&quot; 错误。</p>
+<p>应用 Austin Group Interpretation 1003.1-2001 #143。</p>
+<p>应用 SD5-XSH-ERN-185。</p>
+<p>添加了一个示例。</p>
+<p>应用 POSIX.1-2008 Technical Corrigendum 1 中的 XSH/TC1-2008/0042 [146]、XSH/TC1-2008/0043 [146] 和 XSH/TC1-2008/0044 [324]。</p>
+<p>应用 POSIX.1-2008 Technical Corrigendum 2 中的 XSH/TC2-2008/0050 [822]。</p>
+</blockquote>
+<a name="tag_17_44_13" id="tag_17_44_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用 Austin Group Defect 251，鼓励实现禁止创建包含任何具有 &lt;newline&gt; 字符编码值的字节的文件名。</p>
+<p>应用 Austin Group Defects 293 和 1482，添加 [EILSEQ] 错误。</p>
+<p>应用 Austin Group Defect 561，更改对 <b>sockaddr_un</b> 结构的 <i>sun_path</i> 成员的要求。</p>
+<p>应用 Austin Group Defect 1263，添加 ppoll()。</p>
+<p>应用 Austin Group Defect 1605，阐明 [EADDRINUSE] 错误如何适用于 AF_UNIX 套接字。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

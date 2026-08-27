@@ -1,0 +1,31 @@
+<h1>XSH 函数导读：pthread_key_create()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_key_create()</code> 创建一个对进程中所有线程可见的线程特定数据键，配合 <code>pthread_getspecific()</code>/<code>pthread_setspecific()</code> 使用，让每个线程持有独立的值。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));</code>——第二个参数可为 NULL，成功返回零并把键值存入 *key。</p>
+
+<h2>1. 机制</h2>
+<p>键是进程级对象，但绑定到键上的值按线程维护，随调用线程的整个生命周期持续存在。创建键时，所有活动线程中该键的关联值为 NULL；新线程诞生时所有已定义键的值也是 NULL。退出时可选的析构函数被用于清理：线程退出时，若某键有非 NULL 析构函数且该线程持有非 NULL 值，则先把值置 NULL 再以旧值调用析构函数。若一轮调用后仍存在待清理的非 NULL 值，则重复此过程，最多迭代 {PTHREAD_DESTRUCTOR_ITERATIONS} 次（之后实现可继续直至清空，也可能无限循环）。</p>
+
+<h2>2. 易错点</h2>
+<p>键必须先创建再使用，在初始化前调用 getspecific/setspecific 是编程错误，官方示例明确展示了这种错误写法。确保每个键恰好创建一次是程序员的责任（用 <code>pthread_once()</code> 或显式模块初始化），<code>pthread_key_create()</code> 不做隐式同步、也不幂等。每次 <code>pthread_setspecific()</code> 替换值时不会自动释放旧值存储，需自己释放。析构函数顺序未指定，且存在 {PTHREAD_KEYS_MAX} 进程级键数限制，超限返回 [EAGAIN]。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;stdlib.h&gt;
+
+static pthread_key_t key;
+static pthread_once_t once = PTHREAD_ONCE_INIT;
+
+static void make_key(void) {
+    pthread_key_create(&amp;key, free);   /* 退出时释放每线程值 */
+}
+
+void *worker(void *arg) {
+    void *ptr;
+    pthread_once(&amp;once, make_key);    /* 每个线程先确保键就绪 */
+    if ((ptr = pthread_getspecific(key)) == NULL) {
+        ptr = malloc(64);
+        pthread_setspecific(key, ptr); /* 每线程独立分配 */
+    }
+    return NULL;
+}</code></pre>

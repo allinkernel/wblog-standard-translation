@@ -1,0 +1,1467 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_516_01\" id=\"tag_17_516_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "send — send a message on a socket",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_516_02\" id=\"tag_17_516_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/sys_socket.h.html\">sys/socket.h</a>&gt;<br>\n<br>\nssize_t send(int</tt> <i>socket</i><tt>, const void *</tt><i>buffer</i><tt>, size_t</tt> <i>length</i><tt>, int</tt>\n<i>flags</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_516_03\" id=\"tag_17_516_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]send[/I5]() function shall initiate transmission of a message from the specified socket to its peer. The [I6]send[/I6]()\nfunction shall send a message only when the socket is connected. If the socket is a connectionless-mode socket, the message shall\nbe sent to the pre-specified peer address.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "The [I7]send[/I7]() function takes the following arguments:",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00008",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     3
+    ],
+    "text": "[I8]socket[/I8]",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00009",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     5
+    ],
+    "text": "Specifies the socket file descriptor.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00010",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     7
+    ],
+    "text": "[I9]buffer[/I9]",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00011",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     9
+    ],
+    "text": "Points to the buffer containing the message to send.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00012",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     11
+    ],
+    "text": "[I10]length[/I10]",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00013",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     13
+    ],
+    "text": "Specifies the length of the message in bytes.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00014",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     15
+    ],
+    "text": "[I11]flags[/I11]",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00015",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     17
+    ],
+    "text": "Specifies the type of message transmission. Values of this argument are formed by logically OR'ing zero or more of the\nfollowing flags:\n\n\nMSG_EOR\nTerminates a record (if supported by the protocol).\nMSG_OOB\nSends out-of-band data on sockets that support out-of-band communications. The significance and semantics of out-of-band data\nare protocol-specific.\nMSG_NOSIGNAL\nRequests not to send the SIGPIPE signal if an attempt to send is made on a stream-oriented socket that is no longer connected.\nThe [EPIPE] error shall still be returned.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     7
+    ],
+    "text": "The length of the message to be sent is specified by the [I12]length[/I12] argument. If the message is too long to pass through the\nunderlying protocol, [I13]send[/I13]() shall fail and no data shall be transmitted.",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     9
+    ],
+    "text": "Successful completion of a call to [I14]send[/I14]() does not guarantee delivery of the message. A return value of -1 indicates only\nlocally-detected errors.",
+    "placeholders": {
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     11
+    ],
+    "text": "If space is not available at the sending socket to hold the message to be transmitted, and the socket file descriptor does not\nhave O_NONBLOCK set, [I15]send[/I15]() shall block until space is available or a timeout occurs (see SO_SNDTIMEO in [A16][I17]2.10.16 Use of Options[/I17][/A16]). If space is not available at the sending socket to\nhold the message to be transmitted, and the socket file descriptor does have O_NONBLOCK set, [I18]send[/I18]() shall fail. The [A19][I20]select[/I20]()[/A19] and [A21][I22]poll[/I22]()[/A21] functions can be used to\ndetermine when it is possible to send more data.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A16": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_10_16\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"../functions/select.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/poll.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     13
+    ],
+    "text": "The socket in use may require the process to have appropriate privileges to use the [I23]send[/I23]() function.",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00020",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A24][/A24]RETURN VALUE",
+    "placeholders": {
+     "A24": {
+      "open": "<a name=\"tag_17_516_04\" id=\"tag_17_516_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I25]send[/I25]() shall return the number of bytes sent. Otherwise, -1 shall be returned and\n[I26]errno[/I26] set to indicate the error.",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00022",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A27][/A27]ERRORS",
+    "placeholders": {
+     "A27": {
+      "open": "<a name=\"tag_17_516_05\" id=\"tag_17_516_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I28]send[/I28]() function shall fail if:",
+    "placeholders": {
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     3
+    ],
+    "text": "[EAGAIN] or [EWOULDBLOCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     5
+    ],
+    "text": "The socket's file descriptor is marked O_NONBLOCK and the requested operation would block. See also SO_SNDTIMEO in [A29][I30]2.10.16 Use of Options[/I30][/A29].",
+    "placeholders": {
+     "A29": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_10_16\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     9
+    ],
+    "text": "The [I31]socket[/I31] argument is not a valid file descriptor.",
+    "placeholders": {
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     11
+    ],
+    "text": "[ECONNRESET]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00029",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     13
+    ],
+    "text": "A connection was forcibly closed by a peer.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00030",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     15
+    ],
+    "text": "[EDESTADDRREQ]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00031",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     17
+    ],
+    "text": "The socket is not connection-mode and no peer address is set.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00032",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     19
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00033",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     21
+    ],
+    "text": "A signal interrupted [I32]send[/I32]() before any data was transmitted.",
+    "placeholders": {
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00034",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     23
+    ],
+    "text": "[EMSGSIZE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00035",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     25
+    ],
+    "text": "The message is too large to be sent all at once, as the socket requires.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00036",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     27
+    ],
+    "text": "[ENOTCONN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00037",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     29
+    ],
+    "text": "The socket is not connected.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00038",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     31
+    ],
+    "text": "[ENOTSOCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00039",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     33
+    ],
+    "text": "The [I33]socket[/I33] argument does not refer to a socket.",
+    "placeholders": {
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00040",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     35
+    ],
+    "text": "[EOPNOTSUPP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00041",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     37
+    ],
+    "text": "The [I34]socket[/I34] argument is associated with a socket that does not support one or more of the values set in\n[I35]flags[/I35].",
+    "placeholders": {
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00042",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     39
+    ],
+    "text": "[EPIPE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00043",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     41
+    ],
+    "text": "The socket is shut down for writing, or the socket is connection-mode and is no longer connected. In the latter case, and if\nthe socket is of type SOCK_STREAM or SOCK_SEQPACKET and the MSG_NOSIGNAL flag is not set, the SIGPIPE signal is generated to the\ncalling thread.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     5
+    ],
+    "text": "The [I36]send[/I36]() function may fail if:",
+    "placeholders": {
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00045",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00046",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     5
+    ],
+    "text": "The calling process does not have appropriate privileges.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00047",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     7
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00048",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     9
+    ],
+    "text": "An I/O error occurred while reading from or writing to the file system.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00049",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     11
+    ],
+    "text": "[ENETDOWN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00050",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     13
+    ],
+    "text": "The local network interface used to reach the destination is down.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00051",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     15
+    ],
+    "text": "[ENETUNREACH]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00052",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     17
+    ],
+    "text": "No route to the network is present.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00053",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     19
+    ],
+    "text": "[ENOBUFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00054",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     21
+    ],
+    "text": "Insufficient resources were available in the system to perform the operation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00055",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A37][/A37]EXAMPLES",
+    "placeholders": {
+     "A37": {
+      "open": "<a name=\"tag_17_516_06\" id=\"tag_17_516_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00057",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A38][/A38]APPLICATION USAGE",
+    "placeholders": {
+     "A38": {
+      "open": "<a name=\"tag_17_516_07\" id=\"tag_17_516_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "If the [I39]socket[/I39] argument refers to a connection-mode socket, the [I40]send[/I40]() function is equivalent to [A41][I42]sendto[/I42]()[/A41] (with any value for the [I43]dest_addr[/I43] and [I44]dest_len[/I44] arguments, as they are\nignored in this case). If the [I45]socket[/I45] argument refers to a socket and the [I46]flags[/I46] argument is 0, the [I47]send[/I47]()\nfunction is equivalent to [A48][I49]write[/I49]()[/A48].",
+    "placeholders": {
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A41": {
+      "open": "<a href=\"../functions/sendto.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A48": {
+      "open": "<a href=\"../functions/write.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00059",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A50][/A50]RATIONALE",
+    "placeholders": {
+     "A50": {
+      "open": "<a name=\"tag_17_516_08\" id=\"tag_17_516_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00061",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A51][/A51]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A51": {
+      "open": "<a name=\"tag_17_516_09\" id=\"tag_17_516_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00063",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A52][/A52]SEE ALSO",
+    "placeholders": {
+     "A52": {
+      "open": "<a name=\"tag_17_516_10\" id=\"tag_17_516_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00064",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A53][I54]connect[/I54]()[/A53], [A55][I56]getsockopt[/I56]()[/A55],\n[A57][I58]poll[/I58]()[/A57], [A59][I60]pselect[/I60]()[/A59], [A61][I62]recv[/I62]()[/A61], [A63][I64]recvfrom[/I64]()[/A63], [A65][I66]recvmsg[/I66]()[/A65], [A67][I68]sendmsg[/I68]()[/A67], [A69][I70]sendto[/I70]()[/A69], [A71][I72]setsockopt[/I72]()[/A71], [A73][I74]shutdown[/I74]()[/A73], [A75][I76]socket[/I76]()[/A75], [A77][I78]write[/I78]()[/A77]",
+    "placeholders": {
+     "A53": {
+      "open": "<a href=\"../functions/connect.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A55": {
+      "open": "<a href=\"../functions/getsockopt.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A57": {
+      "open": "<a href=\"../functions/poll.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A59": {
+      "open": "<a href=\"../functions/pselect.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A61": {
+      "open": "<a href=\"../functions/recv.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A63": {
+      "open": "<a href=\"../functions/recvfrom.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A65": {
+      "open": "<a href=\"../functions/recvmsg.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A67": {
+      "open": "<a href=\"../functions/sendmsg.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A69": {
+      "open": "<a href=\"../functions/sendto.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A71": {
+      "open": "<a href=\"../functions/setsockopt.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A73": {
+      "open": "<a href=\"../functions/shutdown.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A75": {
+      "open": "<a href=\"../functions/socket.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"../functions/write.html#tag_17_699\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A79][I80]&lt;sys/socket.h&gt;[/I80][/A79]",
+    "placeholders": {
+     "A79": {
+      "open": "<a href=\"../basedefs/sys_socket.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00066",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A81][/A81]CHANGE HISTORY",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_516_11\" id=\"tag_17_516_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 6. Derived from the XNS, Issue 5.2 specification.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00068",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A82][/A82]Issue 7",
+    "placeholders": {
+     "A82": {
+      "open": "<a name=\"tag_17_516_12\" id=\"tag_17_516_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #035 is applied, updating the DESCRIPTION to clarify the behavior when the socket is a\nconnectionless-mode socket.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00070",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3
+    ],
+    "text": "The MSG_NOSIGNAL flag is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     5
+    ],
+    "text": "The [EPIPE] error is modified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0543 [463] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00073",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A83][/A83]Issue 8",
+    "placeholders": {
+     "A83": {
+      "open": "<a name=\"tag_17_516_13\" id=\"tag_17_516_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00074",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "Austin Group Defect 1429 is applied, clarifying the behavior on timeout by adding references to [A84][I85]2.10.16 Use of Options[/I85][/A84].",
+    "placeholders": {
+     "A84": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_10_16\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

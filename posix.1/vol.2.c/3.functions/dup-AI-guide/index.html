@@ -1,0 +1,23 @@
+<h1>XSH 函数导读：dup()</h1>
+
+<h2>0. 总览</h2>
+<p>dup() 系列函数（dup、dup2、dup3）用于复制一个打开的文件描述符，使两个描述符指向同一个打开文件描述，并共享其中的文件锁。头文件为 <code>&lt;unistd.h&gt;</code>；原型分别为 <code>int dup(int fildes)</code>、<code>int dup2(int fildes, int fildes2)</code> 与 <code>int dup3(int fildes, int fildes2, int flag)</code>。成功时返回非负整数（文件描述符），失败时返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>dup(fildes) 等价于 fcntl(fildes, F_DUPFD, 0)，即返回当前最小的未使用描述符。dup2() 则使 fildes2 指向与 fildes 相同的打开文件描述：若 fildes2 已打开，会先将其关闭；若 fildes 等于 fildes2，则直接返回而不关闭。两者共享文件偏移、状态标志与锁。成功且 fildes 不等于 fildes2 时，fildes2 上的 FD_CLOEXEC 与 FD_CLOFORK 标志被清除。dup3() 要求 fildes 与 fildes2 不得相等，并可用 flag 中的 O_CLOEXEC、O_CLOFORK 原子地设置标志。</p>
+
+<h2>2. 易错点</h2>
+<p>最典型的坑是描述符泄漏与未检查返回值：close(1) 后再 dup(pfd) 虽可重定向，但若 dup 因 EBADF 或 EMFILE 失败，重定向会静默失效。dup2() 要求 fildes2 小于 {OPEN_MAX}，越界时返回 -1 且 errno 为 EBADF；它还可能因关闭 fildes2 时的 I/O 错误（EIO）而失败，并会被信号中断（EINTR）。多线程程序中，用 dup2() 创建描述符后再以 fcntl() 设置 FD_CLOFORK 或 FD_CLOEXEC 之间存在竞态窗口，宜改用 dup3() 原子设置。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+
+int main(void) {
+    int fd = open("out.txt", O_WRONLY | O_CREAT, 0644);
+    if (fd == -1) return 1;
+    if (dup2(fd, 1) == -1) return 1;  /* stdout 指向同一打开文件描述 */
+    write(1, "hello\n", 6);
+    close(fd);                        /* 描述符 1 依然有效 */
+    return 0;
+}</code></pre>

@@ -1,0 +1,33 @@
+<h1>XSH 函数导读：sigprocmask()</h1>
+
+<h2>0. 总览</h2>
+<p><code>sigprocmask()</code> 用于检查并更改<em>调用线程</em>的阻塞信号集合（信号掩码）。头文件为 <code>&lt;signal.h&gt;</code>。原型关键点：<code>int sigprocmask(int how, const sigset_t *restrict set, sigset_t *restrict oset)</code>——<code>how</code> 指定更改方式，<code>set</code> 为要应用的信号集（NULL 时仅查询，此时 <code>how</code> 被忽略），<code>oset</code> 接收旧的掩码。它与 <code>pthread_sigmask()</code> 基本等价，但若从多线程进程调用其行为未指定，且出错时返回 -1 并设置 <code>errno</code> 而非直接返回错误编号。</p>
+
+<h2>1. 机制</h2>
+<p><code>how</code> 有三种取值：SIG_BLOCK（结果集 = 当前集 ∪ set，即"加入阻塞"）、SIG_SETMASK（结果集 = set，整体替换）、SIG_UNBLOCK（结果集 = 当前集 ∩ set 的补集，即"解除阻塞"）。<code>oset</code> 非空时返回之前的掩码。若 <code>set</code> 非空，更改之后若存在任何待决的未阻塞信号，则调用返回前应传递其中至少一个（但不保证包括本次解除阻塞的信号）。无法忽略的信号不能被阻塞，系统静默强制执行而不报错。失败时信号掩码不被更改；不应返回 [EINTR]。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><strong>多线程</strong>：多线程进程应使用 <code>pthread_sigmask()</code>；<code>sigprocmask()</code> 在该场景行为未指定。掩码是每线程的，新创建的线程继承创建者的掩码。</li>
+<li><strong>SIGFPE/SIGILL/SIGSEGV/SIGBUS 被阻塞</strong>：若这些同步信号在阻塞状态下被生成，除非由 kill()/pthread_kill()/raise()/sigqueue() 或另一进程产生，否则结果未定义——例如除零发生在阻塞 SIGFPE 期间即属未定义。</li>
+<li><strong>处理程序内改掩码会被覆盖</strong>：由 sigaction() 安装的处理程序正常返回时恢复原掩码，会把处理程序内 <code>pthread_sigmask()</code> 的更改覆盖掉（signal() 安装时是否覆盖未指定）。</li>
+<li><strong>错误处理差异</strong>：<code>pthread_sigmask()</code> 成功返回 0、失败直接返回错误编号；<code>sigprocmask()</code> 失败返回 -1 并置 <code>errno</code>。无效 <code>how</code> 值返回 [EINVAL]。</li>
+<li><strong>阻塞与待决</strong>：阻塞期间到达的信号转为待决，解除阻塞时至少传递一个；做"先阻塞、后逐信号处理"的设计时（典型的是配合 sigwait()），注意调用返回前信号可能已被传递。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;signal.h&gt;
+
+int main(void) {
+    sigset_t mask;
+    sigemptyset(&amp;mask);
+    sigaddset(&amp;mask, SIGINT);
+    sigaddset(&amp;mask, SIGTERM);
+    /* 阻塞 SIGINT/SIGTERM，再由专用线程 sigwait() 处理 */
+    if (pthread_sigmask(SIG_BLOCK, &amp;mask, NULL) != 0) {
+        return 1;
+    }
+    return 0;
+}
+</code></pre>

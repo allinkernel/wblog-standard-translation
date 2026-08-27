@@ -1,0 +1,106 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pthread_mutex_lock, pthread_mutex_trylock, pthread_mutex_unlock — lock and unlock a mutex
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The mutex object referenced by [I5]mutex[/I5] shall be locked by a call to [I6]pthread_mutex_lock[/I6]() that returns zero or [EOWNERDEAD]. If the mutex is already locked by another thread, the calling thread shall block until the mutex becomes available. This operation shall return with the mutex object referenced by [I7]mutex[/I7] in the locked state with the calling thread as its owner. If a thread attempts to relock a mutex that it has already locked, [I8]pthread_mutex_lock[/I8]() shall behave as described in the [B9]Relock[/B9] column of the following table. If a thread attempts to unlock a mutex that it has not locked or a mutex which is unlocked, [I10]pthread_mutex_unlock[/I10]() shall behave as described in the [B11]Unlock When Not Owner[/B11] column of the following table.
+[td_00007] ctx="行 1: NORMAL" NORMAL
+[td_00008] ctx="列头: Robustness" non-robust
+[td_00009] ctx="列头: Relock" deadlock
+[td_00010] ctx="列头: Unlock When Not Owner" undefined behavior
+[td_00011] ctx="行 2: NORMAL" NORMAL
+[td_00012] ctx="列头: Robustness" robust
+[td_00013] ctx="列头: Relock" deadlock
+[td_00014] ctx="列头: Unlock When Not Owner" error returned
+[td_00015] ctx="行 3: ERRORCHECK" ERRORCHECK
+[td_00016] ctx="列头: Robustness" either
+[td_00017] ctx="列头: Relock" error returned
+[td_00018] ctx="列头: Unlock When Not Owner" error returned
+[td_00019] ctx="行 4: RECURSIVE" RECURSIVE
+[td_00020] ctx="列头: Robustness" either
+[td_00021] ctx="列头: Relock" recursive (see below)
+[td_00022] ctx="列头: Unlock When Not Owner" error returned
+[td_00023] ctx="行 5: DEFAULT" DEFAULT
+[td_00024] ctx="列头: Robustness" non-robust
+[td_00025] ctx="列头: Relock" undefined behavior[S12]†[/S12]
+[td_00026] ctx="列头: Unlock When Not Owner" undefined behavior[S13]†[/S13]
+[td_00027] ctx="行 6: DEFAULT" DEFAULT
+[td_00028] ctx="列头: Robustness" robust
+[td_00029] ctx="列头: Relock" undefined behavior[S14]†[/S14]
+[td_00030] ctx="列头: Unlock When Not Owner" error returned
+[dt_00031] †
+[dd_00032] If the mutex type is PTHREAD_MUTEX_DEFAULT, the behavior of [I15]pthread_mutex_lock[/I15]() may correspond to one of the three other standard mutex types as described in the table above. If it does not correspond to one of those three, the behavior is undefined for the cases marked †.
+[p_00033] Where the table indicates recursive behavior, the mutex shall maintain the concept of a lock count. When a thread successfully acquires a mutex for the first time, the lock count shall be set to one. Every time a thread relocks this mutex, the lock count shall be incremented by one. Each time the thread unlocks the mutex, the lock count shall be decremented by one. When the lock count reaches zero, the mutex shall become available for other threads to acquire.
+[p_00034] The [I16]pthread_mutex_trylock[/I16]() function shall be equivalent to [I17]pthread_mutex_lock[/I17](), except that if the mutex object referenced by [I18]mutex[/I18] is currently locked (by any thread, including the current thread), the call shall return immediately. If the mutex type is PTHREAD_MUTEX_RECURSIVE and the mutex is currently owned by the calling thread, the mutex lock count shall be incremented by one and the [I19]pthread_mutex_trylock[/I19]() function shall immediately return success.
+[p_00035] The [I20]pthread_mutex_unlock[/I20]() function shall release the mutex object referenced by [I21]mutex[/I21]. The manner in which a mutex is released is dependent upon the mutex's type attribute. If there are threads blocked on the mutex object referenced by [I22]mutex[/I22] when [I23]pthread_mutex_unlock[/I23]() is called, resulting in the mutex becoming available, the scheduling policy shall determine which thread shall acquire the mutex.
+[p_00036] (In the case of PTHREAD_MUTEX_RECURSIVE mutexes, the mutex shall become available when the count reaches zero and the calling thread no longer has any locks on this mutex.)
+[p_00037] If a signal is delivered to a thread waiting for a mutex, upon return from the signal handler the thread shall resume waiting for the mutex as if it was not interrupted.
+[p_00038] If [I24]mutex[/I24] is a robust mutex and the process containing the owning thread terminated while holding the mutex lock, a call to [I25]pthread_mutex_lock[/I25]() shall return the error value [EOWNERDEAD]. If [I26]mutex[/I26] is a robust mutex and the owning thread terminated while holding the mutex lock, a call to [I27]pthread_mutex_lock[/I27]() may return the error value [EOWNERDEAD] even if the process in which the owning thread resides has not terminated. In these cases, the mutex shall be locked by the calling thread but the state it protects is marked as inconsistent. The application should ensure that the state is made consistent for reuse and when that is complete call [A28][I29]pthread_mutex_consistent[/I29]()[/A28]. If the application is unable to recover the state, it should unlock the mutex without a prior call to [A30][I31]pthread_mutex_consistent[/I31]()[/A30], after which the mutex is marked permanently unusable.
+[p_00039] If [I32]mutex[/I32] does not refer to an initialized mutex object, the behavior of [I33]pthread_mutex_lock[/I33](), [I34]pthread_mutex_trylock[/I34](), and [I35]pthread_mutex_unlock[/I35]() is undefined.
+[h4_00040] [A36][/A36]RETURN VALUE
+[p_00041] If successful, the [I37]pthread_mutex_lock[/I37](), [I38]pthread_mutex_trylock[/I38](), and [I39]pthread_mutex_unlock[/I39]() functions shall return zero; otherwise, an error number shall be returned to indicate the error.
+[h4_00042] [A40][/A40]ERRORS
+[p_00043] The [I41]pthread_mutex_lock[/I41]() and [I42]pthread_mutex_trylock[/I42]() functions shall fail if:
+[dt_00044] [EAGAIN]
+[dd_00045] The mutex could not be acquired because the maximum number of recursive locks for [I43]mutex[/I43] has been exceeded.
+[dt_00046] [EAGAIN]
+[dd_00047] The mutex is a robust mutex and the system resources available for robust mutexes owned would be exceeded.
+[dt_00048] [EINVAL]
+[dd_00049] [S44][[A45]RPP|TPP[/A45]][/S44] [IMG46] The [I47]mutex[/I47] was created with the protocol attribute having the value PTHREAD_PRIO_PROTECT and the calling thread's priority is higher than the mutex's current priority ceiling. [IMG48]
+[dt_00050] [ENOTRECOVERABLE]
+[dd_00051] The state protected by the mutex is not recoverable.
+[dt_00052] [EOWNERDEAD]
+[dd_00053] The mutex is a robust mutex and the process containing the previous owning thread terminated while holding the mutex lock. The mutex lock shall be acquired by the calling thread and it is up to the new owner to make the state consistent.
+[p_00054] The [I49]pthread_mutex_lock[/I49]() function shall fail if:
+[dt_00055] [EDEADLK]
+[dd_00056] The mutex type is PTHREAD_MUTEX_ERRORCHECK and the current thread already owns the mutex.
+[p_00057] The [I50]pthread_mutex_trylock[/I50]() function shall fail if:
+[dt_00058] [EBUSY]
+[dd_00059] The [I51]mutex[/I51] could not be acquired because it was already locked.
+[p_00060] The [I52]pthread_mutex_unlock[/I52]() function shall fail if:
+[dt_00061] [EPERM]
+[dd_00062] The mutex type is PTHREAD_MUTEX_ERRORCHECK or PTHREAD_MUTEX_RECURSIVE, or the mutex is a robust mutex, and the current thread does not own the mutex.
+[p_00063] The [I53]pthread_mutex_lock[/I53]() and [I54]pthread_mutex_trylock[/I54]() functions may fail if:
+[dt_00064] [EOWNERDEAD]
+[dd_00065] The mutex is a robust mutex and the previous owning thread terminated while holding the mutex lock. The mutex lock shall be acquired by the calling thread and it is up to the new owner to make the state consistent.
+[p_00066] The [I55]pthread_mutex_lock[/I55]() function may fail if:
+[dt_00067] [EDEADLK]
+[dd_00068] A deadlock condition was detected.
+[p_00069] These functions shall not return an error code of [EINTR].
+[h4_00070] [A56][/A56]EXAMPLES
+[p_00071] None.
+[h4_00072] [A57][/A57]APPLICATION USAGE
+[p_00073] Applications that have assumed that non-zero return values are errors will need updating for use with robust mutexes, since a valid return for a thread acquiring a mutex which is protecting a currently inconsistent state is [EOWNERDEAD]. Applications that do not check the error returns, due to ruling out the possibility of such errors arising, should not use robust mutexes. If an application is supposed to work with normal and robust mutexes it should check all return values for error conditions and if necessary take appropriate action.
+[h4_00074] [A58][/A58]RATIONALE
+[p_00075] Mutex objects are intended to serve as a low-level primitive from which other thread synchronization functions can be built. As such, the implementation of mutexes should be as efficient as possible, and this has ramifications on the features available at the interface.
+[p_00076] The mutex functions and the particular default settings of the mutex attributes have been motivated by the desire to not preclude fast, inlined implementations of mutex locking and unlocking.
+[p_00077] Since most attributes only need to be checked when a thread is going to be blocked, the use of attributes does not slow the (common) mutex-locking case.
+[p_00078] Likewise, while being able to extract the thread ID of the owner of a mutex might be desirable, it would require storing the current thread ID when each mutex is locked, and this could incur unacceptable levels of overhead. Similar arguments apply to a [I59]mutex_tryunlock[/I59] operation.
+[p_00079] For further rationale on the extended mutex types, see XRAT [A60][I61]Threads Extensions[/I61][/A60].
+[p_00080] If an implementation detects that the value specified by the [I62]mutex[/I62] argument does not refer to an initialized mutex object, it is recommended that the function should fail and report an [EINVAL] error.
+[h4_00081] [A63][/A63]FUTURE DIRECTIONS
+[p_00082] None.
+[h4_00083] [A64][/A64]SEE ALSO
+[p_00084] [A65][I66]pthread_mutex_clocklock[/I66]()[/A65], [A67][I68]pthread_mutex_consistent[/I68]()[/A67], [A69][I70]pthread_mutex_destroy[/I70]()[/A69], [A71][I72]pthread_mutexattr_getrobust[/I72]()[/A71]
+[p_00085] XBD [A73][I74]4.15.2 Memory Synchronization[/I74][/A73], [A75][I76]&lt;pthread.h&gt;[/I76][/A75]
+[h4_00086] [A77][/A77]CHANGE HISTORY
+[p_00087] First released in Issue 5. Included for alignment with the POSIX Threads Extension.
+[h4_00088] [A78][/A78]Issue 6
+[p_00089] The [I79]pthread_mutex_lock[/I79](), [I80]pthread_mutex_trylock[/I80](), and [I81]pthread_mutex_unlock[/I81]() functions are marked as part of the Threads option.
+[p_00090] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[li_00091] The behavior when attempting to relock a mutex is defined.
+[p_00092] The [A82][I83]pthread_mutex_timedlock[/I83]()[/A82] function is added to the SEE ALSO section for alignment with IEEE&nbsp;Std&nbsp;1003.1d-1999.
+[p_00093] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/98 is applied, updating the ERRORS section so that the [EDEADLK] error includes detection of a deadlock condition. The RATIONALE section is also reworded to take into account non-XSI-conformant systems.
+[h4_00094] [A84][/A84]Issue 7
+[p_00095] SD5-XSH-ERN-43 is applied, marking the &quot;shall fail&quot; case of the [EINVAL] error as dependent on the Thread Priority Protection option.
+[p_00096] Changes are made from The Open Group Technical Standard, 2006, Extended API Set Part 3.
+[p_00097] The [I85]pthread_mutex_lock[/I85](), [I86]pthread_mutex_trylock[/I86](), and [I87]pthread_mutex_unlock[/I87]() functions are moved from the Threads option to the Base.
+[p_00098] The following extended mutex types are moved from the XSI option to the Base:
+[blockquote_00099] [PRE88]
+[p_00100] The DESCRIPTION is updated to clarify the behavior when [I89]mutex[/I89] does not refer to an initialized mutex.
+[p_00101] The ERRORS section is updated to account properly for all of the various mutex types.
+[p_00102] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0461 [121], XSH/TC1-2008/0462 [92,428], and XSH/TC1-2008/0463 [121] are applied.
+[h4_00103] [A90][/A90]Issue 8
+[p_00104] Austin Group Defect 354 is applied, adding the [EAGAIN] error for exceeding system resources available for robust mutexes owned.
+[p_00105] Austin Group Defect 1115 is applied, changing &quot;the thread&quot; to &quot;the calling thread&quot;.
+[p_00106] &nbsp;

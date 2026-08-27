@@ -1,0 +1,1111 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_04_01\" id=\"tag_17_04_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "abort — generate an abnormal process abort",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_04_02\" id=\"tag_17_04_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdlib.h.html\">stdlib.h</a>&gt;<br>\n<br>\n_Noreturn void abort(void);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_04_03\" id=\"tag_17_04_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]abort[/I5]() function shall cause abnormal process termination to occur, unless a SIGABRT signal that it generates is\ncaught and the signal handler does not return.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "[S6][[A7]CX[/A7]][/S6] [IMG8] The\nabnormal termination processing shall include the default actions defined for SIGABRT and may include an attempt to effect [A9][I10]fclose[/I10]()[/A9] on all open streams. [IMG11]",
+    "placeholders": {
+     "S6": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A7": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG8": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A9": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG11": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The SIGABRT signal shall be sent to the calling [S12][[A13]CX[/A13]][/S12] [IMG14] &nbsp;thread [IMG15] &nbsp;as if by means of [A16][I17]raise[/I17]()[/A16] with the argument SIGABRT. [S18][[A19]CX[/A19]][/S18] [IMG20] If this signal does\nnot terminate the process (for example, if the signal is caught and the handler returns), [I21]abort[/I21]() may change the disposition\nof SIGABRT to SIG_DFL and send the signal (in the same way) again. If a second signal is sent and it does not terminate the\nprocess, the behavior is unspecified, except that the [I22]abort[/I22]() call shall not return. [IMG23]",
+    "placeholders": {
+     "S12": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A13": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG14": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG15": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A16": {
+      "open": "<a href=\"../functions/raise.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S18": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG20": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG23": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "[S24][[A25]CX[/A25]][/S24] [IMG26] The\nstatus made available to [A27][I28]wait[/I28]()[/A27], [A29][I30]waitid[/I30]()[/A29], or [A31][I32]waitpid[/I32]()[/A31] by [I33]abort[/I33]() shall\nbe that of a process terminated by the SIGABRT signal. [IMG34] The\n[I35]abort[/I35]() function shall override blocking or ignoring the SIGABRT signal.",
+    "placeholders": {
+     "S24": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG26": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A27": {
+      "open": "<a href=\"../functions/wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"../functions/waitid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A31": {
+      "open": "<a href=\"../functions/waitpid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG34": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00010",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A36][/A36]RETURN VALUE",
+    "placeholders": {
+     "A36": {
+      "open": "<a name=\"tag_17_04_04\" id=\"tag_17_04_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "The [I37]abort[/I37]() function shall not return.",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00012",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A38][/A38]ERRORS",
+    "placeholders": {
+     "A38": {
+      "open": "<a name=\"tag_17_04_05\" id=\"tag_17_04_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "No errors are defined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00014",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A39][/A39]EXAMPLES",
+    "placeholders": {
+     "A39": {
+      "open": "<a name=\"tag_17_04_06\" id=\"tag_17_04_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00016",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A40][/A40]APPLICATION USAGE",
+    "placeholders": {
+     "A40": {
+      "open": "<a name=\"tag_17_04_07\" id=\"tag_17_04_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Catching the signal is intended to provide the application developer with a portable means to abort processing, free from\npossible interference from any implementation-supplied functions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A41][/A41]RATIONALE",
+    "placeholders": {
+     "A41": {
+      "open": "<a name=\"tag_17_04_08\" id=\"tag_17_04_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "Historically, [I42]abort[/I42]() has been implemented by calling other signal manipulation functions such as [A43][I44]raise[/I44]()[/A43], [A45][I46]sigaction[/I46]()[/A45], and [A47][I48]pthread_sigmask[/I48]()[/A47]. This means that its operation can be affected by concurrent\nactions in other threads. For example, if [I49]abort[/I49]() attempts to terminate the process by calling [A50][I51]sigaction[/I51]()[/A50] to change the disposition for SIGABRT to SIG_DFL and then calling [A52][I53]raise[/I53]()[/A52], another thread could change the disposition in between those two calls, resulting in\nthe process not being terminated. If this happens, the only requirement is that [I54]abort[/I54]() does not return. An implementation\ncould call those functions in a loop (which could in theory then execute indefinitely), or could terminate the process by calling\n[A55][I56]_exit[/I56]()[/A55] (which would ensure termination but result in the wrong wait status). To avoid\nthese issues, implementations are encouraged to implement [I57]abort[/I57]() in a manner such that its operation cannot be affected by\nconcurrent actions in other threads. For example, it could first halt the execution of all other threads, or it could terminate the\nprocess using a &quot;terminate as if by a signal&quot; system call instead of by raising (a second) SIGABRT.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/raise.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A45": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A47": {
+      "open": "<a href=\"../functions/pthread_sigmask.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A50": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A52": {
+      "open": "<a href=\"../functions/raise.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A55": {
+      "open": "<a href=\"../functions/_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The ISO/IEC&nbsp;9899:1999 standard required (and the current standard still requires) the [I58]abort[/I58]() function to be\nasync-signal-safe. Since POSIX.1-2024 defers to the ISO&nbsp;C standard, this required a change to the DESCRIPTION from &quot;shall\ninclude the effect of [A59][I60]fclose[/I60]()[/A59]&quot; to &quot;may include an attempt to effect [A61][I62]fclose[/I62]()[/A61].&quot;",
+    "placeholders": {
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A59": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A61": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "The revised wording permits some backwards-compatibility and avoids a potential deadlock situation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "The Open Group Base Resolution bwg2002-003 is applied, removing the following XSI shaded paragraph from the DESCRIPTION:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "&quot;On XSI-conformant systems, in addition the abnormal termination processing shall include the effect of [A63][I64]fclose[/I64]()[/A63] on message catalog descriptors.&quot;",
+    "placeholders": {
+     "A63": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "There were several reasons to remove this paragraph:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     1
+    ],
+    "text": "No special processing of open message catalogs needs to be performed prior to abnormal process termination.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     3,
+     1
+    ],
+    "text": "The main reason to specifically mention that [I65]abort[/I65]() includes the effect of [A66][I67]fclose[/I67]()[/A66] on open streams is to flush output queued on the stream. Message catalogs in this\ncontext are read-only and, therefore, do not need to be flushed.",
+    "placeholders": {
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A66": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     5,
+     1
+    ],
+    "text": "The effect of [A68][I69]fclose[/I69]()[/A68] on a message catalog descriptor is unspecified. Message\ncatalog descriptors are allowed, but not required to be implemented using a file descriptor, but there is no mention in\nPOSIX.1-2024 of a message catalog descriptor using a standard I/O stream FILE object as would be expected by [A70][I71]fclose[/I71]()[/A70].",
+    "placeholders": {
+     "A68": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00028",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A72][/A72]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A72": {
+      "open": "<a name=\"tag_17_04_09\" id=\"tag_17_04_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "A future version of this standard may require [I73]abort[/I73]() to be implemented in a manner such that its operation cannot be\naffected by concurrent actions in other threads.",
+    "placeholders": {
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A74][/A74]SEE ALSO",
+    "placeholders": {
+     "A74": {
+      "open": "<a name=\"tag_17_04_10\" id=\"tag_17_04_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A75][I76]exit[/I76]()[/A75], [A77][I78]kill[/I78]()[/A77],\n[A79][I80]raise[/I80]()[/A79], [A81][I82]signal[/I82]()[/A81], [A83][I84]wait[/I84]()[/A83], [A85][I86]waitid[/I86]()[/A85]",
+    "placeholders": {
+     "A75": {
+      "open": "<a href=\"../functions/exit.html#tag_17_130\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"../functions/kill.html#tag_17_296\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A79": {
+      "open": "<a href=\"../functions/raise.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A81": {
+      "open": "<a href=\"../functions/signal.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A83": {
+      "open": "<a href=\"../functions/wait.html#tag_17_658\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A85": {
+      "open": "<a href=\"../functions/waitid.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A87][I88]&lt;stdlib.h&gt;[/I88][/A87]",
+    "placeholders": {
+     "A87": {
+      "open": "<a href=\"../basedefs/stdlib.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A89][/A89]CHANGE HISTORY",
+    "placeholders": {
+     "A89": {
+      "open": "<a name=\"tag_17_04_11\" id=\"tag_17_04_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00035",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A90][/A90]Issue 6",
+    "placeholders": {
+     "A90": {
+      "open": "<a name=\"tag_17_04_12\" id=\"tag_17_04_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "Changes are made to the DESCRIPTION for alignment with the ISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5
+    ],
+    "text": "The Open Group Base Resolution bwg2002-003 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     7
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/10 is applied, changing the DESCRIPTION of abnormal termination\nprocessing and adding to the RATIONALE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     9
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/9 is applied, changing &quot;implementation-defined functions&quot; to\n&quot;implementation-supplied functions&quot; in the APPLICATION USAGE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00041",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A91][/A91]Issue 8",
+    "placeholders": {
+     "A91": {
+      "open": "<a name=\"tag_17_04_13\" id=\"tag_17_04_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Austin Group Defect 906 is applied, clarifying how the behavior of [I92]abort[/I92]() may be affected by concurrent actions in other\nthreads.",
+    "placeholders": {
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

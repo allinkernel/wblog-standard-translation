@@ -1,0 +1,6497 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_129_01\" id=\"tag_17_129_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "environ, execl, execle, execlp, execv, execve, execvp, fexecve — execute a file",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_129_02\" id=\"tag_17_129_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nextern char **environ;<br>\nint execl(const char *</tt><i>path</i><tt>, const char *</tt><i>arg0</i><tt>, ... /*, (char *)0 */);<br>\nint execle(const char *</tt><i>path</i><tt>, const char *</tt><i>arg0</i><tt>, ... /*,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (char *)0, char *const</tt> <i>envp</i><tt>[]*/);<br>\nint execlp(const char *</tt><i>file</i><tt>, const char *</tt><i>arg0</i><tt>, ... /*, (char *)0 */);<br>\nint execv(const char *</tt><i>path</i><tt>, char *const</tt> <i>argv</i><tt>[]);<br>\nint execve(const char *</tt><i>path</i><tt>, char *const</tt> <i>argv</i><tt>[], char *const</tt> <i>envp</i><tt>[]);<br>\nint execvp(const char *</tt><i>file</i><tt>, char *const</tt> <i>argv</i><tt>[]);<br>\nint fexecve(int</tt> <i>fd</i><tt>, char *const</tt> <i>argv</i><tt>[], char *const</tt> <i>envp</i><tt>[]);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_129_03\" id=\"tag_17_129_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]exec[/I5] family of functions shall replace the current process image with a new process image. The new image shall be\nconstructed from a regular, executable file called the [I6]new process image file[/I6]. There shall be no return from a successful\n[I7]exec[/I7], because the calling process image is overlaid by the new process image.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I8]fexecve[/I8]() function shall be equivalent to the [I9]execve[/I9]() function except that the file to be executed is\ndetermined by the file descriptor [I10]fd[/I10] instead of a pathname. The file offset of [I11]fd[/I11] is ignored.",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "When a C-language program is executed as a result of a call to one of the [I12]exec[/I12] family of functions, it shall be entered\nas a C-language function call as follows:",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "where [I13]argc[/I13] is the argument count and [I14]argv[/I14] is an array of character pointers to the arguments themselves. In\naddition, the following variable, which needs to be declared by the user if it is to be used directly:",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "is initialized as a pointer to an array of character pointers to the environment strings. The [I15]argv[/I15] and [I16]environ[/I16]\narrays are each terminated by a null pointer. The null pointer terminating the [I17]argv[/I17] array is not counted in [I18]argc[/I18].",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "Applications can change the entire environment in a single operation by assigning the [I19]environ[/I19] variable to point to an\narray of character pointers to the new environment strings. After assigning a new value to [I20]environ[/I20], applications should not\nrely on the new environment strings remaining part of the environment, as a call to [A21][I22]getenv[/I22]()[/A21], [A23][I24]secure_getenv[/I24]()[/A23],\n[S25][[A26]XSI[/A26]][/S25] [IMG27]\n[A28][I29]putenv[/I29]()[/A28], [IMG30] [A31][I32]setenv[/I32]()[/A31], [A33][I34]unsetenv[/I34]()[/A33], or any function that is\ndependent on an environment variable may, on noticing that [I35]environ[/I35] has changed, copy the environment strings to a new array\nand assign [I36]environ[/I36] to point to it.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/getenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A23": {
+      "open": "<a href=\"../functions/secure_getenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S25": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A26": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG27": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A28": {
+      "open": "<a href=\"../functions/putenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG30": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A31": {
+      "open": "<a href=\"../functions/setenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A33": {
+      "open": "<a href=\"../functions/unsetenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "Any application that directly modifies the pointers to which the [I37]environ[/I37] variable points has undefined behavior.",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "Conforming multi-threaded applications shall not use the [I38]environ[/I38] variable to access or modify any environment variable\nwhile any other thread is concurrently modifying any environment variable. A call to any function dependent on any environment\nvariable shall be considered a use of the [I39]environ[/I39] variable to access that environment variable.",
+    "placeholders": {
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "The arguments specified by a program with one of the [I40]exec[/I40] functions shall be passed on to the new process image in the\ncorresponding [I41]main[/I41]() arguments.",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "For the [I42]execl[/I42](), [I43]execle[/I43](), [I44]execv[/I44](), and [I45]execve[/I45]() functions, the argument [I46]path[/I46] points to a\npathname that identifies the new process image file.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25
+    ],
+    "text": "For the [I47]execlp[/I47]() and [I48]execvp[/I48]() functions, the argument [I49]file[/I49] is used to construct a pathname that identifies\nthe new process image file. If the [I50]file[/I50] argument contains a &lt;slash&gt; character, the [I51]file[/I51] argument shall be used\nas the pathname for this file. Otherwise, the path prefix for this file is obtained by a search of the directories passed as the\nenvironment variable [I52]PATH[/I52] (see XBD [A53][I54]8. Environment Variables[/I54][/A53]). If\nthis environment variable is not present, the results of the search are implementation-defined.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A53": {
+      "open": "<a href=\"../basedefs/V1_chap08.html#tag_08\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "There are two distinct ways in which the contents of the process image file may cause the execution to fail, distinguished by\nthe setting of [I55]errno[/I55] to either [ENOEXEC] or [EINVAL] (see the ERRORS section). In the cases where the other members of the\n[I56]exec[/I56] family of functions would fail and set [I57]errno[/I57] to [ENOEXEC], the [I58]execlp[/I58]() and [I59]execvp[/I59]() functions\nshall execute a command interpreter and the environment of the executed command shall be as if the process invoked the [A60][I61]sh[/I61][/A60] utility using [I62]execl[/I62]() as follows:",
+    "placeholders": {
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A60": {
+      "open": "<a href=\"../utilities/sh.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31
+    ],
+    "text": "where &lt;[I63]shell&nbsp;path[/I63]&gt; is an unspecified pathname for the [A64][I65]sh[/I65][/A64] utility,\n&lt;[I66]name[/I66]&gt; is an unspecified string, [I67]file[/I67] is the process image file, and where &lt;[I68]args[/I68]&gt; is zero or more\nparameters corresponding to any initial non-null arguments passed after [I69]arg0[/I69] for [I70]execlp[/I70]() or to any initial non-null\nmembers of [I71]argv[/I71] starting at [I72]argv[/I72][1] for [I73]execvp[/I73]().",
+    "placeholders": {
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A64": {
+      "open": "<a href=\"../utilities/sh.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33
+    ],
+    "text": "The arguments represented by [I74]arg0[/I74],... are pointers to null-terminated character strings. These strings shall constitute\nthe argument list available to the new process image. The list is terminated by a null pointer. The argument [I75]arg0[/I75] should\npoint to a filename string that is associated with the process being started by one of the [I76]exec[/I76] functions.",
+    "placeholders": {
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     35
+    ],
+    "text": "The argument [I77]argv[/I77] is an array of character pointers to null-terminated strings. The application shall ensure that the\nlast member of this array is a null pointer. These strings shall constitute the argument list available to the new process image.\nThe value in [I78]argv[/I78][0] should point to a filename string that is associated with the process being started by one of the\n[I79]exec[/I79] functions.",
+    "placeholders": {
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37
+    ],
+    "text": "The argument [I80]envp[/I80] is an array of character pointers to null-terminated strings. These strings shall constitute the\nenvironment for the new process image. The [I81]envp[/I81] array is terminated by a null pointer.",
+    "placeholders": {
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     39
+    ],
+    "text": "For those forms not containing an [I82]envp[/I82] pointer ([A83][I84]execl[/I84]()[/A83], [I85]execv[/I85](),\n[I86]execlp[/I86](), and [I87]execvp[/I87]()), the environment for the new process image shall be taken from the external variable\n[I88]environ[/I88] in the calling process.",
+    "placeholders": {
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A83": {
+      "open": "<a href=\"../functions/execl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41
+    ],
+    "text": "The number of bytes available for the new process' combined argument and environment lists is {ARG_MAX}. It is\nimplementation-defined whether null terminators, pointers, and/or any alignment bytes are included in this total.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     43
+    ],
+    "text": "File descriptors open in the calling process image shall remain open in the new process image, except for those whose\nclose-on-[I89]exec[/I89] flag FD_CLOEXEC is set. For those file descriptors that remain open, all attributes of the open file\ndescription shall remain unchanged and the FD_CLOFORK file descriptor flag, if set, shall remain set. For any file descriptor that\nis closed for this reason, process-owned file locks that the calling process owns on the file associated with the file descriptor\nshall be unlocked as a result of the close, as described in [A90][I91]close[/I91]()[/A90]. File locks that\nare not unlocked by closing of file descriptors remain unchanged.",
+    "placeholders": {
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A90": {
+      "open": "<a href=\"../functions/close.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     45
+    ],
+    "text": "If file descriptor 0, 1, or 2 would otherwise be closed after a successful call to one of the [I92]exec[/I92] family of functions,\nimplementations may open an unspecified file for the file descriptor in the new process image. If a standard utility or a\nconforming application is executed with file descriptor 0 not open for reading or with file descriptor 1 or 2 not open for writing,\nthe environment in which the utility or application is executed shall be deemed non-conforming, and consequently the utility or\napplication might not behave as described in this standard.",
+    "placeholders": {
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47
+    ],
+    "text": "Directory streams open in the calling process image shall be closed in the new process image.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     49
+    ],
+    "text": "The state of the floating-point environment in the initial thread of the new process image shall be set to the default.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     51
+    ],
+    "text": "The state of conversion descriptors and message catalog descriptors in the new process image is undefined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     53
+    ],
+    "text": "For the new process image, the equivalent of:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     57
+    ],
+    "text": "shall be executed at start-up.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     59
+    ],
+    "text": "Signals set to the default action (SIG_DFL) in the calling process image shall be set to the default action in the new process\nimage. Except for SIGCHLD, signals set to be ignored (SIG_IGN) by the calling process image shall be set to be ignored by the new\nprocess image. Signals set to be caught by the calling process image shall be set to the default action in the new process image\n(see [A93][I94]&lt;signal.h&gt;[/I94][/A93]).",
+    "placeholders": {
+     "A93": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     61
+    ],
+    "text": "If the SIGCHLD signal is set to be ignored by the calling process image, it is unspecified whether the SIGCHLD signal is set to\nbe ignored or to the default action in the new process image.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     63
+    ],
+    "text": "[S95][[A96]XSI[/A96]][/S95] [IMG97]\nAfter a successful call to any of the [I98]exec[/I98] functions, alternate signal stacks are not preserved and the SA_ONSTACK flag\nshall be cleared for all signals. [IMG99]",
+    "placeholders": {
+     "S95": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A96": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG97": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG99": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     65
+    ],
+    "text": "After a successful call to any of the [I100]exec[/I100] functions, any functions previously registered by the [A101][I102]atexit[/I102]()[/A101], [A103][I104]at_quick_exit[/I104]()[/A103], or [A105][I106]pthread_atfork[/I106]()[/A105] functions are no longer registered.",
+    "placeholders": {
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A101": {
+      "open": "<a href=\"../functions/atexit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A103": {
+      "open": "<a href=\"../functions/at_quick_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A105": {
+      "open": "<a href=\"../functions/pthread_atfork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     67
+    ],
+    "text": "[S107][[A108]XSI[/A108]][/S107] [IMG109]\nIf the ST_NOSUID bit is set for the file system containing the new process image file, then the effective user ID, effective group\nID, saved set-user-ID, and saved set-group-ID are unchanged in the new process image. Otherwise, [IMG110] if the set-user-ID mode bit of the new process image file is set, the effective user ID of the new\nprocess image shall be set to the user ID of the new process image file. Similarly, if the set-group-ID mode bit of the new process\nimage file is set, the effective group ID of the new process image shall be set to the group ID of the new process image file. The\nreal user ID, real group ID, and supplementary group IDs of the new process image shall remain the same as those of the calling\nprocess image. The effective user ID and effective group ID of the new process image shall be saved (as the saved set-user-ID and\nthe saved set-group-ID) for use by [A111][I112]setuid[/I112]()[/A111].",
+    "placeholders": {
+     "S107": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A108": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG109": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG110": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A111": {
+      "open": "<a href=\"../functions/setuid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I112": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     69
+    ],
+    "text": "[S113][[A114]XSI[/A114]][/S113] [IMG115]\nAny shared memory segments attached to the calling process image shall not be attached to the new process image. [IMG116]",
+    "placeholders": {
+     "S113": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A114": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG115": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG116": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     71
+    ],
+    "text": "Any named semaphores open in the calling process shall be closed as if by appropriate calls to [A117][I118]sem_close[/I118]()[/A117]. Any unnamed semaphores open in the calling process shall be destroyed as if\nby calls to [A119][I120]sem_destroy[/I120]()[/A119].",
+    "placeholders": {
+     "A117": {
+      "open": "<a href=\"../functions/sem_close.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A119": {
+      "open": "<a href=\"../functions/sem_destroy.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     73
+    ],
+    "text": "[S121][[A122]TYM[/A122]][/S121] [IMG123]\nAny blocks of typed memory that were mapped in the calling process are unmapped, as if [A124][I125]munmap[/I125]()[/A124] was implicitly called to unmap them. [IMG126]",
+    "placeholders": {
+     "S121": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A122": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG123": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A124": {
+      "open": "<a href=\"../functions/munmap.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I125": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG126": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     75
+    ],
+    "text": "[S127][[A128]ML[/A128]][/S127] [IMG129]\nMemory locks established by the calling process via calls to [A130][I131]mlockall[/I131]()[/A130] or [A132][I133]mlock[/I133]()[/A132] shall be removed. If locked pages in the address space of the calling process are also\nmapped into the address spaces of other processes and are locked by those processes, the locks established by the other processes\nshall be unaffected by the call by this process to the [I134]exec[/I134] function. If the [I135]exec[/I135] function fails, the effect on\nmemory locks is unspecified. [IMG136]",
+    "placeholders": {
+     "S127": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A128": {
+      "open": "<a href=\"javascript:open_code(&#x27;ML&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG129": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A130": {
+      "open": "<a href=\"../functions/mlockall.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A132": {
+      "open": "<a href=\"../functions/mlock.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I133": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I134": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG136": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     77
+    ],
+    "text": "Memory mappings created in the process are unmapped before the address space is rebuilt for the new process image.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     79
+    ],
+    "text": "When the calling process image does not use the SCHED_FIFO, SCHED_RR, [S137][[A138]SS[/A138]][/S137]\n[IMG139] &nbsp;or SCHED_SPORADIC [IMG140] &nbsp;scheduling policies, the scheduling policy and parameters of the new process image and the initial\nthread in that new process image are implementation-defined.",
+    "placeholders": {
+     "S137": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A138": {
+      "open": "<a href=\"javascript:open_code(&#x27;SS&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG139": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG140": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     81
+    ],
+    "text": "[S141][[A142]PS[/A142]][/S141] [IMG143]\nWhen the calling process image uses the SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC scheduling policies, the process policy and\nscheduling parameter settings shall not be changed by a call to an [I144]exec[/I144] function. [IMG145] [S146][[A147]TPS[/A147]][/S146] [IMG148] &nbsp;The initial thread in the new process image shall inherit the process scheduling policy and\nparameters. It shall have the default system contention scope, but shall inherit its allocation domain from the calling process\nimage. [IMG149]",
+    "placeholders": {
+     "S141": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A142": {
+      "open": "<a href=\"javascript:open_code(&#x27;PS&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG143": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I144": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG145": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S146": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A147": {
+      "open": "<a href=\"javascript:open_code(&#x27;TPS&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG148": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG149": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     83
+    ],
+    "text": "Per-process timers created by the calling process shall be deleted before replacing the current process image with the new\nprocess image.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     85
+    ],
+    "text": "[S150][[A151]MSG[/A151]][/S150] [IMG152]\nAll open message queue descriptors in the calling process shall be closed, as described in [A153][I154]mq_close[/I154]()[/A153]. [IMG155]",
+    "placeholders": {
+     "S150": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A151": {
+      "open": "<a href=\"javascript:open_code(&#x27;MSG&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG152": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A153": {
+      "open": "<a href=\"../functions/mq_close.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I154": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG155": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     87
+    ],
+    "text": "Any outstanding asynchronous I/O operations may be canceled. Those asynchronous I/O operations that are not canceled shall\ncomplete as if the [I156]exec[/I156] function had not yet occurred, but any associated signal notifications shall be suppressed. It is\nunspecified whether the [I157]exec[/I157] function itself blocks awaiting such I/O completion. In no event, however, shall the new\nprocess image created by the [I158]exec[/I158] function be affected by the presence of outstanding asynchronous I/O operations at the\ntime the [I159]exec[/I159] function is called. Whether any I/O is canceled, and which I/O may be canceled upon [I160]exec[/I160], is\nimplementation-defined.",
+    "placeholders": {
+     "I156": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I157": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I158": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I160": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     89
+    ],
+    "text": "[S161][[A162]CPT[/A162]][/S161] [IMG163]\nThe new process image shall inherit the CPU-time clock of the calling process image. This inheritance means that the process\nCPU-time clock of the process being [I164]exec[/I164]-ed shall not be reinitialized or altered as a result of the [I165]exec[/I165] function\nother than to reflect the time spent by the process executing the [I166]exec[/I166] function itself. [IMG167]",
+    "placeholders": {
+     "S161": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A162": {
+      "open": "<a href=\"javascript:open_code(&#x27;CPT&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG163": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I164": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I165": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I166": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG167": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     91
+    ],
+    "text": "[S168][[A169]TCT[/A169]][/S168] [IMG170]\nThe initial value of the CPU-time clock of the initial thread of the new process image shall be set to zero. [IMG171]",
+    "placeholders": {
+     "S168": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A169": {
+      "open": "<a href=\"javascript:open_code(&#x27;TCT&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG170": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG171": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     93
+    ],
+    "text": "The thread ID of the initial thread in the new process image is unspecified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     95
+    ],
+    "text": "The size and location of the stack on which the initial thread in the new process image runs is unspecified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     97
+    ],
+    "text": "The initial thread in the new process image shall have its cancellation type set to PTHREAD_CANCEL_DEFERRED and its cancellation\nstate set to PTHREAD_CANCEL_ENABLED.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     99
+    ],
+    "text": "The initial thread in the new process image shall have all thread-specific data values set to NULL and all thread-specific data\nkeys shall be removed by the call to [I172]exec[/I172] without running destructors.",
+    "placeholders": {
+     "I172": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     101
+    ],
+    "text": "The initial thread in the new process image shall be joinable, as if created with the [I173]detachstate[/I173] attribute set to\nPTHREAD_CREATE_JOINABLE.",
+    "placeholders": {
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     103
+    ],
+    "text": "The new process shall inherit at least the following attributes from the calling process image:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     1,
+     1
+    ],
+    "text": "[S174][[A175]XSI[/A175]][/S174] [IMG176]\nNice value (see [A177][I178]nice[/I178]()[/A177]) [IMG179]",
+    "placeholders": {
+     "S174": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A175": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG176": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A177": {
+      "open": "<a href=\"../functions/nice.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I178": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG179": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     3,
+     1
+    ],
+    "text": "[S180][[A181]XSI[/A181]][/S180] [IMG182]\n[I183]semadj[/I183] values (see [A184][I185]semop[/I185]()[/A184]) [IMG186]",
+    "placeholders": {
+     "S180": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A181": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG182": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I183": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A184": {
+      "open": "<a href=\"../functions/semop.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I185": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG186": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     5,
+     1
+    ],
+    "text": "Process ID",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     7,
+     1
+    ],
+    "text": "Parent process ID",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     9,
+     1
+    ],
+    "text": "Process group ID",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     11,
+     1
+    ],
+    "text": "Session membership",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     13,
+     1
+    ],
+    "text": "Real user ID",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00061",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     15,
+     1
+    ],
+    "text": "Real group ID",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     17,
+     1
+    ],
+    "text": "Supplementary group IDs",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     19,
+     1
+    ],
+    "text": "Time left until an alarm clock signal (see [A187][I188]alarm[/I188]()[/A187])",
+    "placeholders": {
+     "A187": {
+      "open": "<a href=\"../functions/alarm.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I188": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00064",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     21,
+     1
+    ],
+    "text": "Current working directory",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     23,
+     1
+    ],
+    "text": "Root directory",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     25,
+     1
+    ],
+    "text": "File mode creation mask (see [A189][I190]umask[/I190]()[/A189])",
+    "placeholders": {
+     "A189": {
+      "open": "<a href=\"../functions/umask.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I190": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     27,
+     1
+    ],
+    "text": "File size limit (see [A191][I192]getrlimit[/I192]()[/A191] and [A193][I194]setrlimit[/I194]()[/A193])",
+    "placeholders": {
+     "A191": {
+      "open": "<a href=\"../functions/getrlimit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I192": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A193": {
+      "open": "<a href=\"../functions/setrlimit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I194": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00068",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     29,
+     1
+    ],
+    "text": "Process signal mask (see [A195][I196]pthread_sigmask[/I196]()[/A195])",
+    "placeholders": {
+     "A195": {
+      "open": "<a href=\"../functions/pthread_sigmask.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I196": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     31,
+     1
+    ],
+    "text": "Pending signal (see [A197][I198]sigpending[/I198]()[/A197])",
+    "placeholders": {
+     "A197": {
+      "open": "<a href=\"../functions/sigpending.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I198": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00070",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     33,
+     1
+    ],
+    "text": "[I199]tms_utime[/I199], [I200]tms_stime[/I200], [I201]tms_cutime[/I201], and [I202]tms_cstime[/I202] (see [A203][I204]times[/I204]()[/A203])",
+    "placeholders": {
+     "I199": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I200": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I201": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I202": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A203": {
+      "open": "<a href=\"../functions/times.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I204": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     35,
+     1
+    ],
+    "text": "Resource limits",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     105,
+     37,
+     1
+    ],
+    "text": "Controlling terminal",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     107
+    ],
+    "text": "The initial thread of the new process shall inherit at least the following attributes from the calling thread:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00074",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     109,
+     1,
+     1
+    ],
+    "text": "Signal mask (see [A205][I206]sigprocmask[/I206]()[/A205] and [A207][I208]pthread_sigmask[/I208]()[/A207])",
+    "placeholders": {
+     "A205": {
+      "open": "<a href=\"../functions/sigprocmask.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I206": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A207": {
+      "open": "<a href=\"../functions/pthread_sigmask.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I208": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     109,
+     3,
+     1
+    ],
+    "text": "Pending signals (see [A209][I210]sigpending[/I210]()[/A209])",
+    "placeholders": {
+     "A209": {
+      "open": "<a href=\"../functions/sigpending.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I210": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     111
+    ],
+    "text": "All other process attributes defined in this volume of POSIX.1-2024 shall be inherited in the new process image from the old\nprocess image. All other thread attributes defined in this volume of POSIX.1-2024 shall be inherited in the initial thread in the\nnew process image from the calling thread in the old process image. The inheritance of process or thread attributes not defined by\nthis volume of POSIX.1-2024 is implementation-defined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00077",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     113
+    ],
+    "text": "A call to any [I211]exec[/I211] function from a process with more than one thread shall result in all threads being terminated and the\nnew executable image being loaded and executed. No destructor functions or cleanup handlers shall be called.",
+    "placeholders": {
+     "I211": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     115
+    ],
+    "text": "Upon successful completion, the [I212]exec[/I212] functions shall mark for update the last data access timestamp of the file. If an\n[I213]exec[/I213] function failed but was able to locate the process image file, whether the last data access timestamp is marked for\nupdate is unspecified. Should the [I214]exec[/I214] function succeed, the process image file shall be considered to have been opened with\n[A215][I216]open[/I216]()[/A215]. The corresponding [A217][I218]close[/I218]()[/A217] shall be\nconsidered to occur at a time after this open, but before process termination or successful completion of a subsequent call to one\nof the [I219]exec[/I219] functions, [A220][I221]posix_spawn[/I221]()[/A220], or [A222][I223]posix_spawnp[/I223]()[/A222]. The [I224]argv[/I224][] and [I225]envp[/I225][] arrays of pointers and the strings\nto which those arrays point shall not be modified by a call to one of the [I226]exec[/I226] functions, except as a consequence of\nreplacing the process image.",
+    "placeholders": {
+     "I212": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I213": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I214": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A215": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I216": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A217": {
+      "open": "<a href=\"../functions/close.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I218": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I219": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A220": {
+      "open": "<a href=\"../functions/posix_spawn.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I221": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A222": {
+      "open": "<a href=\"../functions/posix_spawnp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I223": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I224": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I225": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I226": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00079",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     117
+    ],
+    "text": "The saved resource limits in the new process image are set to be a copy of the process' corresponding hard and soft limits.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00080",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A227][/A227]RETURN VALUE",
+    "placeholders": {
+     "A227": {
+      "open": "<a name=\"tag_17_129_04\" id=\"tag_17_129_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00081",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "If one of the [I228]exec[/I228] functions returns to the calling process image, an error has occurred; the return value shall be -1,\nand [I229]errno[/I229] shall be set to indicate the error.",
+    "placeholders": {
+     "I228": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I229": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00082",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A230][/A230]ERRORS",
+    "placeholders": {
+     "A230": {
+      "open": "<a name=\"tag_17_129_05\" id=\"tag_17_129_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00083",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I231]exec[/I231] functions shall fail if:",
+    "placeholders": {
+     "I231": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00084",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[E2BIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00085",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The number of bytes used by the new process image's argument list and environment list is greater than the system-imposed limit\nof {ARG_MAX} bytes.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00086",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00087",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The new process image file is not a regular file and the implementation does not support execution of files of its type.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00088",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00089",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "The new process image file has appropriate privileges and has a recognized executable binary format, but the system does not\nsupport execution of a file with this format.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00090",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I232]exec[/I232] functions, except for [I233]fexecve[/I233](), shall fail if:",
+    "placeholders": {
+     "I232": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I233": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00091",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00092",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "Search permission is denied for a directory listed in the new process image file's path prefix, or the new process image file\ndenies execution permission.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00093",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00094",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "A loop exists in symbolic links encountered during resolution of the [I234]path[/I234] or [I235]file[/I235] argument.",
+    "placeholders": {
+     "I234": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I235": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00095",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     11
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00096",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     13
+    ],
+    "text": "The length of a component of a pathname is longer than {NAME_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00097",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     15
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00098",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     17
+    ],
+    "text": "A component of [I236]path[/I236] or [I237]file[/I237] does not name an existing file or [I238]path[/I238] or [I239]file[/I239] is an empty string.",
+    "placeholders": {
+     "I236": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I237": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I238": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I239": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00099",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     19
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00100",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     21
+    ],
+    "text": "A component of the new process image file's path prefix names an existing file that is neither a directory nor a symbolic link\nto a directory, or the new process image file's pathname contains at least one non-&lt;slash&gt; character and ends with one or\nmore trailing &lt;slash&gt; characters and the last pathname component names an existing file that is neither a directory nor a\nsymbolic link to a directory.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "The [I240]exec[/I240] functions, except for [I241]execlp[/I241]() and [I242]execvp[/I242](), shall fail if:",
+    "placeholders": {
+     "I240": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I241": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I242": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00102",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[ENOEXEC]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00103",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "The new process image file has the appropriate access permission but has an unrecognized format.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13
+    ],
+    "text": "The [I243]fexecve[/I243]() function shall fail if:",
+    "placeholders": {
+     "I243": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00105",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     3
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00106",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     5
+    ],
+    "text": "The [I244]fd[/I244] argument is not a valid file descriptor open for executing.",
+    "placeholders": {
+     "I244": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00107",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     17
+    ],
+    "text": "The [I245]exec[/I245] functions may fail if:",
+    "placeholders": {
+     "I245": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00108",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     3
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00109",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     5
+    ],
+    "text": "The new process image requires more memory than is allowed by the hardware or system-imposed memory management\nconstraints.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00110",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     21
+    ],
+    "text": "The [I246]exec[/I246] functions, except for [I247]fexecve[/I247](), may fail if:",
+    "placeholders": {
+     "I246": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I247": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00111",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     23,
+     3
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00112",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     23,
+     5
+    ],
+    "text": "More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I248]path[/I248] or [I249]file[/I249] argument.",
+    "placeholders": {
+     "I248": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I249": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00113",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     23,
+     7
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00114",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     23,
+     9
+    ],
+    "text": "The length of the [I250]path[/I250] argument or the length of the pathname constructed from the [I251]file[/I251] argument exceeds {PATH_MAX},\nor pathname resolution of a symbolic link produced an intermediate result with a length that exceeds {PATH_MAX}.",
+    "placeholders": {
+     "I250": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I251": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00115",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     23,
+     11
+    ],
+    "text": "[ETXTBSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00116",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     23,
+     13
+    ],
+    "text": "The new process image file is a pure procedure (shared text) file that is currently open for writing by some process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00117",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A252][/A252]EXAMPLES",
+    "placeholders": {
+     "A252": {
+      "open": "<a name=\"tag_17_129_06\" id=\"tag_17_129_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00118",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A253][/A253]Using execl()",
+    "placeholders": {
+     "A253": {
+      "open": "<a name=\"tag_17_129_06_01\" id=\"tag_17_129_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00119",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example executes the [A254][I255]ls[/I255][/A254] command, specifying the pathname of the\nexecutable ([B256]/bin/ls[/B256]) and using arguments supplied directly to the command to produce single-column output.",
+    "placeholders": {
+     "A254": {
+      "open": "<a href=\"../utilities/ls.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I255": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B256": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00120",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     7
+    ],
+    "text": "[A257][/A257]Using execle()",
+    "placeholders": {
+     "A257": {
+      "open": "<a name=\"tag_17_129_06_02\" id=\"tag_17_129_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00121",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     9
+    ],
+    "text": "The following example is similar to [A258]Using execl()[/A258]. In addition, it specifies the environment\nfor the new process image using the [I259]env[/I259] argument.",
+    "placeholders": {
+     "A258": {
+      "open": "<a href=\"#tag_17_129_06_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I259": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00122",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     13
+    ],
+    "text": "[A260][/A260]Using execlp()",
+    "placeholders": {
+     "A260": {
+      "open": "<a name=\"tag_17_129_06_03\" id=\"tag_17_129_06_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00123",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     15
+    ],
+    "text": "The following example searches for the location of the [A261][I262]ls[/I262][/A261] command among the\ndirectories specified by the [I263]PATH[/I263] environment variable.",
+    "placeholders": {
+     "A261": {
+      "open": "<a href=\"../utilities/ls.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I262": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I263": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00124",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     19
+    ],
+    "text": "[A264][/A264]Using execv()",
+    "placeholders": {
+     "A264": {
+      "open": "<a name=\"tag_17_129_06_04\" id=\"tag_17_129_06_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00125",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     21
+    ],
+    "text": "The following example passes arguments to the [A265][I266]ls[/I266][/A265] command in the [I267]cmd[/I267] array.",
+    "placeholders": {
+     "A265": {
+      "open": "<a href=\"../utilities/ls.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I266": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I267": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00126",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     25
+    ],
+    "text": "[A268][/A268]Using execve()",
+    "placeholders": {
+     "A268": {
+      "open": "<a name=\"tag_17_129_06_05\" id=\"tag_17_129_06_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00127",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     27
+    ],
+    "text": "The following example passes arguments to the [A269][I270]ls[/I270][/A269] command in the [I271]cmd[/I271] array, and\nspecifies the environment for the new process image using the [I272]env[/I272] argument.",
+    "placeholders": {
+     "A269": {
+      "open": "<a href=\"../utilities/ls.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I270": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I271": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I272": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00128",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     31
+    ],
+    "text": "[A273][/A273]Using execvp()",
+    "placeholders": {
+     "A273": {
+      "open": "<a name=\"tag_17_129_06_06\" id=\"tag_17_129_06_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00129",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     33
+    ],
+    "text": "The following example searches for the location of the [A274][I275]ls[/I275][/A274] command among the\ndirectories specified by the [I276]PATH[/I276] environment variable, and passes arguments to the [A277][I278]ls[/I278][/A277] command in the [I279]cmd[/I279] array.",
+    "placeholders": {
+     "A274": {
+      "open": "<a href=\"../utilities/ls.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I275": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I276": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A277": {
+      "open": "<a href=\"../utilities/ls.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I278": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I279": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00130",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A280][/A280]APPLICATION USAGE",
+    "placeholders": {
+     "A280": {
+      "open": "<a name=\"tag_17_129_07\" id=\"tag_17_129_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00131",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "As the state of conversion descriptors and message catalog descriptors in the new process image is undefined, conforming\napplications should not rely on their use and should close them prior to calling one of the [I281]exec[/I281] functions.",
+    "placeholders": {
+     "I281": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00132",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "Applications that require other than the default POSIX locale as the global locale in the new process image should call [A282][I283]setlocale[/I283]()[/A282] with the appropriate parameters.",
+    "placeholders": {
+     "A282": {
+      "open": "<a href=\"../functions/setlocale.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I283": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00133",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5
+    ],
+    "text": "When assigning a new value to the [I284]environ[/I284] variable, applications should ensure that the environment to which it will\npoint contains at least the following:",
+    "placeholders": {
+     "I284": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00134",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     7,
+     1,
+     1
+    ],
+    "text": "Any implementation-defined variables required by the implementation to provide a conforming environment. See the _CS_V8_ENV\nentry in [A285][I286]&lt;unistd.h&gt;[/I286][/A285] and [A287][I288]confstr[/I288]()[/A287] for details.",
+    "placeholders": {
+     "A285": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I286": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A287": {
+      "open": "<a href=\"../functions/confstr.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I288": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00135",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     7,
+     3,
+     1
+    ],
+    "text": "A value for [I289]PATH[/I289] which finds conforming versions of all standard utilities before any other versions.",
+    "placeholders": {
+     "I289": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00136",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     9
+    ],
+    "text": "The same constraint applies to the [I290]envp[/I290] array passed to [I291]execle[/I291]() or [I292]execve[/I292](), in order to ensure that the\nnew process image is invoked in a conforming environment.",
+    "placeholders": {
+     "I290": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I291": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I292": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00137",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     11
+    ],
+    "text": "Applications should not execute programs with file descriptor 0 not open for reading or with file descriptor 1 or 2 not open for\nwriting, as this might cause the executed program to misbehave. In order not to pass on these file descriptors to an executed\nprogram, applications should not just close them but should reopen them on, for example, [B293]/dev/null[/B293]. Some implementations may\nreopen them automatically, but applications should not rely on this being done.",
+    "placeholders": {
+     "B293": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00138",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     13
+    ],
+    "text": "If an application wants to perform an integrity test of the file being executed before executing it, the file will need to be\nopened with read permission to perform the integrity test.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00139",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     15
+    ],
+    "text": "Since execute permission is checked by [I294]fexecve[/I294](), the file description [I295]fd[/I295] need not have been opened with the\nO_EXEC flag. However, if the file to be executed denies read and write permission for the process preparing to do the [I296]exec[/I296],\nthe only way to provide the [I297]fd[/I297] to [I298]fexecve[/I298]() will be to use the O_EXEC flag when opening [I299]fd[/I299]. In this case, the\napplication will not be able to perform an integrity test since it will not be able to read the contents of the file.",
+    "placeholders": {
+     "I294": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I295": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I296": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I297": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I298": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I299": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00140",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     17
+    ],
+    "text": "Note that when a file descriptor is opened with O_RDONLY, O_RDWR, or O_WRONLY mode, the file descriptor can be used to read,\nread and write, or write the file, respectively, even if the mode of the file changes after the file was opened. Using the O_EXEC\nopen mode is different; [I300]fexecve[/I300]() will ignore the mode that was used when the file descriptor was opened and the [I301]exec[/I301]\nwill fail if the mode of the file associated with [I302]fd[/I302] does not grant execute permission to the calling process at the time\n[I303]fexecve[/I303]() is called.",
+    "placeholders": {
+     "I300": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I301": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I302": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I303": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00141",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A304][/A304]RATIONALE",
+    "placeholders": {
+     "A304": {
+      "open": "<a name=\"tag_17_129_08\" id=\"tag_17_129_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00142",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "Early proposals required that the value of [I305]argc[/I305] passed to [I306]main[/I306]() be &quot;one or greater&quot;. This was driven by the\nsame requirement in drafts of the ISO&nbsp;C standard. In fact, historical implementations have passed a value of zero when no\narguments are supplied to the caller of the [I307]exec[/I307] functions. This requirement was removed from the ISO&nbsp;C standard and\nsubsequently removed from this volume of POSIX.1-2024 as well. The wording, in particular the use of the word [I308]should[/I308],\nrequires a Strictly Conforming POSIX Application to pass at least one argument to the [I309]exec[/I309] function, thus guaranteeing that\n[I310]argc[/I310] be one or greater when invoked by such an application. In fact, this is good practice, since many existing applications\nreference [I311]argv[/I311][0] without first checking the value of [I312]argc[/I312].",
+    "placeholders": {
+     "I305": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I306": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I307": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I308": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I309": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I310": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I311": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I312": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00143",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The requirement on a Strictly Conforming POSIX Application also states that the value passed as the first argument be a filename\nstring associated with the process being started. Although some existing applications pass a pathname rather than a filename string\nin some circumstances, a filename string is more generally useful, since the common usage of [I313]argv[/I313][0] is in printing\ndiagnostics. In some cases the filename passed is not the actual filename of the file; for example, many implementations of the\n[I314]login[/I314] utility use a convention of prefixing a &lt;hyphen-minus&gt; ([CODE315]) to the actual filename, which indicates to\nthe command interpreter being invoked that it is a &quot;login shell&quot;.",
+    "placeholders": {
+     "I313": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I314": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE315": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'-'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00144",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "Also, note that the [A316][I317]test[/I317][/A316] and [I318][[/I318] utilities require specific strings for the\n[I319]argv[/I319][0] argument to have deterministic behavior across all implementations.",
+    "placeholders": {
+     "A316": {
+      "open": "<a href=\"../utilities/test.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I317": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I318": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I319": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00145",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "Historically, there have been two ways that implementations can [I320]exec[/I320] shell scripts.",
+    "placeholders": {
+     "I320": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00146",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "One common historical implementation is that the [I321]execl[/I321](), [I322]execv[/I322](), [I323]execle[/I323](), and [I324]execve[/I324]() functions\nreturn an [ENOEXEC] error for any file not recognizable as executable, including a shell script. When the [I325]execlp[/I325]() and\n[I326]execvp[/I326]() functions encounter such a file, they assume the file to be a shell script and invoke a known command interpreter\nto interpret such files. This is now required by POSIX.1-2024. These implementations of [I327]execvp[/I327]() and [I328]execlp[/I328]() only\ngive the [ENOEXEC] error in the rare case of a problem with the command interpreter's executable file. Because of these\nimplementations, the [ENOEXEC] error is not mentioned for [I329]execlp[/I329]() or [I330]execvp[/I330](), although implementations can still\ngive it.",
+    "placeholders": {
+     "I321": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I322": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I323": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I324": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I325": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I326": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I327": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I328": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I329": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I330": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00147",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "Another way that some historical implementations handle shell scripts is by recognizing the first two bytes of the file as the\ncharacter string [CODE331] and using the remainder of the first line of the file as the name of the command interpreter to\nexecute.",
+    "placeholders": {
+     "CODE331": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"#!\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00148",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "One potential source of confusion noted by the standard developers is over how the contents of a process image file affect the\nbehavior of the [I332]exec[/I332] family of functions. The following is a description of the actions taken:",
+    "placeholders": {
+     "I332": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00149",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15,
+     1,
+     1
+    ],
+    "text": "If the process image file is a valid executable (in a format that is executable and valid and having appropriate privileges) for\nthis system, then the system executes the file.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00150",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15,
+     3,
+     1
+    ],
+    "text": "If the process image file has appropriate privileges and is in a format that is executable but not valid for this system (such\nas a recognized binary for another architecture), then this is an error and [I333]errno[/I333] is set to [EINVAL] (see later RATIONALE on\n[EINVAL]).",
+    "placeholders": {
+     "I333": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00151",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15,
+     5,
+     1
+    ],
+    "text": "If the process image file has appropriate privileges but is not otherwise recognized:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00152",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15,
+     5,
+     3,
+     1,
+     1
+    ],
+    "text": "If this is a call to [I334]execlp[/I334]() or [I335]execvp[/I335](), then they invoke a command interpreter assuming that the process image\nfile is a shell script.",
+    "placeholders": {
+     "I334": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I335": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00153",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15,
+     5,
+     3,
+     3,
+     1
+    ],
+    "text": "If this is not a call to [I336]execlp[/I336]() or [I337]execvp[/I337](), then an error occurs and [I338]errno[/I338] is set to [ENOEXEC].",
+    "placeholders": {
+     "I336": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I337": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I338": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00154",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     17
+    ],
+    "text": "Applications that do not require to access their arguments may use the form:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00155",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27
+    ],
+    "text": "Some implementations provide a third argument to [I339]main[/I339]() called [I340]envp[/I340]. This is defined as a pointer to the\nenvironment. The ISO&nbsp;C standard specifies invoking [I341]main[/I341]() with two arguments, so implementations are required to\nsupport applications written this way. Since this volume of POSIX.1-2024 defines the global variable [I342]environ[/I342], which is also\nprovided by historical implementations and can be used anywhere that [I343]envp[/I343] could be used, there is no functional need for the\n[I344]envp[/I344] argument. Applications should use the [A345][I346]getenv[/I346]()[/A345] function rather than\naccessing the environment directly via either [I347]envp[/I347] or [I348]environ[/I348]. Implementations are required to support the\ntwo-argument calling sequence, but this does not prohibit an implementation from supporting [I349]envp[/I349] as an optional third\nargument.",
+    "placeholders": {
+     "I339": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I340": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I341": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I342": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I343": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I344": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A345": {
+      "open": "<a href=\"../functions/getenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I346": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I347": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I348": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I349": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00156",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     29
+    ],
+    "text": "This volume of POSIX.1-2024 specifies that signals set to SIG_IGN remain set to SIG_IGN, and that the new process image inherits\nthe signal mask of the thread that called [I350]exec[/I350] in the old process image. This is consistent with historical implementations,\nand it permits some useful functionality, such as the [A351][I352]nohup[/I352][/A351] command. However, it\nshould be noted that many existing applications wrongly assume that they start with certain signals set to the default action\nand/or unblocked. In particular, applications written with a simpler signal model that does not include blocking of signals, such\nas the one in the ISO&nbsp;C standard, may not behave properly if invoked with some signals blocked. Therefore, it is best not to\nblock or ignore signals across [I353]exec[/I353]s without explicit reason to do so, and especially not to block signals across\n[I354]exec[/I354]s of arbitrary (not closely cooperating) programs.",
+    "placeholders": {
+     "I350": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A351": {
+      "open": "<a href=\"../utilities/nohup.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I352": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I353": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I354": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00157",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     31
+    ],
+    "text": "The [I355]exec[/I355] functions always save the value of the effective user ID and effective group ID of the process at the completion\nof the [I356]exec[/I356], whether or not the set-user-ID or the set-group-ID bit of the process image file is set.",
+    "placeholders": {
+     "I355": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I356": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00158",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     33
+    ],
+    "text": "The statement about [I357]argv[/I357][] and [I358]envp[/I358][] being constants is included to make explicit to future writers of language\nbindings that these objects are completely constant. Due to a limitation of the ISO&nbsp;C standard, it is not possible to state\nthat idea in standard C. Specifying two levels of [I359]const[/I359]-[I360]qualification[/I360] for the [I361]argv[/I361][] and [I362]envp[/I362][]\nparameters for the [I363]exec[/I363] functions may seem to be the natural choice, given that these functions do not modify either the\narray of pointers or the characters to which the function points, but this would disallow existing correct code. Instead, only the\narray of pointers is noted as constant. The table of assignment compatibility for [I364]dst[/I364]=[I365]src[/I365] derived from the ISO&nbsp;C\nstandard summarizes the compatibility:",
+    "placeholders": {
+     "I357": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I358": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I359": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I360": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I361": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I362": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I363": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I364": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I365": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00159",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     3,
+     1
+    ],
+    "text": "[B366][I367]src[/I367]:[/B366]",
+    "placeholders": {
+     "B366": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I367": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "行 1: [B366][I367]src[/I367]:[/B366]"
+   },
+   {
+    "id": "td_00160",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     3,
+     3
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": "列头: char *[]"
+   },
+   {
+    "id": "td_00161",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     3,
+     5
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": "列头: const char *[]"
+   },
+   {
+    "id": "td_00162",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     3,
+     7
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": "列头: char *const[]"
+   },
+   {
+    "id": "td_00163",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     3,
+     9
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": "列头: const char *const[]"
+   },
+   {
+    "id": "td_00164",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     5,
+     1
+    ],
+    "text": "[B368]char *[][/B368]",
+    "placeholders": {
+     "B368": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 2: [B368]char *[][/B368]"
+   },
+   {
+    "id": "td_00165",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     5,
+     3
+    ],
+    "text": "VALID",
+    "placeholders": {},
+    "context": "列头: char *[]"
+   },
+   {
+    "id": "td_00166",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     5,
+     5
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: const char *[]"
+   },
+   {
+    "id": "td_00167",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     5,
+     7
+    ],
+    "text": "VALID",
+    "placeholders": {},
+    "context": "列头: char *const[]"
+   },
+   {
+    "id": "td_00168",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     5,
+     9
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: const char *const[]"
+   },
+   {
+    "id": "td_00169",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     7,
+     1
+    ],
+    "text": "[B369]const char *[][/B369]",
+    "placeholders": {
+     "B369": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 3: [B369]const char *[][/B369]"
+   },
+   {
+    "id": "td_00170",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     7,
+     3
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: char *[]"
+   },
+   {
+    "id": "td_00171",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     7,
+     5
+    ],
+    "text": "VALID",
+    "placeholders": {},
+    "context": "列头: const char *[]"
+   },
+   {
+    "id": "td_00172",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     7,
+     7
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: char *const[]"
+   },
+   {
+    "id": "td_00173",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     7,
+     9
+    ],
+    "text": "VALID",
+    "placeholders": {},
+    "context": "列头: const char *const[]"
+   },
+   {
+    "id": "td_00174",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     9,
+     1
+    ],
+    "text": "[B370]char * const [][/B370]",
+    "placeholders": {
+     "B370": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 4: [B370]char * const [][/B370]"
+   },
+   {
+    "id": "td_00175",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     9,
+     3
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: char *[]"
+   },
+   {
+    "id": "td_00176",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     9,
+     5
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: const char *[]"
+   },
+   {
+    "id": "td_00177",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     9,
+     7
+    ],
+    "text": "VALID",
+    "placeholders": {},
+    "context": "列头: char *const[]"
+   },
+   {
+    "id": "td_00178",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     9,
+     9
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: const char *const[]"
+   },
+   {
+    "id": "td_00179",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     11,
+     1
+    ],
+    "text": "[B371]const char *const[][/B371]",
+    "placeholders": {
+     "B371": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 5: [B371]const char *const[][/B37"
+   },
+   {
+    "id": "td_00180",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     11,
+     3
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: char *[]"
+   },
+   {
+    "id": "td_00181",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     11,
+     5
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: const char *[]"
+   },
+   {
+    "id": "td_00182",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     11,
+     7
+    ],
+    "text": "—",
+    "placeholders": {},
+    "context": "列头: char *const[]"
+   },
+   {
+    "id": "td_00183",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35,
+     1,
+     11,
+     9
+    ],
+    "text": "VALID",
+    "placeholders": {},
+    "context": "列头: const char *const[]"
+   },
+   {
+    "id": "p_00184",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     37
+    ],
+    "text": "Since all existing code has a source type matching the first row, the column that gives the most valid combinations\nis the third column. The only other possibility is the fourth column, but using it would require a cast on the [I372]argv[/I372] or\n[I373]envp[/I373] arguments. It is unfortunate that the fourth column cannot be used, because the declaration a non-expert would\nnaturally use would be that in the second row.",
+    "placeholders": {
+     "I372": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I373": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00185",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     39
+    ],
+    "text": "The ISO&nbsp;C standard and this volume of POSIX.1-2024 do not conflict on the use of [I374]environ[/I374], but some\nhistorical implementations of [I375]environ[/I375] may cause a conflict. As long as [I376]environ[/I376] is treated in the same way as an entry\npoint (for example, [A377][I378]fork[/I378]()[/A377]), it conforms to both standards. A library can contain\n[A379][I380]fork[/I380]()[/A379], but if there is a user-provided [A381][I382]fork[/I382]()[/A381], that [A383][I384]fork[/I384]()[/A383] is given precedence and no\nproblem ensues. The situation is similar for [I385]environ[/I385]: the definition in this volume of POSIX.1-2024 is to be used if there\nis no user-provided [I386]environ[/I386] to take precedence. At least three implementations are known to exist that solve this\nproblem.",
+    "placeholders": {
+     "I374": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I375": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I376": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A377": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I378": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A379": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I380": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A381": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I382": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A383": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I384": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I385": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I386": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00186",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     3
+    ],
+    "text": "[E2BIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00187",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     5
+    ],
+    "text": "The limit {ARG_MAX} applies not just to the size of the argument list, but to the sum of that and the size of the environment\nlist.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00188",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     7
+    ],
+    "text": "[EFAULT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00189",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     9
+    ],
+    "text": "Some historical systems return [EFAULT] rather than [ENOEXEC] when the new process image file is corrupted. They are\nnon-conforming.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00190",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     11
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00191",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     13
+    ],
+    "text": "This error condition was added to POSIX.1-2024 to allow an implementation to detect executable files generated for different\narchitectures, and indicate this situation to the application. Historical implementations of shells, [I387]execvp[/I387](), and\n[I388]execlp[/I388]() that encounter an [ENOEXEC] error will execute a shell on the assumption that the file is a shell script. This will\nnot produce the desired effect when the file is a valid executable for a different architecture. An implementation may now choose\nto avoid this problem by returning [EINVAL] when a valid executable for a different architecture is encountered. Some historical\nimplementations return [EINVAL] to indicate that the [I389]path[/I389] argument contains a character with the high order bit set. The\nstandard developers chose to deviate from historical practice for the following reasons:\n\nThe new utilization of [EINVAL] will provide some measure of utility to the user community.\nHistorical use of [EINVAL] is not acceptable in an internationalized operating environment.",
+    "placeholders": {
+     "I387": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I388": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I389": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00192",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     15
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00193",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     17
+    ],
+    "text": "Since the file pathname may be constructed by taking elements in the [I390]PATH[/I390] variable and putting them together with the\nfilename, the [ENAMETOOLONG] error condition could also be reached this way.",
+    "placeholders": {
+     "I390": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00194",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     19
+    ],
+    "text": "[ETXTBSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00195",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     41,
+     21
+    ],
+    "text": "System V returns this error when the executable file is currently open for writing by some process. This volume of POSIX.1-2024\nneither requires nor prohibits this behavior.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00196",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     43
+    ],
+    "text": "Other systems (such as System V) may return [EINTR] from [I391]exec[/I391]. This is not addressed by this volume of\nPOSIX.1-2024, but implementations may have a window between the call to [I392]exec[/I392] and the time that a signal could cause one of\nthe [I393]exec[/I393] calls to return with [EINTR].",
+    "placeholders": {
+     "I391": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I392": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I393": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00197",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     45
+    ],
+    "text": "An explicit statement regarding the floating-point environment (as defined in the [A394][I395]&lt;fenv.h&gt;[/I395][/A394] header) was added to make it clear that the floating-point environment is set\nto its default when a call to one of the [I396]exec[/I396] functions succeeds. The requirements for inheritance or setting to the default\nfor other process and thread start-up functions is covered by more generic statements in their descriptions and can be summarized\nas follows:",
+    "placeholders": {
+     "A394": {
+      "open": "<a href=\"../basedefs/fenv.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I395": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I396": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00198",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     47,
+     3
+    ],
+    "text": "[I397]posix_spawn[/I397]()",
+    "placeholders": {
+     "I397": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00199",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     47,
+     5
+    ],
+    "text": "Set to default.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00200",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     47,
+     7
+    ],
+    "text": "[I398]fork[/I398]()",
+    "placeholders": {
+     "I398": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00201",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     47,
+     9
+    ],
+    "text": "Inherit.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00202",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     47,
+     11
+    ],
+    "text": "[I399]pthread_create[/I399]()",
+    "placeholders": {
+     "I399": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00203",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     47,
+     13
+    ],
+    "text": "Inherit.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00204",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     49
+    ],
+    "text": "The purpose of the [I400]fexecve[/I400]() function is to enable executing a file which has been verified to be the\nintended file. It is possible to actively check the file by reading from the file descriptor and be sure that the file is not\nexchanged for another between the reading and the execution. Alternatively, a function like [A401][I402]openat[/I402]()[/A401] can be used to open a file which has been found by reading the content of a\ndirectory using [A403][I404]readdir[/I404]()[/A403].",
+    "placeholders": {
+     "I400": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A401": {
+      "open": "<a href=\"../functions/openat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I402": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A403": {
+      "open": "<a href=\"../functions/readdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I404": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00205",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     51
+    ],
+    "text": "When [I405]execlp[/I405]() or [I406]execvp[/I406]() fall back to invoking [A407][I408]sh[/I408][/A407] because\nof an [ENOEXEC] condition, the standard leaves the process name (what becomes [I409]argv[/I409][0] in the resulting [A410][I411]sh[/I411][/A410] process) unspecified. Existing implementations vary on whether they pass a variation of\n[CODE412], or preserve the original [I413]arg0[/I413]. There are existing implementations of [A414][I415]sh[/I415][/A414] that behave differently depending on the contents of [I416]argv[/I416][0], such that blindly passing\nthe original [I417]arg0[/I417] on to the fallback execution can fail to invoke a compliant shell environment. Because of the requirements\non how [A418][I419]sh[/I419][/A418] handles its command line arguments, the shell script will see [CODE420]\ncontaining the pathname of the script being executed, regardless of the value of [I421]argv[/I421][0].",
+    "placeholders": {
+     "I405": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I406": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A407": {
+      "open": "<a href=\"../utilities/sh.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I408": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I409": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A410": {
+      "open": "<a href=\"../utilities/sh.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I411": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE412": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"sh\"</tt>"
+     },
+     "I413": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A414": {
+      "open": "<a href=\"../utilities/sh.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I415": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I416": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I417": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A418": {
+      "open": "<a href=\"../utilities/sh.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I419": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE420": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$0</tt>"
+     },
+     "I421": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00206",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A422][/A422]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A422": {
+      "open": "<a name=\"tag_17_129_09\" id=\"tag_17_129_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00207",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00208",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A423][/A423]SEE ALSO",
+    "placeholders": {
+     "A423": {
+      "open": "<a name=\"tag_17_129_10\" id=\"tag_17_129_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00209",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A424][I425]alarm[/I425]()[/A424], [A426][I427]atexit[/I427]()[/A426], [A428][I429]chmod[/I429]()[/A428], [A430][I431]close[/I431]()[/A430], [A432][I433]confstr[/I433]()[/A432], [A434][I435]exit[/I435]()[/A434], [A436][I437]fcntl[/I437]()[/A436], [A438][I439]fork[/I439]()[/A438], [A440][I441]fstatvfs[/I441]()[/A440], [A442][I443]getenv[/I443]()[/A442], [A444][I445]getrlimit[/I445]()[/A444], [A446][I447]mknod[/I447]()[/A446], [A448][I449]mmap[/I449]()[/A448], [A450][I451]nice[/I451]()[/A450], [A452][I453]open[/I453]()[/A452], [A454][I455]posix_spawn[/I455]()[/A454], [A456][I457]pthread_atfork[/I457]()[/A456], [A458][I459]pthread_sigmask[/I459]()[/A458], [A460][I461]putenv[/I461]()[/A460],\n[A462][I463]readdir[/I463]()[/A462], [A464][I465]semop[/I465]()[/A464], [A466][I467]setlocale[/I467]()[/A466], [A468][I469]shmat[/I469]()[/A468], [A470][I471]sigaction[/I471]()[/A470], [A472][I473]sigaltstack[/I473]()[/A472],\n[A474][I475]sigpending[/I475]()[/A474], [A476][I477]system[/I477]()[/A476],\n[A478][I479]times[/I479]()[/A478], [A480][I481]umask[/I481]()[/A480]",
+    "placeholders": {
+     "A424": {
+      "open": "<a href=\"../functions/alarm.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I425": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A426": {
+      "open": "<a href=\"../functions/atexit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I427": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A428": {
+      "open": "<a href=\"../functions/chmod.html#tag_17_72\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I429": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A430": {
+      "open": "<a href=\"../functions/close.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I431": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A432": {
+      "open": "<a href=\"../functions/confstr.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I433": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A434": {
+      "open": "<a href=\"../functions/exit.html#tag_17_130\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I435": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A436": {
+      "open": "<a href=\"../functions/fcntl.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I437": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A438": {
+      "open": "<a href=\"../functions/fork.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I439": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A440": {
+      "open": "<a href=\"../functions/fstatvfs.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I441": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A442": {
+      "open": "<a href=\"../functions/getenv.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I443": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A444": {
+      "open": "<a href=\"../functions/getrlimit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I445": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A446": {
+      "open": "<a href=\"../functions/mknod.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I447": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A448": {
+      "open": "<a href=\"../functions/mmap.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I449": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A450": {
+      "open": "<a href=\"../functions/nice.html#tag_17_370\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I451": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A452": {
+      "open": "<a href=\"../functions/open.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I453": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A454": {
+      "open": "<a href=\"../functions/posix_spawn.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I455": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A456": {
+      "open": "<a href=\"../functions/pthread_atfork.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I457": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A458": {
+      "open": "<a href=\"../functions/pthread_sigmask.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I459": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A460": {
+      "open": "<a href=\"../functions/putenv.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I461": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A462": {
+      "open": "<a href=\"../functions/readdir.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I463": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A464": {
+      "open": "<a href=\"../functions/semop.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I465": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A466": {
+      "open": "<a href=\"../functions/setlocale.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I467": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A468": {
+      "open": "<a href=\"../functions/shmat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I469": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A470": {
+      "open": "<a href=\"../functions/sigaction.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I471": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A472": {
+      "open": "<a href=\"../functions/sigaltstack.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I473": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A474": {
+      "open": "<a href=\"../functions/sigpending.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I475": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A476": {
+      "open": "<a href=\"../functions/system.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I477": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A478": {
+      "open": "<a href=\"../functions/times.html#tag_17_629\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I479": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A480": {
+      "open": "<a href=\"../functions/umask.html#tag_17_645\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I481": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00210",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A482][I483]8. Environment Variables[/I483][/A482], [A484][I485]&lt;unistd.h&gt;[/I485][/A484]",
+    "placeholders": {
+     "A482": {
+      "open": "<a href=\"../basedefs/V1_chap08.html#tag_08\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I483": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A484": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I485": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00211",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     5
+    ],
+    "text": "XCU [A486][I487]test[/I487][/A486]",
+    "placeholders": {
+     "A486": {
+      "open": "<a href=\"../utilities/test.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I487": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00212",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A488][/A488]CHANGE HISTORY",
+    "placeholders": {
+     "A488": {
+      "open": "<a name=\"tag_17_129_11\" id=\"tag_17_129_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00213",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00214",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A489][/A489]Issue 5",
+    "placeholders": {
+     "A489": {
+      "open": "<a name=\"tag_17_129_12\" id=\"tag_17_129_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00215",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00216",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00217",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A490][/A490]Issue 6",
+    "placeholders": {
+     "A490": {
+      "open": "<a name=\"tag_17_129_13\" id=\"tag_17_129_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00218",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00219",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     1
+    ],
+    "text": "In the DESCRIPTION, behavior is defined for when the process image file is not a valid executable.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00220",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     3
+    ],
+    "text": "In this version, _POSIX_SAVED_IDS is mandated, thus the effective user ID and effective group ID of the new\nprocess image shall be saved (as the saved set-user-ID and the saved set-group-ID) for use by the [A491][I492]setuid[/I492]()[/A491] function.",
+    "placeholders": {
+     "A491": {
+      "open": "<a href=\"../functions/setuid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I492": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "li_00221",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     5
+    ],
+    "text": "The [ELOOP] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00222",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     7
+    ],
+    "text": "A second [ENAMETOOLONG] is added as an optional error condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00223",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     9
+    ],
+    "text": "The [ETXTBSY] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00224",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00225",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     1
+    ],
+    "text": "The [EINVAL] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00226",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     3
+    ],
+    "text": "The [ELOOP] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00227",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The description of CPU-time clock semantics is added for alignment with IEEE&nbsp;Std&nbsp;1003.1d-1999.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00228",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by adding semantics for typed\nmemory.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00229",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00230",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "The description of tracing semantics is added for alignment with IEEE&nbsp;Std&nbsp;1003.1q-2000.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00231",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     17
+    ],
+    "text": "IEEE PASC Interpretation 1003.1 #132 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00232",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     19
+    ],
+    "text": "The DESCRIPTION is updated to make it explicit that the floating-point environment in the new process image is set\nto the default.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00233",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     21
+    ],
+    "text": "The DESCRIPTION and RATIONALE are updated to include clarifications of how the contents of a process image file\naffect the behavior of the [I493]exec[/I493] functions.",
+    "placeholders": {
+     "I493": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00234",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     23
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/15 is applied, adding a new paragraph to the\nDESCRIPTION and text to the end of the APPLICATION USAGE section. This change addresses a security concern, where implementations\nmay want to reopen file descriptors 0, 1, and 2 for programs with the set-user-id or set-group-id file mode bits calling the\n[I494]exec[/I494] family of functions.",
+    "placeholders": {
+     "I494": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00235",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     25
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/24 is applied, applying changes to the DESCRIPTION,\naddressing which attributes are inherited by threads, and behavioral requirements for threads attributes.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00236",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     27
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/25 is applied, updating text in the RATIONALE from\n&quot;the process signal mask be unchanged across an [I495]exec[/I495]&quot; to &quot;the new process image inherits the signal mask of the thread\nthat called [I496]exec[/I496] in the old process image&quot;.",
+    "placeholders": {
+     "I495": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I496": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00237",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A497][/A497]Issue 7",
+    "placeholders": {
+     "A497": {
+      "open": "<a name=\"tag_17_129_14\" id=\"tag_17_129_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00238",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #047 is applied, adding the description of _CS_V7_ENV to the APPLICATION USAGE.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00239",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00240",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "The [I498]fexecve[/I498]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.",
+    "placeholders": {
+     "I498": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00241",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "Functionality relating to the Asynchronous Input and Output, Memory Mapped Files, Threads, and Timers options is\nmoved to the Base.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00242",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00243",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0095 [386], XSH/TC1-2008/0096 [167], XSH/TC1-2008/0097 [291],\nXSH/TC1-2008/0098 [173], XSH/TC1-2008/0099 [296], XSH/TC1-2008/00100 [324], XSH/TC1-2008/00101 [296], XSH/TC1-2008/00102 [302],\nXSH/TC1-2008/00103 [167], XSH/TC1-2008/00104 [173], and XSH/TC1-2008/00105 [291,429] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00244",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0097 [584], XSH/TC2-2008/0098 [898], and XSH/TC2-2008/0099\n[734] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00245",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A499][/A499]Issue 8",
+    "placeholders": {
+     "A499": {
+      "open": "<a name=\"tag_17_129_15\" id=\"tag_17_129_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00246",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defects 51 and 1669 are applied, moving the [A500][I501]getrlimit[/I501]()[/A500] and\n[A502][I503]setrlimit[/I503]()[/A502] functions from the XSI option to the Base.",
+    "placeholders": {
+     "A500": {
+      "open": "<a href=\"../functions/getrlimit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I501": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A502": {
+      "open": "<a href=\"../functions/setrlimit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I503": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00247",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 368 is applied, adding a requirement for unnamed semaphores to be destroyed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00248",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 768 is applied, adding OFD-owned file locks.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00249",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defect 922 is applied, adding the [A504][I505]secure_getenv[/I505]()[/A504]\nfunction.",
+    "placeholders": {
+     "A504": {
+      "open": "<a href=\"../functions/secure_getenv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I505": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00250",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     9
+    ],
+    "text": "Austin Group Defect 1284 is applied, changing &quot;checksum test&quot; to &quot;integrity test&quot; in the APPLICATION USAGE\nsection.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00251",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     11
+    ],
+    "text": "Austin Group Defect 1318 is applied, adding FD_CLOFORK.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00252",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     13
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces and changing &quot;_V7_&quot; to &quot;_V8_&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00253",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     15
+    ],
+    "text": "Austin Group Defect 1435 is applied, adding function lists to the descriptions of the [I506]path[/I506] and [I507]file[/I507]\narguments.",
+    "placeholders": {
+     "I506": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I507": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00254",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     17
+    ],
+    "text": "Austin Group Defect 1645 is applied, making it unspecified what string is passed to the shell in [I508]argv[/I508][0]\nwhen executed by [I509]execlp[/I509]() or [I510]execvp[/I510]().",
+    "placeholders": {
+     "I508": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I509": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I510": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00255",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     19
+    ],
+    "text": "Austin Group Defect 1646 is applied, adding [A511][I512]at_quick_exit[/I512]()[/A511] to\nthe list of registration functions whose registrations are not inherited across [I513]exec[/I513].",
+    "placeholders": {
+     "A511": {
+      "open": "<a href=\"../functions/at_quick_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I512": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I513": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00256",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

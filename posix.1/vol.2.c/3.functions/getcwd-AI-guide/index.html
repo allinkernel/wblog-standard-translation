@@ -1,0 +1,40 @@
+<h1>XSH 函数导读：getcwd()</h1>
+
+<h2>0. 总览</h2>
+<p><code>getcwd()</code> 用于获取当前工作目录的绝对路径名。头文件为 <code>&lt;unistd.h&gt;</code>。原型：<code>char *getcwd(char *buf, size_t size)</code>——<code>buf</code> 是输出缓冲区，<code>size</code> 是其字节大小；成功时返回 <code>buf</code>，失败时返回空指针并设置 <code>errno</code>。</p>
+
+<h2>1. 机制</h2>
+<p>函数把当前工作目录的绝对路径名放入 <code>buf</code> 并返回 <code>buf</code>。路径名不含任何是 dot、dot-dot 或符号链接的组件；若存在单斜杠与双斜杠开头的多种表示，应选取单斜杠开头的那个，且除开头外不含多余的斜杠字符。<code>size</code> 为 0 时失败 [EINVAL]；缓冲区装不下（小于字符串长度 +1）时失败 [ERANGE]。若 <code>buf</code> 为空指针，行为未指定，符合规范的应用程序不应依赖某些实现“自动 malloc”的扩展。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>[ERANGE] 是常见坑：应像标准示例那样循环增大缓冲区重试，而不是一次假定 {PATH_MAX} 大小。</li>
+<li>失败时 <code>buf</code> 所指向数组的内容未定义，不能当作有效路径使用。</li>
+<li>某个（祖）父目录被拒绝读或搜索权限时可能失败 [EACCES]，即使当前目录本身可访问。</li>
+<li>获得的路径名若长于 {PATH_MAX} 字节，直接传给 chdir() 可能得到 [ENAMETOOLONG]；需分段调用 chdir()，或改用文件描述符加 fchdir()。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+
+int main(void) {
+    size_t size = 256;
+    char *buf = NULL;
+    char *p;
+
+    for (;;) {
+        buf = realloc(buf, size);
+        if (buf == NULL)
+            return 1;
+        p = getcwd(buf, size);
+        if (p != NULL)
+            break;          /* 成功 */
+        if (errno != ERANGE)
+            return 1;       /* 其他错误 */
+        size *= 2;          /* 缓冲不足，扩大后重试 */
+    }
+    free(buf);
+    return 0;
+}</code></pre>

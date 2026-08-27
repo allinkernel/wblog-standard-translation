@@ -1,0 +1,154 @@
+<h1>XSH 函数：lseek()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="lseek" id="lseek"></a> <a name="tag_17_321" id="tag_17_321"></a>
+<a name="tag_17_321_01" id="tag_17_321_01"></a><h4>名称</h4>
+<blockquote>lseek — 移动读/写文件偏移</blockquote>
+<a name="tag_17_321_02" id="tag_17_321_02"></a><h4>概要</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+off_t lseek(int</code> <i>fildes</i><code>, off_t</code> <i>offset</i><code>, int</code> <i>whence</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_321_03" id="tag_17_321_03"></a><h4>说明</h4>
+<blockquote>
+<p><i>lseek</i>() 函数应按如下方式设置与文件描述符 <i>fildes,</i> 关联的打开文件描述的文件偏移：</p>
+<ul>
+<li>
+<p>如果 <i>whence</i> 为 SEEK_SET，文件偏移应被设置为 <i>offset</i> 字节。</p>
+</li>
+<li>
+<p>如果 <i>whence</i> 为 SEEK_CUR，文件偏移应被设置为其当前位置加上 <i>offset</i>。</p>
+</li>
+<li>
+<p>如果 <i>whence</i> 为 SEEK_END，文件偏移应被设置为文件大小加上 <i>offset</i>。</p>
+</li>
+<li>
+<p>如果 <i>whence</i> 为 SEEK_HOLE，文件偏移应被设置为洞内一个字节的最小位置且不小于 <i>offset</i>，除非如果 <i>offset</i> 落在不在洞内的最后一个字节之后，那么文件偏移可以改为被设置为文件大小。如果 <i>offset</i> 大于或等于文件大小，则应是错误。</p>
+</li>
+<li>
+<p>如果 <i>whence</i> 为 SEEK_DATA，文件偏移应被设置为不在洞内的一个字节的最小位置且不小于 <i>offset</i>。如果不存在这样的字节，则应是错误。</p>
+</li>
+</ul>
+<p>符号常量 SEEK_SET、SEEK_CUR、SEEK_END、SEEK_HOLE 和 SEEK_DATA 在 &lt;unistd.h&gt; 中定义。</p>
+<p>洞是文件内一个连续的字节区域，其所有字节的值都为零。并非所有值为零的字节都需要属于洞；然而，所有可寻址（seekable）的文件应具有一个从文件当前大小开始的虚拟洞，无论该文件是否是稀疏的。</p>
+<p><i>lseek</i>() 在无法寻址的设备上的行为是实现定义的。与这种设备关联的文件偏移的值是未定义的。</p>
+<p><i>lseek</i>() 函数应允许文件偏移被设置到文件中现有数据末尾之外。如果稍后在此位置写入数据，那么在数据实际写入间隙之前，后续对间隙中数据的读取应返回值为 0 的字节。</p>
+<p><i>lseek</i>() 函数本身不应扩展文件的大小。</p>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用共享内存对象，<i>lseek</i>() 函数的结果是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用类型化内存对象，<i>lseek</i>() 函数的结果是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_321_04" id="tag_17_321_04"></a><h4>返回值</h4>
+<blockquote>
+<p>成功完成时，应返回结果偏移（以距文件开头字节数计）。否则，应返回 -1，<i>errno</i> 应被设为指示错误，且文件偏移应保持不变。</p>
+</blockquote>
+<a name="tag_17_321_05" id="tag_17_321_05"></a><h4>错误</h4>
+<blockquote>
+<p>如果以下情况，<i>lseek</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是一个打开的文件描述符。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>whence</i> 参数不是一个合适的值，或者对于普通文件、块特殊文件或目录，结果文件偏移将为负值。</dd>
+<dt>[ENXIO]</dt>
+<dd><i>whence</i> 参数为 SEEK_HOLE 或 SEEK_DATA，且 <i>offset</i> 大于或等于文件大小；或者 <i>whence</i> 参数为 SEEK_DATA 且偏移落在不在洞内的最后一个字节之后。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>结果文件偏移将是一个无法在 <b>off_t</b> 类型的对象中正确表示的值。</dd>
+<dt>[ESPIPE]</dt>
+<dd><i>fildes</i> 参数与管道、FIFO 或套接字关联。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_321_06" id="tag_17_321_06"></a><h4>示例</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_321_07" id="tag_17_321_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_321_08" id="tag_17_321_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>ISO C 标准包含函数 fgetpos() 和 fsetpos()，它们通过使用一种特殊的定位类型来处理非常大的文件。</p>
+<p>虽然 <i>lseek</i>() 可以将文件偏移定位到文件末尾之外，但该函数本身不扩展文件的大小。虽然 POSIX.1-2024 中可以直接扩展文件大小的唯一函数是 write()、truncate() 和 ftruncate()，但若干最初源自 ISO C 标准的函数，如 fwrite()、fprintf() 等等，也可以做到（通过引起对 write() 的调用）。</p>
+<p>会导致返回 [EINVAL] 的无效文件偏移可能既是实现定义的又是设备相关的（例如，内存可能很少有无效值）。在某些实现中，负文件偏移对于某些设备可能是有效的。</p>
+<p>POSIX.1-1990 标准没有专门禁止 <i>lseek</i>() 返回负偏移。因此，要求应用程序在调用前清除 <i>errno</i> 并在返回时检查 <i>errno</i>，以确定返回值 (<b>off_t</b>)-1 是负偏移还是错误条件的指示。标准制定者不希望要求符合的应用程序采取这一行动，并选择要求当对于普通文件、块特殊文件或目录结果文件偏移将为负值时，<i>errno</i> 被设为 [EINVAL]。</p>
+<p>并非所有文件系统都支持洞，即使支持稀疏文件的地方，也不要求所有连续的零字节块都被识别为洞。然而，由于要求所有文件具有从当前文件大小开始的虚拟洞，应用程序编写者可以使用 SEEK_HOLE 和 SEEK_DATA 来优化当已知一个字节块全为零时可以运行得更快的算法，因为非稀疏文件将正确地报告整个文件为单个非洞。对于这两个常量，一个简单的递归实现如下，然而，对于支持稀疏文件的文件系统，鼓励实现做得更好。</p>
+<pre><code class="language-plaintext">off_t lseek(int fildes, off_t offset, int whence)
+{
+    off_t cur, end;
+    switch (whence)
+    {
+    case SEEK_HOLE:
+    case SEEK_DATA:
+        cur = lseek(fildes, 0, SEEK_CUR);
+        if (cur &lt; 0)
+            return cur;
+        end = lseek(fildes, 0, SEEK_END);
+        if (end &lt; 0)
+            return end;
+        if (offset &lt; end)
+            return whence == SEEK_HOLE ?
+                end : lseek(fildes, offset, SEEK_SET);
+        lseek(fildes, cur, SEEK_SET);
+        errno = ENXIO;
+        return -1;
+    default:
+        ... /* Existing implementation */
+    }
+}</code></pre>
+<p>注意，虽然上面看起来像用户空间代码，但 <i>lseek</i>() 不能通过用户空间中的递归调用实现，因为这不符合作业 2.9.7 线程与文件操作的交互 (Thread Interactions with File Operations) 中的原子性要求。</p>
+</blockquote>
+<a name="tag_17_321_09" id="tag_17_321_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_321_10" id="tag_17_321_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>open()</p>
+<p>XBD &lt;sys/types.h&gt;, &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_321_11" id="tag_17_321_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 1。衍生自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_321_12" id="tag_17_321_12"></a><h4>Issue 5</h4>
+<blockquote>
+<p>DESCRIPTION 已更新以与 POSIX 实时扩展对齐。</p>
+<p>添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_321_13" id="tag_17_321_13"></a><h4>Issue 6</h4>
+<blockquote>
+<p>在 SYNOPSIS 中，移除了对 &lt;sys/types.h&gt; 头的可选包含。</p>
+<p>以下对 POSIX 实现的新要求源自与 Single UNIX Specification 的对齐：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然 &lt;sys/types.h&gt; 对于先前 POSIX 规范的符合实现是必需的，但对 UNIX 应用程序并非必需。</p>
+</li>
+<li>
+<p>添加了 [EOVERFLOW] 错误条件。此更改是为了支持大文件。</p>
+</li>
+</ul>
+<p>为套接字添加了额外的 [ESPIPE] 错误条件。</p>
+<p>DESCRIPTION 已更新以与 IEEE Std 1003.1j-2000 对齐，指定 <i>lseek</i>() 对于类型化内存对象的结果是未指定的。</p>
+</blockquote>
+<a name="tag_17_321_14" id="tag_17_321_14"></a><h4>Issue 7</h4>
+<blockquote>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0366 [421]。</p>
+</blockquote>
+<a name="tag_17_321_15" id="tag_17_321_15"></a><h4>Issue 8</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 415，添加了 SEEK_HOLE 和 SEEK_DATA。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -1,0 +1,96 @@
+<h1>XSH 函数：free()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="free" id="free"></a> <a name="tag_17_181" id="tag_17_181"></a>
+<a name="tag_17_181_01" id="tag_17_181_01"></a><h4>名称 (NAME)</h4>
+<blockquote>free — 释放已分配的内存</blockquote>
+<a name="tag_17_181_02" id="tag_17_181_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+void free(void *</code><i>ptr</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_181_03" id="tag_17_181_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>free</i>() 函数应使 <i>ptr</i> 所指向的空间被释放；即，使其可供进一步分配。若 <i>ptr</i> 是空指针，则不应发生任何操作。否则，若该参数与先前由 aligned_alloc()、calloc()、malloc()、 <sup>[ADV]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> posix_memalign()、<img src="../images/opt-end.gif" alt="[Option End]"> realloc()、 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> reallocarray() 或 POSIX.1-2024 中按 malloc() 的方式分配内存的函数返回的指针不匹配，<img src="../images/opt-end.gif" alt="[Option End]"> 或者该空间已通过调用 <i>free</i>()、<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> reallocarray()、<img src="../images/opt-end.gif" alt="[Option End]"> 或 realloc() 被释放，则行为未定义。</p>
+<p>对指向已释放空间的指针的任何使用都会导致未定义行为。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 若 <i>ptr</i> 是空指针，或是先前按 malloc() 的方式返回且尚未被释放的指针，则 <i>free</i>() 函数不应修改 <i>errno</i>。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>为确定数据竞争是否存在，<i>free</i>() 应表现得如同只访问了通过其参数可访问的内存位置，而不访问其他静态存储期存储。但该函数可以明显地修改其释放的存储。分配或释放特定内存区域的 aligned_alloc()、calloc()、<i>free</i>()、malloc()、<sup>[ADV]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> posix_memalign()、<img src="../images/opt-end.gif" alt="[Option End]">  <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> reallocarray()、<img src="../images/opt-end.gif" alt="[Option End]"> 以及 realloc() 调用应按单一全序发生（参见 XBD 4.15.1 内存排序），并且每次此类释放调用应与此顺序中的下一次分配（若有）同步。</p>
+</blockquote>
+<a name="tag_17_181_04" id="tag_17_181_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p><i>free</i>() 函数不应返回值。</p>
+</blockquote>
+<a name="tag_17_181_05" id="tag_17_181_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_181_06" id="tag_17_181_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_181_07" id="tag_17_181_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>现在不再要求实现支持包含 <i>&lt;malloc.h&gt;</i>。</p>
+<p>由于 <i>free</i>() 函数对有效指针不修改 <i>errno</i>，因此在清理代码中使用它是安全的，不会破坏先前的错误，例如在以下示例代码中：</p>
+<pre><code class="language-plaintext">// buf was obtained by malloc(buflen)
+    ret = write(fd, buf, buflen);
+    if (ret &lt; 0) {
+        free(buf);
+        return ret;
+    }</code></pre>
+<p>但是，本标准的早期版本不要求这样做，并且同一示例必须写成：</p>
+<pre><code class="language-plaintext">// buf was obtained by malloc(buflen)
+    ret = write(fd, buf, buflen);
+    if (ret &lt; 0) {
+        int save = errno;
+        free(buf);
+        errno = save;
+        return ret;
+    }</code></pre></blockquote>
+<a name="tag_17_181_08" id="tag_17_181_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_181_09" id="tag_17_181_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_181_10" id="tag_17_181_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>aligned_alloc(), calloc() , malloc(), posix_memalign() , realloc()</p>
+<p>XBD &lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_181_11" id="tag_17_181_11"></a><h4>更改历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 第 1 版。</p>
+</blockquote>
+<a name="tag_17_181_12" id="tag_17_181_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>删除了对 <i>valloc</i>() 函数的引用。</p>
+</blockquote>
+<a name="tag_17_181_13" id="tag_17_181_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>更新了 DESCRIPTION，以澄清如果返回的指针不是由按 malloc() 的方式分配内存的函数返回的，则行为未定义。</p>
+</blockquote>
+<a name="tag_17_181_14" id="tag_17_181_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 385，增加了一项要求：当传入指向可释放对象的指针时，<i>free</i>() 不修改 <i>errno</i>。</p>
+<p>应用了 Austin Group 缺陷 1218，增加了 reallocarray()。</p>
+<p>应用了 Austin Group 缺陷 1302，使此函数与 ISO/IEC 9899:2018 标准对齐。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

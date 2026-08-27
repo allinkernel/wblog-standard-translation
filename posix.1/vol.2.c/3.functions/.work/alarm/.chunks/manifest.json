@@ -1,0 +1,832 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_17_01\" id=\"tag_17_17_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "alarm — schedule an alarm signal",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_17_02\" id=\"tag_17_17_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nunsigned alarm(unsigned</tt> <i>seconds</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_17_03\" id=\"tag_17_17_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]alarm[/I5]() function shall cause the system to generate a SIGALRM signal for the process after the number of realtime\nseconds specified by [I6]seconds[/I6] have elapsed. Processor scheduling delays may prevent the process from handling the signal as\nsoon as it is generated.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "If [I7]seconds[/I7] is 0, a pending alarm request, if any, is canceled.",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     5
+    ],
+    "text": "Alarm requests are not stacked; only one SIGALRM generation can be scheduled in this manner. If the SIGALRM signal has not yet\nbeen generated, the call shall result in rescheduling the time at which the SIGALRM signal is generated.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00009",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A8][/A8]RETURN VALUE",
+    "placeholders": {
+     "A8": {
+      "open": "<a name=\"tag_17_17_04\" id=\"tag_17_17_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "If there is a previous [I9]alarm[/I9]() request with time remaining, [I10]alarm[/I10]() shall return a non-zero value that is the\nnumber of seconds until the previous request would have generated a SIGALRM signal. Otherwise, [I11]alarm[/I11]() shall return 0.",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00011",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A12][/A12]ERRORS",
+    "placeholders": {
+     "A12": {
+      "open": "<a name=\"tag_17_17_05\" id=\"tag_17_17_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I13]alarm[/I13]() function is always successful, and no return value is reserved to indicate an error.",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A14][/A14]EXAMPLES",
+    "placeholders": {
+     "A14": {
+      "open": "<a name=\"tag_17_17_06\" id=\"tag_17_17_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A15][/A15]APPLICATION USAGE",
+    "placeholders": {
+     "A15": {
+      "open": "<a name=\"tag_17_17_07\" id=\"tag_17_17_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "The [A16][I17]fork[/I17]()[/A16] function clears pending alarms in the child process. A new process image\ncreated by one of the [I18][A19]exec[/A19][/I18] functions inherits the time left to an alarm signal in the\nimage of the old process.",
+    "placeholders": {
+     "A16": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     3
+    ],
+    "text": "Application developers should note that the type of the argument [I20]seconds[/I20] and the return value of [I21]alarm[/I21]() is\n[B22]unsigned[/B22]. That means that a Strictly Conforming POSIX System Interfaces Application cannot pass a value greater than the\nminimum guaranteed value for {UINT_MAX}, which the ISO&nbsp;C standard sets as 65535, and any application passing a larger value is\nrestricting its portability. A different type was considered, but historical implementations, including those with a 16-bit\n[B23]int[/B23] type, consistently use either [B24]unsigned[/B24] or [B25]int[/B25].",
+    "placeholders": {
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B22": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B23": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B24": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B25": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     5
+    ],
+    "text": "Application developers should be aware of possible interactions when the same process uses both the [I26]alarm[/I26]() and [A27][I28]sleep[/I28]()[/A27] functions.",
+    "placeholders": {
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A27": {
+      "open": "<a href=\"../functions/sleep.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00019",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A29][/A29]RATIONALE",
+    "placeholders": {
+     "A29": {
+      "open": "<a name=\"tag_17_17_08\" id=\"tag_17_17_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "Many historical implementations (including Version 7 and System V) allow an alarm to occur up to a second early. Other\nimplementations allow alarms up to half a second or one clock tick early or do not allow them to occur early at all. The latter is\nconsidered most appropriate, since it gives the most predictable behavior, especially since the signal can always be delayed for an\nindefinite amount of time due to scheduling. Applications can thus choose the [I30]seconds[/I30] argument as the minimum amount of time\nthey wish to have elapse before the signal.",
+    "placeholders": {
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     3
+    ],
+    "text": "The term &quot;realtime&quot; here and elsewhere ([A31][I32]sleep[/I32]()[/A31], [A33][I34]times[/I34]()[/A33]) is intended to mean &quot;wall clock&quot; time as common English usage, and has nothing to\ndo with &quot;realtime operating systems&quot;. It is in contrast to [I35]virtual time[/I35], which could be misinterpreted if just [I36]time[/I36]\nwere used.",
+    "placeholders": {
+     "A31": {
+      "open": "<a href=\"../functions/sleep.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A33": {
+      "open": "<a href=\"../functions/times.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     5
+    ],
+    "text": "In some implementations, including 4.3 BSD, very large values of the [I37]seconds[/I37] argument are silently rounded down to an\nimplementation-specific maximum value. This maximum is large enough (to the order of several months) that the effect is not\nnoticeable.",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     7
+    ],
+    "text": "There were two possible choices for alarm generation in multi-threaded applications: generation for the calling thread or\ngeneration for the process. The first option would not have been particularly useful since the alarm state is maintained on a\nper-process basis and the alarm that is established by the last invocation of [I38]alarm[/I38]() is the only one that would be\nactive.",
+    "placeholders": {
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     9
+    ],
+    "text": "Furthermore, allowing generation of an asynchronous signal for a thread would have introduced an exception to the overall signal\nmodel. This requires a compelling reason in order to be justified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00025",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A39][/A39]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A39": {
+      "open": "<a name=\"tag_17_17_09\" id=\"tag_17_17_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00027",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A40][/A40]SEE ALSO",
+    "placeholders": {
+     "A40": {
+      "open": "<a name=\"tag_17_17_10\" id=\"tag_17_17_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A41]alarm[/A41], [A42][/A42][A43]exec[/A43], [A44][I45]fork[/I45]()[/A44], [A46][I47]pause[/I47]()[/A46], [A48][I49]sigaction[/I49]()[/A48], [A50][I51]sleep[/I51]()[/A50], [A52][I53]timer_create[/I53]()[/A52]",
+    "placeholders": {
+     "A41": {
+      "open": "<a href=\"#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A42": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A44": {
+      "open": "<a href=\"../functions/fork.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A46": {
+      "open": "<a href=\"../functions/pause.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A48": {
+      "open": "<a href=\"../functions/sigaction.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A50": {
+      "open": "<a href=\"../functions/sleep.html#tag_17_562\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A52": {
+      "open": "<a href=\"../functions/timer_create.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A54][I55]&lt;signal.h&gt;[/I55][/A54], [A56][I57]&lt;unistd.h&gt;[/I57][/A56]",
+    "placeholders": {
+     "A54": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A56": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A58][/A58]CHANGE HISTORY",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_17_11\" id=\"tag_17_17_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A59][/A59]Issue 6",
+    "placeholders": {
+     "A59": {
+      "open": "<a name=\"tag_17_17_12\" id=\"tag_17_17_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3,
+     1,
+     1
+    ],
+    "text": "The DESCRIPTION is updated to indicate that interactions with the [I60]setitimer[/I60](), [I61]ualarm[/I61](), and [I62]usleep[/I62]()\nfunctions are unspecified.",
+    "placeholders": {
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     5
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/16 is applied, replacing &quot;an implementation-defined maximum\nvalue&quot; with &quot;an implementation-specific maximum value&quot; in the RATIONALE.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A63][/A63]Issue 8",
+    "placeholders": {
+     "A63": {
+      "open": "<a name=\"tag_17_17_13\" id=\"tag_17_17_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

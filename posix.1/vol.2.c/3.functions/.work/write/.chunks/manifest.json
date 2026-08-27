@@ -1,0 +1,3917 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_699_01\" id=\"tag_17_699_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "pwrite, write — write on a file",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_699_02\" id=\"tag_17_699_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nssize_t pwrite(int</tt> <i>fildes</i><tt>, const void *</tt><i>buf</i><tt>, size_t</tt> <i>nbyte</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; off_t</tt> <i>offset</i><tt>);<br>\nssize_t write(int</tt> <i>fildes</i><tt>, const void *</tt><i>buf</i><tt>, size_t</tt> <i>nbyte</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_699_03\" id=\"tag_17_699_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]write[/I5]() function shall attempt to write [I6]nbyte[/I6] bytes from the buffer pointed to by [I7]buf[/I7] to the file\nassociated with the open file descriptor, [I8]fildes[/I8].",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "Before any action described below is taken, and if [I9]nbyte[/I9] is zero and the file is a regular file, the [I10]write[/I10]()\nfunction may detect and return errors as described below. In the absence of errors, or if error detection is not performed, the\n[I11]write[/I11]() function shall return zero and have no other results. If [I12]nbyte[/I12] is zero and the file is not a regular file,\nthe results are unspecified.",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "On a regular file or other file capable of seeking, the actual writing of data shall proceed from the position in the file\nindicated by the file offset associated with [I13]fildes[/I13]. Before successful return from [I14]write[/I14](), the file offset shall be\nincremented by the number of bytes actually written. On a regular file, if the position of the last byte written is greater than or\nequal to the length of the file, the length of the file shall be set to this position plus one.",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "On a file not capable of seeking, writing shall always take place starting at the current position. The value of a file offset\nassociated with such a device is undefined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If the O_APPEND flag of the file status flags is set, the file offset shall be set to the end of the file prior to each write\nand no intervening file modification operation shall occur between changing the file offset and the write operation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If a [I15]write[/I15]() requests that more bytes be written than there is room for (for example, the file size limit of the process\nor the physical end of a medium), only as many bytes as there is room for shall be written. For example, suppose there is space for\n20 bytes more in a file before reaching a limit. A write of 512 bytes will return 20. The next write of a non-zero number of bytes\nwould give a failure return (except as noted below).",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "If the request would cause the file size to exceed the soft file size limit for the process and there is no room for any bytes\nto be written, the request shall fail [S16][[A17]XSI[/A17]][/S16] [IMG18] &nbsp;and the implementation shall generate a SIGXFSZ signal for the thread. [IMG19]",
+    "placeholders": {
+     "S16": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A17": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG18": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG19": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "If [I20]write[/I20]() is interrupted by a signal before it writes any data, it shall return -1 with [I21]errno[/I21] set to [EINTR].",
+    "placeholders": {
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "If [I22]write[/I22]() is interrupted by a signal after it successfully writes some data, it shall return the number of bytes\nwritten.",
+    "placeholders": {
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "If the value of [I23]nbyte[/I23] is greater than {SSIZE_MAX}, the result is implementation-defined.",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "After a [I24]write[/I24]() to a regular file has successfully returned:",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     1,
+     1
+    ],
+    "text": "Any successful [A25][I26]read[/I26]()[/A25] from each byte position in the file that was modified by that\nwrite shall return the data specified by the [I27]write[/I27]() for that position until such byte positions are again modified.",
+    "placeholders": {
+     "A25": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     3,
+     1
+    ],
+    "text": "Any subsequent successful [I28]write[/I28]() to the same byte position in the file shall overwrite that file data.",
+    "placeholders": {
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "Write requests to a pipe or FIFO shall be handled in the same way as a regular file with the following exceptions:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     1,
+     1
+    ],
+    "text": "There is no file offset associated with a pipe or FIFO, hence each write request shall append to the end of the pipe or\nFIFO.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     3,
+     1
+    ],
+    "text": "Write requests of {PIPE_BUF} bytes or less shall not be interleaved with data from other threads performing write operations on\nthe same pipe or FIFO. Writes of greater than {PIPE_BUF} bytes may have data interleaved, on arbitrary boundaries, with write\noperations by other threads, whether or not the O_NONBLOCK flag of the file status flags is set.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     5,
+     1
+    ],
+    "text": "If the O_NONBLOCK flag is clear, a write request may cause the thread to block, but on normal completion it shall return\n[I29]nbyte[/I29].",
+    "placeholders": {
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     7,
+     1
+    ],
+    "text": "If the O_NONBLOCK flag is set, [I30]write[/I30]() requests shall be handled differently, in the following ways:",
+    "placeholders": {
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     7,
+     3,
+     1,
+     1
+    ],
+    "text": "The [I31]write[/I31]() function shall not block the thread.",
+    "placeholders": {
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     7,
+     3,
+     3,
+     1
+    ],
+    "text": "A write request for {PIPE_BUF} or fewer bytes shall have the following effect: if there is sufficient space available in the\npipe or FIFO, [I32]write[/I32]() shall transfer all the data and return the number of bytes requested. Otherwise, [I33]write[/I33]() shall\ntransfer no data and return -1 with [I34]errno[/I34] set to [EAGAIN].",
+    "placeholders": {
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     7,
+     3,
+     5,
+     1
+    ],
+    "text": "A write request for more than {PIPE_BUF} bytes shall cause one of the following:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     7,
+     3,
+     5,
+     3,
+     1,
+     1
+    ],
+    "text": "When at least one byte can be written, transfer what it can and return the number of bytes written. When all data previously\nwritten to the pipe or FIFO is read, it shall transfer at least {PIPE_BUF} bytes.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29,
+     7,
+     3,
+     5,
+     3,
+     3,
+     1
+    ],
+    "text": "When no data can be written, transfer no data, and return -1 with [I35]errno[/I35] set to [EAGAIN].",
+    "placeholders": {
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31
+    ],
+    "text": "When attempting to write to a file descriptor (other than a pipe or FIFO) that supports non-blocking writes and cannot accept\nthe data immediately:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     1,
+     1
+    ],
+    "text": "If the O_NONBLOCK flag is clear, [I36]write[/I36]() shall block the calling thread until the data can be accepted.",
+    "placeholders": {
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33,
+     3,
+     1
+    ],
+    "text": "If the O_NONBLOCK flag is set, [I37]write[/I37]() shall not block the thread. If some data can be written without blocking the\nthread, [I38]write[/I38]() shall write what it can and return the number of bytes written. Otherwise, it shall return -1 and set\n[I39]errno[/I39] to [EAGAIN].",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     35
+    ],
+    "text": "Upon successful completion, where [I40]nbyte[/I40] is greater than 0, [I41]write[/I41]() shall mark for update the last data\nmodification and last file status change timestamps of the file, and if the file is a regular file, the S_ISUID and S_ISGID bits of\nthe file mode may be cleared.",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37
+    ],
+    "text": "For regular files, no data transfer shall occur past the offset maximum established in the open file description associated with\n[I42]fildes[/I42].",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     39
+    ],
+    "text": "If [I43]fildes[/I43] refers to a socket, [I44]write[/I44]() shall be equivalent to [A45][I46]send[/I46]()[/A45]\nwith no flags set.",
+    "placeholders": {
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A45": {
+      "open": "<a href=\"../functions/send.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41
+    ],
+    "text": "[S47][[A48]SIO[/A48]][/S47] [IMG49]\nIf the O_DSYNC bit has been set, write I/O operations on the file descriptor shall complete as defined by synchronized I/O data\nintegrity completion.",
+    "placeholders": {
+     "S47": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A48": {
+      "open": "<a href=\"javascript:open_code(&#x27;SIO&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG49": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     43
+    ],
+    "text": "If the O_SYNC bit has been set, write I/O operations on the file descriptor shall complete as defined by synchronized I/O file\nintegrity completion. [IMG50]",
+    "placeholders": {
+     "IMG50": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     45
+    ],
+    "text": "[S51][[A52]SHM[/A52]][/S51] [IMG53]\nIf [I54]fildes[/I54] refers to a shared memory object, the result of the [I55]write[/I55]() function is unspecified. [IMG56]",
+    "placeholders": {
+     "S51": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A52": {
+      "open": "<a href=\"javascript:open_code(&#x27;SHM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG53": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG56": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47
+    ],
+    "text": "[S57][[A58]TYM[/A58]][/S57] [IMG59]\nIf [I60]fildes[/I60] refers to a typed memory object, the result of the [I61]write[/I61]() function is unspecified. [IMG62]",
+    "placeholders": {
+     "S57": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A58": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG59": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG62": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     49
+    ],
+    "text": "The [I63]pwrite[/I63]() function shall be equivalent to [I64]write[/I64](), except that it writes into a given position and does not\nchange the file offset (regardless of whether O_APPEND is set). The first three arguments to [I65]pwrite[/I65]() are the same as\n[I66]write[/I66]() with the addition of a fourth argument [I67]offset[/I67] for the desired position inside the file. An attempt to perform\na [I68]pwrite[/I68]() on a file that is incapable of seeking shall result in an error.",
+    "placeholders": {
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00040",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A69][/A69]RETURN VALUE",
+    "placeholders": {
+     "A69": {
+      "open": "<a name=\"tag_17_699_04\" id=\"tag_17_699_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, these functions shall return the number of bytes actually written to the file associated with\n[I70]fildes[/I70]. This number shall never be greater than [I71]nbyte[/I71]. Otherwise, -1 shall be returned and [I72]errno[/I72] set to\nindicate the error.",
+    "placeholders": {
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00042",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A73][/A73]ERRORS",
+    "placeholders": {
+     "A73": {
+      "open": "<a name=\"tag_17_699_05\" id=\"tag_17_699_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "These functions shall fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00044",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00045",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The file is neither a pipe, nor a FIFO, nor a socket, the O_NONBLOCK flag is set for the file descriptor, and the thread would\nbe delayed in the [I74]write[/I74]() operation.",
+    "placeholders": {
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00046",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00047",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The [I75]fildes[/I75] argument is not a valid file descriptor open for writing.",
+    "placeholders": {
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00048",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EFBIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00049",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "An attempt was made to write a file that exceeds the implementation-defined maximum file size and there was no room for any\nbytes to be written.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00050",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EFBIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00051",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "An attempt was made to write a file that exceeds the file size limit of the process, and there was no room for any bytes to be\nwritten. [S76][[A77]XSI[/A77]][/S76] [IMG78] &nbsp;A SIGXFSZ signal shall also be generated for the thread. [IMG79]",
+    "placeholders": {
+     "S76": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG78": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG79": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00052",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EFBIG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00053",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "The file is a regular file, [I80]nbyte[/I80] is greater than 0, and the starting position is greater than or equal to the offset\nmaximum established in the open file description associated with [I81]fildes[/I81].",
+    "placeholders": {
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00054",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00055",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "The write operation was terminated due to the receipt of a signal, and no data was transferred.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00056",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00057",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "The process is a member of a background process group attempting to write to its controlling terminal, TOSTOP is set, the\ncalling thread is not blocking SIGTTOU, the process is not ignoring SIGTTOU, and the process group of the process is orphaned. This\nerror may also be returned under implementation-defined conditions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00058",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[ENOSPC]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00059",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "There was no free space remaining on the device containing the file.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I82]pwrite[/I82]() function shall fail if:",
+    "placeholders": {
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00061",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00062",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The file is a regular file or block special file, and the [I83]offset[/I83] argument is negative. The file offset shall remain\nunchanged.",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00063",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[ESPIPE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00064",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "The file is incapable of seeking.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "The [I84]write[/I84]() function shall fail if:",
+    "placeholders": {
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00066",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00067",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "The file is a pipe or FIFO, the O_NONBLOCK flag is set for the file descriptor, and the thread would be delayed in the write\noperation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00068",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     7
+    ],
+    "text": "[EAGAIN] or [EWOULDBLOCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00069",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     9
+    ],
+    "text": "The file is a socket, the O_NONBLOCK flag is set for the file descriptor, and the thread would be delayed in the write\noperation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00070",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     11
+    ],
+    "text": "[ECONNRESET]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00071",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     13
+    ],
+    "text": "A write was attempted on a socket that is not connected.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00072",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     15
+    ],
+    "text": "[EPIPE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00073",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     17
+    ],
+    "text": "An attempt is made to write to a pipe or FIFO that is not open for reading by any process, or that only has one end open. A\nSIGPIPE signal shall also be sent to the thread.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00074",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     19
+    ],
+    "text": "[EPIPE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00075",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     21
+    ],
+    "text": "A write was attempted on a socket that is shut down for writing, or is no longer connected. In the latter case, if the socket\nis of type SOCK_STREAM, a SIGPIPE signal shall also be sent to the thread.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13
+    ],
+    "text": "These functions may fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00077",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     3
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00078",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     5
+    ],
+    "text": "A physical I/O error has occurred.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00079",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     7
+    ],
+    "text": "[ENOBUFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00080",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     9
+    ],
+    "text": "Insufficient resources were available in the system to perform the operation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00081",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     11
+    ],
+    "text": "[ENXIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00082",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     13
+    ],
+    "text": "A request was made of a nonexistent device, or the request was outside the capabilities of the device.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00083",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     17
+    ],
+    "text": "The [I85]write[/I85]() function may fail if:",
+    "placeholders": {
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00084",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00085",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     5
+    ],
+    "text": "A write was attempted on a socket and the calling process does not have appropriate privileges.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00086",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     7
+    ],
+    "text": "[ENETDOWN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00087",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     9
+    ],
+    "text": "A write was attempted on a socket and the local network interface used to reach the destination is down.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00088",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     11
+    ],
+    "text": "[ENETUNREACH]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00089",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     13
+    ],
+    "text": "A write was attempted on a socket and no route to the network is present.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00090",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A86][/A86]EXAMPLES",
+    "placeholders": {
+     "A86": {
+      "open": "<a name=\"tag_17_699_06\" id=\"tag_17_699_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00091",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A87][/A87]Writing from a Buffer",
+    "placeholders": {
+     "A87": {
+      "open": "<a name=\"tag_17_699_06_01\" id=\"tag_17_699_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example writes data from the buffer pointed to by [I88]buf[/I88] to the file associated with the file descriptor\n[I89]fd[/I89].",
+    "placeholders": {
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00093",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A90][/A90]APPLICATION USAGE",
+    "placeholders": {
+     "A90": {
+      "open": "<a name=\"tag_17_699_07\" id=\"tag_17_699_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00094",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00095",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A91][/A91]RATIONALE",
+    "placeholders": {
+     "A91": {
+      "open": "<a name=\"tag_17_699_08\" id=\"tag_17_699_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "See also the RATIONALE section in [A92][I93]read[/I93]()[/A92].",
+    "placeholders": {
+     "A92": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "An attempt to write to a pipe or FIFO has several major characteristics:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     1,
+     1
+    ],
+    "text": "[I94]Atomic/non-atomic[/I94]: A write is atomic if the whole amount written in one operation is not interleaved with data from any\nother thread. This is useful when there are multiple writers sending data to a single reader. Applications need to know how large a\nwrite request can be expected to be performed atomically. This maximum is called {PIPE_BUF}. This volume of POSIX.1-2024 does not\nsay whether write requests for more than {PIPE_BUF} bytes are atomic, but requires that writes of {PIPE_BUF} or fewer bytes shall\nbe atomic.",
+    "placeholders": {
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00099",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     3,
+     1
+    ],
+    "text": "[I95]Blocking/immediate[/I95]: Blocking is only possible with O_NONBLOCK clear. If there is enough space for all the data requested\nto be written immediately, the implementation should do so. Otherwise, the calling thread may block; that is, pause until enough\nspace is available for writing. The effective size of a pipe or FIFO (the maximum amount that can be written in one operation\nwithout blocking) may vary dynamically, depending on the implementation, so it is not possible to specify a fixed value for it.",
+    "placeholders": {
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     1
+    ],
+    "text": "[I96]Complete/partial/deferred[/I96]: A write request:",
+    "placeholders": {
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     5
+    ],
+    "text": "may return:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00102",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     7,
+     3
+    ],
+    "text": "Complete",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00103",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     7,
+     5
+    ],
+    "text": "[I97]ret[/I97]=[I98]nbyte[/I98]",
+    "placeholders": {
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00104",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     7,
+     7
+    ],
+    "text": "Partial",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00105",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     7,
+     9,
+     4
+    ],
+    "text": "This shall never happen if [I99]nbyte[/I99]&lt;={PIPE_BUF}. If it does happen (with [I100]nbyte[/I100]&gt;{PIPE_BUF}), this volume of\nPOSIX.1-2024 does not guarantee atomicity, even if [I101]ret[/I101]&lt;={PIPE_BUF}, because atomicity is guaranteed according to the\namount [I102]requested[/I102], not the amount [I103]written[/I103].",
+    "placeholders": {
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I103": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00106",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     7,
+     11
+    ],
+    "text": "Deferred:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00107",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     7,
+     13,
+     4
+    ],
+    "text": "This error indicates that a later request may succeed. It does not indicate that it [I104]shall[/I104] succeed, even if\n[I105]nbyte[/I105]&lt;={PIPE_BUF}, because if no process reads from the pipe or FIFO, the write never succeeds. An application could\nusefully count the number of times [EAGAIN] is caused by a particular value of [I106]nbyte[/I106]&gt;{PIPE_BUF} and perhaps do later\nwrites with a smaller value, on the assumption that the effective size of the pipe or FIFO may have decreased.",
+    "placeholders": {
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00108",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5,
+     5,
+     9
+    ],
+    "text": "Partial and deferred writes are only possible with O_NONBLOCK set.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00109",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "The relations of these properties are shown in the following tables:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "td_00110",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     3,
+     1
+    ],
+    "text": "[B107]Immediately Writable:[/B107]",
+    "placeholders": {
+     "B107": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 1: [B107]Immediately Writable:[/B"
+   },
+   {
+    "id": "td_00111",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     3,
+     3
+    ],
+    "text": "[B108]None[/B108]",
+    "placeholders": {
+     "B108": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00112",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     3,
+     5
+    ],
+    "text": "[B109]Some[/B109]",
+    "placeholders": {
+     "B109": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00113",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     3,
+     7
+    ],
+    "text": "[I110]nbyte[/I110]",
+    "placeholders": {
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00114",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     5,
+     1
+    ],
+    "text": "[I111]nbyte[/I111]&lt;={PIPE_BUF}",
+    "placeholders": {
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "行 2: [I111]nbyte[/I111]&lt;={PIPE_B"
+   },
+   {
+    "id": "td_00115",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     5,
+     3
+    ],
+    "text": "Atomic blocking [I112]nbyte[/I112]",
+    "placeholders": {
+     "I112": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00116",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     5,
+     5
+    ],
+    "text": "Atomic blocking [I113]nbyte[/I113]",
+    "placeholders": {
+     "I113": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00117",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     5,
+     7
+    ],
+    "text": "Atomic immediate [I114]nbyte[/I114]",
+    "placeholders": {
+     "I114": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00118",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     7,
+     1
+    ],
+    "text": "[I115]nbyte[/I115]&gt;{PIPE_BUF}",
+    "placeholders": {
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "行 3: [I115]nbyte[/I115]&gt;{PIPE_BU"
+   },
+   {
+    "id": "td_00119",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     7,
+     3
+    ],
+    "text": "Blocking [I116]nbyte[/I116]",
+    "placeholders": {
+     "I116": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00120",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     7,
+     5
+    ],
+    "text": "Blocking [I117]nbyte[/I117]",
+    "placeholders": {
+     "I117": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00121",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9,
+     1,
+     7,
+     7
+    ],
+    "text": "Blocking [I118]nbyte[/I118]",
+    "placeholders": {
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00122",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "If the O_NONBLOCK flag is clear, a write request shall block if the amount writable immediately is less than that\nrequested. If the flag is set (by [A119][I120]fcntl[/I120]()[/A119]), a write request shall never block.",
+    "placeholders": {
+     "A119": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00123",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     3,
+     1
+    ],
+    "text": "[B121]Immediately Writable:[/B121]",
+    "placeholders": {
+     "B121": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 1: [B121]Immediately Writable:[/B"
+   },
+   {
+    "id": "td_00124",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     3,
+     3
+    ],
+    "text": "[B122]None[/B122]",
+    "placeholders": {
+     "B122": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00125",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     3,
+     5
+    ],
+    "text": "[B123]Some[/B123]",
+    "placeholders": {
+     "B123": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00126",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     3,
+     7
+    ],
+    "text": "[I124]nbyte[/I124]",
+    "placeholders": {
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00127",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     5,
+     1
+    ],
+    "text": "[I125]nbyte[/I125]&lt;={PIPE_BUF}",
+    "placeholders": {
+     "I125": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "行 2: [I125]nbyte[/I125]&lt;={PIPE_B"
+   },
+   {
+    "id": "td_00128",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     5,
+     3
+    ],
+    "text": "-1, [EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "td_00129",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     5,
+     5
+    ],
+    "text": "-1, [EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "td_00130",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     5,
+     7
+    ],
+    "text": "Atomic [I126]nbyte[/I126]",
+    "placeholders": {
+     "I126": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00131",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     7,
+     1
+    ],
+    "text": "[I127]nbyte[/I127]&gt;{PIPE_BUF}",
+    "placeholders": {
+     "I127": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "行 3: [I127]nbyte[/I127]&gt;{PIPE_BU"
+   },
+   {
+    "id": "td_00132",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     7,
+     3
+    ],
+    "text": "-1, [EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "td_00133",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     7,
+     5
+    ],
+    "text": "&lt;[I128]nbyte[/I128] or -1, [EAGAIN]",
+    "placeholders": {
+     "I128": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00134",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13,
+     1,
+     7,
+     7
+    ],
+    "text": "&lt;=[I129]nbyte[/I129] or -1, [EAGAIN]",
+    "placeholders": {
+     "I129": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00135",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15
+    ],
+    "text": "There is no exception regarding partial writes when O_NONBLOCK is set. With the exception of writing to an empty\npipe or FIFO, this volume of POSIX.1-2024 does not specify exactly when a partial write is performed since that would require\nspecifying internal details of the implementation. Every application should be prepared to handle partial writes when O_NONBLOCK is\nset and the requested amount is greater than {PIPE_BUF}, just as every application should be prepared to handle partial writes on\nother kinds of file descriptors.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00136",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     17
+    ],
+    "text": "The intent of forcing writing at least one byte if any can be written is to assure that each write makes progress\nif there is any room in the pipe or FIFO. If the pipe or FIFO is empty, {PIPE_BUF} bytes must be written; if not, at least some\nprogress must have been made.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00137",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     19
+    ],
+    "text": "Where this volume of POSIX.1-2024 requires -1 to be returned and [I130]errno[/I130] set to [EAGAIN], most historical\nimplementations return zero (with the O_NDELAY flag set, which is the historical predecessor of O_NONBLOCK, but is not itself in\nthis volume of POSIX.1-2024). The error indications in this volume of POSIX.1-2024 were chosen so that an application can\ndistinguish these cases from end-of-file. While [I131]write[/I131]() cannot receive an indication of end-of-file, [A132][I133]read[/I133]()[/A132] can, and the two functions have similar return values. Also, some existing systems (for\nexample, Eighth Edition) permit a write of zero bytes to mean that the reader should get an end-of-file indication; for those\nsystems, a return value of zero from [I134]write[/I134]() indicates a successful write of an end-of-file indication.",
+    "placeholders": {
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A132": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I133": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I134": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00138",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     21
+    ],
+    "text": "Implementations are allowed, but not required, to perform error checking for [I135]write[/I135]() requests of zero\nbytes.",
+    "placeholders": {
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00139",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     23
+    ],
+    "text": "The concept of a {PIPE_MAX} limit (indicating the maximum number of bytes that can be written to a pipe or FIFO in\na single operation) was considered, but rejected, because this concept would unnecessarily limit application writing.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00140",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     25
+    ],
+    "text": "See also the discussion of O_NONBLOCK in [A136][I137]read[/I137]()[/A136].",
+    "placeholders": {
+     "A136": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I137": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00141",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27
+    ],
+    "text": "Writes can be serialized with respect to other reads and writes. If a [A138][I139]read[/I139]()[/A138] of file data can be proven (by any means) to occur after a [I140]write[/I140]() of the data,\nit must reflect that [I141]write[/I141](), even if the calls are made by different threads. A similar requirement applies to multiple\nwrite operations to the same file position. This is needed to guarantee the propagation of data from [I142]write[/I142]() calls to\nsubsequent [A143][I144]read[/I144]()[/A143] calls. This requirement is particularly significant for networked\nfile systems, where some caching schemes violate these semantics.",
+    "placeholders": {
+     "A138": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I139": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I140": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I141": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I142": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A143": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I144": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00142",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     29
+    ],
+    "text": "Note that this is specified in terms of [A145][I146]read[/I146]()[/A145] and [I147]write[/I147](). The\nXSI extensions [A148][I149]readv[/I149]()[/A148] and [A150][I151]writev[/I151]()[/A150] also\nobey these semantics. A new &quot;high-performance&quot; write analog that did not follow these serialization requirements would also be\npermitted by this wording. This volume of POSIX.1-2024 is also silent about any effects of application-level caching (such as that\ndone by [I152]stdio[/I152]).",
+    "placeholders": {
+     "A145": {
+      "open": "<a href=\"../functions/read.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I146": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A148": {
+      "open": "<a href=\"../functions/readv.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I149": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A150": {
+      "open": "<a href=\"../functions/writev.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I151": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I152": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00143",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     31
+    ],
+    "text": "This volume of POSIX.1-2024 does not specify the value of the file offset after an error is returned; there are too\nmany cases. For programming errors, such as [EBADF], the concept is meaningless since no file is involved. For errors that are\ndetected immediately, such as [EAGAIN], clearly the pointer should not change. After an interrupt or hardware error, however, an\nupdated value would be very useful and is the behavior of many implementations.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00144",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     33
+    ],
+    "text": "This volume of POSIX.1-2024 does not specify the behavior of concurrent writes to a regular file from multiple\nthreads, except that each write is atomic (see [A153][I154]2.9.7 Thread Interactions with\nFile Operations[/I154][/A153]). Applications should use some form of concurrency control.",
+    "placeholders": {
+     "A153": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_09_07\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I154": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00145",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     35
+    ],
+    "text": "This volume of POSIX.1-2024 intentionally does not specify any [I155]pwrite[/I155]() errors related to pipes, FIFOs, and\nsockets other than [ESPIPE].",
+    "placeholders": {
+     "I155": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00146",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A156][/A156]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A156": {
+      "open": "<a name=\"tag_17_699_09\" id=\"tag_17_699_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00147",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00148",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A157][/A157]SEE ALSO",
+    "placeholders": {
+     "A157": {
+      "open": "<a name=\"tag_17_699_10\" id=\"tag_17_699_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00149",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A158][I159]chmod[/I159]()[/A158], [A160][I161]creat[/I161]()[/A160],\n[A162][I163]dup[/I163]()[/A162], [A164][I165]fcntl[/I165]()[/A164], [A166][I167]getrlimit[/I167]()[/A166], [A168][I169]lseek[/I169]()[/A168], [A170][I171]open[/I171]()[/A170], [A172][I173]pipe[/I173]()[/A172], [A174][I175]read[/I175]()[/A174], [A176][I177]writev[/I177]()[/A176]",
+    "placeholders": {
+     "A158": {
+      "open": "<a href=\"../functions/chmod.html#tag_17_72\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A160": {
+      "open": "<a href=\"../functions/creat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I161": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A162": {
+      "open": "<a href=\"../functions/dup.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I163": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A164": {
+      "open": "<a href=\"../functions/fcntl.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I165": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A166": {
+      "open": "<a href=\"../functions/getrlimit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I167": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A168": {
+      "open": "<a href=\"../functions/lseek.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I169": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A170": {
+      "open": "<a href=\"../functions/open.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I171": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A172": {
+      "open": "<a href=\"../functions/pipe.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A174": {
+      "open": "<a href=\"../functions/read.html#tag_17_476\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I175": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A176": {
+      "open": "<a href=\"../functions/writev.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I177": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00150",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A178][I179]&lt;limits.h&gt;[/I179][/A178], [A180][I181]&lt;sys/uio.h&gt;[/I181][/A180], [A182][I183]&lt;unistd.h&gt;[/I183][/A182]",
+    "placeholders": {
+     "A178": {
+      "open": "<a href=\"../basedefs/limits.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I179": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A180": {
+      "open": "<a href=\"../basedefs/sys_uio.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I181": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A182": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I183": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00151",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A184][/A184]CHANGE HISTORY",
+    "placeholders": {
+     "A184": {
+      "open": "<a name=\"tag_17_699_11\" id=\"tag_17_699_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00152",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00153",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A185][/A185]Issue 5",
+    "placeholders": {
+     "A185": {
+      "open": "<a name=\"tag_17_699_12\" id=\"tag_17_699_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00154",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00155",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00156",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5
+    ],
+    "text": "The [I186]pwrite[/I186]() function is added.",
+    "placeholders": {
+     "I186": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00157",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A187][/A187]Issue 6",
+    "placeholders": {
+     "A187": {
+      "open": "<a name=\"tag_17_699_13\" id=\"tag_17_699_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00158",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "The DESCRIPTION states that the [I188]write[/I188]() function does not block the thread. Previously this said &quot;process&quot; rather than\n&quot;thread&quot;.",
+    "placeholders": {
+     "I188": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00159",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The DESCRIPTION and ERRORS sections are updated so that references to STREAMS are marked as part of the XSI STREAMS\nOption Group.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00160",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX\nSpecification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00161",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     1
+    ],
+    "text": "The DESCRIPTION now states that if [I189]write[/I189]() is interrupted by a signal after it has successfully written\nsome data, it returns the number of bytes written. In the POSIX.1-1988 standard, it was optional whether [I190]write[/I190]() returned\nthe number of bytes written, or whether it returned -1 with [I191]errno[/I191] set to [EINTR]. This is a FIPS requirement.",
+    "placeholders": {
+     "I189": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I190": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I191": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "li_00162",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     3
+    ],
+    "text": "The following changes are made to support large files:\n\nFor regular files, no data transfer occurs past the offset maximum established in the open file description\nassociated with the [I192]fildes[/I192].\nA second [EFBIG] error condition is added.",
+    "placeholders": {
+     "I192": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "li_00163",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     5
+    ],
+    "text": "The [EIO] error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00164",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     7
+    ],
+    "text": "The [EPIPE] error condition is added for when a pipe has only one end open.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00165",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     9
+    ],
+    "text": "The [ENXIO] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00166",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "Text referring to sockets is added to the DESCRIPTION.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00167",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00168",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13,
+     1
+    ],
+    "text": "The effect of reading zero bytes is clarified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00169",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by specifying that [I193]write[/I193]()\nresults are unspecified for typed memory objects.",
+    "placeholders": {
+     "I193": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00170",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     17
+    ],
+    "text": "The following error conditions are added for operations on sockets: [EAGAIN], [EWOULDBLOCK], [ECONNRESET],\n[ENOTCONN], and [EPIPE].",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00171",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     19
+    ],
+    "text": "The [EIO] error is made optional.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00172",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     21
+    ],
+    "text": "The [ENOBUFS] error is added for sockets.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00173",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     23
+    ],
+    "text": "The following error conditions are added for operations on sockets: [EACCES], [ENETDOWN], and [ENETUNREACH].",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00174",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     25
+    ],
+    "text": "The [A194][I195]writev[/I195]()[/A194] function is split out into a separate reference\npage.",
+    "placeholders": {
+     "A194": {
+      "open": "<a href=\"../functions/writev.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I195": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00175",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     27
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/146 is applied, updating text in the ERRORS section\nfrom &quot;a SIGPIPE signal is generated to the calling process&quot; to &quot;a SIGPIPE signal shall also be sent to the thread&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00176",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     29
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/147 is applied, making a correction to the\nRATIONALE.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00177",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A196][/A196]Issue 7",
+    "placeholders": {
+     "A196": {
+      "open": "<a name=\"tag_17_699_14\" id=\"tag_17_699_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00178",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "The [I197]pwrite[/I197]() function is moved from the XSI option to the Base.",
+    "placeholders": {
+     "I197": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00179",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Functionality relating to the XSI STREAMS option is marked obsolescent.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00180",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "SD5-XSH-ERN-160 is applied, updating the DESCRIPTION to clarify the requirements for the [I198]pwrite[/I198]() function,\nand to change the use of the phrase &quot;file pointer&quot; to &quot;file offset&quot;.",
+    "placeholders": {
+     "I198": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00181",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0742 [219], XSH/TC1-2008/0743 [215], XSH/TC1-2008/0744 [79],\nand XSH/TC1-2008/0745 [215] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00182",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0401 [676,710] and XSH/TC2-2008/0402 [966] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00183",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A199][/A199]Issue 8",
+    "placeholders": {
+     "A199": {
+      "open": "<a name=\"tag_17_699_15\" id=\"tag_17_699_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00184",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 308 is applied, clarifying the handling of [EFBIG] errors.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00185",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00186",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 1430 is applied, clarifying that requirements relating to data interleaving on pipes and FIFOs\napply to write operations in other threads, not just other processes, and changing some uses of &quot;pipe&quot; to &quot;pipe or FIFO&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00187",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defect 1669 is applied, removing XSI shading from part of the [EFBIG] error relating to the file size\nlimit for the process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00188",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

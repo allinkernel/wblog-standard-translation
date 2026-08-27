@@ -1,0 +1,46 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pthread_cond_broadcast, pthread_cond_signal — broadcast or signal a condition
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] These functions shall unblock threads blocked on a condition variable.
+[p_00007] The [I5]pthread_cond_broadcast[/I5]() function shall, as a single atomic operation, determine which threads, if any, are blocked on the specified condition variable [I6]cond[/I6] and unblock all of these threads.
+[p_00008] The [I7]pthread_cond_signal[/I7]() function shall, as a single atomic operation, determine which threads, if any, are blocked on the specified condition variable [I8]cond[/I8] and unblock at least one of these threads.
+[p_00009] If more than one thread is blocked on a condition variable, the scheduling policy shall determine the order in which threads are unblocked. When each thread unblocked as a result of a [I9]pthread_cond_broadcast[/I9]() or [I10]pthread_cond_signal[/I10]() returns from its call to [A11][I12]pthread_cond_clockwait[/I12]()[/A11], [A13][I14]pthread_cond_timedwait[/I14]()[/A13], or [A15][I16]pthread_cond_wait[/I16]()[/A15], the thread shall own the mutex with which it called [A17][I18]pthread_cond_clockwait[/I18]()[/A17], [A19][I20]pthread_cond_timedwait[/I20]()[/A19], or [A21][I22]pthread_cond_wait[/I22]()[/A21]. The thread(s) that are unblocked shall contend for the mutex according to the scheduling policy (if applicable), and as if each had called [A23][I24]pthread_mutex_lock[/I24]()[/A23].
+[p_00010] The [I25]pthread_cond_broadcast[/I25]() or [I26]pthread_cond_signal[/I26]() functions may be called by a thread whether or not it currently owns the mutex that threads calling [A27][I28]pthread_cond_clockwait[/I28]()[/A27], [A29][I30]pthread_cond_timedwait[/I30]()[/A29], or [A31][I32]pthread_cond_wait[/I32]()[/A31] have associated with the condition variable during their waits; however, if predictable scheduling behavior is required, then that mutex shall be locked by the thread calling [I33]pthread_cond_broadcast[/I33]() or [I34]pthread_cond_signal[/I34]().
+[p_00011] The [I35]pthread_cond_broadcast[/I35]() and [I36]pthread_cond_signal[/I36]() functions shall have no effect if they determine that there are no threads blocked on [I37]cond[/I37].
+[p_00012] The behavior is undefined if the value specified by the [I38]cond[/I38] argument to [I39]pthread_cond_broadcast[/I39]() or [I40]pthread_cond_signal[/I40]() does not refer to an initialized condition variable.
+[h4_00013] [A41][/A41]RETURN VALUE
+[p_00014] If successful, the [I42]pthread_cond_broadcast[/I42]() and [I43]pthread_cond_signal[/I43]() functions shall return zero; otherwise, an error number shall be returned to indicate the error.
+[h4_00015] [A44][/A44]ERRORS
+[p_00016] These functions shall not return an error code of [EINTR].
+[h4_00017] [A45][/A45]EXAMPLES
+[p_00018] None.
+[h4_00019] [A46][/A46]APPLICATION USAGE
+[p_00020] The [I47]pthread_cond_broadcast[/I47]() function is used whenever the shared-variable state has been changed in a way that more than one thread can proceed with its task. Consider a single producer/multiple consumer problem, where the producer can insert multiple items on a list that is accessed one item at a time by the consumers. By calling the [I48]pthread_cond_broadcast[/I48]() function, the producer would notify all consumers that might be waiting, and thereby the application would receive more throughput on a multi-processor. In addition, [I49]pthread_cond_broadcast[/I49]() makes it easier to implement a read-write lock. The [I50]pthread_cond_broadcast[/I50]() function is needed in order to wake up all waiting readers when a writer releases its lock. Finally, the two-phase commit algorithm can use this broadcast function to notify all clients of an impending transaction commit.
+[p_00021] It is not safe to use the [I51]pthread_cond_signal[/I51]() function in a signal handler that is invoked asynchronously. Even if it were safe, there would still be a race between the test of the Boolean [A52][I53]pthread_cond_wait[/I53]()[/A52] that could not be efficiently eliminated.
+[p_00022] Mutexes and condition variables are thus not suitable for releasing a waiting thread by signaling from code running in a signal handler.
+[h4_00023] [A54][/A54]RATIONALE
+[p_00024] If an implementation detects that the value specified by the [I55]cond[/I55] argument to [I56]pthread_cond_broadcast[/I56]() or [I57]pthread_cond_signal[/I57]() does not refer to an initialized condition variable, it is recommended that the function should fail and report an [EINVAL] error.
+[h5_00025] [A58][/A58]Multiple Awakenings by Condition Signal
+[p_00026] On a multi-processor, it may be impossible for an implementation of [I59]pthread_cond_signal[/I59]() to avoid the unblocking of more than one thread blocked on a condition variable. For example, consider the following partial implementation of [A60][I61]pthread_cond_wait[/I61]()[/A60] and [I62]pthread_cond_signal[/I62](), executed by two threads in the order given. One thread is trying to wait on the condition variable, another is concurrently executing [I63]pthread_cond_signal[/I63](), while a third thread is already waiting.
+[p_00027] The effect is that more than one thread can return from its call to [A64][I65]pthread_cond_clockwait[/I65]()[/A64], [A66][I67]pthread_cond_timedwait[/I67]()[/A66], or [A68][I69]pthread_cond_wait[/I69]()[/A68] as a result of one call to [I70]pthread_cond_signal[/I70](). This effect is called &quot;spurious wakeup&quot;. Note that the situation is self-correcting in that the number of threads that are so awakened is finite; for example, the next thread to call [A71][I72]pthread_cond_wait[/I72]()[/A71] after the sequence of events above blocks.
+[p_00028] While this problem could be resolved, the loss of efficiency for a fringe condition that occurs only rarely is unacceptable, especially given that one has to check the predicate associated with a condition variable anyway. Correcting this problem would unnecessarily reduce the degree of concurrency in this basic building block for all higher-level synchronization operations.
+[p_00029] An added benefit of allowing spurious wakeups is that applications are forced to code a predicate-testing-loop around the condition wait. This also makes the application tolerate superfluous condition broadcasts or signals on the same condition variable that may be coded in some other part of the application. The resulting applications are thus more robust. Therefore, POSIX.1-2024 explicitly documents that spurious wakeups may occur.
+[h4_00030] [A73][/A73]FUTURE DIRECTIONS
+[p_00031] None.
+[h4_00032] [A74][/A74]SEE ALSO
+[p_00033] [A75][I76]pthread_cond_clockwait[/I76]()[/A75], [A77][I78]pthread_cond_destroy[/I78]()[/A77]
+[p_00034] XBD [A79][I80]4.15.2 Memory Synchronization[/I80][/A79], [A81][I82]&lt;pthread.h&gt;[/I82][/A81]
+[h4_00035] [A83][/A83]CHANGE HISTORY
+[p_00036] First released in Issue 5. Included for alignment with the POSIX Threads Extension.
+[h4_00037] [A84][/A84]Issue 6
+[p_00038] The [I85]pthread_cond_broadcast[/I85]() and [I86]pthread_cond_signal[/I86]() functions are marked as part of the Threads option.
+[p_00039] The APPLICATION USAGE section is added.
+[h4_00040] [A87][/A87]Issue 7
+[p_00041] The [I88]pthread_cond_broadcast[/I88]() and [I89]pthread_cond_signal[/I89]() functions are moved from the Threads option to the Base.
+[p_00042] The [EINVAL] error for an uninitialized condition variable is removed; this condition results in undefined behavior.
+[h4_00043] [A90][/A90]Issue 8
+[p_00044] Austin Group Defect 609 is applied, adding atomicity requirements.
+[p_00045] Austin Group Defect 1216 is applied, adding [A91][I92]pthread_cond_clockwait[/I92]()[/A91].
+[p_00046] &nbsp;

@@ -1,0 +1,1412 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_461_01\" id=\"tag_17_461_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "pthread_sigmask, sigprocmask — examine and change blocked signals",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_461_02\" id=\"tag_17_461_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00004",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     17
+    ],
+    "text": "[CODE3]\n[CODE4]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt><sup>[<a href=\"javascript:open_code('CX')\">CX</a>]</sup> <img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\"> #include &lt;<a href=\"../basedefs/signal.h.html\">signal.h</a>&gt;<br>\n<br>\nint pthread_sigmask(int</tt> <i>how</i><tt>, const sigset_t *restrict</tt> <i>set</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sigset_t *restrict</tt> <i>oset</i><tt>);<br>\nint sigprocmask(int</tt> <i>how</i><tt>, const sigset_t *restrict</tt> <i>set</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sigset_t *restrict</tt> <i>oset</i><tt>); <img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\"></tt></code>"
+     },
+     "CODE4": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt><br></tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A5][/A5]DESCRIPTION",
+    "placeholders": {
+     "A5": {
+      "open": "<a name=\"tag_17_461_03\" id=\"tag_17_461_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I6]pthread_sigmask[/I6]() function shall examine or change (or both) the calling thread's signal mask.",
+    "placeholders": {
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "If the argument [I7]set[/I7] is not a null pointer, it points to a set of signals to be used to change the currently blocked\nset.",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The argument [I8]how[/I8] indicates the way in which the set is changed, and the application shall ensure it consists of one of\nthe following values:",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00009",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     3
+    ],
+    "text": "SIG_BLOCK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00010",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     5
+    ],
+    "text": "The resulting set shall be the union of the current set and the signal set pointed to by [I9]set[/I9].",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00011",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     7
+    ],
+    "text": "SIG_SETMASK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00012",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     9
+    ],
+    "text": "The resulting set shall be the signal set pointed to by [I10]set[/I10].",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00013",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     11
+    ],
+    "text": "SIG_UNBLOCK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00014",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7,
+     13
+    ],
+    "text": "The resulting set shall be the intersection of the current set and the complement of the signal set pointed to by\n[I11]set[/I11].",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If the argument [I12]oset[/I12] is not a null pointer, the previous mask shall be stored in the location pointed to by [I13]oset[/I13].\nIf [I14]set[/I14] is a null pointer, the value of the argument [I15]how[/I15] is not significant and the thread's signal mask shall be\nunchanged; thus the call can be used to enquire about currently blocked signals.",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If the argument [I16]set[/I16] is not a null pointer, after [I17]pthread_sigmask[/I17]() changes the currently blocked set of signals it\nshall determine whether there are any pending unblocked signals; if there are any, then at least one of those signals shall be\ndelivered before the call to [I18]pthread_sigmask[/I18]() returns.",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "It is not possible to block those signals which cannot be ignored. This shall be enforced by the system without causing an error\nto be indicated.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "If any of the SIGFPE, SIGILL, SIGSEGV, or SIGBUS signals are generated while they are blocked, the result is undefined, unless\nthe signal was generated by the action of another process, or by one of the functions [A19][I20]kill[/I20]()[/A19], [A21][I22]pthread_kill[/I22]()[/A21], [A23][I24]raise[/I24]()[/A23], or [A25][I26]sigqueue[/I26]()[/A25].",
+    "placeholders": {
+     "A19": {
+      "open": "<a href=\"../functions/kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/pthread_kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A23": {
+      "open": "<a href=\"../functions/raise.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"../functions/sigqueue.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "If [I27]pthread_sigmask[/I27]() fails, the thread's signal mask shall not be changed.",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "The [I28]sigprocmask[/I28]() function shall be equivalent to [I29]pthread_sigmask[/I29](), except that its behavior is unspecified if\ncalled from a multi-threaded process, and on error it returns -1 and sets [I30]errno[/I30] to the error number instead of returning the\nerror number directly.",
+    "placeholders": {
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00021",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A31][/A31]RETURN VALUE",
+    "placeholders": {
+     "A31": {
+      "open": "<a name=\"tag_17_461_04\" id=\"tag_17_461_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I32]pthread_sigmask[/I32]() shall return 0; otherwise, it shall return the corresponding error\nnumber.",
+    "placeholders": {
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3
+    ],
+    "text": "Upon successful completion, [I33]sigprocmask[/I33]() shall return 0; otherwise, -1 shall be returned and [I34]errno[/I34] shall be set\nto indicate the error.",
+    "placeholders": {
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00024",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A35][/A35]ERRORS",
+    "placeholders": {
+     "A35": {
+      "open": "<a name=\"tag_17_461_05\" id=\"tag_17_461_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "These functions shall fail if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The [I36]set[/I36] argument is not a null pointer and the value of the [I37]how[/I37] argument is not equal to one of the defined\nvalues.",
+    "placeholders": {
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "These functions shall not return an error code of [EINTR].",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A38][/A38]EXAMPLES",
+    "placeholders": {
+     "A38": {
+      "open": "<a name=\"tag_17_461_06\" id=\"tag_17_461_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00030",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A39][/A39]Signaling in a Multi-Threaded Process",
+    "placeholders": {
+     "A39": {
+      "open": "<a name=\"tag_17_461_06_01\" id=\"tag_17_461_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "This example shows the use of [I40]pthread_sigmask[/I40]() in order to deal with signals in a multi-threaded process. It provides a\nfairly general framework that could be easily adapted/extended.",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A41][/A41]APPLICATION USAGE",
+    "placeholders": {
+     "A41": {
+      "open": "<a name=\"tag_17_461_07\" id=\"tag_17_461_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Although [I42]pthread_sigmask[/I42]() has to deliver at least one of any pending unblocked signals that exist after it has changed\nthe currently blocked set of signals, there is no requirement that the delivered signal(s) include any that were unblocked by the\nchange. If one or more signals that were already unblocked become pending (see [A43][I44]2.4.1 Signal Generation and Delivery[/I44][/A43]) during the period the\n[I45]pthread_sigmask[/I45]() call is executing, the signal(s) delivered before the call returns might include only those signals.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_04_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A46][/A46]RATIONALE",
+    "placeholders": {
+     "A46": {
+      "open": "<a name=\"tag_17_461_08\" id=\"tag_17_461_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "When a thread's signal mask is changed in a signal-catching function that is installed by [A47][I48]sigaction[/I48]()[/A47], the restoration of the signal mask on return from the signal-catching\nfunction overrides that change (see [A49][I50]sigaction[/I50]()[/A49]). If the signal-catching function\nwas installed with [A51][I52]signal[/I52]()[/A51], it is unspecified whether this occurs.",
+    "placeholders": {
+     "A47": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A49": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A51": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "See [A53][I54]kill[/I54]()[/A53] for a discussion of the requirement on delivery of signals.",
+    "placeholders": {
+     "A53": {
+      "open": "<a href=\"../functions/kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00037",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A55][/A55]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A55": {
+      "open": "<a name=\"tag_17_461_09\" id=\"tag_17_461_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00039",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A56][/A56]SEE ALSO",
+    "placeholders": {
+     "A56": {
+      "open": "<a name=\"tag_17_461_10\" id=\"tag_17_461_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A57][/A57][A58]exec[/A58], [A59][I60]kill[/I60]()[/A59], [A61][I62]sigaction[/I62]()[/A61], [A63][I64]sigaddset[/I64]()[/A63], [A65][I66]sigdelset[/I66]()[/A65], [A67][I68]sigemptyset[/I68]()[/A67], [A69][I70]sigfillset[/I70]()[/A69],\n[A71][I72]sigismember[/I72]()[/A71], [A73][I74]sigpending[/I74]()[/A73]\n, [A75][I76]sigqueue[/I76]()[/A75], [A77][I78]sigsuspend[/I78]()[/A77]",
+    "placeholders": {
+     "A57": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A58": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A59": {
+      "open": "<a href=\"../functions/kill.html#tag_17_296\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A61": {
+      "open": "<a href=\"../functions/sigaction.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A63": {
+      "open": "<a href=\"../functions/sigaddset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A65": {
+      "open": "<a href=\"../functions/sigdelset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A67": {
+      "open": "<a href=\"../functions/sigemptyset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A69": {
+      "open": "<a href=\"../functions/sigfillset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A71": {
+      "open": "<a href=\"../functions/sigismember.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A73": {
+      "open": "<a href=\"../functions/sigpending.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A75": {
+      "open": "<a href=\"../functions/sigqueue.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"../functions/sigsuspend.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A79][I80]&lt;signal.h&gt;[/I80][/A79]",
+    "placeholders": {
+     "A79": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00042",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A81][/A81]CHANGE HISTORY",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_461_11\" id=\"tag_17_461_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 3. Included for alignment with the POSIX.1-1988 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00044",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A82][/A82]Issue 5",
+    "placeholders": {
+     "A82": {
+      "open": "<a name=\"tag_17_461_12\" id=\"tag_17_461_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The [I83]pthread_sigmask[/I83]() function is added for alignment with the POSIX Threads Extension.",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00047",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A84][/A84]Issue 6",
+    "placeholders": {
+     "A84": {
+      "open": "<a name=\"tag_17_461_13\" id=\"tag_17_461_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "The [I85]pthread_sigmask[/I85]() function is marked as part of the Threads option.",
+    "placeholders": {
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The SYNOPSIS for [I86]sigprocmask[/I86]() is marked as a CX extension to note that the presence of this function in the [A87][I88]&lt;signal.h&gt;[/I88][/A87] header is an extension to the ISO&nbsp;C standard.",
+    "placeholders": {
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A87": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The following changes are made for alignment with the ISO&nbsp;POSIX-1:1996 standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     1,
+     1
+    ],
+    "text": "The DESCRIPTION is updated to explicitly state the functions which may generate the signal.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The [B89]restrict[/B89] keyword is added to the [I90]pthread_sigmask[/I90]() and [I91]sigprocmask[/I91]() prototypes for alignment with the\nISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {
+     "B89": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/105 is applied, updating &quot;process' signal mask&quot; to &quot;thread's\nsignal mask&quot; in the DESCRIPTION and RATIONALE sections.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/106 is applied, adding the example to the EXAMPLES section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00056",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A92][/A92]Issue 7",
+    "placeholders": {
+     "A92": {
+      "open": "<a name=\"tag_17_461_14\" id=\"tag_17_461_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "The [I93]pthread_sigmask[/I93]() function is moved from the Threads option to the Base.",
+    "placeholders": {
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0467 [319] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00059",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A94][/A94]Issue 8",
+    "placeholders": {
+     "A94": {
+      "open": "<a name=\"tag_17_461_15\" id=\"tag_17_461_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 1132 is applied, clarifying the [EINVAL] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00061",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1636 is applied, clarifying the exceptions to the equivalence of [I95]pthread_sigmask[/I95]() and\n[I96]sigprocmask[/I96]().",
+    "placeholders": {
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 1731 is applied, clarifying that although [I97]pthread_sigmask[/I97]() has to deliver at least one of any\npending unblocked signals that exist after it has changed the currently blocked set of signals, there is no requirement that the\ndelivered signal(s) include any that were unblocked by the change.",
+    "placeholders": {
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

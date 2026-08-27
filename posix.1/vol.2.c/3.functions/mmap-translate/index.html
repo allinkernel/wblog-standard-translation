@@ -1,0 +1,231 @@
+<h1>XSH 函数：mmap()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="mmap" id="mmap"></a> <a name="tag_17_345" id="tag_17_345"></a>
+<a name="tag_17_345_01" id="tag_17_345_01"></a><h4>名称 (NAME)</h4>
+<blockquote>mmap — 映射内存页</blockquote>
+<a name="tag_17_345_02" id="tag_17_345_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/mman.h&gt;<br>
+<br>
+void *mmap(void *</code><i>addr</i><code>, size_t</code> <i>len</i><code>, int</code> <i>prot</i><code>, int</code> <i>flags</i><code>,<br>
+       int</code> <i>fildes</i><code>, off_t</code> <i>off</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_345_03" id="tag_17_345_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>mmap</i>() 函数应在进程的地址空间与内存对象之间建立映射。</p>
+<p><i>mmap</i>() 函数应支持以下内存对象：</p>
+<ul>
+<li>
+<p>普通文件</p>
+</li>
+<li>
+<p>匿名内存对象</p>
+</li>
+<li>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 共享内存对象 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 类型化内存对象 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+</ul>
+<p>对其他任何类型文件的支持未指定。</p>
+<p>调用的格式如下：</p>
+<pre><code class="language-plaintext">pa=mmap(addr, len, prot, flags, fildes, off);</code></pre>
+<p><i>mmap</i>() 函数应在进程地址空间中地址 <i>pa</i> 起、长度为 <i>len</i> 字节的区域与文件描述符 <i>fildes</i> 所表示的内存对象中偏移 <i>off</i> 起、长度为 <i>len</i> 字节的区域之间建立映射，或与长度为 <i>len</i> 字节的匿名内存对象建立映射。<i>pa</i> 的值是参数 <i>addr</i> 和 <i>flags</i> 值的实现定义函数，下文将进一步描述。成功的 <i>mmap</i>() 调用应将 <i>pa</i> 作为其结果返回。从 <i>pa</i> 开始、长度为 <i>len</i> 字节的地址范围，对于进程可能的（不一定是当前的）地址空间应是合法的。从 <i>off</i> 开始、长度为 <i>len</i> 字节的字节范围，对于 <i>fildes</i> 所表示的内存对象中可能的（不一定是当前的）偏移应是合法的。</p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 若 <i>fildes</i> 表示以 POSIX_TYPED_MEM_ALLOCATE 标志或 POSIX_TYPED_MEM_ALLOCATE_CONTIG 标志打开的类型化内存对象，则要映射的内存对象应是按下文规定由实现分配的那部分类型化内存对象。在这种情况下，若 <i>off</i> 非零，则 <i>mmap</i>() 的行为未定义。若 <i>fildes</i> 引用从调用进程不可访问的有效类型化内存对象，则 <i>mmap</i>() 应失败。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>由 <i>mmap</i>() 建立的映射应替换从 <i>pa</i> 开始、长度为 <i>len</i> 字节的进程地址空间任何部分所在的那些整页上的任何先前映射。</p>
+<p>若在调用 <i>mmap</i>() 之后，由于对被映射文件的其他某种操作而使被映射文件的大小发生变化，则引用映射区域中与文件新增或移除部分相对应的部分所产生的效果未指定。</p>
+<p>若 <i>len</i> 为零，则 <i>mmap</i>() 应失败，且不应建立任何映射。</p>
+<p>参数 <i>prot</i> 确定是否允许对正在映射的数据进行读取、写入、执行或这些访问的某种组合。<i>prot</i> 应为 PROT_NONE，或下表中一个或多个其他标志的按位包含 OR，这些标志定义在 &lt;sys/mman.h&gt; 头文件中。</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p>若实现无法支持 <i>prot</i> 所指定的访问类型组合，则对 <i>mmap</i>() 的调用应失败。</p>
+<p>实现可以允许 <i>prot</i> 所指定之外的访问；但是，实现不应允许在未设置 PROT_WRITE 的情况下写入成功，也不应允许在仅设置 PROT_NONE 的情况下进行任何访问。实现应至少支持以下 <i>prot</i> 值：PROT_NONE、PROT_READ、PROT_WRITE 以及 PROT_READ 和 PROT_WRITE 的按位包含 OR。无论指定何种保护选项，文件描述符 <i>fildes</i> 都应以读权限打开。若指定了 PROT_WRITE，除非按下文所述在 <i>flags</i> 参数中指定了 MAP_PRIVATE，否则应用程序应确保其已以写权限打开文件描述符 <i>fildes</i>。</p>
+<p>参数 <i>flags</i> 提供关于被映射数据处理的其他信息。<i>flags</i> 的值是这些选项的按位包含 OR，定义在 &lt;sys/mman.h&gt; 中：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p>是否应支持 MAP_FIXED 是实现定义的。<sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  在符合 XSI 的系统上应支持 MAP_FIXED。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>MAP_SHARED 和 MAP_PRIVATE 描述对内存对象的写引用的处置方式。若指定了 MAP_SHARED，写引用应更改底层对象。若指定了 MAP_PRIVATE，调用进程对被映射数据的修改应仅对调用进程可见，并且不应更改底层对象。在建立 MAP_PRIVATE 映射之后对底层对象所做的修改是否通过 MAP_PRIVATE 映射可见，未指定。可以指定 MAP_SHARED 或 MAP_PRIVATE 之一，但不能同时指定两者。映射类型在 fork() 之后保持不变。</p>
+<p>当任何进程中包含同步对象的最后一个区域被解除映射时，放置在以 MAP_SHARED 映射的共享内存中的同步对象（如互斥锁、信号量、屏障和条件变量）的状态变为未定义。</p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 当 <i>fildes</i> 表示以 POSIX_TYPED_MEM_ALLOCATE 标志或 POSIX_TYPED_MEM_ALLOCATE_CONTIG 标志打开的类型化内存对象时，若有足够的可用资源，<i>mmap</i>() 应映射从相应类型化内存对象分配的 <i>len</i> 字节，这些字节先前未被任何可能访问该类型化内存对象的处理器中的任何进程分配。若可用资源不足，该函数应失败。若 <i>fildes</i> 表示以 POSIX_TYPED_MEM_ALLOCATE_CONTIG 标志打开的类型化内存对象，则这些已分配的字节在该类型化内存对象内应是连续的。若 <i>fildes</i> 表示以 POSIX_TYPED_MEM_ALLOCATE 标志打开的类型化内存对象，则这些已分配的字节可以由该类型化内存对象内的非连续片段组成。若 <i>fildes</i> 表示既未以 POSIX_TYPED_MEM_ALLOCATE_CONTIG 标志也未以 POSIX_TYPED_MEM_ALLOCATE 标志打开的类型化内存对象，则映射该类型化内存对象内从偏移 <i>off</i> 开始的 <i>len</i> 字节，与映射文件或共享内存对象时完全相同。在这种情况下，若两个进程使用相同的 <i>off</i> 和 <i>len</i> 值并使用引用同一内存池（来自同一端口或不同端口）的文件描述符映射一块类型化内存区域，则两个进程应映射相同的存储区域。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>当在 <i>flags</i> 参数中设置 MAP_FIXED 时，即告知实现 <i>pa</i> 的值应精确等于 <i>addr</i>。若设置了 MAP_FIXED，<i>mmap</i>() 可以返回 MAP_FAILED 并将 <i>errno</i> 设置为 [EINVAL]。若 MAP_FIXED 请求成功，则在建立新映射之前，应移除地址范围 [<i>pa</i>,<i>pa</i>+<i>len</i>) 任何部分所在的那些整页上的任何先前映射 <sup>[ML|MLR]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或内存锁 <img src="../images/opt-end.gif" alt="[Option End]">  ，如同通过适当的 munmap() 调用一样。</p>
+<p>当未设置 MAP_FIXED 时，实现以实现定义的方式使用 <i>addr</i> 得出 <i>pa</i>。如此选定的 <i>pa</i> 应是实现认为适合将 <i>len</i> 字节映射到文件的那部分地址空间。所有实现都将 <i>addr</i> 值 0 解释为赋予实现完全自由来选择 <i>pa</i>，但受下文所述约束限制。<i>addr</i> 的非零值被视为对进程地址的建议，映射应放置在该地址附近。当实现为 <i>pa</i> 选择值时，它绝不会将映射放置在地址 0 处，也不会替换任何现有映射。</p>
+<p>若指定了 MAP_FIXED 且 <i>addr</i> 非零，则 <i>addr</i> 与 <i>off</i> 参数在按 sysconf() 传入 _SC_PAGESIZE 或 _SC_PAGE_SIZE 时返回的页大小取模后应具有相同的余数。实现可以要求 off 是页大小的倍数。若指定了 MAP_FIXED，实现可以要求 <i>addr</i> 是页大小的倍数。系统按整页执行映射操作。因此，虽然参数 <i>len</i> 不必满足大小或对齐约束，但系统应在任何映射操作中包含从 <i>pa</i> 开始、长度为 <i>len</i> 字节的地址范围所指定的任何部分页。</p>
+<p>若指定了 MAP_ANONYMOUS（或其同义词 MAP_ANON）、<i>fildes</i> 为 -1 且 <i>off</i> 为 0，则 <i>mmap</i>() 应忽略 <i>fildes</i>，而是建立到大小为 <i>len</i> 的新匿名内存对象的映射。以其他 <i>fildes</i> 或 <i>off</i> 值指定 MAP_ANONYMOUS（或 MAP_ANON）的效果未指定。匿名内存对象应初始化为所有位均为零。</p>
+<p>系统应始终对对象末尾的任何部分页进行零填充。此外，系统绝不应写出对象最后一页中超出其末尾的任何已修改部分。在从 <i>pa</i> 开始、长度为 <i>len</i> 字节的地址范围内，对对象末尾之后整页的引用应导致传送 SIGBUS 信号。</p>
+<p>当引用会在被映射对象中引起错误（如空间不足情况）时，实现可以产生 SIGBUS 信号。</p>
+<p><i>mmap</i>() 函数应为与文件描述符 <i>fildes</i> 相关联的文件增加一个额外引用，该引用不会因随后对该文件描述符的 close() 而被移除。当不再有对该文件的映射时，应移除该引用。</p>
+<p>被映射文件的最后数据访问时间戳可以在 <i>mmap</i>() 调用与相应的 munmap() 调用之间的任何时间被标记为待更新。对映射区域的首次读或写引用应使文件的最后数据访问时间戳被标记为待更新，如果它尚未被标记为待更新的话。</p>
+<p>以 MAP_SHARED 和 PROT_WRITE 映射的文件的最后数据修改和最后文件状态更改时间戳，应在任何进程对该文件的该部分映射区域的写引用与下一次以 MS_ASYNC 或 MS_SYNC 调用 msync() 之间的某个时刻被标记为待更新。若不存在此类调用，且底层文件因写引用而被修改，则这些时间戳应在写引用之后的某个时间被标记为待更新。</p>
+<p>对可以映射的内存区域数量（每个进程或每个系统）可以存在实现定义的限制。</p>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 若施加了此类限制，则进程可以映射的内存区域数量是否会因使用 shmat() 而减少是实现定义的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>若 <i>mmap</i>() 因 [EBADF]、[EINVAL] 或 [ENOTSUP] 之外的原因失败，则从 <i>addr</i> 开始、长度为 <i>len</i> 字节的地址范围中的某些映射可能已被解除映射。</p>
+</blockquote>
+<a name="tag_17_345_04" id="tag_17_345_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成时，<i>mmap</i>() 函数应返回映射放置处的地址（<i>pa</i>）；否则，它应返回 MAP_FAILED 值并设置 <i>errno</i> 以指示错误。符号 MAP_FAILED 定义在 &lt;sys/mman.h&gt; 头文件中。<i>mmap</i>() 的任何成功返回都不应返回 MAP_FAILED 值。</p>
+</blockquote>
+<a name="tag_17_345_05" id="tag_17_345_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>mmap</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd><sup>[ML]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由于资源不足，无法按 mlockall() 的要求将映射锁定在内存中。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EINVAL]</dt>
+<dd><i>len</i> 的值为零。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>flags</i> 的值无效（既未设置 MAP_PRIVATE 也未设置 MAP_SHARED）。</dd>
+<dt>[EMFILE]</dt>
+<dd>映射区域的数量将超过实现定义的限制（每个进程或每个系统）。</dd>
+<dt>[ENOMEM]</dt>
+<dd>指定了 MAP_FIXED，且范围 [<i>addr</i>,<i>addr</i>+<i>len</i>) 超出进程地址空间所允许的范围；或者，未指定 MAP_FIXED 且地址空间中没有足够空间来实现该映射。</dd>
+<dt>[ENOMEM]</dt>
+<dd><sup>[ML]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由于需要比系统能够提供的更多空间，无法按 mlockall() 的要求将映射锁定在内存中。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ENOMEM]</dt>
+<dd><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>fildes</i> 所指定的类型化内存对象中没有足够的未分配内存资源来分配 <i>len</i> 字节。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ENOTSUP]</dt>
+<dd>MAP_FIXED or MAP_PRIVATE was specified in the <i>flags</i> argument and the implementation does not support this functionality.
+<p>实现不支持 <i>prot</i> 参数中请求的访问组合。</p>
+</dd>
+<dt>[ENXIO]</dt>
+<dd>在 <i>flags</i> 中指定了 MAP_FIXED，且 <i>addr</i>、<i>len</i> 和 <i>off</i> 的组合对指定对象无效。</dd>
+<dt>[ENXIO]</dt>
+<dd><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>fildes</i> 参数引用从调用进程不可访问的类型化内存对象。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p>此外，若未在 flags 中设置 MAP_ANONYMOUS（或 MAP_ANON），则 <i>mmap</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd><i>fildes</i> 参数未以读方式打开（无论指定何种保护），或者 <i>fildes</i> 未以写方式打开且为 MAP_SHARED 类型映射指定了 PROT_WRITE。</dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是有效的已打开文件描述符。</dd>
+<dt>[ENODEV]</dt>
+<dd><i>fildes</i> 参数引用 <i>mmap</i>() 不支持其类型的文件。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>该文件是普通文件，且 <i>off</i> 加 <i>len</i> 的值超过与 <i>fildes</i> 相关联的打开文件描述中确立的偏移最大值。</dd>
+<dt>[ENXIO]</dt>
+<dd>范围 [<i>off</i>,<i>off</i>+<i>len</i>) 内的地址对 <i>fildes</i> 所指定的对象无效。</dd>
+</dl>
+<p><i>mmap</i>() 函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>addr</i> 参数（若指定了 MAP_FIXED）或 <i>off</i> 不是 sysconf() 返回的页大小的倍数，或被实现认为无效。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_345_06" id="tag_17_345_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_345_07" id="tag_17_345_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>使用 <i>mmap</i>() 可能会减少可供其他内存分配函数使用的内存量。</p>
+<p>使用 MAP_FIXED 可能会导致 malloc() 和 shmat() 的进一步使用出现未指定行为。不建议使用 MAP_FIXED，因为它可能会阻止实现最有效地利用资源。大多数实现要求 <i>off</i> 和 <i>addr</i> 是 sysconf() 返回的页大小的倍数。</p>
+<p>应用程序在使用 <i>mmap</i>() 与任何其他文件访问方法（如 read() 和 write()、标准输入/输出以及 shmat()）结合时必须确保正确的同步。</p>
+<p><i>mmap</i>() 函数允许通过地址空间操作来访问资源，而不是 read()/write()。一旦文件被映射，进程要访问它只需使用文件被映射到的地址处的数据。因此，用伪代码说明现有程序可能被改为使用 <i>mmap</i>() 的方式，如下所示：</p>
+<pre><code class="language-plaintext">fildes = open(...)
+lseek(fildes, some_offset)
+read(fildes, buf, len)
+/* Use data in buf. */</code></pre>
+<p>变为：</p>
+<pre><code class="language-plaintext">fildes = open(...)
+address = mmap(0, len, PROT_READ, MAP_PRIVATE, fildes, some_offset)
+/* Use data at address. */</code></pre></blockquote>
+<a name="tag_17_345_08" id="tag_17_345_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>在考虑了其他几种备选方案之后，决定采用 SVR4 中用于将内存对象映射到进程地址空间的 <i>mmap</i>() 定义。SVR4 的定义是最简的，因为它只描述了已实现的内容，以及对于通用且可移植的映射设施而言似乎是必要的内容。</p>
+<p>请注意，虽然 <i>mmap</i>() 最初是为映射文件而设计的，但它实际上是一种通用映射设施。它可以用于将任何适当的对象（如内存、文件、设备等）映射到进程的地址空间中。</p>
+<p>当建立映射时，由于硬件要求，实现可能需要映射比所请求的更多的内容到进程的地址空间中。但是，应用程序不能依赖此行为。不使用分页架构的实现可以简单地分配一个公共内存区域并返回其地址；此类实现可能不会分配超过必要数量的内容。对请求区域末尾之外的引用未指定。</p>
+<p>若应用程序请求的映射与进程中的现有映射重叠，实现检测到这一点并告知应用程序可能是可取的。但是，若程序指定固定地址映射（若该函数得到支持，则需要一些实现知识来确定合适的地址），则可以假定程序正在成功地管理自己的地址空间，并且当其要求在现有数据结构上映射时应予信任。此外，还希望尽可能少地发起系统调用，并且要求在对同一地址范围 <i>mmap</i>() 之前先 munmap() 可能被认为是繁重的。POSIX.1-2024 本卷规定新映射替换任何现有映射（意味着对地址范围自动执行 munmap()），遵循这方面的现有实践。标准开发者还考虑了是否应该有办法让新映射覆盖现有映射，但没有找到这方面的现有实践。</p>
+<p>并不期望所有硬件实现都能在所有地址支持所有权限组合。要求实现禁止对没有写权限的映射进行写访问，并禁止对没有任何访问权限的映射进行访问。除了这些限制之外，实现可以允许应用程序所请求之外的访问类型。例如，若应用程序只请求 PROT_WRITE，实现也可以允许读访问。若实现无法支持允许应用程序请求的所有访问，则对 <i>mmap</i>() 的调用失败。例如，某些实现无法同时支持写访问和执行访问的请求。所有实现都必须支持无访问、读访问、写访问以及读和写访问的请求。严格符合规范的代码必须只依赖所要求的检查。这些限制允许在广泛的硬件上实现可移植性。</p>
+<p>MAP_FIXED 的地址处理对于非页对齐的值和某些依赖架构的地址范围很可能会失败。符合规范的实现不能指望在不利用非可移植的、实现定义的知识的情况下为 MAP_FIXED 选择地址值。尽管如此，MAP_FIXED 仍作为符合现有实践的标准接口提供，以便在可获得此类知识时加以利用。</p>
+<p>类似地，为了允许不支持虚拟地址的实现，不要求支持通过 MAP_FIXED 直接指定任何映射地址，因此符合规范的应用程序不能指望它。</p>
+<p>当有内存保护硬件可用时，MAP_PRIVATE 功能可以得到有效实现。当此类硬件不可用时，实现可以通过简单地将相关数据真实复制到进程私有内存中来实现此类&quot;映射&quot;，尽管这往往表现得类似于 read()。</p>
+<p>定义该函数是为了允许许多不同的共享内存使用模型。但是，并非所有用法在所有机器架构上都具有同等的可移植性。特别是，<i>mmap</i>() 函数允许系统和应用程序指定将内存对象的特定区域映射到的地址。使用该函数最具可移植性的方式始终是让系统选择地址，将 NULL 指定为参数 <i>addr</i> 的值，并且不指定 MAP_FIXED。</p>
+<p>若打算让内存对象的特定区域在一组进程（在甚至可能实现此点的机器上）中以相同地址映射，则可以使用 MAP_FIXED 传入所需的映射地址。如果首次此类映射在不指定 MAP_FIXED 的情况下进行，则仍然可以使用系统来选择所需地址，然后将得到的映射地址传递给后续进程，让它们通过 MAP_FIXED 传入。一般来说，特定地址范围的可用性无法保证。</p>
+<p><i>mmap</i>() 函数可以用于映射比对象当前大小更大的内存区域。在映射内但超出底层对象当前末尾的内存访问可能导致向进程发送 SIGBUS 信号。原因是对象的大小可以被其他进程操纵，并且可以在任何时候改变。在可以检测到内存引用位于对象之外的情况下，实现宜告知应用程序；否则，写入的数据可能会丢失，读取的数据可能无法反映对象中的实际数据。</p>
+<p>请注意，对对象末尾之外的引用不会扩展对象，因为大多数虚拟内存硬件无法精确确定新末尾。相反，可以通过 ftruncate() 直接操纵大小。</p>
+<p>进程内存锁定确实适用于共享内存区域，并且可以依赖 mlockall() 的 MCL_FUTURE 参数使新的共享内存区域被自动锁定。</p>
+<p>现有的 <i>mmap</i>() 实现在不成功时返回值 -1。由于 ISO C 标准无法保证将此值强制转换为 <b>void *</b> 类型后与成功值不同，因此 POSIX.1-2024 本卷定义了符号 MAP_FAILED，符合规范的实现不会将其作为成功调用的结果返回。</p>
+<p>一些历史实现只支持 MAP_ANON，一些只支持 MAP_ANONYMOUS，还有一些支持这两种拼写。本标准包含这两种拼写，部分是为了应用程序兼容性，部分是因为在考虑将此特性纳入标准化时，两种拼写中哪一种更流行并不明显。</p>
+</blockquote>
+<a name="tag_17_345_09" id="tag_17_345_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_345_10" id="tag_17_345_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>exec, fcntl(), fork(), lockf(), msync(), munmap(), mprotect(), posix_typed_mem_open(), shmat() , sysconf()</p>
+<p>XBD &lt;sys/mman.h&gt;</p>
+</blockquote>
+<a name="tag_17_345_11" id="tag_17_345_11"></a><h4>更改历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 4 版第 2 修订版。</p>
+</blockquote>
+<a name="tag_17_345_12" id="tag_17_345_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>从 X/OPEN UNIX 扩展移至 BASE。</p>
+<p>与 POSIX 实时扩展中的 <i>mmap</i>() 对齐，如下所示：</p>
+<ul>
+<li>DESCRIPTION 被广泛改写。</li>
+<li>增加了 [EAGAIN] 和 [ENOTSUP] 强制性错误条件。</li>
+<li>增加了 [ENOMEM] 和 [ENXIO] 的新情况作为强制性错误条件。</li>
+<li>失败时返回的值是常量 MAP_FAILED 的值；此前将其定义为 -1。</li>
+</ul>
+<p>增加了大型文件峰会（Large File Summit）扩展。</p>
+</blockquote>
+<a name="tag_17_345_13" id="tag_17_345_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>mmap</i>() 函数被标记为内存映射文件（Memory Mapped Files）选项的一部分。</p>
+<p>应用了开放组（Open Group）勘误 U028/6，将 (<b>void</b> *)-1 改为 MAP_FAILED。</p>
+<p>以下对 POSIX 实现的新要求源自与单一 UNIX 规范（Single UNIX Specification）的对齐：</p>
+<ul>
+<li>更新了 DESCRIPTION，以描述 MAP_FIXED 的使用。</li>
+<li>更新了 DESCRIPTION，以描述对传递给 <i>mmap</i>() 的文件描述符所关联文件增加额外引用。</li>
+<li>更新了 DESCRIPTION，说明对可以映射的内存区域数量可以存在实现定义的限制。</li>
+<li>更新了 DESCRIPTION，以描述对 <i>off</i> 参数的对齐和大小的约束。</li>
+<li>增加了 [EINVAL] 和 [EMFILE] 错误条件。</li>
+<li>增加了 [EOVERFLOW] 错误条件。此更改是为了支持大文件。</li>
+</ul>
+<br>
+<p>为与 ISO POSIX-1:1996 标准对齐而进行了以下更改：</p>
+<ul>
+<li>更新了 DESCRIPTION，以描述无需支持 MAP_PRIVATE 和 MAP_FIXED 的情况。</li>
+</ul>
+<p>为与 IEEE Std 1003.1j-2000 对齐而进行了以下更改：</p>
+<ul>
+<li>在 DESCRIPTION 中增加了类型化内存对象的语义。</li>
+<li>在 ERRORS 部分中增加了新的 [ENOMEM] 和 [ENXIO] 错误。</li>
+<li>在 SEE ALSO 部分中增加了 posix_typed_mem_open() 函数。</li>
+</ul>
+<p>更新了规范性文本，以避免对应用程序要求使用&quot;必须&quot;一词。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 的条目 XSH/TC1/D6/34，将 SYNOPSIS 中的边缘代码从 MF|SHM 改为 MC3（表示 MF|SHM|TYM 的记号）。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/60，更新 DESCRIPTION 和 ERRORS 部分，以在 <i>len</i> 为零时增加 [EINVAL] 错误。</p>
+</blockquote>
+<a name="tag_17_345_14" id="tag_17_345_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #078 和 #079，澄清了页对齐要求，并增加了关于共享区域被解除映射时同步对象状态变为未定义的说明。</p>
+<p>与内存保护和内存映射文件选项相关的功能移至 Base。</p>
+<p>进行了与细粒度时间戳支持相关的更改。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（XSH/TC2-2008/0229 [852]）。</p>
+</blockquote>
+<a name="tag_17_345_15" id="tag_17_345_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 850，增加了匿名内存对象。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

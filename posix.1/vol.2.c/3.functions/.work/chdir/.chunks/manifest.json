@@ -1,0 +1,850 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_71_01\" id=\"tag_17_71_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "chdir — change working directory",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_71_02\" id=\"tag_17_71_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nint chdir(const char *</tt><i>path</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_71_03\" id=\"tag_17_71_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]chdir[/I5]() function shall cause the directory named by the pathname pointed to by the [I6]path[/I6] argument to become the\ncurrent working directory; that is, the starting point for path searches for pathnames not beginning with [CODE7].",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE7": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'/'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00007",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A8][/A8]RETURN VALUE",
+    "placeholders": {
+     "A8": {
+      "open": "<a name=\"tag_17_71_04\" id=\"tag_17_71_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, 0 shall be returned. Otherwise, -1 shall be returned, the current working directory shall remain\nunchanged, and [I9]errno[/I9] shall be set to indicate the error.",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00009",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A10][/A10]ERRORS",
+    "placeholders": {
+     "A10": {
+      "open": "<a name=\"tag_17_71_05\" id=\"tag_17_71_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I11]chdir[/I11]() function shall fail if:",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00011",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00012",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     5
+    ],
+    "text": "Search permission is denied for any component of the pathname.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00013",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     7
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00014",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     9
+    ],
+    "text": "A loop exists in symbolic links encountered during resolution of the [I12]path[/I12] argument.",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00015",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     11
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00016",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     13
+    ],
+    "text": "The length of a component of a pathname is longer than {NAME_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     15
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00018",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     17
+    ],
+    "text": "A component of [I13]path[/I13] does not name an existing directory or [I14]path[/I14] is an empty string.",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00019",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     19
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00020",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     21
+    ],
+    "text": "A component of the pathname names an existing file that is neither a directory nor a symbolic link to a directory.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     5
+    ],
+    "text": "The [I15]chdir[/I15]() function may fail if:",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     3
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     5
+    ],
+    "text": "More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I16]path[/I16] argument.",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     7
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     9
+    ],
+    "text": "The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00026",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A17][/A17]EXAMPLES",
+    "placeholders": {
+     "A17": {
+      "open": "<a name=\"tag_17_71_06\" id=\"tag_17_71_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00027",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "[A18][/A18]Changing the Current Working Directory",
+    "placeholders": {
+     "A18": {
+      "open": "<a name=\"tag_17_71_06_01\" id=\"tag_17_71_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     3
+    ],
+    "text": "The following example makes the value pointed to by [B19]directory[/B19], [B20]/tmp[/B20], the current working directory.",
+    "placeholders": {
+     "B19": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B20": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A21][/A21]APPLICATION USAGE",
+    "placeholders": {
+     "A21": {
+      "open": "<a name=\"tag_17_71_07\" id=\"tag_17_71_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00031",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A22][/A22]RATIONALE",
+    "placeholders": {
+     "A22": {
+      "open": "<a name=\"tag_17_71_08\" id=\"tag_17_71_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "The [I23]chdir[/I23]() function only affects the working directory of the current process.",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A24][/A24]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A24": {
+      "open": "<a name=\"tag_17_71_09\" id=\"tag_17_71_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00035",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A25][/A25]SEE ALSO",
+    "placeholders": {
+     "A25": {
+      "open": "<a name=\"tag_17_71_10\" id=\"tag_17_71_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A26][I27]getcwd[/I27]()[/A26]",
+    "placeholders": {
+     "A26": {
+      "open": "<a href=\"../functions/getcwd.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A28][I29]&lt;unistd.h&gt;[/I29][/A28]",
+    "placeholders": {
+     "A28": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00038",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A30][/A30]CHANGE HISTORY",
+    "placeholders": {
+     "A30": {
+      "open": "<a name=\"tag_17_71_11\" id=\"tag_17_71_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00040",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A31][/A31]Issue 6",
+    "placeholders": {
+     "A31": {
+      "open": "<a name=\"tag_17_71_12\" id=\"tag_17_71_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "The APPLICATION USAGE section is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     5,
+     1,
+     1
+    ],
+    "text": "The [ELOOP] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     5,
+     3,
+     1
+    ],
+    "text": "A second [ENAMETOOLONG] is added as an optional error condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     7
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     9,
+     1,
+     1
+    ],
+    "text": "The [ELOOP] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00047",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A32][/A32]Issue 7",
+    "placeholders": {
+     "A32": {
+      "open": "<a name=\"tag_17_71_13\" id=\"tag_17_71_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0047 [324] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

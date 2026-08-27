@@ -3,3 +3,4 @@
 input.txt
 input.md
 input/
+__pycache__/

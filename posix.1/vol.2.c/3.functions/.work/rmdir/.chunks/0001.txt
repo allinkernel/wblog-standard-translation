@@ -1,0 +1,75 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] rmdir — remove a directory
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]rmdir[/I5]() function shall remove a directory whose name is given by [I6]path[/I6]. The directory shall be removed only if it is an empty directory.
+[p_00007] If the directory is the root directory or the current working directory of any process, it is unspecified whether the function succeeds, or whether it shall fail and set [I7]errno[/I7] to [EBUSY].
+[p_00008] If [I8]path[/I8] names a symbolic link, then [I9]rmdir[/I9]() shall fail and set [I10]errno[/I10] to [ENOTDIR].
+[p_00009] If the [I11]path[/I11] argument refers to a path whose final component is either dot or dot-dot, [I12]rmdir[/I12]() shall fail.
+[p_00010] If the directory's link count becomes 0 and no process has the directory open, the space occupied by the directory shall be freed and the directory shall no longer be accessible. If one or more processes have the directory open when the last link is removed, the dot and dot-dot entries, if present, shall be removed before [I13]rmdir[/I13]() returns and no new entries may be created in the directory, but the directory shall not be removed until all references to the directory are closed.
+[p_00011] If the directory is not an empty directory, [I14]rmdir[/I14]() shall fail and set [I15]errno[/I15] to [EEXIST] or [ENOTEMPTY].
+[p_00012] Upon successful completion, [I16]rmdir[/I16]() shall mark for update the last data modification and last file status change timestamps of the parent directory.
+[h4_00013] [A17][/A17]RETURN VALUE
+[p_00014] Upon successful completion, the function [I18]rmdir[/I18]() shall return 0. Otherwise, -1 shall be returned, and [I19]errno[/I19] set to indicate the error. If -1 is returned, the named directory shall not be changed.
+[h4_00015] [A20][/A20]ERRORS
+[p_00016] The [I21]rmdir[/I21]() function shall fail if:
+[dt_00017] [EACCES]
+[dd_00018] Search permission is denied on a component of the path prefix, or write permission is denied on the parent directory of the directory to be removed.
+[dt_00019] [EBUSY]
+[dd_00020] The directory to be removed is currently in use by the system or some process and the implementation considers this to be an error.
+[dt_00021] [EEXIST]&nbsp;or&nbsp;[ENOTEMPTY]
+[dd_00022] The [I22]path[/I22] argument names a directory that is not an empty directory, or there are hard links to the directory other than dot or a single entry in dot-dot.
+[dt_00023] [EINVAL]
+[dd_00024] The [I23]path[/I23] argument contains a last component that is dot.
+[dt_00025] [EIO]
+[dd_00026] A physical I/O error has occurred.
+[dt_00027] [ELOOP]
+[dd_00028] A loop exists in symbolic links encountered during resolution of the [I24]path[/I24] argument.
+[dt_00029] [ENAMETOOLONG]
+[dd_00030] The length of a component of a pathname is longer than {NAME_MAX}.
+[dt_00031] [ENOENT]
+[dd_00032] A component of [I25]path[/I25] does not name an existing file, or the [I26]path[/I26] argument names a nonexistent directory or points to an empty string.
+[dt_00033] [ENOTDIR]
+[dd_00034] A component of [I27]path[/I27] names an existing file that is neither a directory nor a symbolic link to a directory.
+[dt_00035] [EPERM]&nbsp;or&nbsp;[EACCES]
+[dd_00036] [S28][[A29]XSI[/A29]][/S28] [IMG30]  The S_ISVTX flag is set on the directory containing the file referred to by the [I31]path[/I31] argument and the process does not satisfy the criteria specified in XBD [A32][I33]4.5 Directory Protection[/I33][/A32]. [IMG34]
+[dt_00037] [EROFS]
+[dd_00038] The directory entry to be removed resides on a read-only file system.
+[p_00039] The [I35]rmdir[/I35]() function may fail if:
+[dt_00040] [ELOOP]
+[dd_00041] More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I36]path[/I36] argument.
+[dt_00042] [ENAMETOOLONG]
+[dd_00043] The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a length that exceeds {PATH_MAX}.
+[h4_00044] [A37][/A37]EXAMPLES
+[h5_00045] [A38][/A38]Removing a Directory
+[p_00046] The following example shows how to remove a directory named [B39]/home/cnd/mod1[/B39].
+[h4_00047] [A40][/A40]APPLICATION USAGE
+[p_00048] None.
+[h4_00049] [A41][/A41]RATIONALE
+[p_00050] The [I42]rmdir[/I42]() and [A43][I44]rename[/I44]()[/A43] functions originated in 4.2 BSD, and they used [ENOTEMPTY] for the condition when the directory to be removed does not exist or [I45]new[/I45] already exists. When the 1984 /usr/group standard was published, it contained [EEXIST] instead. When these functions were adopted into System V, the 1984 /usr/group standard was used as a reference. Therefore, several existing applications and implementations support/use both forms, and no agreement could be reached on either value. All implementations are required to supply both [EEXIST] and [ENOTEMPTY] in [A46][I47]&lt;errno.h&gt;[/I47][/A46] with distinct values, so that applications can use both values in C-language [B48]case[/B48] statements.
+[p_00051] The meaning of deleting [I49]pathname[/I49][B50]/dot[/B50] is unclear, because the name of the file (directory) in the parent directory to be removed is not clear, particularly in the presence of multiple links to a directory.
+[p_00052] The POSIX.1-1990 standard was silent with regard to the behavior of [I51]rmdir[/I51]() when there are multiple hard links to the directory being removed. The requirement to set [I52]errno[/I52] to [EEXIST] or [ENOTEMPTY] clarifies the behavior in this case.
+[p_00053] If the current working directory of the process is being removed, that should be an allowed error.
+[p_00054] Virtually all existing implementations detect [ENOTEMPTY] or the case of dot-dot. The text in [A53][I54]2.3 Error Numbers[/I54][/A53] about returning any one of the possible errors permits that behavior to continue. The [ELOOP] error may be returned if more than {SYMLOOP_MAX} symbolic links are encountered during resolution of the [I55]path[/I55] argument.
+[h4_00055] [A56][/A56]FUTURE DIRECTIONS
+[p_00056] None.
+[h4_00057] [A57][/A57]SEE ALSO
+[p_00058] [A58][I59]2.3 Error Numbers[/I59][/A58], [A60][I61]mkdir[/I61]()[/A60], [A62][I63]remove[/I63]()[/A62], [A64][I65]rename[/I65]()[/A64], [A66][I67]unlink[/I67]()[/A66]
+[p_00059] XBD [A68][I69]4.5 Directory Protection[/I69][/A68], [A70][I71]&lt;unistd.h&gt;[/I71][/A70]
+[h4_00060] [A72][/A72]CHANGE HISTORY
+[p_00061] First released in Issue 3. Included for alignment with the POSIX.1-1988 standard.
+[h4_00062] [A73][/A73]Issue 6
+[p_00063] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00064] The DESCRIPTION is updated to indicate the results of naming a symbolic link in [I74]path[/I74].
+[p_00065] The [EIO] mandatory error condition is added.
+[p_00066] The [ELOOP] mandatory error condition is added.
+[p_00067] A second [ENAMETOOLONG] is added as an optional error condition.
+[p_00068] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[p_00069] The [ELOOP] optional error condition is added.
+[h4_00070] [A75][/A75]Issue 7
+[p_00071] Austin Group Interpretation 1003.1-2001 #143 is applied.
+[p_00072] Austin Group Interpretation 1003.1-2001 #181 is applied, updating the requirements for operations when the S_ISVTX bit is set.
+[p_00073] Changes are made related to support for finegrained timestamps.
+[p_00074] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0519 [324] is applied.
+[p_00075] &nbsp;

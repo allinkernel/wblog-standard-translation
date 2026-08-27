@@ -1,0 +1,27 @@
+<h1>XSH 函数导读：mkdir()</h1>
+
+<h2>0. 总览</h2>
+<p><code>mkdir()</code> 用于创建目录。头文件为 <code>&lt;sys/stat.h&gt;</code>；扩展函数 <code>mkdirat()</code> 还需 <code>&lt;fcntl.h&gt;</code>。原型：<code>int mkdir(const char *path, mode_t mode)</code>、<code>int mkdirat(int fd, const char *path, mode_t mode)</code>。</p>
+
+<h2>1. 机制</h2>
+<p>函数创建名为 <code>path</code> 的新目录。文件权限位及（XSI 选项下）S_ISVTX 位由 <code>mode</code> 初始化，且 <code>mode</code> 的文件权限位会被进程的文件创建掩码（umask）修改；<code>mode</code> 中其他位的含义是实现定义的。新目录的用户 ID 被设置为进程的有效用户 ID，组 ID 被设置为父目录的组 ID 或进程的有效组 ID（实现须提供一种继承父目录组 ID 的方式）。新创建的目录是空目录。若 <code>path</code> 命名符号链接，则失败并置 [EEXIST]。返回 -1 时不应创建任何目录。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>目录已存在（包括 <code>path</code> 是符号链接）时返回 [EEXIST]，不是“自动跳过”。</li>
+<li>父目录被拒绝写权限 [EACCES]、路径前缀组件不存在 [ENOENT]、文件系统空间不足 [ENOSPC] 是常见失败。</li>
+<li>组 ID 不保证取父目录还是有效组 ID，符合规范的应用程序不应假定；如重要可事后用 chown() 设置。</li>
+<li>mkdir() 不会递归创建缺失的中间目录；<code>mode</code> 中非权限位的含义不可移植。</li>
+<li>最后一个组件含换行字符编码值的字节时，实现被鼓励报告 [EILSEQ]。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/stat.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    /* 所有者读/写/搜索，组读/搜索，其他读/搜索（再经 umask 修正） */
+    if (mkdir("/home/cnd/mod1", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1)
+        perror("mkdir");
+    return 0;
+}</code></pre>

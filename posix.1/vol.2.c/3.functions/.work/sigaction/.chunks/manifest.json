@@ -1,0 +1,3229 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_544_01\" id=\"tag_17_544_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "sigaction — examine and change a signal action",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_544_02\" id=\"tag_17_544_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00004",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     17
+    ],
+    "text": "[CODE3]\n[CODE4]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt><sup>[<a href=\"javascript:open_code('CX')\">CX</a>]</sup> <img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\"> #include &lt;<a href=\"../basedefs/signal.h.html\">signal.h</a>&gt;<br>\n<br>\nint sigaction(int</tt> <i>sig</i><tt>, const struct sigaction *restrict</tt> <i>act</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sigaction *restrict</tt> <i>oact</i><tt>); <img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\"></tt></code>"
+     },
+     "CODE4": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt><br></tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A5][/A5]DESCRIPTION",
+    "placeholders": {
+     "A5": {
+      "open": "<a name=\"tag_17_544_03\" id=\"tag_17_544_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I6]sigaction[/I6]() function allows the calling process to examine and/or specify the action to be associated with a specific\nsignal. The argument [I7]sig[/I7] specifies the signal; acceptable values are defined in [A8][I9]&lt;signal.h&gt;[/I9][/A8].",
+    "placeholders": {
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A8": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The structure [B10]sigaction[/B10], used to describe an action to be taken, is defined in the [A11][I12]&lt;signal.h&gt;[/I12][/A11] header to include at least the following members:",
+    "placeholders": {
+     "B10": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A11": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00008",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     3,
+     1
+    ],
+    "text": "[B13]void(*) (int)[/B13]",
+    "placeholders": {
+     "B13": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 1: [B13]void(*) (int)[/B13]"
+   },
+   {
+    "id": "td_00009",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     3,
+     3
+    ],
+    "text": "[I14]sa_handler[/I14]",
+    "placeholders": {
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "列头: Member Name"
+   },
+   {
+    "id": "td_00010",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     3,
+     5
+    ],
+    "text": "Pointer to a signal-catching function or one of the macros SIG_IGN or SIG_DFL.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00011",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     5,
+     1
+    ],
+    "text": "[B15]sigset_t[/B15]",
+    "placeholders": {
+     "B15": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 2: [B15]sigset_t[/B15]"
+   },
+   {
+    "id": "td_00012",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     5,
+     3
+    ],
+    "text": "[I16]sa_mask[/I16]",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "列头: Member Name"
+   },
+   {
+    "id": "td_00013",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     5,
+     5
+    ],
+    "text": "Additional set of signals to be blocked during execution of signal-catching function.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00014",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     7,
+     1
+    ],
+    "text": "[B17]int[/B17]",
+    "placeholders": {
+     "B17": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 3: [B17]int[/B17]"
+   },
+   {
+    "id": "td_00015",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     7,
+     3
+    ],
+    "text": "[I18]sa_flags[/I18]",
+    "placeholders": {
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "列头: Member Name"
+   },
+   {
+    "id": "td_00016",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     7,
+     5
+    ],
+    "text": "Special flags to affect behavior of signal.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "td_00017",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     9,
+     1
+    ],
+    "text": "[B19]void(*) (int,\n\n&nbsp;&nbsp;siginfo_t *, void *)[/B19]",
+    "placeholders": {
+     "B19": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": "行 4: [B19]void(*) (int,\n\n&nbsp;&nbs"
+   },
+   {
+    "id": "td_00018",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     9,
+     3
+    ],
+    "text": "[I20]sa_sigaction[/I20]",
+    "placeholders": {
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": "列头: Member Name"
+   },
+   {
+    "id": "td_00019",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     1,
+     9,
+     5
+    ],
+    "text": "Pointer to a signal-catching function.",
+    "placeholders": {},
+    "context": "列头: Description"
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The storage occupied by [I21]sa_handler[/I21] and [I22]sa_sigaction[/I22] may overlap, and a conforming application shall\nnot use both simultaneously.",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If the argument [I23]act[/I23] is not a null pointer, it points to a structure specifying the action to be associated\nwith the specified signal. If the argument [I24]oact[/I24] is not a null pointer, the action previously associated with the signal is\nstored in the location pointed to by the argument [I25]oact[/I25]. If the argument [I26]act[/I26] is a null pointer, signal handling is\nunchanged; thus, the call can be used to enquire about the current handling of a given signal. The SIGKILL and SIGSTOP signals\nshall not be added to the signal mask using this mechanism; this restriction shall be enforced by the system without causing an\nerror to be indicated.",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If the SA_SIGINFO flag (see below) is cleared in the [I27]sa_flags[/I27] field of the [B28]sigaction[/B28] structure, the\n[I29]sa_handler[/I29] field identifies the action to be associated with the specified signal. If the SA_SIGINFO flag is set in the\n[I30]sa_flags[/I30] field, the [I31]sa_sigaction[/I31] field specifies a signal-catching function.",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B28": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "The [I32]sa_flags[/I32] field can be used to modify the behavior of the specified signal.",
+    "placeholders": {
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "The following flags, defined in the [A33][I34]&lt;signal.h&gt;[/I34][/A33] header, can be\nset in [I35]sa_flags[/I35]:",
+    "placeholders": {
+     "A33": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00025",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     3
+    ],
+    "text": "SA_NOCLDSTOP",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     5,
+     9
+    ],
+    "text": "If [I36]sig[/I36] is SIGCHLD and the SA_NOCLDSTOP flag is not set in [I37]sa_flags[/I37], and the implementation supports\nthe SIGCHLD signal, then a SIGCHLD signal shall be generated for the calling process whenever any of its child processes stop\n[S38][[A39]XSI[/A39]][/S38] [IMG40]\n&nbsp;and a SIGCHLD signal may be generated for the calling process whenever any of its stopped child processes are continued.\n[IMG41] &nbsp;If [I42]sig[/I42] is SIGCHLD and the SA_NOCLDSTOP flag is set in\n[I43]sa_flags[/I43], then the implementation shall not generate a SIGCHLD signal in this way.",
+    "placeholders": {
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S38": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A39": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG40": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG41": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00027",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     7
+    ],
+    "text": "SA_ONSTACK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00028",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     9
+    ],
+    "text": "[S44][[A45]XSI[/A45]][/S44] [IMG46]\nIf set and an alternate signal stack has been declared with [A47][I48]sigaltstack[/I48]()[/A47], the\nsignal shall be delivered to the calling process on that stack. Otherwise, the signal shall be delivered on the current stack.\n[IMG49]",
+    "placeholders": {
+     "S44": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A45": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG46": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A47": {
+      "open": "<a href=\"../functions/sigaltstack.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG49": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00029",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     11
+    ],
+    "text": "SA_RESETHAND",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00030",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     13
+    ],
+    "text": "If set, the disposition of the signal shall be reset to SIG_DFL and the SA_SIGINFO flag shall be cleared on entry to the signal\nhandler. \n\n[B50]Note:[/B50]\nSIGILL and SIGTRAP cannot be automatically reset when delivered; the system silently enforces this restriction.\n\n Otherwise, the disposition of the signal shall not be modified on entry to the signal handler.\nIn addition, if this flag is set, [I51]sigaction[/I51]() may behave as if the SA_NODEFER flag were also set.",
+    "placeholders": {
+     "B50": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00031",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     15
+    ],
+    "text": "SA_RESTART",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00032",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     17
+    ],
+    "text": "This flag affects the behavior of interruptible functions; that is, those specified to fail with [I52]errno[/I52] set to [EINTR].\nIf set, and a function specified as interruptible is interrupted by this signal, the function shall restart and shall not fail with\n[EINTR] unless otherwise specified. If an interruptible function which uses a timeout is restarted, the duration of the timeout\nfollowing the restart is set to an unspecified value that does not exceed the original timeout value. If the flag is not set,\ninterruptible functions interrupted by this signal shall fail with [I53]errno[/I53] set to [EINTR].",
+    "placeholders": {
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00033",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     19
+    ],
+    "text": "SA_SIGINFO",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     21,
+     3
+    ],
+    "text": "where [I54]signo[/I54] is the only argument to the signal-catching function. In this case, the application shall use\nthe [I55]sa_handler[/I55] member to describe the signal-catching function and the application shall not modify the [I56]sa_sigaction[/I56]\nmember.",
+    "placeholders": {
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     21,
+     5
+    ],
+    "text": "If SA_SIGINFO is set and the signal is caught, the signal-catching function shall be entered as:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     21,
+     9
+    ],
+    "text": "where two additional arguments are passed to the signal-catching function. The second argument shall point to an\nobject of type [B57]siginfo_t[/B57] explaining the reason why the signal was generated; the third argument can be cast to a pointer to\nan object of type [B58]ucontext_t[/B58] to refer to the receiving thread's context that was interrupted when the signal was delivered.\nIn this case, the application shall use the [I59]sa_sigaction[/I59] member to describe the signal-catching function and the application\nshall not modify the [I60]sa_handler[/I60] member.",
+    "placeholders": {
+     "B57": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B58": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     21,
+     11
+    ],
+    "text": "The [I61]si_signo[/I61] member contains the system-generated signal number.",
+    "placeholders": {
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     21,
+     13
+    ],
+    "text": "[S62][[A63]XSI[/A63]][/S62] [IMG64] The [I65]si_errno[/I65] member may contain implementation-defined additional error information; if non-zero, it contains an\nerror number identifying the condition that caused the signal to be generated. [IMG66]",
+    "placeholders": {
+     "S62": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A63": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG64": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG66": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     21,
+     15
+    ],
+    "text": "The [I67]si_code[/I67] member contains a code identifying the cause of the signal, as described in [A68][I69]2.4.3 Signal Actions[/I69][/A68].",
+    "placeholders": {
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A68": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_04_03\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00040",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     23
+    ],
+    "text": "SA_NOCLDWAIT",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00041",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     25
+    ],
+    "text": "[S70][[A71]XSI[/A71]][/S70] [IMG72]\nIf [I73]sig[/I73] does not equal SIGCHLD, the behavior is unspecified. Otherwise, the behavior of the SA_NOCLDWAIT flag is as specified\nin [A74][I75]Consequences of Process Termination[/I75]()[/A74]. [IMG76]",
+    "placeholders": {
+     "S70": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A71": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG72": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A74": {
+      "open": "<a href=\"../functions/_Exit.html#tag_17_02_03_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG76": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00042",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     27
+    ],
+    "text": "SA_NODEFER",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00043",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     29
+    ],
+    "text": "If set and [I77]sig[/I77] is caught, [I78]sig[/I78] shall not be added to the thread's signal mask on entry to the signal handler\nunless it is included in [I79]sa_mask[/I79]. Otherwise, [I80]sig[/I80] shall always be added to the thread's signal mask on entry to the\nsignal handler.",
+    "placeholders": {
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "When a signal is caught by a signal-catching function installed by [I81]sigaction[/I81](), a new signal mask is\ncalculated and installed for the duration of the signal-catching function (or until a call to either [A82][I83]sigprocmask[/I83]()[/A82] or [A84][I85]sigsuspend[/I85]()[/A84] is\nmade). This mask is formed by taking the union of the current signal mask and the value of the [I86]sa_mask[/I86] for the signal being\ndelivered, and unless SA_NODEFER or SA_RESETHAND is set, then including the signal being delivered. If and when the user's signal\nhandler returns normally, the original signal mask is restored.",
+    "placeholders": {
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A82": {
+      "open": "<a href=\"../functions/sigprocmask.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A84": {
+      "open": "<a href=\"../functions/sigsuspend.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "Once an action is installed for a specific signal, it shall remain installed until another action is explicitly\nrequested (by another call to [I87]sigaction[/I87]()), until the SA_RESETHAND flag causes resetting of the handler, or until one of the\n[I88][A89]exec[/A89][/I88] functions is called.",
+    "placeholders": {
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A89": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "If the previous action for [I90]sig[/I90] had been established by [A91][I92]signal[/I92]()[/A91], the values of the fields returned in the structure pointed to by [I93]oact[/I93] are\nunspecified, and in particular [I94]oact[/I94]-&gt;[I95]sa_handler[/I95] is not necessarily the same value passed to [A96][I97]signal[/I97]()[/A96]. However, if a pointer to the same structure or a copy thereof is passed to a\nsubsequent call to [I98]sigaction[/I98]() via the [I99]act[/I99] argument, handling of the signal shall be as if the original call to\n[A100][I101]signal[/I101]()[/A100] were repeated.",
+    "placeholders": {
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A91": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A96": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A100": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25
+    ],
+    "text": "If [I102]sigaction[/I102]() fails, no new signal handler is installed.",
+    "placeholders": {
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "It is unspecified whether an attempt to set the action for a signal that cannot be caught or ignored to SIG_DFL is\nignored or causes an error to be returned with [I103]errno[/I103] set to [EINVAL].",
+    "placeholders": {
+     "I103": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29
+    ],
+    "text": "If SA_SIGINFO is not set in [I104]sa_flags[/I104], then the disposition of subsequent occurrences of [I105]sig[/I105] when it\nis already pending is implementation-defined; the signal-catching function shall be invoked with a single argument. If SA_SIGINFO\nis set in [I106]sa_flags[/I106], then subsequent occurrences of [I107]sig[/I107] generated by [A108][I109]sigqueue[/I109]()[/A108] or as a result of any signal-generating function that supports the specification\nof an application-defined value (when [I110]sig[/I110] is already pending) shall be queued in FIFO order until delivered or accepted; the\nsignal-catching function shall be invoked with three arguments. The application specified value is passed to the signal-catching\nfunction as the [I111]si_value[/I111] member of the [B112]siginfo_t[/B112] structure.",
+    "placeholders": {
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A108": {
+      "open": "<a href=\"../functions/sigqueue.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I109": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B112": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31
+    ],
+    "text": "The result of the use of [I113]sigaction[/I113]() and a [A114][I115]sigwait[/I115]()[/A114] function\nconcurrently within a process on the same signal is unspecified.",
+    "placeholders": {
+     "I113": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A114": {
+      "open": "<a href=\"../functions/sigwait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00051",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A116][/A116]RETURN VALUE",
+    "placeholders": {
+     "A116": {
+      "open": "<a name=\"tag_17_544_04\" id=\"tag_17_544_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I117]sigaction[/I117]() shall return 0; otherwise, -1 shall be returned, [I118]errno[/I118] shall be set to\nindicate the error, and no new signal-catching function shall be installed.",
+    "placeholders": {
+     "I117": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00053",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A119][/A119]ERRORS",
+    "placeholders": {
+     "A119": {
+      "open": "<a name=\"tag_17_544_05\" id=\"tag_17_544_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I120]sigaction[/I120]() function shall fail if:",
+    "placeholders": {
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00055",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00056",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The [I121]sig[/I121] argument is not a valid signal number or an attempt is made to catch a signal that cannot be caught or ignore a\nsignal that cannot be ignored.",
+    "placeholders": {
+     "I121": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I122]sigaction[/I122]() function may fail if:",
+    "placeholders": {
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00058",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00059",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "An attempt was made to set the action to SIG_DFL for a signal that cannot be caught or ignored (or both).",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "In addition, on systems that do not support the XSI option, the [I123]sigaction[/I123]() function may fail if the\nSA_SIGINFO flag is set in the [I124]sa_flags[/I124] field of the [B125]sigaction[/B125] structure for a signal not in the range SIGRTMIN to\nSIGRTMAX.",
+    "placeholders": {
+     "I123": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B125": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00061",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A126][/A126]EXAMPLES",
+    "placeholders": {
+     "A126": {
+      "open": "<a name=\"tag_17_544_06\" id=\"tag_17_544_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00062",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A127][/A127]Establishing a Signal Handler",
+    "placeholders": {
+     "A127": {
+      "open": "<a name=\"tag_17_544_06_01\" id=\"tag_17_544_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example demonstrates the use of [I128]sigaction[/I128]() to establish a handler for the SIGINT signal.",
+    "placeholders": {
+     "I128": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00064",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A129][/A129]APPLICATION USAGE",
+    "placeholders": {
+     "A129": {
+      "open": "<a name=\"tag_17_544_07\" id=\"tag_17_544_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "The [I130]sigaction[/I130]() function supersedes the [A131][I132]signal[/I132]()[/A131] function, and should be\nused in preference. In particular, [I133]sigaction[/I133]() and [A134][I135]signal[/I135]()[/A134] should not be used\nin the same process to control the same signal. The behavior of async-signal-safe functions, as defined in their respective\nDESCRIPTION sections, is as specified by this volume of POSIX.1-2024, regardless of invocation from a signal-catching function.\nThis is the only intended meaning of the statement that async-signal-safe functions may be used in signal-catching functions\nwithout restrictions. Applications must still consider all effects of such functions on such things as data structures, files, and\nprocess state. In particular, application developers need to consider the restrictions on interactions when interrupting [A136][I137]sleep[/I137]()[/A136] and interactions among multiple handles for a file description. The fact that any\nspecific function is listed as async-signal-safe does not necessarily mean that invocation of that function from a signal-catching\nfunction is recommended.",
+    "placeholders": {
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A131": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I132": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I133": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A134": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A136": {
+      "open": "<a href=\"../functions/sleep.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I137": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "In order to prevent errors arising from interrupting non-async-signal-safe function calls, applications should\nprotect calls to these functions either by blocking the appropriate signals or through the use of some programmatic semaphore (see\n[A138][I139]semget[/I139]()[/A138], [A140][I141]sem_init[/I141]()[/A140], [A142][I143]sem_open[/I143]()[/A142], and so on). Note in particular that even the &quot;safe&quot; functions may modify\n[I144]errno[/I144]; the signal-catching function, if not executing as an independent thread, should save and restore its value in order\nto avoid the possibility that delivery of a signal in between an error return from a function that sets [I145]errno[/I145] and the\nsubsequent examination of [I146]errno[/I146] could result in the signal-catching function changing the value of [I147]errno[/I147]. Naturally,\nthe same principles apply to the async-signal-safety of application routines and asynchronous data access. Note that [A148][I149]longjmp[/I149]()[/A148] and [A150][I151]siglongjmp[/I151]()[/A150] are not in the\nlist of async-signal-safe functions. This is because the code executing after [A152][I153]longjmp[/I153]()[/A152] and [A154][I155]siglongjmp[/I155]()[/A154] can call any\nunsafe functions with the same danger as calling those unsafe functions directly from the signal handler. Applications that use\n[A156][I157]longjmp[/I157]()[/A156] and [A158][I159]siglongjmp[/I159]()[/A158] from\nwithin signal handlers require rigorous protection in order to be portable. Many of the other functions that are excluded from the\nlist are traditionally implemented using either [A160][I161]malloc[/I161]()[/A160] or [A162][I163]free[/I163]()[/A162] functions or the standard I/O library, both of which traditionally use data structures\nin a non-async-signal-safe manner. Since any combination of different functions using a common data structure can cause\nasync-signal-safety problems, this volume of POSIX.1-2024 does not define the behavior when any unsafe function is called in a\nsignal handler that interrupts an unsafe function.",
+    "placeholders": {
+     "A138": {
+      "open": "<a href=\"../functions/semget.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I139": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A140": {
+      "open": "<a href=\"../functions/sem_init.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I141": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A142": {
+      "open": "<a href=\"../functions/sem_open.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I143": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I144": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I145": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I146": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A148": {
+      "open": "<a href=\"../functions/longjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I149": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A150": {
+      "open": "<a href=\"../functions/siglongjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I151": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A152": {
+      "open": "<a href=\"../functions/longjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I153": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A154": {
+      "open": "<a href=\"../functions/siglongjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I155": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A156": {
+      "open": "<a href=\"../functions/longjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I157": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A158": {
+      "open": "<a href=\"../functions/siglongjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A160": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I161": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A162": {
+      "open": "<a href=\"../functions/free.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I163": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5
+    ],
+    "text": "Usually, the signal is executed on the stack that was in effect before the signal was delivered. An alternate stack\nmay be specified to receive a subset of the signals being caught.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00068",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     7
+    ],
+    "text": "When the signal handler returns, the receiving thread resumes execution at the point it was interrupted unless the\nsignal handler makes other arrangements. If [A164][I165]longjmp[/I165]()[/A164] is used to leave the signal\nhandler, then the signal mask must be explicitly restored.",
+    "placeholders": {
+     "A164": {
+      "open": "<a href=\"../functions/longjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I165": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     9
+    ],
+    "text": "This volume of POSIX.1-2024 defines the third argument of a signal handling function when SA_SIGINFO is set as a\n[B166]void *[/B166] instead of a [B167]ucontext_t *[/B167], but without requiring type checking. New applications should explicitly cast the\nthird argument of the signal handling function to [B168]ucontext_t *[/B168].",
+    "placeholders": {
+     "B166": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B167": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B168": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00070",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     11
+    ],
+    "text": "The BSD optional four argument signal handling function is not supported by this volume of POSIX.1-2024. The BSD\ndeclaration would be:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     15
+    ],
+    "text": "where [I169]sig[/I169] is the signal number, [I170]code[/I170] is additional information on certain signals, [I171]scp[/I171] is a\npointer to the [B172]sigcontext[/B172] structure, and [I173]addr[/I173] is additional address information. Much the same information is\navailable in the objects pointed to by the second argument of the signal handler specified when SA_SIGINFO is set.",
+    "placeholders": {
+     "I169": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I170": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I171": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B172": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     17
+    ],
+    "text": "Since the [I174]sigaction[/I174]() function is allowed but not required to set SA_NODEFER when the application sets the\nSA_RESETHAND flag, applications which depend on the SA_RESETHAND functionality for the newly installed signal handler must always\nexplicitly set SA_NODEFER when they set SA_RESETHAND in order to be portable.",
+    "placeholders": {
+     "I174": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     19
+    ],
+    "text": "See also the rationale for Realtime Signal Generation and Delivery in XRAT [A175][I176]B.2.4.2 Realtime Signal Generation and Delivery[/I176][/A175].",
+    "placeholders": {
+     "A175": {
+      "open": "<a href=\"../xrat/V4_xsh_chap01.html#tag_22_02_04_03\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I176": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00074",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A177][/A177]RATIONALE",
+    "placeholders": {
+     "A177": {
+      "open": "<a name=\"tag_17_544_08\" id=\"tag_17_544_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "Although this volume of POSIX.1-2024 requires that signals that cannot be ignored shall not be added to the signal mask when a\nsignal-catching function is entered, there is no explicit requirement that subsequent calls to [I178]sigaction[/I178]() reflect this in\nthe information returned in the [I179]oact[/I179] argument. In other words, if SIGKILL is included in the [I180]sa_mask[/I180] field of\n[I181]act[/I181], it is unspecified whether or not a subsequent call to [I182]sigaction[/I182]() returns with SIGKILL included in the\n[I183]sa_mask[/I183] field of [I184]oact[/I184].",
+    "placeholders": {
+     "I178": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I179": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I180": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I181": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I182": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I183": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I184": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The SA_NOCLDSTOP flag, when supplied in the [I185]act[/I185]-&gt;[I186]sa_flags[/I186] parameter, allows overloading SIGCHLD\nwith the System V semantics that each SIGCLD signal indicates a single terminated child. Most conforming applications that catch\nSIGCHLD are expected to install signal-catching functions that repeatedly call the [A187][I188]waitpid[/I188]()[/A187] function with the WNOHANG flag set, acting on each child for which status is\nreturned, until [A189][I190]waitpid[/I190]()[/A189] returns zero. If stopped children are not of interest, the\nuse of the SA_NOCLDSTOP flag can prevent the overhead from invoking the signal-catching routine when they stop.",
+    "placeholders": {
+     "I185": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I186": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A187": {
+      "open": "<a href=\"../functions/waitpid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I188": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A189": {
+      "open": "<a href=\"../functions/waitpid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I190": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00077",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "Some historical implementations also define other mechanisms for stopping processes, such as the [I191]ptrace[/I191]()\nfunction. These implementations usually do not generate a SIGCHLD signal when processes stop due to this mechanism; however, that\nis beyond the scope of this volume of POSIX.1-2024.",
+    "placeholders": {
+     "I191": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "This volume of POSIX.1-2024 requires that calls to [I192]sigaction[/I192]() that supply a NULL [I193]act[/I193] argument\nsucceed, even in the case of signals that cannot be caught or ignored (that is, SIGKILL or SIGSTOP). The System V [A194][I195]signal[/I195]()[/A194] and BSD [I196]sigvec[/I196]() functions return [EINVAL] in these cases and, in this\nrespect, their behavior varies from [I197]sigaction[/I197]().",
+    "placeholders": {
+     "I192": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I193": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A194": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I195": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I196": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I197": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00079",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "This volume of POSIX.1-2024 requires that [I198]sigaction[/I198]() properly save and restore a signal action set up by\nthe ISO&nbsp;C standard [A199][I200]signal[/I200]()[/A199] function. However, there is no guarantee that the\nreverse is true, nor could there be given the greater amount of information conveyed by the [B201]sigaction[/B201] structure. Because of\nthis, applications should avoid using both functions for the same signal in the same process. Since this cannot always be avoided\nin case of general-purpose library routines, they should always be implemented with [I202]sigaction[/I202]().",
+    "placeholders": {
+     "I198": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A199": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I200": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B201": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I202": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00080",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "It was intended that the [A203][I204]signal[/I204]()[/A203] function should be implementable as\na library routine using [I205]sigaction[/I205]().",
+    "placeholders": {
+     "A203": {
+      "open": "<a href=\"../functions/signal.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I204": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I205": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00081",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "The POSIX Realtime Extension extends the [I206]sigaction[/I206]() function as specified by the POSIX.1-1990 standard to\nallow the application to request on a per-signal basis via an additional signal action flag that the extra parameters, including\nthe application-defined signal value, if any, be passed to the signal-catching function.",
+    "placeholders": {
+     "I206": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00082",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A207][/A207]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A207": {
+      "open": "<a name=\"tag_17_544_09\" id=\"tag_17_544_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00083",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00084",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A208][/A208]SEE ALSO",
+    "placeholders": {
+     "A208": {
+      "open": "<a name=\"tag_17_544_10\" id=\"tag_17_544_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00085",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A209][I210]2.4 Signal Concepts[/I210][/A209], [A211][/A211][A212]exec[/A212], [A213][I214]_Exit[/I214]()[/A213], [A215][I216]kill[/I216]()[/A215], [A217][I218]longjmp[/I218]()[/A217], [A219][I220]pthread_sigmask[/I220]()[/A219],\n[A221][I222]raise[/I222]()[/A221], [A223][I224]semget[/I224]()[/A223], [A225][I226]sem_init[/I226]()[/A225], [A227][I228]sem_open[/I228]()[/A227], [A229][I230]sig2str[/I230]()[/A229], [A231][I232]sigaddset[/I232]()[/A231], [A233][I234]sigaltstack[/I234]()[/A233], [A235][I236]sigdelset[/I236]()[/A235],\n[A237][I238]sigemptyset[/I238]()[/A237], [A239][I240]sigfillset[/I240]()[/A239]\n, [A241][I242]sigismember[/I242]()[/A241], [A243][I244]signal[/I244]()[/A243],\n[A245][I246]sigsuspend[/I246]()[/A245], [A247][I248]wait[/I248]()[/A247],\n[A249][I250]waitid[/I250]()[/A249]",
+    "placeholders": {
+     "A209": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_04\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I210": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A211": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A212": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A213": {
+      "open": "<a href=\"../functions/_Exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I214": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A215": {
+      "open": "<a href=\"../functions/kill.html#tag_17_296\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I216": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A217": {
+      "open": "<a href=\"../functions/longjmp.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I218": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A219": {
+      "open": "<a href=\"../functions/pthread_sigmask.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I220": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A221": {
+      "open": "<a href=\"../functions/raise.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I222": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A223": {
+      "open": "<a href=\"../functions/semget.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I224": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A225": {
+      "open": "<a href=\"../functions/sem_init.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I226": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A227": {
+      "open": "<a href=\"../functions/sem_open.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I228": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A229": {
+      "open": "<a href=\"../functions/sig2str.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I230": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A231": {
+      "open": "<a href=\"../functions/sigaddset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I232": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A233": {
+      "open": "<a href=\"../functions/sigaltstack.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I234": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A235": {
+      "open": "<a href=\"../functions/sigdelset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I236": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A237": {
+      "open": "<a href=\"../functions/sigemptyset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I238": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A239": {
+      "open": "<a href=\"../functions/sigfillset.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I240": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A241": {
+      "open": "<a href=\"../functions/sigismember.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I242": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A243": {
+      "open": "<a href=\"../functions/signal.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I244": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A245": {
+      "open": "<a href=\"../functions/sigsuspend.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I246": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A247": {
+      "open": "<a href=\"../functions/wait.html#tag_17_658\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I248": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A249": {
+      "open": "<a href=\"../functions/waitid.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I250": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00086",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A251][I252]&lt;signal.h&gt;[/I252][/A251]",
+    "placeholders": {
+     "A251": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I252": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00087",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A253][/A253]CHANGE HISTORY",
+    "placeholders": {
+     "A253": {
+      "open": "<a name=\"tag_17_544_11\" id=\"tag_17_544_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00088",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 3. Included for alignment with the POSIX.1-1988 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00089",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A254][/A254]Issue 5",
+    "placeholders": {
+     "A254": {
+      "open": "<a name=\"tag_17_544_12\" id=\"tag_17_544_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00090",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00091",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "In the DESCRIPTION, the second argument to [I255]func[/I255] when SA_SIGINFO is set is no longer permitted to be NULL,\nand the description of permitted [B256]siginfo_t[/B256] contents is expanded by reference to [A257][I258]&lt;signal.h&gt;[/I258][/A257].",
+    "placeholders": {
+     "I255": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B256": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A257": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I258": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5
+    ],
+    "text": "Since the X/OPEN UNIX Extension functionality is now folded into the BASE, the [ENOTSUP] error is deleted.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00093",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A259][/A259]Issue 6",
+    "placeholders": {
+     "A259": {
+      "open": "<a name=\"tag_17_544_13\" id=\"tag_17_544_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00094",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "The Open Group Corrigendum U028/7 is applied. In the paragraph entitled &quot;Signal Effects on Other Functions&quot;, a reference to\n[A260][I261]sigpending[/I261]()[/A260] is added.",
+    "placeholders": {
+     "A260": {
+      "open": "<a href=\"../functions/sigpending.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I261": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00095",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "In the DESCRIPTION, the text &quot;Signal Generation and Delivery&quot;, &quot;Signal Actions&quot;, and &quot;Signal Effects on Other\nFunctions&quot; are moved to a separate section of this volume of POSIX.1-2024.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "Text describing functionality from the Realtime Signals Extension option is marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The following changes are made for alignment with the ISO&nbsp;POSIX-1:1996 standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00098",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9,
+     1
+    ],
+    "text": "The [ENOTSUP] error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00099",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "The [B262]restrict[/B262] keyword is added to the [I263]sigaction[/I263]() prototype for alignment with the\nISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {
+     "B262": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I263": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "References to the [I264]wait3[/I264]() function are removed.",
+    "placeholders": {
+     "I264": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00102",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     17
+    ],
+    "text": "The SYNOPSIS is marked CX since the presence of this function in the [A265][I266]&lt;signal.h&gt;[/I266][/A265] header is an extension over the ISO&nbsp;C standard.",
+    "placeholders": {
+     "A265": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I266": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00103",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     19
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/57 is applied, changing text in the table\ndescribing the [B267]sigaction[/B267] structure.",
+    "placeholders": {
+     "B267": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     21
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/127 is applied, removing text from the DESCRIPTION\nduplicated later in the same section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00105",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     23
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/128 is applied, updating the DESCRIPTION and\nAPPLICATION USAGE sections. Changes are made to refer to the thread rather than the process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00106",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     25
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/129 is applied, adding the example to the EXAMPLES\nsection.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00107",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A268][/A268]Issue 7",
+    "placeholders": {
+     "A268": {
+      "open": "<a name=\"tag_17_544_14\" id=\"tag_17_544_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00108",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #004 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00109",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretations 1003.1-2001 #065 and #084 are applied, clarifying the role of the SA_NODEFER flag with\nrespect to the signal mask, and clarifying the SA_RESTART flag for interrupted functions which use timeouts.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00110",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #156 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00111",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "SD5-XSH-ERN-167 is applied, updating the APPLICATION USAGE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00112",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "SD5-XSH-ERN-172 is applied, updating the DESCRIPTION to make optional the requirement that when the SA_RESETHAND\nflag is set, [I269]sigaction[/I269]() shall behave as if the SA_NODEFER flag were also set.",
+    "placeholders": {
+     "I269": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00113",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "Functionality relating to the Realtime Signals Extension option is moved to the Base.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00114",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "The description of the [I270]si_code[/I270] member is replaced with a reference to [A271][I272]2.4.3 Signal Actions[/I272][/A271].",
+    "placeholders": {
+     "I270": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A271": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_04_03\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I272": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00115",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     15
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0578 [66] and XSH/TC1-2008/0579 [140] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00116",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     17
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0329 [690] and XSH/TC2-2008/0330 [491] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00117",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A273][/A273]Issue 8",
+    "placeholders": {
+     "A273": {
+      "open": "<a name=\"tag_17_544_15\" id=\"tag_17_544_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00118",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 1138 is applied, adding [A274][I275]sig2str[/I275]()[/A274] to the SEE ALSO\nsection.",
+    "placeholders": {
+     "A274": {
+      "open": "<a href=\"../functions/sig2str.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I275": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00119",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1195 is applied, changing &quot;[CODE276]&quot; to &quot;[CODE277]&quot;.",
+    "placeholders": {
+     "CODE276": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>main()</tt>"
+     },
+     "CODE277": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>main(void)</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00120",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00121",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

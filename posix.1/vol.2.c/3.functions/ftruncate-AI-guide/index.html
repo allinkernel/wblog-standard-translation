@@ -1,0 +1,22 @@
+<h1>XSH 函数导读：ftruncate()</h1>
+
+<h2>0. 总览</h2>
+<p>ftruncate() 将文件截断为指定长度。头文件为 <code>&lt;unistd.h&gt;</code>；原型为 <code>int ftruncate(int fildes, off_t length)</code>。成功返回 0，失败返回 -1 并设置 errno。fildes 必须是为写入而打开的有效文件描述符。</p>
+
+<h2>1. 机制</h2>
+<p>对普通文件，ftruncate() 把文件大小改为 length：原来超过 length 的多余数据对后续读取不再可用；原来小于 length 则文件增大，扩展区域看起来像是被零填充的。调用不修改查找指针的值。成功完成后，文件最后数据修改与最后状态更改时间戳被标记为更新，S_ISUID 与 S_ISGID 位可以被清除；失败则文件不受影响。若 fildes 指代共享内存对象，则把其大小设为 length。若截断使内存映射文件或共享内存对象变小，超出新末尾的整页被丢弃，对已丢弃页面的引用会产生 SIGBUS。</p>
+
+<h2>2. 易错点</h2>
+<p>常用场景是"预分配"：文件小于 length 时 ftruncate() 会增大文件，扩展区读起来是零。易错点包括：fildes 未以写方式打开（EBADF 或 EINVAL）；length 小于 0，或指代管道、FIFO、套接字等无法执行此操作的文件（EINVAL）；length 超过最大文件大小或进程软文件大小限制（EFBIG，超限时实现还应为该线程生成 SIGXFSZ）。另外，若 fildes 指代既非普通文件也非共享内存对象的文件，结果是未指定的。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+
+int fd = open("data.bin", O_RDWR);
+if (fd == -1)
+    return 1;
+if (ftruncate(fd, 1024) == -1)  /* 文件大小改为 1024 字节 */
+    return 1;
+close(fd);
+</code></pre>

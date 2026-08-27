@@ -1,0 +1,51 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] setsockopt — set the socket options
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]setsockopt[/I5]() function shall set the option specified by the [I6]option_name[/I6] argument, at the protocol level specified by the [I7]level[/I7] argument, to the value pointed to by the [I8]option_value[/I8] argument for the socket associated with the file descriptor specified by the [I9]socket[/I9] argument.
+[p_00007] The [I10]level[/I10] argument specifies the protocol level at which the option resides. To set options at the socket level, specify the [I11]level[/I11] argument as SOL_SOCKET. To set options at other levels, supply the appropriate [I12]level[/I12] identifier for the protocol controlling the option. For example, to indicate that an option is interpreted by the TCP (Transport Control Protocol), set [I13]level[/I13] to IPPROTO_TCP as defined in the [A14][I15]&lt;netinet/in.h&gt;[/I15][/A14] header.
+[p_00008] The [I16]option_name[/I16] argument specifies a single option to set. It can be one of the socket-level options defined in [A17][I18]&lt;sys/socket.h&gt;[/I18][/A17] and described in [A19][I20]2.10.16 Use of Options[/I20][/A19]. If [I21]option_name[/I21] is equal to SO_RCVTIMEO or SO_SNDTIMEO and the implementation supports setting the option, it is unspecified whether the [B22]struct timeval[/B22] pointed to by [I23]option_value[/I23] is stored as provided by this function or is rounded up to align with the resolution of the clock being used. If [I24]setsockopt[/I24]() is called with [I25]option_name[/I25] equal to SO_ACCEPTCONN, SO_ERROR, or SO_TYPE, the behavior is unspecified.
+[h4_00009] [A26][/A26]RETURN VALUE
+[p_00010] Upon successful completion, [I27]setsockopt[/I27]() shall return 0. Otherwise, -1 shall be returned and [I28]errno[/I28] set to indicate the error.
+[h4_00011] [A29][/A29]ERRORS
+[p_00012] The [I30]setsockopt[/I30]() function shall fail if:
+[dt_00013] [EBADF]
+[dd_00014] The [I31]socket[/I31] argument is not a valid file descriptor.
+[dt_00015] [EDOM]
+[dd_00016] The send and receive timeout values are too big to fit into the timeout fields in the socket structure.
+[dt_00017] [EINVAL]
+[dd_00018] The specified option is invalid at the specified socket level or the socket has been shut down.
+[dt_00019] [EISCONN]
+[dd_00020] The socket is already connected, and a specified option cannot be set while the socket is connected.
+[dt_00021] [ENOPROTOOPT]
+[dd_00022] The option is not supported by the protocol.
+[dt_00023] [ENOTSOCK]
+[dd_00024] The [I32]socket[/I32] argument does not refer to a socket.
+[p_00025] The [I33]setsockopt[/I33]() function may fail if:
+[dt_00026] [ENOMEM]
+[dd_00027] There was insufficient memory available for the operation to complete.
+[dt_00028] [ENOBUFS]
+[dd_00029] Insufficient resources are available in the system to complete the call.
+[h4_00030] [A34][/A34]EXAMPLES
+[p_00031] None.
+[h4_00032] [A35][/A35]APPLICATION USAGE
+[p_00033] The [I36]setsockopt[/I36]() function provides an application program with the means to control socket behavior. An application program can use [I37]setsockopt[/I37]() to allocate buffer space, control timeouts, or permit socket data broadcasts. The [A38][I39]&lt;sys/socket.h&gt;[/I39][/A38] header defines the socket-level options available to [I40]setsockopt[/I40]().
+[p_00034] Options may exist at multiple protocol levels. The SO_ options are always present at the uppermost socket level.
+[p_00035] It is implementation-defined which socket options, if any, are inherited from a listening socket to an accepted socket by [A41][I42]accept[/I42]()[/A41] or [A43][I44]accept4[/I44]()[/A43].
+[h4_00036] [A45][/A45]RATIONALE
+[p_00037] None.
+[h4_00038] [A46][/A46]FUTURE DIRECTIONS
+[p_00039] None.
+[h4_00040] [A47][/A47]SEE ALSO
+[p_00041] [A48][I49]2.10 Sockets[/I49][/A48], [A50][I51]bind[/I51]()[/A50], [A52][I53]endprotoent[/I53]()[/A52], [A54][I55]getsockopt[/I55]()[/A54] , [A56][I57]socket[/I57]()[/A56]
+[p_00042] XBD [A58][I59]&lt;netinet/in.h&gt;[/I59][/A58], [A60][I61]&lt;sys/socket.h&gt;[/I61][/A60]
+[h4_00043] [A62][/A62]CHANGE HISTORY
+[p_00044] First released in Issue 6. Derived from the XNS, Issue 5.2 specification.
+[p_00045] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/125 is applied, updating the SO_LINGER option in the DESCRIPTION to refer to the calling thread rather than the process.
+[h4_00046] [A63][/A63]Issue 7
+[p_00047] Austin Group Interpretation 1003.1-2001 #158 is applied, removing text relating to socket options that is now in [A64][I65]2.10.16 Use of Options[/I65][/A64].
+[p_00048] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0571 [369] is applied.
+[h4_00049] [A66][/A66]Issue 8
+[p_00050] Austin Group Defect 1337 is applied, clarifying socket option default values.
+[p_00051] &nbsp;

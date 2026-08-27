@@ -1,0 +1,203 @@
+<h1>XSH 函数：rename()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="rename" id="rename"></a> <a name="tag_17_489" id="tag_17_489"></a>
+<a name="tag_17_489_01" id="tag_17_489_01"></a><h4>名称 (NAME)</h4>
+<blockquote>rename、renameat — 重命名文件</blockquote>
+<a name="tag_17_489_02" id="tag_17_489_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdio.h&gt;<br>
+<br>
+int rename(const char *</code><i>old</i><code>, const char *</code><i>new</i><code>);<br>
+<br>
+<sup>[OH]</sup> <img src="../images/opt-start.gif" alt="图片">#include
+&lt;fcntl.h&gt;<img src="../images/opt-end.gif" alt="图片"><br>
+<br></code></code></p>
+<code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> int renameat(int</code> <i>oldfd</i><code>, const char *</code><i>old</i><code>, int</code>
+<i>newfd</i><code>,<br>
+       const char *</code><i>new</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code>
+<code><br></code></blockquote>
+<a name="tag_17_489_03" id="tag_17_489_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p>对于 <i>rename</i>()：<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  本参考页所述功能与 ISO C 标准一致。此处所述要求与 ISO C 标准之间的任何冲突均属无意。本卷 POSIX.1-2024 遵从 ISO C 标准。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>rename</i>() 函数应更改文件的名称。<i>old</i> 参数指向要重命名的文件的路径名。<i>new</i> 参数指向文件的新路径名。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  如果在处理完所有符号链接后，<i>new</i> 参数没有解析到类型为目录的文件的现有目录项，并且 <i>new</i> 参数包含至少一个非 &lt;slash&gt; 字符并以一个或多个尾部 &lt;slash&gt; 字符结尾，则 <i>rename</i>() 应失败。</p>
+<p>如果 <i>old</i> 或 <i>new</i> 参数中任一命名一个符号链接，<i>rename</i>() 应对该符号链接本身进行操作，并且不应解析该参数的最后一个组件。如果 <i>old</i> 参数和 <i>new</i> 参数解析到同一现有目录项，或解析到同一现有文件的不同目录项，则 <i>rename</i>() 应成功返回并且不执行其他操作。</p>
+<p>如果 <i>old</i> 参数命名一个不是目录的文件且 <i>new</i> 参数命名一个目录，或者 <i>old</i> 命名一个目录且 <i>new</i> 命名一个不是目录的文件，或者 <i>new</i> 命名一个不是空目录的目录，则 <i>rename</i>() 应失败。否则，如果由 <i>new</i> 命名的目录项存在，则应移除它并将 <i>old</i> 重命名为 <i>new</i>。在这种情况下，名为 <i>new</i> 的目录项在整个重命名操作期间应保持对其他线程可见，并引用操作开始前由 <i>new</i> 或 <i>old</i> 引用的文件。</p>
+<p>如果任一 <i>pathname</i> 参数引用一个最终组件是 dot 或 dot-dot 的路径，则 <i>rename</i>() 应失败。</p>
+<p>如果 <i>old</i> 参数指向符号链接的路径名，则该符号链接应被重命名。如果 <i>new</i> 参数指向符号链接的路径名，则该符号链接应被移除。</p>
+<p><i>old</i> 路径名不应命名 <i>new</i> 路径名的祖先目录。包含 <i>old</i> 的目录和包含 <i>new</i> 的目录需要写访问权限。如果 <i>old</i> 参数指向目录的路径名，则对于由 <i>old</i> 命名的目录以及（如果存在）由 <i>new</i> 命名的目录，可以要求写访问权限。</p>
+<p>如果 <i>new</i> 参数命名一个现有文件，且该文件被移除时其链接计数变为 0 并且没有进程打开该文件，则文件占用的空间应被释放，并且该文件应不再可访问。如果移除最后一个链接时有一个或多个进程打开该文件，则链接应在 <i>rename</i>() 返回之前被移除，但文件内容的移除应推迟到对该文件的所有引用都被关闭。</p>
+<p>成功完成后，<i>rename</i>() 应将每个文件的父目录的最后数据修改和最后文件状态更改时间戳标记为需要更新。</p>
+<p>如果 <i>rename</i>() 函数因 [EIO] 以外的任何原因失败，由 <i>new</i> 命名的任何文件应不受影响。</p>
+<p><i>renameat</i>() 函数应与 <i>rename</i>() 函数等价，但 <i>old</i> 或 <i>new</i> 中任一指定相对路径的情况除外。如果 <i>old</i> 是相对路径，则要重命名的文件是相对于与文件描述符 <i>oldfd</i> 相关联的目录确定的，而不是相对于当前工作目录。如果 <i>new</i> 是相对路径，则同样只是相对于与 <i>newfd</i> 相关联的目录。如果与文件描述符相关联的打开文件描述的访问模式不是 O_SEARCH，则函数应使用文件描述符底层目录的当前权限检查是否允许目录搜索。如果访问模式是 O_SEARCH，则函数不应执行该检查。</p>
+<p>如果在 <i>oldfd</i> 或 <i>newfd</i> 参数中向 <i>renameat</i>() 传入特殊值 AT_FDCWD，则在确定相应 <i>path</i> 参数的文件时应使用当前工作目录。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_489_04" id="tag_17_489_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>rename</i>() 函数应返回 0。否则，它应返回 -1，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 应设置 <i>errno</i> 以指示错误，<img src="../images/opt-end.gif" alt="[Option End]">  并且由 <i>old</i> 命名的文件和由 <i>new</i> 命名的文件都不应被更改或创建。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 成功完成后，<i>renameat</i>() 函数应返回 0。否则，它应返回 -1 并设置 <i>errno</i> 以指示错误。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_489_05" id="tag_17_489_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>rename</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>renameat</i>() <img src="../images/opt-end.gif" alt="[Option End]">  函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 任一路径前缀的某个组件拒绝搜索权限；或者包含 <i>old</i> 或 <i>new</i> 的目录之一拒绝写权限；或者，<i>old</i> 或 <i>new</i> 参数所指向的目录需要写权限却被拒绝。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EBUSY]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由 <i>old</i> 或 <i>new</i> 命名的目录当前正被系统或另一进程使用，并且实现认为这是一个错误。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EEXIST] 或 [ENOTEMPTY]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  <i>new</i> 参数命名的目录不是空目录。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EILSEQ]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 新路径名的最后一个路径名组件不是可移植文件名，并且无法在目标目录中创建。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EINVAL]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>old</i> 路径名命名 <i>new</i> 路径名的祖先目录，或者任一路径名参数包含一个是 dot 或 dot-dot 的最终组件。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EIO]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 发生了物理 I/O 错误。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EISDIR]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>new</i> 参数指向一个目录，而 <i>old</i> 参数指向一个不是目录的文件。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ELOOP]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在解析 <i>old</i> 或 <i>new</i> 参数期间遇到的符号链接中存在循环。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EMLINK]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由 <i>old</i> 命名的文件是目录，并且 <i>new</i> 的父目录的链接计数将超过 {LINK_MAX}。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  路径名的某个组件的长度长于 {NAME_MAX}。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ENOENT]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>old</i> 参数没有命名一个现有文件，<i>new</i> 的路径前缀的某个组件不存在，或者 <i>old</i> 或 <i>new</i> 指向空字符串。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ENOSPC]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 将包含 <i>new</i> 的目录无法被扩展。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ENOTDIR]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 任一路径前缀的某个组件命名了一个既不是目录也不是指向目录的符号链接的现有文件；或者 <i>old</i> 参数命名一个目录且 <i>new</i> 参数命名一个非目录文件；或者 <i>old</i> 参数包含至少一个非 &lt;slash&gt; 字符并以一个或多个尾部 &lt;slash&gt; 字符结尾，且最后一个路径名组件命名了一个既不是目录也不是指向目录的符号链接的现有文件；或者 <i>old</i> 参数命名一个现有的非目录文件且 <i>new</i> 参数命名一个不存在的文件，包含至少一个非 &lt;slash&gt; 字符，并以一个或多个尾部 &lt;slash&gt; 字符结尾；或者 <i>new</i> 参数命名一个现有的非目录文件，包含至少一个非 &lt;slash&gt; 字符，并以一个或多个尾部 &lt;slash&gt; 字符结尾。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EPERM] 或 [EACCES]</dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  包含 <i>old</i> 所引用的文件的目录上设置了 S_ISVTX 标志，并且进程相对于 <i>old</i> 不满足 XBD 4.5 目录保护 中规定的条件；或者 <i>new</i> 引用一个现有文件，包含该文件的目录上设置了 S_ISVTX 标志，并且进程相对于该文件不满足 XBD 4.5 目录保护 中规定的条件。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EROFS]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 请求的操作要求在只读文件系统上的目录中进行写。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[EXDEV]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由 <i>old</i> 命名的文件与将在其中创建或替换由 <i>new</i> 命名的目录项的目录位于不同的文件系统上，并且实现不支持文件系统之间的硬链接。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 此外，在以下情况下，<i>renameat</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>与 <i>oldfd</i> 或 <i>newfd</i> 相关联的打开文件描述的访问模式不是 O_SEARCH，并且 <i>oldfd</i> 或 <i>newfd</i>（分别）底层目录的权限不允许目录搜索。</dd>
+<dt>[EBADF]</dt>
+<dd><i>old</i> 参数没有指定绝对路径且 <i>oldfd</i> 参数既不是 AT_FDCWD 也不是为读或搜索而打开的有效文件描述符，或者 <i>new</i> 参数没有指定绝对路径且 <i>newfd</i> 参数既不是 AT_FDCWD 也不是为读或搜索而打开的有效文件描述符。</dd>
+<dt>[ENOTDIR]</dt>
+<dd><i>old</i> 或 <i>new</i> 参数不是绝对路径，并且 <i>oldfd</i> 或 <i>newfd</i>（分别）是与非目录文件相关联的文件描述符。</dd>
+</dl>
+<img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>rename</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>renameat</i>() <img src="../images/opt-end.gif" alt="[Option End]">  函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ELOOP]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在解析 <i>old</i> 或 <i>new</i> 参数期间遇到的符号链接超过 {SYMLOOP_MAX} 个。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  路径名的长度超过 {PATH_MAX}，或者符号链接的路径名解析产生的中间结果的长度超过 {PATH_MAX}。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ETXTBSY]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由 <i>new</i> 命名的文件存在，并且是正在执行的纯过程（共享文本）文件的最后一个目录项。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_489_06" id="tag_17_489_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_489_06_01" id="tag_17_489_06_01"></a><h5>重命名文件 (Renaming a File)</h5>
+<p>以下示例展示如何将名为 <b>/home/cnd/mod1</b> 的文件重命名为 <b>/home/cnd/mod2</b>。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+ 
+int status;
+...
+status = rename("/home/cnd/mod1", "/home/cnd/mod2");</code></pre></blockquote>
+<a name="tag_17_489_07" id="tag_17_489_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>某些实现将重命名文件的最后文件状态更改时间戳标记为需要更新，而某些实现不这样做。使用最后文件状态更改时间戳的应用程序在涉及重命名文件时可能表现不同，除非它们被设计为允许任一行为。</p>
+</blockquote>
+<a name="tag_17_489_08" id="tag_17_489_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>此 <i>rename</i>() 函数对于普通文件与 ISO C 标准定义的那个等价。它在此处的纳入将该定义扩展为包括对目录的操作，并规定了 <i>new</i> 参数命名一个已存在的文件时的行为。该规定要求函数的作用是原子的。</p>
+<p>引入此函数的原因之一是要有一种重命名目录的手段，同时允许实现禁止对目录使用 link() 和 unlink()，从而将对目录的链接限制为 mkdir() 创建的链接。</p>
+<p>关于如果 <i>old</i> 和 <i>new</i> 引用同一文件的规范旨在保证：</p>
+<pre><code class="language-plaintext">rename("x", "x");</code></pre>
+<p>不移除该文件。</p>
+<p>为阻止循环的文件系统路径，禁止重命名 dot 或 dot-dot。</p>
+<p>另请参见 rmdir() 中 [ENOTEMPTY] 和 [ENAMETOOLONG] 的描述以及 unlink() 中 [EBUSY] 的描述。关于 [EXDEV] 的讨论，参见 link()。</p>
+<p><i>renameat</i>() 函数的目的是在不暴露于竞争条件的情况下重命名当前工作目录以外的目录中的文件。文件的路径的任何部分都可能在与 <i>rename</i>() 调用并行的情况下被更改，导致未指定的行为。通过为源目录和目标目录打开文件描述符并使用 <i>renameat</i>() 函数，可以保证被重命名的文件被正确定位，并且结果文件位于所需目录中。</p>
+<p>鼓励实现让 <i>rename</i>() 和 <i>renameat</i>() 在由 <i>new</i> 命名的文件尚不存在且该路径名的最后一个组件包含任何具有 &lt;newline&gt; 字符编码值的字节时报告 [EILSEQ] 错误。</p>
+</blockquote>
+<a name="tag_17_489_09" id="tag_17_489_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_489_10" id="tag_17_489_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>link()、rmdir() 、symlink()、unlink()</p>
+<p>XBD 4.5 目录保护、&lt;fcntl.h&gt;、&lt;stdio.h&gt;</p>
+</blockquote>
+<a name="tag_17_489_11" id="tag_17_489_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 3 中首次发布。为与 POSIX.1-1988 标准保持一致而纳入。</p>
+</blockquote>
+<a name="tag_17_489_12" id="tag_17_489_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>[EBUSY] 错误被添加到 ERRORS 节的可选部分。</p>
+</blockquote>
+<a name="tag_17_489_13" id="tag_17_489_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展被标记。</p>
+<p>以下对 POSIX 实现的新要求源于与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>添加了 [EIO] 强制错误条件。</p>
+</li>
+<li>
+<p>添加了 [ELOOP] 强制错误条件。</p>
+</li>
+<li>
+<p>添加了第二个 [ENAMETOOLONG] 作为可选错误条件。</p>
+</li>
+<li>
+<p>添加了 [ETXTBSY] 可选错误条件。</p>
+</li>
+</ul>
+<p>为与 IEEE P1003.1a 草案标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>添加了关于符号链接处理的细节。</p>
+</li>
+<li>
+<p>添加了 [ELOOP] 可选错误条件。</p>
+</li>
+</ul>
+<p>规范性文本被更新，以避免对应用程序要求使用 &quot;must&quot; 一词。</p>
+</blockquote>
+<a name="tag_17_489_14" id="tag_17_489_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #016，更改了 [ENOTDIR] 错误的定义。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #076，澄清了路径的最终组件是 dot 或 dot-dot 时的行为，并添加了相关的 [EINVAL] 错误情况。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #143。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #145，澄清了 [ENOENT] 错误条件也适用于 <i>new</i> 的某个组件不存在的情况。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #174 和 #181。</p>
+<p><i>renameat</i>() 函数依据 The Open Group Technical Standard, 2006, Extended API Set Part 2 被添加。</p>
+<p>进行了与细粒度时间戳支持相关的更改。</p>
+<p>进行了允许目录为搜索而打开的更改。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1）：XSH/TC1-2008/0508 [324]、XSH/TC1-2008/0509 [147]、XSH/TC1-2008/0510 [379]、XSH/TC1-2008/0511 [278] 和 XSH/TC1-2008/0512 [278]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（Technical Corrigendum 2）：XSH/TC2-2008/0311 [873]、XSH/TC2-2008/0312 [591]、XSH/TC2-2008/0313 [716]、XSH/TC2-2008/0314 [817]、XSH/TC2-2008/0315 [817] 和 XSH/TC2-2008/0316 [591]。</p>
+</blockquote>
+<a name="tag_17_489_15" id="tag_17_489_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 251，鼓励实现不允许创建包含任何具有 &lt;newline&gt; 字符编码值的字节的文件名。</p>
+<p>应用了 Austin Group 缺陷 293，添加了 [EILSEQ] 错误。</p>
+<p>应用了 Austin Group 缺陷 1200，更正了 [ELOOP] 错误中的参数名称。</p>
+<p>应用了 Austin Group 缺陷 1330，移除了过时的接口。</p>
+<p>应用了 Austin Group 缺陷 1380，根据 &quot;link&quot; 一词的更新定义更改使用该词的文本。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

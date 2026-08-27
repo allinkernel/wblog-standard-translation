@@ -1,0 +1,1135 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_434_01\" id=\"tag_17_434_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "pthread_join — wait for thread termination",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_434_02\" id=\"tag_17_434_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/pthread.h.html\">pthread.h</a>&gt;<br>\n<br>\nint pthread_join(pthread_t</tt> <i>thread</i><tt>, void **</tt><i>value_ptr</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_434_03\" id=\"tag_17_434_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]pthread_join[/I5]() function shall suspend execution of the calling thread until the target [I6]thread[/I6] terminates,\nunless the target [I7]thread[/I7] has already terminated. On return from a successful [I8]pthread_join[/I8]() call with a non-NULL\n[I9]value_ptr[/I9] argument, the value passed to [A10][I11]pthread_exit[/I11]()[/A10] by the\nterminating thread shall be made available in the location referenced by [I12]value_ptr[/I12]. When a [I13]pthread_join[/I13]() returns\nsuccessfully, the target thread has been terminated. The results of multiple simultaneous calls to [I14]pthread_join[/I14]() specifying\nthe same target thread are undefined. If the thread calling [I15]pthread_join[/I15]() is canceled, then the target thread shall not be\ndetached.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A10": {
+      "open": "<a href=\"../functions/pthread_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "It is unspecified whether a zombie thread counts against {PTHREAD_THREADS_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     5
+    ],
+    "text": "The behavior is undefined if the value specified by the [I16]thread[/I16] argument to [I17]pthread_join[/I17]() does not refer to a\njoinable thread.",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     7
+    ],
+    "text": "The behavior is undefined if the value specified by the [I18]thread[/I18] argument to [I19]pthread_join[/I19]() refers to the calling\nthread.",
+    "placeholders": {
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     9
+    ],
+    "text": "If [I20]thread[/I20] refers to a thread that was created using [A21][I22]thrd_create[/I22]()[/A21] and\nthe thread terminates, or has already terminated, by returning from its start routine, the behavior of [I23]pthread_join[/I23]() is\nundefined. If [I24]thread[/I24] refers to a thread that terminates, or has already terminated, by calling [A25][I26]thrd_exit[/I26]()[/A25], the behavior of [I27]pthread_join[/I27]() is undefined.",
+    "placeholders": {
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/thrd_create.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"../functions/thrd_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00011",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A28][/A28]RETURN VALUE",
+    "placeholders": {
+     "A28": {
+      "open": "<a name=\"tag_17_434_04\" id=\"tag_17_434_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "If successful, the [I29]pthread_join[/I29]() function shall return zero; otherwise, an error number shall be returned to indicate\nthe error.",
+    "placeholders": {
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A30][/A30]ERRORS",
+    "placeholders": {
+     "A30": {
+      "open": "<a name=\"tag_17_434_05\" id=\"tag_17_434_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I31]pthread_join[/I31]() function may fail if:",
+    "placeholders": {
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00015",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     3
+    ],
+    "text": "[EDEADLK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00016",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     5
+    ],
+    "text": "A deadlock was detected.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     5
+    ],
+    "text": "The [I32]pthread_join[/I32]() function shall not return an error code of [EINTR].",
+    "placeholders": {
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A33][/A33]EXAMPLES",
+    "placeholders": {
+     "A33": {
+      "open": "<a name=\"tag_17_434_06\" id=\"tag_17_434_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "An example of thread creation and deletion follows:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00020",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A34][/A34]APPLICATION USAGE",
+    "placeholders": {
+     "A34": {
+      "open": "<a name=\"tag_17_434_07\" id=\"tag_17_434_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00022",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A35][/A35]RATIONALE",
+    "placeholders": {
+     "A35": {
+      "open": "<a name=\"tag_17_434_08\" id=\"tag_17_434_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "The [I36]pthread_join[/I36]() function is a convenience that has proven useful in multi-threaded applications. It is true that a\nprogrammer could simulate this function if it were not provided by passing extra state as part of the argument to the\n[I37]start_routine[/I37](). The terminating thread would set a flag to indicate termination and broadcast a condition that is part of\nthat state; a joining thread would wait on that condition variable. While such a technique would allow a thread to wait on more\ncomplex conditions (for example, waiting for multiple threads to terminate), waiting on individual thread termination is considered\nwidely useful. Also, including the [I38]pthread_join[/I38]() function in no way precludes a programmer from coding such complex waits.\nThus, while not a primitive, including [I39]pthread_join[/I39]() in this volume of POSIX.1-2024 was considered valuable.",
+    "placeholders": {
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     3
+    ],
+    "text": "The [I40]pthread_join[/I40]() function provides a simple mechanism allowing an application to wait for a thread to terminate. After\nthe thread terminates, the application may then choose to clean up resources that were used by the thread. For instance, after\n[I41]pthread_join[/I41]() returns, any application-provided stack storage could be reclaimed.",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     5
+    ],
+    "text": "The [I42]pthread_join[/I42]() or [A43][I44]pthread_detach[/I44]()[/A43] function should eventually\nbe called for every thread that is created with the [I45]detachstate[/I45] attribute set to PTHREAD_CREATE_JOINABLE so that storage\nassociated with the thread may be reclaimed.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/pthread_detach.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     7
+    ],
+    "text": "The interaction between [I46]pthread_join[/I46]() and cancellation is well-defined for the following reasons:",
+    "placeholders": {
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     9,
+     1,
+     1
+    ],
+    "text": "The [I47]pthread_join[/I47]() function, like all other non-async-cancel-safe functions, can only be called with deferred\ncancelability type.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     9,
+     3,
+     1
+    ],
+    "text": "Cancellation cannot occur in the disabled cancelability state.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     11
+    ],
+    "text": "Thus, only the default cancelability state need be considered. As specified, either the [I48]pthread_join[/I48]() call is canceled,\nor it succeeds, but not both. The difference is obvious to the application, since either a cancellation handler is run or\n[I49]pthread_join[/I49]() returns. There are no race conditions since [I50]pthread_join[/I50]() was called in the deferred cancelability\nstate.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     13
+    ],
+    "text": "If an implementation detects that the value specified by the [I51]thread[/I51] argument to [I52]pthread_join[/I52]() does not refer to a\njoinable thread, it is recommended that the function should fail and report an [EINVAL] error.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     15
+    ],
+    "text": "If an implementation detects that the value specified by the [I53]thread[/I53] argument to [I54]pthread_join[/I54]() refers to the\ncalling thread, it is recommended that the function should fail and report an [EDEADLK] error.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     17
+    ],
+    "text": "If an implementation detects use of a thread ID after the end of its lifetime, it is recommended that the function should fail\nand report an [ESRCH] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     19
+    ],
+    "text": "The [I55]pthread_join[/I55]() function cannot be used to obtain the exit status of a thread that was created using [A56][I57]thrd_create[/I57]()[/A56] and which terminates by returning from its start routine, or of a thread\nthat terminates by calling [A58][I59]thrd_exit[/I59]()[/A58], because such threads have an [B60]int[/B60]\nexit status, instead of the [B61]void&nbsp;*[/B61] that [I62]pthread_join[/I62]() returns via its [I63]value_ptr[/I63] argument.",
+    "placeholders": {
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A56": {
+      "open": "<a href=\"../functions/thrd_create.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A58": {
+      "open": "<a href=\"../functions/thrd_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B60": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B61": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A64][/A64]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A64": {
+      "open": "<a name=\"tag_17_434_09\" id=\"tag_17_434_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A65][/A65]SEE ALSO",
+    "placeholders": {
+     "A65": {
+      "open": "<a name=\"tag_17_434_10\" id=\"tag_17_434_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A66][I67]pthread_create[/I67]()[/A66], [A68][I69]thrd_create[/I69]()[/A68], [A70][I71]thrd_exit[/I71]()[/A70],\n[A72][I73]wait[/I73]()[/A72]",
+    "placeholders": {
+     "A66": {
+      "open": "<a href=\"../functions/pthread_create.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A68": {
+      "open": "<a href=\"../functions/thrd_create.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../functions/thrd_exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/wait.html#tag_17_658\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A74][I75]4.15.2 Memory Synchronization[/I75][/A74], [A76][I77]&lt;pthread.h&gt;[/I77][/A76]",
+    "placeholders": {
+     "A74": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_15_02\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A76": {
+      "open": "<a href=\"../basedefs/pthread.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00039",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A78][/A78]CHANGE HISTORY",
+    "placeholders": {
+     "A78": {
+      "open": "<a name=\"tag_17_434_11\" id=\"tag_17_434_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 5. Included for alignment with the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00041",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A79][/A79]Issue 6",
+    "placeholders": {
+     "A79": {
+      "open": "<a name=\"tag_17_434_12\" id=\"tag_17_434_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "The [I80]pthread_join[/I80]() function is marked as part of the Threads option.",
+    "placeholders": {
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/97 is applied, updating the ERRORS section so that the [EINVAL]\nerror is made optional and the words &quot;the implementation has detected&quot; are removed from it.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00044",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A81][/A81]Issue 7",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_434_13\" id=\"tag_17_434_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "The [I82]pthread_join[/I82]() function is moved from the Threads option to the Base.",
+    "placeholders": {
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #142 is applied, removing the [ESRCH] error condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     5
+    ],
+    "text": "The [EINVAL] error for a non-joinable thread is removed; this condition results in undefined behavior.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     7
+    ],
+    "text": "The [EDEADLK] error for the calling thread is removed; this condition results in undefined behavior.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00049",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     67
+    ],
+    "text": "[A83][/A83]Issue 8",
+    "placeholders": {
+     "A83": {
+      "open": "<a name=\"tag_17_434_14\" id=\"tag_17_434_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     69,
+     1
+    ],
+    "text": "Austin Group Defect 792 is applied, changing &quot;a thread that has exited but remains unjoined&quot; to &quot;a zombie thread&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     69,
+     3
+    ],
+    "text": "Austin Group Defect 1302 is applied, updating the page to account for the addition of [A84][I85]&lt;threads.h&gt;[/I85][/A84] interfaces.",
+    "placeholders": {
+     "A84": {
+      "open": "<a href=\"../basedefs/threads.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     75
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

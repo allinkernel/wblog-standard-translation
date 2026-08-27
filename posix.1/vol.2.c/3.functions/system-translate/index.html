@@ -1,0 +1,173 @@
+<h1>XSH 函数：system()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="system" id="system"></a> <a name="tag_17_600" id="tag_17_600"></a>
+<a name="tag_17_600_01" id="tag_17_600_01"></a><h4>名称 (NAME)</h4>
+<blockquote>system — 发出命令 (issue a command)</blockquote>
+<a name="tag_17_600_02" id="tag_17_600_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+int system(const char *</code><i>command</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_600_03" id="tag_17_600_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>如果 <i>command</i> 是空指针，<i>system</i>() 函数应确定宿主环境是否具有命令处理器。如果 <i>command</i> 不是空指针，<i>system</i>() 函数应将 <i>command</i> 指向的字符串传递给该命令处理器以按实现定义的方式执行；这随后可能导致调用 <i>system</i>() 的程序以不符合规范的方式行为或终止。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>system</i>() 函数应表现为使用 fork() 创建了子进程，并且子进程使用 execl() 调用 sh 实用程序，如下所示：</p>
+<pre><code class="language-plaintext">execl(&lt;shell path&gt;, "sh", "-c", "--", command, (char *)0);</code></pre>
+<p>其中 &lt;<i>shell 路径</i>&gt; 是 sh 实用程序的未指定路径名。用 pthread_atfork() 注册的处理器是否作为子进程创建的一部分被调用是实现定义的。</p>
+<p><i>system</i>() 函数在等待命令终止时应忽略 SIGINT 和 SIGQUIT 信号，并应阻塞 SIGCHLD 信号。如果这可能导致应用程序错过本来会杀死它的信号，则应用程序应检查 <i>system</i>() 的返回值，并在命令因收到信号而终止时采取对应用程序适当的任何动作。</p>
+<p><i>system</i>() 函数不应影响调用进程的任何子进程的终止状态，除了它自己创建的那个或那些进程。</p>
+<p><i>system</i>() 函数在子进程终止之前不应返回。</p>
+<p>如果从多个线程并发调用 <i>system</i>()，以下情况是未指定的：</p>
+<ul>
+<li>
+<p>每次调用是否独立地保存和恢复 SIGINT 和 SIGQUIT 信号的处置，或者</p>
+</li>
+<li>
+<p>在一组并发调用中，最后一次调用返回后生效的处置是否是进入第一次调用时生效的那些处置。</p>
+</li>
+</ul>
+<p>如果线程在处于对 <i>system</i>() 的调用中时被取消，则子进程是被终止并等待，还是被留下继续运行，是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_600_04" id="tag_17_600_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果 <i>command</i> 是空指针，<i>system</i>() 应返回非零以指示命令处理器可用，如果没有可用的则返回零。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 当 <i>command</i> 为 NULL 时，<i>system</i>() 函数应始终返回非零。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>command</i> 不是空指针，<i>system</i>() 应以 waitpid() 规定的格式返回命令语言解释器的终止状态。终止状态应如为 sh 实用程序定义的那样；否则，终止状态是未指定的。如果某些错误阻止命令语言解释器在子进程创建后执行，则 <i>system</i>() 的返回值应如同命令语言解释器使用 <i>exit</i>(127) 或 <i>_exit</i>(127) 终止一样。如果无法创建子进程，或者无法获得命令语言解释器的终止状态，<i>system</i>() 应返回 -1 并设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_600_05" id="tag_17_600_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>system</i>() 函数可以设置 fork() 所述的 <i>errno</i> 值。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>此外，<i>system</i>() 在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ECHILD]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由 <i>system</i>() 创建的子进程的状态不再可用。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_600_06" id="tag_17_600_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_600_07" id="tag_17_600_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>如果 <i>system</i>() 的返回值不是 -1，则可以通过使用 &lt;sys/wait.h&gt; 中描述的宏来解码其值。为方便起见，这些宏也在 &lt;stdlib.h&gt; 中提供。</p>
+<p>请注意，虽然 <i>system</i>() 在等待子进程终止时必须忽略 SIGINT 和 SIGQUIT 并阻塞 SIGCHLD，但被执行的命令中的信号处理按 fork() 和 <i>exec</i> 的规定进行。例如，如果在调用 <i>system</i>() 时 SIGINT 正被捕获或被设置为 SIG_DFL，则子进程以 SIGINT 处理设置为 SIG_DFL 启动。</p>
+<p>在父进程中忽略 SIGINT 和 SIGQUIT 防止了当被执行的命令忽略或捕获其中一个信号时的协调问题（例如两个进程从同一终端读取）。当用户已向应用程序给出要同步执行的命令时（如在许多交互式应用程序中的 <code>'!'</code> 命令），这通常也是正确的动作。在任一情况下，信号应仅递送给子进程，而不是应用程序本身。有一种情况忽略信号可能产生低于期望的效果。这是当应用程序使用 <i>system</i>() 执行对用户不可见的某些任务时。如果用户在以这种方式使用 <i>system</i>() 时键入了中断字符（例如 <code>"^C"</code>），人们会期望应用程序被杀死，但只有被执行的命令被杀死。以这种方式使用 <i>system</i>() 的应用程序应仔细检查 <i>system</i>() 的返回状态以查看被执行的命令是否成功，并且应在命令失败时采取适当的动作。</p>
+<p>在等待子进程终止时阻塞 SIGCHLD 防止应用程序在 <i>system</i>() 自己获得状态之前捕获信号并从 <i>system</i>() 的子进程获得状态。</p>
+<p>实用程序最终被执行的上下文可能不同于调用 <i>system</i>() 时的上下文。例如，设置了 FD_CLOEXEC 或 FD_CLOFORK 标志的文件描述符被关闭，并且进程 ID 和父进程 ID 不同。此外，如果被执行的实用程序更改其环境变量或其当前工作目录，该更改不会反映在调用者的上下文中。</p>
+<p>没有定义的方式让应用程序找到 shell 的具体路径。然而，confstr() 可以提供 <i>PATH</i> 的一个值，该值保证能找到 sh 实用程序。</p>
+<p>虽然 <i>system</i>() 被要求是线程安全的，但建议避免从多个线程并发调用，因为 <i>system</i>() 不被要求在重叠调用集合之间协调 SIGINT 和 SIGQUIT 信号处置的保存和恢复，因此信号可能在最后一次调用返回后被设置为忽略。应用程序还应避免在线程处于对 <i>system</i>() 的调用中时取消它，因为在那种情况下子进程可能被留下继续运行。此外，如果另一个线程更改 SIGCHLD 信号的处置，对 signal() 的调用可能产生意外结果。</p>
+</blockquote>
+<a name="tag_17_600_08" id="tag_17_600_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p><i>system</i>() 函数不应被已设置用户（或组）ID 特权的程序使用。应改用 fork() 和 <i>exec</i> 函数族（execlp() 和 execvp() 除外）。这防止对用户环境的任何不可预见的操纵，这些操纵可能导致执行调用程序未预期的命令。</p>
+<p>对 <i>system</i>() 函数有三层规范。ISO C 标准给出最基本的。它要求函数存在，并定义了应用程序查询命令语言解释器是否存在的方式。它没有说明命令语言或解释命令的环境。</p>
+<p>POSIX.1-2024 对 <i>system</i>() 施加了额外的限制。它要求如果存在命令语言解释器，则环境必须按 fork() 和 <i>exec</i> 的规定。这确保，例如，close-on-<i>exec</i> 起作用，进程拥有的文件锁不被继承，并且进程 ID 不同。它还规定了当命令行可以运行时 <i>system</i>() 的返回值，从而给应用程序一些关于命令完成状态的信息。</p>
+<p>最后，POSIX.1-2024 要求命令按 POSIX.1-2024 的 Shell 和实用程序卷中定义的 shell 命令语言被解释。</p>
+<p>请注意，<i>system</i>(NULL) 被要求返回非零，指示存在命令语言解释器。乍一看，这似乎与允许 <i>system</i>(NULL) 返回零的 ISO C 标准冲突。然而，没有冲突。系统必须具有命令语言解释器，如果没有，则是不符合规范的。因此，只要理解如果 <i>system</i>(NULL) 返回零则该实现不符合 POSIX.1-2024，此类系统上的 <i>system</i>() 函数实现 ISO C 标准规定的行为是可允许的。</p>
+<p>明确决定的是，当 <i>command</i> 为 NULL 时，不应要求 <i>system</i>() 检查以确保命令语言解释器确实以正确的模式存在、有足够的进程来执行它等等。<i>system</i>(NULL) 调用理论上可以检查诸如太多现有子进程之类的问题并返回零。然而，由于这种（大概）短暂的情况而返回零是不恰当的。如果存在不受此应用程序控制且会导致任何 <i>system</i>() 调用失败的情况，则该系统已被视为不符合规范。</p>
+<p>早期草案要求或允许 <i>system</i>() 在因信号被中断时以 <i>errno</i> 设置为 [EINTR] 返回。此错误返回被移除，并且添加了 <i>system</i>() 在子进程终止之前不返回的要求。这意味着如果 <i>system</i>() 中的 waitpid() 调用以 <i>errno</i> 设置为 [EINTR] 退出，<i>system</i>() 必须重新发出 waitpid()。此更改出于两个原因：</p>
+<ol>
+<li>
+<p>如果 <i>system</i>() 返回 [EINTR]，应用程序除了调用 wait() 之外没有清理的方式，而那可能具有返回除 <i>system</i>() 启动的那个子进程以外的子进程状态的不好效果。</p>
+</li>
+<li>
+<p>虽然它可能要求更改某些历史实现，但那些实现已经必须更改，因为它们使用 wait() 而不是 waitpid()。</p>
+</li>
+</ol>
+<p>请注意，如果应用程序正在捕获 SIGCHLD 信号，它将在成功的 <i>system</i>() 调用返回之前收到此类信号。</p>
+<p>为了符合 POSIX.1-2024，<i>system</i>() 必须使用 waitpid() 或某些类似的函数，而不是 wait()。</p>
+<p>以下代码示例说明 <i>system</i>() 如何在符合 POSIX.1-2024 的实现上被实现。</p>
+<pre><code class="language-plaintext">int system(const char *cmd)
+{
+    int stat;
+    pid_t pid;
+    struct sigaction sa, savintr, savequit;
+    sigset_t saveblock;
+    if (cmd == NULL)
+        return(1);
+    sa.sa_handler = SIG_IGN;
+    sigemptyset(&amp;sa.sa_mask);
+    sa.sa_flags = 0;
+    sigemptyset(&amp;savintr.sa_mask);
+    sigemptyset(&amp;savequit.sa_mask);
+    sigaction(SIGINT, &amp;sa, &amp;savintr);
+    sigaction(SIGQUIT, &amp;sa, &amp;savequit);
+    sigaddset(&amp;sa.sa_mask, SIGCHLD);
+    pthread_sigmask(SIG_BLOCK, &amp;sa.sa_mask, &amp;saveblock);
+    if ((pid = fork()) == 0) {
+        sigaction(SIGINT, &amp;savintr, (struct sigaction *)0);
+        sigaction(SIGQUIT, &amp;savequit, (struct sigaction *)0);
+        sigprocmask(SIG_SETMASK, &amp;saveblock, (sigset_t *)0);
+        execl("/bin/sh", "sh", "-c", "--", cmd, (char *)0);
+        _exit(127);
+    }
+    if (pid == -1) {
+        stat = -1; /* errno comes from fork() */
+    } else {
+        while (waitpid(pid, &amp;stat, 0) == -1) {
+            if (errno != EINTR){
+                stat = -1;
+                break;
+            }
+        }
+    }
+    sigaction(SIGINT, &amp;savintr, (struct sigaction *)0);
+    sigaction(SIGQUIT, &amp;savequit, (struct sigaction *)0);
+    sigprocmask(SIG_SETMASK, &amp;saveblock, (sigset_t *)0);
+    return(stat);
+}</code></pre>
+<p>请注意，虽然 <i>system</i>() 的特定实现（如上述）可以假定 shell 的特定路径，但此类路径在另一个系统上不一定是有效的。上述示例不可移植，也不打算可移植。</p>
+<p>本标准的早期版本不要求 <i>system</i>() 是线程安全的，因为它更改 SIGINT 和 SIGQUIT 信号的进程范围处置。现在要求它是线程安全的以与 ISO C 标准保持一致，后者（自 2011 年引入线程以来）要求它避免数据竞争。然而，该函数不被要求在重叠调用集合之间协调 SIGINT 和 SIGQUIT 信号处置的保存和恢复，并且上述示例也没有这样做。该示例在调用线程被取消时也不终止并等待子进程，因此在那种情况下会泄漏进程 ID。</p>
+<p>一位评审者建议 <i>system</i>() 的实现可能希望使用诸如 <i>SHELL</i> 之类的环境变量来确定使用哪个命令解释器。假定的实现将使用默认命令解释器，如果环境变量指定的那个不可用。这将允许用户在使用提示使用 <i>system</i>() 处理命令行的应用程序时指定不同的命令解释器。此类实现是不鼓励的。如果替代命令解释器不遵循 POSIX.1-2024 的 Shell 和实用程序卷中规定的命令行语法，则更改 <i>SHELL</i> 将使 <i>system</i>() 不符合规范。这将影响期望 <i>system</i>() 具有规定行为的应用程序，并且由于 POSIX.1-2024 的 Shell 和实用程序卷没有提到 <i>SHELL</i> 影响 <i>system</i>()，应用程序将不知道它需要取消设置 <i>SHELL 。</i></p>
+<p>本标准的早期版本要求 <i>command</i> 字符串作为 <code>"-c"</code> 之后的下一个参数传递（省略 <code>"--"</code>）。这意味着可移植应用程序需要注意不要传递以 &lt;hyphen-minus&gt;（<code>'-'</code>）或 &lt;plus-sign&gt;（<code>'+'</code>）开头的命令字符串，因为它随后会被解释为包含选项。现在实现被要求传递 <code>"--"</code>，应用程序不再需要这样做。</p>
+</blockquote>
+<a name="tag_17_600_09" id="tag_17_600_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_600_10" id="tag_17_600_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>2.9.5.2 取消点, exec, pipe(), pthread_atfork(), wait()</p>
+<p>XBD &lt;limits.h&gt;, &lt;signal.h&gt;, &lt;stdlib.h&gt;, &lt;sys/wait.h&gt;</p>
+<p>XCU sh</p>
+</blockquote>
+<a name="tag_17_600_11" id="tag_17_600_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_600_12" id="tag_17_600_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>标记了超出 ISO C 标准的扩展。</p>
+</blockquote>
+<a name="tag_17_600_13" id="tag_17_600_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #055，澄清了此函数的线程安全性和对 pthread_atfork() 处理器的处理。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #156。</p>
+<p>应用了 SD5-XSH-ERN-30。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0365 [627]。</p>
+</blockquote>
+<a name="tag_17_600_14" id="tag_17_600_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 768，添加了 OFD 拥有的文件锁。</p>
+<p>应用了 Austin Group 缺陷 1302，使此函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+<p>应用了 Austin Group 缺陷 1317，使 pthread_atfork() 注册的处理器是否被调用成为实现定义的。</p>
+<p>应用了 Austin Group 缺陷 1318，添加了 FD_CLOFORK。</p>
+<p>应用了 Austin Group 缺陷 1440，向规定的 execl() 调用添加了 <code>"--"</code> 参数。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

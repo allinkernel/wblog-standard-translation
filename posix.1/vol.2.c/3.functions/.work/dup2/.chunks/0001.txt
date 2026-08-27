@@ -1,0 +1,62 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] dup, dup2, dup3 — duplicate an open file descriptor
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]dup[/I5]() function provides an alternative interface to the service provided by [A6][I7]fcntl[/I7]()[/A6] using the F_DUPFD command. The call [I8]dup[/I8]([I9]fildes[/I9]) shall be equivalent to:
+[p_00007] The [I10]dup2[/I10]() function shall cause the file descriptor [I11]fildes2[/I11] to refer to the same open file description as the file descriptor [I12]fildes[/I12] and to share any locks, and shall return [I13]fildes2[/I13]. If [I14]fildes2[/I14] is already a valid open file descriptor, it shall be closed first, unless [I15]fildes[/I15] is equal to [I16]fildes2[/I16] in which case [I17]dup2[/I17]() shall return [I18]fildes2[/I18] without closing it. If the close operation fails to close [I19]fildes2[/I19], [I20]dup2[/I20]() shall return -1 without changing the open file description to which [I21]fildes2[/I21] refers. If [I22]fildes[/I22] is not a valid file descriptor, [I23]dup2[/I23]() shall return -1 and shall not close [I24]fildes2[/I24]. If [I25]fildes2[/I25] is less than 0 or greater than or equal to {OPEN_MAX}, [I26]dup2[/I26]() shall return -1 with [I27]errno[/I27] set to [EBADF].
+[p_00008] Upon successful completion, if [I28]fildes[/I28] is not equal to [I29]fildes2[/I29], the FD_CLOEXEC and FD_CLOFORK flags associated with [I30]fildes2[/I30] shall be cleared. If [I31]fildes[/I31] is equal to [I32]fildes2[/I32], the FD_CLOEXEC and FD_CLOFORK flags associated with [I33]fildes2[/I33] shall not be changed.
+[p_00009] The [I34]dup3[/I34]() function shall be equivalent to the [I35]dup2[/I35]() function, except that it shall be an error if [I36]fildes[/I36] is equal to [I37]fildes2[/I37], and the state of FD_CLOEXEC and FD_CLOFORK on the [I38]fildes2[/I38] file descriptor shall be determined solely by the [I39]flag[/I39] argument, which can be constructed from a bitwise-inclusive OR of flags from the following list:
+[dt_00010] O_CLOEXEC
+[dd_00011] Atomically set the FD_CLOEXEC flag on [I40]fildes2[/I40].
+[dt_00012] O_CLOFORK
+[dd_00013] Atomically set the FD_CLOFORK flag on [I41]fildes2[/I41].
+[p_00014] [S42][[A43]TYM[/A43]][/S42] [IMG44] If [I45]fildes[/I45] refers to a typed memory object, the result of the [I46]dup2[/I46]() or [I47]dup3[/I47]() functions is unspecified. [IMG48]
+[h4_00015] [A49][/A49]RETURN VALUE
+[p_00016] Upon successful completion a non-negative integer, namely the file descriptor, shall be returned; otherwise, -1 shall be returned and [I50]errno[/I50] set to indicate the error.
+[h4_00017] [A51][/A51]ERRORS
+[p_00018] The [I52]dup[/I52]() function shall fail if:
+[dt_00019] [EBADF]
+[dd_00020] The [I53]fildes[/I53] argument is not a valid open file descriptor.
+[dt_00021] [EMFILE]
+[dd_00022] All file descriptors available to the process are currently open.
+[p_00023] The [I54]dup2[/I54]() and [I55]dup3[/I55]() functions shall fail if:
+[dt_00024] [EBADF]
+[dd_00025] The [I56]fildes[/I56] argument is not a valid open file descriptor or the argument [I57]fildes2[/I57] is negative or greater than or equal to {OPEN_MAX}.
+[dt_00026] [EINTR]
+[dd_00027] The function was interrupted by a signal.
+[p_00028] The [I58]dup3[/I58]() function shall fail if:
+[dt_00029] [EINVAL]
+[dd_00030] The [I59]fildes[/I59] and [I60]fildes2[/I60] arguments are equal.
+[p_00031] The [I61]dup2[/I61]() and [I62]dup3[/I62]() functions may fail if:
+[dt_00032] [EIO]
+[dd_00033] An I/O error occurred while attempting to close [I63]fildes2[/I63].
+[p_00034] The [I64]dup3[/I64]() function may fail if:
+[dt_00035] [EINVAL]
+[dd_00036] The value of the [I65]flag[/I65] argument is invalid.
+[h4_00037] [A66][/A66]EXAMPLES
+[h5_00038] [A67][/A67]Redirecting Standard Output to a File
+[p_00039] The following example closes standard output for the current processes, re-assigns standard output to go to the file referenced by [I68]pfd[/I68], and closes the original file descriptor to clean up.
+[h5_00040] [A69][/A69]Redirecting Error Messages
+[p_00041] The following example redirects messages from [I70]stderr[/I70] to [I71]stdout[/I71].
+[h4_00042] [A72][/A72]APPLICATION USAGE
+[p_00043] Implementations may use file descriptors that must be inherited into child processes for the child process to remain conforming, such as for message catalog or tracing purposes. Therefore, an application that calls [I73]dup2[/I73]() with an arbitrary integer for [I74]fildes2[/I74] risks non-conforming behavior, and [I75]dup2[/I75]() can only portably be used to overwrite file descriptor values that the application has obtained through explicit actions, or for the three file descriptors corresponding to the standard file streams. In order to avoid a race condition of leaking an unintended file descriptor into a child process or executed program, an application should consider opening all file descriptors with the FD_CLOFORK or FD_CLOEXEC flag, or both flags, set unless the file descriptor is intended to be inherited by child processes or executed programs, respectively.
+[h4_00044] [A76][/A76]RATIONALE
+[p_00045] The [I77]dup[/I77]() function is redundant. Its services are also provided by the [A78][I79]fcntl[/I79]()[/A78] function. It has been included in this volume of POSIX.1-2024 primarily for historical reasons, since many existing applications use it. On the other hand, the [I80]dup2[/I80]() function provides unique services, as no other interface is able to atomically replace an existing file descriptor.
+[p_00046] The [I81]dup2[/I81]() function is not marked obsolescent because it presents a type-safe version of functionality provided in a type-unsafe version by [A82][I83]fcntl[/I83]()[/A82]. It is used in the POSIX Ada binding.
+[p_00047] The [I84]dup2[/I84]() function is not intended for use in critical regions as a synchronization mechanism.
+[p_00048] In the description of [EBADF], the case of [I85]fildes[/I85] being out of range is covered by the given case of [I86]fildes[/I86] not being valid. The descriptions for [I87]fildes[/I87] and [I88]fildes2[/I88] are different because the only kind of invalidity that is relevant for [I89]fildes2[/I89] is whether it is out of range; that is, it does not matter whether [I90]fildes2[/I90] refers to an open file when the [I91]dup2[/I91]() call is made.
+[p_00049] The [I92]dup3[/I92]() function with the O_CLOEXEC and O_CLOFORK flags is necessary to avoid a data race in multi-threaded applications. Without O_CLOFORK, a file descriptor is leaked into a child process created by one thread in the window between another thread creating a file descriptor with [I93]dup2[/I93]() and then using [A94][I95]fcntl[/I95]()[/A94] to set the FD_CLOFORK flag. Without O_CLOEXEC, a file descriptor intentionally inherited by child processes is similarly leaked into an executed program if FD_CLOEXEC is not set atomically. The safe counterpart for avoiding the same race with [I96]dup[/I96]() is the use of the F_DUPFD_CLOFORK or F_DUPFD_CLOEXEC action of the [A97][I98]fcntl[/I98]()[/A97] function.
+[h4_00050] [A99][/A99]FUTURE DIRECTIONS
+[p_00051] None.
+[h4_00052] [A100][/A100]SEE ALSO
+[p_00053] [A101][I102]close[/I102]()[/A101], [A103][I104]fcntl[/I104]()[/A103], [A105][I106]open[/I106]()[/A105]
+[p_00054] XBD [A107][I108]&lt;unistd.h&gt;[/I108][/A107]
+[h4_00055] [A109][/A109]CHANGE HISTORY
+[p_00056] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00057] [A110][/A110]Issue 7
+[p_00058] SD5-XSH-ERN-187 is applied.
+[p_00059] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0075 [149,428] and XSH/TC1-2008/0076 [149] are applied.
+[h4_00060] [A111][/A111]Issue 8
+[p_00061] Austin Group Defects 411, 1318, 1483, and 1577 are applied, adding [I112]dup3[/I112]() and FD_CLOFORK.
+[p_00062] &nbsp;

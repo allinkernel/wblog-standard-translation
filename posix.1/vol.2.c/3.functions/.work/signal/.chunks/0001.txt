@@ -1,0 +1,59 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] signal — signal management
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]signal[/I5]() function chooses one of three ways in which receipt of the signal number [I6]sig[/I6] is to be subsequently handled. If the value of [I7]func[/I7] is SIG_DFL, default handling for that signal shall occur. If the value of [I8]func[/I8] is SIG_IGN, the signal shall be ignored. Otherwise, the application shall ensure that [I9]func[/I9] points to a function to be called when that signal occurs. An invocation of such a function because of a signal, or (recursively) of any further functions called by that invocation (other than functions in the standard library), is called a &quot;signal handler&quot;.
+[p_00007] When a signal occurs, and [I10]func[/I10] points to a function, it is implementation-defined whether the equivalent of a:
+[p_00008] is executed or the implementation prevents some implementation-defined set of signals (at least including [I11]sig[/I11]) from occurring until the current signal handling has completed. (If the value of [I12]sig[/I12] is SIGILL, the implementation may alternatively define that no action is taken.) Next the equivalent of:
+[p_00009] is executed. If and when the function returns, if the value of [I13]sig[/I13] was SIGFPE, SIGILL, or SIGSEGV or any other implementation-defined value corresponding to a computational exception, the behavior is undefined. Otherwise, the program shall resume execution at the point it was interrupted. The ISO&nbsp;C standard places a restriction on applications relating to the use of [A14][I15]raise[/I15]()[/A14] from signal handlers. [S16][[A17]CX[/A17]][/S16] [IMG18] &nbsp;This restriction does not apply to POSIX applications, as POSIX.1-2024 requires [A19][I20]raise[/I20]()[/A19] to be async-signal-safe (see [A21][I22]2.4.3 Signal Actions[/I22][/A21]). [IMG23]
+[p_00010] [S24][[A25]CX[/A25]][/S24] [IMG26] If the process is multi-threaded, [IMG27] &nbsp;or if the process is single-threaded and a signal handler is executed other than as the result of:
+[p_00011] The process calling [A28][I29]abort[/I29]()[/A28], [A30][I31]raise[/I31]()[/A30], [S32][[A33]CX[/A33]][/S32] [IMG34] [A35][I36]kill[/I36]()[/A35], [A37][I38]pthread_kill[/I38]()[/A37], or [A39][I40]sigqueue[/I40]()[/A39] [IMG41] &nbsp;to generate a signal that is not blocked
+[p_00012] [S42][[A43]CX[/A43]][/S42] [IMG44] A pending signal being unblocked and being delivered before the call that unblocked it returns [IMG45]
+[p_00013] the behavior is undefined if:
+[p_00014] The signal handler refers to any object [S46][[A47]CX[/A47]][/S46] [IMG48] &nbsp;other than [I49]errno[/I49] [IMG50] &nbsp;with static or thread storage duration that is not a lock-free atomic object, [S51][[A52]CX[/A52]][/S51] [IMG53] &nbsp;and not a non-modifiable object (for example, string literals, objects that were defined with a const-qualified type, and objects in memory that is mapped read-only), [IMG54] &nbsp;other than by assigning a value to an object declared as [B55]volatile sig_atomic_t[/B55], [S56][[A57]CX[/A57]][/S56] [IMG58] &nbsp;unless the previous modification (if any) to the object happens before the signal handler is called and the return from the signal handler happens before the next modification (if any) to the object. [IMG59]
+[p_00015] The signal handler calls any function defined in this standard other than [S60][[A61]CX[/A61]][/S60] [IMG62] &nbsp;one of the functions listed in [A63][I64]2.4 Signal Concepts[/I64][/A63]. [IMG65]
+[p_00016] At program start-up, the equivalent of:
+[p_00017] is executed for some signals, and the equivalent of:
+[p_00018] is executed for all other signals [S66][[A67]CX[/A67]][/S66] [IMG68] &nbsp;(see [I69][A70]exec[/A70][/I69]). [IMG71]
+[p_00019] The [I72]signal[/I72]() function shall not change the setting of [I73]errno[/I73] if successful.
+[p_00020] [S74][[A75]CX[/A75]][/S74] [IMG76] The [I77]signal[/I77]() function is required to be thread-safe. (See [A78][I79]2.9.1 Thread-Safety[/I79][/A78].) [IMG80]
+[h4_00021] [A81][/A81]RETURN VALUE
+[p_00022] If the request can be honored, [I82]signal[/I82]() shall return the value of [I83]func[/I83] for the most recent call to [I84]signal[/I84]() for the specified signal [I85]sig[/I85]. Otherwise, SIG_ERR shall be returned and a positive value shall be stored in [I86]errno[/I86].
+[h4_00023] [A87][/A87]ERRORS
+[p_00024] The [I88]signal[/I88]() function shall fail if:
+[dt_00025] [EINVAL]
+[dd_00026] [S89][[A90]CX[/A90]][/S89] [IMG91] The [I92]sig[/I92] argument is not a valid signal number or an attempt is made to catch a signal that cannot be caught or ignore a signal that cannot be ignored. [IMG93]
+[p_00027] The [I94]signal[/I94]() function may fail if:
+[dt_00028] [EINVAL]
+[dd_00029] [S95][[A96]CX[/A96]][/S95] [IMG97] An attempt was made to set the action to SIG_DFL for a signal that cannot be caught or ignored (or both). [IMG98]
+[h4_00030] [A99][/A99]EXAMPLES
+[p_00031] None.
+[h4_00032] [A100][/A100]APPLICATION USAGE
+[p_00033] The [A101][I102]sigaction[/I102]()[/A101] function provides a more comprehensive and reliable mechanism for controlling signals; new applications should use [A103][I104]sigaction[/I104]()[/A103] rather than [I105]signal[/I105]().
+[h4_00034] [A106][/A106]RATIONALE
+[p_00035] The ISO&nbsp;C standard says that the use of [I107]signal[/I107]() in a multi-threaded program results in undefined behavior. However, POSIX.1 has required [I108]signal[/I108]() to be thread-safe since before threads were added to the ISO&nbsp;C standard.
+[h4_00036] [A109][/A109]FUTURE DIRECTIONS
+[p_00037] None.
+[h4_00038] [A110][/A110]SEE ALSO
+[p_00039] [A111][I112]2.4 Signal Concepts[/I112][/A111], [A113][/A113][A114]exec[/A114], [A115][I116]pause[/I116]()[/A115], [A117][I118]raise[/I118]()[/A117], [A119][I120]sigaction[/I120]()[/A119], [A121][I122]sigsuspend[/I122]()[/A121], [A123][I124]waitid[/I124]()[/A123]
+[p_00040] XBD [A125][I126]&lt;signal.h&gt;[/I126][/A125]
+[h4_00041] [A127][/A127]CHANGE HISTORY
+[p_00042] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00043] [A128][/A128]Issue 5
+[p_00044] Moved from X/OPEN UNIX extension to BASE.
+[p_00045] The DESCRIPTION is updated to indicate that the [I129]sigpause[/I129]() function restores the signal mask of the process to its original state before returning.
+[p_00046] The RETURN VALUE section is updated to indicate that the [I130]sigpause[/I130]() function suspends execution of the process until a signal is received, whereupon it returns -1 and sets [I131]errno[/I131] to [EINTR].
+[h4_00047] [A132][/A132]Issue 6
+[p_00048] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00049] The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.
+[p_00050] The DESCRIPTION is updated for alignment with the ISO/IEC&nbsp;9899:1999 standard.
+[p_00051] References to the [I133]wait3[/I133]() function are removed.
+[p_00052] The [I134]sighold[/I134](), [I135]sigignore[/I135](), [I136]sigrelse[/I136](), and [I137]sigset[/I137]() functions are split out onto their own reference page.
+[h4_00053] [A138][/A138]Issue 7
+[p_00054] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0580 [275], XSH/TC1-2008/0581 [66], and XSH/TC1-2008/0582 [105] are applied.
+[p_00055] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0331 [785] is applied.
+[h4_00056] [A139][/A139]Issue 8
+[p_00057] Austin Group Defect 728 is applied, reducing the set of circumstances in which undefined behavior results when a signal handler refers to an object with static or thread storage duration.
+[p_00058] Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.
+[p_00059] &nbsp;

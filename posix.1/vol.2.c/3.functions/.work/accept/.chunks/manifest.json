@@ -1,0 +1,1817 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_06_01\" id=\"tag_17_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "accept, accept4 — accept a new connection on a socket",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_06_02\" id=\"tag_17_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/sys_socket.h.html\">sys/socket.h</a>&gt;<br>\n<br>\nint accept(int</tt> <i>socket</i><tt>, struct sockaddr *restrict</tt> <i>address</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; socklen_t *restrict</tt> <i>address_len</i><tt>);<br>\nint accept4(int</tt> <i>socket</i><tt>, struct sockaddr *restrict</tt> <i>address</i><tt>,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; socklen_t *restrict</tt> <i>address_len</i><tt>, int</tt> <i>flag</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_06_03\" id=\"tag_17_06_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]accept[/I5]() function shall extract the first connection on the queue of pending connections, create a new socket with\nthe same socket type protocol and address family as the specified socket, and allocate a new file descriptor for that socket. The\nfile descriptor shall be allocated as described in [A6][I7]2.6 File Descriptor\nAllocation[/I7][/A6].",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A6": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_06\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "The [I8]accept[/I8]() function takes the following arguments:",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00008",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     3
+    ],
+    "text": "[I9]socket[/I9]",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00009",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     5
+    ],
+    "text": "Specifies a socket that was created with [A10][I11]socket[/I11]()[/A10], has been bound to an address\nwith [A12][I13]bind[/I13]()[/A12], and has issued a successful call to [A14][I15]listen[/I15]()[/A14].",
+    "placeholders": {
+     "A10": {
+      "open": "<a href=\"../functions/socket.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A12": {
+      "open": "<a href=\"../functions/bind.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"../functions/listen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00010",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     7
+    ],
+    "text": "[I16]address[/I16]",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00011",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     9
+    ],
+    "text": "Either a null pointer, or a pointer to a [B17]sockaddr[/B17] structure where the address of the connecting socket shall be\nreturned.",
+    "placeholders": {
+     "B17": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00012",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     11
+    ],
+    "text": "[I18]address_len[/I18]",
+    "placeholders": {
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00013",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     5,
+     13
+    ],
+    "text": "Either a null pointer, if [I19]address[/I19] is a null pointer, or a pointer to a [B20]socklen_t[/B20] object which on input specifies\nthe length of the supplied [B21]sockaddr[/B21] structure, and on output specifies the length of the address of the connecting\nsocket.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B20": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B21": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     7
+    ],
+    "text": "If [I22]address[/I22] is not a null pointer, the address of the peer for the accepted connection shall be stored in the\n[B23]sockaddr[/B23] structure pointed to by [I24]address[/I24], and the length of this address shall be stored in the object pointed to by\n[I25]address_len[/I25].",
+    "placeholders": {
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B23": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     9
+    ],
+    "text": "If the actual length of the address is greater than the length of the supplied [B26]sockaddr[/B26] structure, the stored address\nshall be truncated.",
+    "placeholders": {
+     "B26": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     11
+    ],
+    "text": "If the protocol permits connections by unbound clients, and the peer is not bound, then the value stored in the object pointed\nto by [I27]address[/I27] is unspecified.",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     13
+    ],
+    "text": "If the listen queue is empty of connection requests and O_NONBLOCK is not set on the file descriptor for the socket,\n[I28]accept[/I28]() shall block until a connection is present. If the [A29][I30]listen[/I30]()[/A29] queue is\nempty of connection requests and O_NONBLOCK is set on the file descriptor for the socket, [I31]accept[/I31]() shall fail and set\n[I32]errno[/I32] to [EAGAIN] or [EWOULDBLOCK].",
+    "placeholders": {
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"../functions/listen.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     15
+    ],
+    "text": "The accepted socket cannot itself accept more connections. The original socket remains open and can accept more connections.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     17
+    ],
+    "text": "If O_NONBLOCK is set on the file description for [I33]socket[/I33], it is implementation-defined whether O_NONBLOCK will be set on\nthe file description created by [I34]accept[/I34](). FD_CLOEXEC and FD_CLOFORK for the new file descriptor shall be clear, regardless\nof how they are currently set for [I35]socket[/I35].",
+    "placeholders": {
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     19
+    ],
+    "text": "It is implementation-defined which socket options, if any, on the accepted socket will have a default value determined by a\nvalue previously customized by [A36][I37]setsockopt[/I37]()[/A36] on [I38]socket[/I38], rather than the\ndefault value used for other new sockets.",
+    "placeholders": {
+     "A36": {
+      "open": "<a href=\"../functions/setsockopt.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     21
+    ],
+    "text": "The [I39]accept4[/I39]() function shall be equivalent to the [I40]accept[/I40]() function, except that the state of O_NONBLOCK on the\nnew file description, and FD_CLOEXEC and FD_CLOFORK on the returned file descriptor shall be determined solely by the [I41]flag[/I41]\nargument, which can be constructed from a bitwise-inclusive OR of flags from the following list:",
+    "placeholders": {
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     23,
+     3
+    ],
+    "text": "SOCK_CLOEXEC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     23,
+     5
+    ],
+    "text": "Atomically set the FD_CLOEXEC flag on the new file descriptor.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     23,
+     7
+    ],
+    "text": "SOCK_CLOFORK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     23,
+     9
+    ],
+    "text": "Atomically set the FD_CLOFORK flag on the new file descriptor.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     21,
+     23,
+     11
+    ],
+    "text": "SOCK_NONBLOCK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     21,
+     23,
+     13
+    ],
+    "text": "Set the O_NONBLOCK file status flag on the new file description.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     25
+    ],
+    "text": "Implementations may define additional flags.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A42][/A42]RETURN VALUE",
+    "placeholders": {
+     "A42": {
+      "open": "<a name=\"tag_17_06_04\" id=\"tag_17_06_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I43]accept[/I43]() and [I44]accept4[/I44]() shall return the non-negative file descriptor of the accepted\nsocket. Otherwise, -1 shall be returned, [I45]errno[/I45] shall be set to indicate the error, and any object pointed to by\n[I46]address_len[/I46] shall remain unchanged.",
+    "placeholders": {
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00031",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A47][/A47]ERRORS",
+    "placeholders": {
+     "A47": {
+      "open": "<a name=\"tag_17_06_05\" id=\"tag_17_06_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I48]accept[/I48]() and [I49]accept4[/I49]() functions shall fail if:",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00033",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     3
+    ],
+    "text": "[EAGAIN] or [EWOULDBLOCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00034",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     5
+    ],
+    "text": "O_NONBLOCK is set for the socket file descriptor and no connections are present to be accepted.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00035",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00036",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     9
+    ],
+    "text": "The [I50]socket[/I50] argument is not a valid file descriptor.",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00037",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     11
+    ],
+    "text": "[ECONNABORTED]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00038",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     13
+    ],
+    "text": "A connection has been aborted.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00039",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     15
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00040",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     17
+    ],
+    "text": "The [I51]accept[/I51]() function was interrupted by a signal that was caught before a valid connection arrived.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00041",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     19
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00042",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     21
+    ],
+    "text": "The [I52]socket[/I52] is not accepting connections.",
+    "placeholders": {
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00043",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     23
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00044",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     25
+    ],
+    "text": "All file descriptors available to the process are currently open.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00045",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     27
+    ],
+    "text": "[ENFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00046",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     29
+    ],
+    "text": "The maximum number of file descriptors in the system are already open.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00047",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     31
+    ],
+    "text": "[ENOBUFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00048",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     33
+    ],
+    "text": "No buffer space is available.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00049",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     35
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00050",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     37
+    ],
+    "text": "There was insufficient memory available to complete the operation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00051",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     39
+    ],
+    "text": "[ENOTSOCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00052",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     41
+    ],
+    "text": "The [I53]socket[/I53] argument does not refer to a socket.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00053",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     43
+    ],
+    "text": "[EOPNOTSUPP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00054",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     45
+    ],
+    "text": "The socket type of the specified socket does not support accepting connections.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     5
+    ],
+    "text": "The [I54]accept[/I54]() and [I55]accept4[/I55]() functions may fail if:",
+    "placeholders": {
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00056",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     3
+    ],
+    "text": "[EPROTO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00057",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     5
+    ],
+    "text": "A protocol error has occurred.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     9
+    ],
+    "text": "The [I56]accept4[/I56]() function may fail if:",
+    "placeholders": {
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00059",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00060",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     11,
+     5
+    ],
+    "text": "The value of the [I57]flag[/I57] argument is invalid.",
+    "placeholders": {
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00061",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A58][/A58]EXAMPLES",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_06_06\" id=\"tag_17_06_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00063",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A59][/A59]APPLICATION USAGE",
+    "placeholders": {
+     "A59": {
+      "open": "<a name=\"tag_17_06_07\" id=\"tag_17_06_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00064",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "When a connection is available, [A60][I61]select[/I61]()[/A60] indicates that the file descriptor for\nthe socket is ready for reading.",
+    "placeholders": {
+     "A60": {
+      "open": "<a href=\"../functions/select.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     3
+    ],
+    "text": "Many socket options are described as having implementation-defined default values, which may differ according to the protocol in\nuse by the socket. Existing practice differs on whether socket options such as SO_SNDBUF that were customized on the original\nlistening socket will impact the corresponding option on the newly returned socket. Implementations are permitted to allow\ninheritance of customized settings where it makes sense, although the most portable approach for applications is to limit [A62][I63]setsockopt[/I63]()[/A62] customizations to only the accepted socket.",
+    "placeholders": {
+     "A62": {
+      "open": "<a href=\"../functions/setsockopt.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     5
+    ],
+    "text": "For AF_UNIX sockets, it is recommended that [I64]address[/I64] points to a buffer of length greater than [CODE65] which has been initialized with null bytes. That way, even if the implementation supports the use of all bytes of\n[I66]sun_path[/I66] without a terminating null byte, the larger buffer guarantees that the [I67]sun_path[/I67] member can then be passed to\nother interfaces that expect a null-terminated string. If no truncation occurred based on the input value of [I68]address_len[/I68], it\nis unspecified whether the returned [I69]address_len[/I69] will be [CODE70], or merely a value at least as\nlarge as [CODE71] plus the number of non-null bytes stored in [I72]sun_path[/I72].",
+    "placeholders": {
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE65": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>sizeof(struct\nsockaddr_un)</tt>"
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE70": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>sizeof(struct sockaddr_un)</tt>"
+     },
+     "CODE71": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>offsetof(struct sockaddr_un, sun_path)</tt>"
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00067",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A73][/A73]RATIONALE",
+    "placeholders": {
+     "A73": {
+      "open": "<a name=\"tag_17_06_08\" id=\"tag_17_06_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00068",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "The SOCK_CLOEXEC and SOCK_CLOFORK flags of [I74]accept4[/I74]() are necessary to avoid a data race in multi-threaded applications.\nWithout SOCK_CLOFORK, a file descriptor is leaked into a child process created by one thread in the window between another thread\ncreating a file descriptor with [I75]accept[/I75]() and then using [A76][I77]fcntl[/I77]()[/A76] to set the\nFD_CLOFORK flag. Without SOCK_CLOEXEC, a file descriptor intentionally inherited by child processes is similarly leaked into an\nexecuted program if FD_CLOEXEC is not set atomically.",
+    "placeholders": {
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A76": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     3
+    ],
+    "text": "Two designs often used for network servers are multi-threaded servers with a pre-created pool of worker threads, where the\nthread that accepts the connection request hands over the new file descriptor to a worker thread for servicing, and pre-fork\nservers with a pre-created pool of worker processes, where the process that accepts the connection request passes the new file\ndescriptor (for example via [A78][I79]sendmsg[/I79]()[/A78]) to a worker process. In both of these\ndesigns, [I80]accept4[/I80]() should be used with the SOCK_CLOFORK flag set. Simpler designs are also sometimes used that do not\npre-create a pool. For a multi-threaded server that creates a thread to handle each request, SOCK_CLOFORK should still be used. For\na forking server that creates a child to service each request, clearly SOCK_CLOFORK cannot be used if the child is to inherit the\nfile descriptor to be serviced, and therefore this type of server needs to use an alternative method of indicating the end of\ncommunications, for example using [A81][I82]shutdown[/I82]()[/A81], to ensure the client sees\nend-of-file, rather than just closing the socket. Such child processes should set FD_CLOFORK on the inherited file descriptor\nbefore they attempt to start any additional child processes to avoid leakage into those children.",
+    "placeholders": {
+     "A78": {
+      "open": "<a href=\"../functions/sendmsg.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A81": {
+      "open": "<a href=\"../functions/shutdown.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00070",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     5
+    ],
+    "text": "The SOCK_NONBLOCK flag is for convenience in avoiding additional [A83][I84]fcntl[/I84]()[/A83] calls, as\nwell as providing specific control over the O_NONBLOCK flag, since traditional implementations of [I85]accept[/I85]() differ on whether\nO_NONBLOCK is inherited from the [I86]socket[/I86] argument.",
+    "placeholders": {
+     "A83": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00071",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A87][/A87]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A87": {
+      "open": "<a name=\"tag_17_06_09\" id=\"tag_17_06_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00073",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A88][/A88]SEE ALSO",
+    "placeholders": {
+     "A88": {
+      "open": "<a name=\"tag_17_06_10\" id=\"tag_17_06_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00074",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A89][I90]2.6 File Descriptor Allocation[/I90][/A89], [A91][I92]bind[/I92]()[/A91], [A93][I94]connect[/I94]()[/A93], [A95][I96]listen[/I96]()[/A95], [A97][I98]socket[/I98]()[/A97]",
+    "placeholders": {
+     "A89": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_06\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A91": {
+      "open": "<a href=\"../functions/bind.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A93": {
+      "open": "<a href=\"../functions/connect.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A95": {
+      "open": "<a href=\"../functions/listen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A97": {
+      "open": "<a href=\"../functions/socket.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A99][I100]&lt;sys/socket.h&gt;[/I100][/A99]",
+    "placeholders": {
+     "A99": {
+      "open": "<a href=\"../basedefs/sys_socket.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00076",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A101][/A101]CHANGE HISTORY",
+    "placeholders": {
+     "A101": {
+      "open": "<a name=\"tag_17_06_11\" id=\"tag_17_06_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00077",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 6. Derived from the XNS, Issue 5.2 specification.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     3
+    ],
+    "text": "The [B102]restrict[/B102] keyword is added to the [I103]accept[/I103]() prototype for alignment with the ISO/IEC&nbsp;9899:1999\nstandard.",
+    "placeholders": {
+     "B102": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I103": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00079",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A104][/A104]Issue 7",
+    "placeholders": {
+     "A104": {
+      "open": "<a name=\"tag_17_06_12\" id=\"tag_17_06_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00080",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "SD5-XBD-ERN-4 is applied, changing the definition of the [EMFILE] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00081",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #044 is applied, changing the &quot;may fail&quot; [ENOBUFS] and [ENOMEM] errors to become\n&quot;shall fail&quot; errors.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00082",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     5
+    ],
+    "text": "Functionality relating to XSI STREAMS is marked obsolescent.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00083",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0018 [464] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00084",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     9
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0035 [835] and XSH/TC2-2008/0036 [836] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00085",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A105][/A105]Issue 8",
+    "placeholders": {
+     "A105": {
+      "open": "<a name=\"tag_17_06_13\" id=\"tag_17_06_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00086",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "Austin Group Defects 411 and 1318 are applied, adding [I106]accept4[/I106](), requiring FD_CLOEXEC and FD_CLOFORK to be clear for the\nfile descriptor returned by [I107]accept[/I107](), and clarifying the requirements for O_NONBLOCK on the file description created by\n[I108]accept[/I108]().",
+    "placeholders": {
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00087",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     3
+    ],
+    "text": "Austin Group Defect 561 is applied, adding a paragraph about [I109]sun_path[/I109] to APPLICATION USAGE.",
+    "placeholders": {
+     "I109": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00088",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     5
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00089",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     7
+    ],
+    "text": "Austin Group Defect 1337 is applied, clarifying socket option default values.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00090",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     9
+    ],
+    "text": "Austin Group Defect 1565 is applied, changing the description of [I110]address_len[/I110].",
+    "placeholders": {
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00091",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

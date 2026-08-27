@@ -1,0 +1,25 @@
+<h1>XSH 函数导读：free()</h1>
+
+<h2>0. 总览</h2>
+<p><code>free()</code> 释放已分配的内存：使 <code>ptr</code> 所指向的空间可供进一步分配。头文件为 <code>&lt;stdlib.h&gt;</code>。原型关键点：<code>void free(void *ptr)</code>——参数是先前由 <code>malloc()</code>、<code>calloc()</code>、<code>realloc()</code>、<code>aligned_alloc()</code>、<code>posix_memalign()</code>、<code>reallocarray()</code> 等函数返回的指针；函数不返回值，也不定义任何错误条件。</p>
+
+<h2>1. 机制</h2>
+<p>释放的核心行为：若 <code>ptr</code> 是空指针，<code>free()</code> 不执行任何操作；否则使该空间可供再次分配，即把这块内存交还给堆管理器。规范明确：若参数与先前按 <code>malloc()</code> 方式分配的函数返回的指针不匹配，或该空间已通过 <code>free()</code>、<code>realloc()</code>、<code>reallocarray()</code> 释放，则行为未定义；对已释放空间的指针的任何使用都导致未定义行为。另外，当传入空指针或有效未释放指针时，<code>free()</code> 不应修改 <code>errno</code>，因此在清理代码中直接使用 <code>free()</code> 不会破坏先前保存的错误状态。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是双重释放——对同一指针调用两次 <code>free()</code> 行为未定义；二是悬垂指针——<code>free()</code> 后指针本身仍保存着旧地址，继续解引用或再次释放都会出问题，习惯上释放后把指针置为 NULL；三是错误释放——只能释放分配函数返回的指针，不能释放栈上数组或指向数组内部的指针；四是"释放"与"分配"必须配对，遗漏释放造成内存泄漏；五是不要用 <code>free()</code> 返回的指针做任何判断，因为它不返回值。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+
+int main(void) {
+    int *p = malloc(100 * sizeof(int));
+    if (p == NULL)
+        return 1;
+
+    free(p);      /* 释放 p 指向的空间 */
+    p = NULL;     /* 置空，防止悬垂指针 */
+    free(p);      /* 释放 NULL 是安全空操作 */
+
+    return 0;
+}</code></pre>

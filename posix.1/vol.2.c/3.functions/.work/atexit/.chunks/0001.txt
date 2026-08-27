@@ -1,0 +1,36 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] atexit — register a function to be called from .I exit () or after return from .I main ()
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]atexit[/I5]() function shall register the function pointed to by [I6]func[/I6], to be called without arguments from [A7][I8]exit[/I8]()[/A7], or after return from the initial call to [I9]main[/I9](), or on the last thread termination. If the [A10][I11]exit[/I11]()[/A10] function is called, it is unspecified whether a call to the [I12]atexit[/I12]() function that does not happen before [A13][I14]exit[/I14]()[/A13] is called will succeed.
+[p_00007] At least 32 functions can be registered with [I15]atexit[/I15]().
+[h4_00008] [A16][/A16]RETURN VALUE
+[p_00009] Upon successful completion, [I17]atexit[/I17]() shall return 0; otherwise, it shall return a non-zero value.
+[h4_00010] [A18][/A18]ERRORS
+[p_00011] No errors are defined.
+[h4_00012] [A19][/A19]EXAMPLES
+[p_00013] None.
+[h4_00014] [A20][/A20]APPLICATION USAGE
+[p_00015] The [I21]atexit[/I21]() function registrations are distinct from the [A22][I23]at_quick_exit[/I23]()[/A22] registrations, so applications might need to call both registration functions with the same argument.
+[p_00016] The functions registered by a call to [I24]atexit[/I24]() must return to ensure that all registered functions are called.
+[p_00017] The application should call [A25][I26]sysconf[/I26]()[/A25] to obtain the value of {ATEXIT_MAX}, the number of functions that can be registered. There is no way for an application to tell how many functions have already been registered with [I27]atexit[/I27]().
+[p_00018] Since the behavior is undefined if the [A28][I29]exit[/I29]()[/A28] function is called more than once, portable applications calling [I30]atexit[/I30]() must ensure that the [A31][I32]exit[/I32]()[/A31] function is not called when the functions registered by the [I33]atexit[/I33]() function are called.
+[p_00019] If a function registered by the [I34]atexit[/I34]() function is called and a portable application needs to stop further [A35][I36]exit[/I36]()[/A35] processing, it must call the [A37][I38]_exit[/I38]()[/A37] function or the [A39][I40]_Exit[/I40]()[/A39] function or one of the functions which cause abnormal process termination.
+[h4_00020] [A41][/A41]RATIONALE
+[p_00021] None.
+[h4_00022] [A42][/A42]FUTURE DIRECTIONS
+[p_00023] None.
+[h4_00024] [A43][/A43]SEE ALSO
+[p_00025] [A44][I45]at_quick_exit[/I45]()[/A44], [A46][/A46][A47]exec[/A47], [A48][I49]exit[/I49]()[/A48], [A50][I51]sysconf[/I51]()[/A50]
+[p_00026] XBD [A52][I53]&lt;stdlib.h&gt;[/I53][/A52]
+[h4_00027] [A54][/A54]CHANGE HISTORY
+[p_00028] First released in Issue 4. Derived from the ANSI&nbsp;C standard.
+[h4_00029] [A55][/A55]Issue 6
+[p_00030] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00031] The DESCRIPTION is updated for alignment with the ISO/IEC&nbsp;9899:1999 standard.
+[p_00032] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/19 is applied, adding further clarification to the APPLICATION USAGE section.
+[h4_00033] [A56][/A56]Issue 8
+[p_00034] Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.
+[p_00035] Austin Group Defect 1646 is applied, removing redundant text relating to the [I57][A58]exec[/A58][/I57] family of functions.
+[p_00036] &nbsp;

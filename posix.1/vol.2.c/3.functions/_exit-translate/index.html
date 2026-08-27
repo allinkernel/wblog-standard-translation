@@ -1,0 +1,207 @@
+<h1>XSH 函数：_exit()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="_Exit" id="_Exit"></a> <a name="tag_17_02" id="tag_17_02"></a>
+<a name="tag_17_02_01" id="tag_17_02_01"></a><h4>名称 (NAME)</h4>
+<blockquote>_Exit, _exit — 终止进程 (terminate a process)</blockquote>
+<a name="tag_17_02_02" id="tag_17_02_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+_Noreturn void _Exit(int</code> <i>status</i><code>);<br>
+<br>
+<br>
+#include &lt;unistd.h&gt;<br>
+_Noreturn void _exit(int</code> <i>status</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_02_03" id="tag_17_02_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p>对于 <i>_Exit</i>()：<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  此参考页上描述的功能与 ISO C 标准保持一致。此处描述的要求与 ISO C 标准之间的任何冲突都是无意的。本卷 POSIX.1-2024 遵从 ISO C 标准。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>status</i> 的值可以是 0、EXIT_SUCCESS、EXIT_FAILURE、<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或任何其他值，尽管只有最低有效的 8 位（即 <i>status</i> &amp; 0377）应可从 wait() 和 waitpid() 获得；完整值应可从 waitid() 以及传递给 SIGCHLD 信号处理器的 <b>siginfo_t</b> 中获得。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>_Exit</i>() 和 <i>_exit</i>() 函数应在功能上等效。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>_Exit</i>() <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 <i>_exit</i>() <img src="../images/opt-end.gif" alt="[Option End]"> 函数不应调用用 atexit() 或 at_quick_exit() 注册的函数，也不应调用任何注册的信号处理器。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  打开的流不应被刷新。<img src="../images/opt-end.gif" alt="[Option End]">  打开的流是否被关闭（不刷新）是实现定义的。最后，调用进程应被终止，并产生下述后果。</p>
+<a name="tag_17_02_03_01" id="tag_17_02_03_01"></a><h5>进程终止的后果 (Consequences of Process Termination)</h5>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由任何原因引起的进程终止应具有以下后果：<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<dl>
+<dt><b>注意：</b></dt>
+<dd>这些后果都是对 ISO C 标准的扩展，并且不再进一步 CX 阴影标记。然而，与 XSI 选项相关的功能被阴影标记。</dd>
+</dl>
+
+<ul>
+<li>
+<p>在调用进程中打开的所有文件描述符、目录流、转换描述符和消息目录描述符应被关闭。</p>
+</li>
+<li>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果调用进程的父进程已设置其 SA_NOCLDWAIT 标志或将 SIGCHLD 信号的动作设置为 SIG_IGN：</p>
+<ul>
+<li>
+<p>进程的状态信息（参见 2.12 状态信息）（如果有）应被丢弃。</p>
+</li>
+<li>
+<p>调用进程的生命周期应立即结束。如果设置了 SA_NOCLDWAIT，是否向父进程发送 SIGCHLD 信号是实现定义的。</p>
+</li>
+<li>
+<p>如果调用进程的父进程中的某个线程阻塞在 wait()、waitpid() 或 waitid() 中，并且父进程在等待的子进程集合中没有剩余的子进程，则 wait()、waitid() 或 waitpid() 函数应失败并将 <i>errno</i> 设置为 [ECHILD]。</p>
+</li>
+</ul>
+<p>否则：<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<ul>
+<li>
+<p>应生成状态信息（参见 2.12 状态信息）。</p>
+</li>
+<li>
+<p>调用进程应转变为僵尸进程。其状态信息应可供父进程使用，直到进程的生命周期结束。</p>
+</li>
+<li>
+<p>一旦其父进程通过当前阻塞的或未来的对 wait()、waitid()（不带 WNOWAIT）或 waitpid() 的调用获得进程的状态信息，进程的生命周期应结束。</p>
+</li>
+<li>
+<p>如果调用进程的父进程中的一个或多个线程阻塞在对 wait()、waitid() 或 waitpid() 的调用中等待该进程终止，则这些线程中的一个（或者，如果有任何线程以 WNOWAIT 调用 waitid()，则可能不止一个）应按 2.12 状态信息 中的规定获得进程的状态信息并解除阻塞。</p>
+</li>
+<li>
+<p>应向父进程发送 SIGCHLD。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>进程的终止不会直接终止其子进程。如下所述发送 SIGHUP 信号在某些情况下会间接终止子进程。</p>
+</li>
+<li>
+<p>调用进程的所有现有子进程和僵尸进程的父进程 ID 应被设置为实现定义的系统进程的进程 ID。也就是说，这些进程应被特殊的系统进程继承。</p>
+</li>
+<li>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 每个附加的共享内存段被分离，并且与其共享内存 ID 关联的数据结构中的 <i>shm_nattch</i>（参见 shmget()）值应减 1。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 对于调用进程已为其设置 <i>semadj</i> 值（参见 semop()）的每个信号量，该值应被添加到指定信号量的 <i>semval</i> 中。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>如果进程是控制进程，则 SIGHUP 信号应被发送到属于调用进程的控制终端的前台进程组中的每个进程。</p>
+</li>
+<li>
+<p>如果进程是控制进程，则与会话关联的控制终端应与会话分离，允许它被新的控制进程获取。</p>
+</li>
+<li>
+<p>如果进程的退出导致进程组成为孤儿进程组，并且新成为孤儿的进程组中有任何成员被停止，则 SIGHUP 信号后跟 SIGCONT 信号应被发送到新成为孤儿的进程组中的每个进程。</p>
+</li>
+<li>
+<p>调用进程中所有打开的命名信号量应如同通过适当调用 sem_close() 一样被关闭。调用进程中所有打开的未命名信号量应如同通过适当调用 sem_destroy() 一样被销毁。</p>
+</li>
+<li>
+<p><sup>[ML]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由进程通过调用 mlockall() 或 mlock() 建立的任何内存锁应被移除。如果调用进程地址空间中被锁定的页面也被映射到其他进程的地址空间中并被那些进程锁定，则由其他进程建立的锁不应受到此进程对 <i>_Exit</i>() 或 <i>_exit</i>() 的调用的影响。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>在进程中创建的内存映射应在进程被销毁之前被取消映射。</p>
+</li>
+<li>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 在调用进程中映射的任何类型化内存块应被取消映射，如同隐式调用 munmap() 来取消映射它们。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p><sup>[MSG]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 调用进程中所有打开的消息队列描述符应如同通过适当调用 mq_close() 一样被关闭。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>任何未完成的可取消异步 I/O 操作可以被取消。未被取消的那些异步 I/O 操作应如同 <i>_Exit</i>() 或 <i>_exit</i>() 操作尚未发生一样完成，但任何相关的信号通知应被抑制。<i>_Exit</i>() 或 <i>_exit</i>() 操作可以阻塞等待此类 I/O 完成。是否有任何 I/O 被取消，以及在 <i>_Exit</i>() 或 <i>_exit</i>() 时可以取消哪些 I/O，是实现定义的。</p>
+</li>
+<li>
+<p>由对 <i>_Exit</i>() 或 <i>_exit</i>() 的调用终止的线程不应调用其取消清理处理器或每线程数据析构函数。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_02_04" id="tag_17_02_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>这些函数不返回。</p>
+</blockquote>
+<a name="tag_17_02_05" id="tag_17_02_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义任何错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_02_06" id="tag_17_02_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_02_07" id="tag_17_02_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>通常应用程序应使用 exit() 而不是 <i>_Exit</i>() 或 <i>_exit</i>()。</p>
+<p>退出状态 126 及更大在某些情况下是模糊的，因为它们在 shell 中具有特殊含义（参见 2.8.2 命令的退出状态 和 sh 的 EXIT STATUS 部分）。</p>
+</blockquote>
+<a name="tag_17_02_08" id="tag_17_02_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<a name="tag_17_02_08_01" id="tag_17_02_08_01"></a><h5>进程终止 (Process Termination)</h5>
+<p>早期的提案在正常和异常进程终止之间作了区分。异常终止仅由某些信号引起，并导致实现定义的 &quot;动作&quot;，如下所述。后来的提案区分了三种终止类型：<i>正常终止</i>（如当前规范中）、<i>简单异常终止</i> 和 <i>带动作的异常终止</i>。两种异常终止类型之间的区别再次在于它们由不同的信号引起，并且在后者的情况下会导致实现定义的动作。鉴于这些动作完全是实现定义的，早期提案只是说明动作何时可能发生以及如何检测它们的发生，而不是说明它们是什么。这对符合规范的应用程序几乎没有或根本没有用处，因此本卷 POSIX.1-2024 不做此区分。</p>
+<p>在大多数历史实现中，实现定义的动作通常包括在进程的当前工作目录中创建名为 <b>core</b> 的文件。此文件包含进程内存的映像，以及关于进程的描述性信息，可能足以重建进程在收到信号时的状态。</p>
+<p>如果进程是设置用户 ID 的且当前用户不是程序的所有者，或者进程是设置组 ID 的且用户的组中没有与程序的组匹配的组，或者用户没有在当前目录中写入的权限，则创建 <b>core</b> 文件存在潜在的安全问题。在这种情况下，实现要么不应创建 <b>core</b> 文件，要么应使其对用户不可读。</p>
+<p>尽管本卷 POSIX.1-2024 对此功能保持沉默，但建议应用程序不要创建名为 <b>core</b> 的文件，因为在许多实现中存在潜在冲突。某些实现使用 <b>core</b> 以外的名称作为文件名；例如，通过将进程 ID 附加到文件名。</p>
+<a name="tag_17_02_08_02" id="tag_17_02_08_02"></a><h5>终止进程 (Terminating a Process)</h5>
+<p>重要的是，所述进程终止的后果无论进程是调用了 <i>_exit</i>()（可能通过 exit() 间接调用）还是因信号或其他原因被终止，都应发生。请注意，在 exit() 的具体情况下，这意味着传递给 exit() 的 <i>status</i> 参数与传递给 <i>_exit</i>() 的 <i>status</i> 参数以相同的方式被对待。</p>
+<p>C 以外的语言可能具有不同于 C 语言 exit() 函数的其他终止原语，并且以这种语言编写的程序应使用其原生终止原语，但这些原语应具有 <i>_exit</i>() 所述行为作为其功能的一部分。然而，C 以外的语言的实现不在本版本的本卷 POSIX.1-2024 的范围内。</p>
+<p>按照 ISO C 标准的要求，从 <i>main</i>() 使用 <b>return</b> 与使用返回的值调用 exit() 具有相同的行为（除了与语言作用域问题有关的方面）。到达 <i>main</i>() 函数的末尾与调用 <i>exit</i>(0) 具有相同的行为。</p>
+<p>参数 <i>status</i> 的零值（或 EXIT_SUCCESS，它被要求为零）按惯例指示成功终止。这对应于 ISO C 标准中对 exit() 的规定。该惯例被 make 和各种 shell 等实用程序遵循，它们将子进程的零状态解释为成功。因此，当应用程序不成功地终止时，不应调用 <i>exit</i>(0) 或 <i>_exit</i>(0)；例如，在信号捕获函数中。</p>
+<p>历史上，继承其父进程在未等待它们的情况下已终止的子进程的实现定义进程被称为 <i>init</i>，其进程 ID 为 1。</p>
+<p>当控制进程终止时向前台进程组发送 SIGHUP 对应于一些不同的历史实现。在 System V 中，内核在（本质上）控制进程终止时发送 SIGHUP。在 4.2 BSD 中，内核在这种情况下不发送 SIGHUP，但控制进程的终止通常被系统守护进程注意到，该守护进程安排使用 <i>vhangup</i>() 函数向前台进程组发送 SIGHUP。然而，在 4.2 BSD 中，由于支持作业控制的 shell 的行为，控制进程通常是其进程组中没有其他进程的 shell。因此，在此类系统中使 <i>_exit</i>() 以这种方式行为的更改不应导致现有应用程序出现问题。</p>
+<p>进程的终止可能以两种方式之一导致进程组成为孤儿进程组。进程组与其组外的父进程的连接取决于父进程及其子进程两者。因此，进程组可能因组外最后一个连接的父进程终止而成为孤儿，或因父进程的最后一个直接后代终止而成为孤儿。在任一情况下，如果进程的终止导致进程组成为孤儿进程组，则组内的进程与其作业控制 shell 断开连接，该 shell 不再有任何关于进程组存在的信息。组内被停止的进程将永远搁置。为了避免此问题，包含被停止进程的新成为孤儿的进程组被发送 SIGHUP 信号和 SIGCONT 信号，以指示它们已与其会话断开连接。SIGHUP 信号导致进程组成员终止，除非它们正在捕获或忽略 SIGHUP。在大多数情况下，如果进程组的任何成员被停止，则其所有成员都被停止。</p>
+<p>向新成为孤儿的进程组的成员发送 SIGHUP 和 SIGCONT 信号的动作类似于 4.2 BSD 的动作，后者向退出进程的每个被停止的子进程发送 SIGHUP 和 SIGCONT。如果此类子进程响应 SIGHUP 而退出，则任何额外的后代在该时侯受到类似处理。在本卷 POSIX.1-2024 中，信号同时发送给整个进程组。此外，在本卷 POSIX.1-2024 中（但在 4.2 BSD 中不是），被停止的进程可能成为孤儿，但可能是未成为孤儿的进程组的成员；因此，在 <i>_exit</i>() 时采取的动作必须考虑子进程以外的进程。</p>
+<p>进程组可能因调用 setpgid() 或 setsid() 以及因进程终止而成为孤儿进程组。本卷 POSIX.1-2024 不要求在这些情况下发送 SIGHUP 和 SIGCONT，因为与进程终止不同，这些情况不是由不了解作业控制的应用程序意外引起的。实现可以选择在这些情况下发送 SIGHUP 和 SIGCONT 作为扩展；此类扩展必须按 &lt;signal.h&gt; 中的要求被记录。</p>
+<p>ISO/IEC 9899:1999 标准添加了 <i>_Exit</i>() 函数，它导致立即程序终止，而不触发信号或 atexit() 注册的函数。在 POSIX.1-2024 中，这等同于 <i>_exit</i>() 函数。</p>
+</blockquote>
+<a name="tag_17_02_09" id="tag_17_02_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_02_10" id="tag_17_02_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>at_quick_exit(), atexit() , exit(), mlock(), mlockall(), mq_close(), munmap(), quick_exit(), sem_close(), semop(), setpgid(), setsid(), shmget(), wait(), waitid()</p>
+<p>XBD &lt;stdlib.h&gt;、&lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_02_11" id="tag_17_02_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_02_12" id="tag_17_02_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>为与 POSIX 实时扩展和 POSIX 线程扩展保持一致，更新了 DESCRIPTION。</p>
+<p>与 SA_NOCLDWAIT 标志和 SIGCHLD 信号的交互被进一步澄清。</p>
+<p>更好地描述了 exit() 的 <i>status</i> 值。</p>
+</blockquote>
+<a name="tag_17_02_13" id="tag_17_02_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>标记了超出 ISO C 标准的扩展。</p>
+<p>为与 IEEE Std 1003.1j-2000 保持一致，通过添加类型化内存的语义更新了 DESCRIPTION。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>包含了 <i>_Exit</i>() 函数。</p>
+</li>
+<li>
+<p>更新了 DESCRIPTION。</p>
+</li>
+</ul>
+<p>为与 IEEE Std 1003.1q-2000 保持一致，添加了跟踪语义的描述。</p>
+<p>移除了对 <i>wait3</i>() 函数的引用。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 的条目 XSH/TC1/D6/16，纠正了 DESCRIPTION 中的语法。</p>
+</blockquote>
+<a name="tag_17_02_14" id="tag_17_02_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #031，将这些函数与 exit() 函数分离。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #085，澄清了关于流刷新和临时文件关闭的文本。</p>
+<p>与异步输入和输出、内存映射文件和信号量选项相关的功能被移至 Base。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0033 [594] 和 XSH/TC2-2008/0034 [594,690]。</p>
+</blockquote>
+<a name="tag_17_02_15" id="tag_17_02_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 368，添加了未命名信号量应被销毁的要求。</p>
+<p>应用了 Austin Group 缺陷 1302，使这些函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+<p>应用了 Austin Group 缺陷 1330，移除了过时的接口。</p>
+<p>应用了 Austin Group 缺陷 1629，更改了 APPLICATION USAGE 部分。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

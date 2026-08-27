@@ -1,0 +1,1040 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_53_01\" id=\"tag_17_53_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "calloc — a memory allocator",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_53_02\" id=\"tag_17_53_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdlib.h.html\">stdlib.h</a>&gt;<br>\n<br>\nvoid *calloc(size_t</tt> <i>nelem</i><tt>, size_t</tt> <i>elsize</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_53_03\" id=\"tag_17_53_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]calloc[/I5]() function shall allocate unused space for an array of [I6]nelem[/I6] elements each of whose size in bytes is\n[I7]elsize[/I7]. The space shall be initialized to all bits 0.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The order and contiguity of storage allocated by successive calls to [I8]calloc[/I8]() is unspecified. The pointer returned if the\nallocation succeeds shall be suitably aligned so that it may be assigned to a pointer to any type of object with a fundamental\nalignment requirement and then used to access such an object or an array of such objects in the space allocated (until the space is\nexplicitly freed or reallocated). Each such allocation shall yield a pointer to an object disjoint from any other object. The\npointer returned shall point to the start (lowest byte address) of the allocated space. If the space cannot be allocated, a null\npointer shall be returned. If the size of the space requested is 0, the behavior is implementation-defined: either a null pointer\nshall be returned, or the behavior shall be as if the size were some non-zero value, except that the behavior is undefined if the\nreturned pointer is used to access an object.",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "For purposes of determining the existence of a data race, [I9]calloc[/I9]() shall behave as though it accessed only memory\nlocations accessible through its arguments and not other static duration storage. The function may, however, visibly modify the\nstorage that it allocates. Calls to [A10][I11]aligned_alloc[/I11]()[/A10], [I12]calloc[/I12](), [A13][I14]free[/I14]()[/A13], [A15][I16]malloc[/I16]()[/A15], [S17][[A18]ADV[/A18]][/S17] [IMG19] &nbsp;[A20][I21]posix_memalign[/I21]()[/A20], [IMG22]\n\n[S23][[A24]CX[/A24]][/S23] [IMG25]\n[A26][I27]reallocarray[/I27]()[/A26], [IMG28]\n&nbsp;and [A29][I30]realloc[/I30]()[/A29] that allocate or deallocate a particular region of memory shall\noccur in a single total order (see [A31][I32]4.15.1 Memory Ordering[/I32][/A31]), and each\nsuch deallocation call shall synchronize with the next allocation (if any) in this order.",
+    "placeholders": {
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A10": {
+      "open": "<a href=\"../functions/aligned_alloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A13": {
+      "open": "<a href=\"../functions/free.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A15": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S17": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A18": {
+      "open": "<a href=\"javascript:open_code(&#x27;ADV&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG19": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A20": {
+      "open": "<a href=\"../functions/posix_memalign.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG22": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S23": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A24": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A26": {
+      "open": "<a href=\"../functions/reallocarray.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG28": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "A29": {
+      "open": "<a href=\"../functions/realloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A31": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_15_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00009",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A33][/A33]RETURN VALUE",
+    "placeholders": {
+     "A33": {
+      "open": "<a name=\"tag_17_53_04\" id=\"tag_17_53_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I34]calloc[/I34]() shall return a pointer to the allocated space; if either [I35]nelem[/I35] or\n[I36]elsize[/I36] is 0, the application shall ensure that the pointer is not used to access an object.",
+    "placeholders": {
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3
+    ],
+    "text": "Otherwise, it shall return a null pointer [S37][[A38]CX[/A38]][/S37] [IMG39] &nbsp;and set [I40]errno[/I40] to indicate the error. [IMG41]",
+    "placeholders": {
+     "S37": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A38": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG39": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG41": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00012",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A42][/A42]ERRORS",
+    "placeholders": {
+     "A42": {
+      "open": "<a name=\"tag_17_53_05\" id=\"tag_17_53_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I43]calloc[/I43]() function shall fail if:",
+    "placeholders": {
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00014",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00015",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S44][[A45]CX[/A45]][/S44] [IMG46]\nInsufficient memory is available, including the case when [I47]nelem[/I47] [CODE48] [I49]elsize[/I49] would overflow. [IMG50]",
+    "placeholders": {
+     "S44": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A45": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG46": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE48": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>*</tt>"
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG50": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I51]calloc[/I51]() function may fail if:",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00017",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00018",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "[S52][[A53]CX[/A53]][/S52] [IMG54]\n[I55]nelem[/I55] or [I56]elsize[/I56] is 0 and the implementation does not support 0 sized allocations. [IMG57]",
+    "placeholders": {
+     "S52": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A53": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG54": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG57": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00019",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A58][/A58]EXAMPLES",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_53_06\" id=\"tag_17_53_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00021",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A59][/A59]APPLICATION USAGE",
+    "placeholders": {
+     "A59": {
+      "open": "<a name=\"tag_17_53_07\" id=\"tag_17_53_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "There is now no requirement for the implementation to support the inclusion of [I60]&lt;malloc.h&gt;[/I60].",
+    "placeholders": {
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00023",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A61][/A61]RATIONALE",
+    "placeholders": {
+     "A61": {
+      "open": "<a name=\"tag_17_53_08\" id=\"tag_17_53_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "See the RATIONALE for [A62][I63]malloc[/I63]()[/A62].",
+    "placeholders": {
+     "A62": {
+      "open": "<a href=\"../functions/malloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00025",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A64][/A64]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A64": {
+      "open": "<a name=\"tag_17_53_09\" id=\"tag_17_53_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00027",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A65][/A65]SEE ALSO",
+    "placeholders": {
+     "A65": {
+      "open": "<a name=\"tag_17_53_10\" id=\"tag_17_53_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A66][I67]aligned_alloc[/I67]()[/A66], [A68][I69]free[/I69]()[/A68],\n[A70][I71]malloc[/I71]()[/A70], [A72][I73]realloc[/I73]()[/A72]",
+    "placeholders": {
+     "A66": {
+      "open": "<a href=\"../functions/aligned_alloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A68": {
+      "open": "<a href=\"../functions/free.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../functions/malloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/realloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A74][I75]&lt;stdlib.h&gt;[/I75][/A74]",
+    "placeholders": {
+     "A74": {
+      "open": "<a href=\"../basedefs/stdlib.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A76][/A76]CHANGE HISTORY",
+    "placeholders": {
+     "A76": {
+      "open": "<a name=\"tag_17_53_11\" id=\"tag_17_53_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A77][/A77]Issue 6",
+    "placeholders": {
+     "A77": {
+      "open": "<a name=\"tag_17_53_12\" id=\"tag_17_53_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     1,
+     1
+    ],
+    "text": "The setting of [I78]errno[/I78] and the [ENOMEM] error condition are mandatory if an insufficient memory condition occurs.",
+    "placeholders": {
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A79][/A79]Issue 7",
+    "placeholders": {
+     "A79": {
+      "open": "<a name=\"tag_17_53_13\" id=\"tag_17_53_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0053 [526] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00038",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A80][/A80]Issue 8",
+    "placeholders": {
+     "A80": {
+      "open": "<a name=\"tag_17_53_14\" id=\"tag_17_53_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Defect 374 is applied, changing the RETURN VALUE and ERRORS sections in relation to 0 sized allocations.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Defect 1218 is applied, changing the [ENOMEM] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "Austin Group Defect 1387 is applied, changing the RATIONALE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     75
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

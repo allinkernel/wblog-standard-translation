@@ -1,0 +1,364 @@
+<h1>XSH 函数：fcntl()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fcntl" id="fcntl"></a> <a name="tag_17_139" id="tag_17_139"></a>
+<a name="tag_17_139_01" id="tag_17_139_01"></a><h4>名称 (NAME)</h4>
+<blockquote>fcntl — 文件控制 (file control)</blockquote>
+<a name="tag_17_139_02" id="tag_17_139_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;fcntl.h&gt;<br>
+<br>
+int fcntl(int</code> <i>fildes</i><code>, int</code> <i>cmd</i><code>, ...);<br></code></code></p>
+</blockquote>
+<a name="tag_17_139_03" id="tag_17_139_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>fcntl</i>() 函数应对打开的文件执行下文所述的操作。<i>fildes</i> 参数是一个文件描述符。</p>
+<p><i>cmd</i> 的可用值定义于 &lt;fcntl.h&gt;，如下所示：</p>
+<dl compact="None">
+<dd></dd>
+<dt>F_DUPFD</dt>
+<dd>返回一个新的文件描述符，其分配应按 2.6 文件描述符分配 中所述进行，但它应是大于或等于第三个参数 <i>arg</i>（按类型 <b>int</b> 的整数取值）的最小可用文件描述符编号。新的文件描述符应指向与原始文件描述符相同的打开文件描述，并应共享任何锁。与新文件描述符关联的 FD_CLOEXEC 和 FD_CLOFORK 标志应被清除。</dd>
+<dt>F_DUPFD_CLOEXEC</dt>
+<dd>与 F_DUPFD 类似，但新文件描述符关联的 FD_CLOEXEC 标志应被设置。</dd>
+<dt>F_DUPFD_CLOFORK</dt>
+<dd>与 F_DUPFD 类似，但新文件描述符关联的 FD_CLOFORK 标志应被设置。</dd>
+<dt>F_GETFD</dt>
+<dd>获取定义于 &lt;fcntl.h&gt; 中与文件描述符 <i>fildes</i> 关联的文件描述符标志。文件描述符标志与单个文件描述符相关联，不影响引用同一文件的其他文件描述符。</dd>
+<dt>F_SETFD</dt>
+<dd>将 &lt;fcntl.h&gt; 中定义的、与 <i>fildes</i> 关联的文件描述符标志设置为第三个参数 <i>arg</i>（按类型 <b>int</b> 取值）。若第三个参数中的 FD_CLOEXEC 标志被设置，则文件描述符应在成功执行 <i>exec</i> 系列函数 <sup>[SPN]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 以及由 posix_spawn() 或 posix_spawnp() 创建的新进程映像中被关闭；<img src="../images/opt-end.gif" alt="[Option End]"> 否则，文件描述符应保持打开。若第三个参数中的 FD_CLOFORK 标志被设置，则文件描述符不应被任何由打开该文件描述符的进程创建的子进程继承；否则，该文件描述符应被继承。</dd>
+<dt>F_GETFL</dt>
+<dd>获取与 <i>fildes</i> 关联的文件描述的文件状态标志和文件访问模式，这些标志和模式定义于 &lt;fcntl.h&gt;。可以使用掩码 O_ACCMODE 从返回值中提取文件访问模式，O_ACCMODE 定义于 &lt;fcntl.h&gt;。文件状态标志和文件访问模式与文件描述相关联，不影响引用同一文件但具有不同打开文件描述的其他文件描述符。返回的标志可以包括应用程序未设置的非标准文件状态标志，前提是这些附加标志不改变符合标准应用程序的行为。</dd>
+<dt>F_SETFL</dt>
+<dd>根据第三个参数 <i>arg</i>（按类型 <b>int</b> 取值）中相应的位，设置与 <i>fildes</i> 关联的文件描述的文件状态标志，这些标志定义于 &lt;fcntl.h&gt;。在 <i>arg</i> 中设置的、与文件访问模式和文件创建标志（如 &lt;fcntl.h&gt; 中所定义）相对应的位应被忽略。如果应用程序更改了 <i>arg</i> 中除此处提到的位以外的任何位，则结果是未指定的。如果 <i>fildes</i> 不支持非阻塞操作，则 O_NONBLOCK 标志是否会被忽略是未指定的。</dd>
+<dt>F_GETOWN</dt>
+<dd>如果 <i>fildes</i> 指代一个套接字，则获取被指定在带外数据可用时接收 SIGURG 信号的进程 ID 或进程组 ID。正值应表示进程 ID；除 -1 以外的负值应表示进程组 ID；零值应表示不发送任何 SIGURG 信号。如果 <i>fildes</i> 不指代套接字，则结果是未指定的。</dd>
+<dt>F_SETOWN</dt>
+<dd>如果 <i>fildes</i> 指代一个套接字，则使用第三个参数 <i>arg</i>（按类型 <b>int</b> 取值）的值，原子地设置被指定在带外数据可用时接收 SIGURG 信号的进程 ID 或进程组 ID。正值应表示进程 ID；除 -1 以外的负值应表示进程组 ID；零值应表示不发送任何 SIGURG 信号。如果 <i>fildes</i> 不指代套接字，则结果是未指定的。</dd>
+<dt>F_GETOWN_EX</dt>
+<dd>如果 <i>fildes</i> 指代一个套接字，则通过设置第三个参数 <i>arg</i> 所指向的 <b>f_owner_ex</b> 结构的 <i>type</i> 和 <i>pid</i> 成员，获取被指定在带外数据可用时接收 SIGURG 信号的进程 ID 或进程组 ID。<i>type</i> 的值应为 F_OWNER_PID 或 F_OWNER_PGRP，以分别表示 <i>pid</i> 包含进程 ID 或进程组 ID。如果不发送任何 SIGURG 信号，则 <i>pid</i> 的值应为零。如果 <i>fildes</i> 不指代套接字，则结果是未指定的。</dd>
+<dt>F_SETOWN_EX</dt>
+<dd>If <i>fildes</i> refers to a socket, set the process ID or process group ID specified to receive SIGURG signals when
+out-of-band data is available, using the value of the third argument, <i>arg</i>, taken as type pointer to <b>struct
+f_owner_ex</b>. The <i>type</i> and <i>pid</i> members of this structure shall be used as follows:
+<ul>
+<li>
+<p><i>pid</i> 值为零应表示不发送任何 SIGURG 信号。</p>
+</li>
+<li>
+<p><i>type</i> 值为 F_OWNER_PID 且 <i>pid</i> 值为正时，应表示将 SIGURG 信号发送到 <i>pid</i> 中指定的进程 ID。</p>
+</li>
+<li>
+<p><i>type</i> 值为 F_OWNER_PGRP 且 <i>pid</i> 值为正时，应表示将 SIGURG 信号发送到 <i>pid</i> 中指定的进程组 ID。</p>
+</li>
+</ul>
+<p>如果 <i>fildes</i> 不指代套接字，则结果是未指定的。</p>
+</dd>
+</dl>
+<p>对于 F_SETOWN 和 F_SETOWN_EX，每次将 SIGURG 信号发送到指定进程或进程组时，应执行与 kill() 所执行的等价的权限检查，如同由与调用 <i>fcntl</i>() 的进程在调用时具有相同真实用户 ID、有效用户 ID 和特权的进程调用 kill() 一样；如果该 kill() 调用会失败，则不发送任何信号。这些权限检查也可以由 <i>fcntl</i>() 调用执行。如果 <i>arg</i> 指定的进程随后终止，或 <i>arg</i> 指定的进程组随后变空，而仍被指定在 <i>fildes</i> 的带外数据可用时接收 SIGURG 信号，则不应向任何随后创建的、具有相同进程 ID 或进程组 ID 的进程发送信号，无论权限如何；这是否通过在该进程终止或被等待或进程组变空时执行等价于 <i>fcntl</i>(<i>fildes</i>, F_SETOWN, 0) 的调用来实现，还是通过其他方式实现，是未指定的。</p>
+<p>以下 <i>cmd</i> 值可用于建议性记录锁。对于普通文件应支持记录锁，对于其他文件可以支持记录锁。</p>
+<dl compact="None">
+<dd></dd>
+<dt>F_GETLK</dt>
+<dd>获取任何阻止第三个参数 <i>arg</i>（按指向类型 <b>struct flock</b> 的指针取值，定义于 &lt;fcntl.h&gt;）所指向的进程所有文件锁描述的锁。检索到的信息应覆盖传递给 <i>fcntl</i>() 的 <b>flock</b> 结构中的信息。如果未找到会阻止创建该锁的锁，则除 <i>l_type</i> 中的锁类型应被设置为 F_UNLCK 外，该结构应保持不变。</dd>
+<dt>F_SETLK</dt>
+<dd>根据第三个参数 <i>arg</i>（按指向类型 <b>struct flock</b> 的指针取值，定义于 &lt;fcntl.h&gt;）所指向的锁描述，设置或清除进程所有的文件锁。F_SETLK 可以建立共享（或读）锁（F_RDLCK）或排他（或写）锁（F_WRLCK），也可以移除任一类型的锁（F_UNLCK）。F_RDLCK、F_WRLCK 和 F_UNLCK 定义于 &lt;fcntl.h&gt;。如果无法设置共享锁或排他锁，<i>fcntl</i>() 应立即返回，返回值为 -1。</dd>
+<dt>F_SETLKW</dt>
+<dd>此命令应等同于 F_SETLK，不同之处在于，如果共享锁或排他锁被其他锁阻塞，线程应等待直到请求可以得到满足。如果在 <i>fcntl</i>() 等待某个区域时接收到将被捕获的信号，<i>fcntl</i>() 应被中断。从信号处理程序返回时，<i>fcntl</i>() 应返回 -1 并将 <i>errno</i> 设置为 [EINTR]，且锁操作不应执行。</dd>
+<dt>F_OFD_GETLK</dt>
+<dd>获取任何阻止第三个参数 <i>arg</i>（按指向类型 <b>struct flock</b> 的指针取值，定义于 &lt;fcntl.h&gt;）所指向的 OFD 所有文件锁描述的锁；应用程序应确保在输入时将 <i>arg</i> 所指向的结构的 <i>l_pid</i> 成员设置为 0。检索到的信息应覆盖传递给 <i>fcntl</i>() 的 <b>flock</b> 结构中的信息。如果未找到会阻止创建该锁的锁，则除 <i>l_type</i> 中的锁类型应被设置为 F_UNLCK 外，该结构应保持不变。</dd>
+<dt>F_OFD_SETLK</dt>
+<dd>根据第三个参数 <i>arg</i>（按指向类型 <b>struct flock</b> 的指针取值，定义于 &lt;fcntl.h&gt;）所指向的锁描述，设置或清除 OFD 所有的文件锁；应用程序应确保在输入时将 <i>arg</i> 所指向的结构的 <i>l_pid</i> 成员设置为 0。F_OFD_SETLK 可以建立共享（或读）锁（F_RDLCK）或排他（或写）锁（F_WRLCK），也可以移除任一类型的锁（F_UNLCK）。F_RDLCK、F_WRLCK 和 F_UNLCK 定义于 &lt;fcntl.h&gt;。如果无法设置共享锁或排他锁，<i>fcntl</i>() 应立即返回，返回值为 -1。</dd>
+<dt>F_OFD_SETLKW</dt>
+<dd>此命令应等同于 F_OFD_SETLK，不同之处在于，如果共享锁或排他锁被其他锁阻塞，线程应等待直到请求可以得到满足。如果在 <i>fcntl</i>() 等待某个区域时接收到将被捕获的信号，<i>fcntl</i>() 应被中断。从信号处理程序返回时，<i>fcntl</i>() 应返回 -1 并将 <i>errno</i> 设置为 [EINTR]，且锁操作不应执行。</dd>
+</dl>
+<p><i>cmd</i> 的其他实现定义值可以定义于 &lt;fcntl.h&gt; 中。它们的名称应以 F_ 开头。</p>
+<p>当在文件的一个段上设置共享锁时，其他进程可以在该段或其一部分上设置共享的进程所有锁，其他打开文件描述也可以被用来设置共享的 OFD 所有锁。共享的进程所有锁应阻止任何其他进程在受保护区域的任何部分上设置排他的进程所有锁，并应阻止任何排他的 OFD 所有锁被设置。共享的 OFD 所有锁应阻止任何其他打开文件描述被用来设置排他的 OFD 所有锁，并应阻止任何排他的进程所有锁在受保护区域的任何部分上被设置。如果文件描述符不是为读取而打开的，共享锁请求应失败。</p>
+<p>排他的进程所有锁应阻止任何其他进程在受保护区域的任何部分上设置共享或排他的进程所有锁，并应阻止任何共享或排他的 OFD 所有锁被设置。排他的 OFD 所有锁应阻止任何其他打开文件描述被用来设置共享或排他的 OFD 所有锁，并应阻止任何共享或排他的进程所有锁在受保护区域的任何部分上被设置。如果文件描述符不是为写入而打开的，排他锁请求应失败。</p>
+<p><b>flock</b> 结构描述受影响的文件段的类型（<i>l_type</i>）、起始偏移（<i>l_whence</i>）、相对偏移（<i>l_start</i>）、大小（<i>l_len</i>）和进程 ID（<i>l_pid</i>）。</p>
+<p><i>l_whence</i> 的值为 SEEK_SET、SEEK_CUR 或 SEEK_END，分别表示相对偏移 <i>l_start</i> 字节应从文件开头、当前位置或文件末尾起测量。<i>l_len</i> 的值是要锁定的连续字节数。<i>l_len</i> 的值可以为负（在 <b>off_t</b> 的定义允许 <i>l_len</i> 为负值的情况下）。在输入时，对于 F_GETLK、F_SETLK 和 F_SETLKW，<i>l_pid</i> 字段应被忽略；对于 F_OFD_GETLK、F_OFD_SETLK 和 F_OFD_SETLKW，应用程序应确保将其设置为零。在识别阻塞锁时，它由 F_GETLK 和 F_OFD_GETLK 设置。在成功的 F_GETLK 或 F_OFD_GETLK 请求之后，当找到阻塞锁时，在 <b>flock</b> 结构中返回的值应如下：</p>
+<dl compact="None">
+<dd></dd>
+<dt><i>l_type</i></dt>
+<dd>找到的阻塞锁的类型。</dd>
+<dt><i>l_whence</i></dt>
+<dd>SEEK_SET。</dd>
+<dt><i>l_start</i></dt>
+<dd>阻塞锁的起始位置。</dd>
+<dt><i>l_len</i></dt>
+<dd>阻塞锁的长度。</dd>
+<dt><i>l_pid</i></dt>
+<dd>如果阻塞锁是进程所有的文件锁，则为持有阻塞锁的进程的进程 ID；如果阻塞锁是 OFD 所有的文件锁，则为 (<b>pid_t</b>)-1。</dd>
+</dl>
+<p>如果命令是 F_SETLKW 或 F_OFD_SETLKW 且线程需要等待阻塞锁被释放，则要锁定的字节范围应在 <i>fcntl</i>() 函数阻塞之前确定。如果在 <i>fcntl</i>() 被阻塞期间文件大小或文件描述符的查找偏移发生变化，这不应影响锁定的字节范围。</p>
+<p>如果 <i>l_len</i> 为正，则受影响区域应从 <i>l_start</i> 开始，到 <i>l_start</i>+<i>l_len</i>-1 结束。如果 <i>l_len</i> 为负，则受影响区域应从 <i>l_start</i>+<i>l_len</i> 开始，到 <i>l_start</i>-1 结束。锁可以从文件的当前末尾之后开始并延伸，但不应延伸到文件开头之前。通过将 <i>l_len</i> 设置为 0，锁应被设置为延伸至该文件文件偏移的最大可能值。如果这样的锁还将 <i>l_start</i> 设置为 0 且 <i>l_whence</i> 设置为 SEEK_SET，则整个文件应被锁定。</p>
+<p>文件中的每个字节可以用一个或多个共享锁（F_RDLCK）或一个排他锁（F_WRLCK）锁定。</p>
+<p>当调用进程在请求指定的区域中的字节上已有进程所有的锁时，在 F_SETLK 或 F_SETLKW 请求成功返回之前，指定区域中每个字节的先前共享锁或排他锁应被新的共享锁或排他锁替换。当另一个进程在指定区域中的字节上已有进程所有的锁，或任何打开文件描述（包括与 <i>fildes</i> 关联的那个）在指定区域中的字节上已有 OFD 所有的锁，且这些锁中的任何一个与请求的锁冲突时，F_SETLK 或 F_SETLKW 请求（分别）应失败或阻塞。</p>
+<p>当与 fildes 关联的打开文件描述在请求指定的区域中的字节上已有 OFD 所有的锁时，在 F_OFD_SETLK 或 F_OFD_SETLKW 请求成功返回之前，指定区域中每个字节的先前共享锁或排他锁应被新的共享锁或排他锁替换。当另一个打开文件描述在指定区域中的字节上已有 OFD 所有的锁，或任何进程（包括调用进程）在指定区域中的字节上已有进程所有的锁，且这些锁中的任何一个与请求的锁冲突时，F_OFD_SETLK 或 F_OFD_SETLKW 请求（分别）应失败或阻塞。</p>
+<p>当给定进程关闭该文件的任何文件描述符（即使是通过不同的打开文件描述）或持有该文件描述符的进程终止时，与该文件关联的该进程的所有进程所有的锁应被移除。进程所有的锁不应被子进程继承。</p>
+<p>当与给定打开文件描述关联的所有文件描述符都已被关闭（直接关闭或作为例如进程终止或 FD_CLOEXEC 的副作用而关闭）时，与该打开文件描述关联的所有 OFD 所有的锁应被移除。OFD 所有的锁应在与所属打开文件描述关联的所有文件描述符之间共享，无论哪个进程持有该文件描述符。</p>
+<p>如果控制着已锁定区域的进程或线程因尝试锁定一个已有冲突锁的区域而进入睡眠，就会产生死锁的可能性。如果系统检测到睡眠直到某个已锁定区域被解锁将导致死锁，<i>fcntl</i>() 应以 [EDEADLK] 错误失败。进程所有的锁和 OFD 所有的锁之间的死锁检测可以不同。</p>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>fcntl</i>() 与 lockf() 锁之间的交互是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>当进程（对于 F_SETLK 和 F_SETLKW）或打开文件描述（对于 F_OFD_SETLK 和 F_OFD_SETLKW）已有 <i>l_len</i> 为 0 且包含请求段的最后一个字节的锁时，<i>l_len</i> 非零且请求段的最后一个字节的偏移是 <b>off_t</b> 类型对象的最大值的解锁（F_UNLCK）请求，应被视为从请求段的开始处以 <i>l_len</i> 等于 0 进行解锁的请求。否则，解锁（F_UNLCK）请求应只尝试解锁请求的段。</p>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 当文件描述符 <i>fildes</i> 指代共享内存对象时，<i>fcntl</i>() 的行为应与普通文件相同，但参数 <i>cmd</i> 的以下值的效果是未指定的：F_SETFL、F_GETLK、F_SETLK、F_SETLKW、F_OFD_GETLK、F_OFD_SETLK 和 F_OFD_SETLKW。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 指代一个类型化内存对象，<i>fcntl</i>() 函数的结果是未指定的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_139_04" id="tag_17_139_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，返回的值应取决于 <i>cmd</i>，如下所示：</p>
+<dl compact="None">
+<dd></dd>
+<dt>F_DUPFD</dt>
+<dd>一个新的文件描述符。</dd>
+<dt>F_DUPFD_CLOEXEC</dt>
+<dd>一个新的文件描述符。</dd>
+<dt>F_DUPFD_CLOFORK</dt>
+<dd>一个新的文件描述符。</dd>
+<dt>F_GETFD</dt>
+<dd>定义于 &lt;fcntl.h&gt; 的标志的值。返回值不应为负。</dd>
+<dt>F_SETFD</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_GETFL</dt>
+<dd>文件状态标志和访问模式的值。返回值不应为负。</dd>
+<dt>F_SETFL</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_GETLK</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_SETLK</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_SETLKW</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_OFD_GETLK</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_OFD_SETLK</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_OFD_SETLKW</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_GETOWN</dt>
+<dd>套接字属主进程或进程组的值；这不应是 -1。</dd>
+<dt>F_SETOWN</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_GETOWN_EX</dt>
+<dd>除 -1 以外的值。</dd>
+<dt>F_SETOWN_EX</dt>
+<dd>除 -1 以外的值。</dd>
+</dl>
+<p>否则，应返回 -1 并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_139_05" id="tag_17_139_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>如果满足以下条件，<i>fcntl</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES] 或 [EAGAIN]</dt>
+<dd><i>cmd</i> 参数是 F_SETLK，锁的类型（<i>l_type</i>）是共享（F_RDLCK）或排他（F_WRLCK）锁，并且由于被文件上的现有锁阻塞而无法设置请求的锁。</dd>
+<dt>[EAGAIN]</dt>
+<dd><i>cmd</i> 参数是 F_OFD_SETLK，锁的类型（<i>l_type</i>）是共享（F_RDLCK）或排他（F_WRLCK）锁，并且由于被文件上的现有锁阻塞而无法设置请求的锁。</dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是有效的打开文件描述符；或者参数 <i>cmd</i> 是 F_SETLK、F_SETLKW、F_OFD_SETLK 或 F_OFD_SETLKW，锁的类型 <i>l_type</i> 是共享锁（F_RDLCK）且 <i>fildes</i> 不是为读取而打开的有效文件描述符，或者锁的类型 <i>l_type</i> 是排他锁（F_WRLCK）且 <i>fildes</i> 不是为写入而打开的有效文件描述符。</dd>
+<dt>[EINTR]</dt>
+<dd><i>cmd</i> 参数是 F_SETLKW 或 F_OFD_SETLKW，且函数被信号中断。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>cmd</i> 参数无效；或者 <i>cmd</i> 参数是 F_DUPFD、F_DUPFD_CLOEXEC 或 F_DUPFD_CLOFORK，且 <i>arg</i> 为负或大于或等于 {OPEN_MAX}；或者 <i>cmd</i> 参数是 F_SETOWN_EX，且 <i>arg</i> 所指向的 <b>f_owner_ex</b> 结构的 <i>type</i> 成员无效，或者 <i>pid</i> 成员为负且 <i>type</i> 成员是 F_OWNER_PID 或 F_OWNER_PGRP；或者 <i>cmd</i> 参数是 F_GETLK、F_SETLK、F_SETLKW、F_OFD_GETLK、F_OFD_SETLK 或 F_OFD_SETLKW，且 <i>arg</i> 所指向的数据无效，或者 <i>fildes</i> 指代不支持锁定的文件。</dd>
+<dt>[EMFILE]</dt>
+<dd>参数 <i>cmd</i> 是 F_DUPFD、F_DUPFD_CLOEXEC 或 F_DUPFD_CLOFORK，且进程可用的所有文件描述符当前都已打开，或者没有大于或等于 <i>arg</i> 的文件描述符可用。</dd>
+<dt>[ENOLCK]</dt>
+<dd>参数 <i>cmd</i> 是 F_SETLK、F_SETLKW、F_OFD_SETLK 或 F_OFD_SETLKW，且满足锁定或解锁请求将导致系统中被锁定区域的数量超过系统强加的限制。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>要返回的值之一无法被正确表示。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd><i>cmd</i> 参数是 F_GETLK、F_SETLK、F_SETLKW、F_OFD_GETLK、F_OFD_SETLK 或 F_OFD_SETLKW，且请求段中任何字节的最小偏移或（如果 <i>l_len</i> 非零）最大偏移无法在 <b>off_t</b> 类型的对象中被正确表示。</dd>
+<dt>[ESRCH]</dt>
+<dd><i>cmd</i> 参数是 F_SETOWN 或 F_SETOWN_EX，且找不到与 <i>arg</i> 所指定的相对应的进程或进程组。</dd>
+</dl>
+<br>
+<p>如果满足以下条件，<i>fcntl</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EDEADLK]</dt>
+<dd><i>cmd</i> 参数是 F_SETLKW 或 F_OFD_SETLKW，锁的类型（<i>l_type</i>）是共享（F_RDLCK）或排他（F_WRLCK）锁，请求的锁被文件上的现有锁阻塞，且系统确定等待该锁被释放将导致死锁。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>cmd</i> 参数是 F_SETOWN，且 <i>arg</i> 的值为正但作为进程 ID 无效，或 <i>arg</i> 的值为负且其绝对值作为进程组 ID 无效；或者 <i>cmd</i> 参数是 F_SETOWN_EX，<i>arg</i> 所指向的 <b>f_owner_ex</b> 结构的 <i>type</i> 成员的值是 F_OWNER_PID，且 <i>pid</i> 成员的值作为进程 ID 无效；或者 <i>cmd</i> 参数是 F_SETOWN_EX，<i>arg</i> 所指向的 <b>f_owner_ex</b> 结构的 <i>type</i> 成员的值是 F_OWNER_PGRP，且 <i>pid</i> 成员的值作为进程组 ID 无效。</dd>
+<dt>[EPERM]</dt>
+<dd><i>cmd</i> 参数是 F_SETOWN 或 F_SETOWN_EX，且调用进程没有权限向 <i>arg</i> 指定的任何进程发送 SIGURG 信号。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_139_06" id="tag_17_139_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_139_06_01" id="tag_17_139_06_01"></a><h5>锁定和解锁文件 (Locking and Unlocking a File)</h5>
+<p>以下示例演示如何对文件的第 100 到 109 字节放置锁，然后稍后移除它。F_SETLK 被用来执行非阻塞的锁请求，这样如果另一个进程持有不兼容的锁，进程就不必等待；进程可以转而采取其他操作。</p>
+<pre><code class="language-plaintext">#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt;
+ 
+int
+main(int argc, char *argv[])
+{
+    int fd;
+    struct flock fl;
+ 
+    fd = open("testfile", O_RDWR);
+    if (fd == -1)
+        /* Handle error */;
+ 
+    /* Make a non-blocking request to place a write lock
+       on bytes 100-109 of testfile */
+ 
+    fl.l_type = F_WRLCK;
+    fl.l_whence = SEEK_SET;
+    fl.l_start = 100;
+    fl.l_len = 10;
+ 
+    if (fcntl(fd, F_SETLK, &amp;fl) == -1) {
+        if (errno == EACCES || errno == EAGAIN) {
+            printf("Already locked by another process\n");
+ 
+            /* We cannot get the lock at the moment */
+ 
+        } else {
+            /* Handle unexpected error */;
+        }
+    } else { /* Lock was granted... */
+ 
+        /* Perform I/O on bytes 100 to 109 of file */
+ 
+        /* Unlock the locked bytes */
+ 
+        fl.l_type = F_UNLCK;
+        fl.l_whence = SEEK_SET;
+        fl.l_start = 100;
+        fl.l_len = 10;
+        if (fcntl(fd, F_SETLK, &amp;fl) == -1)
+            /* Handle error */;
+    }
+    exit(EXIT_SUCCESS);
+} /* main */</code></pre>
+<a name="tag_17_139_06_02" id="tag_17_139_06_02"></a><h5>设置关闭时执行标志 (Setting the Close-on-Exec Flag)</h5>
+<p>以下示例演示如何为文件描述符 <i>fd</i> 设置 close-on-exec（关闭时执行）标志。</p>
+<pre><code class="language-plaintext">#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+...
+    int flags;
+ 
+    flags = fcntl(fd, F_GETFD);
+    if (flags == -1)
+        /* Handle error */;
+    flags |= FD_CLOEXEC;
+    if (fcntl(fd, F_SETFD, flags) == -1)
+        /* Handle error */;"</code></pre></blockquote>
+<a name="tag_17_139_07" id="tag_17_139_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>传给 F_GETFD、F_SETFD、F_GETFL 和 F_SETFL 的 <i>arg</i> 值都表示标志值，以允许将来的扩展。使用这些函数的应用程序应对它们执行读-改-写操作，而不是假定只有本卷 POSIX.1-2024 定义的值是有效的。忘记这一点是常见错误，尤其是在 F_SETFD 的情况下。一些实现会设置附加的文件状态标志，以告知应用程序默认行为，即使应用程序没有请求这些标志。</p>
+<p>为了在复制文件描述符时同时设置 FD_CLOEXEC 和 FD_CLOFORK，应用程序宜使用 F_DUPFD_CLOFORK 获取已设置 FD_CLOFORK 的新文件描述符，然后使用 F_SETFD 在新描述符上设置 FD_CLOEXEC 标志。（先使用 F_DUPFD_CLOEXEC 然后用 F_SETFD 设置 FD_CLOFORK 的替代方案存在一个时间窗口，在此期间另一个线程可能创建一个继承新描述符的子进程，因为 FD_CLOFORK 尚未被设置。）</p>
+<p>FD_CLOFORK 标志对所有子进程生效，而不仅仅是使用 fork() 或 _Fork() 创建的子进程。</p>
+<p>在进程 ID 可以大于 {INT_MAX} 的实现上，F_SETOWN 不能用于大于 {INT_MAX} 的进程 ID 或大于 {INT_MAX}+1 的进程组 ID，因为该值是在类型为 <b>int</b> 的参数中传给 <i>fcntl</i>() 的。在这种情况下，应改用 F_SETOWN_EX。</p>
+<p>类似地，如果大于 {INT_MAX} 的进程 ID 或大于 {INT_MAX}+1 的进程组 ID 已被设置为接收 SIGURG 信号（使用 F_SETOWN_EX），则 F_GETOWN 不能用来获取该值，因为 <i>fcntl</i>() 以类型 <b>int</b> 返回该值，因此对这样的值会产生 [EOVERFLOW] 错误。应改用 F_GETOWN_EX。</p>
+<p>注意，对进程组 ID 取负的约定只用于 F_SETOWN 和 F_GETOWN；与 F_SETOWN_EX 和 F_GETOWN_EX 一起使用的 <b>f_owner_ex</b> 结构的 <i>pid</i> 成员在指定进程组 ID 时不被取负。</p>
+<p>在调用带 F_SETOWN 或 F_SETOWN_EX 的 <i>fcntl</i>() 时不执行权限检查的系统上，如果发送信号时执行的权限检查不允许向任何进程发送信号，则调用 <i>fcntl</i>() 的进程无法发现发生了这种情况。使用信号 0 调用 kill() 可以用作权限的事先检查，尽管这不能保证在发送信号时权限会被授予，因为目标进程可能在此期间更改用户 ID 或特权。</p>
+<p>记录锁不宜与带缓冲的标准 I/O 流结合使用（参见 2.5 标准 I/O 流）。相反，宜使用非缓冲 I/O。在用户地址空间中进行缓冲的进程中可能会发生意外结果。进程之后可能读/写已锁定的数据。操作标准 I/O 流的函数是此类缓冲的最常见来源。</p>
+</blockquote>
+<a name="tag_17_139_08" id="tag_17_139_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>SYNOPSIS（摘要）中的省略号是 ISO C 标准为可变数量参数指定的语法。之所以使用它，是因为 System V 使用指针来实现文件锁定函数。</p>
+<p>本卷 POSIX.1-2024 允许使用 <i>fcntl</i>() 函数对文件数据进行并发读写访问；这是对 1984 年 /usr/group 标准和早期提案的更改。如果没有并发控制，这一特性在不偶尔丢失数据的情况下可能无法得到充分利用。</p>
+<p>数据丢失以多种方式发生。一种情况是多个进程试图更新同一条记录，但没有排序控制；多个更新可能并行发生，最后的写入者 &quot;获胜&quot;。另一种情况是正在进行重组的位树或其他基于内部列表的数据库。如果没有更新进程对树段的独占使用，当索引块被拆分、压缩、插入或删除时，其他读取进程可能会在数据库中迷失。虽然 <i>fcntl</i>() 对许多应用程序有用，但它并不打算过于通用，而且不能很好地处理位树这个例子。</p>
+<p>此功能仅对普通文件是必需的，因为它不适用于许多设备，如终端和网络连接。</p>
+<p>由于 <i>fcntl</i>() 适用于 &quot;与该文件关联的任何文件描述符，无论它是如何获得的&quot;，该文件描述符可能已通过 fork() 或 <i>exec</i> 操作继承而来，因此可能影响另一个进程也打开着的文件。</p>
+<p>使用打开文件描述来标识要锁定的内容需要额外的调用，并且在多个进程共享一个打开文件描述时会带来问题，但对于本卷 POSIX.1-2024 来说，现有机制的实现太多了，无法使用不同的规范。</p>
+<p>此模型的另一个后果是，关闭给定文件的任何文件描述符（无论它是否是创建该锁的同一个打开文件描述）都会导致该进程放弃该文件上的锁。等价地，对任何文件/进程对的任何关闭都会放弃该进程在该文件上拥有的锁。但请注意，虽然打开文件描述可以通过 fork() 共享，但锁不会通过 fork() 继承。然而，锁可以通过 <i>exec</i> 函数之一继承。</p>
+<p>网络环境中机器的标识不在本卷 POSIX.1-2024 的范围内。因此，像 System V 中那样的 <i>l_sysid</i> 成员没有被包含在锁定结构中。</p>
+<p>更改锁类型可能导致先前锁定的区域被拆分成更小的区域。</p>
+<p>强制锁定是 1984 年 /usr/group 标准的一个主要特性。</p>
+<p>为了使建议性文件记录锁有效，所有可以访问文件的进程必须在对该文件进行 I/O 之前相互协作并使用建议性机制。当不能假定所有进程都在协作时，强制模式记录锁很重要。例如，如果一个用户使用编辑器更新一个文件，同时第二个用户执行另一个更新同一文件的进程，并且如果两个进程中只有一个使用建议性锁定，则这些进程没有在协作。强制模式记录锁可以防止意外的冲突。</p>
+<p>其次，建议性记录锁要求使用锁定的进程用锁定（或测试）和解锁操作把每次 I/O 操作括起来。使用强制模式文件和记录锁时，进程可以锁定文件一次，并在所有 I/O 操作完成后解锁。强制模式记录锁提供了一个可以增强的基础；例如，使用可共享锁。也就是说，该机制可以增强为允许一个进程锁定文件，使其他进程可以读取它，但其他进程都不能写入它。</p>
+<p>强制锁因以下几个原因被省略：</p>
+<ol>
+<li>
+<p>在大多数实现中，强制锁的设置是通过复用 set-group-ID（设置组 ID）位来完成的；这至少可以说是令人困惑的。</p>
+</li>
+<li>
+<p>与 4.2 BSD 中支持的文件截断的关系没有得到很好的规定。</p>
+</li>
+<li>
+<p>任何公开可读的文件都可以被任何人锁定。许多历史实现将密码数据库保存在公开可读的文件中。因此，恶意用户可以禁止登录。另一种可能性是长时间占用一条长途电话线路。</p>
+</li>
+<li>
+<p>一些按需分页的历史实现提供内存映射文件，而强制无法在该类型的文件上执行。</p>
+</li>
+</ol>
+<p>由于在区域上睡眠会被任何信号中断，alarm() 可以用于为需要它的应用程序提供超时设施。这在死锁检测中很有用。由于完整死锁检测的实现并不总是可行的，[EDEADLK] 错误被设为可选的。</p>
+<p><i>cmd</i> 的 F_SETOWN_EX 和 F_GETOWN_EX 值以及相关的 <b>f_owner_ex</b> 结构取自 GNU C 库。除了 <i>type</i> 成员的值 F_OWNER_PID 和 F_OWNER_PGRP 之外，它还有 F_OWNER_TID，用于指定 <i>pid</i> 成员包含线程 ID。然而，这依赖于线程 ID 可以在 <b>pid_t</b> 中表示，因此没有被包含在 POSIX.1-2024 中。添加 F_SETOWN_EX 和 F_GETOWN_EX 的目的是解决 F_SETOWN 和 F_GETOWN 无法处理大于 {INT_MAX} 的进程 ID 和大于 {INT_MAX}+1 的进程组 ID 的问题，而这个需求在不包含 F_OWNER_TID 的情况下得到了满足。</p>
+</blockquote>
+<a name="tag_17_139_09" id="tag_17_139_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_139_10" id="tag_17_139_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>alarm()、close()、exec、kill()、open()、sigaction()</p>
+<p>XBD &lt;fcntl.h&gt;、&lt;signal.h&gt;</p>
+</blockquote>
+<a name="tag_17_139_11" id="tag_17_139_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_139_12" id="tag_17_139_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION（说明）已更新，以便与 POSIX 实时扩展和 POSIX 线程扩展保持一致。</p>
+<p>添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_139_13" id="tag_17_139_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>在 SYNOPSIS（摘要）中，&lt;sys/types.h&gt; 头的可选包含已被移除。</p>
+<p>对 POSIX 实现的以下新要求源自与单一 UNIX 规范（Single UNIX Specification）的一致性：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然 &lt;sys/types.h&gt; 对先前 POSIX 规范的符合性实现是必需的，但它对 UNIX 应用程序不是必需的。</p>
+</li>
+<li>
+<p>在 DESCRIPTION（说明）中，描述 <i>l_len</i> 为负时行为的句子现在是强制性的，并且当 <i>l_len</i> 为非负时解锁（F_UNLOCK）的描述是强制性的。</p>
+</li>
+<li>
+<p>在 ERRORS（错误）部分，当 <i>cmd</i> 无效时 [EINVAL] 错误条件的情况被规定为强制性，并添加了两个 [EOVERFLOW] 错误条件。</p>
+</li>
+</ul>
+<p>为套接字添加了 F_GETOWN 和 F_SETOWN 值。</p>
+<p>进行了以下更改，以与 IEEE P1003.1a 草案标准保持一致：</p>
+<ul>
+<li>
+<p>添加了澄清说明：锁定的字节范围在阻塞动作之前确定。</p>
+</li>
+</ul>
+<p>DESCRIPTION（说明）已更新，通过规定 <i>fcntl</i>() 对类型化内存对象的结果是未指定的，以与 IEEE Std 1003.1j-2000 保持一致。</p>
+<p>规范文本已更新，以避免对应用程序要求使用 &quot;must&quot; 一词。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/29，向 EXAMPLES（示例）部分添加了示例。</p>
+</blockquote>
+<a name="tag_17_139_14" id="tag_17_139_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #150，澄清了当 <i>cmd</i> 是 F_GETFL 时返回的文件状态标志。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #171，添加了在 open() 处原子地设置 FD_CLOEXEC 标志的支持，并添加了 F_DUPFD_CLOEXEC 标志。</p>
+<p>可选的 &lt;unistd.h&gt; 头已从该函数中移除，因为 &lt;fcntl.h&gt; 现在将 SEEK_SET、SEEK_CUR 和 SEEK_END 定义为 Base（基础）的一部分。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0116 [141]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0105 [835]、XSH/TC2-2008/0106 [677]、XSH/TC2-2008/0107 [484]、XSH/TC2-2008/0108 [675] 和 XSH/TC2-2008/0109 [675,677]。</p>
+</blockquote>
+<a name="tag_17_139_15" id="tag_17_139_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 695，为 F_SETOWN 操作添加了原子性要求。</p>
+<p>应用了 Austin Group 缺陷 768 和 1671，添加了 OFD 所有的文件锁。</p>
+<p>应用了 Austin Group 缺陷 1203，更改了 RETURN VALUE（返回值）部分中的一些措辞以使用 &quot;shall&quot;。</p>
+<p>应用了 Austin Group 缺陷 1274 和 1670，添加了 F_GETOWN_EX 和 F_SETOWN_EX。</p>
+<p>应用了 Austin Group 缺陷 1318，添加了 FD_CLOFORK 和 F_DUPFD_CLOFORK。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

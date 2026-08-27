@@ -1,0 +1,129 @@
+<h1>XSH 函数：fclose()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fclose" id="fclose"></a> <a name="tag_17_138" id="tag_17_138"></a>
+<a name="tag_17_138_01" id="tag_17_138_01"></a><h4>[h4_00001] 名称 (NAME)</h4>
+<blockquote>[blockquote_00002] fclose — 关闭流 (close a stream)</blockquote>
+<a name="tag_17_138_02" id="tag_17_138_02"></a><h4>[h4_00003] 提要 (SYNOPSIS)</h4>
+<blockquote>
+<p>[p_00004] <code><code>#include &lt;stdio.h&gt;<br>
+<br>
+int fclose(FILE *</code><i>stream</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_138_03" id="tag_17_138_03"></a><h4>[h4_00005] 说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>[p_00006] <i>fclose</i>() 函数应使 <i>stream</i> 指向的流被刷新，并使关联的文件被关闭。流的任何未写入的缓冲数据应被写入文件；任何未读取的缓冲数据应被丢弃。无论调用是否成功，流都应与文件解除关联，并且由 setbuf() 或 setvbuf() 函数设置的任何缓冲区都应与该流解除关联。如果关联的缓冲区是自动分配的，则应释放它。</p>
+<p>[p_00007] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果文件尚未位于 EOF，且该文件是能够寻位的文件，则如果该流是底层文件描述的活动句柄，底层打开文件描述的文件偏移量应被设置为该流的文件位置。</p>
+<p>[p_00008] 如果该流是可写的，并且仍有尚未写入文件的缓冲数据，则 <i>fclose</i>() 函数应标记更新底层文件的上次数据修改和上次文件状态更改时间戳。<i>fclose</i>() 函数应对与 <i>stream</i> 指向的流关联的文件描述符执行等效于 close() 的操作。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>[p_00009] 在调用 <i>fclose</i>() 之后，任何对 <i>stream</i> 的使用都会导致未定义行为。</p>
+</blockquote>
+<a name="tag_17_138_04" id="tag_17_138_04"></a><h4>[h4_00010] 返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>[p_00011] 成功完成后，<i>fclose</i>() 应返回 0；否则，应返回 EOF <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_138_05" id="tag_17_138_05"></a><h4>[h4_00012] 错误 (ERRORS)</h4>
+<blockquote>
+<p>[p_00013] 在以下情况下，<i>fclose</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00014] [EAGAIN]</dt>
+<dd>[dd_00015] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 为 <i>stream</i> 底层的文件描述符设置了 O_NONBLOCK 标志，并且线程将在写操作中被延迟。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00016] [EBADF]</dt>
+<dd>[dd_00017] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 流底层的文件描述符无效。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00018] [EFBIG]</dt>
+<dd>[dd_00019] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 试图写入超过最大文件大小的文件。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00020] [EFBIG]</dt>
+<dd>[dd_00021] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 试图写入超过进程文件大小限制的文件。<img src="../images/opt-end.gif" alt="[Option End]"> <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 还应为该线程生成 SIGXFSZ 信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00022] [EFBIG]</dt>
+<dd>[dd_00023] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 该文件是普通文件，并且试图在或超出与相应流关联的偏移量最大值处写入。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00024] [EINTR]</dt>
+<dd>[dd_00025] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>fclose</i>() 函数被信号中断。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00026] [EIO]</dt>
+<dd>[dd_00027] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 进程是试图向其控制终端写入的后台进程组的成员，设置了 TOSTOP，调用线程未阻塞 SIGTTOU，进程未忽略 SIGTTOU，并且该进程的进程组是孤儿进程组。在实现定义的条件下也可以返回此错误。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00028] [ENOMEM]</dt>
+<dd>[dd_00029] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 底层流是由 open_memstream() 或 open_wmemstream() 创建的，且可用内存不足。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00030] [ENOSPC]</dt>
+<dd>[dd_00031] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 包含该文件的设备上或 fmemopen() 函数使用的缓冲区中没有剩余可用空间。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[dt_00032] [EPIPE]</dt>
+<dd>[dd_00033] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 试图写入没有任何进程为读取而打开的管道或 FIFO。还应向该线程发送 SIGPIPE 信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p>[p_00034] 在以下情况下，<i>fclose</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[dt_00035] [ENXIO]</dt>
+<dd>[dd_00036] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 向不存在的设备发出了请求，或请求超出了设备的能力范围。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_138_06" id="tag_17_138_06"></a><h4>[h4_00037] 示例 (EXAMPLES)</h4>
+<blockquote>
+<p>[p_00038] 无。</p>
+</blockquote>
+<a name="tag_17_138_07" id="tag_17_138_07"></a><h4>[h4_00039] 应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>[p_00040] 由于在调用 <i>fclose</i>() 之后任何对 <i>stream</i> 的使用都会导致未定义行为，因此除了在进程终止之前（见 XBD 3.287 进程终止）之外，<i>fclose</i>() 不应在 <i>stdin</i>、<i>stdout</i> 或 <i>stderr</i> 上使用，以避免在这些流所依赖的其他标准接口中触发未定义行为。如果应用程序注册了任何 atexit() 处理器，则此类对 <i>fclose</i>() 的调用不应在最后一个处理器即将结束时之前发生。一旦用 <i>fclose</i>() 关闭了 <i>stdin</i>、<i>stdout</i> 或 <i>stderr</i>，就没有重新打开这些流中的任何一个的标准方法。</p>
+<p>[p_00041] 使用 freopen() 更改 <i>stdin</i>、<i>stdout</i> 或 <i>stderr</i> 而不是关闭它们，可以避免稍后应用程序中文件意外地被打开为特殊文件描述符 STDIN_FILENO、STDOUT_FILENO 或 STDERR_FILENO 之一的危险。</p>
+</blockquote>
+<a name="tag_17_138_08" id="tag_17_138_08"></a><h4>[h4_00042] 理由 (RATIONALE)</h4>
+<blockquote>
+<p>[p_00043] 无。</p>
+</blockquote>
+<a name="tag_17_138_09" id="tag_17_138_09"></a><h4>[h4_00044] 未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>[p_00045] 无。</p>
+</blockquote>
+<a name="tag_17_138_10" id="tag_17_138_10"></a><h4>[h4_00046] 参见 (SEE ALSO)</h4>
+<blockquote>
+<p>[p_00047] 2.5 标准 I/O 流、atexit()、close()、fmemopen()、fopen()、freopen()、getrlimit()、open_memstream()</p>
+<p>[p_00048] XBD &lt;stdio.h&gt;</p>
+</blockquote>
+<a name="tag_17_138_11" id="tag_17_138_11"></a><h4>[h4_00049] 变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>[p_00050] 首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_138_12" id="tag_17_138_12"></a><h4>[h4_00051] 第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>[p_00052] 添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_138_13" id="tag_17_138_13"></a><h4>[h4_00053] 第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>[p_00054] 超出 ISO C 标准的扩展被标记。</p>
+<p>[p_00055] 以下对 POSIX 实现的新要求源自与单一 UNIX 规范的协调：</p>
+<ul>
+<li>
+<p>[p_00056] 添加了 [EFBIG] 错误，作为大型文件支持扩展的一部分。</p>
+</li>
+<li>
+<p>[p_00057] 添加了 [ENXIO] 可选错误条件。</p>
+</li>
+</ul>
+<p>[p_00058] DESCRIPTION 已更新，以说明无论调用是否成功，流和任何缓冲区都会被解除关联。这是为了与 ISO/IEC 9899:1999 标准保持一致。</p>
+<p>[p_00059] 应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/28，将 ERRORS 一节中的 [EAGAIN] 错误从&quot;进程将被延迟&quot;更新为&quot;线程将被延迟&quot;。</p>
+</blockquote>
+<a name="tag_17_138_14" id="tag_17_138_14"></a><h4>[h4_00060] 第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>[p_00061] 应用了 Austin Group 解释 1003.1-2001 #002，澄清了文件描述符与流的交互。</p>
+<p>[p_00062] 更新了 [ENOSPC] 错误条件，并添加了来自 The Open Group 技术标准 2006 扩展 API 集第 1 部分的 [ENOMEM] 错误。</p>
+<p>[p_00063] 进行了与细粒度时间戳支持相关的更改。</p>
+<p>[p_00064] 应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0113 [87]、XSH/TC1-2008/0114 [79] 和 XSH/TC1-2008/0115 [14]。</p>
+<p>[p_00065] 应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0104 [555]。</p>
+</blockquote>
+<a name="tag_17_138_15" id="tag_17_138_15"></a><h4>[h4_00066] 第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>[p_00067] 应用了 Austin Group 缺陷 308，澄清了 [EFBIG] 错误的处理。</p>
+<p>[p_00068] 应用了 Austin Group 缺陷 1669，移除了与进程文件大小限制相关的 [EFBIG] 错误部分的 XSI 阴影。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p>[p_00069]  </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

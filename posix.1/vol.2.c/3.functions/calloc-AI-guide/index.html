@@ -1,0 +1,24 @@
+<h1>XSH 函数导读：calloc()</h1>
+
+<h2>0. 总览</h2>
+<p><code>calloc()</code> 是内存分配器：为具有 <code>nelem</code> 个元素、每元素 <code>elsize</code> 字节的数组分配未使用的空间，并把该空间初始化为所有位均为 0。头文件为 <code>&lt;stdlib.h&gt;</code>。原型关键点：<code>void *calloc(size_t nelem, size_t elsize)</code>——两个参数分别是元素个数与元素大小，总大小为二者乘积；成功返回指向所分配空间起始位置的指针，失败返回空指针并设置 <code>errno</code>。</p>
+
+<h2>1. 机制</h2>
+<p>分配的核心行为：<code>calloc()</code> 与 <code>malloc()</code> 的差别在于两点——按"元素个数 × 元素大小"计算总量，并且分配的空间全部清零（所有位为 0）。连续调用分配的存储顺序与连续性未指定；成功分配的存储与其他任何对象不相交。若 <code>nelem</code> 或 <code>elsize</code> 中任一为 0，行为是实现定义的：或者返回空指针，或者行为如同请求了非零大小，但此时用返回的指针访问对象行为未定义。当可用内存不足（包括 <code>nelem * elsize</code> 溢出）时返回 NULL 并设 [ENOMEM]；分配/释放同一区域的调用按单一全序发生，释放与下一次分配同步。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是虽然 <code>calloc()</code> 清零了内存，但对所有位为 0 的解释要小心——规范只说"所有位均为 0"，并不保证浮点零或空指针的位模式必然如此（尽管常见实现如此）；二是参数顺序是 <code>nelem, elsize</code>，写反了语义一般仍等价于乘法，但可读性差且易与 <code>reallocarray()</code> 混淆；三是"清零"并不等于"初始化"，对结构体的指针成员仍需显式赋值；四是返回值仍必须判空，特别是大数组或乘法溢出场景；五是零大小分配返回的指针不可用于访问对象。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int *a = calloc(10, sizeof(int));  /* 10 个 int，全部清零 */
+    if (a == NULL)
+        return 1;
+
+    printf("%d\n", a[5]);   /* 0：calloc 已清零 */
+    free(a);
+    return 0;
+}</code></pre>

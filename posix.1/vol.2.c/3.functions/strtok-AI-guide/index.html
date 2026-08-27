@@ -1,0 +1,35 @@
+<h1>XSH 函数导读：strtok()</h1>
+
+<h2>0. 总览</h2>
+<p><code>strtok()</code> 将字符串拆分为 token（标记）：一系列调用把 <i>s</i> 指向的字符串按 <i>sep</i> 中的分隔字节切分成一个个 token。头文件为 <code>&lt;string.h&gt;</code>。原型关键点：<code>char *strtok(char *restrict s, const char *restrict sep)</code>——第一次调用传 <i>s</i>，后续调用第一个参数传空指针；<i>sep</i> 在每次调用之间可以不同。</p>
+
+<h2>1. 机制</h2>
+<p>第一次调用在 <i>s</i> 中找第一个<b>不</b>在 <i>sep</i> 中的字节作为第一个 token 的开始，然后向后找第一个在 <i>sep</i> 中的字节，用 NUL 字符覆盖它以终止当前 token，并<b>保存指向后续字节的指针</b>。后续以空指针作为第一个参数的调用从保存的指针继续，行为相同；若再也找不到非分隔字节，则返回空指针。该函数使用静态存储跟踪调用之间的当前位置，因此<i>不必是线程安全的</i>（虽然它应避免与所有其他函数发生数据竞争）。线程安全版本 <code>strtok_r(s, sep, state)</code> 把状态放在用户提供的 <i>state</i> 指针中，每个并发处理的字符串必须使用唯一的 <i>state</i>，且无需预先初始化。此外，<code>strtok()</code> 与 <code>strtok_r()</code> 在有效输入上不应改变 <i>errno</i> 的设置。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><b>修改原字符串</b>：token 是通过用 NUL 覆盖分隔符得到的，传入的字符串必须可写，字符串字面量会触发未定义行为；原始字符串被破坏，无法复原。</li>
+<li><b>非线程安全</b>：<code>strtok()</code> 使用静态存储，多线程并发 token 化不同字符串会互相干扰，应改用 <code>strtok_r()</code>。</li>
+<li>每次调用只能传一个“当前”字符串：切换 token 化另一字符串前必须重新开始完整序列，否则状态混乱。</li>
+<li>连续分隔符会被跳过（多个分隔字节视为一个），空 token 不会返回；需要保留空字段时应改用 <code>strsep()</code> 之类的手写方案。</li>
+<li>若 <i>sep</i> 是空字符串，函数返回指向字符串余下部分的指针；找不到任何 token 时返回空指针。</li>
+<li>分隔符集合可以变化，但改变 <i>sep</i> 会影响后续划分，行为需自行确认。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(void)
+{
+    char line[] = "key value extra";   /* 必须可写 */
+    char *tok;
+
+    tok = strtok(line, " ");
+    while (tok != NULL) {
+        puts(tok);
+        tok = strtok(NULL, " ");
+    }
+    return 0;
+}
+</code></pre>

@@ -1,0 +1,135 @@
+<h1>XSH 函数：strtol()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="strtol" id="strtol"></a> <a name="tag_17_593" id="tag_17_593"></a>
+<a name="tag_17_593_01" id="tag_17_593_01"></a><h4>名称 (NAME)</h4>
+<blockquote>strtol、strtoll — 将字符串转换为长整数</blockquote>
+<a name="tag_17_593_02" id="tag_17_593_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+long strtol(const char *restrict</code> <i>nptr</i><code>, char **restrict</code> <i>endptr</i><code>, int</code> <i>base</i><code>);<br>
+long long strtoll(const char *restrict</code> <i>nptr</i><code>, char **restrict</code> <i>endptr</i><code>,<br>
+       int</code> <i>base</i><code>)<br></code></code></p>
+</blockquote>
+<a name="tag_17_593_03" id="tag_17_593_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>这些函数应分别将 <i>nptr</i> 所指向的字符串的初始部分转换为 <b>long</b> 和 <b>long long</b> 类型的表示。首先，它们将输入字符串分解为三个部分：</p>
+<ol>
+<li>
+<p>一个初始的、可能为空的空白字节序列</p>
+</li>
+<li>
+<p>一个被解释为整数的主题序列，该整数以由 <i>base</i> 的值确定的某种基数表示</p>
+</li>
+<li>
+<p>一个由一个或多个无法识别的字符组成的最终字符串，包括输入字符串的终止 NUL 字符。</p>
+</li>
+</ol>
+<p>然后它们应尝试将主题序列转换为整数，并返回结果。</p>
+<p>如果 <i>base</i> 的值为 0，则主题序列的期望形式是十进制常量、八进制常量或十六进制常量，其中任何一个都可以在前面加上 <code>'+'</code> 或 <code>'-'</code> 符号。十进制常量以非零数字开头，并由一序列十进制数字组成。八进制常量由前缀 <code>'0'</code> 组成，其后可选地仅跟一序列数字 <code>'0'</code> 到 <code>'7'</code>。十六进制常量由前缀 0x 或 0X 组成，其后跟一序列十进制数字和字母 <code>'a'</code>（或 <code>'A'</code>）到 <code>'f'</code>（或 <code>'F'</code>），其值分别为 10 到 15。</p>
+<p>如果 <i>base</i> 的值在 2 到 36 之间，则主题序列的期望形式是一序列字母和数字，表示以 <i>base</i> 指定的基数表示的整数，可选地在其前面加上 <code>'+'</code> 或 <code>'-'</code> 符号。从 <code>'a'</code>（或 <code>'A'</code>）到 <code>'z'</code>（或 <code>'Z'</code>）（含）的字母被赋予值 10 到 35；只允许使用其被赋予的值小于 <i>base</i> 的值的字母。如果 <i>base</i> 的值为 16，则字符 0x 或 0X 可以可选地放在字母和数字序列之前，位于符号（如果存在）之后。</p>
+<p>主题序列被定义为输入字符串的、以第一个非空白字节开始的、具有期望形式的最长初始子序列。如果输入字符串为空或完全由空白字节组成，或者第一个非空白字节不是符号或允许的字母或数字，则主题序列应不包含任何字符。</p>
+<p>如果主题序列具有期望形式且 <i>base</i> 的值为 0，则以第一个数字开始的字符序列应被解释为整数常量。如果主题序列具有期望形式且 <i>base</i> 的值在 2 到 36 之间，则它应被用作转换的基数，按上述为每个字母赋予其值。如果主题序列以 &lt;hyphen-minus&gt; 开头，则结果值应为转换值的相反数。指向最终字符串的指针应存储在 <i>endptr</i> 所指向的对象中，前提是 <i>endptr</i> 不是空指针。</p>
+<p>在 C <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  或 POSIX <img src="../images/opt-end.gif" alt="[Option End]"> 语言环境以外的语言环境中，可以接受额外的特定于语言环境的主题序列形式。</p>
+<p>如果主题序列为空或不具有期望形式，则不执行转换；<i>nptr</i> 的值应存储在 <i>endptr</i> 所指向的对象中，前提是 <i>endptr</i> 不是空指针。</p>
+<p>这些函数在成功时不应改变 <i>errno</i> 的设置。</p>
+<p>由于 0、{LONG_MIN} 或 {LLONG_MIN}、{LONG_MAX} 或 {LLONG_MAX} 在出错时被返回，并且也是成功时的有效返回值，希望检查错误情况的应用程序宜将 <i>errno</i> 设置为 0，然后调用 <i>strtol</i>() 或 <i>strtoll</i>()，然后检查 <i>errno</i>。</p>
+</blockquote>
+<a name="tag_17_593_04" id="tag_17_593_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，这些函数应返回转换后的值（如果有）。如果无法执行任何转换，则应返回 0 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并且 <i>errno</i> 可以被设置为 [EINVAL]。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>base</i> 的值不受支持，则应返回 0，并且 <i>errno</i> 应被设置为 [EINVAL]。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>如果正确的值超出可表示值的范围，则应返回 {LONG_MIN}、{LONG_MAX}、{LLONG_MIN} 或 {LLONG_MAX}（根据值的符号），并将 <i>errno</i> 设置为 [ERANGE]。</p>
+</blockquote>
+<a name="tag_17_593_05" id="tag_17_593_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，这些函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>base</i> 的值不受支持。 <img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>[ERANGE]</dt>
+<dd>要返回的值不可表示。</dd>
+</dl>
+<p>在以下情况下，这些函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd>无法执行任何转换。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_593_06" id="tag_17_593_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_593_07" id="tag_17_593_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>由于如果 <i>base</i> 的值不受支持，<i>*endptr</i> 的值是未指定的，因此应用程序宜在调用前确保 <i>base</i> 具有受支持的值（0 或 2 到 36 之间），或者在检查 <i>*endptr</i> 之前检查 [EINVAL] 错误。</p>
+</blockquote>
+<a name="tag_17_593_08" id="tag_17_593_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_593_09" id="tag_17_593_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_593_10" id="tag_17_593_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>fscanf()、isalpha()、strtod()</p>
+<p>XBD &lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_593_11" id="tag_17_593_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 1 中首次发布。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_593_12" id="tag_17_593_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION 被更新，以表明如果函数成功，<i>errno</i> 不会被改变。</p>
+</blockquote>
+<a name="tag_17_593_13" id="tag_17_593_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展被标记。</p>
+<p>以下对 POSIX 实现的新要求源于与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>在 RETURN VALUE 和 ERRORS 节中，添加了 [EINVAL] 可选错误条件，用于无法执行任何转换的情况。</p>
+</li>
+</ul>
+<br>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p><i>strtol</i>() 原型被更新。</p>
+</li>
+<li>
+<p>添加了 <i>strtoll</i>() 函数。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_593_14" id="tag_17_593_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1）：XSH/TC1-2008/0616 [453]、XSH/TC1-2008/0617 [105]、XSH/TC1-2008/0618 [453]、XSH/TC1-2008/0619 [453] 和 XSH/TC1-2008/0620 [453]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（Technical Corrigendum 2）：XSH/TC2-2008/0351 [892]、XSH/TC2-2008/0352 [584]、XSH/TC2-2008/0353 [796] 和 XSH/TC2-2008/0354 [892]。</p>
+</blockquote>
+<a name="tag_17_593_15" id="tag_17_593_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 700，澄清了以 &lt;hyphen-minus&gt; 开头的主题序列如何被转换。</p>
+<p>应用了 Austin Group 缺陷 1163，澄清了输入字符串中空白的处理。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -1,0 +1,23 @@
+<h1>XSH 函数导读：atexit()</h1>
+
+<h2>0. 总览</h2>
+<p>atexit() 注册一个函数，该函数将从 exit() 调用，或在从对 main() 的初始调用返回后调用，或在最后一个线程终止时调用。它声明于 <code>&lt;stdlib.h&gt;</code>，原型为 <code>int atexit(void (*func)(void));</code>——成功完成后返回 0，否则返回非零。标准保证至少可以注册 32 个函数。</p>
+
+<h2>1. 机制</h2>
+<p>注册的函数在 exit() 时按与注册相反的顺序被调用（后注册的先调用），每个函数被调用的次数与其注册次数相同。如果某个注册函数未能返回，则其余注册的函数不再被调用，exit() 处理的其余部分也不完成。atexit() 的注册与 at_quick_exit() 的注册相互独立，需要两套处理器时要用相同的参数分别注册。成功调用 exec 之后，先前由 atexit()（以及 at_quick_exit()）注册的函数不再被注册。在调用 exit() 之前才发生的 atexit() 调用是否会成功是未指定的。注册容量可用 sysconf() 查询 {ATEXIT_MAX}。</p>
+
+<h2>2. 易错点</h2>
+<p>注册的函数必须返回，否则后续注册的函数和流刷新都不会执行。由于多次调用 exit() 时行为未定义，可移植应用程序绝不能在 atexit 注册的函数中再调用 exit()；如需停止进一步的 exit() 处理，应调用 _exit()、_Exit() 或导致异常进程终止的函数之一。应用程序无法获知当前已注册了多少个函数，因此应通过 sysconf() 获取容量上限。需要"快速退出"路径时不要忘记 at_quick_exit() 是另一套注册，exec 之后两者均不再有效。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+void bye1(void) { puts("bye 1"); }
+void bye2(void) { puts("bye 2"); }
+
+int main(void) {
+    atexit(bye1);
+    atexit(bye2);   /* 逆序调用：先 bye 2，后 bye 1 */
+    return 0;       /* 触发 exit() 处理 */
+}</code></pre>

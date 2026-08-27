@@ -1,0 +1,37 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] free — free allocated memory
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]free[/I5]() function shall cause the space pointed to by [I6]ptr[/I6] to be deallocated; that is, made available for further allocation. If [I7]ptr[/I7] is a null pointer, no action shall occur. Otherwise, if the argument does not match a pointer earlier returned by [A8][I9]aligned_alloc[/I9]()[/A8], [A10][I11]calloc[/I11]()[/A10], [A12][I13]malloc[/I13]()[/A12],  [S14][[A15]ADV[/A15]][/S14] [IMG16] [A17][I18]posix_memalign[/I18]()[/A17], [IMG19] [A20][I21]realloc[/I21]()[/A20],  [S22][[A23]CX[/A23]][/S22] [IMG24] [A25][I26]reallocarray[/I26]()[/A25], or a function in POSIX.1-2024 that allocates memory as if by [A27][I28]malloc[/I28]()[/A27], [IMG29] or if the space has been deallocated by a call to [I30]free[/I30](), [S31][[A32]CX[/A32]][/S31] [IMG33] [A34][I35]reallocarray[/I35]()[/A34], [IMG36] or [A37][I38]realloc[/I38]()[/A37], the behavior is undefined.
+[p_00007] Any use of a pointer that refers to freed space results in undefined behavior.
+[p_00008] [S39][[A40]CX[/A40]][/S39] [IMG41] The [I42]free[/I42]() function shall not modify [I43]errno[/I43] if [I44]ptr[/I44] is a null pointer or a pointer previously returned as if by [A45][I46]malloc[/I46]()[/A45] and not yet deallocated. [IMG47]
+[p_00009] For purposes of determining the existence of a data race, [I48]free[/I48]() shall behave as though it accessed only memory locations accessible through its argument and not other static duration storage. The function may, however, visibly modify the storage that it deallocates. Calls to [A49][I50]aligned_alloc[/I50]()[/A49], [A51][I52]calloc[/I52]()[/A51], [I53]free[/I53](), [A54][I55]malloc[/I55]()[/A54], [S56][[A57]ADV[/A57]][/S56] [IMG58] [A59][I60]posix_memalign[/I60]()[/A59], [IMG61]  [S62][[A63]CX[/A63]][/S62] [IMG64] [A65][I66]reallocarray[/I66]()[/A65], [IMG67] and [A68][I69]realloc[/I69]()[/A68] that allocate or deallocate a particular region of memory shall occur in a single total order (see XBD [A70][I71]4.15.1 Memory Ordering[/I71][/A70]), and each such deallocation call shall synchronize with the next allocation (if any) in this order.
+[h4_00010] [A72][/A72]RETURN VALUE
+[p_00011] The [I73]free[/I73]() function shall not return a value.
+[h4_00012] [A74][/A74]ERRORS
+[p_00013] No errors are defined.
+[h4_00014] [A75][/A75]EXAMPLES
+[p_00015] None.
+[h4_00016] [A76][/A76]APPLICATION USAGE
+[p_00017] There is now no requirement for the implementation to support the inclusion of [I77]&lt;malloc.h&gt;[/I77].
+[p_00018] Because the [I78]free[/I78]() function does not modify [I79]errno[/I79] for valid pointers, it is safe to use it in cleanup code without corrupting earlier errors, such as in this example code:
+[p_00019] However, earlier versions of this standard did not require this, and the same example had to be written as:
+[h4_00020] [A80][/A80]RATIONALE
+[p_00021] None.
+[h4_00022] [A81][/A81]FUTURE DIRECTIONS
+[p_00023] None.
+[h4_00024] [A82][/A82]SEE ALSO
+[p_00025] [A83][I84]aligned_alloc[/I84]()[/A83], [A85][I86]calloc[/I86]()[/A85] , [A87][I88]malloc[/I88]()[/A87], [A89][I90]posix_memalign[/I90]()[/A89] , [A91][I92]realloc[/I92]()[/A91]
+[p_00026] XBD [A93][I94]&lt;stdlib.h&gt;[/I94][/A93]
+[h4_00027] [A95][/A95]CHANGE HISTORY
+[p_00028] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00029] [A96][/A96]Issue 6
+[p_00030] Reference to the [I97]valloc[/I97]() function is removed.
+[h4_00031] [A98][/A98]Issue 7
+[p_00032] The DESCRIPTION is updated to clarify that if the pointer returned is not by a function that allocates memory as if by [A99][I100]malloc[/I100]()[/A99], then the behavior is undefined.
+[h4_00033] [A101][/A101]Issue 8
+[p_00034] Austin Group Defect 385 is applied, adding a requirement that [I102]free[/I102]() does not modify [I103]errno[/I103] when passed a pointer to an object than can be freed.
+[p_00035] Austin Group Defect 1218 is applied, adding [A104][I105]reallocarray[/I105]()[/A104].
+[p_00036] Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.
+[p_00037] &nbsp;

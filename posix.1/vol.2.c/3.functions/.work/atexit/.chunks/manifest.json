@@ -1,0 +1,812 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_28_01\" id=\"tag_17_28_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "atexit — register a function to be called from .I exit () or after return from .I main ()",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_28_02\" id=\"tag_17_28_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdlib.h.html\">stdlib.h</a>&gt;<br>\n<br>\nint atexit(void (*</tt><i>func</i><tt>)(void));<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_28_03\" id=\"tag_17_28_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]atexit[/I5]() function shall register the function pointed to by [I6]func[/I6], to be called without arguments from [A7][I8]exit[/I8]()[/A7], or after return from the initial call to [I9]main[/I9](), or on the last thread\ntermination. If the [A10][I11]exit[/I11]()[/A10] function is called, it is unspecified whether a call to the\n[I12]atexit[/I12]() function that does not happen before [A13][I14]exit[/I14]()[/A13] is called will succeed.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A7": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A10": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A13": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "At least 32 functions can be registered with [I15]atexit[/I15]().",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00008",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A16][/A16]RETURN VALUE",
+    "placeholders": {
+     "A16": {
+      "open": "<a name=\"tag_17_28_04\" id=\"tag_17_28_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I17]atexit[/I17]() shall return 0; otherwise, it shall return a non-zero value.",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00010",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A18][/A18]ERRORS",
+    "placeholders": {
+     "A18": {
+      "open": "<a name=\"tag_17_28_05\" id=\"tag_17_28_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "No errors are defined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00012",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A19][/A19]EXAMPLES",
+    "placeholders": {
+     "A19": {
+      "open": "<a name=\"tag_17_28_06\" id=\"tag_17_28_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00014",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A20][/A20]APPLICATION USAGE",
+    "placeholders": {
+     "A20": {
+      "open": "<a name=\"tag_17_28_07\" id=\"tag_17_28_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "The [I21]atexit[/I21]() function registrations are distinct from the [A22][I23]at_quick_exit[/I23]()[/A22] registrations, so applications might need to call both registration\nfunctions with the same argument.",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A22": {
+      "open": "<a href=\"../functions/at_quick_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "The functions registered by a call to [I24]atexit[/I24]() must return to ensure that all registered functions are called.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5
+    ],
+    "text": "The application should call [A25][I26]sysconf[/I26]()[/A25] to obtain the value of {ATEXIT_MAX}, the\nnumber of functions that can be registered. There is no way for an application to tell how many functions have already been\nregistered with [I27]atexit[/I27]().",
+    "placeholders": {
+     "A25": {
+      "open": "<a href=\"../functions/sysconf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     7
+    ],
+    "text": "Since the behavior is undefined if the [A28][I29]exit[/I29]()[/A28] function is called more than once,\nportable applications calling [I30]atexit[/I30]() must ensure that the [A31][I32]exit[/I32]()[/A31] function is\nnot called when the functions registered by the [I33]atexit[/I33]() function are called.",
+    "placeholders": {
+     "A28": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A31": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     9
+    ],
+    "text": "If a function registered by the [I34]atexit[/I34]() function is called and a portable application needs to stop further [A35][I36]exit[/I36]()[/A35] processing, it must call the [A37][I38]_exit[/I38]()[/A37]\nfunction or the [A39][I40]_Exit[/I40]()[/A39] function or one of the functions which cause abnormal process\ntermination.",
+    "placeholders": {
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A35": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A37": {
+      "open": "<a href=\"../functions/_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A39": {
+      "open": "<a href=\"../functions/_Exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00020",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A41][/A41]RATIONALE",
+    "placeholders": {
+     "A41": {
+      "open": "<a name=\"tag_17_28_08\" id=\"tag_17_28_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00022",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A42][/A42]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A42": {
+      "open": "<a name=\"tag_17_28_09\" id=\"tag_17_28_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00024",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A43][/A43]SEE ALSO",
+    "placeholders": {
+     "A43": {
+      "open": "<a name=\"tag_17_28_10\" id=\"tag_17_28_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A44][I45]at_quick_exit[/I45]()[/A44], [A46][/A46][A47]exec[/A47], [A48][I49]exit[/I49]()[/A48], [A50][I51]sysconf[/I51]()[/A50]",
+    "placeholders": {
+     "A44": {
+      "open": "<a href=\"../functions/at_quick_exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A46": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A47": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A48": {
+      "open": "<a href=\"../functions/exit.html#tag_17_130\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A50": {
+      "open": "<a href=\"../functions/sysconf.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A52][I53]&lt;stdlib.h&gt;[/I53][/A52]",
+    "placeholders": {
+     "A52": {
+      "open": "<a href=\"../basedefs/stdlib.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00027",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A54][/A54]CHANGE HISTORY",
+    "placeholders": {
+     "A54": {
+      "open": "<a name=\"tag_17_28_11\" id=\"tag_17_28_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 4. Derived from the ANSI&nbsp;C standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A55][/A55]Issue 6",
+    "placeholders": {
+     "A55": {
+      "open": "<a name=\"tag_17_28_12\" id=\"tag_17_28_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the ISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/19 is applied, adding further clarification to the APPLICATION\nUSAGE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A56][/A56]Issue 8",
+    "placeholders": {
+     "A56": {
+      "open": "<a name=\"tag_17_28_13\" id=\"tag_17_28_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "Austin Group Defect 1646 is applied, removing redundant text relating to the [I57][A58]exec[/A58][/I57]\nfamily of functions.",
+    "placeholders": {
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A58": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

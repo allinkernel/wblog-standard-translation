@@ -1,0 +1,88 @@
+<h1>XSH 函数：fwrite()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fwrite" id="fwrite"></a> <a name="tag_17_199" id="tag_17_199"></a>
+<a name="tag_17_199_01" id="tag_17_199_01"></a><h4>[h4_00001] 名称 (NAME)</h4>
+<blockquote>[blockquote_00002] fwrite — 二进制输出 (binary output)</blockquote>
+<a name="tag_17_199_02" id="tag_17_199_02"></a><h4>[h4_00003] 提要 (SYNOPSIS)</h4>
+<blockquote>
+<p>[p_00004] <code><code>#include &lt;stdio.h&gt;<br>
+<br>
+size_t fwrite(const void *restrict</code> <i>ptr</i><code>, size_t</code> <i>size</i><code>, size_t</code> <i>nitems</i><code>,<br>
+       FILE *restrict</code> <i>stream</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_199_03" id="tag_17_199_03"></a><h4>[h4_00005] 说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>[p_00006] <i>fwrite</i>() 函数应从 <i>ptr</i> 指向的数组中，将至多 <i>nitems</i> 个大小由 <i>size</i> 指定的元素写入 <i>stream</i> 指向的流。对于每个对象，应调用 fputc() 函数 <i>size</i> 次，从恰好覆盖该对象的 <b>unsigned char</b> 数组中（按顺序）取值。流的文件位置指示符（如果已定义）应按成功写入的字节数前进。如果发生错误，则流的文件位置指示符的结果值未指定。</p>
+<p>[p_00007] <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 文件的上次数据修改和上次文件状态更改时间戳应被标记更新，在 <i>fwrite</i>() 成功执行与对同一流调用 fflush() 或 fclose() 的下一次成功完成之间，或与调用 exit() 或 abort() 之间。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_199_04" id="tag_17_199_04"></a><h4>[h4_00008] 返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>[p_00009] <i>fwrite</i>() 函数应返回成功写入的元素数，只有在遇到写入错误时，该数才应小于 <i>nitems</i>。如果 <i>size</i> 或 <i>nitems</i> 为 0，则 <i>fwrite</i>() 应返回 0，并且流的状态保持不变。否则，如果发生写入错误，应设置流的错误指示符，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并应设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_199_05" id="tag_17_199_05"></a><h4>[h4_00010] 错误 (ERRORS)</h4>
+<blockquote>
+<p>[p_00011] 参见 fputc()。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_199_06" id="tag_17_199_06"></a><h4>[h4_00012] 示例 (EXAMPLES)</h4>
+<blockquote>
+<p>[p_00013] 无。</p>
+</blockquote>
+<a name="tag_17_199_07" id="tag_17_199_07"></a><h4>[h4_00014] 应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>[p_00015] 由于元素长度和字节顺序可能存在差异，使用 <i>fwrite</i>() 写入的文件是应用程序相关的，并且可能无法由不同的应用程序或在不同的处理器上运行的同一应用程序使用 fread() 读取。</p>
+</blockquote>
+<a name="tag_17_199_08" id="tag_17_199_08"></a><h4>[h4_00016] 理由 (RATIONALE)</h4>
+<blockquote>
+<p>[p_00017] 无。</p>
+</blockquote>
+<a name="tag_17_199_09" id="tag_17_199_09"></a><h4>[h4_00018] 未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>[p_00019] 无。</p>
+</blockquote>
+<a name="tag_17_199_10" id="tag_17_199_10"></a><h4>[h4_00020] 参见 (SEE ALSO)</h4>
+<blockquote>
+<p>[p_00021] 2.5 标准 I/O 流、ferror()、fopen()、fprintf()、putc()、puts()、write()</p>
+<p>[p_00022] XBD &lt;stdio.h&gt;</p>
+</blockquote>
+<a name="tag_17_199_11" id="tag_17_199_11"></a><h4>[h4_00023] 变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>[p_00024] 首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_199_12" id="tag_17_199_12"></a><h4>[h4_00025] 第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>[p_00026] 超出 ISO C 标准的扩展被标记。</p>
+<p>[p_00027] 为与 ISO/IEC 9899:1999 标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>[p_00028] <i>fwrite</i>() 的原型已更新。</p>
+</li>
+<li>
+<p>[p_00029] DESCRIPTION 已更新，以澄清如何使用 fputc() 写出数据。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_199_13" id="tag_17_199_13"></a><h4>[h4_00030] 第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>[p_00031] 进行了与细粒度时间戳支持相关的更改。</p>
+<p>[p_00032] 应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0228 [14]。</p>
+</blockquote>
+<a name="tag_17_199_14" id="tag_17_199_14"></a><h4>[h4_00033] 第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>[p_00034] 应用了 Austin Group 缺陷 1196，澄清了 RETURN VALUE 一节。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p>[p_00035]  </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

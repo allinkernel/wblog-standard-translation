@@ -1,0 +1,31 @@
+# start_index 121
+[p_00787] For the second handle:
+[li_00788] If any previous active handle has been used by a function that explicitly changed the file offset, except as
+required above for the first handle, the application shall perform an [A738][I739]lseek[/I739]()[/A738] or
+[A740][I741]fseek[/I741]()[/A740] (as appropriate to the type of handle) to an appropriate location.
+[p_00789] If the active handle ceases to be accessible before the requirements on the first handle, above, have been met, the
+state of the open file description becomes undefined. This might occur during functions such as a [A742][I743]fork[/I743]()[/A742] or [A744][I745]_exit[/I745]()[/A744].
+[p_00790] The [I746][A747]exec[/A747][/I746] functions make inaccessible all streams that are open at the
+time they are called, independent of which streams or file descriptors may be available to the new process image.
+[p_00791] When these rules are followed, regardless of the sequence of handles used, no data shall be lost or duplicated when
+writing, and all data shall be written in order, except as requested by seeks. It is implementation-defined whether, and under what
+conditions, all input is seen exactly once.
+[p_00792] Each function that operates on a stream is said to have zero or more &quot;underlying functions&quot;. This means that the
+stream function shares certain traits with the underlying functions, but does not require that there be any relation between the
+implementations of the stream function and its underlying functions.
+[h4_00793] [A748][/A748]2.5.2 Stream Orientation and Encoding Rules
+[p_00794] The definition of a stream includes an &quot;orientation&quot;. After a stream is associated with an external file, but
+before any operations are performed on it, the stream is without orientation. Once a wide-character input/output function has been
+applied to a stream without orientation, the stream shall become &quot;wide-oriented&quot;. Similarly, once a byte input/output function
+has been applied to a stream without orientation, the stream shall become &quot;byte-oriented&quot;. Only a call to the [A749][I750]freopen[/I750]()[/A749] function or the [A751][I752]fwide[/I752]()[/A751] function can
+otherwise alter the orientation of a stream.
+[p_00795] A successful call to [A753][I754]freopen[/I754]()[/A753] shall remove any orientation. The
+three predefined streams [I755]standard input[/I755], [I756]standard output[/I756], and [I757]standard error[/I757] shall be unoriented at program
+start-up.
+[p_00796] Byte input/output functions cannot be applied to a wide-oriented stream, and wide-character input/output functions
+cannot be applied to a byte-oriented stream. The remaining stream operations shall not affect and shall not be affected by a
+stream's orientation, except for the following additional restriction:
+[li_00797] For wide-oriented streams, after a successful call to a file-positioning function that leaves the file position
+indicator prior to the end-of-file, a wide-character output function can overwrite a partial character; any file contents beyond
+the byte(s) written are henceforth undefined.
+[p_00798] Each wide-oriented stream [S758][[A759]CX[/A759]][/S758] [IMG760] &nbsp;that was not opened with [A761][I762]open_wmemstream[/I762]()[/A761] [IMG763]

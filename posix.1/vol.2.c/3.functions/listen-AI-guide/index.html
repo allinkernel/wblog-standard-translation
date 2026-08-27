@@ -1,0 +1,24 @@
+<h1>XSH 函数导读：listen()</h1>
+
+<h2>0. 总览</h2>
+<p><b>listen()</b> 侦听套接字连接并限制传入连接的队列：将由 <i>socket</i> 指定的连接模式（SOCK_STREAM、SOCK_SEQPACKET 等）套接字标记为接受连接。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>int listen(int socket, int backlog)</code>。成功返回 0，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>listen() 不建立任何连接，只把套接字从"主动"转为"被动"状态，使其可以接受来自对端的连接请求。<i>backlog</i> 是对实现的提示，用于限制套接字侦听队列中未完成连接的数量；实现可以静默地减小该值，因此它只是下限意义上的提示。实现应支持最大为 SOMAXCONN（在 <code>&lt;sys/socket.h&gt;</code> 中定义）的 backlog 值。实现还可以分别限制队列中未完成（仍在进行握手）和已完成（等待 accept() 取出）的连接数量。backlog 小于 0 时按 0 处理；backlog 为 0 仍可能允许接受连接，此时队列长度可设为实现定义的最小值。之后应使用 accept() 从队列取出连接。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>必须在 socket() 之后、accept() 之前调用 listen()；对 SOCK_DGRAM 等无连接套接字调用会返回 [EOPNOTSUPP]（套接字协议不支持）。</li>
+<li>对未绑定到本地地址的套接字调用 listen() 可能返回 [EDESTADDRREQ]（协议不支持在未绑定的套接字上侦听），通常应先 bind()。</li>
+<li>已连接的套接字再调用 listen() 返回 [EINVAL]；<i>socket</i> 不是套接字返回 [ENOTSOCK]。</li>
+<li>backlog 只是提示：实现会静默减小，不要依赖精确的队列容量；高并发服务应结合 accept 循环与 select/poll 使用。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+
+/* sfd 已通过 socket() + bind() 就绪 */
+if (listen(sfd, 16) == -1) {
+    /* 处理错误：可能 EOPNOTSUPP、EINVAL、EDESTADDRREQ 等 */;
+}
+/* 此后 sfd 进入侦听状态，可用 accept() 取出连接 */</code></pre>

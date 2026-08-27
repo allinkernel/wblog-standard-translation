@@ -1,0 +1,175 @@
+[h3_00449] [A281][/A281]2.3 Error Numbers
+[p_00450] Most functions can provide an error number. The means by which each function provides its error numbers is specified in its description.
+[p_00451] Some functions provide the error number in a variable accessed through the symbol [I282]errno[/I282], defined by including the [A283][I284]&lt;errno.h&gt;[/I284][/A283] header. The value of [I285]errno[/I285] should only be examined when it is indicated to be valid by a function's return value. No function in this volume of POSIX.1-2024 shall set [I286]errno[/I286] to zero. For each thread of a process, the value of [I287]errno[/I287] shall not be affected by function calls or assignments to [I288]errno[/I288] by other threads.
+[p_00452] Some functions return an error number directly as the function value. These functions return a value of zero to indicate success.
+[p_00453] If more than one error occurs in processing a function call, any one of the possible errors may be returned, as the order of detection is undefined.
+[p_00454] Implementations may support additional errors not included in this list, may generate errors included in this list under circumstances other than those described here, or may contain extensions or limitations that prevent some errors from occurring.
+[p_00455] The ERRORS section on each reference page specifies which error conditions shall be detected by all implementations (&quot;shall fail&quot;) and which may be optionally detected by an implementation (&quot;may fail&quot;). If no error condition is detected, the action requested shall be successful. If an error condition is detected, the action requested may have been partially performed, unless otherwise stated.
+[p_00456] Implementations may generate error numbers listed here under circumstances other than those described, if and only if all those error conditions can always be treated identically to the error conditions as described in this volume of POSIX.1-2024. Implementations shall not generate a different error number from one required by this volume of POSIX.1-2024 for an error condition described in this volume of POSIX.1-2024, but may generate additional errors unless explicitly disallowed for a particular function.
+[p_00457] Each implementation shall document, in the conformance document, situations in which each of the optional conditions defined in POSIX.1-2024 is detected. The conformance document may also contain statements that one or more of the optional error conditions are not detected.
+[p_00458] Certain threads-related functions are not allowed to return an error code of [EINTR]. Where this applies it is stated in the ERRORS section on the individual function pages.
+[p_00459] The following macro names identify the possible error numbers, in the context of the functions specifically defined in this volume of POSIX.1-2024; these general descriptions are more precisely defined in the ERRORS sections of the functions that return them. Only these macro names should be used in programs, since the actual value of the error number is unspecified. All values listed in this section shall be unique, except as noted below. The values for all these macros shall be found in the [A289][I290]&lt;errno.h&gt;[/I290][/A289] header defined in the Base Definitions volume of POSIX.1-2024. The actual values are unspecified by this volume of POSIX.1-2024.
+[dt_00460] [E2BIG]
+[p_00461] or:
+[p_00462] Lack of space in an output buffer.
+[p_00463] or:
+[p_00464] Argument is greater than the system-imposed maximum.
+[dt_00465] [EACCES]
+[dd_00466] Permission denied. An attempt was made to access a file in a way forbidden by its file access permissions.
+[dt_00467] [EADDRINUSE]
+[dd_00468] Address in use. The specified address is in use.
+[dt_00469] [EADDRNOTAVAIL]
+[dd_00470] Address not available. The specified address is not available from the local system.
+[dt_00471] [EAFNOSUPPORT]
+[dd_00472] Address family not supported. The implementation does not support the specified address family, or the specified address is not a valid address for the address family of the specified socket.
+[dt_00473] [EAGAIN]
+[dd_00474] Resource temporarily unavailable. This is a temporary condition and later calls to the same routine may complete normally.
+[dt_00475] [EALREADY]
+[dd_00476] Connection already in progress. A connection request is already in progress for the specified socket.
+[dt_00477] [EBADF]
+[dd_00478] Bad file descriptor. A file descriptor argument is out of range, refers to no open file, or a read (write) request is made to a file that is only open for writing (reading).
+[dt_00479] [EBADMSG]
+[dd_00480] Bad Message. The implementation has detected a corrupted message.
+[dt_00481] [EBUSY]
+[dd_00482] Resource busy. An attempt was made to make use of a system resource that is not currently available, as it is being used by another process in a manner that would have conflicted with the request being made by this process.
+[dt_00483] [ECANCELED]
+[dd_00484] Operation canceled. The associated asynchronous operation was canceled before completion.
+[dt_00485] [ECHILD]
+[dd_00486] No child process. A [A291][I292]wait[/I292]()[/A291], [A293][I294]waitid[/I294]()[/A293], or [A295][I296]waitpid[/I296]()[/A295] function was executed by a process that had no existing or unwaited-for child process.
+[dt_00487] [ECONNABORTED]
+[dd_00488] Connection aborted. The connection has been aborted.
+[dt_00489] [ECONNREFUSED]
+[dd_00490] Connection refused. An attempt to connect to a socket was refused because there was no process listening or because the queue of connection requests was full and the underlying protocol does not support retransmissions.
+[dt_00491] [ECONNRESET]
+[dd_00492] Connection reset. The connection was forcibly closed by the peer.
+[dt_00493] [EDEADLK]
+[dd_00494] Resource deadlock would occur. An attempt was made to lock a system resource that would have resulted in a deadlock situation.
+[dt_00495] [EDESTADDRREQ]
+[dd_00496] Destination address required. No bind address was established.
+[dt_00497] [EDOM]
+[dd_00498] Domain error. An input argument is outside the defined domain of the mathematical function (defined in the ISO&nbsp;C standard).
+[dt_00499] [EDQUOT]
+[dd_00500] Reserved.
+[dt_00501] [EEXIST]
+[dd_00502] File exists. An existing file was mentioned in an inappropriate context; for example, as a new link name in the [A297][I298]link[/I298]()[/A297] function.
+[dt_00503] [EFAULT]
+[dd_00504] Bad address. The system detected an invalid address in attempting to use an argument of a call. The reliable detection of this error cannot be guaranteed, and when not detected may result in the generation of a signal, indicating an address violation, which is sent to the process.
+[dt_00505] [EFBIG]
+[dd_00506] File too large. The size of a file would exceed the implementation's maximum file size, the file size limit of the process, or the offset maximum established in the corresponding open file description.
+[dt_00507] [EHOSTUNREACH]
+[dd_00508] Host is unreachable. The destination host cannot be reached (probably because the host is down or a remote router cannot reach it).
+[dt_00509] [EIDRM]
+[dd_00510] Identifier removed. Returned during XSI interprocess communication if an identifier has been removed from the system.
+[dt_00511] [EILSEQ]
+[dd_00512] Illegal byte sequence. A wide-character code has been detected that does not correspond to a valid character, or a byte sequence does not form a valid wide-character code (defined in the ISO&nbsp;C standard).
+[dt_00513] [EINPROGRESS]
+[p_00514] or:
+[p_00515] O_NONBLOCK is set for the socket file descriptor and the connection cannot be immediately established.
+[dt_00516] [EINTR]
+[dd_00517] Interrupted function call. An asynchronous signal was caught by the process during the execution of an interruptible function. If the signal handler performs a normal return, the interrupted function call may return this condition (see the Base Definitions volume of POSIX.1-2024, [A299][I300]&lt;signal.h&gt;[/I300][/A299]).
+[dt_00518] [EINVAL]
+[dd_00519] Invalid argument. Some invalid argument was supplied; for example, specifying an undefined signal in a [A301][I302]signal[/I302]()[/A301] function or a [A303][I304]kill[/I304]()[/A303] function.
+[dt_00520] [EIO]
+[dd_00521] Input/output error. Some physical input or output error has occurred. This error may be reported on a subsequent operation on the same file descriptor. Any other error-causing operation on the same file descriptor may cause the [EIO] error indication to be lost.
+[dt_00522] [EISCONN]
+[dd_00523] Socket is connected. The specified socket is already connected.
+[dt_00524] [EISDIR]
+[dd_00525] Is a directory. An attempt was made to open a directory with write mode specified.
+[dt_00526] [ELOOP]
+[dd_00527] Symbolic link loop. A loop exists in symbolic links encountered during pathname resolution. This error may also be returned if more than {SYMLOOP_MAX} symbolic links are encountered during pathname resolution.
+[dt_00528] [EMFILE]
+[dd_00529] File descriptor value too large or too many open streams. An attempt was made to open a file descriptor with a value greater than or equal to {OPEN_MAX}, [S305][[A306]XSI[/A306]][/S305] [IMG307] &nbsp;or greater than or equal to the soft limit RLIMIT_NOFILE for the process (if smaller than {OPEN_MAX}); [IMG308] &nbsp;or an attempt was made to open more than the maximum number of streams allowed in the process.
+[dt_00530] [EMLINK]
+[dd_00531] Too many hard links. An attempt was made to have the link count of a single file exceed {LINK_MAX}.
+[dt_00532] [EMSGSIZE]
+[p_00533] or:
+[p_00534] Inappropriate message buffer length.
+[dt_00535] [EMULTIHOP]
+[dd_00536] Reserved.
+[dt_00537] [ENAMETOOLONG]
+[dd_00538] Filename too long. The length of a pathname exceeds {PATH_MAX} and the implementation considers this to be an error, or a pathname component is longer than {NAME_MAX}. This error may also occur when pathname substitution, as a result of encountering a symbolic link during pathname resolution, results in a pathname string the size of which exceeds {PATH_MAX}.
+[dt_00539] [ENETDOWN]
+[dd_00540] Network is down. The local network interface used to reach the destination is down.
+[dt_00541] [ENETRESET]
+[dd_00542] The connection was aborted by the network.
+[dt_00543] [ENETUNREACH]
+[dd_00544] Network unreachable. No route to the network is present.
+[dt_00545] [ENFILE]
+[dd_00546] Too many files open in system. Too many files are currently open in the system. The system has reached its predefined limit for simultaneously open files and temporarily cannot accept requests to open another one.
+[dt_00547] [ENOBUFS]
+[dd_00548] No buffer space available. Insufficient buffer resources were available in the system to perform the socket operation.
+[dt_00549] [ENODEV]
+[dd_00550] No such device. An attempt was made to apply an inappropriate function to a device; for example, trying to read a write-only device such as a printer.
+[dt_00551] [ENOENT]
+[dd_00552] No such file or directory. A component of a specified pathname does not exist, or the pathname is an empty string.
+[dt_00553] [ENOEXEC]
+[dd_00554] Executable file format error. A request is made to execute a file that, although it has appropriate privileges, is not in the format required by the implementation for executable files.
+[dt_00555] [ENOLCK]
+[dd_00556] No locks available. A system-imposed limit on the number of simultaneous file and record locks has been reached and no more are currently available.
+[dt_00557] [ENOLINK]
+[dd_00558] Reserved.
+[dt_00559] [ENOMEM]
+[dd_00560] Not enough space. The new process image requires more memory than is allowed by the hardware or system-imposed memory management constraints.
+[dt_00561] [ENOMSG]
+[dd_00562] No message of the desired type. The message queue does not contain a message of the required type during XSI interprocess communication.
+[dt_00563] [ENOPROTOOPT]
+[dd_00564] Protocol not available. The protocol option specified to [A309][I310]setsockopt[/I310]()[/A309] is not supported by the implementation.
+[dt_00565] [ENOSPC]
+[dd_00566] No space left on a device. During the [A311][I312]write[/I312]()[/A311] function on a regular file or when extending a directory, there is no free space left on the device.
+[dt_00567] [ENOSYS]
+[dd_00568] Functionality not supported. An attempt was made to use optional functionality that is not supported in this implementation.
+[dt_00569] [ENOTCONN]
+[dd_00570] Socket not connected. The socket is not connected.
+[dt_00571] [ENOTDIR]
+[dd_00572] Not a directory. A component of the specified pathname exists, but it is not a directory, when a directory was expected; or an attempt was made to create a non-directory file, and the specified pathname contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters.
+[dt_00573] [ENOTEMPTY]
+[dd_00574] Directory not empty. A directory other than an empty directory was supplied when an empty directory was expected.
+[dt_00575] [ENOTRECOVERABLE]
+[dd_00576] State not recoverable. The state protected by a robust mutex is not recoverable.
+[dt_00577] [ENOTSOCK]
+[dd_00578] Not a socket. The file descriptor does not refer to a socket.
+[dt_00579] [ENOTSUP]
+[dd_00580] Not supported. The implementation does not support the requested feature or value.
+[dt_00581] [ENOTTY]
+[dd_00582] Inappropriate I/O control operation. A control function has been attempted for a file or special file for which the operation is inappropriate.
+[dt_00583] [ENXIO]
+[dd_00584] No such device or address. Input or output on a special file refers to a device that does not exist, or makes a request beyond the capabilities of the device. It may also occur when, for example, a tape drive is not on-line.
+[dt_00585] [EOPNOTSUPP]
+[dd_00586] Operation not supported on socket. The type of socket (address family or protocol) does not support the requested operation. A conforming implementation may assign the same values for [EOPNOTSUPP] and [ENOTSUP].
+[dt_00587] [EOVERFLOW]
+[dd_00588] Value too large to be stored in data type. An operation was attempted which would generate a value that is outside the range of values that can be represented in the relevant data type or that are allowed for a given data item.
+[dt_00589] [EOWNERDEAD]
+[dd_00590] Previous owner died. The owner of a robust mutex terminated while holding the mutex lock.
+[dt_00591] [EPERM]
+[dd_00592] Operation not permitted. An attempt was made to perform an operation limited to processes with appropriate privileges or to the owner of a file or other resource.
+[dt_00593] [EPIPE]
+[dd_00594] Broken pipe. A write was attempted on a socket, pipe, or FIFO for which there is no process to read the data.
+[dt_00595] [EPROTO]
+[dd_00596] Protocol error. Some protocol error occurred. This error is device-specific, but is generally not related to a hardware failure.
+[dt_00597] [EPROTONOSUPPORT]
+[dd_00598] Protocol not supported. The protocol is not supported by the address family, or the protocol is not supported by the implementation.
+[dt_00599] [EPROTOTYPE]
+[dd_00600] Protocol wrong type for socket. The socket type is not supported by the protocol.
+[dt_00601] [ERANGE]
+[dd_00602] Result too large or too small. The result of the function is too large (overflow) or too small (underflow) to be represented in the available space (defined in the ISO&nbsp;C standard).
+[dt_00603] [EROFS]
+[dd_00604] Read-only file system. An attempt was made to modify a file or directory on a file system that is read-only.
+[dt_00605] [ESOCKTNOSUPPORT]
+[dd_00606] Socket type not supported. The socket type is not supported by the address family, or the socket type is not supported by the implementation.
+[dt_00607] [ESPIPE]
+[dd_00608] Invalid seek. An attempt was made to access the file offset associated with a pipe or FIFO.
+[dt_00609] [ESRCH]
+[dd_00610] No such process. No process can be found corresponding to that specified by the given process ID.
+[dt_00611] [ESTALE]
+[dd_00612] Reserved.
+[dt_00613] [ETIMEDOUT]
+[p_00614] or:
+[p_00615] Operation timed out. The time limit associated with the operation was exceeded before the operation completed.
+[dt_00616] [ETXTBSY]
+[dd_00617] Text file busy. An attempt was made to execute a pure-procedure program that is currently open for writing, or an attempt has been made to open for writing a pure-procedure program that is being executed.
+[dt_00618] [EWOULDBLOCK]
+[p_00619] A conforming implementation may assign the same values for [EWOULDBLOCK] and [EAGAIN].
+[dt_00620] [EXDEV]
+[dd_00621] Improper hard link. Creation of a hard link to a file on another file system was attempted.
+[h4_00622] [A313][/A313]2.3.1 Additional Error Numbers
+[p_00623] Additional implementation-defined error numbers may be defined in [A314][I315]&lt;errno.h&gt;[/I315][/A314].

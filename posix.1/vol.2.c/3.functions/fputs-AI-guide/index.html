@@ -1,0 +1,38 @@
+<h1>XSH 函数导读：fputs()</h1>
+
+<h2>0. 总览</h2>
+<p><code>fputs()</code> 把字符串放到流上：将 <i>s</i> 指向的以空字符结尾的字符串写入流，结尾的空字节<b>不</b>被写入。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>int fputs(const char *restrict s, FILE *restrict stream)</code>——成功返回非负数，失败返回 EOF 并设置 <i>errno</i>。</p>
+
+<h2>1. 机制</h2>
+<p>函数从 <i>s</i> 逐字节写至空字符为止（空字符本身不写），因此字符串必须是以空字符结尾的，规范没有长度参数、也不检查长度。成功时只需返回一个非负数；规范明确承认实现约定至少有三种：返回常量值、返回最后写入的字符、或返回写入的字节数——因此程序不应把返回值当作字节数使用，只应判断“是否 EOF”。与 <code>fwrite()</code> 类似，文件的上次数据修改和上次文件状态更改时间戳在 <code>fputs()</code> 成功执行与下一次 <code>fflush()</code>/<code>fclose()</code> 成功完成（或 <code>exit()</code>/<code>abort()</code>）之间被标记更新。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><b>不追加换行</b>：<code>puts()</code> 会自动追加一个 &lt;newline&gt;，<code>fputs()</code> 不会；需要换行必须自己在字符串里带 <code>"\n"</code>。</li>
+<li>返回值语义很弱：只保证“非负数即成功”，不要假设它是字符数或字节数；比较时只与 EOF 比较。</li>
+<li>空字节不写入：写入二进制数据中内嵌 <code>'\0'</code> 的缓冲区会导致数据截断，应改用 <code>fwrite()</code>。</li>
+<li>数据进缓冲不等于落盘：写满前内容仍在缓冲中，崩溃可能丢失；需要及时 <code>fflush()</code>（如写日志）并检查 <code>fclose()</code> 返回值。</li>
+<li>失败时流的错误指示符被设置，后续输出操作通常不会再成功，应检查 <code>ferror()</code> 并处理 <i>errno</i>。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    FILE *fp = fopen("log.txt", "a");
+    if (fp == NULL) {
+        perror("fopen");
+        return 1;
+    }
+    if (fputs("started\n", fp) == EOF) { /* 换行要自己加 */
+        perror("fputs");
+        return 1;
+    }
+    if (fclose(fp) == EOF) {             /* 缓冲在此落盘 */
+        perror("fclose");
+        return 1;
+    }
+    return 0;
+}
+</code></pre>

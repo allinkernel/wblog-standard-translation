@@ -1,0 +1,31 @@
+# start_index 61
+released the lock. [IMG627]
+[p_00765] [S628][[A629]CX[/A629]][/S628] [IMG630] A stream associated with a memory buffer shall have the same operations for text files that a stream associated with an
+external file would have. In addition, the stream orientation shall be determined in exactly the same fashion.
+[p_00766] Input and output operations on a stream associated with a memory buffer by a call to [A631][I632]fmemopen[/I632]()[/A631] shall be constrained by the implementation to take place within the bounds of
+the memory buffer. In the case of a stream opened by [A633][I634]open_memstream[/I634]()[/A633] or
+[A635][I636]open_wmemstream[/I636]()[/A635], the memory area shall grow dynamically to accommodate
+write operations as necessary. For output, if the stream is fully buffered or line buffered, data shall be moved from the stream's
+internal buffer, or a buffer provided by [A637][I638]setvbuf[/I638]()[/A637], to the memory buffer during a
+flush or close operation. For input, it is unspecified whether a buffer provided by [A639][I640]setvbuf[/I640]()[/A639] is used or whether read operations read directly from the memory buffer provided
+to or allocated by [A641][I642]fmemopen[/I642]()[/A641].
+[p_00767] When a standard I/O stream has an associated memory buffer (whether allocated internally, supplied to [A643][I644]setvbuf[/I644]()[/A643], or supplied to [A645][I646]fmemopen[/I646]()[/A645]), the
+behavior is undefined if that buffer overlaps with the destination buffer passed to a call that reads from the stream or with the
+source buffer passed to a call that writes to the stream. [IMG647]
+[h4_00768] [A648][/A648]2.5.1 Interaction of File Descriptors and Standard I/O Streams
+[p_00769] [S649][[A650]CX[/A650]][/S649] [IMG651] This section describes the interaction of file descriptors and standard I/O streams. The functionality described in
+this section is an extension to the ISO&nbsp;C standard (and the rest of this section is not further CX shaded). [IMG652]
+[p_00770] An open file description may be accessed through a file descriptor, which is created using functions such as
+[A653][I654]open[/I654]()[/A653] or [A655][I656]pipe[/I656]()[/A655], or through a stream,
+which is created using functions such as [A657][I658]fopen[/I658]()[/A657] or [A659][I660]popen[/I660]()[/A659]. Either a file descriptor or a stream is called a &quot;handle&quot; on the open file
+description to which it refers; an open file description may have several handles.
+[p_00771] Handles can be created or destroyed by explicit user action, without affecting the underlying open file
+description. Some of the ways to create them include [A661][I662]fcntl[/I662]()[/A661], [A663][I664]dup[/I664]()[/A663], [A665][I666]fdopen[/I666]()[/A665], [A667][I668]fileno[/I668]()[/A667], and [A669][I670]fork[/I670]()[/A669]. They can be destroyed by at
+least [A671][I672]fclose[/I672]()[/A671], [A673][I674]close[/I674]()[/A673], and the
+[I675][A676]exec[/A676][/I675] functions.
+[p_00772] A file descriptor that is never used in an operation that could affect the file offset (for example, [A677][I678]read[/I678]()[/A677], [A679][I680]write[/I680]()[/A679], or [A681][I682]lseek[/I682]()[/A681]) is not considered a handle for this discussion, but could give rise to one (for
+example, as a consequence of [A683][I684]fdopen[/I684]()[/A683], [A685][I686]dup[/I686]()[/A685], or [A687][I688]fork[/I688]()[/A687]). This exception does not include
+the file descriptor underlying a stream, whether created with [A689][I690]fopen[/I690]()[/A689] or [A691][I692]fdopen[/I692]()[/A691], so long as it is not used directly by the application to affect the file offset.
+The [A693][I694]read[/I694]()[/A693] and [A695][I696]write[/I696]()[/A695] functions
+implicitly affect the file offset; [A697][I698]lseek[/I698]()[/A697] explicitly affects it.
+[p_00773] The result of function calls involving any one handle (the &quot;active handle&quot;) is defined elsewhere in this volume

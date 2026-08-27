@@ -1,0 +1,27 @@
+<h1>XSH 函数导读：pthread_exit()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_exit()</code> 终止调用线程，并把退出值交给任何成功的汇合（join）。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>_Noreturn void pthread_exit(void *value_ptr);</code>——它永不返回调用者，返回值类型为 <code>void</code>，唯一的参数是作为线程退出状态传给 join 的指针。</p>
+
+<h2>1. 机制</h2>
+<p>调用时，线程先按压入的相反顺序弹出并执行所有尚未弹出的取消清理处理程序（cleanup handler）；之后，若该线程有线程特定数据（<code>pthread_key_t</code> 或 <code>tss_t</code>），以未指定顺序调用相应析构函数。线程终止不会释放进程级资源：互斥量、文件描述符等仍归进程所有，也不会执行 <code>atexit()</code> 例程。当线程从启动例程返回时会隐式调用 <code>pthread_exit()</code>，返回值即退出状态。若最后一个线程终止，进程以状态 0 退出，如同实现在线程终止时以参数零调用 <code>exit()</code>。</p>
+
+<h2>2. 易错点</h2>
+<p>不要把线程局部（auto）变量的引用当作 <code>value_ptr</code>：线程终止后再访问其局部变量结果未定义，join 方拿到的可能是一块已失效的栈地址。不要在取消清理处理程序或析构函数里再调用 <code>pthread_exit()</code>，行为未定义。从 <code>thrd_create()</code> 创建的线程不应调用 <code>pthread_exit()</code>，因为其退出状态类型是 <code>int</code> 而非 <code>void *</code>。若主线程调用它且并非最后终止，其他线程不应试图用 <code>thrd_join()</code> 获取其状态。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+
+void *worker(void *arg) {
+    pthread_exit((void *)7);   /* 显式终止，永不返回 */
+}
+
+int main(void) {
+    pthread_t th;
+    void *ret = NULL;
+    pthread_create(&amp;th, NULL, worker, NULL);
+    pthread_join(th, &amp;ret);
+    printf("退出值: %ld\n", (long)ret);
+    return 0;
+}</code></pre>

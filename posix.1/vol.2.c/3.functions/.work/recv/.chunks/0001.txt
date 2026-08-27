@@ -1,0 +1,66 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] recv — receive a message from a connected socket
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]recv[/I5]() function shall receive a message from a connection-mode or connectionless-mode socket. It is normally used with connected sockets because it does not permit the application to retrieve the source address of received data.
+[p_00007] The [I6]recv[/I6]() function takes the following arguments:
+[dt_00008] [I7]socket[/I7]
+[dd_00009] Specifies the socket file descriptor.
+[dt_00010] [I8]buffer[/I8]
+[dd_00011] Points to a buffer where the message should be stored.
+[dt_00012] [I9]length[/I9]
+[dd_00013] Specifies the length in bytes of the buffer pointed to by the [I10]buffer[/I10] argument.
+[dt_00014] [I11]flags[/I11]
+[dd_00015] Specifies the type of message reception. Values of this argument are formed by logically OR'ing zero or more of the following values:   MSG_PEEK Peeks at an incoming message. The data is treated as unread and the next [I12]recv[/I12]() or similar function shall still return this data. MSG_OOB Requests out-of-band data. The significance and semantics of out-of-band data are protocol-specific. MSG_WAITALL On SOCK_STREAM sockets this requests that the function block until the full amount of data can be returned. The function may return the smaller amount of data if the socket is a message-based socket, if a signal is caught, if the connection is terminated, if MSG_PEEK was specified, or if an error is pending for the socket.
+[p_00016] The [I13]recv[/I13]() function shall return the length of the message written to the buffer pointed to by the [I14]buffer[/I14] argument. For message-based sockets, such as SOCK_DGRAM and SOCK_SEQPACKET, the entire message shall be read in a single operation. If a message is too long to fit in the supplied buffer, and MSG_PEEK is not set in the [I15]flags[/I15] argument, the excess bytes shall be discarded. For stream-based sockets, such as SOCK_STREAM, message boundaries shall be ignored. In this case, data shall be returned to the user as soon as it becomes available, and no data shall be discarded.
+[p_00017] If the MSG_WAITALL flag is not set, data shall be returned only up to the end of the first message.
+[p_00018] If no messages are available at the socket and O_NONBLOCK is not set on the socket's file descriptor, [I16]recv[/I16]() shall block until a message arrives or a timeout occurs (see SO_RCVTIMEO in [A17][I18]2.10.16 Use of Options[/I18][/A17]). If no messages are available at the socket and O_NONBLOCK is set on the socket's file descriptor, [I19]recv[/I19]() shall fail and set [I20]errno[/I20] to [EAGAIN] or [EWOULDBLOCK].
+[h4_00019] [A21][/A21]RETURN VALUE
+[p_00020] Upon successful completion, [I22]recv[/I22]() shall return the length of the message in bytes. If no messages are available to be received and the peer has performed an orderly shutdown, [I23]recv[/I23]() shall return 0. Otherwise, -1 shall be returned and [I24]errno[/I24] set to indicate the error.
+[h4_00021] [A25][/A25]ERRORS
+[p_00022] The [I26]recv[/I26]() function shall fail if:
+[dt_00023] [EAGAIN] or [EWOULDBLOCK]
+[dd_00024] The socket's file descriptor is marked O_NONBLOCK and no data is waiting to be received; or MSG_OOB is set and no out-of-band data is available and either the socket's file descriptor is marked O_NONBLOCK or the socket does not support blocking to await out-of-band data. See also SO_RCVTIMEO in [A27][I28]2.10.16 Use of Options[/I28][/A27] .
+[dt_00025] [EBADF]
+[dd_00026] The [I29]socket[/I29] argument is not a valid file descriptor.
+[dt_00027] [ECONNRESET]
+[dd_00028] A connection was forcibly closed by a peer.
+[dt_00029] [EINTR]
+[dd_00030] The [I30]recv[/I30]() function was interrupted by a signal that was caught, before any data was available.
+[dt_00031] [EINVAL]
+[dd_00032] The MSG_OOB flag is set and no out-of-band data is available.
+[dt_00033] [ENOTCONN]
+[dd_00034] A receive is attempted on a connection-mode socket that is not connected.
+[dt_00035] [ENOTSOCK]
+[dd_00036] The [I31]socket[/I31] argument does not refer to a socket.
+[dt_00037] [EOPNOTSUPP]
+[dd_00038] The specified flags are not supported for this socket type or protocol.
+[dt_00039] [ETIMEDOUT]
+[dd_00040] The connection timed out during connection establishment, or due to a transmission timeout on active connection.
+[p_00041] The [I32]recv[/I32]() function may fail if:
+[dt_00042] [EIO]
+[dd_00043] An I/O error occurred while reading from or writing to the file system.
+[dt_00044] [ENOBUFS]
+[dd_00045] Insufficient resources were available in the system to perform the operation.
+[dt_00046] [ENOMEM]
+[dd_00047] Insufficient memory was available to fulfill the request.
+[h4_00048] [A33][/A33]EXAMPLES
+[p_00049] None.
+[h4_00050] [A34][/A34]APPLICATION USAGE
+[p_00051] The [I35]recv[/I35]() function is equivalent to [A36][I37]recvfrom[/I37]()[/A36] with null pointer [I38]address[/I38] and [I39]address_len[/I39] arguments, and to [A40][I41]read[/I41]()[/A40] if the [I42]socket[/I42] argument refers to a socket and the [I43]flags[/I43] argument is 0.
+[p_00052] The [A44][I45]select[/I45]()[/A44] and [A46][I47]poll[/I47]()[/A46] functions can be used to determine when data is available to be received.
+[h4_00053] [A48][/A48]RATIONALE
+[p_00054] None.
+[h4_00055] [A49][/A49]FUTURE DIRECTIONS
+[p_00056] None.
+[h4_00057] [A50][/A50]SEE ALSO
+[p_00058] [A51][I52]poll[/I52]()[/A51], [A53][I54]pselect[/I54]()[/A53], [A55][I56]read[/I56]()[/A55], [A57][I58]recvmsg[/I58]()[/A57], [A59][I60]recvfrom[/I60]()[/A59], [A61][I62]send[/I62]()[/A61], [A63][I64]sendmsg[/I64]()[/A63], [A65][I66]sendto[/I66]()[/A65], [A67][I68]setsockopt[/I68]()[/A67], [A69][I70]shutdown[/I70]()[/A69], [A71][I72]socket[/I72]()[/A71], [A73][I74]write[/I74]()[/A73]
+[p_00059] XBD [A75][I76]&lt;sys/socket.h&gt;[/I76][/A75]
+[h4_00060] [A77][/A77]CHANGE HISTORY
+[p_00061] First released in Issue 6. Derived from the XNS, Issue 5.2 specification.
+[h4_00062] [A78][/A78]Issue 7
+[p_00063] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0502 [462] is applied.
+[h4_00064] [A79][/A79]Issue 8
+[p_00065] Austin Group Defect 1429 is applied, clarifying the behavior on timeout by adding references to [A80][I81]2.10.16 Use of Options[/I81][/A80].
+[p_00066] &nbsp;

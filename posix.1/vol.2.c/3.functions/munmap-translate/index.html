@@ -1,0 +1,123 @@
+<h1>XSH 函数：munmap()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="munmap" id="munmap"></a> <a name="tag_17_363" id="tag_17_363"></a>
+<a name="tag_17_363_01" id="tag_17_363_01"></a><h4>名称 (NAME)</h4>
+<blockquote>munmap — 解除内存页的映射</blockquote>
+<a name="tag_17_363_02" id="tag_17_363_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/mman.h&gt;<br>
+<br>
+int munmap(void *</code><i>addr</i><code>, size_t</code> <i>len</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_363_03" id="tag_17_363_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>munmap</i>() 函数应移除从 <i>addr</i> 开始、长度为 <i>len</i> 字节的进程地址空间任何部分所在的那些整页上的任何映射。对这些页的进一步引用应导致向进程产生 SIGSEGV 信号。若指定地址范围内没有映射，则 <i>munmap</i>() 没有效果。</p>
+<p>实现可以要求 <i>addr</i> 是 sysconf() 返回的页大小的倍数。</p>
+<p>若要移除的映射是私有的，则应丢弃在此地址范围内所做的任何修改。</p>
+<p><sup>[ML|MLR]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 与此地址范围相关联的任何内存锁（参见 mlock() 和 mlockall()）应被移除，如同通过适当的 munlock() 调用一样。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 若从类型化内存对象移除的映射使内存池的相应地址范围除通过可分配映射（即，以 POSIX_TYPED_MEM_MAP_ALLOCATABLE 标志打开的类型化内存对象的映射）外，系统内任何进程都无法访问，则该内存池范围应被释放，并且可以变得可用于满足未来的类型化内存分配请求。</p>
+<p>从以 POSIX_TYPED_MEM_MAP_ALLOCATABLE 标志打开的类型化内存对象移除的映射不应以任何方式影响该类型化内存可供分配。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>若该映射不是通过调用 mmap() 建立的，则此函数的行为未指定。</p>
+</blockquote>
+<a name="tag_17_363_04" id="tag_17_363_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成时，<i>munmap</i>() 应返回 0；否则，它应返回 -1 并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_363_05" id="tag_17_363_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>munmap</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd>范围 [<i>addr</i>,<i>addr</i>+<i>len</i>) 内的地址超出进程地址空间的有效范围。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>len</i> 参数为 0。</dd>
+</dl>
+<p><i>munmap</i>() 函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>addr</i> 参数不是 sysconf() 返回的页大小的倍数。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_363_06" id="tag_17_363_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_363_07" id="tag_17_363_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_363_08" id="tag_17_363_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p><i>munmap</i>() 函数与 SVR4 对应，正如 mmap() 函数一样。</p>
+<p>应用程序可能已对包含共享内存的区域应用了进程内存锁定。若发生这种情况，<i>munmap</i>() 调用会忽略这些锁，并在必要时使这些锁被移除。</p>
+<p>大多数实现要求 <i>addr</i> 是 sysconf() 返回的页大小的倍数。</p>
+</blockquote>
+<a name="tag_17_363_09" id="tag_17_363_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_363_10" id="tag_17_363_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>mlock(), mlockall(), mmap(), posix_typed_mem_open(), sysconf()</p>
+<p>XBD &lt;sys/mman.h&gt;</p>
+</blockquote>
+<a name="tag_17_363_11" id="tag_17_363_11"></a><h4>更改历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 4 版第 2 修订版。</p>
+</blockquote>
+<a name="tag_17_363_12" id="tag_17_363_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>从 X/OPEN UNIX 扩展移至 BASE。</p>
+<p>与 POSIX 实时扩展中的 <i>munmap</i>() 对齐，如下所示：</p>
+<ul>
+<li>
+<p>DESCRIPTION 被广泛改写。</p>
+</li>
+<li>
+<p>不再允许产生 SIGBUS 错误。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_363_13" id="tag_17_363_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>munmap</i>() 函数被标记为内存映射文件和共享内存对象（Memory Mapped Files and Shared Memory Objects）选项的一部分。</p>
+<p>以下对 POSIX 实现的新要求源自与单一 UNIX 规范（Single UNIX Specification）的对齐：</p>
+<ul>
+<li>
+<p>更新了 DESCRIPTION，说明实现要求 <i>addr</i> 是页大小的倍数。</p>
+</li>
+<li>
+<p>增加了 [EINVAL] 错误条件。</p>
+</li>
+</ul>
+<p>为与 IEEE Std 1003.1j-2000 对齐而进行了以下更改：</p>
+<ul>
+<li>
+<p>在 DESCRIPTION 中增加了类型化内存对象的语义。</p>
+</li>
+<li>
+<p>在 SEE ALSO 部分中增加了 posix_typed_mem_open() 函数。</p>
+</li>
+</ul>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 的条目 XSH/TC1/D6/36，将 SYNOPSIS 中的边缘代码从 MF|SHM 改为 MC3（表示 MF|SHM|TYM 的记号）。</p>
+</blockquote>
+<a name="tag_17_363_14" id="tag_17_363_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #078，澄清了页对齐要求。</p>
+<p><i>munmap</i>() 函数从内存映射文件选项移至 Base。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

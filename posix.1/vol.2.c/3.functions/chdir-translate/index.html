@@ -1,0 +1,111 @@
+<h1>XSH 函数：chdir()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="chdir" id="chdir"></a> <a name="tag_17_71" id="tag_17_71"></a>
+<a name="tag_17_71_01" id="tag_17_71_01"></a><h4>名称 (NAME)</h4>
+<blockquote>chdir — 更改工作目录</blockquote>
+<a name="tag_17_71_02" id="tag_17_71_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+int chdir(const char *</code><i>path</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_71_03" id="tag_17_71_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>chdir</i>() 函数应使由 <i>path</i> 参数所指向的路径名命名的目录成为当前工作目录；即，不以 <code>'/'</code> 开头的路径名的路径搜索的起始点。</p>
+</blockquote>
+<a name="tag_17_71_04" id="tag_17_71_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，应返回 0。否则，应返回 -1，当前工作目录应保持不变，并且应设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_71_05" id="tag_17_71_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>chdir</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>路径名的任何组件被拒绝搜索权限。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接中存在循环。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的某个组件的长度长于 {NAME_MAX}。</dd>
+<dt>[ENOENT]</dt>
+<dd><i>path</i> 的某个组件没有命名一个现有目录，或者 <i>path</i> 是空字符串。</dd>
+<dt>[ENOTDIR]</dt>
+<dd>路径名的某个组件命名了一个既不是目录也不是指向目录的符号链接的现有文件。</dd>
+</dl>
+<p>在以下情况下，<i>chdir</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接超过 {SYMLOOP_MAX} 个。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的长度超过 {PATH_MAX}，或者符号链接的路径名解析产生的中间结果的长度超过 {PATH_MAX}。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_71_06" id="tag_17_71_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_71_06_01" id="tag_17_71_06_01"></a><h5>更改当前工作目录 (Changing the Current Working Directory)</h5>
+<p>以下示例使 <b>directory</b> 所指向的值 <b>/tmp</b> 成为当前工作目录。</p>
+<pre><code class="language-plaintext">#include &lt;unistd.h&gt;
+...
+char *directory = "/tmp";
+int ret;
+ 
+ret = chdir (directory);</code></pre></blockquote>
+<a name="tag_17_71_07" id="tag_17_71_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_71_08" id="tag_17_71_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p><i>chdir</i>() 函数只影响当前进程的工作目录。</p>
+</blockquote>
+<a name="tag_17_71_09" id="tag_17_71_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_71_10" id="tag_17_71_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>getcwd()</p>
+<p>XBD &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_71_11" id="tag_17_71_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 1 中首次发布。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_71_12" id="tag_17_71_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>添加了 APPLICATION USAGE 节。</p>
+<p>以下对 POSIX 实现的新要求源于与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>添加了 [ELOOP] 强制错误条件。</p>
+</li>
+<li>
+<p>添加了第二个 [ENAMETOOLONG] 作为可选错误条件。</p>
+</li>
+</ul>
+<p>为与 IEEE P1003.1a 草案标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>添加了 [ELOOP] 可选错误条件。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_71_13" id="tag_17_71_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #143。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1）：XSH/TC1-2008/0047 [324]。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

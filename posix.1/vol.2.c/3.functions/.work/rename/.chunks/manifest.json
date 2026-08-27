@@ -1,0 +1,3215 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_489_01\" id=\"tag_17_489_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "rename, renameat — rename file",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_489_02\" id=\"tag_17_489_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdio.h.html\">stdio.h</a>&gt;<br>\n<br>\nint rename(const char *</tt><i>old</i><tt>, const char *</tt><i>new</i><tt>);<br>\n<br>\n<sup>[<a href=\"javascript:open_code('OH')\">OH</a>]</sup> <img src=\"../images/opt-start.gif\" border=\"0\">#include\n&lt;fcntl.h&gt;<img src=\"../images/opt-end.gif\" border=\"0\"><br>\n<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_489_03\" id=\"tag_17_489_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "For [I5]rename[/I5](): [S6][[A7]CX[/A7]][/S6] [IMG8] &nbsp;The functionality described on this reference page is aligned with the ISO&nbsp;C standard. Any\nconflict between the requirements described here and the ISO&nbsp;C standard is unintentional. This volume of POSIX.1-2024 defers\nto the ISO&nbsp;C standard. [IMG9]",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S6": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A7": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG8": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG9": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I10]rename[/I10]() function shall change the name of a file. The [I11]old[/I11] argument points to the pathname of the file to be\nrenamed. The [I12]new[/I12] argument points to the new pathname of the file. [S13][[A14]CX[/A14]][/S13]\n[IMG15] &nbsp;If the [I16]new[/I16] argument does not resolve to an\nexisting directory entry for a file of type directory and the [I17]new[/I17] argument contains at least one non-&lt;slash&gt; character\nand ends with one or more trailing &lt;slash&gt; characters after all symbolic links have been processed, [I18]rename[/I18]() shall\nfail.",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S13": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG15": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "If either the [I19]old[/I19] or [I20]new[/I20] argument names a symbolic link, [I21]rename[/I21]() shall operate on the symbolic link\nitself, and shall not resolve the last component of the argument. If the [I22]old[/I22] argument and the [I23]new[/I23] argument resolve to\neither the same existing directory entry or different directory entries for the same existing file, [I24]rename[/I24]() shall return\nsuccessfully and perform no other action.",
+    "placeholders": {
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "If the [I25]old[/I25] argument names a file that is not a directory and the [I26]new[/I26] argument names a directory, or [I27]old[/I27]\nnames a directory and [I28]new[/I28] names a file that is not a directory, or [I29]new[/I29] names a directory that is not empty,\n[I30]rename[/I30]() shall fail. Otherwise, if the directory entry named by [I31]new[/I31] exists, it shall be removed and [I32]old[/I32]\nrenamed to [I33]new[/I33]. In this case, a directory entry named [I34]new[/I34] shall remain visible to other threads throughout the\nrenaming operation and refer either to the file referred to by [I35]new[/I35] or [I36]old[/I36] before the operation began.",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If either [I37]pathname[/I37] argument refers to a path whose final component is either dot or dot-dot, [I38]rename[/I38]() shall\nfail.",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If the [I39]old[/I39] argument points to a pathname of a symbolic link, the symbolic link shall be renamed. If the [I40]new[/I40]\nargument points to a pathname of a symbolic link, the symbolic link shall be removed.",
+    "placeholders": {
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "The [I41]old[/I41] pathname shall not name an ancestor directory of the [I42]new[/I42] pathname. Write access permission is required for\nthe directory containing [I43]old[/I43] and the directory containing [I44]new[/I44]. If the [I45]old[/I45] argument points to the pathname of a\ndirectory, write access permission may be required for the directory named by [I46]old[/I46], and, if it exists, the directory named by\n[I47]new[/I47].",
+    "placeholders": {
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "If the [I48]new[/I48] argument names an existing file and the file's link count becomes 0 when it is removed and no process has the\nfile open, the space occupied by the file shall be freed and the file shall no longer be accessible. If one or more processes have\nthe file open when the last link is removed, the link shall be removed before [I49]rename[/I49]() returns, but the removal of the file\ncontents shall be postponed until all references to the file are closed.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "Upon successful completion, [I50]rename[/I50]() shall mark for update the last data modification and last file status change\ntimestamps of the parent directory of each file.",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "If the [I51]rename[/I51]() function fails for any reason other than [EIO], any file named by [I52]new[/I52] shall be unaffected.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "The [I53]renameat[/I53]() function shall be equivalent to the [I54]rename[/I54]() function except in the case where either [I55]old[/I55] or\n[I56]new[/I56] specifies a relative path. If [I57]old[/I57] is a relative path, the file to be renamed is located relative to the directory\nassociated with the file descriptor [I58]oldfd[/I58] instead of the current working directory. If [I59]new[/I59] is a relative path, the\nsame happens only relative to the directory associated with [I60]newfd[/I60]. If the access mode of the open file description\nassociated with the file descriptor is not O_SEARCH, the function shall check whether directory searches are permitted using the\ncurrent permissions of the directory underlying the file descriptor. If the access mode is O_SEARCH, the function shall not perform\nthe check.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "If [I61]renameat[/I61]() is passed the special value AT_FDCWD in the [I62]oldfd[/I62] or [I63]newfd[/I63] parameter, the current working\ndirectory shall be used in the determination of the file for the respective [I64]path[/I64] parameter. [IMG65]",
+    "placeholders": {
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG65": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00018",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A66][/A66]RETURN VALUE",
+    "placeholders": {
+     "A66": {
+      "open": "<a name=\"tag_17_489_04\" id=\"tag_17_489_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, the [I67]rename[/I67]() function shall return 0. Otherwise, it shall return -1, [S68][[A69]CX[/A69]][/S68] [IMG70] [I71]errno[/I71] shall\nbe set to indicate the error, [IMG72] &nbsp;and neither the file named by\n[I73]old[/I73] nor the file named by [I74]new[/I74] shall be changed or created.",
+    "placeholders": {
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S68": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A69": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG70": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG72": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3
+    ],
+    "text": "[S75][[A76]CX[/A76]][/S75] [IMG77]\nUpon successful completion, the [I78]renameat[/I78]() function shall return 0. Otherwise, it shall return -1 and set [I79]errno[/I79] to\nindicate the error. [IMG80]",
+    "placeholders": {
+     "S75": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A76": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG77": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG80": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00021",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A81][/A81]ERRORS",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_489_05\" id=\"tag_17_489_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I82]rename[/I82]() [S83][[A84]CX[/A84]][/S83] [IMG85] &nbsp;and [I86]renameat[/I86]() [IMG87]\n&nbsp;functions shall fail if:",
+    "placeholders": {
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S83": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A84": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG85": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG87": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00023",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00024",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S88][[A89]CX[/A89]][/S88] [IMG90] A\ncomponent of either path prefix denies search permission; or one of the directories containing [I91]old[/I91] or [I92]new[/I92] denies\nwrite permissions; or, write permission is required and is denied for a directory pointed to by the [I93]old[/I93] or [I94]new[/I94]\narguments. [IMG95]",
+    "placeholders": {
+     "S88": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A89": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG90": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG95": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00025",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EBUSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00026",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "[S96][[A97]CX[/A97]][/S96] [IMG98]\nThe directory named by [I99]old[/I99] or [I100]new[/I100] is currently in use by the system or another process, and the implementation\nconsiders this an error. [IMG101]",
+    "placeholders": {
+     "S96": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A97": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG98": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG101": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00027",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EEXIST]&nbsp;or&nbsp;[ENOTEMPTY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00028",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "[S102][[A103]CX[/A103]][/S102] [IMG104]\n\nThe [I105]new[/I105] argument names a directory that is not empty. [IMG106]",
+    "placeholders": {
+     "S102": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A103": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG104": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG106": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00029",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EILSEQ]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00030",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "[S107][[A108]CX[/A108]][/S107] [IMG109]\nThe last pathname component of the new pathname is not a portable filename, and cannot be created in the target directory.\n[IMG110]",
+    "placeholders": {
+     "S107": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A108": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG109": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG110": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00031",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00032",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "[S111][[A112]CX[/A112]][/S111] [IMG113]\nThe [I114]old[/I114] pathname names an ancestor directory of the [I115]new[/I115] pathname, or either pathname argument contains a final\ncomponent that is dot or dot-dot. [IMG116]",
+    "placeholders": {
+     "S111": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A112": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG113": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I114": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG116": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00033",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00034",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "[S117][[A118]CX[/A118]][/S117] [IMG119] A\nphysical I/O error has occurred. [IMG120]",
+    "placeholders": {
+     "S117": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A118": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG119": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG120": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00035",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[EISDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00036",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "[S121][[A122]CX[/A122]][/S121] [IMG123]\nThe [I124]new[/I124] argument points to a directory and the [I125]old[/I125] argument points to a file that is not a directory. [IMG126]",
+    "placeholders": {
+     "S121": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A122": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG123": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I125": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG126": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00037",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00038",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "[S127][[A128]CX[/A128]][/S127] [IMG129] A\nloop exists in symbolic links encountered during resolution of the [I130]old[/I130] or [I131]new[/I131] argument. [IMG132]",
+    "placeholders": {
+     "S127": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A128": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG129": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG132": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00039",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     35
+    ],
+    "text": "[EMLINK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00040",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     37
+    ],
+    "text": "[S133][[A134]CX[/A134]][/S133] [IMG135]\nThe file named by [I136]old[/I136] is a directory, and the link count of the parent directory of [I137]new[/I137] would exceed {LINK_MAX}.\n[IMG138]",
+    "placeholders": {
+     "S133": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A134": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG135": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I136": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I137": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG138": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00041",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     39
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00042",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     41
+    ],
+    "text": "[S139][[A140]CX[/A140]][/S139] [IMG141]\n\nThe length of a component of a pathname is longer than {NAME_MAX}. [IMG142]",
+    "placeholders": {
+     "S139": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A140": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG141": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG142": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00043",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     43
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00044",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     45
+    ],
+    "text": "[S143][[A144]CX[/A144]][/S143] [IMG145]\nThe [I146]old[/I146] argument does not name an existing file, a component of the path prefix of [I147]new[/I147] does not exist, or either\n[I148]old[/I148] or [I149]new[/I149] points to an empty string. [IMG150]",
+    "placeholders": {
+     "S143": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A144": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG145": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I146": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I148": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I149": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG150": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00045",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     47
+    ],
+    "text": "[ENOSPC]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00046",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     49
+    ],
+    "text": "[S151][[A152]CX[/A152]][/S151] [IMG153]\nThe directory that would contain [I154]new[/I154] cannot be extended. [IMG155]",
+    "placeholders": {
+     "S151": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A152": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG153": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I154": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG155": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00047",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     51
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00048",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     53
+    ],
+    "text": "[S156][[A157]CX[/A157]][/S156] [IMG158] A\ncomponent of either path prefix names an existing file that is neither a directory nor a symbolic link to a directory; or the\n[I159]old[/I159] argument names a directory and the [I160]new[/I160] argument names a non-directory file; or the [I161]old[/I161] argument contains\nat least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters and the last pathname\ncomponent names an existing file that is neither a directory nor a symbolic link to a directory; or the [I162]old[/I162] argument names\nan existing non-directory file and the [I163]new[/I163] argument names a nonexistent file, contains at least one non-&lt;slash&gt;\ncharacter, and ends with one or more trailing &lt;slash&gt; characters; or the [I164]new[/I164] argument names an existing non-directory\nfile, contains at least one non-&lt;slash&gt; character, and ends with one or more trailing &lt;slash&gt; characters. [IMG165]",
+    "placeholders": {
+     "S156": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A157": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG158": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I160": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I161": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I162": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I163": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I164": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG165": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00049",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     55
+    ],
+    "text": "[EPERM] or [EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00050",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     57
+    ],
+    "text": "[S166][[A167]XSI[/A167]][/S166] [IMG168]\n\nThe S_ISVTX flag is set on the directory containing the file referred to by [I169]old[/I169] and the process does not satisfy the\ncriteria specified in XBD [A170][I171]4.5 Directory Protection[/I171][/A170] with respect to\n[I172]old[/I172]; or [I173]new[/I173] refers to an existing file, the S_ISVTX flag is set on the directory containing this file, and the\nprocess does not satisfy the criteria specified in XBD [A174][I175]4.5 Directory\nProtection[/I175][/A174] with respect to this file. [IMG176]",
+    "placeholders": {
+     "S166": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A167": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG168": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I169": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A170": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I171": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I172": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I173": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A174": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I175": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG176": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00051",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     59
+    ],
+    "text": "[EROFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00052",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     61
+    ],
+    "text": "[S177][[A178]CX[/A178]][/S177] [IMG179]\nThe requested operation requires writing in a directory on a read-only file system. [IMG180]",
+    "placeholders": {
+     "S177": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A178": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG179": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG180": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00053",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     63
+    ],
+    "text": "[EXDEV]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00054",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     65
+    ],
+    "text": "[S181][[A182]CX[/A182]][/S181] [IMG183]\nThe file named by [I184]old[/I184] and the directory in which the directory entry named by [I185]new[/I185] is to be created or replaced are on\ndifferent file systems and the implementation does not support hard links between file systems. [IMG186]",
+    "placeholders": {
+     "S181": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A182": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG183": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I184": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I185": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG186": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "[S187][[A188]CX[/A188]][/S187] [IMG189] In\naddition, the [I190]renameat[/I190]() function shall fail if:",
+    "placeholders": {
+     "S187": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A188": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG189": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I190": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00056",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00057",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The access mode of the open file description associated with [I191]oldfd[/I191] or [I192]newfd[/I192] is not O_SEARCH and the permissions\nof the directory underlying [I193]oldfd[/I193] or [I194]newfd[/I194], respectively, do not permit directory searches.",
+    "placeholders": {
+     "I191": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I192": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I193": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I194": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00058",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00059",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "The [I195]old[/I195] argument does not specify an absolute path and the [I196]oldfd[/I196] argument is neither AT_FDCWD nor a valid file\ndescriptor open for reading or searching, or the [I197]new[/I197] argument does not specify an absolute path and the [I198]newfd[/I198]\nargument is neither AT_FDCWD nor a valid file descriptor open for reading or searching.",
+    "placeholders": {
+     "I195": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I196": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I197": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I198": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00060",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     11
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00061",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     13
+    ],
+    "text": "The [I199]old[/I199] or [I200]new[/I200] argument is not an absolute path and [I201]oldfd[/I201] or [I202]newfd[/I202], respectively, is a file\ndescriptor associated with a non-directory file.",
+    "placeholders": {
+     "I199": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I200": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I201": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I202": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11
+    ],
+    "text": "The [I203]rename[/I203]() [S204][[A205]CX[/A205]][/S204] [IMG206] &nbsp;and [I207]renameat[/I207]() [IMG208]\n&nbsp;functions may fail if:",
+    "placeholders": {
+     "I203": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S204": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A205": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG206": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I207": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG208": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00063",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     3
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00064",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     5
+    ],
+    "text": "[S209][[A210]CX[/A210]][/S209] [IMG211]\nMore than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I212]old[/I212] or [I213]new[/I213] argument. [IMG214]",
+    "placeholders": {
+     "S209": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A210": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG211": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I212": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I213": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG214": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00065",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     7
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00066",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     9
+    ],
+    "text": "[S215][[A216]CX[/A216]][/S215] [IMG217]\n\nThe length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}. [IMG218]",
+    "placeholders": {
+     "S215": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A216": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG217": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG218": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00067",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     11
+    ],
+    "text": "[ETXTBSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00068",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     13
+    ],
+    "text": "[S219][[A220]CX[/A220]][/S219] [IMG221]\nThe file named by [I222]new[/I222] exists and is the last directory entry to a pure procedure (shared text) file that is being executed.\n[IMG223]",
+    "placeholders": {
+     "S219": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A220": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG221": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I222": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG223": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00069",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A224][/A224]EXAMPLES",
+    "placeholders": {
+     "A224": {
+      "open": "<a name=\"tag_17_489_06\" id=\"tag_17_489_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00070",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A225][/A225]Renaming a File",
+    "placeholders": {
+     "A225": {
+      "open": "<a name=\"tag_17_489_06_01\" id=\"tag_17_489_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example shows how to rename a file named [B226]/home/cnd/mod1[/B226] to [B227]/home/cnd/mod2[/B227].",
+    "placeholders": {
+     "B226": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B227": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00072",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A228][/A228]APPLICATION USAGE",
+    "placeholders": {
+     "A228": {
+      "open": "<a name=\"tag_17_489_07\" id=\"tag_17_489_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Some implementations mark for update the last file status change timestamp of renamed files and some do not. Applications which\nmake use of the last file status change timestamp may behave differently with respect to renamed files unless they are designed to\nallow for either behavior.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00074",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A229][/A229]RATIONALE",
+    "placeholders": {
+     "A229": {
+      "open": "<a name=\"tag_17_489_08\" id=\"tag_17_489_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "This [I230]rename[/I230]() function is equivalent for regular files to that defined by the ISO&nbsp;C standard. Its inclusion here\nexpands that definition to include actions on directories and specifies behavior when the [I231]new[/I231] parameter names a file that\nalready exists. That specification requires that the action of the function be atomic.",
+    "placeholders": {
+     "I230": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I231": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "One of the reasons for introducing this function was to have a means of renaming directories while permitting implementations to\nprohibit the use of [A232][I233]link[/I233]()[/A232] and [A234][I235]unlink[/I235]()[/A234]\nwith directories, thus constraining links to directories to those made by [A236][I237]mkdir[/I237]()[/A236].",
+    "placeholders": {
+     "A232": {
+      "open": "<a href=\"../functions/link.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I233": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A234": {
+      "open": "<a href=\"../functions/unlink.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I235": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A236": {
+      "open": "<a href=\"../functions/mkdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I237": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00077",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "The specification that if [I238]old[/I238] and [I239]new[/I239] refer to the same file is intended to guarantee that:",
+    "placeholders": {
+     "I238": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I239": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "does not remove the file.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00079",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "Renaming dot or dot-dot is prohibited in order to prevent cyclical file system paths.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00080",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "See also the descriptions of [ENOTEMPTY] and [ENAMETOOLONG] in [A240][I241]rmdir[/I241]()[/A240] and [EBUSY]\nin [A242][I243]unlink[/I243]()[/A242]. For a discussion of [EXDEV], see [A244][I245]link[/I245]()[/A244].",
+    "placeholders": {
+     "A240": {
+      "open": "<a href=\"../functions/rmdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I241": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A242": {
+      "open": "<a href=\"../functions/unlink.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I243": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A244": {
+      "open": "<a href=\"../functions/link.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I245": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00081",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15
+    ],
+    "text": "The purpose of the [I246]renameat[/I246]() function is to rename files in directories other than the current working directory without\nexposure to race conditions. Any part of the path of a file could be changed in parallel to a call to [I247]rename[/I247](), resulting in\nunspecified behavior. By opening file descriptors for the source and target directories and using the [I248]renameat[/I248]() function it\ncan be guaranteed that that renamed file is located correctly and the resulting file is in the desired directory.",
+    "placeholders": {
+     "I246": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I247": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I248": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00082",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     17
+    ],
+    "text": "Implementations are encouraged to have [I249]rename[/I249]() and [I250]renameat[/I250]() report an [EILSEQ] error if the file named by\n[I251]new[/I251] does not already exist and the last component of that pathname contains any bytes that have the encoded value of a\n&lt;newline&gt; character.",
+    "placeholders": {
+     "I249": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I250": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I251": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00083",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A252][/A252]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A252": {
+      "open": "<a name=\"tag_17_489_09\" id=\"tag_17_489_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00084",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00085",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A253][/A253]SEE ALSO",
+    "placeholders": {
+     "A253": {
+      "open": "<a name=\"tag_17_489_10\" id=\"tag_17_489_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00086",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A254][I255]link[/I255]()[/A254], [A256][I257]rmdir[/I257]()[/A256]\n, [A258][I259]symlink[/I259]()[/A258], [A260][I261]unlink[/I261]()[/A260]",
+    "placeholders": {
+     "A254": {
+      "open": "<a href=\"../functions/link.html#tag_17_304\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I255": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A256": {
+      "open": "<a href=\"../functions/rmdir.html#tag_17_493\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I257": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A258": {
+      "open": "<a href=\"../functions/symlink.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I259": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A260": {
+      "open": "<a href=\"../functions/unlink.html#tag_17_649\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I261": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00087",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A262][I263]4.5 Directory Protection[/I263][/A262], [A264][I265]&lt;fcntl.h&gt;[/I265][/A264], [A266][I267]&lt;stdio.h&gt;[/I267][/A266]",
+    "placeholders": {
+     "A262": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I263": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A264": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I265": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A266": {
+      "open": "<a href=\"../basedefs/stdio.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I267": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00088",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A268][/A268]CHANGE HISTORY",
+    "placeholders": {
+     "A268": {
+      "open": "<a name=\"tag_17_489_11\" id=\"tag_17_489_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00089",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 3. Included for alignment with the POSIX.1-1988 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00090",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A269][/A269]Issue 5",
+    "placeholders": {
+     "A269": {
+      "open": "<a name=\"tag_17_489_12\" id=\"tag_17_489_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00091",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The [EBUSY] error is added to the optional part of the ERRORS section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00092",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A270][/A270]Issue 6",
+    "placeholders": {
+     "A270": {
+      "open": "<a name=\"tag_17_489_13\" id=\"tag_17_489_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00093",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00094",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00095",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1,
+     1
+    ],
+    "text": "The [EIO] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     3,
+     1
+    ],
+    "text": "The [ELOOP] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     5,
+     1
+    ],
+    "text": "A second [ENAMETOOLONG] is added as an optional error condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     7,
+     1
+    ],
+    "text": "The [ETXTBSY] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00099",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9,
+     1,
+     1
+    ],
+    "text": "Details are added regarding the treatment of symbolic links.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9,
+     3,
+     1
+    ],
+    "text": "The [ELOOP] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00102",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00103",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A271][/A271]Issue 7",
+    "placeholders": {
+     "A271": {
+      "open": "<a name=\"tag_17_489_14\" id=\"tag_17_489_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #016 is applied, changing the definition of the [ENOTDIR] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00105",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #076 is applied, clarifying the behavior if the final component of a path is either dot\nor dot-dot, and adding the associated [EINVAL] error case.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00106",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00107",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #145 is applied, clarifying that the [ENOENT] error condition also applies to the case\nin which a component of [I272]new[/I272] does not exist.",
+    "placeholders": {
+     "I272": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00108",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "Austin Group Interpretations 1003.1-2001 #174 and #181 are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00109",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "The [I273]renameat[/I273]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.",
+    "placeholders": {
+     "I273": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00110",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00111",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     15
+    ],
+    "text": "Changes are made to allow a directory to be opened for searching.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00112",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     17
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0508 [324], XSH/TC1-2008/0509 [147], XSH/TC1-2008/0510 [379],\nXSH/TC1-2008/0511 [278], and XSH/TC1-2008/0512 [278] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00113",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     19
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0311 [873], XSH/TC2-2008/0312 [591], XSH/TC2-2008/0313 [716],\nXSH/TC2-2008/0314 [817], XSH/TC2-2008/0315 [817], and XSH/TC2-2008/0316 [591] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00114",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A274][/A274]Issue 8",
+    "placeholders": {
+     "A274": {
+      "open": "<a name=\"tag_17_489_15\" id=\"tag_17_489_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00115",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 251 is applied, encouraging implementations to disallow the creation of filenames containing any bytes that\nhave the encoded value of a &lt;newline&gt; character.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00116",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 293 is applied, adding the [EILSEQ] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00117",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 1200 is applied, correcting the argument names in the [ELOOP] errors.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00118",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00119",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     9
+    ],
+    "text": "Austin Group Defect 1380 is applied, changing text using the term &quot;link&quot; in line with its updated definition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00120",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

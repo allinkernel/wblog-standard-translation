@@ -1,0 +1,96 @@
+<h1>XSH 函数：abort()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="abort" id="abort"></a> <a name="tag_17_04" id="tag_17_04"></a>
+<a name="tag_17_04_01" id="tag_17_04_01"></a><h4>名称 (NAME)</h4>
+<blockquote>abort — 产生异常进程中止 (generate an abnormal process abort)</blockquote>
+<a name="tag_17_04_02" id="tag_17_04_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+_Noreturn void abort(void);<br></code></code></p>
+</blockquote>
+<a name="tag_17_04_03" id="tag_17_04_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>abort</i>() 函数应导致异常进程终止发生，除非它产生的 SIGABRT 信号被捕获并且信号处理器不返回。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 异常终止处理应包括为 SIGABRT 定义的默认动作，并且可以包括对所有打开的流实施 fclose() 的尝试。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>SIGABRT 信号应发送给调用 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  线程 <img src="../images/opt-end.gif" alt="[Option End]">  ，如同通过使用参数 SIGABRT 的 raise() 发送一样。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果此信号没有终止进程（例如，如果信号被捕获并且处理器返回），<i>abort</i>() 可以将 SIGABRT 的处置更改为 SIG_DFL 并（以相同的方式）再次发送该信号。如果发送第二个信号并且它没有终止进程，则行为是未指定的，但 <i>abort</i>() 调用不应返回。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由 <i>abort</i>() 提供给 wait()、waitid() 或 waitpid() 的状态应是因 SIGABRT 信号而终止的进程的状态。<img src="../images/opt-end.gif" alt="[Option End]"> <i>abort</i>() 函数应覆盖对 SIGABRT 信号的阻塞或忽略。</p>
+</blockquote>
+<a name="tag_17_04_04" id="tag_17_04_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p><i>abort</i>() 函数不应返回。</p>
+</blockquote>
+<a name="tag_17_04_05" id="tag_17_04_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义任何错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_04_06" id="tag_17_04_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_04_07" id="tag_17_04_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>捕获信号旨在为应用程序开发者提供可移植的中止处理的手段，不受任何实现提供的函数的可能干扰。</p>
+</blockquote>
+<a name="tag_17_04_08" id="tag_17_04_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>历史上，<i>abort</i>() 已通过调用其他信号操作函数（如 raise()、sigaction() 和 pthread_sigmask()）实现。这意味着它的操作可能受其他线程中的并发动作影响。例如，如果 <i>abort</i>() 试图通过调用 sigaction() 将 SIGABRT 的处置更改为 SIG_DFL 然后调用 raise() 来终止进程，另一个线程可能在这两次调用之间更改处置，导致进程不被终止。如果发生这种情况，唯一的要求是 <i>abort</i>() 不返回。实现可以循环调用这些函数（理论上可以无限期执行），或者可以通过调用 _exit() 来终止进程（这将确保终止但导致错误的等待状态）。为避免这些问题，鼓励实现以使其操作不受其他线程中的并发动作影响的方式实现 <i>abort</i>()。例如，它可以首先暂停所有其他线程的执行，或者它可以使用 &quot;如同按信号终止&quot; 的系统调用终止进程，而不是通过再次触发（第二个）SIGABRT。</p>
+<p>ISO/IEC 9899:1999 标准要求（当前标准仍然要求）<i>abort</i>() 函数是异步信号安全的。由于 POSIX.1-2024 遵从 ISO C 标准，这要求将 DESCRIPTION 从 &quot;应包括 fclose() 的效果&quot; 更改为 &quot;可以包括实施 fclose() 的尝试&quot;。</p>
+<p>修订后的措辞允许一些向后兼容性并避免潜在的死锁情况。</p>
+<p>应用了 The Open Group Base 决议 bwg2002-003，从 DESCRIPTION 中移除了以下 XSI 阴影标记的段落：</p>
+<p>&quot;在符合 XSI 的系统上，此外异常终止处理应包括 fclose() 对消息目录描述符的效果。&quot;</p>
+<p>移除该段落有几个原因：</p>
+<ul>
+<li>
+<p>在异常进程终止之前，不需要对打开的消息目录执行特殊处理。</p>
+</li>
+<li>
+<p>特别提及 <i>abort</i>() 包括 fclose() 对打开流的效果的主要原因是刷新在流上排队的输出。此上下文中的消息目录是只读的，因此不需要被刷新。</p>
+</li>
+<li>
+<p>fclose() 对消息目录描述符的效果是未指定的。消息目录描述符被允许但不需要使用文件描述符实现，但 POSIX.1-2024 中没有提到消息目录描述符使用 fclose() 所预期的标准 I/O 流 FILE 对象。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_04_09" id="tag_17_04_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>本标准的未来版本可以要求 <i>abort</i>() 以使其操作不受其他线程中的并发动作影响的方式实现。</p>
+</blockquote>
+<a name="tag_17_04_10" id="tag_17_04_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>exit(), kill(), raise(), signal(), wait(), waitid()</p>
+<p>XBD &lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_04_11" id="tag_17_04_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_04_12" id="tag_17_04_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>标记了超出 ISO C 标准的扩展。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，对 DESCRIPTION 进行了更改。</p>
+<p>应用了 The Open Group Base 决议 bwg2002-003。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 的条目 XSH/TC1/D6/10，更改了异常终止处理的 DESCRIPTION 并添加到 RATIONALE 部分。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/9，将 APPLICATION USAGE 部分中的 &quot;实现定义的函数&quot; 更改为 &quot;实现提供的函数&quot;。</p>
+</blockquote>
+<a name="tag_17_04_13" id="tag_17_04_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 906，澄清了 <i>abort</i>() 的行为如何可能受其他线程中的并发动作影响。</p>
+<p>应用了 Austin Group 缺陷 1302，使此函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

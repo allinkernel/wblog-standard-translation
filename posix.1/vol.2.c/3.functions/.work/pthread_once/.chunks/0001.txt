@@ -1,0 +1,39 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] pthread_once — dynamic package initialization
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The first call to [I5]pthread_once[/I5]() by any thread in a process, with a given [I6]once_control[/I6], shall call the [I7]init_routine[/I7] with no arguments. Subsequent calls of [I8]pthread_once[/I8]() with the same [I9]once_control[/I9] shall not call the [I10]init_routine[/I10]. On return from [I11]pthread_once[/I11](), [I12]init_routine[/I12] shall have completed. The [I13]once_control[/I13] parameter shall determine whether the associated initialization routine has been called.
+[p_00007] The [I14]pthread_once[/I14]() function is not a cancellation point. However, if [I15]init_routine[/I15] is a cancellation point and is canceled, the effect on [I16]once_control[/I16] shall be as if [I17]pthread_once[/I17]() was never called.
+[p_00008] If the call to [I18]init_routine[/I18] is terminated by a call to [A19][I20]longjmp[/I20]()[/A19] or [A21][I22]siglongjmp[/I22]()[/A21], the behavior is undefined.
+[p_00009] The constant PTHREAD_ONCE_INIT is defined in the [A23][I24]&lt;pthread.h&gt;[/I24][/A23] header.
+[p_00010] The behavior of [I25]pthread_once[/I25]() is undefined if [I26]once_control[/I26] has automatic storage duration or is not initialized by PTHREAD_ONCE_INIT.
+[h4_00011] [A27][/A27]RETURN VALUE
+[p_00012] Upon successful completion, [I28]pthread_once[/I28]() shall return zero; otherwise, an error number shall be returned to indicate the error.
+[h4_00013] [A29][/A29]ERRORS
+[p_00014] The [I30]pthread_once[/I30]() function shall not return an error code of [EINTR].
+[h4_00015] [A31][/A31]EXAMPLES
+[p_00016] None.
+[h4_00017] [A32][/A32]APPLICATION USAGE
+[p_00018] If [I33]init_routine[/I33] recursively calls [I34]pthread_once[/I34]() with the same [I35]once_control[/I35], the recursive call will not call the specified [I36]init_routine[/I36], and thus the specified [I37]init_routine[/I37] will not complete, and thus the recursive call to [I38]pthread_once[/I38]() will not return. Use of [A39][I40]longjmp[/I40]()[/A39] or [A41][I42]siglongjmp[/I42]()[/A41] within an [I43]init_routine[/I43] to jump to a point outside of [I44]init_routine[/I44] prevents [I45]init_routine[/I45] from returning.
+[h4_00019] [A46][/A46]RATIONALE
+[p_00020] Some C libraries are designed for dynamic initialization. That is, the global initialization for the library is performed when the first procedure in the library is called. In a single-threaded program, this is normally implemented using a static variable whose value is checked on entry to a routine, as follows:
+[p_00021] To keep the same structure in a multi-threaded program, a new primitive is needed. Otherwise, library initialization has to be accomplished by an explicit call to a library-exported initialization function prior to any use of the library.
+[p_00022] For dynamic library initialization in a multi-threaded process, if an initialization flag is used the flag needs to be protected against modification by multiple threads simultaneously calling into the library. This can be done by using a mutex (initialized by assigning PTHREAD_MUTEX_INITIALIZER). However, the better solution is to use [I47]pthread_once[/I47]() which is designed for exactly this purpose, as follows:
+[p_00023] If an implementation detects that the value specified by the [I48]once_control[/I48] argument to [I49]pthread_once[/I49]() does not refer to a [B50]pthread_once_t[/B50] object initialized by PTHREAD_ONCE_INIT, it is recommended that the function should fail and report an [EINVAL] error.
+[h4_00024] [A51][/A51]FUTURE DIRECTIONS
+[p_00025] None.
+[h4_00026] [A52][/A52]SEE ALSO
+[p_00027] XBD [A53][I54]&lt;pthread.h&gt;[/I54][/A53]
+[h4_00028] [A55][/A55]CHANGE HISTORY
+[p_00029] First released in Issue 5. Included for alignment with the POSIX Threads Extension.
+[h4_00030] [A56][/A56]Issue 6
+[p_00031] The [I57]pthread_once[/I57]() function is marked as part of the Threads option.
+[p_00032] The [EINVAL] error is added as a &quot;may fail&quot; case for if either argument is invalid.
+[h4_00033] [A58][/A58]Issue 7
+[p_00034] The [I59]pthread_once[/I59]() function is moved from the Threads option to the Base.
+[p_00035] The [EINVAL] error for an uninitialized [B60]pthread_once_t[/B60] object is removed; this condition results in undefined behavior.
+[p_00036] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0284 [863], XSH/TC2-2008/0285 [874], XSH/TC2-2008/0286 [874], and XSH/TC2-2008/0287 [747] are applied.
+[h4_00037] [A61][/A61]Issue 8
+[p_00038] Austin Group Defect 1330 is applied, removing obsolescent interfaces.
+[p_00039] &nbsp;

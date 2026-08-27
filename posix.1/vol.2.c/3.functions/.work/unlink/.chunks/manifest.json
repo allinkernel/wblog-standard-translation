@@ -1,0 +1,2255 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_649_01\" id=\"tag_17_649_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "unlink, unlinkat — remove a directory entry",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_649_02\" id=\"tag_17_649_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nint unlink(const char *</tt><i>path</i><tt>);<br>\n<br>\n<sup>[<a href=\"javascript:open_code('OH')\">OH</a>]</sup> <img src=\"../images/opt-start.gif\" border=\"0\">#include\n&lt;fcntl.h&gt;<img src=\"../images/opt-end.gif\" border=\"0\"><br>\n<br>\nint unlinkat(int</tt> <i>fd</i><tt>, const char *</tt><i>path</i><tt>, int</tt> <i>flag</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_649_03\" id=\"tag_17_649_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]unlink[/I5]() function shall remove the directory entry named by [I6]path[/I6] and shall decrement the link count of the\nfile referenced by the directory entry. If [I7]path[/I7] names a symbolic link, [I8]unlink[/I8]() shall remove the symbolic link and\nshall not affect any file named by the contents of the symbolic link.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "When the file's link count becomes 0 and no process has a reference to the file via an open file descriptor or a memory mapping\n(see [A9][I10]mmap[/I10]()[/A9]), the space occupied by the file shall be freed and the file shall no\nlonger be accessible. If one or more processes have such a reference to the file when the last link is removed, the link shall be\nremoved before [I11]unlink[/I11]() returns, but the removal of the file contents shall be postponed until there are no such references\nto the file. When the space occupied by the file has been freed, the file's serial number ([I12]st_ino[/I12]), and therefore the file\nidentity (see XBD [A13][I14]&lt;sys/stat.h&gt;[/I14][/A13]), shall become available for reuse.",
+    "placeholders": {
+     "A9": {
+      "open": "<a href=\"../functions/mmap.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A13": {
+      "open": "<a href=\"../basedefs/sys_stat.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The [I15]path[/I15] argument shall not name a directory unless the process has appropriate privileges and the implementation\nsupports using [I16]unlink[/I16]() on directories.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "Upon successful completion, [I17]unlink[/I17]() shall mark for update the last data modification and last file status change\ntimestamps of the parent directory. Also, if the file's link count is not 0, the last file status change timestamp of the file\nshall be marked for update.",
+    "placeholders": {
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The [I18]unlinkat[/I18]() function shall be equivalent to the [I19]unlink[/I19]() or [A20][I21]rmdir[/I21]()[/A20] function except in the case where [I22]path[/I22] specifies a relative path. In this case\nthe directory entry to be removed is determined relative to the directory associated with the file descriptor [I23]fd[/I23] instead of\nthe current working directory. If the access mode of the open file description associated with the file descriptor is not O_SEARCH,\nthe function shall check whether directory searches are permitted using the current permissions of the directory underlying the\nfile descriptor. If the access mode is O_SEARCH, the function shall not perform the check.",
+    "placeholders": {
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A20": {
+      "open": "<a href=\"../functions/rmdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "Values for [I24]flag[/I24] are constructed by a bitwise-inclusive OR of flags from the following list, defined in [A25][I26]&lt;fcntl.h&gt;[/I26][/A25]:",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00012",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13,
+     3
+    ],
+    "text": "AT_REMOVEDIR",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00013",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13,
+     5
+    ],
+    "text": "Remove the directory entry specified by [I27]fd[/I27] and [I28]path[/I28] as a directory, not a normal file.",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "If [I29]unlinkat[/I29]() is passed the special value AT_FDCWD in the [I30]fd[/I30] parameter, the current working directory shall be\nused and the behavior shall be identical to a call to [I31]unlink[/I31]() or [A32][I33]rmdir[/I33]()[/A32]\nrespectively, depending on whether or not the AT_REMOVEDIR bit is set in [I34]flag[/I34].",
+    "placeholders": {
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A32": {
+      "open": "<a href=\"../functions/rmdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A35][/A35]RETURN VALUE",
+    "placeholders": {
+     "A35": {
+      "open": "<a name=\"tag_17_649_04\" id=\"tag_17_649_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, these functions shall return 0. Otherwise, these functions shall return -1 and set [I36]errno[/I36] to\nindicate the error. If -1 is returned, the named file shall not be changed.",
+    "placeholders": {
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00017",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A37][/A37]ERRORS",
+    "placeholders": {
+     "A37": {
+      "open": "<a name=\"tag_17_649_05\" id=\"tag_17_649_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "These functions shall fail and shall not unlink the file if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00019",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00020",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "Search permission is denied for a component of the path prefix, or write permission is denied on the directory containing the\ndirectory entry to be removed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00021",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EBUSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00022",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The file named by the [I38]path[/I38] argument cannot be unlinked because it is being used by the system or another process and the\nimplementation considers this an error.",
+    "placeholders": {
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00023",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00024",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "A loop exists in symbolic links encountered during resolution of the [I39]path[/I39] argument.",
+    "placeholders": {
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00025",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00026",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "The length of a component of a pathname is longer than {NAME_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00027",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[ENOENT]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00028",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "A component of [I40]path[/I40] does not name an existing file or [I41]path[/I41] is an empty string.",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00029",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00030",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "A component of the path prefix names an existing file that is neither a directory nor a symbolic link to a directory, or the\n[I42]path[/I42] argument contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters\nand the last pathname component names an existing file that is neither a directory nor a symbolic link to a directory.",
+    "placeholders": {
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00031",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[EPERM] or [EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00032",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "[S43][[A44]XSI[/A44]][/S43] [IMG45]\n\nThe S_ISVTX flag is set on the directory containing the file referred to by the [I46]path[/I46] argument and the process does not\nsatisfy the criteria specified in XBD [A47][I48]4.5 Directory Protection[/I48][/A47].\n[IMG49]",
+    "placeholders": {
+     "S43": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A44": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG45": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A47": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG49": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00033",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[EROFS]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00034",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "The directory entry to be unlinked is part of a read-only file system.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I50]unlink[/I50]() function shall fail and shall not unlink the file if:",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00036",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EPERM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00037",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The file named by [I51]path[/I51] is a directory, and either the calling process does not have appropriate privileges or the\nimplementation prohibits using [I52]unlink[/I52]() on directories.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "The [I53]unlinkat[/I53]() function shall fail and shall not unlink the file if:",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00039",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00040",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "The access mode of the open file description associated with [I54]fd[/I54] is not O_SEARCH and the permissions of the directory\nunderlying [I55]fd[/I55] do not permit directory searches.",
+    "placeholders": {
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00041",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     7
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00042",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     9
+    ],
+    "text": "The [I56]path[/I56] argument does not specify an absolute path and the [I57]fd[/I57] argument is neither AT_FDCWD nor a valid file\ndescriptor open for reading or searching.",
+    "placeholders": {
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00043",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     11
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00044",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     13
+    ],
+    "text": "The [I58]path[/I58] argument is not an absolute path and [I59]fd[/I59] is a file descriptor associated with a non-directory file.",
+    "placeholders": {
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00045",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     15
+    ],
+    "text": "[EEXIST] or [ENOTEMPTY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00046",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     17
+    ],
+    "text": "The [I60]flag[/I60] parameter has the AT_REMOVEDIR bit set and the [I61]path[/I61] argument names a directory that is not an empty\ndirectory, or there are hard links to the directory other than dot or a single entry in dot-dot.",
+    "placeholders": {
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00047",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     19
+    ],
+    "text": "[ENOTDIR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00048",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     21
+    ],
+    "text": "The [I62]flag[/I62] parameter has the AT_REMOVEDIR bit set and [I63]path[/I63] does not name a directory.",
+    "placeholders": {
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00049",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     23
+    ],
+    "text": "[EPERM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00050",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     25
+    ],
+    "text": "The file named by [I64]path[/I64] is a directory, the [I65]flag[/I65] parameter does not have the AT_REMOVEDIR bit set, and either the\ncalling process does not have appropriate privileges or the implementation prohibits using [I66]unlink[/I66]() on directories.",
+    "placeholders": {
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13
+    ],
+    "text": "These functions may fail and not unlink the file if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00052",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     3
+    ],
+    "text": "[ELOOP]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00053",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     5
+    ],
+    "text": "More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I67]path[/I67] argument.",
+    "placeholders": {
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00054",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     7
+    ],
+    "text": "[ENAMETOOLONG]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00055",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     9
+    ],
+    "text": "The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a\nlength that exceeds {PATH_MAX}.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00056",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     11
+    ],
+    "text": "[ETXTBSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00057",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     13
+    ],
+    "text": "The entry to be unlinked is the last directory entry to a pure procedure (shared text) file that is being executed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19
+    ],
+    "text": "The [I68]unlinkat[/I68]() function may fail and not unlink the file if:",
+    "placeholders": {
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00059",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     21,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00060",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     21,
+     5
+    ],
+    "text": "The value of the [I69]flag[/I69] argument is not valid.",
+    "placeholders": {
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00061",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A70][/A70]EXAMPLES",
+    "placeholders": {
+     "A70": {
+      "open": "<a name=\"tag_17_649_06\" id=\"tag_17_649_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00062",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A71][/A71]Removing a Link to a File",
+    "placeholders": {
+     "A71": {
+      "open": "<a name=\"tag_17_649_06_01\" id=\"tag_17_649_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example shows how to remove a link to a file named [B72]/home/cnd/mod1[/B72] by removing the entry named\n[B73]/modules/pass1[/B73].",
+    "placeholders": {
+     "B72": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B73": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00064",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     7
+    ],
+    "text": "[A74][/A74]Checking for an Error",
+    "placeholders": {
+     "A74": {
+      "open": "<a name=\"tag_17_649_06_02\" id=\"tag_17_649_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     9
+    ],
+    "text": "The following example fragment creates a temporary password lock file named [B75]LOCKFILE[/B75], which is defined as\n[B76]/etc/ptmp[/B76], and gets a file descriptor for it. If the file cannot be opened for writing, [I77]unlink[/I77]() is used to remove\nthe link between the file descriptor and [B78]LOCKFILE[/B78].",
+    "placeholders": {
+     "B75": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B76": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B78": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00066",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     13
+    ],
+    "text": "[A79][/A79]Replacing Files",
+    "placeholders": {
+     "A79": {
+      "open": "<a name=\"tag_17_649_06_03\" id=\"tag_17_649_06_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     15
+    ],
+    "text": "The following example fragment uses [I80]unlink[/I80]() to discard links to files, so that they can be replaced with new versions of\nthe files. The first call removes the link to [B81]LOCKFILE[/B81] if an error occurs. Successive calls remove the links to\n[B82]SAVEFILE[/B82] and [B83]PASSWDFILE[/B83] so that new links can be created, then removes the link to [B84]LOCKFILE[/B84] when it is no\nlonger needed.",
+    "placeholders": {
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B81": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B82": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B83": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B84": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00068",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A85][/A85]APPLICATION USAGE",
+    "placeholders": {
+     "A85": {
+      "open": "<a name=\"tag_17_649_07\" id=\"tag_17_649_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Applications should use [A86][I87]rmdir[/I87]()[/A86] to remove a directory.",
+    "placeholders": {
+     "A86": {
+      "open": "<a href=\"../functions/rmdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00070",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A88][/A88]RATIONALE",
+    "placeholders": {
+     "A88": {
+      "open": "<a name=\"tag_17_649_08\" id=\"tag_17_649_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "Unlinking a directory is restricted to the superuser in many historical implementations for reasons given in [A89][I90]link[/I90]()[/A89] (see also [A91][I92]rename[/I92]()[/A91]).",
+    "placeholders": {
+     "A89": {
+      "open": "<a href=\"../functions/link.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A91": {
+      "open": "<a href=\"../functions/rename.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The meaning of [EBUSY] in historical implementations is &quot;mount point busy&quot;. Since this volume of POSIX.1-2024 does not cover\nthe system administration concepts of mounting and unmounting, the description of the error was changed to &quot;resource busy&quot;. (This\nmeaning is used by some device drivers when a second process tries to open an exclusive use device.) The wording is also intended\nto allow implementations to refuse to remove a directory if it is the root or current working directory of any process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "The standard developers reviewed TR 24715-2006 and noted that LSB-conforming implementations may return [EISDIR] instead of\n[EPERM] when unlinking a directory. A change to permit this behavior by changing the requirement for [EPERM] to [EPERM] or [EISDIR]\nwas considered, but decided against since it would break existing strictly conforming and conforming applications. Applications\nwritten for portability to both POSIX.1-2024 and the LSB should be prepared to handle either error code.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00074",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "The purpose of the [I93]unlinkat[/I93]() function is to remove directory entries in directories other than the current working\ndirectory without exposure to race conditions. Any part of the path of a file could be changed in parallel to a call to\n[I94]unlink[/I94](), resulting in unspecified behavior. By opening a file descriptor for the target directory and using the\n[I95]unlinkat[/I95]() function it can be guaranteed that the removed directory entry is located relative to the desired directory.",
+    "placeholders": {
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00075",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A96][/A96]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A96": {
+      "open": "<a name=\"tag_17_649_09\" id=\"tag_17_649_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00077",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A97][/A97]SEE ALSO",
+    "placeholders": {
+     "A97": {
+      "open": "<a name=\"tag_17_649_10\" id=\"tag_17_649_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A98][I99]close[/I99]()[/A98], [A100][I101]link[/I101]()[/A100], [A102][I103]remove[/I103]()[/A102], [A104][I105]rename[/I105]()[/A104], [A106][I107]rmdir[/I107]()[/A106], [A108][I109]symlink[/I109]()[/A108]",
+    "placeholders": {
+     "A98": {
+      "open": "<a href=\"../functions/close.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A100": {
+      "open": "<a href=\"../functions/link.html#tag_17_304\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A102": {
+      "open": "<a href=\"../functions/remove.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I103": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A104": {
+      "open": "<a href=\"../functions/rename.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A106": {
+      "open": "<a href=\"../functions/rmdir.html#tag_17_493\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A108": {
+      "open": "<a href=\"../functions/symlink.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I109": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00079",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A110][I111]4.5 Directory Protection[/I111][/A110], [A112][I113]&lt;fcntl.h&gt;[/I113][/A112], [A114][I115]&lt;sys/stat.h&gt;[/I115][/A114],\n[A116][I117]&lt;unistd.h&gt;[/I117][/A116]",
+    "placeholders": {
+     "A110": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A112": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I113": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A114": {
+      "open": "<a href=\"../basedefs/sys_stat.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A116": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I117": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00080",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A118][/A118]CHANGE HISTORY",
+    "placeholders": {
+     "A118": {
+      "open": "<a name=\"tag_17_649_11\" id=\"tag_17_649_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00081",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00082",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A119][/A119]Issue 5",
+    "placeholders": {
+     "A119": {
+      "open": "<a name=\"tag_17_649_12\" id=\"tag_17_649_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00083",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The [EBUSY] error is added to the optional part of the ERRORS section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00084",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A120][/A120]Issue 6",
+    "placeholders": {
+     "A120": {
+      "open": "<a name=\"tag_17_649_13\" id=\"tag_17_649_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00085",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00086",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     1,
+     1
+    ],
+    "text": "In the DESCRIPTION, the effect is specified if [I121]path[/I121] specifies a symbolic link.",
+    "placeholders": {
+     "I121": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00087",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     3,
+     1
+    ],
+    "text": "The [ELOOP] mandatory error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00088",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     5,
+     1
+    ],
+    "text": "A second [ENAMETOOLONG] is added as an optional error condition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00089",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3,
+     7,
+     1
+    ],
+    "text": "The [ETXTBSY] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00090",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00091",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     1,
+     1
+    ],
+    "text": "The [ELOOP] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00093",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A122][/A122]Issue 7",
+    "placeholders": {
+     "A122": {
+      "open": "<a name=\"tag_17_649_14\" id=\"tag_17_649_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00094",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #143 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00095",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #181 is applied, updating the requirements for operations when the S_ISVTX bit is\nset.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "Text arising from the LSB Conflicts TR is added to the RATIONALE about the use of [EPERM] and [EISDIR].",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "The [I123]unlinkat[/I123]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.",
+    "placeholders": {
+     "I123": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00099",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "Changes are made to allow a directory to be opened for searching.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "The [ENOTDIR] error condition is clarified to cover the condition where the last component of a pathname exists but is not a\ndirectory or a symbolic link to a directory.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     15
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0693 [461], XSH/TC1-2008/0694 [324], XSH/TC1-2008/0695 [278], and\nXSH/TC1-2008/0696 [278] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00102",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     17
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0378 [873], XSH/TC2-2008/0379 [591], XSH/TC2-2008/0380 [817], and\nXSH/TC2-2008/0381 [817] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00103",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A124][/A124]Issue 8",
+    "placeholders": {
+     "A124": {
+      "open": "<a name=\"tag_17_649_15\" id=\"tag_17_649_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 1314 is applied, clarifying that file identities become available for reuse after the space occupied by the\nfile has been freed.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00105",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00106",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 1380 is applied, changing text using the term &quot;link&quot; in line with its updated definition.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00107",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defect 1385 is applied, clarifying that the file contents are not removed until there are no references to the file\nvia open file descriptors or memory mappings.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00108",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     9
+    ],
+    "text": "Austin Group Defect 1574 is applied, splitting the [EPERM] error into separate entries for [I125]unlink[/I125]() and\n[I126]unlinkat[/I126]().",
+    "placeholders": {
+     "I125": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I126": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00109",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

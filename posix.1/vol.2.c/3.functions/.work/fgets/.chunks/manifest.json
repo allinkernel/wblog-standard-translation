@@ -1,0 +1,944 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_158_01\" id=\"tag_17_158_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "fgets — get a string from a stream",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_158_02\" id=\"tag_17_158_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdio.h.html\">stdio.h</a>&gt;<br>\n<br>\nchar *fgets(char *restrict</tt> <i>s</i><tt>, int</tt> <i>n</i><tt>, FILE *restrict</tt> <i>stream</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_158_03\" id=\"tag_17_158_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]fgets[/I5]() function shall read bytes from [I6]stream[/I6] into the array pointed to by [I7]s[/I7] until [I8]n[/I8]-1 bytes are\nread, or a &lt;newline&gt; is read and transferred to [I9]s[/I9], or an end-of-file condition is encountered. A null byte shall be\nwritten immediately after the last byte read into the array. If the end-of-file condition is encountered before any bytes are read,\nthe contents of the array pointed to by [I10]s[/I10] shall not be changed.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "[S11][[A12]CX[/A12]][/S11] [IMG13] The\n[I14]fgets[/I14]() function may mark the last data access timestamp of the file associated with [I15]stream[/I15] for update. The last data\naccess timestamp shall be marked for update by the first successful execution of [A16][I17]fgetc[/I17]()[/A16], [I18]fgets[/I18](), [A19][I20]fread[/I20]()[/A19], [A21][I22]fscanf[/I22]()[/A21], [A23][I24]getc[/I24]()[/A23], [A25][I26]getchar[/I26]()[/A25], [A27][I28]getdelim[/I28]()[/A27], [A29][I30]getline[/I30]()[/A29], or [A31][I32]scanf[/I32]()[/A31] using [I33]stream[/I33] that\nreturns data not supplied by a prior call to [A34][I35]ungetc[/I35]()[/A34]. [IMG36]",
+    "placeholders": {
+     "S11": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A12": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG13": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A16": {
+      "open": "<a href=\"../functions/fgetc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"../functions/fread.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/fscanf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A23": {
+      "open": "<a href=\"../functions/getc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"../functions/getchar.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A27": {
+      "open": "<a href=\"../functions/getdelim.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"../functions/getline.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A31": {
+      "open": "<a href=\"../functions/scanf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A34": {
+      "open": "<a href=\"../functions/ungetc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG36": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00008",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A37][/A37]RETURN VALUE",
+    "placeholders": {
+     "A37": {
+      "open": "<a name=\"tag_17_158_04\" id=\"tag_17_158_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I38]fgets[/I38]() shall return [I39]s[/I39]. If the stream is at end-of-file, the end-of-file indicator for\nthe stream shall be set and [I40]fgets[/I40]() shall return a null pointer. If an error occurs, the error indicator for the stream\nshall be set, [I41]fgets[/I41]() shall return a null pointer, [S42][[A43]CX[/A43]][/S42] [IMG44] &nbsp;and shall set [I45]errno[/I45] to indicate the error. [IMG46]",
+    "placeholders": {
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S42": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG44": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG46": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00010",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A47][/A47]ERRORS",
+    "placeholders": {
+     "A47": {
+      "open": "<a name=\"tag_17_158_05\" id=\"tag_17_158_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "Refer to [A48][I49]fgetc[/I49]()[/A48].",
+    "placeholders": {
+     "A48": {
+      "open": "<a href=\"../functions/fgetc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00012",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A50][/A50]EXAMPLES",
+    "placeholders": {
+     "A50": {
+      "open": "<a name=\"tag_17_158_06\" id=\"tag_17_158_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00013",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A51][/A51]Reading Input",
+    "placeholders": {
+     "A51": {
+      "open": "<a name=\"tag_17_158_06_01\" id=\"tag_17_158_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example uses [I52]fgets[/I52]() to read lines of input. It assumes that the file it is reading is a text file and that\nlines in this text file are no longer than 16384 (or {LINE_MAX} if it is less than 16384 on the implementation where it is running)\nbytes long. (Note that the standard utilities have no line length limit if [I53]sysconf[/I53](_SC_LINE_MAX) returns -1 without setting\n[I54]errno[/I54]. This example assumes that [I55]sysconf[/I55](_SC_LINE_MAX) will not fail.)",
+    "placeholders": {
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A56][/A56]APPLICATION USAGE",
+    "placeholders": {
+     "A56": {
+      "open": "<a name=\"tag_17_158_07\" id=\"tag_17_158_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00017",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A57][/A57]RATIONALE",
+    "placeholders": {
+     "A57": {
+      "open": "<a name=\"tag_17_158_08\" id=\"tag_17_158_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00019",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A58][/A58]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_158_09\" id=\"tag_17_158_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00021",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A59][/A59]SEE ALSO",
+    "placeholders": {
+     "A59": {
+      "open": "<a name=\"tag_17_158_10\" id=\"tag_17_158_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A60][I61]2.5 Standard I/O Streams[/I61][/A60], [A62][I63]fgetc[/I63]()[/A62], [A64][I65]fopen[/I65]()[/A64], [A66][I67]fread[/I67]()[/A66], [A68][I69]fscanf[/I69]()[/A68], [A70][I71]getc[/I71]()[/A70], [A72][I73]getchar[/I73]()[/A72], [A74][I75]getdelim[/I75]()[/A74], [A76][I77]ungetc[/I77]()[/A76]",
+    "placeholders": {
+     "A60": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A62": {
+      "open": "<a href=\"../functions/fgetc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A64": {
+      "open": "<a href=\"../functions/fopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A66": {
+      "open": "<a href=\"../functions/fread.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A68": {
+      "open": "<a href=\"../functions/fscanf.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../functions/getc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/getchar.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A74": {
+      "open": "<a href=\"../functions/getdelim.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A76": {
+      "open": "<a href=\"../functions/ungetc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A78][I79]&lt;stdio.h&gt;[/I79][/A78]",
+    "placeholders": {
+     "A78": {
+      "open": "<a href=\"../basedefs/stdio.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00024",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A80][/A80]CHANGE HISTORY",
+    "placeholders": {
+     "A80": {
+      "open": "<a name=\"tag_17_158_11\" id=\"tag_17_158_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00026",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A81][/A81]Issue 6",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_158_12\" id=\"tag_17_158_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The prototype for [I82]fgets[/I82]() is changed for alignment with the ISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A83][/A83]Issue 7",
+    "placeholders": {
+     "A83": {
+      "open": "<a name=\"tag_17_158_13\" id=\"tag_17_158_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #051 is applied, updating the list of functions that mark the last data access timestamp\nfor update.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0134 [182] and XSH/TC1-2008/0135 [14] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0114 [468] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A84][/A84]Issue 8",
+    "placeholders": {
+     "A84": {
+      "open": "<a name=\"tag_17_158_14\" id=\"tag_17_158_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Defect 1330 is applied, removing obsolescent interfaces.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Defect 1624 is applied, changing the RETURN VALUE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     75
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

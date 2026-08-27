@@ -1,0 +1,34 @@
+<h1>XSH 函数导读：connect()</h1>
+
+<h2>0. 总览</h2>
+<p><b>connect()</b> 连接套接字：在连接模式套接字上建立到对端地址的连接，或者设置/重置无连接模式套接字的对端地址。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>int connect(int socket, const struct sockaddr *address, socklen_t address_len)</code>。成功返回 0，失败返回 -1 并设置 errno。地址的长度和格式取决于地址族。</p>
+
+<h2>1. 机制</h2>
+<p>对连接模式套接字（SOCK_STREAM 等），connect() 尝试建立到 <i>address</i> 的连接；若套接字尚未绑定本地地址，connect() 会先将其绑定到一个未使用的本地地址（AF_UNIX 除外）。对无连接模式套接字（SOCK_DGRAM），connect() 只设置对端地址而不建立连接：后续 send() 的数据报都发往该地址，recv() 也只接受来自该地址的远程发送方；把 <i>sa_family</i> 置为 AF_UNSPEC 可重置对端地址。连接无法立即建立时：阻塞模式会阻塞最多一个未指定的超时间隔，超时则失败并中止尝试；被已捕获信号中断返回 [EINTR] 但连接请求不中止、异步建立；设置了 O_NONBLOCK 则返回 [EINPROGRESS] 且连接异步建立，期间再次 connect() 返回 [EALREADY]。异步建立完成时，pselect()、select()、poll()、ppoll() 会指示该描述符可写。AF_UNIX 下 <i>sun_path</i> 需含路径名之后的空终止符，且 address_len 至少为 offsetof(sockaddr_un, sun_path) + 1 加路径名长度。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>connect() 失败后套接字状态未指定：符合标准的应用程序宜在重连前关闭文件描述符并新建套接字。</li>
+<li>非阻塞 connect 返回 [EINPROGRESS] 不是失败，要等描述符可写后确认连接结果。</li>
+<li>对已连接的连接模式套接字再调用 connect() 返回 [EISCONN]；对正在侦听的套接字连接返回 [EOPNOTSUPP]（可以失败）。</li>
+<li>目标未监听或拒绝请求返回 [ECONNREFUSED]；无路由返回 [ENETUNREACH]；连接尝试超时返回 [ETIMEDOUT]。</li>
+<li>UDP 上 connect() 也会返回 0，但只是记住了对端，并未建立真正连接；术语 "connected" 同样用于已设置对端地址的无连接模式套接字。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+#include &lt;sys/un.h&gt;
+
+int cfd;
+struct sockaddr_un addr;
+
+cfd = socket(AF_UNIX, SOCK_STREAM, 0);
+memset(&amp;addr, 0, sizeof(addr));
+addr.sun_family = AF_UNIX;
+strncpy(addr.sun_path, "/tmp/server.sock",
+        sizeof(addr.sun_path) - 1);
+
+if (connect(cfd, (struct sockaddr *) &amp;addr,
+            sizeof(struct sockaddr_un)) == -1) {
+    /* ECONNREFUSED、ENOENT 等；非阻塞时可能是 EINPROGRESS */;
+}</code></pre>

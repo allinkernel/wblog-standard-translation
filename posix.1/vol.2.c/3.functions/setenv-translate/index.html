@@ -1,0 +1,79 @@
+<h1>XSH 函数：setenv()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="setenv" id="setenv"></a> <a name="tag_17_521" id="tag_17_521"></a>
+<a name="tag_17_521_01" id="tag_17_521_01"></a><h4>名称 (NAME)</h4>
+<blockquote>setenv — 添加或更改环境变量</blockquote>
+<a name="tag_17_521_02" id="tag_17_521_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote><code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> #include &lt;stdlib.h&gt;<br>
+<br>
+int setenv(const char *</code><i>envname</i><code>, const char *</code><i>envval</i><code>, int</code> <i>overwrite</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code> <code><br></code></blockquote>
+<a name="tag_17_521_03" id="tag_17_521_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>setenv</i>() 函数应更新或添加调用进程环境中的一个变量。<i>envname</i> 参数指向一个包含要添加或更改的环境变量名称的字符串。环境变量应被设置为 <i>envval</i> 所指向的值。如果 <i>envname</i> 指向的字符串包含 <code>'='</code> 字符，则函数应失败。如果 <i>envname</i> 命名的环境变量已存在且 <i>overwrite</i> 的值为非零，则函数应返回成功并且环境应被更新。如果 <i>envname</i> 命名的环境变量已存在且 <i>overwrite</i> 的值为零，则函数应返回成功并且环境应保持不变。</p>
+<p><i>setenv</i>() 函数应更新 <i>environ</i> 所指向的指针列表。</p>
+<p>由 <i>envname</i> 和 <i>envval</i> 描述的字符串由本函数复制。</p>
+<p><i>setenv</i>() 函数不必是线程安全的。</p>
+</blockquote>
+<a name="tag_17_521_04" id="tag_17_521_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，应返回零。否则，应返回 -1，设置 <i>errno</i> 以指示错误，并且环境应保持不变。</p>
+</blockquote>
+<a name="tag_17_521_05" id="tag_17_521_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>setenv</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>envname</i> 参数指向一个空字符串，或指向一个包含 <code>'='</code> 字符的字符串。</dd>
+<dt>[ENOMEM]</dt>
+<dd>没有足够的内存可用于将变量或其值添加到环境中。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_521_06" id="tag_17_521_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_521_07" id="tag_17_521_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>参见 exec() 了解多线程应用程序中更改环境的限制。</p>
+</blockquote>
+<a name="tag_17_521_08" id="tag_17_521_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>如果 <i>setenv</i>() 更改外部变量 <i>environ</i>，可能会出现未预料的结果。特别是，如果 <i>main</i>() 的可选 <i>envp</i> 参数存在，它不会被更改，因此可能指向环境的过时副本（<i>environ</i> 的任何其他副本也是如此）。然而，除了上述限制之外，标准开发者意图必须支持通过 <i>environ</i> 指针遍历环境的传统方法。</p>
+<p>人们决定本版本宜要求 <i>setenv</i>()，因为它解决了一项缺失的功能，并且不会给实现者带来重大负担。</p>
+<p>关于是要求 System V putenv() 函数还是 BSD <i>setenv</i>() 函数作为强制性函数，存在相当大的争论。选择 <i>setenv</i>() 函数是因为它允许 unsetenv() 函数的实现删除环境变量，而无需指定额外的接口。putenv() 函数作为 XSI 选项的一部分可用。</p>
+<p>标准开发者曾考虑要求 <i>setenv</i>() 在对其调用会导致超过 {ARG_MAX} 时指示错误。该要求被否决，因为该条件可能是暂时的，应用程序最终会减小环境的大小。最终的成败取决于调用 <i>exec</i> 时的大小，exec 会返回此错误条件的指示。</p>
+<p>另请参见 getenv() 中的 RATIONALE 节。</p>
+</blockquote>
+<a name="tag_17_521_09" id="tag_17_521_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_521_10" id="tag_17_521_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>exec、getenv()、putenv()、unsetenv()</p>
+<p>XBD &lt;stdlib.h&gt;、&lt;sys/types.h&gt;、&lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_521_11" id="tag_17_521_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 6 中首次发布。源自 IEEE P1003.1a 草案标准。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 项目 XSH/TC1/D6/55，在 APPLICATION USAGE 和 SEE ALSO 节中添加了对 <i>exec</i> 的引用。</p>
+</blockquote>
+<a name="tag_17_521_12" id="tag_17_521_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #156。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1）：XSH/TC1-2008/0549 [167]、XSH/TC1-2008/0550 [185]、XSH/TC1-2008/0551 [167] 和 XSH/TC1-2008/0552 [38]。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

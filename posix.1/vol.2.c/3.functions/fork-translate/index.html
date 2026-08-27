@@ -1,0 +1,197 @@
+<h1>XSH 函数：fork()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fork" id="fork"></a> <a name="tag_17_172" id="tag_17_172"></a>
+<a name="tag_17_172_01" id="tag_17_172_01"></a><h4>名称 (NAME)</h4>
+<blockquote>fork — 创建新进程 (create a new process)</blockquote>
+<a name="tag_17_172_02" id="tag_17_172_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+pid_t fork(void);<br>
+pid_t _Fork(void);<br></code></code></p>
+</blockquote>
+<a name="tag_17_172_03" id="tag_17_172_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>fork</i>() 函数应创建一个新进程。新进程（子进程）应是调用进程（父进程）的精确副本，但下述情况除外：</p>
+<ul>
+<li>
+<p>子进程应拥有唯一的进程 ID。</p>
+</li>
+<li>
+<p>子进程 ID 也不应与任何活动的进程组 ID 匹配。</p>
+</li>
+<li>
+<p>子进程应具有不同的父进程 ID，该父进程 ID 应是调用进程的进程 ID。</p>
+</li>
+<li>
+<p>子进程应拥有父进程文件描述符自身的副本，但设置了 FD_CLOFORK 标志的那些除外（参见 fcntl()）。子进程的每个文件描述符应与父进程的相应文件描述符引用同一个打开的文件描述。</p>
+</li>
+<li>
+<p>子进程应拥有父进程打开的目录流自身的副本。子进程中的每个打开的目录流可以与父进程的相应目录流共享目录流定位。</p>
+</li>
+<li>
+<p>子进程应拥有父进程消息目录描述符自身的副本。</p>
+</li>
+<li>
+<p>子进程的 <i>tms_utime</i>、<i>tms_stime</i>、<i>tms_cutime</i> 和 <i>tms_cstime</i> 值应被设置为 0。</p>
+</li>
+<li>
+<p>到闹钟信号为止剩余的时间应被重置为零，并且闹钟（如果有）应被取消；参见 alarm()。</p>
+</li>
+<li>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 所有 <i>semadj</i> 值应被清除。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>由父进程设置的进程拥有的文件锁不应被子进程继承。</p>
+</li>
+<li>
+<p>子进程的待处理信号集应被初始化为空集。</p>
+</li>
+<li>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 间隔定时器应在子进程中被重置。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>在父进程中打开的任何信号量在子进程中也应是打开的。</p>
+</li>
+<li>
+<p><sup>[ML]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 子进程不应继承父进程通过调用 mlockall() 或 mlock() 建立的任何地址空间内存锁。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>在父进程中创建的内存映射应在子进程中被保留。从父进程继承的 MAP_PRIVATE 映射在子进程中也应是 MAP_PRIVATE 映射，并且父进程在调用 <i>fork</i>() 之前对这些映射中的数据所做的任何修改应对子进程可见。父进程在 <i>fork</i>() 返回之后对 MAP_PRIVATE 映射中的数据所做的任何修改应仅对父进程可见。子进程对 MAP_PRIVATE 映射中的数据所做的修改应仅对子进程可见。</p>
+</li>
+<li>
+<p><sup>[PS]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 对于 SCHED_FIFO 和 SCHED_RR 调度策略，子进程应在 <i>fork</i>() 函数期间继承父进程的策略和优先级设置。对于其他调度策略，<i>fork</i>() 时的策略和优先级设置是实现定义的。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>由父进程创建的每进程定时器不应被子进程继承。</p>
+</li>
+<li>
+<p><sup>[MSG]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 子进程应拥有父进程消息队列描述符自身的副本。子进程的每个消息描述符应与父进程的相应消息描述符引用同一个打开的消息队列描述。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>异步输入或异步输出操作不应被子进程继承。对父进程创建的异步控制块的任何使用都会产生未定义行为。</p>
+</li>
+<li>
+<p>进程应以单线程创建。如果多线程进程调用 <i>fork</i>()，新进程应包含调用线程及其整个地址空间的副本，可能包括互斥锁和其他资源的状态。因此，应用程序应确保子进程只执行异步信号安全操作，直到 <i>exec</i> 函数之一成功为止。</p>
+</li>
+<li>
+<p>调用进程中任何线程持有的、已被设置为进程共享的任何锁不应被子进程持有。对于调用进程中任何线程持有的、未被设置为进程共享的锁，子进程对该锁执行任何操作的任何尝试都会导致未定义行为（无论调用进程是单线程还是多线程）。</p>
+</li>
+<li>
+<p><sup>[CPT]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 子进程的 CPU 时间时钟的初始值应被设置为零。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p><sup>[TCT]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 子进程的单个线程的 CPU 时间时钟的初始值应被设置为零。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+</ul>
+<p>POSIX.1-2024 定义的所有其他进程特性在父进程和子进程中应相同。POSIX.1-2024 未定义的进程特性的继承由 POSIX.1-2024 规定为未指定。</p>
+<p>在 <i>fork</i>() 之后，父进程和子进程都应能够在任一进程终止之前独立执行。</p>
+<p><i>_Fork</i>() 函数应等同于 <i>fork</i>()，但通过 pthread_atfork() 函数建立的 fork 处理器不应被调用，并且 <i>_Fork</i>() 应是异步信号安全的。</p>
+</blockquote>
+<a name="tag_17_172_04" id="tag_17_172_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>fork</i>() 应向子进程返回 0，并向父进程返回子进程的进程 ID。两个进程都应从 <i>fork</i>() 函数继续执行。否则，应向父进程返回 -1，不应创建子进程，并且应设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_172_05" id="tag_17_172_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>这些函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>系统缺少创建另一个进程所需的资源，或者系统对整个系统范围内或单个用户执行中的进程总数的限制 {CHILD_MAX} 将被超过。</dd>
+</dl>
+<br>
+<p>这些函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ENOMEM]</dt>
+<dd>可用的存储空间不足。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_172_06" id="tag_17_172_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_172_07" id="tag_17_172_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>当多线程进程调用 <i>fork</i>() 或 <i>_Fork</i>() 时，无法保证与父进程中除调用线程以外的线程相关联的线程特定内存（如栈或线程局部存储）在子进程中仍然可用。这是因为父进程中除调用线程以外的线程在子进程中不存在。因此，<i>fork</i>() 或 <i>_Fork</i>() 的实现可能在返回之前（或者在 <i>fork</i>() 的情况下，在调用由 pthread_atfork() 注册的任何 fork 处理器之前）从子进程的地址空间中移除该内存，或者将其重新用于其他目的。因此，应用程序应避免在子进程中使用父进程中其他线程传递给调用线程的任何指向线程特定内存的指针。</p>
+</blockquote>
+<a name="tag_17_172_08" id="tag_17_172_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>许多历史实现存在时间窗口，其中在 <i>fork</i>() 执行之前或期间发送给进程组的信号（例如交互式 SIGINT）在 <i>fork</i>() 之后被递送给父进程但不递送给子进程，因为 <i>fork</i>() 代码清除了子进程的待处理信号集。本卷 POSIX.1-2024 不要求、甚至不允许这种行为。然而，期望此类问题可能继续存在于看起来符合本卷 POSIX.1-2024 并通过可用验证套件的实现中，是务实的。这种行为仅仅是实现未能使信号产生与递送之间的间隔完全不可见的结果。从应用程序的角度来看，<i>fork</i>() 调用应显得是原子的。在 <i>fork</i>() 之前产生的信号应在 <i>fork</i>() 之前被递送。在 <i>fork</i>() 之后发送给进程组的信号应被递送给父进程和子进程。实现实际上可以初始化与子进程的待处理信号集对应的内部数据结构，以包括在 <i>fork</i>() 期间发送给进程组的信号。由于从应用程序的角度来看，<i>fork</i>() 调用可以被视为原子的，因此该集合将被初始化为空，并且此类信号将在 <i>fork</i>() 之后到达；另请参见 &lt;signal.h&gt;。</p>
+<p>为解决跨 <i>fork</i>() 的信号继承问题，已提出的一种方法是添加 [EINTR] 错误，当在调用期间检测到信号时将返回该错误。虽然这比丢失信号更可取，但它并未被认为是最佳解决方案。虽然不推荐将其用于此目的，但此类错误对实现来说将是允许的扩展。</p>
+<p>[ENOMEM] 错误值保留给那些检测并区分此类情况的实现。当实现检测到没有足够的内存来创建进程时，会出现这种情况。这旨在当 [EAGAIN] 不合适时返回，因为可能永远没有足够的内存（主存储器或辅助存储器）来执行该操作。由于 <i>fork</i>() 复制现有进程，因此这必须是内存足以容纳一个此类进程但不足以容纳两个的情况。许多历史实现实际上会因暂时缺乏内存而返回 [ENOMEM]，从符合规范的应用程序的角度来看，这种情况通常与 [EAGAIN] 没有区别。</p>
+<p>包含可选错误 [ENOMEM] 的部分原因是 SVID 规定了它，并且它应保留给那里规定的错误情况。该情况在许多实现上不适用。</p>
+<p>IEEE Std 1003.1-1988 未要求 <i>fork</i>() 的父进程和子进程并发执行。对进程进行单线程化的系统显然不是本意，并且被认为是本卷 POSIX.1-2024 不可接受的 &quot;玩具实现&quot;。对短语 &quot;独立执行&quot; 预期唯一的反对意见是可测试性，但该断言应是可以测试的。此类测试要求父进程和子进程都能阻塞在对方的可检测动作上，例如对管道的写入或信号。对于系统要符合本卷 POSIX.1-2024 的意图，此类动作的交互式交换应是可能的。</p>
+<p>[EAGAIN] 错误的存在是为了警告应用程序此类情况可能发生。无论它是否发生，在任何实际意义上都不受应用程序的控制，因为该情况通常是用户使用系统的结果，而不是应用程序代码的结果。因此，任何应用程序在任何情况下都不能也不应依赖它的发生，并且所使用的 &quot;用户&quot; 概念的确切语义也不应是应用程序开发人员关心的问题。验证编写者应意识到这一限制。</p>
+<p>POSIX 程序员调用 <i>fork</i>() 有两个原因。一个原因是在同一程序内创建新的控制线程（这在 POSIX 中最初只能通过创建新进程来实现）；另一个原因是创建运行不同程序的新进程。在后一种情况下，对 <i>fork</i>() 的调用之后很快会跟随对 <i>exec</i> 函数之一的调用。</p>
+<p>使 <i>fork</i>() 在多线程世界中工作的普遍问题是如何处理所有线程。有两种替代方案。一种是将所有线程复制到新进程中。这导致程序员或实现必须处理挂起在系统调用上的线程，或者可能即将执行不应在新进程中执行的系统调用的线程。另一种替代方案是只复制调用 <i>fork</i>() 的线程。这造成了这样的困难：进程本地资源的状态通常保存在进程内存中。如果未调用 <i>fork</i>() 的线程持有资源，则该资源在子进程中永远不会被释放，因为负责释放该资源的线程在子进程中不存在。</p>
+<p>当程序员编写多线程程序时，<i>fork</i>() 的第一种已描述的用途（在同一程序中创建新线程）由 pthread_create() 函数提供。因此 <i>fork</i>() 函数仅用于运行新程序，并且在调用 <i>fork</i>() 与调用 <i>exec</i> 函数之间调用需要某些资源的函数的效果是未定义的。</p>
+<p>曾考虑将 <i>forkall</i>() 函数添加到标准中，但被拒绝。<i>forkall</i>() 函数让父进程中的所有线程在子进程中被复制。这实质上是在子进程中复制父进程的状态。这允许子进程中的线程继续处理，并允许在没有显式 pthread_atfork() 代码的情况下保留锁和状态。调用进程必须确保处理在父进程和子进程之间共享的状态（即文件描述符或 MAP_SHARED 内存）的线程在 <i>forkall</i>() 之后行为正常。例如，如果在调用 <i>forkall</i>() 时父进程中有一个线程正在读取文件描述符，那么在 <i>forkall</i>() 之后有两个线程（一个在父进程中，一个在子进程中）正在读取该文件描述符。如果这不是期望的行为，父进程必须在调用 <i>forkall</i>() 之前与此类线程同步。</p>
+<p>当调用 <i>forkall</i>() 时，除调用线程以外的、处于可以 [EINTR] 错误返回的函数中的线程，如果实现无法确保该函数在父进程和子进程中行为正确，则这些函数可以返回 [EINTR]。特别是，pthread_cond_clockwait()、pthread_cond_timedwait() 和 pthread_cond_wait() 需要返回以确保条件未发生变化。这些函数可以被虚假的条件唤醒所唤醒，而不是返回 [EINTR]。</p>
+</blockquote>
+<a name="tag_17_172_09" id="tag_17_172_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_172_10" id="tag_17_172_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>alarm(), exec, fcntl(), pthread_atfork(), semop(), signal(), times()</p>
+<p>XBD 4.15.2 内存同步、&lt;sys/types.h&gt;、&lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_172_11" id="tag_17_172_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_172_12" id="tag_17_172_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION 部分已更改，以便与 POSIX 实时扩展和 POSIX 线程扩展保持一致。</p>
+</blockquote>
+<a name="tag_17_172_13" id="tag_17_172_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>对 POSIX 实现的以下新要求源于与单一 UNIX 规范的一致性：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然 &lt;sys/types.h&gt; 是先前 POSIX 规范的符合实现所要求的，但它对 UNIX 应用程序并非必需。</p>
+</li>
+</ul>
+<p>为与 IEEE P1003.1a 草案标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>澄清了 <i>fork</i>() 对子进程中待处理闹钟调用的影响。</p>
+</li>
+</ul>
+<p>为与 IEEE Std 1003.1d-1999 保持一致，添加了 CPU 时间时钟语义的描述。</p>
+<p>为与 IEEE Std 1003.1q-2000 保持一致，添加了跟踪语义的描述。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 的条目 XSH/TC1/D6/17，在 DESCRIPTION 和 RATIONALE 中添加了与由 pthread_atfork() 函数注册的 fork 处理器及异步信号安全相关的文本。</p>
+</blockquote>
+<a name="tag_17_172_14" id="tag_17_172_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #080，澄清了 DESCRIPTION 中异步输入和异步输出操作以及异步控制列表的状态。</p>
+<p>与异步输入和输出、内存映射文件、定时器和线程选项相关的功能被移至 Base。</p>
+<p>与消息目录描述符相关的功能从 XSI 选项移至 Base。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0123 [858]。</p>
+</blockquote>
+<a name="tag_17_172_15" id="tag_17_172_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 62、1361 和 1383，添加了 <i>_Fork</i>() 函数，并移除了 <i>fork</i>() 须为异步信号安全的要求。</p>
+<p>应用了 Austin Group 缺陷 768，添加了 OFD 拥有的文件锁。</p>
+<p>应用了 Austin Group 缺陷 1112，澄清了多线程进程的子进程的要求，以及调用进程中任何线程持有的进程共享和非进程共享锁的要求。</p>
+<p>应用了 Austin Group 缺陷 1114，更改了 APPLICATION USAGE 部分。</p>
+<p>应用了 Austin Group 缺陷 1216，添加了 pthread_cond_clockwait()。</p>
+<p>应用了 Austin Group 缺陷 1318，添加了 FD_CLOFORK。</p>
+<p>应用了 Austin Group 缺陷 1330，移除了过时的接口。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

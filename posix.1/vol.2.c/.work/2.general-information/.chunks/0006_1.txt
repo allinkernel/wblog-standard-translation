@@ -1,0 +1,31 @@
+# start_index 1
+[h3_00752] [A544][/A544]2.5 Standard I/O Streams
+[p_00753] A stream is associated with an external file (which may be a physical device) [S545][[A546]CX[/A546]][/S545] [IMG547] &nbsp;or memory
+buffer [IMG548] &nbsp;by &quot;opening&quot; a file [S549][[A550]CX[/A550]][/S549] [IMG551] &nbsp;or buffer.
+[IMG552] This may involve &quot;creating&quot; a new file. Creating an existing file
+causes its former contents to be discarded if necessary. If a file can support positioning requests (such as a disk file, as
+opposed to a terminal), then a &quot;file position indicator&quot; associated with the stream is positioned at the start (byte number 0) of
+the file, unless the file is opened with append mode, in which case it is implementation-defined whether the file position
+indicator is initially positioned at the beginning or end of the file. The file position indicator is maintained by subsequent
+reads, writes, and positioning requests, to facilitate an orderly progression through the file.
+[p_00754] The wide-character input functions shall read characters from the stream and convert them to wide characters as if
+they were read by successive calls to the [A553][I554]fgetwc[/I554]()[/A553] function. Each conversion shall
+occur as if by a call to the [A555][I556]mbrtowc[/I556]()[/A555] function, with the conversion state described
+by the stream's own [B557]mbstate_t[/B557] object (see [A558]2.5.2 Stream Orientation and Encoding Rules[/A558]). The
+byte input functions shall read characters from the stream as if by successive calls to the [A559][I560]fgetc[/I560]()[/A559] function.
+[p_00755] The wide-character output functions shall convert wide characters to characters and write them to the stream as if
+they were written by successive calls to the [A561][I562]fputwc[/I562]()[/A561] function. Each conversion shall
+occur as if by a call to the [A563][I564]wcrtomb[/I564]()[/A563] function, with the conversion state described
+by the stream's own [B565]mbstate_t[/B565] object (see [A566]2.5.2 Stream Orientation and Encoding Rules[/A566]). The
+byte output functions shall write characters to the stream as if by successive calls to the [A567][I568]fputc[/I568]()[/A567] function.
+[p_00756] The [A569][I570]perror[/I570]()[/A569], [A571][I572]psiginfo[/I572]()[/A571], and [A573][I574]psignal[/I574]()[/A573] functions shall
+behave as described above for the byte output functions if the stream is already byte-oriented, and shall behave as described above
+for the wide-character output functions if the stream is already wide-oriented. If the stream has no orientation, they shall behave
+as described for the byte output functions except that they shall not change the orientation of the stream.
+[p_00757] Functions other than [A575][I576]perror[/I576]()[/A575], [A577][I578]psiginfo[/I578]()[/A577], and [A579][I580]psignal[/I580]()[/A579] that write to
+streams but are neither wide-character output nor byte output functions ([A581][I582]getopt[/I582]()[/A581] and
+[A583][I584]wordexp[/I584]()[/A583]), shall behave as described above for the byte output functions, except
+that if the stream has no orientation, it is unspecified whether they set the stream to byte orientation or leave it with no
+orientation.
+[p_00758] When a stream is &quot;unbuffered&quot;, bytes are intended to appear from the source or at the destination as soon as
+possible; otherwise, bytes may be accumulated and transmitted as a block. When a stream is &quot;fully buffered&quot;, bytes are intended

@@ -1,0 +1,37 @@
+<h1>XSH 函数导读：nanosleep()</h1>
+
+<h2>0. 总览</h2>
+<p><code>nanosleep()</code> 是高分辨率睡眠：使当前线程挂起执行，直到 <code>rqtp</code> 指定的时间间隔经过，或被信号中断（动作是调用信号捕获函数或终止进程）。头文件为 <code>&lt;time.h&gt;</code>。原型关键点：<code>int nanosleep(const struct timespec *rqtp, struct timespec *rmtp)</code>——请求时间用 <code>timespec</code>（秒 + 纳秒）表达，剩余时间经 <code>rmtp</code> 返回，而不是像 sleep() 那样作为返回值。</p>
+
+<h2>1. 机制</h2>
+<p>睡眠按系统时钟 CLOCK_REALTIME 测量；时间可能比请求的长（参数向上舍入到睡眠分辨率的整数倍，或系统调度），但除被信号中断外，不应少于请求时间。被信号中断时返回 -1 并置 <code>errno</code> 为 [EINTR]，且若 <code>rmtp</code> 非 NULL，则更新其为剩余时间（请求时间减实际睡眠时间）。时间到则返回 0。关键特性：<code>nanosleep()</code> 对任何信号的动作或阻塞<strong>没有影响</strong>——它不占用、不改变 SIGALRM，这正是它优于基于 alarm() 实现的 sleep() 之处。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><strong>剩余时间要自己续睡</strong>：被 [EINTR] 打断后，<code>rmtp</code> 里的剩余时间需要由你再次调用 <code>nanosleep()</code> 继续睡，函数不会自动补足。</li>
+<li><strong>与 sleep() 的返回值差异</strong>：<code>nanosleep()</code> 失败/被中断返回 -1 而非剩余秒数；剩余时间走 <code>rmtp</code> 参数，别按 sleep() 的习惯解读返回值。</li>
+<li><strong>[EINVAL] 条件</strong>：<code>rqtp</code> 的纳秒字段小于 0 或大于等于 10^9（1000 百万）即为非法——纳秒字段合法范围是 [0, 999999999]。</li>
+<li><strong>不干扰信号</strong>：规范要求 <code>nanosleep()</code> 不干扰信号功能，所以在它内部没有 SIGALRM 那套状态机；但反过来，它也不保证被 alarm() 提前唤醒。</li>
+<li><strong>精度上限</strong>：实际睡眠分辨率取决于实现，别指望真的精确到纳秒；需要基于特定时钟的变体可看 clock_nanosleep()。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;time.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt;
+
+/* 支持被信号打断后补睡剩余时间 */
+static void wait_ms(long ms) {
+    struct timespec req, rem;
+    req.tv_sec = ms / 1000;
+    req.tv_nsec = (ms % 1000) * 1000000L;
+    while (nanosleep(&amp;req, &amp;rem) == -1 &amp;&amp; errno == EINTR) {
+        req = rem; /* 继续睡剩余时间 */
+    }
+}
+
+int main(void) {
+    wait_ms(250);
+    return 0;
+}
+</code></pre>

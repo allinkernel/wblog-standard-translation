@@ -1,0 +1,76 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] socket — create an endpoint for communication
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]socket[/I5]() function shall create an unbound socket in a communications domain, and return a file descriptor that can be used in later function calls that operate on sockets. The file descriptor shall be allocated as described in [A6][I7]2.6 File Descriptor Allocation[/I7][/A6].
+[p_00007] The [I8]socket[/I8]() function takes the following arguments:
+[dt_00008] [I9]domain[/I9]
+[dd_00009] Specifies the communications domain in which a socket is to be created.
+[dt_00010] [I10]type[/I10]
+[dd_00011] Specifies the type of socket to be created.
+[dt_00012] [I11]protocol[/I11]
+[dd_00013] Specifies a particular protocol to be used with the socket. Specifying a [I12]protocol[/I12] of 0 causes [I13]socket[/I13]() to use an unspecified default protocol appropriate for the requested socket type.
+[p_00014] The [I14]domain[/I14] argument specifies the address family used in the communications domain. The address families supported by the system are implementation-defined.
+[p_00015] Symbolic constants that can be used for the domain argument are defined in the [A15][I16]&lt;sys/socket.h&gt;[/I16][/A15] header.
+[p_00016] The [I17]type[/I17] argument specifies the socket type, which determines the semantics of communication over the socket. The following socket types are defined; implementations may specify additional socket types:
+[dt_00017] SOCK_STREAM
+[dd_00018] Provides sequenced, reliable, bidirectional, connection-mode byte streams, and may provide a transmission mechanism for out-of-band data.
+[dt_00019] SOCK_DGRAM
+[dd_00020] Provides datagrams, which are connectionless-mode, unreliable messages of fixed maximum length.
+[dt_00021] SOCK_SEQPACKET
+[dd_00022] Provides sequenced, reliable, bidirectional, connection-mode transmission paths for records. A record can be sent using one or more output operations and received using one or more input operations, but a single operation never transfers part of more than one record. Record boundaries are visible to the receiver via the MSG_EOR flag.
+[p_00023] Additionally, the [I18]type[/I18] argument can contain the bitwise-inclusive OR of flags from the following list:
+[dt_00024] SOCK_CLOEXEC
+[dd_00025] Atomically set the FD_CLOEXEC flag on the new file descriptor.
+[dt_00026] SOCK_CLOFORK
+[dd_00027] Atomically set the FD_CLOFORK flag on the new file descriptor.
+[dt_00028] SOCK_NONBLOCK
+[dd_00029] Set the O_NONBLOCK file status flag on the new file description.
+[p_00030] Implementations may define additional flags.
+[p_00031] If the [I19]protocol[/I19] argument is non-zero, it shall specify a protocol that is supported by the address family. If the [I20]protocol[/I20] argument is zero, the default protocol for this address family and type shall be used. The protocols supported by the system are implementation-defined.
+[p_00032] The process may need to have appropriate privileges to use the [I21]socket[/I21]() function or to create some sockets.
+[h4_00033] [A22][/A22]RETURN VALUE
+[p_00034] Upon successful completion, [I23]socket[/I23]() shall return a non-negative integer, the socket file descriptor. Otherwise, a value of -1 shall be returned and [I24]errno[/I24] set to indicate the error.
+[h4_00035] [A25][/A25]ERRORS
+[p_00036] The [I26]socket[/I26]() function shall fail if:
+[dt_00037] [EAFNOSUPPORT]
+[dd_00038] The implementation does not support the specified address family.
+[dt_00039] [EMFILE]
+[dd_00040] All file descriptors available to the process are currently open.
+[dt_00041] [ENFILE]
+[dd_00042] No more file descriptors are available for the system.
+[dt_00043] [EPROTONOSUPPORT]
+[dd_00044] The value of [I27]protocol[/I27] is non-zero and either the protocol is not supported by the address family or the protocol is not supported by the implementation.
+[dt_00045] [EPROTOTYPE]
+[dd_00046] The value of [I28]protocol[/I28] is non-zero and the socket type is not supported by the protocol.
+[dt_00047] [ESOCKTNOSUPPORT]  [S29][[A30]OB[/A30]][/S29] [IMG31] or [EPROTONOSUPPORT] or [EPROTOTYPE] [IMG32]    The socket type is not supported by the address family, or the socket type is not supported by the implementation.
+[p_00048] The [I33]socket[/I33]() function may fail if:
+[dt_00049] [EACCES]
+[dd_00050] The process does not have appropriate privileges.
+[dt_00051] [ENOBUFS]
+[dd_00052] Insufficient resources were available in the system to perform the operation.
+[dt_00053] [ENOMEM]
+[dd_00054] Insufficient memory was available to fulfill the request.
+[h4_00055] [A34][/A34]EXAMPLES
+[p_00056] None.
+[h4_00057] [A35][/A35]APPLICATION USAGE
+[p_00058] The documentation for specific address families specifies which protocols each address family supports. The documentation for specific protocols specifies which socket types each protocol supports.
+[p_00059] The application can determine whether an address family is supported by trying to create a socket with [I36]domain[/I36] set to the protocol in question.
+[h4_00060] [A37][/A37]RATIONALE
+[p_00061] The use of the SOCK_CLOEXEC and SOCK_CLOFORK flags in the [I38]type[/I38] argument of [I39]socket[/I39]() is necessary to avoid a data race in multi-threaded applications. Without SOCK_CLOFORK, a file descriptor is leaked into a child process created by one thread in the window between another thread calling [I40]socket[/I40]() and using [A41][I42]fcntl[/I42]()[/A41] to set the FD_CLOFORK flag. Without SOCK_CLOEXEC, a file descriptor intentionally inherited by child processes is similarly leaked into an executed program if FD_CLOEXEC is not set atomically. The SOCK_NONBLOCK flag is for convenience in avoiding additional [A43][I44]fcntl[/I44]()[/A43] calls.
+[p_00062] Historically the standard did not specify the [I45]errno[/I45] value to be used when the socket type is not supported, and there were differences between implementations. Some reused the existing standard [EPROTONOSUPPORT] or [EPROTOTYPE] values while others set [I46]errno[/I46] to a (then) non-standard value of [ESOCKTNOSUPPORT]. All three values are permitted in this version of the standard, but the use of [EPROTONOSUPPORT] or [EPROTOTYPE] is considered to be misleading when no protocol is specified (that is, the value of [I47]protocol[/I47] is zero) and consequently those alternatives have been marked obsolescent. If [I48]protocol[/I48] is non-zero, since there is no precedence between error conditions, all three values will still be permitted even after the obsolescent alternatives for the [ESOCKTNOSUPPORT] condition have been removed.
+[h4_00063] [A49][/A49]FUTURE DIRECTIONS
+[p_00064] A future version of this standard may disallow setting [I50]errno[/I50] to [EPROTONOSUPPORT] or [EPROTOTYPE] when the socket type is not supported and [I51]protocol[/I51] is zero.
+[h4_00065] [A52][/A52]SEE ALSO
+[p_00066] [A53][I54]2.6 File Descriptor Allocation[/I54][/A53], [A55][I56]accept[/I56][/A55], [A57][I58]bind[/I58][/A57], [A59][I60]close[/I60][/A59], [A61][I62]connect[/I62][/A61], [A63][I64]getsockname[/I64][/A63], [A65][I66]getsockopt[/I66][/A65], [A67][I68]listen[/I68][/A67], [A69][I70]recv[/I70][/A69], [A71][I72]recvfrom[/I72][/A71], [A73][I74]recvmsg[/I74][/A73], [A75][I76]send[/I76][/A75], [A77][I78]sendmsg[/I78][/A77], [A79][I80]setsockopt[/I80][/A79], [A81][I82]shutdown[/I82][/A81], [A83][I84]socketpair[/I84][/A83]
+[p_00067] XBD [A85][I86]&lt;netinet/in.h&gt;[/I86][/A85], [A87][I88]&lt;sys/socket.h&gt;[/I88][/A87]
+[h4_00068] [A89][/A89]CHANGE HISTORY
+[p_00069] First released in Issue 6. Derived from the XNS, Issue 5.2 specification.
+[h4_00070] [A90][/A90]Issue 7
+[p_00071] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0335 [835] is applied.
+[h4_00072] [A91][/A91]Issue 8
+[p_00073] Austin Group Defects 411 and 1318 are applied, adding SOCK_CLOEXEC, SOCK_CLOFORK, and SOCK_NONBLOCK.
+[p_00074] Austin Group Defect 1067 is applied, adding the [ESOCKTNOSUPPORT] error and changing the [EPROTONOSUPPORT] and [EPROTOTYPE] errors.
+[p_00075] Austin Group Defect 1475 is applied, adding [A92][I93]close[/I93]()[/A92] to the SEE ALSO section.
+[p_00076] &nbsp;

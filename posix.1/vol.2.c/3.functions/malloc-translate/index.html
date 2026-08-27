@@ -1,0 +1,101 @@
+<h1>XSH 函数：malloc()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="malloc" id="malloc"></a> <a name="tag_17_322" id="tag_17_322"></a>
+<a name="tag_17_322_01" id="tag_17_322_01"></a><h4>名称 (NAME)</h4>
+<blockquote>malloc — 内存分配器</blockquote>
+<a name="tag_17_322_02" id="tag_17_322_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+void *malloc(size_t</code> <i>size</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_322_03" id="tag_17_322_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>malloc</i>() 函数应为对象分配未使用的空间，该对象的大小（以字节计）由 <i>size</i> 指定，其值未指定。</p>
+<p>对 <i>malloc</i>() 的连续调用所分配的存储的顺序和连续性未指定。若分配成功，返回的指针应适当对齐，使其可以赋给具有基础对齐要求的任何类型对象的指针，并用于访问所分配空间中此类对象（直到该空间被显式释放或重新分配）。每次此类分配应产生一个与其他任何对象不相交的对象的指针。返回的指针指向所分配空间的起始位置（最低字节地址）。若无法分配空间，应返回空指针。若所请求的空间大小为 0，则行为是实现定义的：或者返回空指针，或者行为如同大小是某个非零值，但若使用返回的指针访问对象，则行为未定义。</p>
+<p>为确定数据竞争是否存在，<i>malloc</i>() 应表现得如同只访问了通过其参数可访问的内存位置，而不访问其他静态存储期存储。但该函数可以明显地修改其分配到的存储。分配或释放特定内存区域的 aligned_alloc()、calloc()、free()、<i>malloc</i>()、<sup>[ADV]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  posix_memalign()、<img src="../images/opt-end.gif" alt="[Option End]">  <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> reallocarray()、<img src="../images/opt-end.gif" alt="[Option End]">  以及 realloc() 调用应按单一全序发生（参见 4.15.1 内存排序），并且每次此类释放调用应与此顺序中的下一次分配（若有）同步。</p>
+</blockquote>
+<a name="tag_17_322_04" id="tag_17_322_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成时，<i>malloc</i>() 应返回指向所分配空间的指针；若 <i>size</i> 为 0，应用程序应确保不使用该指针访问对象。</p>
+<p>否则，它应返回空指针 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并设置 <i>errno</i> 以指示错误。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_322_05" id="tag_17_322_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>malloc</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ENOMEM]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 可用的存储空间不足。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p><i>malloc</i>() 函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>size</i> 为 0 且实现不支持 0 大小的分配。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_322_06" id="tag_17_322_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_322_07" id="tag_17_322_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_322_08" id="tag_17_322_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p>一些实现将 <i>errno</i> 设置为 [EAGAIN] 以表示重试后可能成功的内存分配失败，并设置为 [ENOMEM] 以表示不太可能成功的失败，例如由于配置的限制。2.3 错误编号 允许此行为；当多个错误条件同时为真时，它们之间没有优先级。</p>
+</blockquote>
+<a name="tag_17_322_09" id="tag_17_322_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_322_10" id="tag_17_322_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>aligned_alloc(), calloc() , free(), getrlimit(), posix_memalign(), realloc()</p>
+<p>XBD &lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_322_11" id="tag_17_322_11"></a><h4>更改历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 第 1 版。</p>
+</blockquote>
+<a name="tag_17_322_12" id="tag_17_322_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展已标注。</p>
+<p>以下对 POSIX 实现的新要求源自与单一 UNIX 规范（Single UNIX Specification）的对齐：</p>
+<ul>
+<li>
+<p>在 RETURN VALUE 部分中，增加了设置 <i>errno</i> 以指示错误的要求。</p>
+</li>
+<li>
+<p>增加了 [ENOMEM] 错误条件。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_322_13" id="tag_17_322_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 POSIX.1-2008 技术勘误 2（XSH/TC2-2008/0203 [526]）。</p>
+</blockquote>
+<a name="tag_17_322_14" id="tag_17_322_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 374，更改了与 0 大小分配相关的 RETURN VALUE 和 ERRORS 部分。</p>
+<p>应用了 Austin Group 缺陷 1302，使此函数与 ISO/IEC 9899:2018 标准对齐。</p>
+<p>应用了 Austin Group 缺陷 1387 和 1489，更改了 RATIONALE 部分。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

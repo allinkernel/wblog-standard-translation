@@ -1,0 +1,36 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] raise — send a signal to the executing process
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]raise[/I5]() function shall send the signal [I6]sig[/I6] to the executing [S7][[A8]CX[/A8]][/S7] [IMG9] &nbsp;thread or process. [IMG10] If a signal handler is called, the [I11]raise[/I11]() function shall not return until after the signal handler does.
+[p_00007] [S12][[A13]CX[/A13]][/S12] [IMG14] The effect of the [I15]raise[/I15]() function shall be equivalent to calling:
+[h4_00008] [A16][/A16]RETURN VALUE
+[p_00009] Upon successful completion, 0 shall be returned. Otherwise, a non-zero value shall be returned [S17][[A18]CX[/A18]][/S17] [IMG19] &nbsp;and [I20]errno[/I20] shall be set to indicate the error. [IMG21]
+[h4_00010] [A22][/A22]ERRORS
+[p_00011] The [I23]raise[/I23]() function shall fail if:
+[dt_00012] [EINVAL]
+[dd_00013] [S24][[A25]CX[/A25]][/S24] [IMG26] The value of the [I27]sig[/I27] argument is an invalid signal number. [IMG28]
+[h4_00014] [A29][/A29]EXAMPLES
+[p_00015] None.
+[h4_00016] [A30][/A30]APPLICATION USAGE
+[p_00017] None.
+[h4_00018] [A31][/A31]RATIONALE
+[p_00019] The term &quot;thread&quot; is an extension to the ISO&nbsp;C standard.
+[h4_00020] [A32][/A32]FUTURE DIRECTIONS
+[p_00021] None.
+[h4_00022] [A33][/A33]SEE ALSO
+[p_00023] [A34][I35]kill[/I35]()[/A34], [A36][I37]sigaction[/I37]()[/A36]
+[p_00024] XBD [A38][I39]&lt;signal.h&gt;[/I39][/A38], [A40][I41]&lt;sys/types.h&gt;[/I41][/A40]
+[h4_00025] [A42][/A42]CHANGE HISTORY
+[p_00026] First released in Issue 4. Derived from the ANSI&nbsp;C standard.
+[h4_00027] [A43][/A43]Issue 5
+[p_00028] The DESCRIPTION is updated for alignment with the POSIX Threads Extension.
+[h4_00029] [A44][/A44]Issue 6
+[p_00030] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00031] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00032] In the RETURN VALUE section, the requirement to set [I45]errno[/I45] on error is added.
+[p_00033] The [EINVAL] error condition is added.
+[h4_00034] [A46][/A46]Issue 7
+[p_00035] Functionality relating to the Threads option is moved to the Base.
+[p_00036] &nbsp;

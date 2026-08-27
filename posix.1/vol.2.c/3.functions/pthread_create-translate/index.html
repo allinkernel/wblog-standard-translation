@@ -1,0 +1,146 @@
+<h1>XSH 函数：pthread_create()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="pthread_create" id="pthread_create"></a> <a name="tag_17_427" id="tag_17_427"></a>
+
+<a name="tag_17_427_01" id="tag_17_427_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_create — 线程创建 (thread creation)</blockquote>
+<a name="tag_17_427_02" id="tag_17_427_02"></a><h4>简介 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+int pthread_create(pthread_t *restrict</code> <i>thread</i><code>,<br>
+       const pthread_attr_t *restrict</code> <i>attr</i><code>,<br>
+       void *(*</code><i>start_routine</i><code>)(void*), void *restrict</code>
+<i>arg</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_427_03" id="tag_17_427_03"></a><h4>描述 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>pthread_create</i>() 函数应在进程内创建一个新线程，其属性由 <i>attr</i> 指定。如果 <i>attr</i> 为 NULL，则应使用默认属性。如果稍后修改了由 <i>attr</i> 指定的属性，则不应影响该线程的属性。成功完成后，<i>pthread_create</i>() 应将所创建线程的 ID 存储到 <i>thread</i> 所引用的位置中。</p>
+<p>创建线程时执行 <i>start_routine</i>，并以 <i>arg</i> 作为其唯一参数。如果 <i>start_routine</i> 返回，则效果应如同隐式调用了 pthread_exit()，并以 <i>start_routine</i> 的返回值作为退出状态。注意，最初调用 <i>main</i>() 的那个线程与此不同。当它从 <i>main</i>() 返回时，效果应如同隐式调用了 exit()，并以 <i>main</i>() 的返回值作为退出状态。</p>
+<p>新线程的信号状态应按如下方式初始化：</p>
+<ul>
+<li>
+<p>信号掩码应从创建线程继承。</p>
+</li>
+<li>
+<p>新线程的挂起信号集应为空。</p>
+</li>
+</ul>
+<p>线程局部的当前区域设置 <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  以及备用栈 <img src="../images/opt-end.gif" alt="[Option End]">  不应被继承。</p>
+<p>浮点环境应从创建线程继承。</p>
+<p>如果 <i>pthread_create</i>() 失败，则不创建新线程，且 <i>thread</i> 所引用的位置的内容未定义。</p>
+<p><sup>[TCT]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果定义了 _POSIX_THREAD_CPUTIME，则新线程应具有可访问的 CPU 时间时钟，且该时钟的初始值应设置为零。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p>如果 <i>pthread_create</i>() 的 <i>attr</i> 参数所指定的值未指向已初始化的线程属性对象，则行为未定义。</p>
+</blockquote>
+<a name="tag_17_427_04" id="tag_17_427_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果成功，<i>pthread_create</i>() 函数应返回零；否则，应返回错误号以指示错误。</p>
+</blockquote>
+<a name="tag_17_427_05" id="tag_17_427_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>pthread_create</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>系统缺少创建另一个线程所需的资源，或者将超过系统对进程中线程总数 {PTHREAD_THREADS_MAX} 施加的限制。</dd>
+<dt>[EPERM]</dt>
+<dd>调用者没有适当的权限来设置所需的调度参数或调度策略。</dd>
+</dl>
+<p><i>pthread_create</i>() 函数不应返回 [EINTR] 错误码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_427_06" id="tag_17_427_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_427_07" id="tag_17_427_07"></a><h4>应用用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>实现上没有要求所创建线程的 ID 在新线程开始执行之前可用。调用线程可以通过 <i>pthread_create</i>() 函数的 <i>thread</i> 参数获取所创建线程的 ID，而新创建的线程可以通过调用 pthread_self() 获取其 ID。</p>
+</blockquote>
+<a name="tag_17_427_08" id="tag_17_427_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>对 <i>pthread_create</i>() 的一种建议替代方案是定义两个独立操作：create 和 start。某些应用程序会认为这种行为更自然。尤其是 Ada，它将任务的 &quot;创建&quot; 与其 &quot;激活&quot; 分开。</p>
+<p>标准开发者出于许多原因否决了拆分该操作：</p>
+<ul>
+<li>
+<p>启动一个线程所需的调用次数将从一次增加到两次，从而给不需要额外同步的应用程序带来额外负担。然而，通过增加一个启动状态属性的复杂性，可以避免第二次调用。</p>
+</li>
+<li>
+<p>将引入一个额外的状态：&quot;已创建但未启动&quot;。这将要求标准规定当目标尚未开始执行时线程操作的行为。</p>
+</li>
+<li>
+<p>对于需要此类行为的应用程序，可以使用当前提供的设施来模拟这两个独立的步骤。<i>start_routine</i>() 可以通过等待一个由 start 操作发出信号的条件变量来进行同步。</p>
+</li>
+</ul>
+<p>Ada 实现者可以选择在 Ada 程序中的两个时点之一创建线程：在创建任务对象时，或在任务被激活时（通常在 &quot;begin&quot; 处）。如果采用第一种方法，<i>start_routine</i>() 需要等待条件变量以接收开始 &quot;激活&quot; 的命令。第二种方法不需要这样的条件变量或额外同步。无论采用哪种方法，都需在创建任务对象时创建一个独立的 Ada 任务控制块，用于保存会合队列等。</p>
+<p>前一模型的扩展将是允许在线程创建与启动之间修改线程的状态。这将允许取消线程属性对象。这已被否决，因为：</p>
+<ul>
+<li>
+<p>线程属性对象中的所有状态都必须能够为该线程设置。这将要求定义修改线程属性的函数。设置线程所需的函数调用次数不会减少。事实上，对于使用相同属性创建所有线程的应用程序，设置线程所需的函数调用次数将急剧增加。使用线程属性对象允许应用程序进行一次属性设置函数调用。否则，需要为每次线程创建都进行一组属性设置函数调用。</p>
+</li>
+<li>
+<p>取决于实现架构，设置线程状态的函数将需要内核调用，或者由于其他实现原因无法作为宏实现，从而增加线程创建的成本。</p>
+</li>
+<li>
+<p>应用程序按类别隔离线程的能力将丧失。</p>
+</li>
+</ul>
+<p>另一个建议的替代方案使用与进程创建类似的模型，例如 &quot;线程 fork&quot;。fork 语义将提供更大的灵活性，并且 &quot;create&quot; 函数可以通过先执行线程 fork，紧接着调用该线程所需的 &quot;start routine&quot; 来简单地实现。该替代方案存在以下问题：</p>
+<ul>
+<li>
+<p>对于许多实现，调用线程的整个栈都需要被复制，因为在许多架构中无法确定调用帧的大小。</p>
+</li>
+<li>
+<p>效率会降低，因为至少栈的某一部分必须被复制，尽管在大多数情况下线程仅仅调用所需的 start routine，根本不需要复制的上下文。</p>
+</li>
+</ul>
+<p>如果实现检测到 <i>pthread_create</i>() 的 <i>attr</i> 参数所指定的值未指向已初始化的线程属性对象，则建议该函数应失败并报告 [EINVAL] 错误。</p>
+</blockquote>
+<a name="tag_17_427_09" id="tag_17_427_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_427_10" id="tag_17_427_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>fork(), pthread_exit(), pthread_join()</p>
+<p>XBD 4.15.2 内存同步, &lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_427_11" id="tag_17_427_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次在 Issue 5 中发布。为与 POSIX 线程扩展保持一致而纳入。</p>
+</blockquote>
+<a name="tag_17_427_12" id="tag_17_427_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_create</i>() 函数被标记为 Threads 选项的一部分。</p>
+<p>以下对 POSIX 实现的新要求源于与 Single UNIX Specification 保持一致：</p>
+<ul>
+<li>
+<p>增加了 [EPERM] 强制性错误条件。</p>
+</li>
+</ul>
+<p>为与 IEEE Std 1003.1d-1999 保持一致，增加了线程 CPU 时间时钟语义。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，在 <i>pthread_create</i>() 原型中增加了 <b>restrict</b> 关键字。</p>
+<p>更新了 DESCRIPTION，以明确浮点环境是从创建线程继承的。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 的条目 XSH/TC1/D6/44，增加了备用栈不被继承的文本。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/93，更新了 ERRORS 部分，删除了强制性的 [EINVAL] 错误（&quot;由 <i>attr</i> 指定的值无效&quot;），并增加了可选的 [EINVAL] 错误（&quot;由 <i>attr</i> 指定的属性无效&quot;）。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/94，增加了 APPLICATION USAGE 部分。</p>
+</blockquote>
+<a name="tag_17_427_13" id="tag_17_427_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_create</i>() 函数从 Threads 选项移至 Base。</p>
+<p>删除了针对未初始化的线程属性对象的 [EINVAL] 错误；此情况导致未定义行为。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0458 [302]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0274 [849]。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

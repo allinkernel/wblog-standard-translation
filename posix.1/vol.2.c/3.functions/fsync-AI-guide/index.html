@@ -1,0 +1,24 @@
+<h1>XSH 函数导读：fsync()</h1>
+
+<h2>0. 总览</h2>
+<p>fsync() 请求把指定打开文件描述的所有数据传输到该文件关联的存储设备，即把缓冲的数据落盘。头文件为 <code>&lt;unistd.h&gt;</code>（文件同步选项）；原型为 <code>int fsync(int fildes)</code>。成功返回 0，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>fsync() 应在系统完成该动作或检测到错误之前返回，不会提前给出"已排队"的承诺。传输的性质是实现定义的；若定义了 _POSIX_SYNCHRONIZED_IO，则 fsync() 强制与该文件关联的所有当前排队的 I/O 操作进入同步 I/O 完成状态（按同步 I/O 文件完整性完成方式完成）。失败时不保证未完成的 I/O 操作已经完成；若任何排队的 I/O 操作失败，fsync() 返回为 read() 和 write() 定义的错误条件。规范的理由部分明确：空实现是允许的——它只是把"是否真正写入非易失性存储"的保证交给符合性文档说明。</p>
+
+<h2>2. 易错点</h2>
+<p>最普遍的误区是以为 close() 足以保证落盘——事务性程序需要在继续之前确保修改已记录，就应调用 fsync()。注意 fsync() 可被信号中断（EINTR），对不能执行该操作的文件返回 EINVAL。修改目录（如在其中创建文件）的应用程序可在该目录上调用 fsync()，以确保目录条目和文件属性被同步；但对大多数应用而言，同步目录条目并无必要。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+
+int fd = open("log.txt", O_WRONLY | O_CREAT, 0644);
+if (fd == -1)
+    return 1;
+if (write(fd, "txn\n", 4) != 4)
+    return 1;
+if (fsync(fd) == -1)  /* 数据落盘后 fsync 才返回 */
+    return 1;
+close(fd);
+</code></pre>

@@ -1,0 +1,194 @@
+<h1>XSH 函数：sigaction()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="sigaction" id="sigaction"></a> <a name="tag_17_544" id="tag_17_544"></a>
+<a name="tag_17_544_01" id="tag_17_544_01"></a><h4>名称 (NAME)</h4>
+<blockquote>sigaction — 检查并更改信号动作</blockquote>
+<a name="tag_17_544_02" id="tag_17_544_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote><code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> #include &lt;signal.h&gt;<br>
+<br>
+int sigaction(int</code> <i>sig</i><code>, const struct sigaction *restrict</code> <i>act</i><code>,<br>
+       struct sigaction *restrict</code> <i>oact</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code> <code><br></code></blockquote>
+<a name="tag_17_544_03" id="tag_17_544_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>sigaction</i>() 函数允许调用进程检查和/或指定要与特定信号关联的动作。<i>sig</i> 参数指定信号；可接受的值在 &lt;signal.h&gt; 中定义。</p>
+<p>用于描述要采取的动作的 <b>sigaction</b> 结构在 &lt;signal.h&gt; 头中定义，至少包含以下成员：</p>
+
+<table><thead><tr></tr></thead><tbody><tr></tr><tr></tr><tr></tr><tr></tr></tbody></table>
+
+<p><i>sa_handler</i> 和 <i>sa_sigaction</i> 占用的存储可以重叠，符合规范的应用程序不应同时使用两者。</p>
+<p>如果 <i>act</i> 参数不是空指针，则它指向一个指定要与指定信号关联的动作的结构。如果 <i>oact</i> 参数不是空指针，则先前与该信号关联的动作存储在 <i>oact</i> 参数指向的位置。如果 <i>act</i> 参数是空指针，则信号处理不变；因此，该调用可用于查询给定信号的当前处理。不应使用此机制将 SIGKILL 和 SIGSTOP 信号添加到信号掩码；系统应强制执行此限制而不指示错误。</p>
+<p>如果在 <b>sigaction</b> 结构的 <i>sa_flags</i> 字段中清除了 SA_SIGINFO 标志（见下文），则 <i>sa_handler</i> 字段标识要与指定信号关联的动作。如果在 <i>sa_flags</i> 字段中设置了 SA_SIGINFO 标志，则 <i>sa_sigaction</i> 字段指定一个信号捕获函数。</p>
+<p><i>sa_flags</i> 字段可用于修改指定信号的行为。</p>
+<p>在 &lt;signal.h&gt; 头中定义的以下标志可以在 <i>sa_flags</i> 中设置：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SA_NOCLDSTOP</dt>
+<dd>Do not generate SIGCHLD when children stop <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  or stopped children continue. <img src="../images/opt-end.gif" alt="[Option End]">
+<p>如果 <i>sig</i> 是 SIGCHLD，且 <i>sa_flags</i> 中未设置 SA_NOCLDSTOP 标志，并且实现支持 SIGCHLD 信号，则每当调用进程的任何子进程停止时，应为调用进程生成 SIGCHLD 信号 <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并且每当其任何已停止的子进程被继续时，可以为调用进程生成 SIGCHLD 信号。<img src="../images/opt-end.gif" alt="[Option End]">  如果 <i>sig</i> 是 SIGCHLD 且 <i>sa_flags</i> 中设置了 SA_NOCLDSTOP 标志，则实现不应以这种方式生成 SIGCHLD 信号。</p>
+</dd>
+<dt>SA_ONSTACK</dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果设置了该标志，并且已使用 sigaltstack() 声明了备用信号栈，则信号应在该栈上传递给调用进程。否则，信号应在当前栈上传递。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>SA_RESETHAND</dt>
+<dd>如果设置了该标志，则信号的处置应在进入信号处理程序时重置为 SIG_DFL，并且 SA_SIGINFO 标志应被清除。<b>注：</b> SIGILL 和 SIGTRAP 在被传递时不能被自动重置；系统静默地强制执行此限制。否则，信号的处置在进入信号处理程序时不应被修改。此外，如果设置了此标志，<i>sigaction</i>() 的行为可以如同也设置了 SA_NODEFER 标志。</dd>
+<dt>SA_RESTART</dt>
+<dd>此标志影响可中断函数的行为；即那些指定为 <i>errno</i> 设置为 [EINTR] 时失败的函数。如果设置了该标志，并且一个指定为可中断的函数被此信号中断，则该函数应重新启动，并且除非另有指定，否则不应以 [EINTR] 失败。如果使用超时的可中断函数被重新启动，则重新启动后的超时持续时间被设置为不超过原始超时值的未指定值。如果未设置该标志，则被此信号中断的可中断函数应以 <i>errno</i> 设置为 [EINTR] 失败。</dd>
+<dt>SA_SIGINFO</dt>
+<dd>If cleared and the signal is caught, the signal-catching function shall be entered as:
+<pre><code class="language-plaintext">void func(int signo);</code></pre>
+<p>其中 <i>signo</i> 是信号捕获函数的唯一参数。在这种情况下，应用程序应使用 <i>sa_handler</i> 成员来描述信号捕获函数，并且应用程序不应修改 <i>sa_sigaction</i> 成员。</p>
+<p>如果设置了 SA_SIGINFO 并且捕获了该信号，则应按以下方式进入信号捕获函数：</p>
+<pre><code class="language-plaintext">void func(int signo, siginfo_t *info, void *context);</code></pre>
+<p>其中两个附加参数被传递给信号捕获函数。第二个参数应指向类型为 <b>siginfo_t</b> 的对象，说明生成信号的原因；第三个参数可以被转换为指向类型为 <b>ucontext_t</b> 的对象的指针，以引用在信号传递时被中断的接收线程的上下文。在这种情况下，应用程序应使用 <i>sa_sigaction</i> 成员来描述信号捕获函数，并且应用程序不应修改 <i>sa_handler</i> 成员。</p>
+<p><i>si_signo</i> 成员包含系统生成的信号编号。</p>
+<p><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>si_errno</i> 成员可以包含实现定义的附加错误信息；如果非零，则它包含标识导致信号生成的条件（cause）的错误编号。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>si_code</i> 成员包含标识信号原因的代码，如 2.4.3 信号动作 所述。</p>
+</dd>
+<dt>SA_NOCLDWAIT</dt>
+<dd><sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>sig</i> 不等于 SIGCHLD，则行为未指定。否则，SA_NOCLDWAIT 标志的行为如 进程终止的后果() 中规定。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+<dt>SA_NODEFER</dt>
+<dd>如果设置了该标志并且捕获了 <i>sig</i>，则 <i>sig</i> 不应在进入信号处理程序时被添加到线程的信号掩码中，除非它包含在 <i>sa_mask</i> 中。否则，<i>sig</i> 应始终在进入信号处理程序时被添加到线程的信号掩码中。</dd>
+</dl>
+<p>当信号被由 <i>sigaction</i>() 安装的信号捕获函数捕获时，会计算并安装一个新的信号掩码，用于信号捕获函数执行期间（或直到调用 sigprocmask() 或 sigsuspend() 之一）。该掩码由当前信号掩码与正在传递的信号的 <i>sa_mask</i> 值的并集形成，并且除非设置了 SA_NODEFER 或 SA_RESETHAND，否则还包括正在传递的信号本身。如果用户的信号处理程序正常返回（若确实返回），则恢复原始信号掩码。</p>
+<p>一旦为特定信号安装了动作，它应保持安装状态，直到通过另一次 <i>sigaction</i>() 调用显式请求另一个动作，直到 SA_RESETHAND 标志导致处理程序被重置，或直到调用 <i>exec</i> 函数之一。</p>
+<p>如果 <i>sig</i> 的先前动作是由 signal() 建立的，则 <i>oact</i> 指向的结构中返回的字段值是未指定的，特别是 <i>oact</i>-&gt;<i>sa_handler</i> 不一定是通过 signal() 传递的相同值。然而，如果将指向同一结构或其副本的指针通过 <i>act</i> 参数传递给后续的 <i>sigaction</i>() 调用，则信号的处理应如同重复了原始 signal() 调用。</p>
+<p>如果 <i>sigaction</i>() 失败，则不会安装新的信号处理程序。</p>
+<p>试图将无法捕获或忽略的信号的动作设置为 SIG_DFL 是被忽略还是导致返回 <i>errno</i> 设置为 [EINVAL] 的错误，这是未指定的。</p>
+<p>如果 <i>sa_flags</i> 中未设置 SA_SIGINFO，则当 <i>sig</i> 已经待决时，其后继出现的处置是实现定义的；信号捕获函数应使用单个参数调用。如果 <i>sa_flags</i> 中设置了 SA_SIGINFO，则由 sigqueue() 或任何支持指定应用程序定义值的信号产生函数生成的 <i>sig</i> 的后继出现（当 <i>sig</i> 已经待决时）应按 FIFO 顺序排队，直到被传递或接受；信号捕获函数应使用三个参数调用。应用程序指定的值作为 <b>siginfo_t</b> 结构的 <i>si_value</i> 成员传递给信号捕获函数。</p>
+<p>在进程内对同一信号并发使用 <i>sigaction</i>() 和 sigwait() 函数的结果是未指定的。</p>
+</blockquote>
+<a name="tag_17_544_04" id="tag_17_544_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>sigaction</i>() 应返回 0；否则，应返回 -1，<i>errno</i> 应被设置以指示错误，并且不应安装新的信号捕获函数。</p>
+</blockquote>
+<a name="tag_17_544_05" id="tag_17_544_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>sigaction</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>sig</i> 参数不是有效的信号编号，或试图捕获无法捕获的信号或忽略无法忽略的信号。</dd>
+</dl>
+<p>在以下情况下，<i>sigaction</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd>试图将无法捕获或忽略（或两者兼有）的信号的动作设置为 SIG_DFL。</dd>
+</dl>
+<p>此外，在不支持 XSI 选项的系统上，如果 <b>sigaction</b> 结构的 <i>sa_flags</i> 字段中为不在 SIGRTMIN 到 SIGRTMAX 范围内的信号设置了 SA_SIGINFO 标志，则 <i>sigaction</i>() 函数可以失败。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_544_06" id="tag_17_544_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_544_06_01" id="tag_17_544_06_01"></a><h5>建立信号处理程序 (Establishing a Signal Handler)</h5>
+<p>以下示例演示了使用 <i>sigaction</i>() 为 SIGINT 信号建立处理程序。</p>
+<pre><code class="language-plaintext">#include &lt;signal.h&gt;
+ 
+static void handler(int signum)
+{
+    /* Take appropriate actions for signal delivery */
+}
+ 
+int main(void)
+{
+    struct sigaction sa;
+ 
+    sa.sa_handler = handler;
+    sigemptyset(&amp;sa.sa_mask);
+    sa.sa_flags = SA_RESTART; /* Restart functions if
+                                 interrupted by handler */
+    if (sigaction(SIGINT, &amp;sa, NULL) == -1)
+        /* Handle error */;
+ 
+    /* Further code */
+}</code></pre></blockquote>
+<a name="tag_17_544_07" id="tag_17_544_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p><i>sigaction</i>() 函数取代了 signal() 函数，应优先使用。特别是，<i>sigaction</i>() 和 signal() 不应在同一进程中使用来控制同一信号。异步信号安全函数的行为，如其各自的 DESCRIPTION（说明）部分中所定义，由本卷 POSIX.1-2024 规定，而不管是否从信号捕获函数中调用。这是关于异步信号安全函数可以在信号捕获函数中无限制使用的陈述的唯一预期含义。应用程序仍必须考虑此类函数对数据结构、文件和进程状态等所有影响。特别是，应用程序开发者需要考虑中断 sleep() 时的交互限制以及文件描述的多个句柄之间的交互。某个特定函数被列为异步信号安全并不一定意味着推荐从信号捕获函数中调用该函数。</p>
+<p>为了防止中断非异步信号安全函数调用引起的错误，应用程序应通过阻塞适当的信号或使用某种程序化信号量（参见 semget()、sem_init()、sem_open() 等）来保护对这些函数的调用。特别要注意，即使是 &quot;安全&quot; 函数也可能修改 <i>errno</i>；信号捕获函数如果不是作为独立线程执行的，则应保存并恢复其值，以避免在设置 <i>errno</i> 的函数的错误返回与随后检查 <i>errno</i> 之间传递信号可能导致信号捕获函数更改 <i>errno</i> 的值。当然，同样的原则也适用于应用程序例程的异步信号安全性和异步数据访问。请注意，longjmp() 和 siglongjmp() 不在异步信号安全函数列表中。这是因为在 longjmp() 和 siglongjmp() 之后执行的代码可以调用任何不安全函数，其危险性与直接从信号处理程序中调用这些不安全函数相同。在信号处理程序中使用 longjmp() 和 siglongjmp() 的应用程序需要严格保护才能可移植。许多被排除在列表之外的其他函数传统上是使用 malloc() 或 free() 函数或标准 I/O 库实现的，这两者传统上都以非异步信号安全的方式使用数据结构。由于使用公共数据结构的任何不同函数的组合都可能导致异步信号安全问题，因此本卷 POSIX.1-2024 不定义在中断不安全函数的信号处理程序中调用任何不安全函数时的行为。</p>
+<p>通常，信号在信号被传递之前生效的栈上执行。可以指定一个备用栈来接收被捕获信号的一个子集。</p>
+<p>当信号处理程序返回时，接收线程在被中断的点恢复执行，除非信号处理程序做了其他安排。如果使用 longjmp() 离开信号处理程序，则必须显式恢复信号掩码。</p>
+<p>本卷 POSIX.1-2024 将 SA_SIGINFO 被设置时信号处理函数的第三个参数定义为 <b>void *</b> 而不是 <b>ucontext_t *</b>，但不要求类型检查。新应用程序应显式地将信号处理函数的第三个参数转换为 <b>ucontext_t *</b>。</p>
+<p>本卷 POSIX.1-2024 不支持 BSD 可选的四个参数信号处理函数。BSD 声明将是：</p>
+<pre><code class="language-plaintext">void handler(int sig, int code, struct sigcontext *scp,
+    char *addr);</code></pre>
+<p>其中 <i>sig</i> 是信号编号，<i>code</i> 是某些信号的附加信息，<i>scp</i> 是指向 <b>sigcontext</b> 结构的指针，<i>addr</i> 是附加地址信息。在设置 SA_SIGINFO 时指定的信号处理程序的第二个参数所指向的对象中可以获得几乎相同的信息。</p>
+<p>由于允许但不要求 <i>sigaction</i>() 函数在应用程序设置 SA_RESETHAND 标志时设置 SA_NODEFER，因此依赖 SA_RESETHAND 功能的新安装信号处理程序的应用程序在设置 SA_RESETHAND 时为了可移植性必须始终显式设置 SA_NODEFER。</p>
+<p>另请参见 XRAT 中实时信号的产生与传递的理由说明 B.2.4.2 实时信号的产生与传递。</p>
+</blockquote>
+<a name="tag_17_544_08" id="tag_17_544_08"></a><h4>原理说明 (RATIONALE)</h4>
+<blockquote>
+<p>尽管本卷 POSIX.1-2024 要求当进入信号捕获函数时，不可忽略的信号不应被添加到信号掩码中，但没有明确要求后续的 <i>sigaction</i>() 调用在 <i>oact</i> 参数中返回的信息中反映这一点。换句话说，如果 SIGKILL 包含在 <i>act</i> 的 <i>sa_mask</i> 字段中，则后续的 <i>sigaction</i>() 调用返回时 <i>oact</i> 的 <i>sa_mask</i> 字段中是否包含 SIGKILL 是未指定的。</p>
+<p>当在 <i>act</i>-&gt;<i>sa_flags</i> 参数中提供 SA_NOCLDSTOP 标志时，允许用 System V 语义重载 SIGCHLD，即每个 SIGCLD 信号指示一个已终止的子进程。大多数捕获 SIGCHLD 的符合规范的应用程序预计会安装信号捕获函数，这些函数反复调用设置了 WNOHANG 标志的 waitpid() 函数，对返回状态的每个子进程采取行动，直到 waitpid() 返回零。如果对已停止的子进程不感兴趣，使用 SA_NOCLDSTOP 标志可以避免在它们停止时调用信号捕获例程的开销。</p>
+<p>一些历史实现还定义了停止进程的其他机制，例如 <i>ptrace</i>() 函数。这些实现通常不会在进程因这种机制而停止时生成 SIGCHLD 信号；然而，这超出了本卷 POSIX.1-2024 的范围。</p>
+<p>本卷 POSIX.1-2024 要求提供 NULL <i>act</i> 参数的 <i>sigaction</i>() 调用成功，即使在无法捕获或忽略的信号（即 SIGKILL 或 SIGSTOP）的情况下也是如此。System V 的 signal() 和 BSD 的 <i>sigvec</i>() 函数在这些情况下返回 [EINVAL]，在这方面，它们的行为与 <i>sigaction</i>() 不同。</p>
+<p>本卷 POSIX.1-2024 要求 <i>sigaction</i>() 正确保存和恢复由 ISO C 标准的 signal() 函数建立的信号动作。然而，无法保证相反的情况，鉴于 <b>sigaction</b> 结构传达的更多信息，也不可能保证。因此，应用程序应避免在同一进程中对同一信号使用这两个函数。由于在通用库例程的情况下这并不总能避免，因此它们应始终使用 <i>sigaction</i>() 实现。</p>
+<p>本来的意图是 signal() 函数应能够使用 <i>sigaction</i>() 作为库例程实现。</p>
+<p>POSIX 实时扩展按 POSIX.1-1990 标准的规定扩展了 <i>sigaction</i>() 函数，允许应用程序通过附加的信号动作标志按信号请求将额外参数（包括应用程序定义的信号值，如果有）传递给信号捕获函数。</p>
+</blockquote>
+<a name="tag_17_544_09" id="tag_17_544_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_544_10" id="tag_17_544_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>2.4 信号概念、exec、_Exit()、kill()、longjmp()、pthread_sigmask()、raise()、semget()、sem_init()、sem_open()、sig2str()、sigaddset()、sigaltstack()、sigdelset()、sigemptyset()、sigfillset() 、sigismember()、signal()、sigsuspend()、wait()、waitid()</p>
+<p>XBD &lt;signal.h&gt;</p>
+</blockquote>
+<a name="tag_17_544_11" id="tag_17_544_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 3。为与 POSIX.1-1988 标准保持一致而包含。</p>
+</blockquote>
+<a name="tag_17_544_12" id="tag_17_544_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION（说明）部分已更新，以与 POSIX 实时扩展和 POSIX 线程扩展保持一致。</p>
+<p>在 DESCRIPTION（说明）中，当设置 SA_SIGINFO 时，<i>func</i> 的第二个参数不再允许为 NULL，并且允许的 <b>siginfo_t</b> 内容的描述通过引用 &lt;signal.h&gt; 进行了扩展。</p>
+<p>由于 X/OPEN UNIX 扩展功能现已并入 BASE，因此删除了 [ENOTSUP] 错误。</p>
+</blockquote>
+<a name="tag_17_544_13" id="tag_17_544_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>应用了 Open Group Corrigendum U028/7。在题为 &quot;信号对其他函数的影响&quot; 的段落中，添加了对 sigpending() 的引用。</p>
+<p>在 DESCRIPTION（说明）中，文本 &quot;信号的产生与传递&quot;、&quot;信号动作&quot; 和 &quot;信号对其他函数的影响&quot; 被移到本卷 POSIX.1-2024 的单独一节。</p>
+<p>描述实时信号扩展选项功能的文本已标记。</p>
+<p>为与 ISO POSIX-1:1996 标准保持一致，进行了以下更改：</p>
+<ul>
+<li>添加了 [ENOTSUP] 错误条件。</li>
+</ul>
+<p>规范性文本已更新，以避免在应用程序要求中使用术语 &quot;must&quot;。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，在 <i>sigaction</i>() 原型中添加了 <b>restrict</b> 关键字。</p>
+<p>对 <i>wait3</i>() 函数的引用已删除。</p>
+<p>SYNOPSIS（概要）被标记为 CX，因为该函数在 &lt;signal.h&gt; 头中的存在是对 ISO C 标准的扩展。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 1-2002 第 XSH/TC1/D6/57 项，更改了描述 <b>sigaction</b> 结构的表格中的文本。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/127 项，删除了 DESCRIPTION（说明）中在同一节后面重复的文本。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/128 项，更新了 DESCRIPTION（说明）和 APPLICATION USAGE（应用程序使用）部分。所做的更改是引用线程而不是进程。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/129 项，向 EXAMPLES（示例）部分添加了示例。</p>
+</blockquote>
+<a name="tag_17_544_14" id="tag_17_544_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group Interpretation 1003.1-2001 #004。</p>
+<p>应用了 Austin Group Interpretations 1003.1-2001 #065 和 #084，澄清了 SA_NODEFER 标志在信号掩码方面的作用，并澄清了对于使用超时的被中断函数的 SA_RESTART 标志。</p>
+<p>应用了 Austin Group Interpretation 1003.1-2001 #156。</p>
+<p>应用了 SD5-XSH-ERN-167，更新了 APPLICATION USAGE（应用程序使用）部分。</p>
+<p>应用了 SD5-XSH-ERN-172，更新了 DESCRIPTION（说明），使当设置 SA_RESETHAND 标志时 <i>sigaction</i>() 应表现得如同也设置了 SA_NODEFER 标志这一要求变为可选。</p>
+<p>与实时信号扩展选项相关的功能被移到 Base。</p>
+<p><i>si_code</i> 成员的描述被替换为对 2.4.3 信号动作 的引用。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0578 [66] 和 XSH/TC1-2008/0579 [140]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0329 [690] 和 XSH/TC2-2008/0330 [491]。</p>
+</blockquote>
+<a name="tag_17_544_15" id="tag_17_544_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 1138，在 SEE ALSO（另见）部分添加了 sig2str()。</p>
+<p>应用了 Austin Group Defect 1195，将 &quot;<code>main()</code>&quot; 更改为 &quot;<code>main(void)</code>&quot;。</p>
+<p>应用了 Austin Group Defect 1330，移除了过时的接口。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

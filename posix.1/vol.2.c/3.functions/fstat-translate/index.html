@@ -1,0 +1,121 @@
+<h1>XSH 函数：fstat()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fstat" id="fstat"></a> <a name="tag_17_189" id="tag_17_189"></a>
+<a name="tag_17_189_01" id="tag_17_189_01"></a><h4>名称 (NAME)</h4>
+<blockquote>fstat — 获取文件状态 (get file status)</blockquote>
+<a name="tag_17_189_02" id="tag_17_189_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/stat.h&gt;<br>
+<br>
+int fstat(int</code> <i>fildes</i><code>, struct stat *</code><i>buf</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_189_03" id="tag_17_189_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>fstat</i>() 函数应获取关于与文件描述符 <i>fildes</i> 关联的打开文件的信息，并将其写入 <i>buf</i> 所指向的区域。</p>
+<p><sup>[SHM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用一个共享内存对象，实现应在 <i>buf</i> 参数所指向的 <b>stat</b> 结构中更新 <i>st_uid</i>、<i>st_gid</i>、<i>st_size</i> 和 <i>st_mode</i> 字段，并且只有 S_IRUSR、S_IWUSR、S_IRGRP、S_IWGRP、S_IROTH 和 S_IWOTH 文件权限位需要有效。实现可以更新其他字段和标志。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[TYM]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果 <i>fildes</i> 引用一个类型化内存对象，实现应在 <i>buf</i> 参数所指向的 <b>stat</b> 结构中更新 <i>st_uid</i>、<i>st_gid</i>、<i>st_size</i> 和 <i>st_mode</i> 字段，并且只有 S_IRUSR、S_IWUSR、S_IRGRP、S_IWGRP、S_IROTH 和 S_IWOTH 文件权限位需要有效。实现可以更新其他字段和标志。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>buf</i> 参数是指向 <b>stat</b> 结构的指针，如 &lt;sys/stat.h&gt; 中所定义，关于文件的信息被放入该结构中。</p>
+<p>对于本卷 POSIX.1-2024 中定义的所有其他文件类型，结构成员 <i>st_mode</i>、<i>st_ino</i>、<i>st_dev</i>、<i>st_uid</i>、<i>st_gid</i>、<i>st_atim</i>、<i>st_ctim</i> 和 <i>st_mtim</i> 应具有有意义的值，并且成员 <i>st_nlink</i> 的值应被设置为指向该文件的链接数。</p>
+<p>提供附加或替代文件访问控制机制的实现可以在实现定义的条件下使 <i>fstat</i>() 失败。</p>
+<p><i>fstat</i>() 函数应在写入 <b>stat</b> 结构之前更新任何与时间相关的字段（如 XBD 4.12 文件时间更新 中所述）。</p>
+</blockquote>
+<a name="tag_17_189_04" id="tag_17_189_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，应返回 0。否则，应返回 -1 并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_189_05" id="tag_17_189_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>如果满足以下条件，<i>fstat</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是有效的文件描述符。</dd>
+<dt>[EIO]</dt>
+<dd>从文件系统读取时发生了 I/O 错误。</dd>
+<dt>[EOVERFLOW]</dt>
+<dd>以字节为单位的文件大小、分配给文件的块数或文件序列号无法在 <i>buf</i> 所指向的结构中被正确表示。</dd>
+</dl>
+<p>如果满足以下条件，<i>fstat</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EOVERFLOW]</dt>
+<dd>其中一个值太大，无法存储到 <i>buf</i> 参数所指向的结构中。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_189_06" id="tag_17_189_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_189_06_01" id="tag_17_189_06_01"></a><h5>获取文件状态信息 (Obtaining File Status Information)</h5>
+<p>以下示例展示了如何获取名为 <b>/home/cnd/mod1</b> 的文件的状态信息。为 <b>stat</b> 结构定义了结构变量 <i>buffer</i>。<b>/home/cnd/mod1</b> 文件以读/写权限打开，并被传给打开的文件描述符 <i>fildes</i>。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+ 
+struct stat buffer;
+int         status;
+...
+fildes = open("/home/cnd/mod1", O_RDWR);
+status = fstat(fildes, &amp;buffer);</code></pre></blockquote>
+<a name="tag_17_189_07" id="tag_17_189_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_189_08" id="tag_17_189_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_189_09" id="tag_17_189_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_189_10" id="tag_17_189_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>fstatat()</p>
+<p>XBD 4.12 文件时间更新、&lt;sys/stat.h&gt;、&lt;sys/types.h&gt;</p>
+</blockquote>
+<a name="tag_17_189_11" id="tag_17_189_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 1 版。源自 SVID 的第 1 版。</p>
+</blockquote>
+<a name="tag_17_189_12" id="tag_17_189_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION（说明）已更新，以便与 POSIX 实时扩展保持一致。</p>
+<p>添加了 Large File Summit 扩展。</p>
+</blockquote>
+<a name="tag_17_189_13" id="tag_17_189_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>在 SYNOPSIS（摘要）中，&lt;sys/types.h&gt; 头的可选包含已被移除。</p>
+<p>对 POSIX 实现的以下新要求源自与单一 UNIX 规范（Single UNIX Specification）的一致性：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然 &lt;sys/types.h&gt; 对先前 POSIX 规范的符合性实现是必需的，但它对 UNIX 应用程序不是必需的。</p>
+</li>
+<li>
+<p>添加了 [EIO] 强制性错误条件。</p>
+</li>
+<li>
+<p>添加了 [EOVERFLOW] 强制性错误条件。此更改是为了支持大文件。</p>
+</li>
+<li>
+<p>添加了 [EOVERFLOW] 可选错误条件。</p>
+</li>
+</ul>
+<p>DESCRIPTION（说明）已更新，通过规定共享内存对象语义适用于类型化内存对象，以与 IEEE Std 1003.1j-2000 保持一致。</p>
+</blockquote>
+<a name="tag_17_189_14" id="tag_17_189_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 XSH-SD5-ERN-161，更新了 DESCRIPTION（说明）以澄清 <i>st_nlink</i> 适用于哪些文件类型。</p>
+<p>进行了与细粒度时间戳支持相关的更改。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

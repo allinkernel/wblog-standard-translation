@@ -1,0 +1,27 @@
+<h1>XSH 函数导读：chdir()</h1>
+
+<h2>0. 总览</h2>
+<p><code>chdir()</code> 用于更改当前工作目录。头文件为 <code>&lt;unistd.h&gt;</code>。原型：<code>int chdir(const char *path)</code>——唯一参数 <code>path</code> 指向要切换到的目录的路径名。</p>
+
+<h2>1. 机制</h2>
+<p>函数使 <code>path</code> 命名的目录成为当前工作目录，即不以 <code>'/'</code> 开头的路径名进行路径搜索的起始点。它只影响调用进程自己的工作目录，对其他进程没有影响。成功返回 0；失败返回 -1、设置 <code>errno</code>，并且当前工作目录保持不变。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>必须检查返回值：失败时工作目录不变，若继续盲目做相对路径操作会落到错误的目录。</li>
+<li>常见错误码：路径前缀某组件被拒绝搜索权限 [EACCES]；组件不存在或 <code>path</code> 为空字符串 [ENOENT]；组件是文件而非目录 [ENOTDIR]；符号链接中存在循环 [ELOOP]；组件长于 {NAME_MAX} [ENAMETOOLONG]。</li>
+<li>符号链接会被解析到其目标目录，切换的是目标目录；同时注意 <code>chdir()</code> 只改变进程级工作目录，与 shell 的 cd 命令无关。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    if (chdir("/tmp") == -1) {
+        perror("chdir");
+        return 1;
+    }
+    /* 之后所有相对路径均以 /tmp 为起点 */
+    return 0;
+}</code></pre>

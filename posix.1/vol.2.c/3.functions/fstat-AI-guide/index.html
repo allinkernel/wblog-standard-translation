@@ -1,0 +1,25 @@
+<h1>XSH 函数导读：fstat()</h1>
+
+<h2>0. 总览</h2>
+<p>fstat() 获取与已打开文件描述符关联的打开文件的状态信息。头文件为 <code>&lt;sys/stat.h&gt;</code>；原型为 <code>int fstat(int fildes, struct stat *buf)</code>。成功返回 0，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>与 stat() 按路径名解析不同，fstat() 直接作用于 fildes 引用的打开文件，把信息写入 buf 指向的 stat 结构。因此它不经过路径名解析，也没有符号链接"跟随"的问题——描述符已经确定了一个具体的打开文件描述。st_mode、st_ino、st_dev、st_uid、st_gid、st_atim、st_ctim、st_mtim 均应具有有意义的值，st_nlink 为指向该文件的链接数。与 stat() 相同，fstat() 在写入结构前会更新与时间相关的字段；对共享内存对象或类型化内存对象，至少需更新 st_uid、st_gid、st_size 与 st_mode。提供附加访问控制机制的实现可在实现定义的条件下使 fstat() 失败。</p>
+
+<h2>2. 易错点</h2>
+<p>首要的坑是传入无效描述符：fildes 不是有效的文件描述符时返回 EBADF，应先用 open() 等调用的返回值把关。从文件系统读取出错时返回 EIO；当文件大小、块数或文件序列号无法在 stat 结构中正确表示时返回 EOVERFLOW（大文件场景）。还需注意 fstat() 反映的是该打开文件描述的当前状态，若其他描述符正在改写同一文件，结果随时可能变化，不能当作长期稳定的快照缓存。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+
+int fd = open("f", O_RDONLY);
+if (fd == -1)
+    return 1;
+struct stat st;
+if (fstat(fd, &amp;st) == -1) {
+    close(fd);
+    return 1;
+}
+close(fd);
+</code></pre>

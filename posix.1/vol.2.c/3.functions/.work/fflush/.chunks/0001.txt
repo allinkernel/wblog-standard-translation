@@ -1,0 +1,69 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] fflush — flush a stream
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] If [I5]stream[/I5] points to an output stream or an update stream in which the most recent operation was not input, [I6]fflush[/I6]() shall cause any unwritten data for that stream to be written to the file, [S7][[A8]CX[/A8]][/S7] [IMG9] &nbsp;and the last data modification and last file status change timestamps of the underlying file shall be marked for update.
+[p_00007] For a stream open for reading with an underlying file description, if the file is not already at EOF, and the file is one capable of seeking, the file offset of the underlying open file description shall be set to the file position of the stream, and any characters pushed back onto the stream by [A10][I11]ungetc[/I11]()[/A10] or [A12][I13]ungetwc[/I13]()[/A12] that have not subsequently been read from the stream shall be discarded (without further changing the file offset). [IMG14]
+[p_00008] If [I15]stream[/I15] is a null pointer, [I16]fflush[/I16]() shall perform this flushing action on all streams for which the behavior is defined above.
+[h4_00009] [A17][/A17]RETURN VALUE
+[p_00010] Upon successful completion, [I18]fflush[/I18]() shall return 0; otherwise, it shall set the error indicator for the stream, return EOF, [S19][[A20]CX[/A20]][/S19] [IMG21] &nbsp;and set [I22]errno[/I22] to indicate the error. [IMG23]
+[h4_00011] [A24][/A24]ERRORS
+[p_00012] The [I25]fflush[/I25]() function shall fail if:
+[dt_00013] [EAGAIN]
+[dd_00014] [S26][[A27]CX[/A27]][/S26] [IMG28] The O_NONBLOCK flag is set for the file descriptor underlying [I29]stream[/I29] and the thread would be delayed in the write operation. [IMG30]
+[dt_00015] [EBADF]
+[dd_00016] [S31][[A32]CX[/A32]][/S31] [IMG33] The file descriptor underlying [I34]stream[/I34] is not valid. [IMG35]
+[dt_00017] [EFBIG]
+[dd_00018] [S36][[A37]CX[/A37]][/S36] [IMG38] An attempt was made to write a file that exceeds the maximum file size. [IMG39]
+[dt_00019] [EFBIG]
+[dd_00020] [S40][[A41]CX[/A41]][/S40] [IMG42] An attempt was made to write a file that exceeds the file size limit of the process.  [IMG43] [S44][[A45]XSI[/A45]][/S44] [IMG46] A SIGXFSZ signal shall also be generated for the thread. [IMG47]
+[dt_00021] [EFBIG]
+[dd_00022] [S48][[A49]CX[/A49]][/S48] [IMG50] The file is a regular file and an attempt was made to write at or beyond the offset maximum associated with the corresponding stream. [IMG51]
+[dt_00023] [EINTR]
+[dd_00024] [S52][[A53]CX[/A53]][/S52] [IMG54] The [I55]fflush[/I55]() function was interrupted by a signal. [IMG56]
+[dt_00025] [EIO]
+[dd_00026] [S57][[A58]CX[/A58]][/S57] [IMG59] The process is a member of a background process group attempting to write to its controlling terminal, TOSTOP is set, the calling thread is not blocking SIGTTOU, the process is not ignoring SIGTTOU, and the process group of the process is orphaned. This error may also be returned under implementation-defined conditions. [IMG60]
+[dt_00027] [ENOMEM]
+[dd_00028] [S61][[A62]CX[/A62]][/S61] [IMG63] The underlying stream was created by [A64][I65]open_memstream[/I65]()[/A64] or [A66][I67]open_wmemstream[/I67]()[/A66] and insufficient memory is available. [IMG68]
+[dt_00029] [ENOSPC]
+[dd_00030] [S69][[A70]CX[/A70]][/S69] [IMG71] There was no free space remaining on the device containing the file or in the buffer used by the [A72][I73]fmemopen[/I73]()[/A72] function. [IMG74]
+[dt_00031] [EPIPE]
+[dd_00032] [S75][[A76]CX[/A76]][/S75] [IMG77] An attempt is made to write to a pipe or FIFO that is not open for reading by any process. A SIGPIPE signal shall also be sent to the thread. [IMG78]
+[p_00033] The [I79]fflush[/I79]() function may fail if:
+[dt_00034] [ENXIO]
+[dd_00035] [S80][[A81]CX[/A81]][/S80] [IMG82] A request was made of a nonexistent device, or the request was outside the capabilities of the device. [IMG83]
+[h4_00036] [A84][/A84]EXAMPLES
+[h5_00037] [A85][/A85]Sending Prompts to Standard Output
+[p_00038] The following example uses [A86][I87]printf[/I87]()[/A86] calls to print a series of prompts for information the user must enter from standard input. The [I88]fflush[/I88]() calls force the output to standard output. The [I89]fflush[/I89]() function is used because standard output is usually buffered and the prompt may not immediately be printed on the output or terminal. The [A90][I91]getline[/I91]()[/A90] function calls read strings from standard input and place the results in variables, for use later in the program.
+[h4_00039] [A92][/A92]APPLICATION USAGE
+[p_00040] None.
+[h4_00041] [A93][/A93]RATIONALE
+[p_00042] Data buffered by the system may make determining the validity of the position of the current file descriptor impractical. Thus, enforcing the repositioning of the file descriptor after [I94]fflush[/I94]() on streams open for [A95][I96]read[/I96]()[/A95] is not mandated by POSIX.1-2024.
+[h4_00043] [A97][/A97]FUTURE DIRECTIONS
+[p_00044] None.
+[h4_00045] [A98][/A98]SEE ALSO
+[p_00046] [A99][I100]2.5 Standard I/O Streams[/I100][/A99], [A101][I102]fmemopen[/I102]()[/A101], [A103][I104]getrlimit[/I104]()[/A103], [A105][I106]open_memstream[/I106]()[/A105]
+[p_00047] XBD [A107][I108]&lt;stdio.h&gt;[/I108][/A107]
+[h4_00048] [A109][/A109]CHANGE HISTORY
+[p_00049] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00050] [A110][/A110]Issue 5
+[p_00051] Large File Summit extensions are added.
+[h4_00052] [A111][/A111]Issue 6
+[p_00053] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00054] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00055] The [EFBIG] error is added as part of the large file support extensions.
+[p_00056] The [ENXIO] optional error condition is added.
+[p_00057] The RETURN VALUE section is updated to note that the error indicator shall be set for the stream. This is for alignment with the ISO/IEC&nbsp;9899:1999 standard.
+[p_00058] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/31 is applied, updating the [EAGAIN] error in the ERRORS section from &quot;the process would be delayed&quot; to &quot;the thread would be delayed&quot;.
+[h4_00059] [A112][/A112]Issue 7
+[p_00060] Austin Group Interpretation 1003.1-2001 #002 is applied, clarifying the interaction of file descriptors and streams.
+[p_00061] The [ENOSPC] error condition is updated and the [ENOMEM] error is added from The Open Group Technical Standard, 2006, Extended API Set Part 1.
+[p_00062] The EXAMPLES section is revised.
+[p_00063] Changes are made related to support for finegrained timestamps.
+[p_00064] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0126 [87], XSH/TC1-2008/0127 [79], and XSH/TC1-2008/0128 [14] are applied.
+[p_00065] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0112 [816] and XSH/TC2-2008/0113 [626] are applied.
+[h4_00066] [A113][/A113]Issue 8
+[p_00067] Austin Group Defect 308 is applied, clarifying the handling of [EFBIG] errors.
+[p_00068] Austin Group Defect 1669 is applied, removing XSI shading from part of the [EFBIG] error relating to the file size limit for the process.
+[p_00069] &nbsp;

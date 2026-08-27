@@ -1,0 +1,46 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] fsync — synchronize changes to a file
+[h4_00003] [A2][/A2]SYNOPSIS
+[blockquote_00004] [CODE3] [CODE4]
+[h4_00005] [A5][/A5]DESCRIPTION
+[p_00006] The [I6]fsync[/I6]() function shall request that all data for the open file descriptor named by [I7]fildes[/I7] is to be transferred to the storage device associated with the file described by [I8]fildes[/I8]. The nature of the transfer is implementation-defined. The [I9]fsync[/I9]() function shall not return until the system has completed that action or until an error is detected.
+[p_00007] [S10][[A11]SIO[/A11]][/S10] [IMG12] If _POSIX_SYNCHRONIZED_IO is defined, the [I13]fsync[/I13]() function shall force all currently queued I/O operations associated with the file indicated by file descriptor [I14]fildes[/I14] to the synchronized I/O completion state. All I/O operations shall be completed as defined for synchronized I/O file integrity completion. [IMG15]
+[h4_00008] [A16][/A16]RETURN VALUE
+[p_00009] Upon successful completion, [I17]fsync[/I17]() shall return 0. Otherwise, -1 shall be returned and [I18]errno[/I18] set to indicate the error. If the [I19]fsync[/I19]() function fails, outstanding I/O operations are not guaranteed to have been completed.
+[h4_00010] [A20][/A20]ERRORS
+[p_00011] The [I21]fsync[/I21]() function shall fail if:
+[dt_00012] [EBADF]
+[dd_00013] The [I22]fildes[/I22] argument is not a valid descriptor.
+[dt_00014] [EINTR]
+[dd_00015] The [I23]fsync[/I23]() function was interrupted by a signal.
+[dt_00016] [EINVAL]
+[dd_00017] The [I24]fildes[/I24] argument does not refer to a file on which this operation is possible.
+[dt_00018] [EIO]
+[dd_00019] An I/O error occurred while reading from or writing to the file system.
+[p_00020] In the event that any of the queued I/O operations fail, [I25]fsync[/I25]() shall return the error conditions defined for [A26][I27]read[/I27]()[/A26] and [A28][I29]write[/I29]()[/A28].
+[h4_00021] [A30][/A30]EXAMPLES
+[p_00022] None.
+[h4_00023] [A31][/A31]APPLICATION USAGE
+[p_00024] The [I32]fsync[/I32]() function should be used by programs which require modifications to a file to be completed before continuing; for example, a program which contains a simple transaction facility might use it to ensure that all modifications to a file or files caused by a transaction are recorded.
+[p_00025] An application that modifies a directory, for example, by creating a file in the directory, can invoke [I33]fsync[/I33]() on the directory to ensure that the directory's entries and file attributes are synchronized. For most applications, synchronizing the directory's entries should not be necessary (see XBD [A34][I35]4.11 File System Cache[/I35][/A34]).
+[h4_00026] [A36][/A36]RATIONALE
+[p_00027] The [I37]fsync[/I37]() function is intended to force a physical write of data from the buffer cache, and to assure that after a system crash or other failure that all data up to the time of the [I38]fsync[/I38]() call is recorded on the disk. Since the concepts of &quot;buffer cache&quot;, &quot;system crash&quot;, &quot;physical write&quot;, and &quot;non-volatile storage&quot; are not defined here, the wording has to be more abstract.
+[p_00028] If _POSIX_SYNCHRONIZED_IO is not defined, the wording relies heavily on the conformance document to tell the user what can be expected from the system. It is explicitly intended that a null implementation is permitted. This could be valid in the case where the system cannot assure non-volatile storage under any circumstances or when the system is highly fault-tolerant and the functionality is not required. In the middle ground between these extremes, [I39]fsync[/I39]() might or might not actually cause data to be written where it is safe from a power failure. The conformance document should identify at least that one configuration exists (and how to obtain that configuration) where this can be assured for at least some files that the user can select to use for critical data. It is not intended that an exhaustive list is required, but rather sufficient information is provided so that if critical data needs to be saved, the user can determine how the system is to be configured to allow the data to be written to non-volatile storage.
+[p_00029] It is reasonable to assert that the key aspects of [I40]fsync[/I40]() are unreasonable to test in a test suite. That does not make the function any less valuable, just more difficult to test. A formal conformance test should probably force a system crash (power shutdown) during the test for this condition, but it needs to be done in such a way that automated testing does not require this to be done except when a formal record of the results is being made. It would also not be unreasonable to omit testing for [I41]fsync[/I41](), allowing it to be treated as a quality-of-implementation issue.
+[h4_00030] [A42][/A42]FUTURE DIRECTIONS
+[p_00031] None.
+[h4_00032] [A43][/A43]SEE ALSO
+[p_00033] [A44][I45]sync[/I45]()[/A44]
+[p_00034] XBD [A46][I47]&lt;unistd.h&gt;[/I47][/A46]
+[h4_00035] [A48][/A48]CHANGE HISTORY
+[p_00036] First released in Issue 3.
+[h4_00037] [A49][/A49]Issue 5
+[p_00038] Aligned with [I50]fsync[/I50]() in the POSIX Realtime Extension. Specifically, the DESCRIPTION and RETURN VALUE sections are much expanded, and the ERRORS section is updated to indicate that [I51]fsync[/I51]() can return the error conditions defined for [A52][I53]read[/I53]()[/A52] and [A54][I55]write[/I55]()[/A54].
+[h4_00039] [A56][/A56]Issue 6
+[p_00040] This function is marked as part of the File Synchronization option.
+[p_00041] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00042] The [EINVAL] and [EIO] mandatory error conditions are added.
+[p_00043] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/44 is applied, applying an editorial rewording of the DESCRIPTION. No change in meaning is intended.
+[h4_00044] [A57][/A57]Issue 8
+[p_00045] Austin Group Defect 672 is applied, changing the APPLICATION USAGE section.
+[p_00046] &nbsp;

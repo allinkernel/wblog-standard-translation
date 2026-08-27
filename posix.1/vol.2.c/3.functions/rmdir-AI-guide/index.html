@@ -1,0 +1,25 @@
+<h1>XSH 函数导读：rmdir()</h1>
+
+<h2>0. 总览</h2>
+<p><code>rmdir()</code> 用于移除目录。头文件为 <code>&lt;unistd.h&gt;</code>。原型：<code>int rmdir(const char *path)</code>——唯一参数 <code>path</code> 指向要移除的目录的路径名。</p>
+
+<h2>1. 机制</h2>
+<p>函数移除 <code>path</code> 命名的目录，且只移除空目录。若目录非空，或存在除 dot、dot-dot 中的单项以外的指向它的硬链接，则失败并置 [EEXIST] 或 [ENOTEMPTY]。若 <code>path</code> 是符号链接，则失败并置 [ENOTDIR]（符号链接不是目录）；最终组件为 dot 或 dot-dot 的路径也失败。当目录链接计数变为 0 且没有进程打开该目录时，空间被释放、目录不再可访问；若有进程打开，则 dot 与 dot-dot 项（如果存在）先被移除、不得再在目录中创建新项，但目录本身要等所有引用关闭后才被移除。目标为根目录或任何进程的当前工作目录时，成功或返回 [EBUSY] 是未指定的。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>只能删空目录：任何残留文件或子目录都会导致 [EEXIST] 或 [ENOTEMPTY]（两者值不同，都应作为 <code>case</code> 处理）。</li>
+<li>不能删除 "."（[EINVAL]）或 ".."；也不能通过符号链接删除其目标目录。</li>
+<li>[EBUSY] 表示目录正被系统或另一进程使用；被某进程当作当前工作目录的目录未必能删。</li>
+<li>失败时返回 -1，所命名的目录不被更改。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    if (rmdir("/home/cnd/mod1") == -1)
+        perror("rmdir"); /* 非空目录时 errno 为 EEXIST/ENOTEMPTY */
+    return 0;
+}</code></pre>

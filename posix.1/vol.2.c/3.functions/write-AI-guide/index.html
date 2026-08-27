@@ -1,0 +1,30 @@
+<h1>XSH 函数导读：write()</h1>
+
+<h2>0. 总览</h2>
+<p>write() 将缓冲区中的字节写入与打开的文件描述符关联的文件。所属头文件为 <code>&lt;unistd.h&gt;</code>。原型关键点：<code>ssize_t write(int fildes, const void *buf, size_t nbyte);</code> —— 成功返回实际写入的字节数（绝不应大于 nbyte），失败返回 -1 并设置 errno。本页还包含定位写变体 pwrite()，它写入指定 offset 而不改变文件偏移（无论是否设置 O_APPEND）。</p>
+
+<h2>1. 机制</h2>
+<p>在可寻址文件上，写入从与 fildes 关联的文件偏移处开始，成功返回前偏移按实际写入字节数递增；若最后写入字节的位置大于等于文件长度，文件长度被设置为此位置加一。设置 O_APPEND 时，每次写入前将偏移移到文件末尾，且偏移调整与写入之间不得插入其他文件修改操作。可容纳空间不足时（如进程文件大小限制或介质物理末尾），只写入能容纳的字节并返回该数量；若一个字节都写不下则失败（[EFBIG]，XSI 下还产生 SIGXFSZ）。nbyte 为零且为普通文件时返回 0；非普通文件结果未指定。管道/FIFO 语义特殊：写请求总是追加到末尾；{PIPE_BUF} 或更少的写入是原子的，不与同管道其他写线程的数据交错，更大的写入可在任意边界交错；O_NONBLOCK 下空间不足返回 -1/[EAGAIN]，阻塞模式下写入保证最终返回 nbyte。写入成功（nbyte 大于 0）时更新最后数据修改和最后文件状态更改时间戳，普通文件的 S_ISUID/S_ISGID 位可被清除。</p>
+
+<h2>2. 易错点</h2>
+<p><b>短写必须循环重试</b>：返回小于 nbyte 是合法结果（空间不足、信号中断等），调用者不能当作成功写满或当作失败。nbyte 大于 {SSIZE_MAX} 结果实现定义。向无读者管道或 FIFO 写入返回 -1/[EPIPE] 并触发 SIGPIPE 信号——若未处理该信号进程会默认终止，需用 signal/SIG_IGN 或 sigaction 处理。非阻塞写（O_NONBLOCK）返回 [EAGAIN] 表示稍后可重试，区别于致命错误；对大于 {PIPE_BUF} 的请求永远要准备好处理部分写入。后台进程组向设置了 TOSTOP 的控制终端写入可能返回 [EIO] 并涉及 SIGTTOU。pwrite() 在不可寻址文件上失败 [ESPIPE]，普通文件上负 offset 返回 [EINVAL] 且偏移保持不变。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+const char *msg = "hello\n";
+ssize_t n;
+size_t left = 6;
+int fd; /* 已以 O_WRONLY 打开的普通文件 */
+
+/* 循环写入直到全部写完，正确处理短写 */
+while (left &gt; 0) {
+    n = write(fd, msg, left);
+    if (n == -1) {
+        /* 处理错误（如 EINTR 可重试、ENOSPC） */
+        break;
+    }
+    msg += n;
+    left -= (size_t)n;
+}
+</code></pre>

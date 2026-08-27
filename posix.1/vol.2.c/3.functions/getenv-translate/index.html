@@ -1,0 +1,123 @@
+<h1>XSH 函数：getenv()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="getenv" id="getenv"></a> <a name="tag_17_210" id="tag_17_210"></a>
+<a name="tag_17_210_01" id="tag_17_210_01"></a><h4>名称 (NAME)</h4>
+<blockquote>getenv、secure_getenv — 获取环境变量的值</blockquote>
+<a name="tag_17_210_02" id="tag_17_210_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;stdlib.h&gt;<br>
+<br>
+char *getenv(const char *</code><i>name</i><code>);<br></code></code></p>
+<code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> char *secure_getenv(const char *</code><i>name</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code>
+<code><br></code></blockquote>
+<a name="tag_17_210_03" id="tag_17_210_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>getenv</i>() 函数应在调用进程的环境中（参见 XBD 8. 环境变量）搜索环境变量 <i>name</i>（如果存在），并返回指向该环境变量的值的指针。如果找不到指定的环境变量，则应返回空指针。应用程序应确保不修改由 <i>getenv</i>() 函数所指向的字符串，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  除非它是先前通过向 <i>environ</i> 赋新值 <img src="../images/opt-end.gif" alt="[Option End]"> <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 或使用 putenv() 放入环境的可修改对象的一部分。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 由 <i>getenv</i>() 返回的指针应指向 <i>environ</i> 所指向的环境数据内的一个字符串。</p>
+<dl>
+<dt><b>注：</b></dt>
+<dd>此要求是对 ISO C 标准的扩展，该标准允许 <i>getenv</i>() 将数据复制到内部缓冲区。</dd>
+</dl>
+
+<p><i>secure_getenv</i>() 函数应与 <i>getenv</i>() 等价，不同之处在于：如果调用进程不满足以下所有安全条件，则应返回空指针：</p>
+<ol>
+<li>
+<p>调用进程的有效用户 ID 和真实用户 ID 在程序启动期间相等。</p>
+</li>
+<li>
+<p>调用进程的有效组 ID 和真实组 ID 在程序启动期间相等。</p>
+</li>
+<li>
+<p>额外的实现定义的安全条件。</p>
+</li>
+</ol>
+<img src="../images/opt-end.gif" alt="[Option End]"></blockquote>
+<a name="tag_17_210_04" id="tag_17_210_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>getenv</i>() 应返回一个指向包含指定 <i>name</i> 的值的字符串的指针。如果在调用进程的环境中找不到指定的 <i>name</i>，则应返回空指针。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 成功完成后，<i>secure_getenv</i>() 应返回一个指向包含指定 <i>name</i> 的值的字符串的指针。如果在调用进程的环境中找不到指定的 <i>name</i>，或者调用进程不满足 DESCRIPTION 中列出的安全条件，则应返回空指针。 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_210_05" id="tag_17_210_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>未定义任何错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_210_06" id="tag_17_210_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_210_06_01" id="tag_17_210_06_01"></a><h5>获取环境变量的值 (Getting the Value of an Environment Variable)</h5>
+<p>以下示例获取 <i>HOME</i> 环境变量的值。</p>
+<pre><code class="language-plaintext">#include &lt;stdlib.h&gt;
+...
+const char *name = "HOME";
+char *value;
+ 
+value = getenv(name);</code></pre></blockquote>
+<a name="tag_17_210_07" id="tag_17_210_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_210_08" id="tag_17_210_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p><i>clearenv</i>() 函数曾被考虑但被否决。putenv() 函数现在已被纳入，以与 Single UNIX Specification 保持一致。</p>
+<p>本标准的某些早期版本不要求 <i>getenv</i>() 是线程安全的，因为它被允许返回指向内部缓冲区的值。然而，ISO C 标准允许的这种行为不再被 POSIX.1 允许。POSIX.1 要求环境数据可通过 <i>environ</i>[] 获得，因此 <i>getenv</i>() 没有理由不能返回指向实际数据的指针而不是副本。因此，<i>getenv</i>() 现在被要求是线程安全的（除非另一线程修改环境）。</p>
+<p>符合规范的应用程序被要求不直接修改 <i>environ</i> 所指向的指针，而只能使用 setenv()、unsetenv() 和 putenv() 函数，或对 <i>environ</i> 本身的赋值，来操作进程环境。此约束允许实现妥善管理其分配的内存。这使得实现能够在调用 unsetenv() 时释放其为存储在 <i>environ</i> 中的字符串（也许还有指向它们的指针）分配的任何空间。C 运行时启动过程（即调用 <i>main</i>() 并可能初始化 <i>environ</i> 的过程）也可以初始化一个标志，表明环境尚未被复制到分配的内存中，或者单独的表尚未被初始化。如果应用程序通过向 <i>environ</i> 赋新值切换到全新的环境，这可以被 <i>getenv</i>()、setenv()、unsetenv() 或 putenv() 检测到，实现可以在此时基于新环境重新初始化。（这可能包括将环境字符串复制到新数组中并将 <i>environ</i> 赋为指向它。）</p>
+<p>事实上，为了 <i>getenv</i>() 的更高性能，不提供 putenv() 的实现还可以在可被更快搜索的数据结构（如索引哈希表或二叉树）中维护环境的单独副本，并在调用 setenv() 或 unsetenv() 时同时更新该副本和 <i>environ</i> 处的线性列表。在确实提供 putenv() 的实现上，这样的副本可能仍然值得，但需要考虑到应用程序可以直接修改用 putenv() 添加的环境字符串的内容。例如，如果通过搜索副本找到的环境字符串是用 putenv() 添加的，实现就需要检查 <i>environ</i> 中的字符串是否仍然具有相同的名称（如果副本包含值，还要检查值），并且每当搜索副本没有产生匹配时，实现就需要搜索 <i>environ</i> 中每个用 putenv() 添加的环境字符串，以防其中任何一个改变了名称而现在匹配。因此，每次使用 putenv() 向环境添加内容都会降低拥有副本的速度优势。</p>
+<p><i>getenv</i>() 的性能对于拥有大量环境变量的应用程序可能很重要。通常，这样的应用程序将环境用作用户可配置参数的资源数据库。这些变量位于用户的 shell 环境中这一事实通常意味着任何其他使用环境变量的程序（如 ls，它试图使用 <i>COLUMNS ),</i> 或实际上几乎任何实用程序（<i>LANG ,</i> <i>LC_ALL ,</i> 等等）同样会因对变量进行线性搜索而变慢。</p>
+<p>目前不要求实现维护单独的数据结构，甚至不要求实现管理其消耗的内存，因为人们认为这会减少不愿改变其历史实现的实现者之间的共识。</p>
+</blockquote>
+<a name="tag_17_210_09" id="tag_17_210_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_210_10" id="tag_17_210_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>exec、putenv()、setenv()、unsetenv()</p>
+<p>XBD 8. 环境变量、&lt;stdlib.h&gt;</p>
+</blockquote>
+<a name="tag_17_210_11" id="tag_17_210_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 1 中首次发布。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_210_12" id="tag_17_210_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>先前位于 APPLICATION USAGE 节中的规范性文本被移至 RETURN VALUE 节。</p>
+<p>一条表明此函数不必可重入的注记被添加到 DESCRIPTION。</p>
+</blockquote>
+<a name="tag_17_210_13" id="tag_17_210_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>为与 IEEE P1003.1a 草案标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>添加了对新 setenv() 和 unsetenv() 函数的引用。</p>
+</li>
+</ul>
+<p>规范性文本被更新，以避免对应用程序要求使用 &quot;must&quot; 一词。</p>
+</blockquote>
+<a name="tag_17_210_14" id="tag_17_210_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #062，澄清了对 putenv() 的调用也可能导致该字符串被覆盖。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #148，添加了 FUTURE DIRECTIONS。</p>
+<p>应用了 Austin Group 解释 1003.1-2001 #156。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1）：XSH/TC1-2008/0238 [75,428]、XSH/TC1-2008/0239 [167] 和 XSH/TC1-2008/0240 [167]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（Technical Corrigendum 2）：XSH/TC2-2008/0157 [656]。</p>
+</blockquote>
+<a name="tag_17_210_15" id="tag_17_210_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 188 和 1394，将 <i>getenv</i>() 改为线程安全。</p>
+<p>应用了 Austin Group 缺陷 922，添加了 <i>secure_getenv</i>() 函数。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

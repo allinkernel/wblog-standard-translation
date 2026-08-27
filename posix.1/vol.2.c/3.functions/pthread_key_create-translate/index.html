@@ -1,0 +1,136 @@
+<h1>XSH 函数：pthread_key_create()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="pthread_key_create" id="pthread_key_create"></a> <a name="tag_17_435" id="tag_17_435"></a>
+
+<a name="tag_17_435_01" id="tag_17_435_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_key_create — 线程特定数据键创建 (thread-specific data key creation)</blockquote>
+<a name="tag_17_435_02" id="tag_17_435_02"></a><h4>简介 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+int pthread_key_create(pthread_key_t *</code><i>key</i><code>, void (*</code><i>destructor</i><code>)(void*));<br></code></code></p>
+</blockquote>
+<a name="tag_17_435_03" id="tag_17_435_03"></a><h4>描述 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>pthread_key_create</i>() 函数应创建一个对进程中所有线程可见的线程特定数据键。由 <i>pthread_key_create</i>() 提供的键值是不透明对象，用于定位线程特定数据。虽然不同的线程可以使用相同的键值，但由 pthread_setspecific() 绑定到键上的值是按线程维护的，并在调用线程的整个生命周期内持续存在。</p>
+<p>在创建键时，值 NULL 应与所有活动线程中的新键相关联。在创建线程时，值 NULL 应与新线程中所有已定义的键相关联。</p>
+<p>每个键值可以关联一个可选的析构函数。在线程退出时，如果某个键值具有非 NULL 的析构函数指针，并且该线程具有与该键关联的非 NULL 值，则将该键的值设置为 NULL，然后以先前关联的值作为其唯一参数调用所指向的函数。如果线程退出时存在多个析构函数，则析构函数的调用顺序未指定。</p>
+<p>如果在为所有具有关联析构函数的非 NULL 值调用完所有析构函数之后，仍然存在一些具有关联析构函数的非 NULL 值，则重复该过程。如果在针对未处理的非 NULL 值进行了至少 {PTHREAD_DESTRUCTOR_ITERATIONS} 次析构函数调用迭代之后，仍然存在一些具有关联析构函数的非 NULL 值，实现可以停止调用析构函数，也可以继续调用析构函数，直到不存在具有关联析构函数的非 NULL 值，即使这可能导致无限循环。</p>
+</blockquote>
+<a name="tag_17_435_04" id="tag_17_435_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果成功，<i>pthread_key_create</i>() 函数应将新创建的键值存储到 *<i>key</i>，并应返回零。否则，应返回错误号以指示错误。</p>
+</blockquote>
+<a name="tag_17_435_05" id="tag_17_435_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>pthread_key_create</i>() 函数在以下情况下应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN]</dt>
+<dd>系统缺少创建另一个线程特定数据键所需的资源，或者已超过系统对每个进程键总数 {PTHREAD_KEYS_MAX} 施加的限制。</dd>
+<dt>[ENOMEM]</dt>
+<dd>没有足够的内存来创建该键。</dd>
+</dl>
+<p><i>pthread_key_create</i>() 函数不应返回 [EINTR] 错误码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_435_06" id="tag_17_435_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>以下示例演示了一个函数，该函数在第一次被调用时初始化线程特定数据键，并将线程特定对象与每个调用线程相关联，在必要时初始化该对象。</p>
+<pre><code class="language-plaintext">static pthread_key_t key;
+static pthread_once_t key_once = PTHREAD_ONCE_INIT;
+ 
+static void
+make_key()
+{
+    (void) pthread_key_create(&amp;key, NULL);
+}
+ 
+func()
+{
+    void *ptr;
+ 
+    (void) pthread_once(&amp;key_once, make_key);
+    if ((ptr = pthread_getspecific(key)) == NULL) {
+        ptr = malloc(OBJECT_SIZE);
+        ...
+        (void) pthread_setspecific(key, ptr);
+    }
+    ...
+}</code></pre>
+<p>注意，必须先初始化该键，然后才能使用 pthread_getspecific() 或 pthread_setspecific()。对 <i>pthread_key_create</i>() 的调用可以显式地在模块初始化例程中进行，也可以像本示例中那样由对模块的第一次调用隐式完成。在键初始化之前使用该键的任何尝试都是编程错误，这使得下面的代码不正确。</p>
+<pre><code class="language-plaintext">static pthread_key_t key;
+ 
+func()
+{
+    void *ptr;
+ 
+   /* KEY NOT INITIALIZED!!!  THIS WILL NOT WORK!!! */
+    if ((ptr = pthread_getspecific(key)) == NULL &amp;&
+        pthread_setspecific(key, NULL) != 0) {
+        pthread_key_create(&amp;key, NULL);
+        ...
+    }
+}</code></pre></blockquote>
+<a name="tag_17_435_07" id="tag_17_435_07"></a><h4>应用用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_435_08" id="tag_17_435_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<a name="tag_17_435_08_01" id="tag_17_435_08_01"></a><h5>析构函数 (Destructor Functions)</h5>
+<p>通常，代表特定线程绑定到键上的值是指向代表调用线程动态分配的存储的指针。使用 <i>pthread_key_create</i>() 指定的析构函数旨在在线程退出时释放此存储。线程取消清理处理程序不能用于此目的，因为线程特定数据可能在取消清理处理程序操作的词法作用域之外持续存在。</p>
+<p>如果在线程的生命周期内需要更新与键关联的值，则可能需要在绑定新值之前释放与旧值关联的存储。虽然 pthread_setspecific() 函数可以自动完成此操作，但该特性的需求频率不足以证明增加的复杂性是合理的。相反，程序员负责释放过时的存储：</p>
+<pre><code class="language-plaintext">old = pthread_getspecific(key);
+new = allocate();
+destructor(old);
+pthread_setspecific(key, new);</code></pre>
+
+<dl>
+<dt><b>注：</b></dt>
+<dd>如果启用异步取消运行，上述示例可能会泄漏存储。如果在 get 与 set 之间没有取消点，则在默认取消状态下不会出现此类问题。</dd>
+</dl>
+
+<p>不存在析构函数安全（destructor-safe）函数的概念。如果应用程序不从信号处理程序中调用 pthread_exit()，或者它在调用 async-unsafe 函数时阻塞了任何其处理程序可能调用 pthread_exit() 的信号，则所有函数都可以安全地从析构函数中调用。</p>
+<a name="tag_17_435_08_02" id="tag_17_435_08_02"></a><h5>非幂等数据键创建 (Non-Idempotent Data Key Creation)</h5>
+<p>曾有人要求使 <i>pthread_key_create</i>() 相对于给定的 <i>key</i> 地址参数具有幂等性。这将允许应用程序针对给定的 <i>key</i> 地址多次调用 <i>pthread_key_create</i>()，并保证只会创建一个键。这样做将要求键值预先初始化（可能是在编译时）为已知的空值，并要求基于 <i>key</i> 参数的地址和内容执行隐式互斥，以保证恰好创建一个键。</p>
+<p>遗憾的是，隐式互斥不会仅限于 <i>pthread_key_create</i>()。在许多实现上，pthread_getspecific() 和 pthread_setspecific() 也必须执行隐式互斥，以防止使用未完整存储或尚不可见的键值。这可能会显著增加重要操作的成本，尤其是 pthread_getspecific()。</p>
+<p>因此，这一提议被否决。<i>pthread_key_create</i>() 函数不执行任何隐式同步。确保在使用键之前每个键恰好被调用一次是程序员的责任。已经可以使用几种直接的机制来实现这一点，包括调用显式的模块初始化函数、使用互斥量以及使用 pthread_once()。这不会给程序员带来显著负担，不会引入可能令人困惑的 <i>ad hoc</i> 隐式同步机制，并且可能使常用的线程特定数据操作更高效。</p>
+</blockquote>
+<a name="tag_17_435_09" id="tag_17_435_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_435_10" id="tag_17_435_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>pthread_getspecific(), pthread_key_delete()</p>
+<p>XBD &lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_435_11" id="tag_17_435_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次在 Issue 5 中发布。为与 POSIX 线程扩展保持一致而纳入。</p>
+</blockquote>
+<a name="tag_17_435_12" id="tag_17_435_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_key_create</i>() 函数被标记为 Threads 选项的一部分。</p>
+<p>应用了 IEEE PASC Interpretation 1003.1c #8，更新了 DESCRIPTION。</p>
+</blockquote>
+<a name="tag_17_435_13" id="tag_17_435_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_key_create</i>() 函数从 Threads 选项移至 Base。</p>
+</blockquote>
+<a name="tag_17_435_14" id="tag_17_435_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 1059，更改了 RATIONALE 部分中的示例代码。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

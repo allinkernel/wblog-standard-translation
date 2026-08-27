@@ -1,0 +1,161 @@
+<h1>XSH 函数：mkdir()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="mkdir" id="mkdir"></a> <a name="tag_17_338" id="tag_17_338"></a>
+<a name="tag_17_338_01" id="tag_17_338_01"></a><h4>名称 (NAME)</h4>
+<blockquote>mkdir、mkdirat — 创建目录</blockquote>
+<a name="tag_17_338_02" id="tag_17_338_02"></a><h4>提要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/stat.h&gt;<br>
+<br>
+int mkdir(const char *</code><i>path</i><code>, mode_t</code> <i>mode</i><code>);<br>
+<br>
+<sup>[OH]</sup> <img src="../images/opt-start.gif" alt="图片">#include
+&lt;fcntl.h&gt;<img src="../images/opt-end.gif" alt="图片"><br>
+<br>
+int mkdirat(int</code> <i>fd</i><code>, const char *</code><i>path</i><code>, mode_t</code> <i>mode</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_338_03" id="tag_17_338_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>mkdir</i>() 函数应创建一个名为 <i>path</i> 的新目录。新目录的文件权限位 <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 S_ISVTX 位 <img src="../images/opt-end.gif" alt="[Option End]">  应由 <i>mode</i> 初始化。<i>mode</i> 参数的文件权限位应被进程的文件创建掩码修改。</p>
+<p>当 <i>mode</i> 中除文件权限位 <sup>[XSI]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  和 S_ISVTX <img src="../images/opt-end.gif" alt="[Option End]">  以外的位被设置时，这些附加位的含义是实现定义的。</p>
+<p>目录的用户 ID 应被设置为进程的有效用户 ID。目录的组 ID 应被设置为父目录的组 ID 或进程的有效组 ID。实现应提供一种将目录的组 ID 初始化为父目录的组 ID 的方式。实现可以（但不必）提供一种实现定义的方式，将目录的组 ID 初始化为调用进程的有效组 ID。</p>
+<p>新创建的目录应是空目录。</p>
+<p>如果 <i>path</i> 命名一个符号链接，<i>mkdir</i>() 应失败并将 <i>errno</i> 设置为 [EEXIST]。</p>
+<p>成功完成后，<i>mkdir</i>() 应将目录的最后数据访问、最后数据修改和最后文件状态更改时间戳标记为需要更新。此外，包含新项的目录的最后数据修改和最后文件状态更改时间戳应被标记为需要更新。</p>
+<p><i>mkdirat</i>() 函数应与 <i>mkdir</i>() 函数等价，但 <i>path</i> 指定相对路径的情况除外。在这种情况下，新创建的目录是相对于与文件描述符 <i>fd</i> 相关联的目录创建的，而不是相对于当前工作目录。如果与文件描述符相关联的打开文件描述的访问模式不是 O_SEARCH，则函数应使用文件描述符底层目录的当前权限检查是否允许目录搜索。如果访问模式是 O_SEARCH，则函数不应执行该检查。</p>
+<p>如果在 <i>fd</i> 参数中向 <i>mkdirat</i>() 传入特殊值 AT_FDCWD，则应使用当前工作目录，并且行为应与调用 <i>mkdir</i>() 相同。</p>
+</blockquote>
+<a name="tag_17_338_04" id="tag_17_338_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，这些函数应返回 0。否则，这些函数应返回 -1 并设置 <i>errno</i> 以指示错误。如果返回 -1，则不应创建任何目录。</p>
+</blockquote>
+<a name="tag_17_338_05" id="tag_17_338_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，这些函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>路径前缀的某个组件被拒绝搜索权限，或者要创建的目录的父目录被拒绝写权限。</dd>
+<dt>[EEXIST]</dt>
+<dd>所命名的文件已存在。</dd>
+<dt>[EILSEQ]</dt>
+<dd><i>path</i> 的最后一个路径名组件不是可移植文件名，并且无法在目标目录中创建。</dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接中存在循环。</dd>
+<dt>[EMLINK]</dt>
+<dd>父目录的链接计数将超过 {LINK_MAX}。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的某个组件的长度长于 {NAME_MAX}。</dd>
+<dt>[ENOENT]</dt>
+<dd><i>path</i> 的路径前缀的某个组件没有命名一个现有文件，或者 <i>path</i> 是空字符串。</dd>
+<dt>[ENOSPC]</dt>
+<dd>文件系统没有足够的空间来容纳新目录的内容或扩展新目录的父目录。</dd>
+<dt>[ENOTDIR]</dt>
+<dd>路径前缀的某个组件命名了一个既不是目录也不是指向目录的符号链接的现有文件。</dd>
+<dt>[EROFS]</dt>
+<dd>父目录位于只读文件系统上。</dd>
+</dl>
+<p>此外，在以下情况下，<i>mkdirat</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>与 <i>fd</i> 相关联的打开文件描述的访问模式不是 O_SEARCH，并且 <i>fd</i> 底层目录的权限不允许目录搜索。</dd>
+<dt>[EBADF]</dt>
+<dd><i>path</i> 参数没有指定绝对路径，并且 <i>fd</i> 参数既不是 AT_FDCWD，也不是为读或搜索而打开的有效文件描述符。</dd>
+<dt>[ENOTDIR]</dt>
+<dd><i>path</i> 参数不是绝对路径，并且 <i>fd</i> 是与非目录文件相关联的文件描述符。</dd>
+</dl>
+<p>在以下情况下，这些函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[ELOOP]</dt>
+<dd>在解析 <i>path</i> 参数期间遇到的符号链接超过 {SYMLOOP_MAX} 个。</dd>
+<dt>[ENAMETOOLONG]</dt>
+<dd>路径名的长度超过 {PATH_MAX}，或者符号链接的路径名解析产生的中间结果的长度超过 {PATH_MAX}。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_338_06" id="tag_17_338_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_338_06_01" id="tag_17_338_06_01"></a><h5>创建目录 (Creating a Directory)</h5>
+<p>以下示例展示如何创建一个名为 <b>/home/cnd/mod1</b> 的目录，所有者（owner）和组（group）具有读/写/搜索权限，其他用户（others）具有读/搜索权限。</p>
+<pre><code class="language-plaintext">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+ 
+int status;
+...
+status = mkdir("/home/cnd/mod1", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);</code></pre></blockquote>
+<a name="tag_17_338_07" id="tag_17_338_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_338_08" id="tag_17_338_08"></a><h4>原理 (RATIONALE)</h4>
+<blockquote>
+<p><i>mkdir</i>() 函数起源于 4.2 BSD，并在 Release 3.0 中被添加到 System V。</p>
+<p>4.3 BSD 检测 [ENAMETOOLONG]。</p>
+<p>POSIX.1-1990 标准要求新创建目录的组 ID 被设置为父目录的组 ID 或创建进程的有效组 ID。FIPS 151-2 要求实现提供一种将组 ID 设置为所在目录的组 ID 的方式，但不禁止实现同时支持将组 ID 设置为创建进程的有效组 ID 的方式。符合规范的应用程序不应假定将使用哪个组 ID。如果这很重要，应用程序可以在目录创建后使用 chown() 设置组 ID，或者确定实现在什么条件下会设置所需的组 ID。</p>
+<p><i>mkdirat</i>() 函数的目的是在不暴露于竞争条件的情况下在当前工作目录以外的目录中创建目录。文件的路径的任何部分都可能在与 <i>mkdir</i>() 调用并行的情况下被更改，导致未指定的行为。通过为目标目录打开文件描述符并使用 <i>mkdirat</i>() 函数，可以保证新创建的目录位于相对于所需目录的位置。</p>
+<p>鼓励实现让 <i>mkdir</i>() 和 <i>mkdirat</i>() 在 <i>path</i> 的最后一个组件包含任何具有 &lt;newline&gt; 字符编码值的字节时报告 [EILSEQ] 错误。</p>
+</blockquote>
+<a name="tag_17_338_09" id="tag_17_338_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_338_10" id="tag_17_338_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>chmod()、mkdtemp()、mknod()、umask()</p>
+<p>XBD &lt;fcntl.h&gt;、&lt;sys/stat.h&gt;、&lt;sys/types.h&gt;</p>
+</blockquote>
+<a name="tag_17_338_11" id="tag_17_338_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>在 Issue 3 中首次发布。为与 POSIX.1-1988 标准保持一致而纳入。</p>
+</blockquote>
+<a name="tag_17_338_12" id="tag_17_338_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>在 SYNOPSIS 中，移除了 &lt;sys/types.h&gt; 头文件的可选包含。</p>
+<p>以下对 POSIX 实现的新要求源于与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被移除。虽然 &lt;sys/types.h&gt; 是先前 POSIX 规范的符合实现所要求的，但 UNIX 应用程序并不要求它。</p>
+</li>
+<li>
+<p>添加了 [ELOOP] 强制错误条件。</p>
+</li>
+<li>
+<p>添加了第二个 [ENAMETOOLONG] 作为可选错误条件。</p>
+</li>
+</ul>
+<p>为与 IEEE P1003.1a 草案标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>添加了 [ELOOP] 可选错误条件。</p>
+</li>
+</ul>
+</blockquote>
+<a name="tag_17_338_13" id="tag_17_338_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 Austin Group 解释 1003.1-2001 #143。</p>
+<p><i>mkdirat</i>() 函数依据 The Open Group Technical Standard, 2006, Extended API Set Part 2 被添加。</p>
+<p>进行了与细粒度时间戳支持相关的更改。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1（Technical Corrigendum 1）：XSH/TC1-2008/0375 [461]、XSH/TC1-2008/0376 [324]、XSH/TC1-2008/0377 [277]、XSH/TC1-2008/0378 [278] 和 XSH/TC1-2008/0379 [278]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2（Technical Corrigendum 2）：XSH/TC2-2008/0210 [873]、XSH/TC2-2008/0211 [591]、XSH/TC2-2008/0212 [817]、XSH/TC2-2008/0213 [817] 和 XSH/TC2-2008/0214 [591]。</p>
+</blockquote>
+<a name="tag_17_338_14" id="tag_17_338_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 251，鼓励实现不允许创建包含任何具有 &lt;newline&gt; 字符编码值的字节的文件名。</p>
+<p>应用了 Austin Group 缺陷 293 和 1734，添加了 [EILSEQ] 错误。</p>
+<p>应用了 Austin Group 缺陷 1522，添加了与 S_ISVTX 位相关的要求。</p>
+<p>应用了 Austin Group 缺陷 1729，更改了 [ENOENT] 错误的描述。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

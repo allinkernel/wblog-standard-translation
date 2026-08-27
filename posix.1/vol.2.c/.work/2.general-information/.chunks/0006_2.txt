@@ -1,0 +1,31 @@
+# start_index 31
+to be transmitted as a block when a buffer is filled. When a stream is &quot;line buffered&quot;, bytes are intended to be transmitted as a
+block when a &lt;newline&gt; byte is encountered. Furthermore, bytes are intended to be transmitted as a block when a buffer is
+filled, when input is requested on an unbuffered stream, or when input is requested on a line-buffered stream that requires the
+transmission of bytes. Support for these characteristics is implementation-defined, and may be affected via [A585][I586]setbuf[/I586]()[/A585] and [A587][I588]setvbuf[/I588]()[/A587].
+[p_00759] A file may be disassociated from a controlling stream by &quot;closing&quot; the file. Output streams are flushed (any
+unwritten buffer contents are transmitted) before the stream is disassociated from the file. The value of a pointer to a
+[B589]FILE[/B589] object is unspecified after the associated file is closed (including the standard streams).
+[p_00760] A file may be subsequently reopened, by the same or another program execution, and its contents reclaimed or
+modified (if it can be repositioned at its start). If the [I590]main[/I590]() function returns to its original caller, or if the [A591][I592]exit[/I592]()[/A591] function is called, all open files are closed (hence all output streams are flushed)
+before program termination. Other paths to program termination, such as calling [A593][I594]abort[/I594]()[/A593], need not close all files properly.
+[p_00761] The address of the [B595]FILE[/B595] object used to control a stream may be significant; a copy of a [B596]FILE[/B596] object
+need not necessarily serve in place of the original.
+[p_00762] At program start-up, three streams shall be predefined and already open: [I597]stdin[/I597] (standard input, for
+conventional input) for reading, [I598]stdout[/I598] (standard output, for conventional output) for writing, and [I599]stderr[/I599] (standard
+error, for diagnostic output) for writing. When opened, [I600]stderr[/I600] shall not be fully buffered; [I601]stdin[/I601] and [I602]stdout[/I602]
+shall be fully buffered if and only if [S603][[A604]CX[/A604]][/S603] [IMG605] &nbsp;the file descriptor associated with the stream is determined not to be associated with an
+interactive device. [IMG606]
+[p_00763] Each stream shall have an associated lock that is used to prevent data races when multiple threads of execution
+access a stream, and to restrict the interleaving of stream operations performed by multiple threads. Only one thread can hold this
+lock at a time. The lock shall be reentrant: a single thread can hold the lock multiple times at a given time. All functions that
+read, write, position, or query the position of a stream, [S607][[A608]CX[/A608]][/S607] [IMG609] &nbsp;except those with names ending [I610]_unlocked[/I610], [IMG611] &nbsp;shall lock the stream [S612][[A613]CX[/A613]][/S612] [IMG614] &nbsp;as if by a
+call to [A615][I616]flockfile[/I616]()[/A615] [IMG617] &nbsp;before accessing it and release the lock [S618][[A619]CX[/A619]][/S618] [IMG620] &nbsp;as if by a call to [A621][I622]funlockfile[/I622]()[/A621] [IMG623] &nbsp;when
+the access is complete.
+[p_00764] [S624][[A625]CX[/A625]][/S624] [IMG626] If the lock is not immediately available, the function shall wait for it to become available, except in the following
+circumstances. If the stream is line buffered and is open for writing or for update, and the reason the function is attempting to
+lock the stream is because it is going to request input on another stream that is unbuffered, or is line buffered and requires the
+transmission of characters from the host environment (see above), then the function shall attempt to determine whether a deadlock
+situation exists. If a deadlock situation is found to exist, the function shall fail. If the function is able to establish that a
+deadlock situation does not exist, it shall wait for the lock to become available. If the function does not establish whether or
+not a deadlock situation exists, it shall continue as if it had already locked the stream, found its buffer to be empty, and

@@ -1,0 +1,4768 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_139_01\" id=\"tag_17_139_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "fcntl — file control",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_139_02\" id=\"tag_17_139_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/fcntl.h.html\">fcntl.h</a>&gt;<br>\n<br>\nint fcntl(int</tt> <i>fildes</i><tt>, int</tt> <i>cmd</i><tt>, ...);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_139_03\" id=\"tag_17_139_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]fcntl[/I5]() function shall perform the operations described below on open files. The [I6]fildes[/I6] argument is a file\ndescriptor.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The available values for [I7]cmd[/I7] are defined in [A8][I9]&lt;fcntl.h&gt;[/I9][/A8] and are as\nfollows:",
+    "placeholders": {
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A8": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00008",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     3
+    ],
+    "text": "F_DUPFD",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00009",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     5
+    ],
+    "text": "Return a new file descriptor which shall be allocated as described in [A10][I11]2.6\nFile Descriptor Allocation[/I11][/A10], except that it shall be the lowest numbered available file descriptor greater than or equal to\nthe third argument, [I12]arg[/I12], taken as an integer of type [B13]int[/B13]. The new file descriptor shall refer to the same open file\ndescription as the original file descriptor, and shall share any locks. The FD_CLOEXEC and FD_CLOFORK flags associated with the new\nfile descriptor shall be cleared.",
+    "placeholders": {
+     "A10": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_06\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B13": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00010",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     7
+    ],
+    "text": "F_DUPFD_CLOEXEC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00011",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     9
+    ],
+    "text": "Like F_DUPFD, but the FD_CLOEXEC flag associated with the new file descriptor shall be set.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00012",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     11
+    ],
+    "text": "F_DUPFD_CLOFORK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00013",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     13
+    ],
+    "text": "Like F_DUPFD, but the FD_CLOFORK flag associated with the new file descriptor shall be set.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00014",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     15
+    ],
+    "text": "F_GETFD",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00015",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     17
+    ],
+    "text": "Get the file descriptor flags defined in [A14][I15]&lt;fcntl.h&gt;[/I15][/A14] that are associated with\nthe file descriptor [I16]fildes[/I16]. File descriptor flags are associated with a single file descriptor and do not affect other file\ndescriptors that refer to the same file.",
+    "placeholders": {
+     "A14": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00016",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     19
+    ],
+    "text": "F_SETFD",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00017",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     21
+    ],
+    "text": "Set the file descriptor flags defined in [A17][I18]&lt;fcntl.h&gt;[/I18][/A17], that are associated\nwith [I19]fildes[/I19], to the third argument, [I20]arg[/I20], taken as type [B21]int[/B21]. If the FD_CLOEXEC flag in the third argument is\nset, the file descriptor shall be closed upon successful execution of an [I22][A23]exec[/A23][/I22] family\nfunction [S24][[A25]SPN[/A25]][/S24] [IMG26] and in the new process image created by [A27][I28]posix_spawn[/I28]()[/A27] or [A29][I30]posix_spawnp[/I30]()[/A29]; [IMG31]\notherwise, the file descriptor shall remain open. If the FD_CLOFORK flag in the third argument is set, the file descriptor shall\nnot be inherited by any child process created from a process that has the file descriptor open; otherwise, the file descriptor\nshall be inherited.",
+    "placeholders": {
+     "A17": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B21": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A23": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "S24": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"javascript:open_code(&#x27;SPN&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG26": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A27": {
+      "open": "<a href=\"../functions/posix_spawn.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A29": {
+      "open": "<a href=\"../functions/posix_spawnp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG31": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00018",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     23
+    ],
+    "text": "F_GETFL",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00019",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     25
+    ],
+    "text": "Get the file status flags and file access modes, defined in [A32][I33]&lt;fcntl.h&gt;[/I33][/A32], for\nthe file description associated with [I34]fildes[/I34]. The file access modes can be extracted from the return value using the mask\nO_ACCMODE, which is defined in [A35][I36]&lt;fcntl.h&gt;[/I36][/A35]. File status flags and file access\nmodes are associated with the file description and do not affect other file descriptors that refer to the same file with different\nopen file descriptions. The flags returned may include non-standard file status flags which the application did not set, provided\nthat these additional flags do not alter the behavior of a conforming application.",
+    "placeholders": {
+     "A32": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A35": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00020",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     27
+    ],
+    "text": "F_SETFL",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00021",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     29
+    ],
+    "text": "Set the file status flags, defined in [A37][I38]&lt;fcntl.h&gt;[/I38][/A37], for the file description\nassociated with [I39]fildes[/I39] from the corresponding bits in the third argument, [I40]arg[/I40], taken as type [B41]int[/B41]. Bits\ncorresponding to the file access mode and the file creation flags, as defined in [A42][I43]&lt;fcntl.h&gt;[/I43][/A42], that are set in [I44]arg[/I44] shall be ignored. If any bits in [I45]arg[/I45] other\nthan those mentioned here are changed by the application, the result is unspecified. If [I46]fildes[/I46] does not support non-blocking\noperations, it is unspecified whether the O_NONBLOCK flag will be ignored.",
+    "placeholders": {
+     "A37": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B41": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A42": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00022",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     31
+    ],
+    "text": "F_GETOWN",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00023",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     33
+    ],
+    "text": "If [I47]fildes[/I47] refers to a socket, get the process ID or process group ID specified to receive SIGURG signals when\nout-of-band data is available. Positive values shall indicate a process ID; negative values, other than -1, shall indicate a\nprocess group ID; the value zero shall indicate that no SIGURG signals are to be sent. If [I48]fildes[/I48] does not refer to a socket,\nthe results are unspecified.",
+    "placeholders": {
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     35
+    ],
+    "text": "F_SETOWN",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     37
+    ],
+    "text": "If [I49]fildes[/I49] refers to a socket, atomically set the process ID or process group ID specified to receive SIGURG signals when\nout-of-band data is available, using the value of the third argument, [I50]arg[/I50], taken as type [B51]int[/B51]. Positive values shall\nindicate a process ID; negative values, other than -1, shall indicate a process group ID; the value zero shall indicate that no\nSIGURG signals are to be sent. If [I52]fildes[/I52] does not refer to a socket, the results are unspecified.",
+    "placeholders": {
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B51": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     39
+    ],
+    "text": "F_GETOWN_EX",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     41
+    ],
+    "text": "If [I53]fildes[/I53] refers to a socket, get the process ID or process group ID specified to receive SIGURG signals when\nout-of-band data is available, by setting the [I54]type[/I54] and [I55]pid[/I55] members of the [B56]f_owner_ex[/B56] structure pointed to by\nthe third argument, [I57]arg[/I57]. The value of [I58]type[/I58] shall be F_OWNER_PID or F_OWNER_PGRP to indicate that [I59]pid[/I59] contains\na process ID or a process group ID, respectively. The value of [I60]pid[/I60] shall be zero if no SIGURG signals are to be sent. If\n[I61]fildes[/I61] does not refer to a socket, the results are unspecified.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B56": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     43
+    ],
+    "text": "F_SETOWN_EX",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     45,
+     11,
+     1,
+     1
+    ],
+    "text": "A [I62]pid[/I62] value of zero shall indicate that no SIGURG signals are to be sent.",
+    "placeholders": {
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     45,
+     11,
+     3,
+     1
+    ],
+    "text": "A [I63]type[/I63] value of F_OWNER_PID and a positive [I64]pid[/I64] value shall indicate that SIGURG signals are to be sent to the\nprocess ID specified in [I65]pid[/I65].",
+    "placeholders": {
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     45,
+     11,
+     5,
+     1
+    ],
+    "text": "A [I66]type[/I66] value of F_OWNER_PGRP and a positive [I67]pid[/I67] value shall indicate that SIGURG signals are to be sent to the\nprocess group ID specified in [I68]pid[/I68].",
+    "placeholders": {
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     45,
+     13
+    ],
+    "text": "If [I69]fildes[/I69] does not refer to a socket, the results are unspecified.",
+    "placeholders": {
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "For F_SETOWN and F_SETOWN_EX, each time a SIGURG signal is sent to the specified process or process group, permission checks\nequivalent to those performed by [A70][I71]kill[/I71]()[/A70] shall be performed, as if [A72][I73]kill[/I73]()[/A72] were called by a process with the same real user ID, effective user ID, and privileges\nthat the process calling [I74]fcntl[/I74]() has at the time of the call; if the [A75][I76]kill[/I76]()[/A75] call\nwould fail, no signal shall be sent. These permission checks may also be performed by the [I77]fcntl[/I77]() call. If the process\nspecified by [I78]arg[/I78] later terminates, or the process group specified by [I79]arg[/I79] later becomes empty, while still being\nspecified to receive SIGURG signals when out-of-band data is available from [I80]fildes[/I80], then no signals shall be sent to any\nsubsequently created process that has the same process ID or process group ID, regardless of permission; it is unspecified whether\nthis is achieved by the equivalent of a [I81]fcntl[/I81]([I82]fildes[/I82], F_SETOWN, 0) call at the time the process terminates or is\nwaited for or the process group becomes empty, or by other means.",
+    "placeholders": {
+     "A70": {
+      "open": "<a href=\"../functions/kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A75": {
+      "open": "<a href=\"../functions/kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I78": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The following values for [I83]cmd[/I83] are available for advisory record locking. Record locking shall be supported for regular\nfiles, and may be supported for other files.",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00035",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     3
+    ],
+    "text": "F_GETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00036",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     5
+    ],
+    "text": "Get any lock which blocks the process-owned file lock description pointed to by the third argument, [I84]arg[/I84], taken as a\npointer to type [B85]struct flock[/B85], defined in [A86][I87]&lt;fcntl.h&gt;[/I87][/A86]. The information\nretrieved shall overwrite the information passed to [I88]fcntl[/I88]() in the structure [B89]flock[/B89]. If no lock is found that would\nprevent this lock from being created, then the structure shall be left unchanged except for the lock type in [I90]l_type[/I90] which\nshall be set to F_UNLCK.",
+    "placeholders": {
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B85": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A86": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B89": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00037",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     7
+    ],
+    "text": "F_SETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00038",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     9
+    ],
+    "text": "Set or clear a process-owned file lock according to the lock description pointed to by the third argument, [I91]arg[/I91], taken as\na pointer to type [B92]struct flock[/B92], defined in [A93][I94]&lt;fcntl.h&gt;[/I94][/A93]. F_SETLK can\nestablish shared (or read) locks (F_RDLCK) or exclusive (or write) locks (F_WRLCK), as well as remove either type of lock\n(F_UNLCK). F_RDLCK, F_WRLCK, and F_UNLCK are defined in [A95][I96]&lt;fcntl.h&gt;[/I96][/A95]. If a shared\nor exclusive lock cannot be set, [I97]fcntl[/I97]() shall return immediately with a return value of -1.",
+    "placeholders": {
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B92": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A93": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A95": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00039",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     11
+    ],
+    "text": "F_SETLKW",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00040",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     13
+    ],
+    "text": "This command shall be equivalent to F_SETLK except that if a shared or exclusive lock is blocked by other locks, the thread\nshall wait until the request can be satisfied. If a signal that is to be caught is received while [I98]fcntl[/I98]() is waiting for a\nregion, [I99]fcntl[/I99]() shall be interrupted. Upon return from the signal handler, [I100]fcntl[/I100]() shall return -1 with [I101]errno[/I101]\nset to [EINTR], and the lock operation shall not be done.",
+    "placeholders": {
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I99": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I101": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00041",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     15
+    ],
+    "text": "F_OFD_GETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00042",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     17
+    ],
+    "text": "Get any lock which blocks the OFD-owned file lock description pointed to by the third argument, [I102]arg[/I102], taken as a pointer\nto type [B103]struct flock[/B103], defined in [A104][I105]&lt;fcntl.h&gt;[/I105][/A104]; the application shall ensure\nthat the [I106]l_pid[/I106] member of the structure pointed to by [I107]arg[/I107] is set to 0 on input. The information retrieved shall\noverwrite the information passed to [I108]fcntl[/I108]() in the structure [B109]flock[/B109]. If no lock is found that would prevent this lock\nfrom being created, then the structure shall be left unchanged except for the lock type in [I110]l_type[/I110] which shall be set to\nF_UNLCK.",
+    "placeholders": {
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B103": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A104": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B109": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I110": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00043",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     19
+    ],
+    "text": "F_OFD_SETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00044",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     21
+    ],
+    "text": "Set or clear an OFD-owned file lock according to the lock description pointed to by the third argument, [I111]arg[/I111], taken as a\npointer to type [B112]struct flock[/B112], defined in [A113][I114]&lt;fcntl.h&gt;[/I114][/A113]; the application\nshall ensure that the [I115]l_pid[/I115] member of the structure pointed to by [I116]arg[/I116] is set to 0 on input. F_OFD_SETLK can establish\nshared (or read) locks (F_RDLCK) or exclusive (or write) locks (F_WRLCK), as well as remove either type of lock (F_UNLCK). F_RDLCK,\nF_WRLCK, and F_UNLCK are defined in [A117][I118]&lt;fcntl.h&gt;[/I118][/A117]. If a shared or exclusive lock\ncannot be set, [I119]fcntl[/I119]() shall return immediately with a return value of -1.",
+    "placeholders": {
+     "I111": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B112": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A113": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I114": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I115": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I116": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A117": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I119": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00045",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     23
+    ],
+    "text": "F_OFD_SETLKW",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00046",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     25
+    ],
+    "text": "This command shall be equivalent to F_OFD_SETLK except that if a shared or exclusive lock is blocked by other locks, the thread\nshall wait until the request can be satisfied. If a signal that is to be caught is received while [I120]fcntl[/I120]() is waiting for a\nregion, [I121]fcntl[/I121]() shall be interrupted. Upon return from the signal handler, [I122]fcntl[/I122]() shall return -1 with [I123]errno[/I123]\nset to [EINTR], and the lock operation shall not be done.",
+    "placeholders": {
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I121": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I123": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "Additional implementation-defined values for [I124]cmd[/I124] may be defined in [A125][I126]&lt;fcntl.h&gt;[/I126][/A125]. Their names shall start with F_.",
+    "placeholders": {
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A125": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I126": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "When a shared lock is set on a segment of a file, other processes can set shared process-owned locks, and other open file\ndescriptions can be used to set shared OFD-owned locks, on that segment or a portion of it. A shared process-owned lock shall\nprevent any other process from setting an exclusive process-owned lock, and shall prevent any exclusive OFD-owned lock from being\nset, on any portion of the protected area. A shared OFD-owned lock shall prevent any other open file description from being used to\nset an exclusive OFD-owned lock, and shall prevent any exclusive process-owned lock from being set, on any portion of the protected\narea. A request for a shared lock shall fail if the file descriptor is not open for reading.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "An exclusive process-owned lock shall prevent any other process from setting a shared or exclusive process-owned lock, and shall\nprevent any shared or exclusive OFD-owned lock from being set, on any portion of the protected area. An exclusive OFD-owned lock\nshall prevent any other open file description from being used to set a shared or exclusive OFD-owned lock, and shall prevent any\nshared or exclusive process-owned lock from being set, on any portion of the protected area. A request for an exclusive lock shall\nfail if the file descriptor is not open for writing.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "The structure [B127]flock[/B127] describes the type ([I128]l_type[/I128]), starting offset ([I129]l_whence[/I129]), relative offset\n([I130]l_start[/I130]), size ([I131]l_len[/I131]), and process ID ([I132]l_pid[/I132]) of the segment of the file to be affected.",
+    "placeholders": {
+     "B127": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I128": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I129": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I132": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "The value of [I133]l_whence[/I133] is SEEK_SET, SEEK_CUR, or SEEK_END, to indicate that the relative offset [I134]l_start[/I134] bytes shall\nbe measured from the start of the file, current position, or end of the file, respectively. The value of [I135]l_len[/I135] is the number\nof consecutive bytes to be locked. The value of [I136]l_len[/I136] may be negative (where the definition of [B137]off_t[/B137] permits negative\nvalues of [I138]l_len[/I138]). On input, the [I139]l_pid[/I139] field shall be ignored for F_GETLK, F_SETLK and F_SETLKW; the application shall\nensure that it is set to zero for F_OFD_GETLK, F_OFD_SETLK and F_OFD_SETLKW. It is set by F_GETLK and F_OFD_GETLK when identifying\na blocking lock. After a successful F_GETLK or F_OFD_GETLK request, when a blocking lock is found, the values returned in the\n[B140]flock[/B140] structure shall be as follows:",
+    "placeholders": {
+     "I133": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I134": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I136": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B137": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I138": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I139": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B140": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00052",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     3
+    ],
+    "text": "[I141]l_type[/I141]",
+    "placeholders": {
+     "I141": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00053",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     5
+    ],
+    "text": "Type of blocking lock found.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00054",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     7
+    ],
+    "text": "[I142]l_whence[/I142]",
+    "placeholders": {
+     "I142": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00055",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     9
+    ],
+    "text": "SEEK_SET.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00056",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     11
+    ],
+    "text": "[I143]l_start[/I143]",
+    "placeholders": {
+     "I143": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00057",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     13
+    ],
+    "text": "Start of the blocking lock.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00058",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     15
+    ],
+    "text": "[I144]l_len[/I144]",
+    "placeholders": {
+     "I144": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00059",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     17
+    ],
+    "text": "Length of the blocking lock.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00060",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     19
+    ],
+    "text": "[I145]l_pid[/I145]",
+    "placeholders": {
+     "I145": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00061",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23,
+     21
+    ],
+    "text": "Process ID of the process that holds the blocking lock if the blocking lock is a process-owned file lock, or ([B146]pid_t[/B146])-1\nif the blocking lock is an OFD-owned file lock.",
+    "placeholders": {
+     "B146": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25
+    ],
+    "text": "If the command is F_SETLKW or F_OFD_SETLKW and the thread needs to wait for a blocking lock to be released, then the range of\nbytes to be locked shall be determined before the [I147]fcntl[/I147]() function blocks. If the file size or file descriptor seek offset\nchange while [I148]fcntl[/I148]() is blocked, this shall not affect the range of bytes locked.",
+    "placeholders": {
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I148": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "If [I149]l_len[/I149] is positive, the area affected shall start at [I150]l_start[/I150] and end at [I151]l_start[/I151]+[I152]l_len[/I152]-1. If\n[I153]l_len[/I153] is negative, the area affected shall start at [I154]l_start[/I154]+[I155]l_len[/I155] and end at [I156]l_start[/I156]-1. Locks may start\nand extend beyond the current end of a file, but shall not extend before the beginning of the file. A lock shall be set to extend\nto the largest possible value of the file offset for that file by setting [I157]l_len[/I157] to 0. If such a lock also has [I158]l_start[/I158]\nset to 0 and [I159]l_whence[/I159] is set to SEEK_SET, the whole file shall be locked.",
+    "placeholders": {
+     "I149": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I150": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I151": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I152": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I153": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I154": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I155": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I156": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I157": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I158": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I159": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00064",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29
+    ],
+    "text": "Each byte in the file can be locked either with one or more shared locks (F_RDLCK) or with one exclusive lock (F_WRLCK).",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00065",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31
+    ],
+    "text": "Before a successful return from an F_SETLK or an F_SETLKW request when the calling process has previously existing process-owned\nlocks on bytes in the region specified by the request, the previous shared or exclusive lock for each byte in the specified region\nshall be replaced by the new shared or exclusive lock. An F_SETLK or an F_SETLKW request (respectively) shall fail or block when\nanother process has existing process-owned locks, or any open file description (including the one associated with [I160]fildes[/I160])\nhas existing OFD-owned locks, on bytes in the specified region and any of those locks conflicts with the requested lock.",
+    "placeholders": {
+     "I160": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33
+    ],
+    "text": "Before a successful return from an F_OFD_SETLK or an F_OFD_SETLKW request when the open file description associated with fildes\nhas previously existing OFD-owned locks on bytes in the region specified by the request, the previous shared or exclusive lock for\neach byte in the specified region shall be replaced by the new shared or exclusive lock. An F_OFD_SETLK or an F_OFD_SETLKW request\n(respectively) shall fail or block when another open file description has existing OFD-owned locks, or any process (including the\ncalling process) has existing process-owned locks, on bytes in the specified region and any of those locks conflicts with the\nrequested lock.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     35
+    ],
+    "text": "All process-owned locks associated with a file for a given process shall be removed when any file descriptor for that file is\nclosed by that process (even if via a different open file description) or the process holding that file descriptor terminates.\nProcess-owned locks shall not be inherited by a child process.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00068",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37
+    ],
+    "text": "All OFD-owned locks associated with a given open file description shall be removed when all file descriptors associated with\nthat open file description have been closed (either directly or as a side-effect of, for example, process termination or\nFD_CLOEXEC). OFD-owned locks shall be shared across all file descriptors that are associated with the owning open file description,\nregardless of which process holds the file descriptor.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     39
+    ],
+    "text": "A potential for deadlock occurs if a process or thread controlling a locked region is put to sleep by attempting to lock a\nregion that has an existing conflicting lock. If the system detects that sleeping until a locked region is unlocked would cause a\ndeadlock, [I161]fcntl[/I161]() shall fail with an [EDEADLK] error. Deadlock detection may differ between process-owned locks and\nOFD-owned locks.",
+    "placeholders": {
+     "I161": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00070",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41
+    ],
+    "text": "[S162][[A163]XSI[/A163]][/S162] [IMG164]\nThe interaction between [I165]fcntl[/I165]() and [A166][I167]lockf[/I167]()[/A166] locks is unspecified. [IMG168]",
+    "placeholders": {
+     "S162": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A163": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG164": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I165": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A166": {
+      "open": "<a href=\"../functions/lockf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I167": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG168": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     43
+    ],
+    "text": "An unlock (F_UNLCK) request in which [I169]l_len[/I169] is non-zero and the offset of the last byte of the requested segment is the\nmaximum value for an object of type [B170]off_t[/B170], when the process (for F_SETLK and F_SETLKW) or open file description (for\nF_OFD_SETLK and F_OFD_SETLKW) has an existing lock in which [I171]l_len[/I171] is 0 and which includes the last byte of the requested\nsegment, shall be treated as a request to unlock from the start of the requested segment with an [I172]l_len[/I172] equal to 0.\nOtherwise, an unlock (F_UNLCK) request shall attempt to unlock only the requested segment.",
+    "placeholders": {
+     "I169": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B170": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I171": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I172": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     45
+    ],
+    "text": "[S173][[A174]SHM[/A174]][/S173] [IMG175]\nWhen the file descriptor [I176]fildes[/I176] refers to a shared memory object, the behavior of [I177]fcntl[/I177]() shall be the same as for a\nregular file except the effect of the following values for the argument [I178]cmd[/I178] is unspecified: F_SETFL, F_GETLK, F_SETLK,\nF_SETLKW, F_OFD_GETLK, F_OFD_SETLK, and F_OFD_SETLKW. [IMG179]",
+    "placeholders": {
+     "S173": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A174": {
+      "open": "<a href=\"javascript:open_code(&#x27;SHM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG175": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I176": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I177": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I178": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG179": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47
+    ],
+    "text": "[S180][[A181]TYM[/A181]][/S180] [IMG182]\nIf [I183]fildes[/I183] refers to a typed memory object, the result of the [I184]fcntl[/I184]() function is unspecified. [IMG185]",
+    "placeholders": {
+     "S180": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A181": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG182": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I183": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I184": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG185": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00074",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A186][/A186]RETURN VALUE",
+    "placeholders": {
+     "A186": {
+      "open": "<a name=\"tag_17_139_04\" id=\"tag_17_139_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, the value returned shall depend on [I187]cmd[/I187] as follows:",
+    "placeholders": {
+     "I187": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00076",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     3
+    ],
+    "text": "F_DUPFD",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00077",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     5
+    ],
+    "text": "A new file descriptor.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00078",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     7
+    ],
+    "text": "F_DUPFD_CLOEXEC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00079",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     9
+    ],
+    "text": "A new file descriptor.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00080",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     11
+    ],
+    "text": "F_DUPFD_CLOFORK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00081",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     13
+    ],
+    "text": "A new file descriptor.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00082",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     15
+    ],
+    "text": "F_GETFD",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00083",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     17
+    ],
+    "text": "Value of flags defined in [A188][I189]&lt;fcntl.h&gt;[/I189][/A188]. The return value shall not be\nnegative.",
+    "placeholders": {
+     "A188": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I189": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00084",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     19
+    ],
+    "text": "F_SETFD",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00085",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     21
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00086",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     23
+    ],
+    "text": "F_GETFL",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00087",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     25
+    ],
+    "text": "Value of file status flags and access modes. The return value shall not be negative.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00088",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     27
+    ],
+    "text": "F_SETFL",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00089",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     29
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00090",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     31
+    ],
+    "text": "F_GETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00091",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     33
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00092",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     35
+    ],
+    "text": "F_SETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00093",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     37
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00094",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     39
+    ],
+    "text": "F_SETLKW",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00095",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     41
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00096",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     43
+    ],
+    "text": "F_OFD_GETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00097",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     45
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00098",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     47
+    ],
+    "text": "F_OFD_SETLK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00099",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     49
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00100",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     51
+    ],
+    "text": "F_OFD_SETLKW",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00101",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     53
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00102",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     55
+    ],
+    "text": "F_GETOWN",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00103",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     57
+    ],
+    "text": "Value of the socket owner process or process group; this shall not be -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00104",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     59
+    ],
+    "text": "F_SETOWN",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00105",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     61
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00106",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     63
+    ],
+    "text": "F_GETOWN_EX",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00107",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     65
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00108",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     67
+    ],
+    "text": "F_SETOWN_EX",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00109",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3,
+     69
+    ],
+    "text": "Value other than -1.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00110",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     5
+    ],
+    "text": "Otherwise, -1 shall be returned and [I190]errno[/I190] set to indicate the error.",
+    "placeholders": {
+     "I190": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00111",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A191][/A191]ERRORS",
+    "placeholders": {
+     "A191": {
+      "open": "<a name=\"tag_17_139_05\" id=\"tag_17_139_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00112",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I192]fcntl[/I192]() function shall fail if:",
+    "placeholders": {
+     "I192": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00113",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EACCES] or [EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00114",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The [I193]cmd[/I193] argument is F_SETLK, the type of lock ([I194]l_type[/I194]) is a shared (F_RDLCK) or exclusive (F_WRLCK) lock, and the\nrequested lock cannot be set because it is blocked by an existing lock on the file.",
+    "placeholders": {
+     "I193": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I194": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00115",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00116",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The [I195]cmd[/I195] argument is F_OFD_SETLK, the type of lock ([I196]l_type[/I196]) is a shared (F_RDLCK) or exclusive (F_WRLCK) lock, and\nthe requested lock cannot be set because it is blocked by an existing lock on the file.",
+    "placeholders": {
+     "I195": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I196": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00117",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00118",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "The [I197]fildes[/I197] argument is not a valid open file descriptor; or the argument [I198]cmd[/I198] is F_SETLK, F_SETLKW, F_OFD_SETLK,\nor F_OFD_SETLKW, the type of lock, [I199]l_type[/I199], is a shared lock (F_RDLCK), and [I200]fildes[/I200] is not a valid file descriptor open\nfor reading, or the type of lock, [I201]l_type[/I201], is an exclusive lock (F_WRLCK), and [I202]fildes[/I202] is not a valid file descriptor\nopen for writing.",
+    "placeholders": {
+     "I197": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I198": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I199": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I200": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I201": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I202": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00119",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00120",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "The [I203]cmd[/I203] argument is F_SETLKW or F_OFD_SETLKW and the function was interrupted by a signal.",
+    "placeholders": {
+     "I203": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00121",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00122",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "The [I204]cmd[/I204] argument is invalid; or the [I205]cmd[/I205] argument is F_DUPFD, F_DUPFD_CLOEXEC, or F_DUPFD_CLOFORK and [I206]arg[/I206]\nis negative or is greater than or equal to {OPEN_MAX}; or the [I207]cmd[/I207] argument is F_SETOWN_EX and the [I208]type[/I208] member of the\n[B209]f_owner_ex[/B209] structure pointed to by [I210]arg[/I210] is invalid, or the [I211]pid[/I211] member is negative and the [I212]type[/I212] member is\nF_OWNER_PID or F_OWNER_PGRP; or the [I213]cmd[/I213] argument is F_GETLK, F_SETLK, F_SETLKW, F_OFD_GETLK, F_OFD_SETLK, or F_OFD_SETLKW\nand the data pointed to by [I214]arg[/I214] is not valid, or [I215]fildes[/I215] refers to a file that does not support locking.",
+    "placeholders": {
+     "I204": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I205": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I206": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I207": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I208": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B209": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I210": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I211": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I212": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I213": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I214": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I215": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00123",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     23
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00124",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     25
+    ],
+    "text": "The argument [I216]cmd[/I216] is F_DUPFD, F_DUPFD_CLOEXEC, or F_DUPFD_CLOFORK and all file descriptors available to the process are\ncurrently open, or no file descriptors greater than or equal to [I217]arg[/I217] are available.",
+    "placeholders": {
+     "I216": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I217": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00125",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     27
+    ],
+    "text": "[ENOLCK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00126",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     29
+    ],
+    "text": "The argument [I218]cmd[/I218] is F_SETLK, F_SETLKW, F_OFD_SETLK, or F_OFD_SETLKW and satisfying the lock or unlock request would\nresult in the number of locked regions in the system exceeding a system-imposed limit.",
+    "placeholders": {
+     "I218": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00127",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     31
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00128",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     33
+    ],
+    "text": "One of the values to be returned cannot be represented correctly.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00129",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     35
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00130",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     37
+    ],
+    "text": "The [I219]cmd[/I219] argument is F_GETLK, F_SETLK, F_SETLKW, F_OFD_GETLK, F_OFD_SETLK, or F_OFD_SETLKW and the smallest or, if\n[I220]l_len[/I220] is non-zero, the largest offset of any byte in the requested segment cannot be represented correctly in an object of\ntype [B221]off_t[/B221].",
+    "placeholders": {
+     "I219": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I220": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B221": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00131",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     39
+    ],
+    "text": "[ESRCH]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00132",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     41
+    ],
+    "text": "The [I222]cmd[/I222] argument is F_SETOWN or F_SETOWN_EX and no process or process group can be found corresponding to that specified\nby [I223]arg[/I223].",
+    "placeholders": {
+     "I222": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I223": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00133",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7
+    ],
+    "text": "The [I224]fcntl[/I224]() function may fail if:",
+    "placeholders": {
+     "I224": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00134",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     3
+    ],
+    "text": "[EDEADLK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00135",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     5
+    ],
+    "text": "The [I225]cmd[/I225] argument is F_SETLKW or F_OFD_SETLKW, the type of lock ([I226]l_type[/I226]) is a shared (F_RDLCK) or exclusive\n(F_WRLCK) lock, the requested lock is blocked by an existing lock on the file, and the system determines that waiting for that lock\nto be released would cause a deadlock.",
+    "placeholders": {
+     "I225": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I226": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00136",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     7
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00137",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     9
+    ],
+    "text": "The [I227]cmd[/I227] argument is F_SETOWN and the value of [I228]arg[/I228] is positive and is not valid as a process ID or the value of\n[I229]arg[/I229] is negative and its absolute value is not valid as a process group ID; or the [I230]cmd[/I230] argument is F_SETOWN_EX, the\nvalue of the [I231]type[/I231] member of the [B232]f_owner_ex[/B232] structure pointed to by [I233]arg[/I233] is F_OWNER_PID, and the value of the\n[I234]pid[/I234] member is not valid as a process ID; or the [I235]cmd[/I235] argument is F_SETOWN_EX, the value of the [I236]type[/I236] member of\nthe [B237]f_owner_ex[/B237] structure pointed to by [I238]arg[/I238] is F_OWNER_PGRP, and the value of the [I239]pid[/I239] member is not valid as a\nprocess group ID.",
+    "placeholders": {
+     "I227": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I228": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I229": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I230": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I231": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B232": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I233": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I234": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I235": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I236": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B237": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I238": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I239": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00138",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     11
+    ],
+    "text": "[EPERM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00139",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     13
+    ],
+    "text": "The [I240]cmd[/I240] argument is F_SETOWN or F_SETOWN_EX and the calling process does not have permission to send a SIGURG signal to\nany process specified by [I241]arg[/I241].",
+    "placeholders": {
+     "I240": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I241": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00140",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A242][/A242]EXAMPLES",
+    "placeholders": {
+     "A242": {
+      "open": "<a name=\"tag_17_139_06\" id=\"tag_17_139_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00141",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A243][/A243]Locking and Unlocking a File",
+    "placeholders": {
+     "A243": {
+      "open": "<a name=\"tag_17_139_06_01\" id=\"tag_17_139_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00142",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example demonstrates how to place a lock on bytes 100 to 109 of a file and then later remove it. F_SETLK is used\nto perform a non-blocking lock request so that the process does not have to wait if an incompatible lock is held by another\nprocess; instead the process can take some other action.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h5_00143",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     7
+    ],
+    "text": "[A244][/A244]Setting the Close-on-Exec Flag",
+    "placeholders": {
+     "A244": {
+      "open": "<a name=\"tag_17_139_06_02\" id=\"tag_17_139_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00144",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     9
+    ],
+    "text": "The following example demonstrates how to set the close-on-exec flag for the file descriptor [I245]fd[/I245].",
+    "placeholders": {
+     "I245": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00145",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A246][/A246]APPLICATION USAGE",
+    "placeholders": {
+     "A246": {
+      "open": "<a name=\"tag_17_139_07\" id=\"tag_17_139_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00146",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "The [I247]arg[/I247] values to F_GETFD, F_SETFD, F_GETFL, and F_SETFL all represent flag values to allow for future growth.\nApplications using these functions should do a read-modify-write operation on them, rather than assuming that only the values\ndefined by this volume of POSIX.1-2024 are valid. It is a common error to forget this, particularly in the case of F_SETFD. Some\nimplementations set additional file status flags to advise the application of default behavior, even though the application did not\nrequest these flags.",
+    "placeholders": {
+     "I247": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00147",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "In order to set both FD_CLOEXEC and FD_CLOFORK when duplicating a file descriptor, applications should use F_DUPFD_CLOFORK to\nobtain the new file descriptor with FD_CLOFORK already set, and then use F_SETFD to set the FD_CLOEXEC flag on the new descriptor.\n(The alternative of first using F_DUPFD_CLOEXEC and then setting FD_CLOFORK with F_SETFD has a timing window where another thread\ncould create a child process which inherits the new descriptor because FD_CLOFORK has not yet been set.)",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00148",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5
+    ],
+    "text": "The FD_CLOFORK flag takes effect for all child processes, not just those created using [A248][I249]fork[/I249]()[/A248] or [A250][I251]_Fork[/I251]()[/A250].",
+    "placeholders": {
+     "A248": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I249": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A250": {
+      "open": "<a href=\"../functions/_Fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I251": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00149",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     7
+    ],
+    "text": "On implementations where process IDs can be greater than {INT_MAX}, F_SETOWN cannot be used with process IDs greater than\n{INT_MAX} or process group IDs greater than {INT_MAX}+1 because the value is passed to [I252]fcntl[/I252]() in an argument of type\n[B253]int[/B253]. In this situation, F_SETOWN_EX should be used instead.",
+    "placeholders": {
+     "I252": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B253": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00150",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     9
+    ],
+    "text": "Similarly, if a process ID greater than {INT_MAX} or a process group ID greater than {INT_MAX}+1 has been set to receive SIGURG\nsignals (using F_SETOWN_EX), F_GETOWN cannot be used to obtain the value because [I254]fcntl[/I254]() returns the value as type\n[B255]int[/B255] and will thus give an [EOVERFLOW] error for such values. F_GETOWN_EX should be used instead.",
+    "placeholders": {
+     "I254": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B255": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00151",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     11
+    ],
+    "text": "Note that the convention of negating a process group ID is only used with F_SETOWN and F_GETOWN; the [I256]pid[/I256] member of the\n[B257]f_owner_ex[/B257] structure used with F_SETOWN_EX and F_GETOWN_EX is not negated when it specifies a process group ID.",
+    "placeholders": {
+     "I256": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B257": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00152",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     13
+    ],
+    "text": "On systems which do not perform permission checks at the time of an [I258]fcntl[/I258]() call with F_SETOWN or F_SETOWN_EX, if the\npermission checks performed at the time the signal is sent disallow sending the signal to any process, the process that called\n[I259]fcntl[/I259]() has no way of discovering that this has happened. A call to [A260][I261]kill[/I261]()[/A260] with\nsignal 0 can be used as a prior check of permissions, although this is no guarantee that permission will be granted at the time a\nsignal is sent, since the target process(es) could change user IDs or privileges in the meantime.",
+    "placeholders": {
+     "I258": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I259": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A260": {
+      "open": "<a href=\"../functions/kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I261": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00153",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     15
+    ],
+    "text": "Record-locking should not be used in combination with buffered standard I/O streams (see [A262][I263]2.5 Standard I/O Streams[/I263][/A262]). Instead, non-buffered I/O should be used. Unexpected\nresults may occur in processes that do buffering in the user address space. The process may later read/write data which is/was\nlocked. Functions that operate on standard I/O streams are the most common source of such buffering.",
+    "placeholders": {
+     "A262": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I263": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00154",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A264][/A264]RATIONALE",
+    "placeholders": {
+     "A264": {
+      "open": "<a name=\"tag_17_139_08\" id=\"tag_17_139_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00155",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The ellipsis in the SYNOPSIS is the syntax specified by the ISO&nbsp;C standard for a variable number of arguments. It is used\nbecause System V uses pointers for the implementation of file locking functions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00156",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "This volume of POSIX.1-2024 permits concurrent read and write access to file data using the [I265]fcntl[/I265]() function; this is a\nchange from the 1984 /usr/group standard and early proposals. Without concurrency controls, this feature may not be fully utilized\nwithout occasional loss of data.",
+    "placeholders": {
+     "I265": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00157",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "Data losses occur in several ways. One case occurs when several processes try to update the same record, without sequencing\ncontrols; several updates may occur in parallel and the last writer &quot;wins&quot;. Another case is a bit-tree or other internal\nlist-based database that is undergoing reorganization. Without exclusive use to the tree segment by the updating process, other\nreading processes chance getting lost in the database when the index blocks are split, condensed, inserted, or deleted. While\n[I266]fcntl[/I266]() is useful for many applications, it is not intended to be overly general and does not handle the bit-tree example\nwell.",
+    "placeholders": {
+     "I266": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00158",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "This facility is only required for regular files because it is not appropriate for many devices such as terminals and network\nconnections.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00159",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "Since [I267]fcntl[/I267]() works with &quot;any file descriptor associated with that file, however it is obtained&quot;, the file descriptor\nmay have been inherited through a [A268][I269]fork[/I269]()[/A268] or [I270][A271]exec[/A271][/I270] operation and thus may affect a file that another process also has open.",
+    "placeholders": {
+     "I267": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A268": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I269": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I270": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A271": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00160",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "The use of the open file description to identify what to lock requires extra calls and presents problems if several processes\nare sharing an open file description, but there are too many implementations of the existing mechanism for this volume of\nPOSIX.1-2024 to use different specifications.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00161",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     13
+    ],
+    "text": "Another consequence of this model is that closing any file descriptor for a given file (whether or not it is the same open file\ndescription that created the lock) causes the locks on that file to be relinquished for that process. Equivalently, any close for\nany file/process pair relinquishes the locks owned on that file for that process. But note that while an open file description may\nbe shared through [A272][I273]fork[/I273]()[/A272], locks are not inherited through [A274][I275]fork[/I275]()[/A274]. Yet locks may be inherited through one of the [I276][A277]exec[/A277][/I276] functions.",
+    "placeholders": {
+     "A272": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I273": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A274": {
+      "open": "<a href=\"../functions/fork.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I275": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I276": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A277": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00162",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     15
+    ],
+    "text": "The identification of a machine in a network environment is outside the scope of this volume of POSIX.1-2024. Thus, an\n[I278]l_sysid[/I278] member, such as found in System V, is not included in the locking structure.",
+    "placeholders": {
+     "I278": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00163",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     17
+    ],
+    "text": "Changing of lock types can result in a previously locked region being split into smaller regions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00164",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     19
+    ],
+    "text": "Mandatory locking was a major feature of the 1984 /usr/group standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00165",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     21
+    ],
+    "text": "For advisory file record locking to be effective, all processes that have access to a file must cooperate and use the advisory\nmechanism before doing I/O on the file. Enforcement-mode record locking is important when it cannot be assumed that all processes\nare cooperating. For example, if one user uses an editor to update a file at the same time that a second user executes another\nprocess that updates the same file and if only one of the two processes is using advisory locking, the processes are not\ncooperating. Enforcement-mode record locking would protect against accidental collisions.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00166",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     23
+    ],
+    "text": "Secondly, advisory record locking requires a process using locking to bracket each I/O operation with lock (or test) and unlock\noperations. With enforcement-mode file and record locking, a process can lock the file once and unlock when all I/O operations have\nbeen completed. Enforcement-mode record locking provides a base that can be enhanced; for example, with sharable locks. That is,\nthe mechanism could be enhanced to allow a process to lock a file so other processes could read it, but none of them could write\nit.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00167",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     25
+    ],
+    "text": "Mandatory locks were omitted for several reasons:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00168",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27,
+     1,
+     1
+    ],
+    "text": "Mandatory lock setting was done by multiplexing the set-group-ID bit in most implementations; this was confusing, at best.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00169",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27,
+     3,
+     1
+    ],
+    "text": "The relationship to file truncation as supported in 4.2 BSD was not well specified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00170",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27,
+     5,
+     1
+    ],
+    "text": "Any publicly readable file could be locked by anyone. Many historical implementations keep the password database in a publicly\nreadable file. A malicious user could thus prohibit logins. Another possibility would be to hold open a long-distance telephone\nline.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00171",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     27,
+     7,
+     1
+    ],
+    "text": "Some demand-paged historical implementations offer memory mapped files, and enforcement cannot be done on that type of file.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00172",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     29
+    ],
+    "text": "Since sleeping on a region is interrupted with any signal, [A279][I280]alarm[/I280]()[/A279] may be used to\nprovide a timeout facility in applications requiring it. This is useful in deadlock detection. Since implementation of full\ndeadlock detection is not always feasible, the [EDEADLK] error was made optional.",
+    "placeholders": {
+     "A279": {
+      "open": "<a href=\"../functions/alarm.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I280": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00173",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     31
+    ],
+    "text": "The F_SETOWN_EX and F_GETOWN_EX values for [I281]cmd[/I281] and the associated [B282]f_owner_ex[/B282] structure were adopted from the GNU C\nlibrary. In addition to the values F_OWNER_PID and F_OWNER_PGRP for the [I283]type[/I283] member, this also has F_OWNER_TID to specify\nthat the [I284]pid[/I284] member contains a thread ID. However, this relies on thread IDs being representable in a [B285]pid_t[/B285] and so\nwas not included in POSIX.1-2024. The aim of adding F_SETOWN_EX and F_GETOWN_EX was to address the inability of F_SETOWN and\nF_GETOWN to handle process IDs greater than {INT_MAX} and process group IDs greater than {INT_MAX}+1, and this need is satisfied\nwithout including F_OWNER_TID.",
+    "placeholders": {
+     "I281": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B282": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I283": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I284": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B285": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00174",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A286][/A286]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A286": {
+      "open": "<a name=\"tag_17_139_09\" id=\"tag_17_139_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00175",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00176",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A287][/A287]SEE ALSO",
+    "placeholders": {
+     "A287": {
+      "open": "<a name=\"tag_17_139_10\" id=\"tag_17_139_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00177",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A288][I289]alarm[/I289]()[/A288], [A290][I291]close[/I291]()[/A290], [A292][/A292][A293]exec[/A293], [A294][I295]kill[/I295]()[/A294], [A296][I297]open[/I297]()[/A296], [A298][I299]sigaction[/I299]()[/A298]",
+    "placeholders": {
+     "A288": {
+      "open": "<a href=\"../functions/alarm.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I289": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A290": {
+      "open": "<a href=\"../functions/close.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I291": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A292": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A293": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A294": {
+      "open": "<a href=\"../functions/kill.html#tag_17_296\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I295": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A296": {
+      "open": "<a href=\"../functions/open.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I297": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A298": {
+      "open": "<a href=\"../functions/sigaction.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I299": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00178",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A300][I301]&lt;fcntl.h&gt;[/I301][/A300], [A302][I303]&lt;signal.h&gt;[/I303][/A302]",
+    "placeholders": {
+     "A300": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I301": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A302": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I303": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00179",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A304][/A304]CHANGE HISTORY",
+    "placeholders": {
+     "A304": {
+      "open": "<a name=\"tag_17_139_11\" id=\"tag_17_139_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00180",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00181",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A305][/A305]Issue 5",
+    "placeholders": {
+     "A305": {
+      "open": "<a name=\"tag_17_139_12\" id=\"tag_17_139_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00182",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00183",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "Large File Summit extensions are added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00184",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A306][/A306]Issue 6",
+    "placeholders": {
+     "A306": {
+      "open": "<a name=\"tag_17_139_13\" id=\"tag_17_139_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00185",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "In the SYNOPSIS, the optional include of the [A307][I308]&lt;sys/types.h&gt;[/I308][/A307] header is\nremoved.",
+    "placeholders": {
+     "A307": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I308": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00186",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00187",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     1,
+     1
+    ],
+    "text": "The requirement to include [A309][I310]&lt;sys/types.h&gt;[/I310][/A309] has been removed. Although\n[A311][I312]&lt;sys/types.h&gt;[/I312][/A311] was required for conforming implementations of previous POSIX\nspecifications, it was not required for UNIX applications.",
+    "placeholders": {
+     "A309": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I310": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A311": {
+      "open": "<a href=\"../basedefs/sys_types.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I312": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00188",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     3,
+     1
+    ],
+    "text": "In the DESCRIPTION, sentences describing behavior when [I313]l_len[/I313] is negative are now mandated, and the description of unlock\n(F_UNLOCK) when [I314]l_len[/I314] is non-negative is mandated.",
+    "placeholders": {
+     "I313": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I314": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00189",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5,
+     5,
+     1
+    ],
+    "text": "In the ERRORS section, the [EINVAL] error condition has the case mandated when the [I315]cmd[/I315] is invalid, and two [EOVERFLOW]\nerror conditions are added.",
+    "placeholders": {
+     "I315": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00190",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The F_GETOWN and F_SETOWN values are added for sockets.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00191",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00192",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11,
+     1,
+     1
+    ],
+    "text": "Clarification is added that the extent of the bytes locked is determined prior to the blocking action.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00193",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by specifying that [I316]fcntl[/I316]() results are\nunspecified for typed memory objects.",
+    "placeholders": {
+     "I316": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00194",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00195",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     17
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/29 is applied, adding the example to the EXAMPLES section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00196",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A317][/A317]Issue 7",
+    "placeholders": {
+     "A317": {
+      "open": "<a name=\"tag_17_139_14\" id=\"tag_17_139_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00197",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #150 is applied, clarifying the file status flags returned when [I318]cmd[/I318] is\nF_GETFL.",
+    "placeholders": {
+     "I318": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00198",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #171 is applied, adding support to set the FD_CLOEXEC flag atomically at [A319][I320]open[/I320]()[/A319], and adding the F_DUPFD_CLOEXEC flag.",
+    "placeholders": {
+     "A319": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I320": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00199",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "The optional [A321][I322]&lt;unistd.h&gt;[/I322][/A321] header is removed from this function, since\n[A323][I324]&lt;fcntl.h&gt;[/I324][/A323] now defines SEEK_SET, SEEK_CUR, and SEEK_END as part of the Base.",
+    "placeholders": {
+     "A321": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I322": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A323": {
+      "open": "<a href=\"../basedefs/fcntl.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I324": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00200",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0116 [141] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00201",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0105 [835], XSH/TC2-2008/0106 [677], XSH/TC2-2008/0107 [484],\nXSH/TC2-2008/0108 [675], and XSH/TC2-2008/0109 [675,677] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00202",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A325][/A325]Issue 8",
+    "placeholders": {
+     "A325": {
+      "open": "<a name=\"tag_17_139_15\" id=\"tag_17_139_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00203",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 695 is applied, adding an atomicity requirement to the F_SETOWN operation.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00204",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defects 768 and 1671 are applied, adding OFD-owned file locks.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00205",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 1203 is applied, changing some wording in the RETURN VALUE section to use &quot;shall&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00206",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defects 1274 and 1670 are applied, adding F_GETOWN_EX and F_SETOWN_EX.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00207",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     9
+    ],
+    "text": "Austin Group Defect 1318 is applied, adding FD_CLOFORK and F_DUPFD_CLOFORK.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00208",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,41 @@
+<h1>XSH 函数导读：strtol()</h1>
+
+<h2>0. 总览</h2>
+<p><code>strtol()</code> 将字符串转换为长整数：把 <i>nptr</i> 指向的字符串的初始部分按 <i>base</i> 指定的基数转换成 <b>long</b>（另有 <code>strtoll()</code> 转 <b>long long</b>）。头文件为 <code>&lt;stdlib.h&gt;</code>。原型关键点：<code>long strtol(const char *restrict nptr, char **restrict endptr, int base)</code>——<i>endptr</i> 用于报告转换停止的位置，可为空指针。</p>
+
+<h2>1. 机制</h2>
+<p>输入被分解为三部分：可能为空的初始空白序列、被解释为整数的“主题序列”、以及最终字符串（含终止 NUL）。<i>base</i> 为 0 时按 C 字面量规则自动判定：<code>0x</code>/<code>0X</code> 开头按十六进制、<code>0</code> 开头按八进制、其余按十进制；<i>base</i> 为 2–36 时按该基数解释，字母 <code>a</code>–<code>z</code>（或大写）取值 10–35，只允许值小于 <i>base</i> 的字母（base 为 16 时可带 0x 前缀）。主题序列是从第一个非空白字节开始、具有期望形式的最长初始子序列；若为空或不具期望形式，则不转换，并把 <i>nptr</i> 原值存入 <i>*endptr</i>。以 &lt;hyphen-minus&gt; 开头时结果为相反数。成功时函数不改变 <i>errno</i> 的设置；超出可表示范围返回 {LONG_MIN}/{LONG_MAX}（或 LLONG 版）并置 <i>errno</i> 为 [ERANGE]；不支持的 <i>base</i> 返回 0 并置 [EINVAL]。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>0、{LONG_MIN}、{LONG_MAX} 既可能是错误返回值也可能是合法成功值：应先把 <i>errno</i> 置 0，调用后再查 <i>errno</i> 区分。</li>
+<li>无法转换时返回 0，且 <i>errno</i> 可能被置为 [EINVAL]——“输入不是数字”与“数字是 0”要靠 <i>endptr</i> 判定：若 <code>endptr == nptr</code> 说明主题序列为空。</li>
+<li>检查 <i>endptr</i> 时不要忘记非数字后缀：<code>"42abc"</code> 会成功转换出 42，<i>*endptr</i> 指向 <code>'a'</code>；需要“整串都是数字”时须检查 <code>*endptr == '\0'</code>。</li>
+<li><i>base</i> 不受支持时 <i>*endptr</i> 的值未指定：应在调用前保证 base 为 0 或 2–36，或在检查 <i>*endptr</i> 前先检查 [EINVAL]。</li>
+<li>返回值是 <b>long</b>，用 <code>atoi()</code> 的习惯直接赋给 int 可能截断；<i>base</i> 为 0 时 <code>"08"</code> 之类会按八进制解析失败或异常。</li>
+<li>负数超范围返回 {LONG_MIN}、正数超范围返回 {LONG_MAX}，[ERANGE] 时不能把返回值当真实值。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;errno.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    const char *s = "  0x1F 尾随文字";
+    char *end;
+    long v;
+
+    errno = 0;                 /* 必须清零以检测错误 */
+    v = strtol(s, &amp;end, 0);    /* base=0：自动识别 0x 前缀 */
+    if (errno == ERANGE) {
+        puts("超出 long 范围");
+    } else if (end == s) {
+        puts("没有可转换的数字");
+    } else {
+        printf("值=%ld，余下: %s\n", v, end);
+    }
+    return 0;
+}
+</code></pre>

@@ -1,0 +1,28 @@
+<h1>XSH 函数导读：setsockopt()</h1>
+
+<h2>0. 总览</h2>
+<p><b>setsockopt()</b> 设置套接字选项：在由 <i>level</i> 指定的协议层上，把由 <i>option_name</i> 指定的选项设置为 <i>option_value</i> 指向的值。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len)</code>。成功返回 0，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p><i>level</i> 指定选项所在协议层：套接字层选项置为 SOL_SOCKET（SO_ 选项始终存在于最顶层的套接字层）；其他层选项提供控制该选项的协议层标识符，例如由 TCP 解释的选项把 level 设为 <code>&lt;netinet/in.h&gt;</code> 中定义的 IPPROTO_TCP。<i>option_value</i> 和 <i>option_len</i> 给出选项的新值及其字节长度；选项类型各异（int、struct timeval、linger 结构等），必须按每个选项的约定提供正确类型。应用程序可用它分配缓冲区空间、控制超时（如 SO_RCVTIMEO、SO_SNDTIMEO）或允许套接字数据广播。设置 SO_RCVTIMEO/SO_SNDTIMEO 时，timeval 是按原样存储还是向上取整以对齐时钟分辨率，未指定；以 SO_ACCEPTCONN、SO_ERROR 或 SO_TYPE 为 option_name 调用 setsockopt() 时行为未指定，应改用 getsockopt() 读取这类只读选项。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>option_len 必须与选项实际类型匹配（如 int 选项传 sizeof(int)），传错大小或类型会导致错误或意外行为。</li>
+<li>套接字已连接时部分选项无法设置，返回 [EISCONN]；应在 bind()/connect() 之前完成此类设置。</li>
+<li>超时值太大放不进套接字结构中的超时字段时返回 [EDOM]。</li>
+<li>选项无效返回 [EINVAL]，协议不支持返回 [ENOPROTOOPT]，level 用错层是常见错误。</li>
+<li>被 accept()/accept4() 接受的套接字从侦听套接字继承哪些选项是实现定义的，需要特定设置时应直接对被接受的套接字调用 setsockopt()。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+
+int one = 1;
+
+/* 允许重用本地地址，需在 bind() 之前设置 */
+if (setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR,
+               &amp;one, sizeof(one)) == -1) {
+    /* EINVAL、ENOPROTOOPT、EISCONN 等 */;
+}</code></pre>

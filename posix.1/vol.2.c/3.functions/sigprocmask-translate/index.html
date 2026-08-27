@@ -1,0 +1,176 @@
+<h1>XSH 函数：sigprocmask()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="pthread_sigmask" id="pthread_sigmask"></a> <a name="tag_17_461" id="tag_17_461"></a> 
+
+<a name="tag_17_461_01" id="tag_17_461_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_sigmask, sigprocmask — 检查并更改阻塞的信号</blockquote>
+<a name="tag_17_461_02" id="tag_17_461_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote><code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> #include &lt;signal.h&gt;<br>
+<br>
+int pthread_sigmask(int</code> <i>how</i><code>, const sigset_t *restrict</code> <i>set</i><code>,<br>
+       sigset_t *restrict</code> <i>oset</i><code>);<br>
+int sigprocmask(int</code> <i>how</i><code>, const sigset_t *restrict</code> <i>set</i><code>,<br>
+       sigset_t *restrict</code> <i>oset</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code> <code><br></code></blockquote>
+<a name="tag_17_461_03" id="tag_17_461_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>pthread_sigmask</i>() 函数应检查或更改（或两者兼有）调用线程的信号掩码。</p>
+<p>如果 <i>set</i> 参数不是空指针，则它指向一组用于更改当前阻塞集的信号。</p>
+<p><i>how</i> 参数指示更改该集的方式，应用程序应确保它由以下值之一组成：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SIG_BLOCK</dt>
+<dd>结果集应是当前集与 <i>set</i> 指向的信号集的并集。</dd>
+<dt>SIG_SETMASK</dt>
+<dd>结果集应是 <i>set</i> 指向的信号集。</dd>
+<dt>SIG_UNBLOCK</dt>
+<dd>结果集应是当前集与 <i>set</i> 指向的信号集的补集的交集。</dd>
+</dl>
+<p>如果 <i>oset</i> 参数不是空指针，则先前的掩码应存储在 <i>oset</i> 指向的位置。如果 <i>set</i> 是空指针，则 <i>how</i> 参数的值无关紧要，线程的信号掩码应保持不变；因此，该调用可用于查询当前阻塞的信号。</p>
+<p>如果 <i>set</i> 参数不是空指针，则在 <i>pthread_sigmask</i>() 更改当前阻塞的信号集之后，它应确定是否存在任何待决的未阻塞信号；如果存在，则在 <i>pthread_sigmask</i>() 调用返回之前，应传递这些信号中的至少一个。</p>
+<p>不可能阻塞那些无法忽略的信号。系统应强制执行这一点而不指示错误。</p>
+<p>如果在 SIGFPE、SIGILL、SIGSEGV 或 SIGBUS 信号被阻塞时生成其中任何一个，则结果是未定义的，除非该信号是由另一个进程的动作或由 kill()、pthread_kill()、raise() 或 sigqueue() 函数之一生成的。</p>
+<p>如果 <i>pthread_sigmask</i>() 失败，则线程的信号掩码不应被更改。</p>
+<p><i>sigprocmask</i>() 函数应等同于 <i>pthread_sigmask</i>()，不同之处在于如果从多线程进程中调用，其行为是未指定的，并且在出错时返回 -1 并将 <i>errno</i> 设置为错误编号，而不是直接返回错误编号。</p>
+</blockquote>
+<a name="tag_17_461_04" id="tag_17_461_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>pthread_sigmask</i>() 应返回 0；否则，应返回相应的错误编号。</p>
+<p>成功完成后，<i>sigprocmask</i>() 应返回 0；否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_461_05" id="tag_17_461_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，这些函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>set</i> 参数不是空指针，并且 <i>how</i> 参数的值不等于定义的值之一。</dd>
+</dl>
+<p>这些函数不应返回 [EINTR] 错误代码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_461_06" id="tag_17_461_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<a name="tag_17_461_06_01" id="tag_17_461_06_01"></a><h5>在多线程进程中发送信号 (Signaling in a Multi-Threaded Process)</h5>
+<p>此示例展示了使用 <i>pthread_sigmask</i>() 来处理多线程进程中的信号。它提供了一个相当通用的框架，可以很容易地改编/扩展。</p>
+<pre><code class="language-plaintext">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+...
+ 
+static sigset_t   signal_mask;  /* signals to block         */
+ 
+int main (int argc, char *argv[])
+{
+    pthread_t  sig_thr_id;      /* signal handler thread ID */
+    int        rc;              /* return code              */
+ 
+    sigemptyset (&amp;signal_mask);
+    sigaddset (&amp;signal_mask, SIGINT);
+    sigaddset (&amp;signal_mask, SIGTERM);
+    rc = pthread_sigmask (SIG_BLOCK, &amp;signal_mask, NULL);
+    if (rc != 0) {
+        /* handle error */
+        ...
+    }
+    /* any newly created threads inherit the signal mask */
+ 
+    rc = pthread_create (&amp;sig_thr_id, NULL, signal_thread, NULL);
+    if (rc != 0) {
+        /* handle error */
+        ...
+    }
+ 
+    /* APPLICATION CODE */
+    ...
+}
+ 
+void *signal_thread (void *arg)
+{
+    int       sig_caught;    /* signal caught       */
+    int       rc;            /* returned code       */
+ 
+    rc = sigwait (&amp;signal_mask, &amp;sig_caught);
+    if (rc != 0) {
+        /* handle error */
+    }
+    switch (sig_caught)
+    {
+    case SIGINT:     /* process SIGINT  */
+        ...
+        break;
+    case SIGTERM:    /* process SIGTERM */
+        ...
+        break;
+    default:         /* should normally not happen */
+        fprintf (stderr, "\nUnexpected signal %d\n", sig_caught);
+        break;
+    }
+}</code></pre></blockquote>
+<a name="tag_17_461_07" id="tag_17_461_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>尽管 <i>pthread_sigmask</i>() 必须传递在它更改当前阻塞的信号集之后存在的任何待决未阻塞信号中的至少一个，但不要求传递的信号包括由该更改解除阻塞的任何信号。如果在 <i>pthread_sigmask</i>() 调用执行期间，一个或多个已经解除阻塞的信号变为待决（参见 2.4.1 信号的产生与传递），则调用返回之前传递的信号可能只包括这些信号。</p>
+</blockquote>
+<a name="tag_17_461_08" id="tag_17_461_08"></a><h4>原理说明 (RATIONALE)</h4>
+<blockquote>
+<p>当在由 sigaction() 安装的信号捕获函数中更改线程的信号掩码时，从信号捕获函数返回时恢复信号掩码会覆盖该更改（参见 sigaction()）。如果信号捕获函数是使用 signal() 安装的，则是否发生这种情况是未指定的。</p>
+<p>关于信号传递要求的讨论，参见 kill()。</p>
+</blockquote>
+<a name="tag_17_461_09" id="tag_17_461_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_461_10" id="tag_17_461_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>exec、kill()、sigaction()、sigaddset()、sigdelset()、sigemptyset()、sigfillset()、sigismember()、sigpending() 、sigqueue()、sigsuspend()</p>
+<p>XBD &lt;signal.h&gt;</p>
+</blockquote>
+<a name="tag_17_461_11" id="tag_17_461_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 3。为与 POSIX.1-1988 标准保持一致而包含。</p>
+</blockquote>
+<a name="tag_17_461_12" id="tag_17_461_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION（说明）部分已更新，以与 POSIX 线程扩展保持一致。</p>
+<p>为与 POSIX 线程扩展保持一致，添加了 <i>pthread_sigmask</i>() 函数。</p>
+</blockquote>
+<a name="tag_17_461_13" id="tag_17_461_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_sigmask</i>() 函数被标记为 Threads 选项的一部分。</p>
+<p><i>sigprocmask</i>() 的 SYNOPSIS（概要）被标记为 CX 扩展，以指出该函数在 &lt;signal.h&gt; 头中的存在是对 ISO C 标准的扩展。</p>
+<p>为与 ISO POSIX-1:1996 标准保持一致，进行了以下更改：</p>
+<ul>
+<li>
+<p>DESCRIPTION（说明）已更新，以明确说明可以生成信号的函数。</p>
+</li>
+</ul>
+<p>规范性文本已更新，以避免在应用程序要求中使用术语 &quot;must&quot;。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，在 <i>pthread_sigmask</i>() 和 <i>sigprocmask</i>() 原型中添加了 <b>restrict</b> 关键字。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/105 项，将 DESCRIPTION（说明）和 RATIONALE（原理说明）部分中的 &quot;process' signal mask&quot; 更新为 &quot;thread's signal mask&quot;。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/106 项，向 EXAMPLES（示例）部分添加了示例。</p>
+</blockquote>
+<a name="tag_17_461_14" id="tag_17_461_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_sigmask</i>() 函数从 Threads 选项移到 Base。</p>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0467 [319]。</p>
+</blockquote>
+<a name="tag_17_461_15" id="tag_17_461_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 1132，澄清了 [EINVAL] 错误。</p>
+<p>应用了 Austin Group Defect 1636，澄清了 <i>pthread_sigmask</i>() 和 <i>sigprocmask</i>() 等效性的例外情况。</p>
+<p>应用了 Austin Group Defect 1731，澄清了尽管 <i>pthread_sigmask</i>() 必须传递在它更改当前阻塞的信号集之后存在的任何待决未阻塞信号中的至少一个，但不要求传递的信号包括由该更改解除阻塞的任何信号。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

@@ -1,0 +1,114 @@
+<h1>XSH 函数：kill()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="kill" id="kill"></a> <a name="tag_17_296" id="tag_17_296"></a>
+<a name="tag_17_296_01" id="tag_17_296_01"></a><h4>名称 (NAME)</h4>
+<blockquote>kill — 向一个进程或一组进程发送信号</blockquote>
+<a name="tag_17_296_02" id="tag_17_296_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote><code><code><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> #include &lt;signal.h&gt;<br>
+<br>
+int kill(pid_t</code> <i>pid</i><code>, int</code> <i>sig</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code> <code><br></code></blockquote>
+<a name="tag_17_296_03" id="tag_17_296_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>kill</i>() 函数应向由 <i>pid</i> 指定的一个进程或一组进程发送信号。要发送的信号由 <i>sig</i> 指定，它要么是 &lt;signal.h&gt; 中给出的列表中的一种，要么是 0。如果 <i>sig</i> 为 0（空信号），则执行错误检查，但实际不发送信号。空信号可用于检查 <i>pid</i> 的有效性。</p>
+<p>为了使进程有权向由 <i>pid</i> 指定的进程发送信号，除非发送进程具有适当的特权，否则发送进程的真实或有效用户 ID 应与接收进程的真实或保存的设置用户 ID（saved set-user-ID）匹配。</p>
+<p>如果 <i>pid</i> 大于 0，则 <i>sig</i> 应发送给进程 ID 等于 <i>pid</i> 的进程。</p>
+<p>如果 <i>pid</i> 为 0，则 <i>sig</i> 应发送给所有进程组 ID 等于发送者进程组 ID 的进程（不包括一组未指定的系统进程），并且发送进程有权向其发送信号。</p>
+<p>如果 <i>pid</i> 为 -1，则 <i>sig</i> 应发送给发送进程有权向其发送该信号的所有进程（不包括一组未指定的系统进程）。</p>
+<p>如果 <i>pid</i> 为负但不等于 -1，则 <i>sig</i> 应发送给所有进程组 ID 等于 <i>pid</i> 绝对值的进程（不包括一组未指定的系统进程），并且发送进程有权向其发送信号。</p>
+<p>如果 <i>pid</i> 的值导致为发送进程生成 <i>sig</i>，并且 <i>sig</i> 未被调用线程阻塞，且没有其他线程对 <i>sig</i> 解除阻塞或在 sigwait() 函数中等待 <i>sig</i>，则在 <i>kill</i>() 返回之前，<i>sig</i> 或至少一个待决的未阻塞信号应传递给发送线程。</p>
+<p>当向与发送进程属于同一会话的进程发送 SIGCONT 时，不应应用上述用户 ID 测试。</p>
+<p>提供扩展安全控制的实现可以对信号的发送施加进一步的实现定义限制，包括空信号。特别是，系统可以拒绝 <i>pid</i> 指定的部分或全部进程的存在。</p>
+<p>如果进程有权向 <i>pid</i> 指定的任何进程发送 <i>sig</i>，则 <i>kill</i>() 函数成功。如果 <i>kill</i>() 失败，则不应发送任何信号。</p>
+</blockquote>
+<a name="tag_17_296_04" id="tag_17_296_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，应返回 0。否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_296_05" id="tag_17_296_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>kill</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>sig</i> 参数的值是无效或不支持的信号编号。</dd>
+<dt>[EPERM]</dt>
+<dd>进程无权向任何接收进程发送该信号。</dd>
+<dt>[ESRCH]</dt>
+<dd>找不到与 <i>pid</i> 指定的相对应的进程或进程组。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_296_06" id="tag_17_296_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_296_07" id="tag_17_296_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_296_08" id="tag_17_296_08"></a><h4>原理说明 (RATIONALE)</h4>
+<blockquote>
+<p><i>kill</i>() 的权限检查语义在 System V 与大多数其他实现（如 Version 7 或 4.3 BSD）之间有所不同。本卷 POSIX.1-2024 选择的语义与 System V 一致。具体来说，设置用户 ID（set-user-ID）进程除非更改其真实用户 ID，否则无法保护自己免受信号（或至少免受 SIGKILL）的侵害。这一选择允许启动应用程序的用户即使应用程序更改了其有效用户 ID 也能向其发送信号。另一种语义赋予想要保护自己免受运行它的用户侵害的应用程序更多权力。</p>
+<p>当 <i>pid</i> 的绝对值大于某个最大值或其他特殊值时，一些实现为 <i>kill</i>() 函数提供语义扩展。负值是 <i>kill</i>() 的标志。由于大多数实现在这种情况下返回 [ESRCH]，因此本卷 POSIX.1-2024 不包含此行为，尽管符合规范的实现可以提供此类扩展。</p>
+<p>不能向其发送信号的未指定进程可以包括调度程序或 <i>init</i>。</p>
+<p>最初有强烈意见认为，如果 <i>pid</i> 指定将信号发送给调用进程且该信号未被阻塞，则该信号应在 <i>kill</i>() 返回之前被传递。这将允许进程调用 <i>kill</i>() 并保证调用永不返回。然而，仅提供 signal() 函数的历史实现只能保证本卷 POSIX.1-2024 中较弱的保证，因为它们每次进程进入内核时只传递一个信号。为支持 sigaction() 函数而对这类实现进行的修改通常需要在信号捕获函数返回后进入内核，以恢复信号掩码。此类修改的效果是满足较强的要求，至少在使用了 sigaction() 时如此，但使用 signal() 时则不一定。标准开发者曾考虑提出较强要求（使用 signal() 的情况除外），但认为这会不必要地复杂。鼓励实现者在可能时满足较强要求。实际上，较弱的要求在大多数情况下是相同的，除非在非常短的时间窗口内到达两个信号这种罕见情况。这一推理也适用于 sigprocmask() 的类似要求。</p>
+<p>在 4.2 BSD 中，SIGCONT 信号可以发送给任何后代进程，而不管用户 ID 安全检查。这允许作业控制 shell 即使作业中的进程更改了其用户 ID（如在 <i>su</i> 命令中），也能继续作业。为了与引入会话概念保持一致，通过允许将 SIGCONT 信号发送给同一会话中的任何进程而不管用户 ID 安全检查，提供了类似的功能。从某种意义上说，这比 BSD 限制更少，因为祖先进程（在同一会话中）现在可以成为接收者。从某种意义上说，它比 BSD 限制更多，因为形成新会话的后代进程现在受到用户 ID 检查的约束。对于其他作业控制信号，不需要类似的放宽安全性，因为这些信号通常由终端驱动程序在识别到键入的特殊字符时发送；终端驱动程序绕过所有安全检查。</p>
+<p>在安全实现中，进程可能被限制向具有不同安全标签的进程发送信号。为了防止进程的存在或不存在被用作隐蔽信道，此类进程对发送者而言应表现为不存在；也就是说，如果 <i>pid</i> 仅指此类进程，则应返回 [ESRCH] 而不是 [EPERM]。</p>
+<p>历史实现在 <i>kill</i>() 的结果上有所不同，其中 <i>pid</i> 指示一个僵尸进程。有些实现在此类调用上指示成功（受权限检查约束），而另一些则给出 [ESRCH] 错误。由于本卷 POSIX.1-2024 中进程生命周期的定义涵盖僵尸进程，因此在这种情况下所描述的 [ESRCH] 错误不合适，给出此错误的实现不符合规范。这意味着应用程序不能通过使用 <i>kill</i>() 发送空信号来让父进程检查特定子进程的终止，而必须改用 waitpid() 或 waitid()。</p>
+<p>有些人认为 <i>kill</i>() 这个名称具有误导性，因为该函数并非总是旨在导致进程终止。然而，该名称在所有历史实现中都很常见，任何更改都将与对现有应用程序代码进行最小更改的目标相冲突。</p>
+</blockquote>
+<a name="tag_17_296_09" id="tag_17_296_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_296_10" id="tag_17_296_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>getpid()、raise()、setsid()、sig2str()、sigaction()、sigqueue()、wait()</p>
+<p>XBD &lt;signal.h&gt;、&lt;sys/types.h&gt;</p>
+</blockquote>
+<a name="tag_17_296_11" id="tag_17_296_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 1。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_296_12" id="tag_17_296_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>DESCRIPTION（说明）部分已更新，以与 POSIX 线程扩展保持一致。</p>
+</blockquote>
+<a name="tag_17_296_13" id="tag_17_296_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>在 SYNOPSIS（概要）中，删除了对 &lt;sys/types.h&gt; 头的可选包含。</p>
+<p>以下对 POSIX 实现的新要求源自与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>在 DESCRIPTION（说明）中，第二段已重新措辞，以表明检查调用进程的保存的设置用户 ID 以代替其有效用户 ID。这是一项 FIPS 要求。</p>
+</li>
+<li>
+<p>包含 &lt;sys/types.h&gt; 的要求已被删除。虽然 &lt;sys/types.h&gt; 是先前 POSIX 规范的符合实现的必需项，但它不是 UNIX 应用程序的必需项。</p>
+</li>
+<li>
+<p>现在指定了 <i>pid</i> 为 -1 时的行为。这在 POSIX.1-1988 标准中先前被明确指定为未指定。</p>
+</li>
+</ul>
+<p>规范性文本已更新，以避免在应用程序要求中使用术语 &quot;must&quot;。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/51 项，更正了 RATIONALE（原理说明）部分。</p>
+</blockquote>
+<a name="tag_17_296_14" id="tag_17_296_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0194 [765]。</p>
+</blockquote>
+<a name="tag_17_296_15" id="tag_17_296_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 1138，在 SEE ALSO（另见）部分添加了 sig2str()。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

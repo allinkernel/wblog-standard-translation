@@ -1,0 +1,109 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] unlink, unlinkat — remove a directory entry
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]unlink[/I5]() function shall remove the directory entry named by [I6]path[/I6] and shall decrement the link count of the file referenced by the directory entry. If [I7]path[/I7] names a symbolic link, [I8]unlink[/I8]() shall remove the symbolic link and shall not affect any file named by the contents of the symbolic link.
+[p_00007] When the file's link count becomes 0 and no process has a reference to the file via an open file descriptor or a memory mapping (see [A9][I10]mmap[/I10]()[/A9]), the space occupied by the file shall be freed and the file shall no longer be accessible. If one or more processes have such a reference to the file when the last link is removed, the link shall be removed before [I11]unlink[/I11]() returns, but the removal of the file contents shall be postponed until there are no such references to the file. When the space occupied by the file has been freed, the file's serial number ([I12]st_ino[/I12]), and therefore the file identity (see XBD [A13][I14]&lt;sys/stat.h&gt;[/I14][/A13]), shall become available for reuse.
+[p_00008] The [I15]path[/I15] argument shall not name a directory unless the process has appropriate privileges and the implementation supports using [I16]unlink[/I16]() on directories.
+[p_00009] Upon successful completion, [I17]unlink[/I17]() shall mark for update the last data modification and last file status change timestamps of the parent directory. Also, if the file's link count is not 0, the last file status change timestamp of the file shall be marked for update.
+[p_00010] The [I18]unlinkat[/I18]() function shall be equivalent to the [I19]unlink[/I19]() or [A20][I21]rmdir[/I21]()[/A20] function except in the case where [I22]path[/I22] specifies a relative path. In this case the directory entry to be removed is determined relative to the directory associated with the file descriptor [I23]fd[/I23] instead of the current working directory. If the access mode of the open file description associated with the file descriptor is not O_SEARCH, the function shall check whether directory searches are permitted using the current permissions of the directory underlying the file descriptor. If the access mode is O_SEARCH, the function shall not perform the check.
+[p_00011] Values for [I24]flag[/I24] are constructed by a bitwise-inclusive OR of flags from the following list, defined in [A25][I26]&lt;fcntl.h&gt;[/I26][/A25]:
+[dt_00012] AT_REMOVEDIR
+[dd_00013] Remove the directory entry specified by [I27]fd[/I27] and [I28]path[/I28] as a directory, not a normal file.
+[p_00014] If [I29]unlinkat[/I29]() is passed the special value AT_FDCWD in the [I30]fd[/I30] parameter, the current working directory shall be used and the behavior shall be identical to a call to [I31]unlink[/I31]() or [A32][I33]rmdir[/I33]()[/A32] respectively, depending on whether or not the AT_REMOVEDIR bit is set in [I34]flag[/I34].
+[h4_00015] [A35][/A35]RETURN VALUE
+[p_00016] Upon successful completion, these functions shall return 0. Otherwise, these functions shall return -1 and set [I36]errno[/I36] to indicate the error. If -1 is returned, the named file shall not be changed.
+[h4_00017] [A37][/A37]ERRORS
+[p_00018] These functions shall fail and shall not unlink the file if:
+[dt_00019] [EACCES]
+[dd_00020] Search permission is denied for a component of the path prefix, or write permission is denied on the directory containing the directory entry to be removed.
+[dt_00021] [EBUSY]
+[dd_00022] The file named by the [I38]path[/I38] argument cannot be unlinked because it is being used by the system or another process and the implementation considers this an error.
+[dt_00023] [ELOOP]
+[dd_00024] A loop exists in symbolic links encountered during resolution of the [I39]path[/I39] argument.
+[dt_00025] [ENAMETOOLONG]
+[dd_00026] The length of a component of a pathname is longer than {NAME_MAX}.
+[dt_00027] [ENOENT]
+[dd_00028] A component of [I40]path[/I40] does not name an existing file or [I41]path[/I41] is an empty string.
+[dt_00029] [ENOTDIR]
+[dd_00030] A component of the path prefix names an existing file that is neither a directory nor a symbolic link to a directory, or the [I42]path[/I42] argument contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters and the last pathname component names an existing file that is neither a directory nor a symbolic link to a directory.
+[dt_00031] [EPERM] or [EACCES]
+[dd_00032] [S43][[A44]XSI[/A44]][/S43] [IMG45]  The S_ISVTX flag is set on the directory containing the file referred to by the [I46]path[/I46] argument and the process does not satisfy the criteria specified in XBD [A47][I48]4.5 Directory Protection[/I48][/A47]. [IMG49]
+[dt_00033] [EROFS]
+[dd_00034] The directory entry to be unlinked is part of a read-only file system.
+[p_00035] The [I50]unlink[/I50]() function shall fail and shall not unlink the file if:
+[dt_00036] [EPERM]
+[dd_00037] The file named by [I51]path[/I51] is a directory, and either the calling process does not have appropriate privileges or the implementation prohibits using [I52]unlink[/I52]() on directories.
+[p_00038] The [I53]unlinkat[/I53]() function shall fail and shall not unlink the file if:
+[dt_00039] [EACCES]
+[dd_00040] The access mode of the open file description associated with [I54]fd[/I54] is not O_SEARCH and the permissions of the directory underlying [I55]fd[/I55] do not permit directory searches.
+[dt_00041] [EBADF]
+[dd_00042] The [I56]path[/I56] argument does not specify an absolute path and the [I57]fd[/I57] argument is neither AT_FDCWD nor a valid file descriptor open for reading or searching.
+[dt_00043] [ENOTDIR]
+[dd_00044] The [I58]path[/I58] argument is not an absolute path and [I59]fd[/I59] is a file descriptor associated with a non-directory file.
+[dt_00045] [EEXIST] or [ENOTEMPTY]
+[dd_00046] The [I60]flag[/I60] parameter has the AT_REMOVEDIR bit set and the [I61]path[/I61] argument names a directory that is not an empty directory, or there are hard links to the directory other than dot or a single entry in dot-dot.
+[dt_00047] [ENOTDIR]
+[dd_00048] The [I62]flag[/I62] parameter has the AT_REMOVEDIR bit set and [I63]path[/I63] does not name a directory.
+[dt_00049] [EPERM]
+[dd_00050] The file named by [I64]path[/I64] is a directory, the [I65]flag[/I65] parameter does not have the AT_REMOVEDIR bit set, and either the calling process does not have appropriate privileges or the implementation prohibits using [I66]unlink[/I66]() on directories.
+[p_00051] These functions may fail and not unlink the file if:
+[dt_00052] [ELOOP]
+[dd_00053] More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I67]path[/I67] argument.
+[dt_00054] [ENAMETOOLONG]
+[dd_00055] The length of a pathname exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a length that exceeds {PATH_MAX}.
+[dt_00056] [ETXTBSY]
+[dd_00057] The entry to be unlinked is the last directory entry to a pure procedure (shared text) file that is being executed.
+[p_00058] The [I68]unlinkat[/I68]() function may fail and not unlink the file if:
+[dt_00059] [EINVAL]
+[dd_00060] The value of the [I69]flag[/I69] argument is not valid.
+[h4_00061] [A70][/A70]EXAMPLES
+[h5_00062] [A71][/A71]Removing a Link to a File
+[p_00063] The following example shows how to remove a link to a file named [B72]/home/cnd/mod1[/B72] by removing the entry named [B73]/modules/pass1[/B73].
+[h5_00064] [A74][/A74]Checking for an Error
+[p_00065] The following example fragment creates a temporary password lock file named [B75]LOCKFILE[/B75], which is defined as [B76]/etc/ptmp[/B76], and gets a file descriptor for it. If the file cannot be opened for writing, [I77]unlink[/I77]() is used to remove the link between the file descriptor and [B78]LOCKFILE[/B78].
+[h5_00066] [A79][/A79]Replacing Files
+[p_00067] The following example fragment uses [I80]unlink[/I80]() to discard links to files, so that they can be replaced with new versions of the files. The first call removes the link to [B81]LOCKFILE[/B81] if an error occurs. Successive calls remove the links to [B82]SAVEFILE[/B82] and [B83]PASSWDFILE[/B83] so that new links can be created, then removes the link to [B84]LOCKFILE[/B84] when it is no longer needed.
+[h4_00068] [A85][/A85]APPLICATION USAGE
+[p_00069] Applications should use [A86][I87]rmdir[/I87]()[/A86] to remove a directory.
+[h4_00070] [A88][/A88]RATIONALE
+[p_00071] Unlinking a directory is restricted to the superuser in many historical implementations for reasons given in [A89][I90]link[/I90]()[/A89] (see also [A91][I92]rename[/I92]()[/A91]).
+[p_00072] The meaning of [EBUSY] in historical implementations is &quot;mount point busy&quot;. Since this volume of POSIX.1-2024 does not cover the system administration concepts of mounting and unmounting, the description of the error was changed to &quot;resource busy&quot;. (This meaning is used by some device drivers when a second process tries to open an exclusive use device.) The wording is also intended to allow implementations to refuse to remove a directory if it is the root or current working directory of any process.
+[p_00073] The standard developers reviewed TR 24715-2006 and noted that LSB-conforming implementations may return [EISDIR] instead of [EPERM] when unlinking a directory. A change to permit this behavior by changing the requirement for [EPERM] to [EPERM] or [EISDIR] was considered, but decided against since it would break existing strictly conforming and conforming applications. Applications written for portability to both POSIX.1-2024 and the LSB should be prepared to handle either error code.
+[p_00074] The purpose of the [I93]unlinkat[/I93]() function is to remove directory entries in directories other than the current working directory without exposure to race conditions. Any part of the path of a file could be changed in parallel to a call to [I94]unlink[/I94](), resulting in unspecified behavior. By opening a file descriptor for the target directory and using the [I95]unlinkat[/I95]() function it can be guaranteed that the removed directory entry is located relative to the desired directory.
+[h4_00075] [A96][/A96]FUTURE DIRECTIONS
+[p_00076] None.
+[h4_00077] [A97][/A97]SEE ALSO
+[p_00078] [A98][I99]close[/I99]()[/A98], [A100][I101]link[/I101]()[/A100], [A102][I103]remove[/I103]()[/A102], [A104][I105]rename[/I105]()[/A104], [A106][I107]rmdir[/I107]()[/A106], [A108][I109]symlink[/I109]()[/A108]
+[p_00079] XBD [A110][I111]4.5 Directory Protection[/I111][/A110], [A112][I113]&lt;fcntl.h&gt;[/I113][/A112], [A114][I115]&lt;sys/stat.h&gt;[/I115][/A114], [A116][I117]&lt;unistd.h&gt;[/I117][/A116]
+[h4_00080] [A118][/A118]CHANGE HISTORY
+[p_00081] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00082] [A119][/A119]Issue 5
+[p_00083] The [EBUSY] error is added to the optional part of the ERRORS section.
+[h4_00084] [A120][/A120]Issue 6
+[p_00085] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00086] In the DESCRIPTION, the effect is specified if [I121]path[/I121] specifies a symbolic link.
+[p_00087] The [ELOOP] mandatory error condition is added.
+[p_00088] A second [ENAMETOOLONG] is added as an optional error condition.
+[p_00089] The [ETXTBSY] optional error condition is added.
+[p_00090] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[p_00091] The [ELOOP] optional error condition is added.
+[p_00092] The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.
+[h4_00093] [A122][/A122]Issue 7
+[p_00094] Austin Group Interpretation 1003.1-2001 #143 is applied.
+[p_00095] Austin Group Interpretation 1003.1-2001 #181 is applied, updating the requirements for operations when the S_ISVTX bit is set.
+[p_00096] Text arising from the LSB Conflicts TR is added to the RATIONALE about the use of [EPERM] and [EISDIR].
+[p_00097] The [I123]unlinkat[/I123]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 2.
+[p_00098] Changes are made related to support for finegrained timestamps.
+[p_00099] Changes are made to allow a directory to be opened for searching.
+[p_00100] The [ENOTDIR] error condition is clarified to cover the condition where the last component of a pathname exists but is not a directory or a symbolic link to a directory.
+[p_00101] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0693 [461], XSH/TC1-2008/0694 [324], XSH/TC1-2008/0695 [278], and XSH/TC1-2008/0696 [278] are applied.
+[p_00102] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0378 [873], XSH/TC2-2008/0379 [591], XSH/TC2-2008/0380 [817], and XSH/TC2-2008/0381 [817] are applied.
+[h4_00103] [A124][/A124]Issue 8
+[p_00104] Austin Group Defect 1314 is applied, clarifying that file identities become available for reuse after the space occupied by the file has been freed.
+[p_00105] Austin Group Defect 1330 is applied, removing obsolescent interfaces.
+[p_00106] Austin Group Defect 1380 is applied, changing text using the term &quot;link&quot; in line with its updated definition.
+[p_00107] Austin Group Defect 1385 is applied, clarifying that the file contents are not removed until there are no references to the file via open file descriptors or memory mappings.
+[p_00108] Austin Group Defect 1574 is applied, splitting the [EPERM] error into separate entries for [I125]unlink[/I125]() and [I126]unlinkat[/I126]().
+[p_00109] &nbsp;

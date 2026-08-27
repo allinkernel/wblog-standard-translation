@@ -1,0 +1,1058 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_205_01\" id=\"tag_17_205_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     13
+    ],
+    "text": "getcwd — get the pathname of the current working directory",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_205_02\" id=\"tag_17_205_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nchar *getcwd(char *</tt><i>buf</i><tt>, size_t</tt> <i>size</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_205_03\" id=\"tag_17_205_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     1
+    ],
+    "text": "The [I5]getcwd[/I5]() function shall place an absolute pathname of the current working directory in the array pointed to by\n[I6]buf[/I6], and return [I7]buf[/I7]. The pathname shall contain no components that are dot or dot-dot, or are symbolic links.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     3
+    ],
+    "text": "If there are multiple pathnames that [I8]getcwd[/I8]() could place in the array pointed to by [I9]buf[/I9], one beginning with a\nsingle &lt;slash&gt; character and one or more beginning with two &lt;slash&gt; characters, then [I10]getcwd[/I10]() shall place the\npathname beginning with a single &lt;slash&gt; character in the array. The pathname shall not contain any unnecessary &lt;slash&gt;\ncharacters after the leading one or two &lt;slash&gt; characters.",
+    "placeholders": {
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     21,
+     5
+    ],
+    "text": "The [I11]size[/I11] argument is the size in bytes of the character array pointed to by the [I12]buf[/I12] argument. If [I13]buf[/I13] is a\nnull pointer, the behavior of [I14]getcwd[/I14]() is unspecified.",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00009",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     23
+    ],
+    "text": "[A15][/A15]RETURN VALUE",
+    "placeholders": {
+     "A15": {
+      "open": "<a name=\"tag_17_205_04\" id=\"tag_17_205_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I16]getcwd[/I16]() shall return the [I17]buf[/I17] argument. Otherwise, [I18]getcwd[/I18]() shall return a null\npointer and set [I19]errno[/I19] to indicate the error. The contents of the array pointed to by [I20]buf[/I20] are then undefined.",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00011",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     27
+    ],
+    "text": "[A21][/A21]ERRORS",
+    "placeholders": {
+     "A21": {
+      "open": "<a name=\"tag_17_205_05\" id=\"tag_17_205_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     1
+    ],
+    "text": "The [I22]getcwd[/I22]() function shall fail if:",
+    "placeholders": {
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00013",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00014",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     5
+    ],
+    "text": "The [I23]size[/I23] argument is 0.",
+    "placeholders": {
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00015",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     7
+    ],
+    "text": "[ERANGE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00016",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     3,
+     9
+    ],
+    "text": "The [I24]size[/I24] argument is greater than 0, but is smaller than the length of the string +1.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     29,
+     5
+    ],
+    "text": "The [I25]getcwd[/I25]() function may fail if:",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00018",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     3
+    ],
+    "text": "[EACCES]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00019",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     5
+    ],
+    "text": "Search permission was denied for the current directory, or read or search permission was denied for a directory above the\ncurrent directory in the file hierarchy.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00020",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     7
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00021",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     29,
+     7,
+     9
+    ],
+    "text": "Insufficient storage space is available.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00022",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     35
+    ],
+    "text": "[A26][/A26]EXAMPLES",
+    "placeholders": {
+     "A26": {
+      "open": "<a name=\"tag_17_205_06\" id=\"tag_17_205_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     37,
+     1
+    ],
+    "text": "The following example uses {PATH_MAX} as the initial buffer size (unless it is indeterminate or very large), and calls\n[I27]getcwd[/I27]() with progressively larger buffers until it does not give an [ERANGE] error.",
+    "placeholders": {
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00024",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     39
+    ],
+    "text": "[A28][/A28]APPLICATION USAGE",
+    "placeholders": {
+     "A28": {
+      "open": "<a name=\"tag_17_205_07\" id=\"tag_17_205_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00025",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     41,
+     1
+    ],
+    "text": "If the pathname obtained from [I29]getcwd[/I29]() is longer than {PATH_MAX} bytes, it could produce an [ENAMETOOLONG] error if\npassed to [A30][I31]chdir[/I31]()[/A30]. Therefore, in order to return to that directory it may be necessary\nto break the pathname into sections shorter than {PATH_MAX} bytes and call [A32][I33]chdir[/I33]()[/A32] on\neach section in turn (the first section being an absolute pathname and subsequent sections being relative pathnames). A simpler way\nto handle saving and restoring the working directory when it may be deeper than {PATH_MAX} bytes in the file hierarchy is to use a\nfile descriptor and [A34][I35]fchdir[/I35]()[/A34], rather than [I36]getcwd[/I36]() and [A37][I38]chdir[/I38]()[/A37]. However, the two methods do have some differences. The [A39][I40]fchdir[/I40]()[/A39] approach causes the program to restore a working directory even if it has been\nrenamed in the meantime, whereas the [A41][I42]chdir[/I42]()[/A41] approach restores to a directory with the\nsame name as the original, even if the directories were renamed in the meantime. Since the [A43][I44]fchdir[/I44]()[/A43] approach does not access parent directories, it can succeed when [I45]getcwd[/I45]()\nwould fail due to permissions problems. In applications conforming to earlier versions of this standard, it was not possible to use\nthe [A46][I47]fchdir[/I47]()[/A46] approach when the working directory is searchable but not readable, as\nthe only way to open a directory was with O_RDONLY, whereas the [I48]getcwd[/I48]() approach can succeed in this case.",
+    "placeholders": {
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A30": {
+      "open": "<a href=\"../functions/chdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A32": {
+      "open": "<a href=\"../functions/chdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A34": {
+      "open": "<a href=\"../functions/fchdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A37": {
+      "open": "<a href=\"../functions/chdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A39": {
+      "open": "<a href=\"../functions/fchdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A41": {
+      "open": "<a href=\"../functions/chdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"../functions/fchdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A46": {
+      "open": "<a href=\"../functions/fchdir.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00026",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     43
+    ],
+    "text": "[A49][/A49]RATIONALE",
+    "placeholders": {
+     "A49": {
+      "open": "<a name=\"tag_17_205_08\" id=\"tag_17_205_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     1
+    ],
+    "text": "Having [I50]getcwd[/I50]() take no arguments and instead use the [A51][I52]malloc[/I52]()[/A51] function to\nproduce space for the returned argument was considered. The advantage is that [I53]getcwd[/I53]() knows how big the working directory\npathname is and can allocate an appropriate amount of space. But the programmer would have to use the [A54][I55]free[/I55]()[/A54] function to free the resulting object, or each use of [I56]getcwd[/I56]() would further\nreduce the available memory. Finally, [I57]getcwd[/I57]() is taken from the SVID where it has the two arguments used in this volume of\nPOSIX.1-2024.",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A51": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A54": {
+      "open": "<a href=\"../functions/free.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     3
+    ],
+    "text": "The older function [I58]getwd[/I58]() was rejected for use in this context because it had only a buffer argument and no [I59]size[/I59]\nargument, and thus had no way to prevent overwriting the buffer, except to depend on the programmer to provide a large enough\nbuffer.",
+    "placeholders": {
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     5
+    ],
+    "text": "On some implementations, if [I60]buf[/I60] is a null pointer, [I61]getcwd[/I61]() may obtain [I62]size[/I62] bytes of memory using [A63][I64]malloc[/I64]()[/A63]. In this case, the pointer returned by [I65]getcwd[/I65]() may be used as the argument\nin a subsequent call to [A66][I67]free[/I67]()[/A66]. Invoking [I68]getcwd[/I68]() with [I69]buf[/I69] as a null\npointer is not recommended in conforming applications.",
+    "placeholders": {
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A63": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A66": {
+      "open": "<a href=\"../functions/free.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     7
+    ],
+    "text": "Earlier implementations of [I70]getcwd[/I70]() sometimes generated pathnames like [CODE71] internally, using\nthem to explore the path of ancestor directories back to the root. If one of these internal pathnames exceeded {PATH_MAX} in\nlength, the implementation could fail with [I72]errno[/I72] set to [ENAMETOOLONG]. This is no longer allowed.",
+    "placeholders": {
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE71": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"../../../subdirname\"</tt>"
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     45,
+     9
+    ],
+    "text": "If a program is operating in a directory where some (grand)parent directory does not permit reading, [I73]getcwd[/I73]() may fail,\nas in most implementations it must read the directory to determine the name of the file. This can occur if search, but not read,\npermission is granted in an intermediate directory, or if the program is placed in that directory by some more privileged process\n(for example, login). Including the [EACCES] error condition makes the reporting of the error consistent and warns the application\ndeveloper that [I74]getcwd[/I74]() can fail for reasons beyond the control of the application developer or user. Some implementations\ncan avoid this occurrence (for example, by implementing [I75]getcwd[/I75]() using [A76][I77]pwd[/I77][/A76], where\n[A78][I79]pwd[/I79][/A78] is a set-user-root process), thus the error was made optional. Since this volume of\nPOSIX.1-2024 permits the addition of other errors, this would be a common addition and yet one that applications could not be\nexpected to deal with without this addition.",
+    "placeholders": {
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A76": {
+      "open": "<a href=\"../utilities/pwd.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A78": {
+      "open": "<a href=\"../utilities/pwd.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     47
+    ],
+    "text": "[A80][/A80]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A80": {
+      "open": "<a name=\"tag_17_205_09\" id=\"tag_17_205_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     51
+    ],
+    "text": "[A81][/A81]SEE ALSO",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_205_10\" id=\"tag_17_205_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     1
+    ],
+    "text": "[A82][I83]malloc[/I83]()[/A82]",
+    "placeholders": {
+     "A82": {
+      "open": "<a href=\"../functions/malloc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     53,
+     3
+    ],
+    "text": "XBD [A84][I85]&lt;unistd.h&gt;[/I85][/A84]",
+    "placeholders": {
+     "A84": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00037",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     55
+    ],
+    "text": "[A86][/A86]CHANGE HISTORY",
+    "placeholders": {
+     "A86": {
+      "open": "<a name=\"tag_17_205_11\" id=\"tag_17_205_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00039",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     59
+    ],
+    "text": "[A87][/A87]Issue 6",
+    "placeholders": {
+     "A87": {
+      "open": "<a name=\"tag_17_205_12\" id=\"tag_17_205_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     1
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     61,
+     3,
+     1,
+     1
+    ],
+    "text": "The [ENOMEM] optional error condition is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00042",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     63
+    ],
+    "text": "[A88][/A88]Issue 7",
+    "placeholders": {
+     "A88": {
+      "open": "<a name=\"tag_17_205_13\" id=\"tag_17_205_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     65,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #140 is applied, changing the text for consistency with the [A89][I90]pwd[/I90][/A89] utility, adding text to address the case where the current directory is deeper in the file\nhierarchy than {PATH_MAX} bytes, and adding the requirements relating to pathnames beginning with two &lt;slash&gt; characters.",
+    "placeholders": {
+     "A89": {
+      "open": "<a href=\"../utilities/pwd.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

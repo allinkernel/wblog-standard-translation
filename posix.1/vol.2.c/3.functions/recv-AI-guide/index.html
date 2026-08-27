@@ -1,0 +1,27 @@
+<h1>XSH 函数导读：recv()</h1>
+
+<h2>0. 总览</h2>
+<p><b>recv()</b> 从已连接的套接字接收消息：从连接模式或无连接模式的套接字接收数据，通常与已连接的套接字一起使用，因为它不允许应用程序检索接收数据的源地址。头文件为 <code>&lt;sys/socket.h&gt;</code>，原型为 <code>ssize_t recv(int socket, void *buffer, size_t length, int flags)</code>。成功返回消息长度，对端已有序关闭且无数据可收时返回 0，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>对基于消息的套接字（SOCK_DGRAM、SOCK_SEQPACKET），整条消息应在一次操作中读取；消息太长放不进缓冲区且未设 MSG_PEEK 时，多余字节被丢弃。对基于流的套接字（SOCK_STREAM），消息边界被忽略，数据一变得可用就返回，不丢弃任何数据。flags 通过对零个或多个标志逻辑或构成：MSG_PEEK 窥视传入消息（数据视为未读，下次 recv() 仍返回）；MSG_OOB 请求带外数据（语义特定于协议）；MSG_WAITALL 在 SOCK_STREAM 上请求阻塞直到返回全部数量数据，但基于消息的套接字、捕获到信号、连接被终止、指定 MSG_PEEK 或有挂起的错误时可返回较少数据。无可用消息时：未设 O_NONBLOCK 则阻塞直到消息到达或超时（SO_RCVTIMEO）；设了 O_NONBLOCK 则返回 [EAGAIN] 或 [EWOULDBLOCK]。flags 为 0 且 socket 是套接字时，recv() 等效于 read()；也等效于 address/address_len 为空指针的 recvfrom()。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>在未连接的连接模式套接字上接收返回 [ENOTCONN]。</li>
+<li>连接被对端强制关闭时返回 [ECONNRESET]；对端有序关闭且无数据时 recv() 返回 0（类似文件尾），要据此判断对端关闭写端。</li>
+<li>MSG_OOB 没有带外数据时：非阻塞或套接字不支持阻塞等待时返回 [EAGAIN]/[EWOULDBLOCK]，也可能返回 [EINVAL]。</li>
+<li>基于消息的套接字上缓冲区太小会静默丢弃多余字节，接收前应先确认消息最大长度。</li>
+<li>select()/poll() 报告可读后调用 recv() 仍可能被信号中断返回 [EINTR]（任何数据可用之前）。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
+
+char buf[4096];
+ssize_t n = recv(cfd, buf, sizeof(buf), 0);
+if (n == 0) {
+    /* 对端已有序关闭 */;
+} else if (n == -1) {
+    /* EAGAIN/EWOULDBLOCK（非阻塞）、ECONNRESET、EINTR 等 */;
+}</code></pre>

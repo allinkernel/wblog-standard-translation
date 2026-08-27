@@ -1,0 +1,150 @@
+<h1>XSH 函数：accept()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="accept" id="accept"></a> <a name="tag_17_06" id="tag_17_06"></a>
+<a name="tag_17_06_01" id="tag_17_06_01"></a><h4>名称 (NAME)</h4>
+<blockquote>accept, accept4 — 在套接字上接受新连接 (accept, accept4 — accept a new connection on a socket)</blockquote>
+<a name="tag_17_06_02" id="tag_17_06_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/socket.h&gt;<br>
+<br>
+int accept(int</code> <i>socket</i><code>, struct sockaddr *restrict</code> <i>address</i><code>,<br>
+       socklen_t *restrict</code> <i>address_len</i><code>);<br>
+int accept4(int</code> <i>socket</i><code>, struct sockaddr *restrict</code> <i>address</i><code>,<br>
+       socklen_t *restrict</code> <i>address_len</i><code>, int</code> <i>flag</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_06_03" id="tag_17_06_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>accept</i>() 函数应取出待处理连接队列上的第一个连接，创建一个与指定套接字具有相同套接字类型、协议和地址族的新套接字，并为该套接字分配一个新的文件描述符。文件描述符的分配应如 2.6 文件描述符分配 所述。</p>
+<p><i>accept</i>() 函数接受以下参数：</p>
+<dl compact="None">
+<dd></dd>
+<dt><i>socket</i></dt>
+<dd>指定一个使用 socket() 创建的、已使用 bind() 绑定到某个地址的、并且已成功调用 listen() 的套接字。</dd>
+<dt><i>address</i></dt>
+<dd>可以是空指针，也可以是指向 <b>sockaddr</b> 结构的指针，该结构中应返回连接套接字的地址。</dd>
+<dt><i>address_len</i></dt>
+<dd>如果 <i>address</i> 是空指针，则可以是空指针；也可以是指向 <b>socklen_t</b> 对象的指针，该对象在输入时指定所提供的 <b>sockaddr</b> 结构的长度，在输出时指定连接套接字的地址的长度。</dd>
+</dl>
+<p>如果 <i>address</i> 不是空指针，则所接受连接的对端地址应存储在由 <i>address</i> 指向的 <b>sockaddr</b> 结构中，并且该地址的长度应存储在由 <i>address_len</i> 指向的对象中。</p>
+<p>如果地址的实际长度大于所提供的 <b>sockaddr</b> 结构的长度，则存储的地址应被截断。</p>
+<p>如果协议允许未绑定的客户端进行连接，且对端未绑定，则存储在由 <i>address</i> 指向的对象中的值是未指定的。</p>
+<p>如果侦听队列中没有连接请求，并且未在套接字的文件描述符上设置 O_NONBLOCK，则 <i>accept</i>() 应阻塞，直到有连接出现。如果 listen() 队列中没有连接请求，并且在套接字的文件描述符上设置了 O_NONBLOCK，则 <i>accept</i>() 应失败并将 <i>errno</i> 设置为 [EAGAIN] 或 [EWOULDBLOCK]。</p>
+<p>被接受的套接字本身不能再接受更多连接。原始套接字保持打开状态，并且可以接受更多连接。</p>
+<p>如果在 <i>socket</i> 的文件描述上设置了 O_NONBLOCK，那么是否在由 <i>accept</i>() 创建的文件描述上设置 O_NONBLOCK 是实现定义的。新文件描述符的 FD_CLOEXEC 和 FD_CLOFORK 应清除，无论它们当前在 <i>socket</i> 上如何设置。</p>
+<p>被接受的套接字上的哪些套接字选项（如果有）将具有由先前在 <i>socket</i> 上通过 setsockopt() 定制的值所确定的默认值，而不是用于其他新套接字的默认值，这是实现定义的。</p>
+<p><i>accept4</i>() 函数应与 <i>accept</i>() 函数等效，不同之处在于新文件描述上的 O_NONBLOCK 状态以及返回的文件描述符上的 FD_CLOEXEC 和 FD_CLOFORK 应完全由 <i>flag</i> 参数决定，该参数可以由来自以下列表的标志的按位或（bitwise-inclusive OR）构成：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SOCK_CLOEXEC</dt>
+<dd>在新文件描述符上原子地设置 FD_CLOEXEC 标志。</dd>
+<dt>SOCK_CLOFORK</dt>
+<dd>在新文件描述符上原子地设置 FD_CLOFORK 标志。</dd>
+<dt>SOCK_NONBLOCK</dt>
+<dd>在新文件描述上设置 O_NONBLOCK 文件状态标志。</dd>
+</dl>
+<p>实现可以定义额外的标志。</p>
+</blockquote>
+<a name="tag_17_06_04" id="tag_17_06_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>accept</i>() 和 <i>accept4</i>() 应返回被接受的套接字的非负文件描述符。否则，应返回 -1，应设置 <i>errno</i> 以指示错误，并且由 <i>address_len</i> 指向的任何对象应保持不变。</p>
+</blockquote>
+<a name="tag_17_06_05" id="tag_17_06_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>accept</i>() 和 <i>accept4</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAGAIN] 或 [EWOULDBLOCK]</dt>
+<dd>为套接字文件描述符设置了 O_NONBLOCK，且没有可接受的连接存在。</dd>
+<dt>[EBADF]</dt>
+<dd><i>socket</i> 参数不是有效的文件描述符。</dd>
+<dt>[ECONNABORTED]</dt>
+<dd>一个连接已被中止。</dd>
+<dt>[EINTR]</dt>
+<dd><i>accept</i>() 函数在有效连接到达之前被一个已被捕获的信号中断。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>socket</i> 未在接受连接。</dd>
+<dt>[EMFILE]</dt>
+<dd>进程可用的所有文件描述符当前都已打开。</dd>
+<dt>[ENFILE]</dt>
+<dd>系统中最大数量的文件描述符已经打开。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>没有可用的缓冲区空间。</dd>
+<dt>[ENOMEM]</dt>
+<dd>没有足够的内存来完成该操作。</dd>
+<dt>[ENOTSOCK]</dt>
+<dd><i>socket</i> 参数不引用套接字。</dd>
+<dt>[EOPNOTSUPP]</dt>
+<dd>指定套接字的套接字类型不支持接受连接。</dd>
+</dl>
+<p>在以下情况下，<i>accept</i>() 和 <i>accept4</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EPROTO]</dt>
+<dd>发生了协议错误。</dd>
+</dl>
+<p>在以下情况下，<i>accept4</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><i>flag</i> 参数的值无效。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_06_06" id="tag_17_06_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_06_07" id="tag_17_06_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>当有连接可用时，select() 指示套接字的文件描述符已准备好进行读取。</p>
+<p>许多套接字选项被描述为具有实现定义的默认值，这些值可以根据套接字所使用的协议而不同。现有的实践在诸如 SO_SNDBUF 之类的在原始侦听套接字上定制的套接字选项是否会影响新返回的套接字上的相应选项方面有所不同。允许实现允许在合理之处继承定制的设置，尽管对应用程序来说最可移植的方法是仅对接受的套接字进行 setsockopt() 定制。</p>
+<p>对于 AF_UNIX 套接字，建议 <i>address</i> 指向一个长度大于 <code>sizeof(struct
+sockaddr_un)</code> 的、已用空字节初始化的缓冲区。这样，即使实现支持在没有终止空字节的情况下使用 <i>sun_path</i> 的所有字节，更大的缓冲区也能保证 <i>sun_path</i> 成员随后可以传递给期望以空字符结尾的字符串的其他接口。如果基于 <i>address_len</i> 的输入值没有发生截断，则返回的 <i>address_len</i> 将是 <code>sizeof(struct sockaddr_un)</code>，还是仅仅是一个至少与 <code>offsetof(struct sockaddr_un, sun_path)</code> 加上存储在 <i>sun_path</i> 中的非空字节数一样大的值，这是未指定的。</p>
+</blockquote>
+<a name="tag_17_06_08" id="tag_17_06_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p><i>accept4</i>() 的 SOCK_CLOEXEC 和 SOCK_CLOFORK 标志对于避免多线程应用程序中的数据竞争是必要的。没有 SOCK_CLOFORK，在一个线程使用 <i>accept</i>() 创建文件描述符然后使用 fcntl() 设置 FD_CLOFORK 标志之间的窗口期内，文件描述符会泄漏到由另一个线程创建的子进程中。没有 SOCK_CLOEXEC，如果 FD_CLOEXEC 不是原子设置的，则有意由子进程继承的文件描述符会同样泄漏到被执行的程序中。</p>
+<p>网络服务器常用的两种设计是：预先创建一组工作线程池的多线程服务器，其中接受连接请求的线程将新的文件描述符移交给工作线程进行服务；以及预先创建一组工作进程池的 pre-fork 服务器，其中接受连接请求的进程将新的文件描述符（例如通过 sendmsg()）传递给工作进程。在这两种设计中，<i>accept4</i>() 都应设置 SOCK_CLOFORK 标志使用。有时也会使用不预先创建池的更简单的设计。对于为处理每个请求而创建线程的多线程服务器，仍应使用 SOCK_CLOFORK。对于为服务每个请求而创建子进程的分叉服务器，如果要被服务的文件描述符要由子进程继承，那么显然不能使用 SOCK_CLOFORK，因此这种类型的服务器需要使用替代的方法来指示通信结束，例如使用 shutdown()，以确保客户端看到文件结尾（end-of-file），而不是仅仅关闭套接字。此类子进程应在尝试启动任何额外的子进程之前，在继承的文件描述符上设置 FD_CLOFORK，以避免泄漏到这些子进程中。</p>
+<p>SOCK_NONBLOCK 标志是为了方便避免额外的 fcntl() 调用，并提供对 O_NONBLOCK 标志的特定控制，因为 <i>accept</i>() 的传统实现在 O_NONBLOCK 是否从 <i>socket</i> 参数继承方面存在差异。</p>
+</blockquote>
+<a name="tag_17_06_09" id="tag_17_06_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_06_10" id="tag_17_06_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>2.6 文件描述符分配、bind()、connect()、listen()、socket()</p>
+<p>XBD &lt;sys/socket.h&gt;</p>
+</blockquote>
+<a name="tag_17_06_11" id="tag_17_06_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 6 版。源自 XNS 第 5.2 版规范。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，将 <b>restrict</b> 关键字添加到 <i>accept</i>() 原型中。</p>
+</blockquote>
+<a name="tag_17_06_12" id="tag_17_06_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用 SD5-XBD-ERN-4，更改 [EMFILE] 错误的定义。</p>
+<p>应用 Austin Group Interpretation 1003.1-2001 #044，将 &quot;可以失败&quot; [ENOBUFS] 和 [ENOMEM] 错误更改为 &quot;应失败&quot; 错误。</p>
+<p>与 XSI STREAMS 相关的功能被标记为过时。</p>
+<p>应用 POSIX.1-2008 Technical Corrigendum 1 中的 XSH/TC1-2008/0018 [464]。</p>
+<p>应用 POSIX.1-2008 Technical Corrigendum 2 中的 XSH/TC2-2008/0035 [835] 和 XSH/TC2-2008/0036 [836]。</p>
+</blockquote>
+<a name="tag_17_06_13" id="tag_17_06_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用 Austin Group Defects 411 和 1318，添加 <i>accept4</i>()，要求 <i>accept</i>() 返回的文件描述符的 FD_CLOEXEC 和 FD_CLOFORK 为清除状态，并阐明对由 <i>accept</i>() 创建的文件描述上的 O_NONBLOCK 的要求。</p>
+<p>应用 Austin Group Defect 561，在 APPLICATION USAGE 中添加关于 <i>sun_path</i> 的段落。</p>
+<p>应用 Austin Group Defect 1330，移除过时的接口。</p>
+<p>应用 Austin Group Defect 1337，阐明套接字选项的默认值。</p>
+<p>应用 Austin Group Defect 1565，更改对 <i>address_len</i> 的描述。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

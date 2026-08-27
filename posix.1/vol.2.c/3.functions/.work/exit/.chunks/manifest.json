@@ -1,0 +1,1059 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_130_01\" id=\"tag_17_130_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "exit — terminate a process",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_130_02\" id=\"tag_17_130_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdlib.h.html\">stdlib.h</a>&gt;<br>\n<br>\nvoid exit(int</tt> <i>status</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_130_03\" id=\"tag_17_130_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]exit[/I5]() function shall cause normal process termination to occur. No functions registered by the [A6][I7]at_quick_exit[/I7]()[/A6] function shall be called. If a process calls the [I8]exit[/I8]()\nfunction more than once, or calls the [A9][I10]quick_exit[/I10]()[/A9] function in addition to the\n[I11]exit[/I11]() function, the behavior is undefined.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A6": {
+      "open": "<a href=\"../functions/at_quick_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A9": {
+      "open": "<a href=\"../functions/quick_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The value of [I12]status[/I12] can be 0, EXIT_SUCCESS, EXIT_FAILURE, [S13][[A14]CX[/A14]][/S13]\n[IMG15] &nbsp;or any other value, though only the least significant 8\nbits (that is, [I16]status[/I16] & 0377) shall be available from [A17][I18]wait[/I18]()[/A17] and [A19][I20]waitpid[/I20]()[/A19]; the full value shall be available from [A21][I22]waitid[/I22]()[/A21] and in the [B23]siginfo_t[/B23] passed to a signal handler for SIGCHLD. [IMG24]",
+    "placeholders": {
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S13": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG15": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A17": {
+      "open": "<a href=\"../functions/wait.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A19": {
+      "open": "<a href=\"../functions/waitpid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/waitid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B23": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "IMG24": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The [I25]exit[/I25]() function shall first call all functions registered by [A26][I27]atexit[/I27]()[/A26],\nin the reverse order of their registration, except that a function is called after any previously registered functions that had\nalready been called at the time it was registered. Each function is called as many times as it was registered. If, during the call\nto any such function, a call to the [A28][I29]longjmp[/I29]()[/A28] function is made that would terminate\nthe call to the registered function, the behavior is undefined.",
+    "placeholders": {
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A26": {
+      "open": "<a href=\"../functions/atexit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A28": {
+      "open": "<a href=\"../functions/longjmp.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "If a function registered by a call to [A30][I31]atexit[/I31]()[/A30] fails to return, the remaining\nregistered functions shall not be called and the rest of the [I32]exit[/I32]() processing shall not be completed.",
+    "placeholders": {
+     "A30": {
+      "open": "<a href=\"../functions/atexit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "The [I33]exit[/I33]() function shall then flush all open streams with unwritten buffered data. [S34][[A35]CX[/A35]][/S34] [IMG36] For each stream\nwhich is the active handle to its underlying file descriptor, and for which the file is not already at EOF and is capable of\nseeking, the file offset of the underlying open file description shall be set to the file position of the stream. For each open\nstream, the [I37]exit[/I37]() function shall perform the equivalent of a [A38][I39]close[/I39]()[/A38] on the\nfile descriptor that is associated with the stream. [IMG40] Finally, the\nprocess shall be terminated [S41][[A42]CX[/A42]][/S41] [IMG43] &nbsp;with the same consequences as described in [A44][I45]Consequences of Process Termination[/I45]()[/A44]. [IMG46]",
+    "placeholders": {
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S34": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A35": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG36": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A38": {
+      "open": "<a href=\"../functions/close.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG40": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S41": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A42": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG43": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A44": {
+      "open": "<a href=\"../functions/_Exit.html#tag_17_02_03_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG46": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00011",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A47][/A47]RETURN VALUE",
+    "placeholders": {
+     "A47": {
+      "open": "<a name=\"tag_17_130_04\" id=\"tag_17_130_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "The [I48]exit[/I48]() function does not return.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00013",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A49][/A49]ERRORS",
+    "placeholders": {
+     "A49": {
+      "open": "<a name=\"tag_17_130_05\" id=\"tag_17_130_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "No errors are defined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A50][/A50]EXAMPLES",
+    "placeholders": {
+     "A50": {
+      "open": "<a name=\"tag_17_130_06\" id=\"tag_17_130_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "See APPLICATION USAGE.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00017",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A51][/A51]APPLICATION USAGE",
+    "placeholders": {
+     "A51": {
+      "open": "<a name=\"tag_17_130_07\" id=\"tag_17_130_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "When a stream that has unwritten buffered data is flushed by [I52]exit[/I52]() there is no way for the calling process to discover\nwhether or not [I53]exit[/I53]() successfully wrote the data to the underlying file descriptor. Therefore, it is strongly recommended\nthat applications always ensure there is no unwritten buffered data in any stream when calling [I54]exit[/I54](), or returning from the\ninitial call to [I55]main[/I55](), with a [I56]status[/I56] value that indicates no errors occurred.",
+    "placeholders": {
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "For example, the following code demonstrates one way to ensure that [I57]stdout[/I57] has already been successfully flushed before\ncalling [I58]exit[/I58]() with status 0. If the flush fails, the file descriptor underlying [I59]stdout[/I59] is closed so that\n[I60]exit[/I60]() will not try to repeat the failed write operation. If the flush succeeds, a final check with [A61][I62]ferror[/I62]()[/A61] is performed to ensure that there were no write errors during earlier flush\noperations (that were not handled at the time).",
+    "placeholders": {
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A61": {
+      "open": "<a href=\"../functions/ferror.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     7
+    ],
+    "text": "See also [A63][I64]_Exit[/I64]()[/A63].",
+    "placeholders": {
+     "A63": {
+      "open": "<a href=\"../functions/_Exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00021",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A65][/A65]RATIONALE",
+    "placeholders": {
+     "A65": {
+      "open": "<a name=\"tag_17_130_08\" id=\"tag_17_130_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "See [A66][I67]_Exit[/I67]()[/A66].",
+    "placeholders": {
+     "A66": {
+      "open": "<a href=\"../functions/_Exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I67": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00023",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A68][/A68]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A68": {
+      "open": "<a name=\"tag_17_130_09\" id=\"tag_17_130_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00025",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A69][/A69]SEE ALSO",
+    "placeholders": {
+     "A69": {
+      "open": "<a name=\"tag_17_130_10\" id=\"tag_17_130_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A70][I71]_Exit[/I71]()[/A70], [A72][I73]at_quick_exit[/I73]()[/A72],\n[A74][I75]atexit[/I75]()[/A74], [A76][/A76][A77]exec[/A77], [A78][I79]fflush[/I79]()[/A78], [A80][I81]longjmp[/I81]()[/A80], [A82][I83]quick_exit[/I83]()[/A82], [A84][I85]tmpfile[/I85]()[/A84], [A86][I87]wait[/I87]()[/A86], [A88][I89]waitid[/I89]()[/A88]",
+    "placeholders": {
+     "A70": {
+      "open": "<a href=\"../functions/_Exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A72": {
+      "open": "<a href=\"../functions/at_quick_exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A74": {
+      "open": "<a href=\"../functions/atexit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A76": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A78": {
+      "open": "<a href=\"../functions/fflush.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A80": {
+      "open": "<a href=\"../functions/longjmp.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A82": {
+      "open": "<a href=\"../functions/quick_exit.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A84": {
+      "open": "<a href=\"../functions/tmpfile.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A86": {
+      "open": "<a href=\"../functions/wait.html#tag_17_658\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A88": {
+      "open": "<a href=\"../functions/waitid.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A90][I91]&lt;stdlib.h&gt;[/I91][/A90]",
+    "placeholders": {
+     "A90": {
+      "open": "<a href=\"../basedefs/stdlib.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00028",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A92][/A92]CHANGE HISTORY",
+    "placeholders": {
+     "A92": {
+      "open": "<a name=\"tag_17_130_11\" id=\"tag_17_130_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00029",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     57
+    ],
+    "text": "[A93][/A93]Issue 7",
+    "placeholders": {
+     "A93": {
+      "open": "<a name=\"tag_17_130_12\" id=\"tag_17_130_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00030",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     59,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #031 is applied, separating the [A94][I95]_Exit[/I95]()[/A94] and\n[A96][I97]_exit[/I97]()[/A96] functions from the [I98]exit[/I98]() function.",
+    "placeholders": {
+     "A94": {
+      "open": "<a href=\"../functions/_Exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A96": {
+      "open": "<a href=\"../functions/_exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     59,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #085 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     59,
+     5
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0100 [594] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     61
+    ],
+    "text": "[A99][/A99]Issue 8",
+    "placeholders": {
+     "A99": {
+      "open": "<a name=\"tag_17_130_13\" id=\"tag_17_130_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     63,
+     1
+    ],
+    "text": "Austin Group Defect 610 is applied, clarifying the effects of [I100]exit[/I100]() on open streams.",
+    "placeholders": {
+     "I100": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     63,
+     3
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     63,
+     5
+    ],
+    "text": "Austin Group Defect 1490 is applied, changing the EXAMPLES and APPLICATION USAGE sections.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     63,
+     7
+    ],
+    "text": "Austin Group Defect 1629 is applied, changing the APPLICATION USAGE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,129 @@
+<h1>XSH 函数：signal()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="signal" id="signal"></a> <a name="tag_17_552" id="tag_17_552"></a>
+<a name="tag_17_552_01" id="tag_17_552_01"></a><h4>名称 (NAME)</h4>
+<blockquote>signal — 信号管理</blockquote>
+<a name="tag_17_552_02" id="tag_17_552_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;signal.h&gt;<br>
+<br>
+void (*signal(int</code> <i>sig</i><code>, void (*</code><i>func</i><code>)(int)))(int);<br></code></code></p>
+</blockquote>
+<a name="tag_17_552_03" id="tag_17_552_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> The functionality described on this reference page is aligned with the ISO C standard. Any conflict between the
+requirements described here and the ISO C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO C
+standard. <img src="../images/opt-end.gif" alt="[Option End]">
+<p><i>signal</i>() 函数选择三种方式之一，用于随后处理信号编号 <i>sig</i> 的接收。如果 <i>func</i> 的值为 SIG_DFL，则应对该信号进行默认处理。如果 <i>func</i> 的值为 SIG_IGN，则应忽略该信号。否则，应用程序应确保 <i>func</i> 指向在该信号发生时将被调用的函数。因信号而调用此类函数，或（递归地）调用由该调用所调用的任何进一步函数（标准库中的函数除外），称为 &quot;信号处理程序&quot;。</p>
+<p>当信号发生时，且 <i>func</i> 指向一个函数，是否执行以下内容的等效操作是实现定义的：</p>
+<pre><code class="language-plaintext">signal(sig, SIG_DFL);</code></pre>
+<p>被执行，或者实现阻止一组实现定义的信号（至少包括 <i>sig</i>）在当前信号处理完成之前发生。（如果 <i>sig</i> 的值为 SIGILL，实现可以另选定义不采取任何操作。）接下来执行以下内容的等效操作：</p>
+<pre><code class="language-plaintext">(*func)(sig);</code></pre>
+<p>被执行。如果该函数返回（若确实返回），且 <i>sig</i> 的值是 SIGFPE、SIGILL 或 SIGSEGV，或对应于计算异常的任何其他实现定义的值，则行为未定义。否则，程序应在被中断的点恢复执行。ISO C 标准对应用程序从信号处理程序中调用 raise() 施加了限制。<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  此限制不适用于 POSIX 应用程序，因为 POSIX.1-2024 要求 raise() 是异步信号安全的（参见 2.4.3 信号动作）。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果进程是多线程的，<img src="../images/opt-end.gif" alt="[Option End]">  或者进程是单线程的，并且信号处理程序的执行不是以下操作的结果：</p>
+<ul>
+<li>
+<p>进程调用 abort()、raise()、<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> kill()、pthread_kill() 或 sigqueue() <img src="../images/opt-end.gif" alt="[Option End]">  来产生一个未被阻塞的信号</p>
+</li>
+<li>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 一个待决信号被解除阻塞并在解除阻塞的调用返回之前被传递 <img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+</ul>
+<p>则在以下情况下行为未定义：</p>
+<ul>
+<li>
+<p>信号处理程序引用任何对象 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  （除 <i>errno</i> <img src="../images/opt-end.gif" alt="[Option End]">  之外，具有静态或线程存储期且不是无锁原子对象，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并且不是不可修改对象（例如，字符串字面量、以 const 限定类型定义的对象以及映射为只读的内存中的对象）<img src="../images/opt-end.gif" alt="[Option End]">  ），除非是通过向声明为 <b>volatile sig_atomic_t</b> 的对象赋值，<sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  并且除非对该对象的先前修改（如果有）发生在信号处理程序被调用之前，且从信号处理程序返回发生在对该对象的下一次修改（如果有）之前。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+<li>
+<p>信号处理程序调用本标准中定义的任何函数 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  （2.4 信号概念 中列出的函数之一除外）。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</li>
+</ul>
+<p>在程序启动时，执行以下内容的等效操作：</p>
+<pre><code class="language-plaintext">signal(sig, SIG_IGN);</code></pre>
+<p>对某些信号执行，并执行以下内容的等效操作：</p>
+<pre><code class="language-plaintext">signal(sig, SIG_DFL);</code></pre>
+<p>对所有其他信号执行 <sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]">  （参见 <i>exec</i>）。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+<p><i>signal</i>() 函数成功后不应更改 <i>errno</i> 的设置。</p>
+<p><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>signal</i>() 函数必须是线程安全的。（参见 2.9.1 线程安全。）<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_552_04" id="tag_17_552_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果请求可以得到满足，<i>signal</i>() 应返回针对指定信号 <i>sig</i> 的最近一次 <i>signal</i>() 调用的 <i>func</i> 值。否则，应返回 SIG_ERR，并在 <i>errno</i> 中存储一个正值。</p>
+</blockquote>
+<a name="tag_17_552_05" id="tag_17_552_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>signal</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> <i>sig</i> 参数不是有效的信号编号，或试图捕获无法捕获的信号或忽略无法忽略的信号。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+<p>在以下情况下，<i>signal</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EINVAL]</dt>
+<dd><sup>[CX]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 试图将无法捕获或忽略（或两者兼有）的信号的动作设置为 SIG_DFL。<img src="../images/opt-end.gif" alt="[Option End]"></dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_552_06" id="tag_17_552_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_552_07" id="tag_17_552_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>sigaction() 函数提供了更全面、更可靠的信号控制机制；新应用程序应使用 sigaction() 而不是 <i>signal</i>()。</p>
+</blockquote>
+<a name="tag_17_552_08" id="tag_17_552_08"></a><h4>原理说明 (RATIONALE)</h4>
+<blockquote>
+<p>ISO C 标准规定，在多线程程序中使用 <i>signal</i>() 会导致未定义行为。然而，POSIX.1 自线程被添加到 ISO C 标准之前就要求 <i>signal</i>() 是线程安全的。</p>
+</blockquote>
+<a name="tag_17_552_09" id="tag_17_552_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_552_10" id="tag_17_552_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>2.4 信号概念、exec、pause()、raise()、sigaction()、sigsuspend()、waitid()</p>
+<p>XBD &lt;signal.h&gt;</p>
+</blockquote>
+<a name="tag_17_552_11" id="tag_17_552_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 1。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_552_12" id="tag_17_552_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>从 X/OPEN UNIX 扩展移至 BASE。</p>
+<p>DESCRIPTION（说明）部分已更新，以表明 <i>sigpause</i>() 函数在返回之前将进程的信号掩码恢复到其原始状态。</p>
+<p>RETURN VALUE（返回值）部分已更新，以表明 <i>sigpause</i>() 函数挂起进程的执行，直到收到信号，然后返回 -1 并将 <i>errno</i> 设置为 [EINTR]。</p>
+</blockquote>
+<a name="tag_17_552_13" id="tag_17_552_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>超出 ISO C 标准的扩展已标记。</p>
+<p>规范性文本已更新，以避免在应用程序要求中使用术语 &quot;must&quot;。</p>
+<p>DESCRIPTION（说明）部分已更新，以与 ISO/IEC 9899:1999 标准保持一致。</p>
+<p>对 <i>wait3</i>() 函数的引用已删除。</p>
+<p><i>sighold</i>()、<i>sigignore</i>()、<i>sigrelse</i>() 和 <i>sigset</i>() 函数被拆分到各自的参考页。</p>
+</blockquote>
+<a name="tag_17_552_14" id="tag_17_552_14"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用了 POSIX.1-2008 技术勘误 1 的 XSH/TC1-2008/0580 [275]、XSH/TC1-2008/0581 [66] 和 XSH/TC1-2008/0582 [105]。</p>
+<p>应用了 POSIX.1-2008 技术勘误 2 的 XSH/TC2-2008/0331 [785]。</p>
+</blockquote>
+<a name="tag_17_552_15" id="tag_17_552_15"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 728，减少了信号处理程序引用具有静态或线程存储期的对象时产生未定义行为的情形。</p>
+<p>应用了 Austin Group Defect 1302，使该函数与 ISO/IEC 9899:2018 标准保持一致。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

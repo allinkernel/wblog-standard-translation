@@ -1,0 +1,23 @@
+<h1>XSH 函数导读：pthread_mutex_lock()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_mutex_lock()</code> 锁定互斥量（mutex），若已被其他线程持有则阻塞等待；配套的 <code>pthread_mutex_trylock()</code> 立即返回、<code>pthread_mutex_unlock()</code> 解锁。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：三个函数均为 <code>int f(pthread_mutex_t *mutex)</code>，成功返回零，失败返回错误号，且都不应返回 [EINTR]。</p>
+
+<h2>1. 机制</h2>
+<p>互斥量有"所有权"概念：<code>pthread_mutex_lock()</code> 返回时调用线程即成为所有者，互斥量处于锁定状态。若互斥量已被其他线程锁定，调用线程阻塞直到其变为可用；唤醒后由调度策略决定哪个等待者获得锁。解锁后存在多个阻塞线程时同样由调度策略裁决。对递归类型（PTHREAD_MUTEX_RECURSIVE）互斥量维持锁计数：首次获取置一，每次重新锁定加一，每次解锁减一，计数到零才可供他人获取。默认类型（PTHREAD_MUTEX_DEFAULT）的行为可以对应三种标准类型之一，或对重新锁定/非所有者解锁未定义。健壮互斥量在持有者进程崩溃时可返回 [EOWNERDEAD]，新所有者须恢复状态并调用 <code>pthread_mutex_consistent()</code>。</p>
+
+<h2>2. 易错点</h2>
+<p>默认互斥量不是递归的，同一线程二次锁定默认类型互斥量往往导致死锁或未定义行为；需要嵌套时必须显式创建 PTHREAD_MUTEX_RECURSIVE 类型。解锁非自己拥有的互斥量是编程错误：ERRORCHECK/递归类型返回 [EPERM]，默认类型行为未定义。不要用 <code>memcpy</code> 拷贝互斥量对象。使用未初始化的互斥量行为未定义。不要跳过返回值检查——尤其是健壮互斥量的 [EOWNERDEAD]。锁定与解锁必须成对，任何提前 return 路径都要先解锁。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+
+static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
+static long counter = 0;
+
+void *worker(void *arg) {
+    pthread_mutex_lock(&amp;mtx);
+    counter++;                    /* 临界区 */
+    pthread_mutex_unlock(&amp;mtx);   /* 必须成对 */
+    return NULL;
+}</code></pre>

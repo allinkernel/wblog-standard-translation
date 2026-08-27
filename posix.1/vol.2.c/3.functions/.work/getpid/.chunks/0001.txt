@@ -1,0 +1,28 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] getpid — get the process ID
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]getpid[/I5]() function shall return the process ID of the calling process.
+[h4_00007] [A6][/A6]RETURN VALUE
+[p_00008] The [I7]getpid[/I7]() function shall always be successful and no return value is reserved to indicate an error.
+[h4_00009] [A8][/A8]ERRORS
+[p_00010] No errors are defined.
+[h4_00011] [A9][/A9]EXAMPLES
+[p_00012] None.
+[h4_00013] [A10][/A10]APPLICATION USAGE
+[p_00014] None.
+[h4_00015] [A11][/A11]RATIONALE
+[p_00016] None.
+[h4_00017] [A12][/A12]FUTURE DIRECTIONS
+[p_00018] None.
+[h4_00019] [A13][/A13]SEE ALSO
+[p_00020] [A14][/A14][A15]exec[/A15], [A16][I17]fork[/I17]()[/A16], [A18][I19]getpgrp[/I19]()[/A18], [A20][I21]getppid[/I21]()[/A20], [A22][I23]kill[/I23]()[/A22], [A24][I25]mkdtemp[/I25]()[/A24], [A26][I27]setpgid[/I27]()[/A26], [A28][I29]setsid[/I29]()[/A28]
+[p_00021] XBD [A30][I31]&lt;sys/types.h&gt;[/I31][/A30], [A32][I33]&lt;unistd.h&gt;[/I33][/A32]
+[h4_00022] [A34][/A34]CHANGE HISTORY
+[p_00023] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00024] [A35][/A35]Issue 6
+[p_00025] In the SYNOPSIS, the optional include of the [A36][I37]&lt;sys/types.h&gt;[/I37][/A36] header is removed.
+[p_00026] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00027] The requirement to include [A38][I39]&lt;sys/types.h&gt;[/I39][/A38] has been removed. Although [A40][I41]&lt;sys/types.h&gt;[/I41][/A40] was required for conforming implementations of previous POSIX specifications, it was not required for UNIX applications.
+[p_00028] &nbsp;

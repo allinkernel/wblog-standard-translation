@@ -1,0 +1,842 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_177_01\" id=\"tag_17_177_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "fputs — put a string on a stream",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_177_02\" id=\"tag_17_177_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdio.h.html\">stdio.h</a>&gt;<br>\n<br>\nint fputs(const char *restrict</tt> <i>s</i><tt>, FILE *restrict</tt> <i>stream</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_177_03\" id=\"tag_17_177_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]fputs[/I5]() function shall write the null-terminated string pointed to by [I6]s[/I6] to the stream pointed to by\n[I7]stream[/I7]. The terminating null byte shall not be written.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "[S8][[A9]CX[/A9]][/S8] [IMG10] The\nlast data modification and last file status change timestamps of the file shall be marked for update between the successful\nexecution of [I11]fputs[/I11]() and the next successful completion of a call to [A12][I13]fflush[/I13]()[/A12]\nor [A14][I15]fclose[/I15]()[/A14] on the same stream or a call to [A16][I17]exit[/I17]()[/A16] or [A18][I19]abort[/I19]()[/A18]. [IMG20]",
+    "placeholders": {
+     "S8": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A9": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG10": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A12": {
+      "open": "<a href=\"../functions/fflush.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A16": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A18": {
+      "open": "<a href=\"../functions/abort.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG20": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00008",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A21][/A21]RETURN VALUE",
+    "placeholders": {
+     "A21": {
+      "open": "<a name=\"tag_17_177_04\" id=\"tag_17_177_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, [I22]fputs[/I22]() shall return a non-negative number. Otherwise, it shall return EOF, set an error\nindicator for the stream, [S23][[A24]CX[/A24]][/S23] [IMG25] &nbsp;and set [I26]errno[/I26] to indicate the error. [IMG27]",
+    "placeholders": {
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S23": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A24": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG27": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00010",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A28][/A28]ERRORS",
+    "placeholders": {
+     "A28": {
+      "open": "<a name=\"tag_17_177_05\" id=\"tag_17_177_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "Refer to [A29][I30]fputc[/I30]()[/A29].",
+    "placeholders": {
+     "A29": {
+      "open": "<a href=\"../functions/fputc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00012",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A31][/A31]EXAMPLES",
+    "placeholders": {
+     "A31": {
+      "open": "<a name=\"tag_17_177_06\" id=\"tag_17_177_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00013",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A32][/A32]Printing to Standard Output",
+    "placeholders": {
+     "A32": {
+      "open": "<a name=\"tag_17_177_06_01\" id=\"tag_17_177_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example gets the current time, converts it to a string using [A33][I34]localtime[/I34]()[/A33] and [A35][I36]asctime[/I36]()[/A35], and prints it to\nstandard output using [I37]fputs[/I37](). It then prints the number of minutes to an event for which it is waiting.",
+    "placeholders": {
+     "A33": {
+      "open": "<a href=\"../functions/localtime.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A35": {
+      "open": "<a href=\"../functions/asctime.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A38][/A38]APPLICATION USAGE",
+    "placeholders": {
+     "A38": {
+      "open": "<a name=\"tag_17_177_07\" id=\"tag_17_177_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "The [A39][I40]puts[/I40]()[/A39] function appends a &lt;newline&gt; while [I41]fputs[/I41]() does not.",
+    "placeholders": {
+     "A39": {
+      "open": "<a href=\"../functions/puts.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "This volume of POSIX.1-2024 requires that successful completion simply return a non-negative integer. There are at least three\nknown different implementation conventions for this requirement:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5,
+     1,
+     1
+    ],
+    "text": "Return a constant value.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5,
+     3,
+     1
+    ],
+    "text": "Return the last character written.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     5,
+     5,
+     1
+    ],
+    "text": "Return the number of bytes written. Note that this implementation convention cannot be adhered to for strings longer than\n{INT_MAX} bytes as the value would not be representable in the return type of the function. For backwards-compatibility,\nimplementations can return the number of bytes for strings of up to {INT_MAX} bytes, and return {INT_MAX} for all longer\nstrings.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00021",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A42][/A42]RATIONALE",
+    "placeholders": {
+     "A42": {
+      "open": "<a name=\"tag_17_177_08\" id=\"tag_17_177_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The [I43]fputs[/I43]() function is one whose source code was specified in the referenced [I44]The C Programming Language[/I44]. In the\noriginal edition, the function had no defined return value, yet many practical implementations would, as a side-effect, return the\nvalue of the last character written as that was the value remaining in the accumulator used as a return value. In the second\nedition of the book, either the fixed value 0 or EOF would be returned depending upon the return value of [A45][I46]ferror[/I46]()[/A45]; however, for compatibility with extant implementations, several implementations\nwould, upon success, return a positive value representing the last byte written.",
+    "placeholders": {
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I44": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A45": {
+      "open": "<a href=\"../functions/ferror.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00023",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A47][/A47]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A47": {
+      "open": "<a name=\"tag_17_177_09\" id=\"tag_17_177_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00025",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A48][/A48]SEE ALSO",
+    "placeholders": {
+     "A48": {
+      "open": "<a name=\"tag_17_177_10\" id=\"tag_17_177_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00026",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A49][I50]2.5 Standard I/O Streams[/I50][/A49], [A51][I52]fopen[/I52]()[/A51], [A53][I54]putc[/I54]()[/A53], [A55][I56]puts[/I56]()[/A55]",
+    "placeholders": {
+     "A49": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A51": {
+      "open": "<a href=\"../functions/fopen.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A53": {
+      "open": "<a href=\"../functions/putc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A55": {
+      "open": "<a href=\"../functions/puts.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A57][I58]&lt;stdio.h&gt;[/I58][/A57]",
+    "placeholders": {
+     "A57": {
+      "open": "<a href=\"../basedefs/stdio.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00028",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A59][/A59]CHANGE HISTORY",
+    "placeholders": {
+     "A59": {
+      "open": "<a name=\"tag_17_177_11\" id=\"tag_17_177_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00029",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A60][/A60]Issue 6",
+    "placeholders": {
+     "A60": {
+      "open": "<a name=\"tag_17_177_12\" id=\"tag_17_177_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00032",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The [I61]fputs[/I61]() prototype is updated for alignment with the ISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00033",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A62][/A62]Issue 7",
+    "placeholders": {
+     "A62": {
+      "open": "<a name=\"tag_17_177_13\" id=\"tag_17_177_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0170 [174,412], XSH/TC1-2008/0171 [412], and XSH/TC1-2008/0172 [14] are\napplied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

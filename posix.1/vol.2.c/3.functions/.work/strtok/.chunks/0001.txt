@@ -1,0 +1,54 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] strtok, strtok_r — split string into tokens
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] For [I5]strtok[/I5](): [S6][[A7]CX[/A7]][/S6] [IMG8] &nbsp;The functionality described on this reference page is aligned with the ISO&nbsp;C standard. Any conflict between the requirements described here and the ISO&nbsp;C standard is unintentional. This volume of POSIX.1-2024 defers to the ISO&nbsp;C standard. [IMG9]
+[p_00007] A sequence of calls to [I10]strtok[/I10]() breaks the string pointed to by [I11]s[/I11] into a sequence of tokens, each of which is delimited by a byte from the string pointed to by [I12]sep[/I12]. The first call in the sequence has [I13]s[/I13] as its first argument, and is followed by calls with a null pointer as their first argument. The separator string pointed to by [I14]sep[/I14] may be different from call to call.
+[p_00008] The first call in the sequence searches the string pointed to by [I15]s[/I15] for the first byte that is [I16]not[/I16] contained in the current separator string pointed to by [I17]sep[/I17]. If no such byte is found, then there are no tokens in the string pointed to by [I18]s[/I18] and [I19]strtok[/I19]() shall return a null pointer. If such a byte is found, it is the start of the first token.
+[p_00009] The [I20]strtok[/I20]() function then searches from there for a byte that [I21]is[/I21] contained in the current separator string. If no such byte is found, the current token extends to the end of the string pointed to by [I22]s[/I22], and subsequent searches for a token shall return a null pointer. If such a byte is found, it is overwritten by a NUL character, which terminates the current token. The [I23]strtok[/I23]() function saves a pointer to the following byte, from which the next search for a token shall start.
+[p_00010] Each subsequent call, with a null pointer as the value of the first argument, starts searching from the saved pointer and behaves as described above.
+[p_00011] The implementation shall behave as if no function defined in this volume of POSIX.1-2024 calls [I24]strtok[/I24]().
+[p_00012] The [I25]strtok[/I25]() function need not be thread-safe; however, [I26]strtok[/I26]() shall avoid data races with all other functions.
+[p_00013] [S27][[A28]CX[/A28]][/S27] [IMG29] The [I30]strtok_r[/I30]() function shall be equivalent to [I31]strtok[/I31](), except that [I32]strtok_r[/I32]() shall be thread-safe and the argument [I33]state[/I33] points to a user-provided pointer that allows [I34]strtok_r[/I34]() to maintain state between calls which scan the same string. The application shall ensure that the pointer pointed to by [I35]state[/I35] is unique for each string ([I36]s[/I36]) being processed concurrently by [I37]strtok_r[/I37]() calls. The application need not initialize the pointer pointed to by [I38]state[/I38] to any particular value. The implementation shall not update the pointer pointed to by [I39]state[/I39] to point (directly or indirectly) to resources, other than within the string [I40]s[/I40], that need to be freed or released by the caller. [IMG41]
+[p_00014] [S42][[A43]CX[/A43]][/S42] [IMG44] The [I45]strtok[/I45]() and [I46]strtok_r[/I46]() functions shall not change the setting of [I47]errno[/I47] on valid input. [IMG48]
+[h4_00015] [A49][/A49]RETURN VALUE
+[p_00016] Upon successful completion, [I50]strtok[/I50]() shall return a pointer to the first byte of a token. Otherwise, if there is no token, [I51]strtok[/I51]() shall return a null pointer.
+[p_00017] [S52][[A53]CX[/A53]][/S52] [IMG54] The [I55]strtok_r[/I55]() function shall return a pointer to the token found, or a null pointer when no token is found. [IMG56]
+[h4_00018] [A57][/A57]ERRORS
+[p_00019] No errors are defined.
+[h4_00020] [A58][/A58]EXAMPLES
+[h5_00021] [A59][/A59]Searching for Word Separators
+[p_00022] The following example searches for tokens separated by &lt;space&gt; characters.
+[h5_00023] [A60][/A60]Find First two Fields in a Buffer
+[p_00024] The following example uses [I61]strtok[/I61]() to find two character strings (a key and data associated with that key) separated by any combination of &lt;space&gt;, &lt;tab&gt;, or &lt;newline&gt; characters at the start of the array of characters pointed to by [I62]buffer[/I62].
+[h4_00025] [A63][/A63]APPLICATION USAGE
+[p_00026] Note that if [I64]sep[/I64] is the empty string, [I65]strtok[/I65]() and [I66]strtok_r[/I66]() return a pointer to the remainder of the string being tokenized.
+[p_00027] The [I67]strtok_r[/I67]() function is thread-safe and stores its state in a user-supplied buffer instead of possibly using a static data area that may be overwritten by an unrelated call from another thread.
+[h4_00028] [A68][/A68]RATIONALE
+[p_00029] The [I69]strtok[/I69]() function searches for a separator string within a larger string. It returns a pointer to the last substring between separator strings. This function uses static storage to keep track of the current string position between calls. The new function, [I70]strtok_r[/I70](), takes an additional argument, [I71]state[/I71], to keep track of the current position in the string.
+[h4_00030] [A72][/A72]FUTURE DIRECTIONS
+[p_00031] None.
+[h4_00032] [A73][/A73]SEE ALSO
+[p_00033] XBD [A74][I75]&lt;string.h&gt;[/I75][/A74]
+[h4_00034] [A76][/A76]CHANGE HISTORY
+[p_00035] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00036] [A77][/A77]Issue 5
+[p_00037] The [I78]strtok_r[/I78]() function is included for alignment with the POSIX Threads Extension.
+[p_00038] A note indicating that the [I79]strtok[/I79]() function need not be reentrant is added to the DESCRIPTION.
+[h4_00039] [A80][/A80]Issue 6
+[p_00040] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00041] The [I81]strtok_r[/I81]() function is marked as part of the Thread-Safe Functions option.
+[p_00042] In the DESCRIPTION, the note about reentrancy is expanded to cover thread-safety.
+[p_00043] The APPLICATION USAGE section is updated to include a note on the thread-safe function and its avoidance of possibly using a static data area.
+[p_00044] The [B82]restrict[/B82] keyword is added to the [I83]strtok[/I83]() and [I84]strtok_r[/I84]() prototypes for alignment with the ISO/IEC&nbsp;9899:1999 standard.
+[h4_00045] [A85][/A85]Issue 7
+[p_00046] Austin Group Interpretation 1003.1-2001 #156 is applied.
+[p_00047] SD5-XSH-ERN-235 is applied, correcting an example.
+[p_00048] The [I86]strtok_r[/I86]() function is moved from the Thread-Safe Functions option to the Base.
+[p_00049] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0615 [177] is applied.
+[p_00050] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0350 [878] is applied.
+[h4_00051] [A87][/A87]Issue 8
+[p_00052] Austin Group Defect 448 is applied, adding a requirement that [I88]strtok[/I88]() and [I89]strtok_r[/I89]() do not change the setting of [I90]errno[/I90] on valid input.
+[p_00053] Austin Group Defect 1302 is applied, aligning the [I91]strtok[/I91]() function with the ISO/IEC&nbsp;9899:2018 standard.
+[p_00054] &nbsp;

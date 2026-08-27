@@ -1,0 +1,132 @@
+<h1>XSH 函数：socket()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="socket" id="socket"></a> <a name="tag_17_710" id="tag_17_710"></a>
+<a name="tag_17_710_01" id="tag_17_710_01"></a><h4>名称 (NAME)</h4>
+<blockquote>socket — 为通信创建端点 (socket — create an endpoint for communication)</blockquote>
+<a name="tag_17_710_02" id="tag_17_710_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/socket.h&gt;<br>
+<br>
+int socket(int</code> <i>domain</i><code>, int</code> <i>type</i><code>, int</code> <i>protocol</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_710_03" id="tag_17_710_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>socket</i>() 函数应在通信域中创建一个未绑定的套接字，并返回一个文件描述符，该文件描述符可用于后续对套接字进行操作的函数调用。文件描述符的分配应如 2.6 文件描述符分配 所述。</p>
+<p><i>socket</i>() 函数接受以下参数：</p>
+<dl compact="None">
+<dd></dd>
+<dt><i>domain</i></dt>
+<dd>指定要在其中创建套接字的通信域。</dd>
+<dt><i>type</i></dt>
+<dd>指定要创建的套接字的类型。</dd>
+<dt><i>protocol</i></dt>
+<dd>指定要与套接字一起使用的特定协议。将 <i>protocol</i> 指定为 0 会使 <i>socket</i>() 使用适合所请求套接字类型的未指定默认协议。</dd>
+</dl>
+<p><i>domain</i> 参数指定通信域中使用的地址族。系统支持的地址族是实现定义的。</p>
+<p>可用于 domain 参数的符号常量在 &lt;sys/socket.h&gt; 头文件中定义。</p>
+<p><i>type</i> 参数指定套接字类型，该类型决定了通过套接字进行通信的语义。定义了以下套接字类型；实现可以指定额外的套接字类型：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SOCK_STREAM</dt>
+<dd>提供有序、可靠、双向、连接模式的字节流，并且可以提供带外数据的传输机制。</dd>
+<dt>SOCK_DGRAM</dt>
+<dd>提供数据报，即无连接模式、不可靠的固定最大长度的消息。</dd>
+<dt>SOCK_SEQPACKET</dt>
+<dd>为记录提供有序、可靠、双向、连接模式的传输路径。一条记录可以使用一个或多个输出操作发送，并使用一个或多个输入操作接收，但单个操作绝不会传输超过一条记录的部分内容。记录边界通过 MSG_EOR 标志对接收方可见。</dd>
+</dl>
+<p>此外，<i>type</i> 参数可以包含以下列表中标志的按位或（bitwise-inclusive OR）：</p>
+<dl compact="None">
+<dd></dd>
+<dt>SOCK_CLOEXEC</dt>
+<dd>在新文件描述符上原子地设置 FD_CLOEXEC 标志。</dd>
+<dt>SOCK_CLOFORK</dt>
+<dd>在新文件描述符上原子地设置 FD_CLOFORK 标志。</dd>
+<dt>SOCK_NONBLOCK</dt>
+<dd>在新文件描述上设置 O_NONBLOCK 文件状态标志。</dd>
+</dl>
+<p>实现可以定义额外的标志。</p>
+<p>如果 <i>protocol</i> 参数非零，则应指定该地址族支持的协议。如果 <i>protocol</i> 参数为零，则应使用该地址族和类型的默认协议。系统支持的协议是实现定义的。</p>
+<p>进程可能需要拥有适当的权限才能使用 <i>socket</i>() 函数或创建某些套接字。</p>
+</blockquote>
+<a name="tag_17_710_04" id="tag_17_710_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>socket</i>() 应返回一个非负整数，即套接字文件描述符。否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_710_05" id="tag_17_710_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>socket</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EAFNOSUPPORT]</dt>
+<dd>实现不支持指定的地址族。</dd>
+<dt>[EMFILE]</dt>
+<dd>进程可用的所有文件描述符当前都已打开。</dd>
+<dt>[ENFILE]</dt>
+<dd>系统中不再有可用的文件描述符。</dd>
+<dt>[EPROTONOSUPPORT]</dt>
+<dd><i>protocol</i> 的值为非零，且该协议不被地址族支持，或该协议不被实现支持。</dd>
+<dt>[EPROTOTYPE]</dt>
+<dd><i>protocol</i> 的值为非零，且该套接字类型不被协议支持。</dd>
+<dt>[ESOCKTNOSUPPORT]  <sup>[OB]</sup> <img src="../images/opt-start.gif" alt="图片"> 或 [EPROTONOSUPPORT] 或 [EPROTOTYPE] <img src="../images/opt-end.gif" alt="图片">    该套接字类型不被地址族支持，或该套接字类型不被实现支持。</dt>
+</dl>
+<p>在以下情况下，<i>socket</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>进程没有适当的权限。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>系统中可用于执行该操作的资源不足。</dd>
+<dt>[ENOMEM]</dt>
+<dd>可用于满足请求的内存不足。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_710_06" id="tag_17_710_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_710_07" id="tag_17_710_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>特定地址族的文档指定了每个地址族支持哪些协议。特定协议的文档指定了每个协议支持哪些套接字类型。</p>
+<p>应用程序可以通过尝试创建将 <i>domain</i> 设置为所讨论协议的套接字来确定某个地址族是否受支持。</p>
+</blockquote>
+<a name="tag_17_710_08" id="tag_17_710_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>在 <i>type</i> 参数（用于 <i>socket</i>()）中使用 SOCK_CLOEXEC 和 SOCK_CLOFORK 标志对于避免多线程应用程序中的数据竞争是必要的。没有 SOCK_CLOFORK，在一个线程调用 <i>socket</i>() 与另一个线程使用 fcntl() 设置 FD_CLOFORK 标志之间的窗口期内，文件描述符会泄漏到由一个线程创建的子进程中。没有 SOCK_CLOEXEC，如果 FD_CLOEXEC 不是原子设置的，则有意由子进程继承的文件描述符会同样泄漏到被执行的程序中。SOCK_NONBLOCK 标志是为了方便避免额外的 fcntl() 调用。</p>
+<p>历史上，该标准未规定在套接字类型不受支持时应使用的 <i>errno</i> 值，并且各实现之间存在差异。一些实现复用了现有的标准 [EPROTONOSUPPORT] 或 [EPROTOTYPE] 值，而另一些实现则将 <i>errno</i> 设置为（当时）非标准的 [ESOCKTNOSUPPORT] 值。在本版本的标准中，这三个值都是允许的，但当未指定协议（即 <i>protocol</i> 的值为零）时，使用 [EPROTONOSUPPORT] 或 [EPROTOTYPE] 被认为具有误导性，因此这些替代项已被标记为过时。如果 <i>protocol</i> 非零，由于错误条件之间没有优先级，即使在针对 [ESOCKTNOSUPPORT] 条件的过时替代项被移除之后，这三个值仍将被允许。</p>
+</blockquote>
+<a name="tag_17_710_09" id="tag_17_710_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>本标准的未来版本可能会禁止在套接字类型不受支持且 <i>protocol</i> 为零时将 <i>errno</i> 设置为 [EPROTONOSUPPORT] 或 [EPROTOTYPE]。</p>
+</blockquote>
+<a name="tag_17_710_10" id="tag_17_710_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>2.6 文件描述符分配、accept、bind、close、connect、getsockname、getsockopt、listen、recv、recvfrom、recvmsg、send、sendmsg、setsockopt、shutdown、socketpair</p>
+<p>XBD &lt;netinet/in.h&gt;、&lt;sys/socket.h&gt;</p>
+</blockquote>
+<a name="tag_17_710_11" id="tag_17_710_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 6 版。源自 XNS 第 5.2 版规范。</p>
+</blockquote>
+<a name="tag_17_710_12" id="tag_17_710_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用 POSIX.1-2008 Technical Corrigendum 2 中的 XSH/TC2-2008/0335 [835]。</p>
+</blockquote>
+<a name="tag_17_710_13" id="tag_17_710_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用 Austin Group Defects 411 和 1318，添加 SOCK_CLOEXEC、SOCK_CLOFORK 和 SOCK_NONBLOCK。</p>
+<p>应用 Austin Group Defect 1067，添加 [ESOCKTNOSUPPORT] 错误并更改 [EPROTONOSUPPORT] 和 [EPROTOTYPE] 错误。</p>
+<p>应用 Austin Group Defect 1475，将 close() 添加到 SEE ALSO 一节。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

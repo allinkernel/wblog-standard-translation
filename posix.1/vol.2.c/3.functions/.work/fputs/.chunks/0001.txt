@@ -1,0 +1,36 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] fputs — put a string on a stream
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]fputs[/I5]() function shall write the null-terminated string pointed to by [I6]s[/I6] to the stream pointed to by [I7]stream[/I7]. The terminating null byte shall not be written.
+[p_00007] [S8][[A9]CX[/A9]][/S8] [IMG10] The last data modification and last file status change timestamps of the file shall be marked for update between the successful execution of [I11]fputs[/I11]() and the next successful completion of a call to [A12][I13]fflush[/I13]()[/A12] or [A14][I15]fclose[/I15]()[/A14] on the same stream or a call to [A16][I17]exit[/I17]()[/A16] or [A18][I19]abort[/I19]()[/A18]. [IMG20]
+[h4_00008] [A21][/A21]RETURN VALUE
+[p_00009] Upon successful completion, [I22]fputs[/I22]() shall return a non-negative number. Otherwise, it shall return EOF, set an error indicator for the stream, [S23][[A24]CX[/A24]][/S23] [IMG25] &nbsp;and set [I26]errno[/I26] to indicate the error. [IMG27]
+[h4_00010] [A28][/A28]ERRORS
+[p_00011] Refer to [A29][I30]fputc[/I30]()[/A29].
+[h4_00012] [A31][/A31]EXAMPLES
+[h5_00013] [A32][/A32]Printing to Standard Output
+[p_00014] The following example gets the current time, converts it to a string using [A33][I34]localtime[/I34]()[/A33] and [A35][I36]asctime[/I36]()[/A35], and prints it to standard output using [I37]fputs[/I37](). It then prints the number of minutes to an event for which it is waiting.
+[h4_00015] [A38][/A38]APPLICATION USAGE
+[p_00016] The [A39][I40]puts[/I40]()[/A39] function appends a &lt;newline&gt; while [I41]fputs[/I41]() does not.
+[p_00017] This volume of POSIX.1-2024 requires that successful completion simply return a non-negative integer. There are at least three known different implementation conventions for this requirement:
+[p_00018] Return a constant value.
+[p_00019] Return the last character written.
+[p_00020] Return the number of bytes written. Note that this implementation convention cannot be adhered to for strings longer than {INT_MAX} bytes as the value would not be representable in the return type of the function. For backwards-compatibility, implementations can return the number of bytes for strings of up to {INT_MAX} bytes, and return {INT_MAX} for all longer strings.
+[h4_00021] [A42][/A42]RATIONALE
+[p_00022] The [I43]fputs[/I43]() function is one whose source code was specified in the referenced [I44]The C Programming Language[/I44]. In the original edition, the function had no defined return value, yet many practical implementations would, as a side-effect, return the value of the last character written as that was the value remaining in the accumulator used as a return value. In the second edition of the book, either the fixed value 0 or EOF would be returned depending upon the return value of [A45][I46]ferror[/I46]()[/A45]; however, for compatibility with extant implementations, several implementations would, upon success, return a positive value representing the last byte written.
+[h4_00023] [A47][/A47]FUTURE DIRECTIONS
+[p_00024] None.
+[h4_00025] [A48][/A48]SEE ALSO
+[p_00026] [A49][I50]2.5 Standard I/O Streams[/I50][/A49], [A51][I52]fopen[/I52]()[/A51], [A53][I54]putc[/I54]()[/A53], [A55][I56]puts[/I56]()[/A55]
+[p_00027] XBD [A57][I58]&lt;stdio.h&gt;[/I58][/A57]
+[h4_00028] [A59][/A59]CHANGE HISTORY
+[p_00029] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00030] [A60][/A60]Issue 6
+[p_00031] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00032] The [I61]fputs[/I61]() prototype is updated for alignment with the ISO/IEC&nbsp;9899:1999 standard.
+[h4_00033] [A62][/A62]Issue 7
+[p_00034] Changes are made related to support for finegrained timestamps.
+[p_00035] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0170 [174,412], XSH/TC1-2008/0171 [412], and XSH/TC1-2008/0172 [14] are applied.
+[p_00036] &nbsp;

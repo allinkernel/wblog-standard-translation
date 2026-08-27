@@ -1,0 +1,37 @@
+<h1>XSH 函数导读：fgets()</h1>
+
+<h2>0. 总览</h2>
+<p><code>fgets()</code> 从流中获取字符串：读取字节直到读满 <i>n</i>-1 个、读到并传送一个 &lt;newline&gt;、或遇到文件末尾条件。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>char *fgets(char *restrict s, int n, FILE *restrict stream)</code>——成功返回 <i>s</i>，读到文件末尾或出错返回空指针。</p>
+
+<h2>1. 机制</h2>
+<p>读取在三种情况下停止：已读 <i>n</i>-1 个字节、读到一个换行符（换行符会被传送到 <i>s</i>）、或遇到文件末尾条件。在写入数组的最后一个字节之后，立即写入一个空字节，因此 <i>s</i> 至少需要容纳 <i>n</i> 个字节（含结尾空字节）。如果<b>在读取任何字节之前</b>就遇到文件末尾，则 <i>s</i> 指向的数组内容不被改变，函数返回空指针并设置流的文件末尾指示符；发生错误时设置错误指示符、设置 <i>errno</i>，同样返回空指针。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><b>保留换行</b>：换行符被保留在结果字符串中，处理前需要自行去除（例如用 <code>strcspn(s, "\n")</code> 找到并截断）；<code>gets()</code> 不含换行，二者行为不同。</li>
+<li>返回空指针不代表出错：可能是读到文件末尾（<code>feof()</code>），也可能是错误（<code>ferror()</code>），需用 <code>feof()</code>/<code>ferror()</code> 区分。</li>
+<li>行长超过 <i>n</i>-1 时不会一次读完：返回值非空但<b>整行没有读完</b>，需要检查读到的最后一个字节是否为换行符；下一轮循环会继续读该行的剩余部分。</li>
+<li>缓冲大小要留出空字节位置：若缓冲区为 <i>N</i> 字节，<i>n</i> 最多传 <i>N</i>，实际最多读入 <i>N</i>-1 个字节。</li>
+<li>避免与 <code>gets()</code> 混淆——<code>gets()</code> 不检查长度，属于经典缓冲区溢出来源，应使用 <code>fgets()</code> 或 <code>getline()</code>。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(void)
+{
+    char line[256];
+    size_t len;
+
+    while (fgets(line, sizeof(line), stdin) != NULL) {
+        len = strlen(line);
+        if (len &gt; 0 &amp;&amp; line[len - 1] == '\n')
+            line[--len] = '\0';      /* 去掉 fgets 保留的换行 */
+        else
+            ; /* 数组已满且无换行：行未读完，需继续读取 */
+        printf("[%s]\n", line);
+    }
+    return 0;
+}
+</code></pre>

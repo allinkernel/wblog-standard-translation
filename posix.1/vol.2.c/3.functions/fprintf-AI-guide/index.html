@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：fprintf()</h1>
+
+<h2>0. 总览</h2>
+<p><code>fprintf()</code> 打印格式化输出：在 <code>format</code> 控制下转换、格式化并打印其参数，输出放到指定的输出<em>流</em>（FILE *）上。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>int fprintf(FILE *restrict stream, const char *restrict format, ...)</code>——比 <code>printf()</code> 多一个目标流参数；成功时返回传输的字节数，遇到错误返回负值并设置 <code>errno</code>。同一参考页还定义了 printf、sprintf、snprintf、dprintf、asprintf，除 asprintf、dprintf 及 %lc 传空宽字符的情形外，行为与 ISO C 标准对齐。</p>
+
+<h2>1. 机制</h2>
+<p>格式化输出的核心行为：format 由普通字符与转换说明组成，转换说明由 <code>%</code> 引入，后接标志、可选最小字段宽度、可选精度、可选长度修饰符与转换说明符（d、i、o、u、x、X、f、F、e、E、g、G、a、A、c、s、p、n、%）。字段宽度与精度可用 <code>*</code> 从 int 参数取得；也可用 <code>%n$</code>、<code>*m$</code> 编号参数形式。生成的字符的打印方式如同调用 <code>fputc()</code>。文件时间戳语义：成功执行 <code>fprintf()</code> 后，文件的最后数据修改与最后文件状态更改时间戳在下次对同一流调用 <code>fflush()</code>、<code>fclose()</code>、<code>exit()</code> 或 <code>abort()</code> 之间被标记为待更新。若参数类型与转换说明不匹配或格式参数不足，行为未定义。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是传给 <code>fprintf()</code> 的 stream 必须先由 fopen()/fdopen() 等正确打开，且以写模式打开；二是格式字符串与参数个数、类型不匹配是未定义行为，须匹配 <code>%d</code> 配 int、<code>%ld</code> 配 long、<code>%f</code> 配 double 等；三是 <code>%s</code> 无精度时字符串须以空字节结尾；四是 <code>%n</code> 写入输出字节数到指针，存在任意写风险；五是缓冲问题——错误检查返回值（负值表示失败），需要立即落盘时调用 <code>fflush()</code>；六是若程序中用到 wint_t/wchar_t 类型对象，还需包含 <code>&lt;wchar.h&gt;</code>。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void) {
+    FILE *fp = fopen("out.txt", "w");
+    if (fp == NULL)
+        return 1;
+
+    if (fprintf(fp, "value=%d\n", 42) &lt; 0) {
+        fclose(fp);          /* 输出错误 */
+        return 1;
+    }
+    fclose(fp);              /* 关闭并刷新缓冲区 */
+    return 0;
+}</code></pre>

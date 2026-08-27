@@ -1,0 +1,90 @@
+<h1>XSH 函数：listen()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="listen" id="listen"></a> <a name="tag_17_306" id="tag_17_306"></a>
+<a name="tag_17_306_01" id="tag_17_306_01"></a><h4>名称 (NAME)</h4>
+<blockquote>listen — 侦听套接字连接并限制传入连接的队列 (listen — listen for socket connections and limit the queue of incoming connections)</blockquote>
+<a name="tag_17_306_02" id="tag_17_306_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/socket.h&gt;<br>
+<br>
+int listen(int</code> <i>socket</i><code>, int</code> <i>backlog</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_306_03" id="tag_17_306_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>listen</i>() 函数应将由 <i>socket</i> 参数指定的连接模式套接字标记为接受连接。</p>
+<p><i>backlog</i> 参数向实现提供一个提示，实现应使用该提示来限制套接字侦听队列中未完成连接的数量。实现可以对 <i>backlog</i> 施加限制并静默地减小指定值。通常，较大的 <i>backlog</i> 参数值应导致侦听队列的长度更大或相等。实现应支持最大为 SOMAXCONN（在 &lt;sys/socket.h&gt; 中定义）的 <i>backlog</i> 值。</p>
+<p>实现可以在其侦听队列中包含未完成的连接。对已排队的未完成连接和已完成连接数量的限制可以不同。</p>
+<p>实现可以设置侦听队列长度的上限——无论是全局的还是每个接受连接的套接字的。如果 <i>backlog</i> 超过此限制，则侦听队列的长度设置为该限制。</p>
+<p>如果以小于 0 的 <i>backlog</i> 参数值调用 <i>listen</i>()，该函数的行为就像是以 0 的 <i>backlog</i> 参数值调用的一样。</p>
+<p>0 的 <i>backlog</i> 参数可以允许套接字接受连接，在这种情况下，侦听队列的长度可以设置为实现定义的最小值。</p>
+<p>所使用的套接字可能要求进程拥有适当的权限才能使用 <i>listen</i>() 函数。</p>
+</blockquote>
+<a name="tag_17_306_04" id="tag_17_306_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>listen</i>() 应返回 0；否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_306_05" id="tag_17_306_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>listen</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>socket</i> 参数不是有效的文件描述符。</dd>
+<dt>[EDESTADDRREQ]</dt>
+<dd>套接字未绑定到本地地址，且协议不支持在未绑定的套接字上侦听。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>socket</i> 已连接。</dd>
+<dt>[ENOTSOCK]</dt>
+<dd><i>socket</i> 参数不引用套接字。</dd>
+<dt>[EOPNOTSUPP]</dt>
+<dd>套接字协议不支持 <i>listen</i>()。</dd>
+</dl>
+<p>在以下情况下，<i>listen</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>调用进程没有适当的权限。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>socket</i> 已被关闭。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>系统中可用于完成调用的资源不足。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_306_06" id="tag_17_306_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_306_07" id="tag_17_306_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_306_08" id="tag_17_306_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_306_09" id="tag_17_306_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_306_10" id="tag_17_306_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>accept()、connect()、socket()</p>
+<p>XBD &lt;sys/socket.h&gt;</p>
+</blockquote>
+<a name="tag_17_306_11" id="tag_17_306_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 6 版。源自 XNS 第 5.2 版规范。</p>
+<p>更新了 DESCRIPTION 部分以描述 SOMAXCONN 与 <i>backlog</i> 参数的关系。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

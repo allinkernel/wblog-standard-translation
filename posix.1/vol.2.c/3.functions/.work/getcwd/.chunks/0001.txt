@@ -1,0 +1,44 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] getcwd — get the pathname of the current working directory
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]getcwd[/I5]() function shall place an absolute pathname of the current working directory in the array pointed to by [I6]buf[/I6], and return [I7]buf[/I7]. The pathname shall contain no components that are dot or dot-dot, or are symbolic links.
+[p_00007] If there are multiple pathnames that [I8]getcwd[/I8]() could place in the array pointed to by [I9]buf[/I9], one beginning with a single &lt;slash&gt; character and one or more beginning with two &lt;slash&gt; characters, then [I10]getcwd[/I10]() shall place the pathname beginning with a single &lt;slash&gt; character in the array. The pathname shall not contain any unnecessary &lt;slash&gt; characters after the leading one or two &lt;slash&gt; characters.
+[p_00008] The [I11]size[/I11] argument is the size in bytes of the character array pointed to by the [I12]buf[/I12] argument. If [I13]buf[/I13] is a null pointer, the behavior of [I14]getcwd[/I14]() is unspecified.
+[h4_00009] [A15][/A15]RETURN VALUE
+[p_00010] Upon successful completion, [I16]getcwd[/I16]() shall return the [I17]buf[/I17] argument. Otherwise, [I18]getcwd[/I18]() shall return a null pointer and set [I19]errno[/I19] to indicate the error. The contents of the array pointed to by [I20]buf[/I20] are then undefined.
+[h4_00011] [A21][/A21]ERRORS
+[p_00012] The [I22]getcwd[/I22]() function shall fail if:
+[dt_00013] [EINVAL]
+[dd_00014] The [I23]size[/I23] argument is 0.
+[dt_00015] [ERANGE]
+[dd_00016] The [I24]size[/I24] argument is greater than 0, but is smaller than the length of the string +1.
+[p_00017] The [I25]getcwd[/I25]() function may fail if:
+[dt_00018] [EACCES]
+[dd_00019] Search permission was denied for the current directory, or read or search permission was denied for a directory above the current directory in the file hierarchy.
+[dt_00020] [ENOMEM]
+[dd_00021] Insufficient storage space is available.
+[h4_00022] [A26][/A26]EXAMPLES
+[p_00023] The following example uses {PATH_MAX} as the initial buffer size (unless it is indeterminate or very large), and calls [I27]getcwd[/I27]() with progressively larger buffers until it does not give an [ERANGE] error.
+[h4_00024] [A28][/A28]APPLICATION USAGE
+[p_00025] If the pathname obtained from [I29]getcwd[/I29]() is longer than {PATH_MAX} bytes, it could produce an [ENAMETOOLONG] error if passed to [A30][I31]chdir[/I31]()[/A30]. Therefore, in order to return to that directory it may be necessary to break the pathname into sections shorter than {PATH_MAX} bytes and call [A32][I33]chdir[/I33]()[/A32] on each section in turn (the first section being an absolute pathname and subsequent sections being relative pathnames). A simpler way to handle saving and restoring the working directory when it may be deeper than {PATH_MAX} bytes in the file hierarchy is to use a file descriptor and [A34][I35]fchdir[/I35]()[/A34], rather than [I36]getcwd[/I36]() and [A37][I38]chdir[/I38]()[/A37]. However, the two methods do have some differences. The [A39][I40]fchdir[/I40]()[/A39] approach causes the program to restore a working directory even if it has been renamed in the meantime, whereas the [A41][I42]chdir[/I42]()[/A41] approach restores to a directory with the same name as the original, even if the directories were renamed in the meantime. Since the [A43][I44]fchdir[/I44]()[/A43] approach does not access parent directories, it can succeed when [I45]getcwd[/I45]() would fail due to permissions problems. In applications conforming to earlier versions of this standard, it was not possible to use the [A46][I47]fchdir[/I47]()[/A46] approach when the working directory is searchable but not readable, as the only way to open a directory was with O_RDONLY, whereas the [I48]getcwd[/I48]() approach can succeed in this case.
+[h4_00026] [A49][/A49]RATIONALE
+[p_00027] Having [I50]getcwd[/I50]() take no arguments and instead use the [A51][I52]malloc[/I52]()[/A51] function to produce space for the returned argument was considered. The advantage is that [I53]getcwd[/I53]() knows how big the working directory pathname is and can allocate an appropriate amount of space. But the programmer would have to use the [A54][I55]free[/I55]()[/A54] function to free the resulting object, or each use of [I56]getcwd[/I56]() would further reduce the available memory. Finally, [I57]getcwd[/I57]() is taken from the SVID where it has the two arguments used in this volume of POSIX.1-2024.
+[p_00028] The older function [I58]getwd[/I58]() was rejected for use in this context because it had only a buffer argument and no [I59]size[/I59] argument, and thus had no way to prevent overwriting the buffer, except to depend on the programmer to provide a large enough buffer.
+[p_00029] On some implementations, if [I60]buf[/I60] is a null pointer, [I61]getcwd[/I61]() may obtain [I62]size[/I62] bytes of memory using [A63][I64]malloc[/I64]()[/A63]. In this case, the pointer returned by [I65]getcwd[/I65]() may be used as the argument in a subsequent call to [A66][I67]free[/I67]()[/A66]. Invoking [I68]getcwd[/I68]() with [I69]buf[/I69] as a null pointer is not recommended in conforming applications.
+[p_00030] Earlier implementations of [I70]getcwd[/I70]() sometimes generated pathnames like [CODE71] internally, using them to explore the path of ancestor directories back to the root. If one of these internal pathnames exceeded {PATH_MAX} in length, the implementation could fail with [I72]errno[/I72] set to [ENAMETOOLONG]. This is no longer allowed.
+[p_00031] If a program is operating in a directory where some (grand)parent directory does not permit reading, [I73]getcwd[/I73]() may fail, as in most implementations it must read the directory to determine the name of the file. This can occur if search, but not read, permission is granted in an intermediate directory, or if the program is placed in that directory by some more privileged process (for example, login). Including the [EACCES] error condition makes the reporting of the error consistent and warns the application developer that [I74]getcwd[/I74]() can fail for reasons beyond the control of the application developer or user. Some implementations can avoid this occurrence (for example, by implementing [I75]getcwd[/I75]() using [A76][I77]pwd[/I77][/A76], where [A78][I79]pwd[/I79][/A78] is a set-user-root process), thus the error was made optional. Since this volume of POSIX.1-2024 permits the addition of other errors, this would be a common addition and yet one that applications could not be expected to deal with without this addition.
+[h4_00032] [A80][/A80]FUTURE DIRECTIONS
+[p_00033] None.
+[h4_00034] [A81][/A81]SEE ALSO
+[p_00035] [A82][I83]malloc[/I83]()[/A82]
+[p_00036] XBD [A84][I85]&lt;unistd.h&gt;[/I85][/A84]
+[h4_00037] [A86][/A86]CHANGE HISTORY
+[p_00038] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00039] [A87][/A87]Issue 6
+[p_00040] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00041] The [ENOMEM] optional error condition is added.
+[h4_00042] [A88][/A88]Issue 7
+[p_00043] Austin Group Interpretation 1003.1-2001 #140 is applied, changing the text for consistency with the [A89][I90]pwd[/I90][/A89] utility, adding text to address the case where the current directory is deeper in the file hierarchy than {PATH_MAX} bytes, and adding the requirements relating to pathnames beginning with two &lt;slash&gt; characters.
+[p_00044] &nbsp;

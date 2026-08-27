@@ -1,0 +1,54 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] getenv, secure_getenv — get value of an environment variable
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]getenv[/I5]() function shall search the environment of the calling process (see XBD [A6][I7]8. Environment Variables[/I7][/A6]) for the environment variable [I8]name[/I8] if it exists and return a pointer to the value of the environment variable. If the specified environment variable cannot be found, a null pointer shall be returned. The application shall ensure that it does not modify the string pointed to by the [I9]getenv[/I9]() function, [S10][[A11]CX[/A11]][/S10] [IMG12] &nbsp;unless it is part of a modifiable object previously placed in the environment by assigning a new value to [I13]environ[/I13]  [IMG14] [S15][[A16]XSI[/A16]][/S15] [IMG17] or by using [A18][I19]putenv[/I19]()[/A18]. [IMG20]
+[p_00007] [S21][[A22]CX[/A22]][/S21] [IMG23] The pointer returned by [I24]getenv[/I24]() shall point to a string within the environment data pointed to by [I25]environ[/I25].
+[dt_00008] [B26]Note:[/B26]
+[dd_00009] This requirement is an extension to the ISO&nbsp;C standard, which allows [I27]getenv[/I27]() to copy the data to an internal buffer.
+[p_00010] The [I28]secure_getenv[/I28]() function shall be equivalent to [I29]getenv[/I29](), except that it shall return a null pointer if the calling process does not meet all of the following security criteria:
+[p_00011] The effective user ID and real user ID of the calling process were equal during program startup.
+[p_00012] The effective group ID and real group ID of the calling process were equal during program startup.
+[p_00013] Additional implementation-defined security criteria.
+[h4_00014] [A30][/A30]RETURN VALUE
+[p_00015] Upon successful completion, [I31]getenv[/I31]() shall return a pointer to a string containing the value for the specified [I32]name[/I32]. If the specified [I33]name[/I33] cannot be found in the environment of the calling process, a null pointer shall be returned.
+[p_00016] [S34][[A35]CX[/A35]][/S34] [IMG36] Upon successful completion, [I37]secure_getenv[/I37]() shall return a pointer to a string containing the value for the specified [I38]name[/I38]. If the specified [I39]name[/I39] cannot be found in the environment of the calling process, or the calling process does not meet the security criteria listed in DESCRIPTION, a null pointer shall be returned. [IMG40]
+[h4_00017] [A41][/A41]ERRORS
+[p_00018] No errors are defined.
+[h4_00019] [A42][/A42]EXAMPLES
+[h5_00020] [A43][/A43]Getting the Value of an Environment Variable
+[p_00021] The following example gets the value of the [I44]HOME[/I44] environment variable.
+[h4_00022] [A45][/A45]APPLICATION USAGE
+[p_00023] None.
+[h4_00024] [A46][/A46]RATIONALE
+[p_00025] The [I47]clearenv[/I47]() function was considered but rejected. The [A48][I49]putenv[/I49]()[/A48] function has now been included for alignment with the Single UNIX Specification.
+[p_00026] Some earlier versions of this standard did not require [I50]getenv[/I50]() to be thread-safe because it was allowed to return a value pointing to an internal buffer. However, this behavior allowed by the ISO&nbsp;C standard is no longer allowed by POSIX.1. POSIX.1 requires the environment data to be available through [I51]environ[/I51][], so there is no reason why [I52]getenv[/I52]() can't return a pointer to the actual data instead of a copy. Therefore [I53]getenv[/I53]() is now required to be thread-safe (except when another thread modifies the environment).
+[p_00027] Conforming applications are required not to directly modify the pointers to which [I54]environ[/I54] points, but to use only the [A55][I56]setenv[/I56]()[/A55], [A57][I58]unsetenv[/I58]()[/A57], and [A59][I60]putenv[/I60]()[/A59] functions, or assignment to [I61]environ[/I61] itself, to manipulate the process environment. This constraint allows the implementation to properly manage the memory it allocates. This enables the implementation to free any space it has allocated to strings (and perhaps the pointers to them) stored in [I62]environ[/I62] when [A63][I64]unsetenv[/I64]()[/A63] is called. A C runtime start-up procedure (that which invokes [I65]main[/I65]() and perhaps initializes [I66]environ[/I66]) can also initialize a flag indicating that none of the environment has yet been copied to allocated storage, or that the separate table has not yet been initialized. If the application switches to a complete new environment by assigning a new value to [I67]environ[/I67], this can be detected by [I68]getenv[/I68](), [A69][I70]setenv[/I70]()[/A69], [A71][I72]unsetenv[/I72]()[/A71], or [A73][I74]putenv[/I74]()[/A73] and the implementation can at that point reinitialize based on the new environment. (This may include copying the environment strings into a new array and assigning [I75]environ[/I75] to point to it.)
+[p_00028] In fact, for higher performance of [I76]getenv[/I76](), implementations that do not provide [A77][I78]putenv[/I78]()[/A77] could also maintain a separate copy of the environment in a data structure that could be searched much more quickly (such as an indexed hash table, or a binary tree), and update both it and the linear list at [I79]environ[/I79] when [A80][I81]setenv[/I81]()[/A80] or [A82][I83]unsetenv[/I83]()[/A82] is invoked. On implementations that do provide [A84][I85]putenv[/I85]()[/A84], such a copy might still be worthwhile but would need to allow for the fact that applications can directly modify the content of environment strings added with [A86][I87]putenv[/I87]()[/A86]. For example, if an environment string found by searching the copy is one that was added using [A88][I89]putenv[/I89]()[/A88], the implementation would need to check that the string in [I90]environ[/I90] still has the same name (and value, if the copy includes values), and whenever searching the copy produces no match the implementation would then need to search each environment string in [I91]environ[/I91] that was added using [A92][I93]putenv[/I93]()[/A92] in case any of them have changed their names and now match. Thus, each use of [A94][I95]putenv[/I95]()[/A94] to add to the environment would reduce the speed advantage of having the copy.
+[p_00029] Performance of [I96]getenv[/I96]() can be important for applications which have large numbers of environment variables. Typically, applications like this use the environment as a resource database of user-configurable parameters. The fact that these variables are in the user's shell environment usually means that any other program that uses environment variables (such as [A97][I98]ls[/I98][/A97], which attempts to use [I99]COLUMNS ),[/I99] or really almost any utility ([I100]LANG ,[/I100] [I101]LC_ALL ,[/I101] and so on) is similarly slowed down by the linear search through the variables.
+[p_00030] An implementation that maintains separate data structures, or even one that manages the memory it consumes, is not currently required as it was thought it would reduce consensus among implementors who do not want to change their historical implementations.
+[h4_00031] [A102][/A102]FUTURE DIRECTIONS
+[p_00032] None.
+[h4_00033] [A103][/A103]SEE ALSO
+[p_00034] [A104][/A104][A105]exec[/A105], [A106][I107]putenv[/I107]()[/A106], [A108][I109]setenv[/I109]()[/A108], [A110][I111]unsetenv[/I111]()[/A110]
+[p_00035] XBD [A112][I113]8. Environment Variables[/I113][/A112], [A114][I115]&lt;stdlib.h&gt;[/I115][/A114]
+[h4_00036] [A116][/A116]CHANGE HISTORY
+[p_00037] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00038] [A117][/A117]Issue 5
+[p_00039] Normative text previously in the APPLICATION USAGE section is moved to the RETURN VALUE section.
+[p_00040] A note indicating that this function need not be reentrant is added to the DESCRIPTION.
+[h4_00041] [A118][/A118]Issue 6
+[p_00042] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[p_00043] References added to the new [A119][I120]setenv[/I120]()[/A119] and [A121][I122]unsetenv[/I122]()[/A121] functions.
+[p_00044] The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.
+[h4_00045] [A123][/A123]Issue 7
+[p_00046] Austin Group Interpretation 1003.1-2001 #062 is applied, clarifying that a call to [A124][I125]putenv[/I125]()[/A124] may also cause the string to be overwritten.
+[p_00047] Austin Group Interpretation 1003.1-2001 #148 is applied, adding the FUTURE DIRECTIONS.
+[p_00048] Austin Group Interpretation 1003.1-2001 #156 is applied.
+[p_00049] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0238 [75,428], XSH/TC1-2008/0239 [167], and XSH/TC1-2008/0240 [167] are applied.
+[p_00050] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0157 [656] is applied.
+[h4_00051] [A126][/A126]Issue 8
+[p_00052] Austin Group Defects 188 and 1394 are applied, changing [I127]getenv[/I127]() to be thread-safe.
+[p_00053] Austin Group Defect 922 is applied, adding the [I128]secure_getenv[/I128]() function.
+[p_00054] &nbsp;

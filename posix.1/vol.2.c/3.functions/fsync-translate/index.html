@@ -1,0 +1,94 @@
+<h1>XSH 函数：fsync()</h1>
+
+
+
+
+<a name="top" id="top"></a> <a name="fsync" id="fsync"></a> <a name="tag_17_192" id="tag_17_192"></a>
+<a name="tag_17_192_01" id="tag_17_192_01"></a><h4>名称 (NAME)</h4>
+<blockquote>fsync — 同步对文件的更改 (synchronize changes to a file)</blockquote>
+<a name="tag_17_192_02" id="tag_17_192_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote><code><code><sup>[FSC]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> #include &lt;unistd.h&gt;<br>
+<br>
+int fsync(int</code> <i>fildes</i><code>); <img src="../images/opt-end.gif" alt="[Option End]"></code></code> <code><br></code></blockquote>
+<a name="tag_17_192_03" id="tag_17_192_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>fsync</i>() 函数应请求将 <i>fildes</i> 命名的打开文件描述符的所有数据传输到 <i>fildes</i> 所描述的文件关联的存储设备。传输的性质是实现定义的。在系统完成该动作或检测到错误之前，<i>fsync</i>() 函数不应返回。</p>
+<p><sup>[SIO]</sup> <img src="../images/opt-start.gif" alt="[Option Start]"> 如果定义了 _POSIX_SYNCHRONIZED_IO，<i>fsync</i>() 函数应强制与文件描述符 <i>fildes</i> 指示的文件关联的所有当前排队的 I/O 操作进入同步 I/O 完成状态。所有 I/O 操作应按照为同步 I/O 文件完整性完成所定义的方式完成。<img src="../images/opt-end.gif" alt="[Option End]"></p>
+</blockquote>
+<a name="tag_17_192_04" id="tag_17_192_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>fsync</i>() 应返回 0。否则，应返回 -1 并设置 <i>errno</i> 以指示错误。如果 <i>fsync</i>() 函数失败，则不保证未完成的 I/O 操作已经完成。</p>
+</blockquote>
+<a name="tag_17_192_05" id="tag_17_192_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>如果满足以下条件，<i>fsync</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>fildes</i> 参数不是有效的描述符。</dd>
+<dt>[EINTR]</dt>
+<dd><i>fsync</i>() 函数被信号中断。</dd>
+<dt>[EINVAL]</dt>
+<dd><i>fildes</i> 参数不指代可以执行此操作的文件。</dd>
+<dt>[EIO]</dt>
+<dd>从文件系统读取或向文件系统写入时发生了 I/O 错误。</dd>
+</dl>
+<p>如果任何排队的 I/O 操作失败，<i>fsync</i>() 应返回为 read() 和 write() 定义的错误条件。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_192_06" id="tag_17_192_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_192_07" id="tag_17_192_07"></a><h4>应用程序用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>要求对文件的修改在继续之前完成的程序宜使用 <i>fsync</i>() 函数；例如，包含简单事务设施的程序可能会使用它来确保事务引起的对一个或多个文件的所有修改都被记录下来。</p>
+<p>修改目录的应用程序（例如，通过在目录中创建文件）可以在该目录上调用 <i>fsync</i>()，以确保目录的条目和文件属性被同步。对大多数应用程序而言，同步目录的条目宜无必要（参见 XBD 4.11 文件系统缓存）。</p>
+</blockquote>
+<a name="tag_17_192_08" id="tag_17_192_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p><i>fsync</i>() 函数旨在强制从缓冲区高速缓存进行数据的物理写入，并确保在系统崩溃或其他故障之后，截至 <i>fsync</i>() 调用时的所有数据都被记录在磁盘上。由于 &quot;缓冲区高速缓存&quot;、&quot;系统崩溃&quot;、&quot;物理写入&quot; 和 &quot;非易失性存储&quot; 的概念不在此处定义，措辞不得不更加抽象。</p>
+<p>如果未定义 _POSIX_SYNCHRONIZED_IO，措辞在很大程度上依赖符合性文档来告知用户可以从系统期望什么。明确意图是允许空实现。这在系统在任何情况下都无法保证非易失性存储，或系统高度容错且不需要该功能的情况下可以是有效的。在这两个极端之间的中间地带，<i>fsync</i>() 可能实际导致数据被写入在断电时安全的地方，也可能不会。符合性文档宜至少说明存在一种配置（以及如何获得该配置），在该配置下，对于用户可以选择用于关键数据的至少某些文件，这一点可以得到保证。并不要求提供详尽的清单，而是要提供足够的信息，以便如果需要保存关键数据，用户可以确定如何配置系统以允许将数据写入非易失性存储。</p>
+<p>可以合理地断言，<i>fsync</i>() 的关键方面在测试套件中测试是不合理的。这并不会使该函数的价值降低，只是使其更难测试。正式的符合性测试在测试此条件时可能宜强制系统崩溃（断电关机），但需要以这样的方式进行：除非正在制作结果的正式记录，自动化测试不要求这样做。省略对 <i>fsync</i>() 的测试也并非不合理，允许将其视为实现质量问题。</p>
+</blockquote>
+<a name="tag_17_192_09" id="tag_17_192_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_192_10" id="tag_17_192_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p>sync()</p>
+<p>XBD &lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_192_11" id="tag_17_192_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 3 版。</p>
+</blockquote>
+<a name="tag_17_192_12" id="tag_17_192_12"></a><h4>第 5 版 (Issue 5)</h4>
+<blockquote>
+<p>与 POSIX 实时扩展中的 <i>fsync</i>() 保持一致。具体来说，DESCRIPTION（说明）和 RETURN VALUE（返回值）部分被大大扩展，并且 ERRORS（错误）部分已更新，以表明 <i>fsync</i>() 可以返回为 read() 和 write() 定义的错误条件。</p>
+</blockquote>
+<a name="tag_17_192_13" id="tag_17_192_13"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>此函数被标记为文件同步（File Synchronization）选项的一部分。</p>
+<p>对 POSIX 实现的以下新要求源自与单一 UNIX 规范（Single UNIX Specification）的一致性：</p>
+<ul>
+<li>
+<p>添加了 [EINVAL] 和 [EIO] 强制性错误条件。</p>
+</li>
+</ul>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/44，对 DESCRIPTION（说明）进行了编辑性改写。不打算改变含义。</p>
+</blockquote>
+<a name="tag_17_192_14" id="tag_17_192_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group 缺陷 672，更改了 APPLICATION USAGE（应用程序用法）部分。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

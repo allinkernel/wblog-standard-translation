@@ -1,0 +1,37 @@
+<h1>XSH 函数导读：alarm()</h1>
+
+<h2>0. 总览</h2>
+<p><code>alarm()</code> 调度一个报警：经过 <code>seconds</code> 秒实时（wall clock）时间后为进程生成 SIGALRM 信号。头文件为 <code>&lt;unistd.h&gt;</code>。原型关键点：<code>unsigned alarm(unsigned seconds)</code>——参数与返回值都是 <code>unsigned</code>；返回"到先前请求应生成 SIGALRM 前的剩余秒数"，无先前请求时返回 0。函数总是成功，没有保留返回值指示错误。</p>
+
+<h2>1. 机制</h2>
+<p>系统按实时秒计时，时间到即为<em>进程</em>生成 SIGALRM（调度延迟可能使进程不能立即处理）。<code>seconds</code> 为 0 时取消待决的报警请求。报警请求<strong>不堆叠</strong>：每次调用只会安排一次 SIGALRM 生成；若上次的 SIGALRM 尚未生成，本次调用会重新调度其发生时间。报警状态按进程维护，且同一时刻只有一个活动报警。fork() 会清除子进程中的待决报警；exec 创建的新进程映像则继承旧映像中剩余的报警时间。SIGALRM 的默认动作是终止进程，需先安装处理程序再使用。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><strong>与 sleep() 的交互</strong>：规范明确提醒注意同一进程同时使用 <code>alarm()</code> 和 sleep() 时的交互——sleep() 可能基于 SIGALRM 实现，两者共用同一信号容易互相干扰。</li>
+<li><strong>提前性</strong>：POSIX 要求报警不早于请求的时间发生，因此应把 <code>seconds</code> 视为"信号之前的最短时间量"；信号可能因调度无限期延迟。</li>
+<li><strong>类型限制</strong>：可移植地只能传不超过 {UINT_MAX} 最小保证值（ISO C 规定为 65535）的参数；更大值会限制可移植性（部分实现会静默向下舍入）。</li>
+<li><strong>覆盖语义</strong>：前一个报警未到期时再调用 <code>alarm()</code> 会重排时间并返回旧请求剩余秒数；不要丢弃这个返回值，它可能是你上一次安排的报警。</li>
+<li><strong>多线程</strong>：报警按进程生成而非按调用线程生成；想要更精细的定时控制可考虑 timer_create()。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+
+static void on_alarm(int sig) { (void)sig; }
+
+int main(void) {
+    if (signal(SIGALRM, on_alarm) == SIG_ERR) {
+        perror("signal");
+        return 1;
+    }
+    unsigned left = alarm(5);   /* 5 秒后生成 SIGALRM */
+    if (left != 0) {
+        printf("之前的报警还剩余 %u 秒\n", left);
+    }
+    pause();                    /* 等待信号 */
+    return 0;
+}
+</code></pre>

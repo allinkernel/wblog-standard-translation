@@ -1,0 +1,31 @@
+<h1>XSH 函数导读：sleep()</h1>
+
+<h2>0. 总览</h2>
+<p><code>sleep()</code> 使调用线程挂起执行，直到 <code>seconds</code> 秒实时时间经过，或直到信号被传递给调用线程且其动作是调用信号捕获函数或终止进程。头文件为 <code>&lt;unistd.h&gt;</code>。原型关键点：<code>unsigned sleep(unsigned seconds)</code>——参数与返回值都是 <code>unsigned</code>；未定义任何错误。</p>
+
+<h2>1. 机制</h2>
+<p>挂起时间可能因系统调度其他活动而长于请求值。返回规则：时间到则返回 0；被信号传递打断则返回"未睡足"的时间量（请求时间减实际睡眠时间，以秒计）。实现方式：单线程程序可用 SIGALRM（如 alarm()+sigsuspend()）实现，多线程程序中<em>不应</em>使用 SIGALRM。标准对基于 SIGALRM 的实现提出严格要求：必须妥善处理先前 alarm() 调度的 SIGALRM、SIGALRM 的动作与阻塞状态——已调度在更早时刻的 SIGALRM 必须缩短睡眠并在返回前生成，调度在更晚时刻的则须在返回前重排到原时刻，动作与阻塞须保存并恢复。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><strong>与 alarm()/SIGALRM 交互</strong>：睡眠期间若 SIGALRM 被忽略或阻塞而无法传递，<code>sleep()</code> 是否在 SIGALRM 被调度时返回未指定，返回后该信号保持待决还是被丢弃也未指定。先前的 alarm() 会强制 <code>sleep()</code> 提前返回。</li>
+<li><strong>处理程序内探查 SIGALRM 状态</strong>：被信号捕获函数中断后，若处理程序检查/更改 SIGALRM 的调度时间、动作或阻塞状态，结果未指定；用 siglongjmp()/longjmp() 跳出的后果同样未指定。</li>
+<li><strong>多线程</strong>：多线程程序中的 <code>sleep()</code> 不应使用 SIGALRM，别依赖它与 alarm() 的协同。</li>
+<li><strong>类型限制</strong>：与 alarm() 相同，可移植传值不超过 {UINT_MAX} 最小保证值（65535）。</li>
+<li><strong>调度延迟</strong>：实际睡眠超过请求时间时返回值按公式（请求 − 实际）为负，但因返回 <code>unsigned</code>，规定此时返回 0。</li>
+<li><strong>精度</strong>：需要亚秒精度时用 nanosleep()。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    unsigned left = sleep(10);
+    if (left != 0) {
+        /* 被信号打断：left 为未睡足的秒数 */
+        printf("被打断，剩余 %u 秒\n", left);
+    }
+    return 0;
+}
+</code></pre>

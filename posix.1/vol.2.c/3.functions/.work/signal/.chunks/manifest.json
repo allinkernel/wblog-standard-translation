@@ -1,0 +1,1589 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_552_01\" id=\"tag_17_552_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "signal — signal management",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_552_02\" id=\"tag_17_552_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/signal.h.html\">signal.h</a>&gt;<br>\n<br>\nvoid (*signal(int</tt> <i>sig</i><tt>, void (*</tt><i>func</i><tt>)(int)))(int);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_552_03\" id=\"tag_17_552_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]signal[/I5]() function chooses one of three ways in which receipt of the signal number [I6]sig[/I6] is to be subsequently\nhandled. If the value of [I7]func[/I7] is SIG_DFL, default handling for that signal shall occur. If the value of [I8]func[/I8] is\nSIG_IGN, the signal shall be ignored. Otherwise, the application shall ensure that [I9]func[/I9] points to a function to be called\nwhen that signal occurs. An invocation of such a function because of a signal, or (recursively) of any further functions called by\nthat invocation (other than functions in the standard library), is called a &quot;signal handler&quot;.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "When a signal occurs, and [I10]func[/I10] points to a function, it is implementation-defined whether the equivalent of a:",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "is executed or the implementation prevents some implementation-defined set of signals (at least including [I11]sig[/I11]) from\noccurring until the current signal handling has completed. (If the value of [I12]sig[/I12] is SIGILL, the implementation may\nalternatively define that no action is taken.) Next the equivalent of:",
+    "placeholders": {
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "is executed. If and when the function returns, if the value of [I13]sig[/I13] was SIGFPE, SIGILL, or SIGSEGV or any other\nimplementation-defined value corresponding to a computational exception, the behavior is undefined. Otherwise, the program shall\nresume execution at the point it was interrupted. The ISO&nbsp;C standard places a restriction on applications relating to the use\nof [A14][I15]raise[/I15]()[/A14] from signal handlers. [S16][[A17]CX[/A17]][/S16] [IMG18] &nbsp;This\nrestriction does not apply to POSIX applications, as POSIX.1-2024 requires [A19][I20]raise[/I20]()[/A19] to\nbe async-signal-safe (see [A21][I22]2.4.3 Signal Actions[/I22][/A21]). [IMG23]",
+    "placeholders": {
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A14": {
+      "open": "<a href=\"../functions/raise.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S16": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A17": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG18": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A19": {
+      "open": "<a href=\"../functions/raise.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A21": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_04_03\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG23": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "[S24][[A25]CX[/A25]][/S24] [IMG26] If\nthe process is multi-threaded, [IMG27] &nbsp;or if the process is\nsingle-threaded and a signal handler is executed other than as the result of:",
+    "placeholders": {
+     "S24": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A25": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG26": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG27": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     1,
+     1
+    ],
+    "text": "The process calling [A28][I29]abort[/I29]()[/A28], [A30][I31]raise[/I31]()[/A30],\n[S32][[A33]CX[/A33]][/S32] [IMG34]\n[A35][I36]kill[/I36]()[/A35], [A37][I38]pthread_kill[/I38]()[/A37], or [A39][I40]sigqueue[/I40]()[/A39] [IMG41] &nbsp;to\ngenerate a signal that is not blocked",
+    "placeholders": {
+     "A28": {
+      "open": "<a href=\"../functions/abort.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A30": {
+      "open": "<a href=\"../functions/raise.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "S32": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A33": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG34": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A35": {
+      "open": "<a href=\"../functions/kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A37": {
+      "open": "<a href=\"../functions/pthread_kill.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A39": {
+      "open": "<a href=\"../functions/sigqueue.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG41": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17,
+     3,
+     1
+    ],
+    "text": "[S42][[A43]CX[/A43]][/S42] [IMG44] A\npending signal being unblocked and being delivered before the call that unblocked it returns [IMG45]",
+    "placeholders": {
+     "S42": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG44": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG45": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "the behavior is undefined if:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21,
+     1,
+     1
+    ],
+    "text": "The signal handler refers to any object [S46][[A47]CX[/A47]][/S46] [IMG48] &nbsp;other than [I49]errno[/I49] [IMG50] &nbsp;with static or thread storage duration that is not a lock-free atomic object, [S51][[A52]CX[/A52]][/S51] [IMG53] &nbsp;and not a\nnon-modifiable object (for example, string literals, objects that were defined with a const-qualified type, and objects in memory\nthat is mapped read-only), [IMG54] &nbsp;other than by assigning a value to\nan object declared as [B55]volatile sig_atomic_t[/B55], [S56][[A57]CX[/A57]][/S56] [IMG58] &nbsp;unless the previous modification (if any) to the object happens\nbefore the signal handler is called and the return from the signal handler happens before the next modification (if any) to the\nobject. [IMG59]",
+    "placeholders": {
+     "S46": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A47": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG48": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG50": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "S51": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A52": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG53": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG54": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "B55": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "S56": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A57": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG58": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG59": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21,
+     3,
+     1
+    ],
+    "text": "The signal handler calls any function defined in this standard other than [S60][[A61]CX[/A61]][/S60] [IMG62] &nbsp;one of the\nfunctions listed in [A63][I64]2.4 Signal Concepts[/I64][/A63]. [IMG65]",
+    "placeholders": {
+     "S60": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A61": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG62": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "A63": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_04\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG65": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "At program start-up, the equivalent of:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27
+    ],
+    "text": "is executed for some signals, and the equivalent of:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     31
+    ],
+    "text": "is executed for all other signals [S66][[A67]CX[/A67]][/S66] [IMG68] &nbsp;(see [I69][A70]exec[/A70][/I69]). [IMG71]",
+    "placeholders": {
+     "S66": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A67": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG68": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I69": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A70": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG71": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     33
+    ],
+    "text": "The [I72]signal[/I72]() function shall not change the setting of [I73]errno[/I73] if successful.",
+    "placeholders": {
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     35
+    ],
+    "text": "[S74][[A75]CX[/A75]][/S74] [IMG76] The\n[I77]signal[/I77]() function is required to be thread-safe. (See [A78][I79]2.9.1\nThread-Safety[/I79][/A78].) [IMG80]",
+    "placeholders": {
+     "S74": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A75": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG76": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A78": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_09_01\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG80": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00021",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A81][/A81]RETURN VALUE",
+    "placeholders": {
+     "A81": {
+      "open": "<a name=\"tag_17_552_04\" id=\"tag_17_552_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "If the request can be honored, [I82]signal[/I82]() shall return the value of [I83]func[/I83] for the most recent call to [I84]signal[/I84]()\nfor the specified signal [I85]sig[/I85]. Otherwise, SIG_ERR shall be returned and a positive value shall be stored in [I86]errno[/I86].",
+    "placeholders": {
+     "I82": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00023",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A87][/A87]ERRORS",
+    "placeholders": {
+     "A87": {
+      "open": "<a name=\"tag_17_552_05\" id=\"tag_17_552_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I88]signal[/I88]() function shall fail if:",
+    "placeholders": {
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00025",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00026",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "[S89][[A90]CX[/A90]][/S89] [IMG91]\nThe [I92]sig[/I92] argument is not a valid signal number or an attempt is made to catch a signal that cannot be caught or ignore a\nsignal that cannot be ignored. [IMG93]",
+    "placeholders": {
+     "S89": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A90": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG91": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG93": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00027",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I94]signal[/I94]() function may fail if:",
+    "placeholders": {
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00028",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00029",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "[S95][[A96]CX[/A96]][/S95] [IMG97] An\nattempt was made to set the action to SIG_DFL for a signal that cannot be caught or ignored (or both). [IMG98]",
+    "placeholders": {
+     "S95": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A96": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG97": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG98": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00030",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A99][/A99]EXAMPLES",
+    "placeholders": {
+     "A99": {
+      "open": "<a name=\"tag_17_552_06\" id=\"tag_17_552_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00032",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A100][/A100]APPLICATION USAGE",
+    "placeholders": {
+     "A100": {
+      "open": "<a name=\"tag_17_552_07\" id=\"tag_17_552_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "The [A101][I102]sigaction[/I102]()[/A101] function provides a more comprehensive and reliable mechanism\nfor controlling signals; new applications should use [A103][I104]sigaction[/I104]()[/A103] rather than\n[I105]signal[/I105]().",
+    "placeholders": {
+     "A101": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A103": {
+      "open": "<a href=\"../functions/sigaction.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I105": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00034",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A106][/A106]RATIONALE",
+    "placeholders": {
+     "A106": {
+      "open": "<a name=\"tag_17_552_08\" id=\"tag_17_552_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The ISO&nbsp;C standard says that the use of [I107]signal[/I107]() in a multi-threaded program results in undefined behavior. However,\nPOSIX.1 has required [I108]signal[/I108]() to be thread-safe since before threads were added to the ISO&nbsp;C standard.",
+    "placeholders": {
+     "I107": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00036",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A109][/A109]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A109": {
+      "open": "<a name=\"tag_17_552_09\" id=\"tag_17_552_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00038",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A110][/A110]SEE ALSO",
+    "placeholders": {
+     "A110": {
+      "open": "<a name=\"tag_17_552_10\" id=\"tag_17_552_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A111][I112]2.4 Signal Concepts[/I112][/A111], [A113][/A113][A114]exec[/A114], [A115][I116]pause[/I116]()[/A115], [A117][I118]raise[/I118]()[/A117], [A119][I120]sigaction[/I120]()[/A119], [A121][I122]sigsuspend[/I122]()[/A121], [A123][I124]waitid[/I124]()[/A123]",
+    "placeholders": {
+     "A111": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_04\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I112": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A113": {
+      "open": "<a href=\"../functions/exec.html#tag_17_129\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A114": {
+      "open": "<a href=\"../functions/exec.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "A115": {
+      "open": "<a href=\"../functions/pause.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I116": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A117": {
+      "open": "<a href=\"../functions/raise.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I118": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A119": {
+      "open": "<a href=\"../functions/sigaction.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I120": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A121": {
+      "open": "<a href=\"../functions/sigsuspend.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I122": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A123": {
+      "open": "<a href=\"../functions/waitid.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00040",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A125][I126]&lt;signal.h&gt;[/I126][/A125]",
+    "placeholders": {
+     "A125": {
+      "open": "<a href=\"../basedefs/signal.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I126": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00041",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A127][/A127]CHANGE HISTORY",
+    "placeholders": {
+     "A127": {
+      "open": "<a name=\"tag_17_552_11\" id=\"tag_17_552_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00042",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00043",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A128][/A128]Issue 5",
+    "placeholders": {
+     "A128": {
+      "open": "<a name=\"tag_17_552_12\" id=\"tag_17_552_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00044",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Moved from X/OPEN UNIX extension to BASE.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The DESCRIPTION is updated to indicate that the [I129]sigpause[/I129]() function restores the signal mask of the process to its\noriginal state before returning.",
+    "placeholders": {
+     "I129": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5
+    ],
+    "text": "The RETURN VALUE section is updated to indicate that the [I130]sigpause[/I130]() function suspends execution of the process until a\nsignal is received, whereupon it returns -1 and sets [I131]errno[/I131] to [EINTR].",
+    "placeholders": {
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I131": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00047",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A132][/A132]Issue 6",
+    "placeholders": {
+     "A132": {
+      "open": "<a name=\"tag_17_552_13\" id=\"tag_17_552_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00050",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The DESCRIPTION is updated for alignment with the ISO/IEC&nbsp;9899:1999 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "References to the [I133]wait3[/I133]() function are removed.",
+    "placeholders": {
+     "I133": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00052",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The [I134]sighold[/I134](), [I135]sigignore[/I135](), [I136]sigrelse[/I136](), and [I137]sigset[/I137]() functions are split out onto their own\nreference page.",
+    "placeholders": {
+     "I134": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I135": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I136": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I137": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00053",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A138][/A138]Issue 7",
+    "placeholders": {
+     "A138": {
+      "open": "<a name=\"tag_17_552_14\" id=\"tag_17_552_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0580 [275], XSH/TC1-2008/0581 [66], and XSH/TC1-2008/0582 [105] are\napplied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0331 [785] is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00056",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A139][/A139]Issue 8",
+    "placeholders": {
+     "A139": {
+      "open": "<a name=\"tag_17_552_15\" id=\"tag_17_552_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 728 is applied, reducing the set of circumstances in which undefined behavior results when a signal handler\nrefers to an object with static or thread storage duration.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

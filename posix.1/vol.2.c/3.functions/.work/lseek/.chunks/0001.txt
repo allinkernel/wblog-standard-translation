@@ -1,0 +1,65 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] lseek — move the read/write file offset
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]lseek[/I5]() function shall set the file offset for the open file description associated with the file descriptor [I6]fildes,[/I6] as follows:
+[p_00007] If [I7]whence[/I7] is SEEK_SET, the file offset shall be set to [I8]offset[/I8] bytes.
+[p_00008] If [I9]whence[/I9] is SEEK_CUR, the file offset shall be set to its current location plus [I10]offset[/I10].
+[p_00009] If [I11]whence[/I11] is SEEK_END, the file offset shall be set to the size of the file plus [I12]offset[/I12].
+[p_00010] If [I13]whence[/I13] is SEEK_HOLE, the file offset shall be set to the smallest location of a byte within a hole and not less than [I14]offset[/I14], except that if [I15]offset[/I15] falls beyond the last byte not within a hole, then the file offset may be set to the file size instead. It shall be an error if [I16]offset[/I16] is greater than or equal to the size of the file.
+[p_00011] If [I17]whence[/I17] is SEEK_DATA, the file offset shall be set to the smallest location of a byte not within a hole and not less than [I18]offset[/I18]. It shall be an error if no such byte exists.
+[p_00012] The symbolic constants SEEK_SET, SEEK_CUR, SEEK_END, SEEK_HOLE, and SEEK_DATA are defined in [A19][I20]&lt;unistd.h&gt;[/I20][/A19].
+[p_00013] A hole is a contiguous region of bytes within a file, all having the value of zero. Not all bytes with the value zero need belong to a hole; however, all seekable files shall have a virtual hole starting at the current size of the file, whether or not the file is sparse.
+[p_00014] The behavior of [I21]lseek[/I21]() on devices which are incapable of seeking is implementation-defined. The value of the file offset associated with such a device is undefined.
+[p_00015] The [I22]lseek[/I22]() function shall allow the file offset to be set beyond the end of the existing data in the file. If data is later written at this point, subsequent reads of data in the gap shall return bytes with the value 0 until data is actually written into the gap.
+[p_00016] The [I23]lseek[/I23]() function shall not, by itself, extend the size of a file.
+[p_00017] [S24][[A25]SHM[/A25]][/S24] [IMG26] If [I27]fildes[/I27] refers to a shared memory object, the result of the [I28]lseek[/I28]() function is unspecified. [IMG29]
+[p_00018] [S30][[A31]TYM[/A31]][/S30] [IMG32] If [I33]fildes[/I33] refers to a typed memory object, the result of the [I34]lseek[/I34]() function is unspecified. [IMG35]
+[h4_00019] [A36][/A36]RETURN VALUE
+[p_00020] Upon successful completion, the resulting offset, as measured in bytes from the beginning of the file, shall be returned. Otherwise, -1 shall be returned, [I37]errno[/I37] shall be set to indicate the error, and the file offset shall remain unchanged.
+[h4_00021] [A38][/A38]ERRORS
+[p_00022] The [I39]lseek[/I39]() function shall fail if:
+[dt_00023] [EBADF]
+[dd_00024] The [I40]fildes[/I40] argument is not an open file descriptor.
+[dt_00025] [EINVAL]
+[dd_00026] The [I41]whence[/I41] argument is not a proper value, or the resulting file offset would be negative for a regular file, block special file, or directory.
+[dt_00027] [ENXIO]
+[dd_00028] The [I42]whence[/I42] argument is SEEK_HOLE or SEEK_DATA, and [I43]offset[/I43] is greater than or equal to the file size; or the [I44]whence[/I44] argument is SEEK_DATA and the offset falls beyond the last byte not within a hole.
+[dt_00029] [EOVERFLOW]
+[dd_00030] The resulting file offset would be a value which cannot be represented correctly in an object of type [B45]off_t[/B45].
+[dt_00031] [ESPIPE]
+[dd_00032] The [I46]fildes[/I46] argument is associated with a pipe, FIFO, or socket.
+[h4_00033] [A47][/A47]EXAMPLES
+[p_00034] None.
+[h4_00035] [A48][/A48]APPLICATION USAGE
+[p_00036] None.
+[h4_00037] [A49][/A49]RATIONALE
+[p_00038] The ISO&nbsp;C standard includes the functions [A50][I51]fgetpos[/I51]()[/A50] and [A52][I53]fsetpos[/I53]()[/A52], which work on very large files by use of a special positioning type.
+[p_00039] Although [I54]lseek[/I54]() may position the file offset beyond the end of the file, this function does not itself extend the size of the file. While the only function in POSIX.1-2024 that may directly extend the size of the file is [A55][I56]write[/I56]()[/A55], [A57][I58]truncate[/I58]()[/A57], and [A59][I60]ftruncate[/I60]()[/A59], several functions originally derived from the ISO&nbsp;C standard, such as [A61][I62]fwrite[/I62]()[/A61], [A63][I64]fprintf[/I64]()[/A63], and so on, may do so (by causing calls on [A65][I66]write[/I66]()[/A65]).
+[p_00040] An invalid file offset that would cause [EINVAL] to be returned may be both implementation-defined and device-dependent (for example, memory may have few invalid values). A negative file offset may be valid for some devices in some implementations.
+[p_00041] The POSIX.1-1990 standard did not specifically prohibit [I67]lseek[/I67]() from returning a negative offset. Therefore, an application was required to clear [I68]errno[/I68] prior to the call and check [I69]errno[/I69] upon return to determine whether a return value of ([B70]off_t[/B70])-1 is a negative offset or an indication of an error condition. The standard developers did not wish to require this action on the part of a conforming application, and chose to require that [I71]errno[/I71] be set to [EINVAL] when the resulting file offset would be negative for a regular file, block special file, or directory.
+[p_00042] Not all file systems support holes, and even where sparse files are supported, not all contiguous blocks of zero bytes are required to be recognized as a hole. However, since all files are required to have a virtual hole starting at the current file size, application writers can use SEEK_HOLE and SEEK_DATA to optimize algorithms that can run faster when it is known that a block of bytes is all zeros, because a non-sparse file will correctly report the entire file as a single non-hole. A trivial recursive implementation for these two constants would be as follows, however, for file systems that support sparse files, implementations are encouraged to do better.
+[p_00043] Note that although the above looks like user-space code, [I72]lseek[/I72]() cannot be implemented with recursive calls in user space because this would not conform to the atomicity requirements in [A73][I74]2.9.7 Thread Interactions with File Operations[/I74][/A73].
+[h4_00044] [A75][/A75]FUTURE DIRECTIONS
+[p_00045] None.
+[h4_00046] [A76][/A76]SEE ALSO
+[p_00047] [A77][I78]open[/I78]()[/A77]
+[p_00048] XBD [A79][I80]&lt;sys/types.h&gt;[/I80][/A79], [A81][I82]&lt;unistd.h&gt;[/I82][/A81]
+[h4_00049] [A83][/A83]CHANGE HISTORY
+[p_00050] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00051] [A84][/A84]Issue 5
+[p_00052] The DESCRIPTION is updated for alignment with the POSIX Realtime Extension.
+[p_00053] Large File Summit extensions are added.
+[h4_00054] [A85][/A85]Issue 6
+[p_00055] In the SYNOPSIS, the optional include of the [A86][I87]&lt;sys/types.h&gt;[/I87][/A86] header is removed.
+[p_00056] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[p_00057] The requirement to include [A88][I89]&lt;sys/types.h&gt;[/I89][/A88] has been removed. Although [A90][I91]&lt;sys/types.h&gt;[/I91][/A90] was required for conforming implementations of previous POSIX specifications, it was not required for UNIX applications.
+[p_00058] The [EOVERFLOW] error condition is added. This change is to support large files.
+[p_00059] An additional [ESPIPE] error condition is added for sockets.
+[p_00060] The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by specifying that [I92]lseek[/I92]() results are unspecified for typed memory objects.
+[h4_00061] [A93][/A93]Issue 7
+[p_00062] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0366 [421] is applied.
+[h4_00063] [A94][/A94]Issue 8
+[p_00064] Austin Group Defect 415 is applied, adding SEEK_HOLE and SEEK_DATA.
+[p_00065] &nbsp;

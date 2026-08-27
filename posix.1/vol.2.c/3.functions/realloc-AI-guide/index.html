@@ -1,0 +1,30 @@
+<h1>XSH 函数导读：realloc()</h1>
+
+<h2>0. 总览</h2>
+<p><code>realloc()</code> 是内存重新分配器：释放 <code>ptr</code> 指向的旧对象，返回指向大小为 <code>size</code> 的新对象的指针。头文件为 <code>&lt;stdlib.h&gt;</code>。原型关键点：<code>void *realloc(void *ptr, size_t size)</code>——若 <code>ptr</code> 为空指针，等价于对指定大小调用 <code>malloc()</code>；同一页还定义了 <code>reallocarray(ptr, nelem, elsize)</code>，等价于 <code>realloc(ptr, nelem * elsize)</code>，但乘法溢出视为错误（返回 NULL 且设 [ENOMEM]）。</p>
+
+<h2>1. 机制</h2>
+<p>重分配的核心行为：新对象的内容与释放前的旧对象内容相同，直至新旧大小中较小者；新对象超出旧对象大小的字节具有不确定的值。若 <code>size</code> 非零而无法为新对象分配内存，则旧对象不应被释放——这正是安全重分配的保证。成功时返回的指针值可以与旧指针相同（原地扩展），也可能不同（搬到新位置）。与 <code>malloc()</code> 一样，返回指针满足基础对齐，连续调用的存储顺序与连续性未指定，且分配/释放调用按单一全序发生。注意 <code>realloc(p, 0)</code> 是过时特性：要么返回空指针并设 [EINVAL]（旧空间可能未释放），要么返回某个指针且旧对象已释放——POSIX 要求实现区分这两种情形。</p>
+
+<h2>2. 易错点</h2>
+<p>常见坑：一是直接用 <code>p = realloc(p, newsize)</code> 覆盖原指针——若失败返回 NULL，旧指针被覆盖丢失且旧对象未被释放，造成泄漏和悬垂；应先用临时变量接收返回值。二是误以为失败时旧指针失效——实际若未分配新对象内存，旧对象不应被释放，原指针仍有效，应保留以便释放。三是 <code>realloc()</code> 之后必须使用返回的新指针，旧指针可能已失效。四是把 <code>realloc(p, 0)</code> 当作 <code>free(p)</code> 使用，其语义是实现定义的，不可依赖。五是不匹配的 <code>ptr</code>（非分配函数返回或已释放）行为未定义。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+
+int main(void) {
+    int *p = malloc(4 * sizeof(int));
+    int *q;
+    if (p == NULL)
+        return 1;
+
+    q = realloc(p, 8 * sizeof(int));  /* 扩大数组 */
+    if (q == NULL) {
+        /* 失败：旧对象未释放，p 仍有效 */
+        free(p);
+        return 1;
+    }
+    p = q;        /* 成功后才更新指针 */
+    free(p);
+    return 0;
+}</code></pre>

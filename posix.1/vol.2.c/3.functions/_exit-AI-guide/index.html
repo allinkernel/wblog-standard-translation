@@ -1,0 +1,19 @@
+<h1>XSH 函数导读：_exit()</h1>
+
+<h2>0. 总览</h2>
+<p>_Exit() 与 _exit() 在功能上等效，用于立即终止进程而不做任何清理。_Exit() 声明于 <code>&lt;stdlib.h&gt;</code>，_exit() 声明于 <code>&lt;unistd.h&gt;</code>，原型分别为 <code>_Noreturn void _Exit(int status);</code> 与 <code>_Noreturn void _exit(int status);</code>，均不返回。status 的约定与 exit() 相同：最低有效的 8 位可从 wait() 和 waitpid() 获得，完整值可从 waitid() 及 SIGCHLD 处理器的 siginfo_t 中获得。</p>
+
+<h2>1. 机制</h2>
+<p>这两个函数不调用 atexit() 或 at_quick_exit() 注册的函数，不调用任何注册的信号处理器，也不刷新打开的流（打开的流是否被关闭而不刷新是实现定义的）。随后调用进程被终止，产生进程终止的后果：所有打开的文件描述符、目录流等被关闭；进程转为僵尸进程，状态信息可供父进程使用直至其生命周期结束；向父进程发送 SIGCHLD；调用进程的所有现有子进程和僵尸进程被特殊的系统进程继承；若进程是控制进程，则向前台进程组发送 SIGHUP 并分离控制终端；若退出使进程组成为孤儿进程组且有成员被停止，则向该组发送 SIGHUP 和 SIGCONT。</p>
+
+<h2>2. 易错点</h2>
+<p>由于不刷新 stdio 缓冲，_exit() 之前由 printf 等写入的数据可能丢失——需要保证输出落盘时应改用 exit()，或先显式 fflush()。经典场景是 fork() 后子进程 exec 失败：应调用 _exit(127)，而不是 exit()，否则会重复刷新父子进程共享的 stdio 缓冲并运行父进程的 atexit 处理器。通常应用程序应优先使用 exit()，仅在需要立即终止、不做任何收尾时使用 _exit()/_Exit()。注意退出状态 126 及以上在 shell 中具有特殊含义，使用时应谨慎。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+
+void child(void) {
+    execl("/bin/echo", "echo", "hi", (char *)0);
+    _exit(127);   /* exec 失败：不刷新流、不跑 atexit 处理器 */
+}</code></pre>

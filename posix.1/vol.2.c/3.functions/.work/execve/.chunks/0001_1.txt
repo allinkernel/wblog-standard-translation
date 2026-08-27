@@ -1,0 +1,151 @@
+# start_index 1
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] environ, execl, execle, execlp, execv, execve, execvp, fexecve — execute a file
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]exec[/I5] family of functions shall replace the current process image with a new process image. The new image shall be constructed from a regular, executable file called the [I6]new process image file[/I6]. There shall be no return from a successful [I7]exec[/I7], because the calling process image is overlaid by the new process image.
+[p_00007] The [I8]fexecve[/I8]() function shall be equivalent to the [I9]execve[/I9]() function except that the file to be executed is determined by the file descriptor [I10]fd[/I10] instead of a pathname. The file offset of [I11]fd[/I11] is ignored.
+[p_00008] When a C-language program is executed as a result of a call to one of the [I12]exec[/I12] family of functions, it shall be entered as a C-language function call as follows:
+[p_00009] where [I13]argc[/I13] is the argument count and [I14]argv[/I14] is an array of character pointers to the arguments themselves. In addition, the following variable, which needs to be declared by the user if it is to be used directly:
+[p_00010] is initialized as a pointer to an array of character pointers to the environment strings. The [I15]argv[/I15] and [I16]environ[/I16] arrays are each terminated by a null pointer. The null pointer terminating the [I17]argv[/I17] array is not counted in [I18]argc[/I18].
+[p_00011] Applications can change the entire environment in a single operation by assigning the [I19]environ[/I19] variable to point to an array of character pointers to the new environment strings. After assigning a new value to [I20]environ[/I20], applications should not rely on the new environment strings remaining part of the environment, as a call to [A21][I22]getenv[/I22]()[/A21], [A23][I24]secure_getenv[/I24]()[/A23], [S25][[A26]XSI[/A26]][/S25] [IMG27] [A28][I29]putenv[/I29]()[/A28], [IMG30] [A31][I32]setenv[/I32]()[/A31], [A33][I34]unsetenv[/I34]()[/A33], or any function that is dependent on an environment variable may, on noticing that [I35]environ[/I35] has changed, copy the environment strings to a new array and assign [I36]environ[/I36] to point to it.
+[p_00012] Any application that directly modifies the pointers to which the [I37]environ[/I37] variable points has undefined behavior.
+[p_00013] Conforming multi-threaded applications shall not use the [I38]environ[/I38] variable to access or modify any environment variable while any other thread is concurrently modifying any environment variable. A call to any function dependent on any environment variable shall be considered a use of the [I39]environ[/I39] variable to access that environment variable.
+[p_00014] The arguments specified by a program with one of the [I40]exec[/I40] functions shall be passed on to the new process image in the corresponding [I41]main[/I41]() arguments.
+[p_00015] For the [I42]execl[/I42](), [I43]execle[/I43](), [I44]execv[/I44](), and [I45]execve[/I45]() functions, the argument [I46]path[/I46] points to a pathname that identifies the new process image file.
+[p_00016] For the [I47]execlp[/I47]() and [I48]execvp[/I48]() functions, the argument [I49]file[/I49] is used to construct a pathname that identifies the new process image file. If the [I50]file[/I50] argument contains a &lt;slash&gt; character, the [I51]file[/I51] argument shall be used as the pathname for this file. Otherwise, the path prefix for this file is obtained by a search of the directories passed as the environment variable [I52]PATH[/I52] (see XBD [A53][I54]8. Environment Variables[/I54][/A53]). If this environment variable is not present, the results of the search are implementation-defined.
+[p_00017] There are two distinct ways in which the contents of the process image file may cause the execution to fail, distinguished by the setting of [I55]errno[/I55] to either [ENOEXEC] or [EINVAL] (see the ERRORS section). In the cases where the other members of the [I56]exec[/I56] family of functions would fail and set [I57]errno[/I57] to [ENOEXEC], the [I58]execlp[/I58]() and [I59]execvp[/I59]() functions shall execute a command interpreter and the environment of the executed command shall be as if the process invoked the [A60][I61]sh[/I61][/A60] utility using [I62]execl[/I62]() as follows:
+[p_00018] where &lt;[I63]shell&nbsp;path[/I63]&gt; is an unspecified pathname for the [A64][I65]sh[/I65][/A64] utility, &lt;[I66]name[/I66]&gt; is an unspecified string, [I67]file[/I67] is the process image file, and where &lt;[I68]args[/I68]&gt; is zero or more parameters corresponding to any initial non-null arguments passed after [I69]arg0[/I69] for [I70]execlp[/I70]() or to any initial non-null members of [I71]argv[/I71] starting at [I72]argv[/I72][1] for [I73]execvp[/I73]().
+[p_00019] The arguments represented by [I74]arg0[/I74],... are pointers to null-terminated character strings. These strings shall constitute the argument list available to the new process image. The list is terminated by a null pointer. The argument [I75]arg0[/I75] should point to a filename string that is associated with the process being started by one of the [I76]exec[/I76] functions.
+[p_00020] The argument [I77]argv[/I77] is an array of character pointers to null-terminated strings. The application shall ensure that the last member of this array is a null pointer. These strings shall constitute the argument list available to the new process image. The value in [I78]argv[/I78][0] should point to a filename string that is associated with the process being started by one of the [I79]exec[/I79] functions.
+[p_00021] The argument [I80]envp[/I80] is an array of character pointers to null-terminated strings. These strings shall constitute the environment for the new process image. The [I81]envp[/I81] array is terminated by a null pointer.
+[p_00022] For those forms not containing an [I82]envp[/I82] pointer ([A83][I84]execl[/I84]()[/A83], [I85]execv[/I85](), [I86]execlp[/I86](), and [I87]execvp[/I87]()), the environment for the new process image shall be taken from the external variable [I88]environ[/I88] in the calling process.
+[p_00023] The number of bytes available for the new process' combined argument and environment lists is {ARG_MAX}. It is implementation-defined whether null terminators, pointers, and/or any alignment bytes are included in this total.
+[p_00024] File descriptors open in the calling process image shall remain open in the new process image, except for those whose close-on-[I89]exec[/I89] flag FD_CLOEXEC is set. For those file descriptors that remain open, all attributes of the open file description shall remain unchanged and the FD_CLOFORK file descriptor flag, if set, shall remain set. For any file descriptor that is closed for this reason, process-owned file locks that the calling process owns on the file associated with the file descriptor shall be unlocked as a result of the close, as described in [A90][I91]close[/I91]()[/A90]. File locks that are not unlocked by closing of file descriptors remain unchanged.
+[p_00025] If file descriptor 0, 1, or 2 would otherwise be closed after a successful call to one of the [I92]exec[/I92] family of functions, implementations may open an unspecified file for the file descriptor in the new process image. If a standard utility or a conforming application is executed with file descriptor 0 not open for reading or with file descriptor 1 or 2 not open for writing, the environment in which the utility or application is executed shall be deemed non-conforming, and consequently the utility or application might not behave as described in this standard.
+[p_00026] Directory streams open in the calling process image shall be closed in the new process image.
+[p_00027] The state of the floating-point environment in the initial thread of the new process image shall be set to the default.
+[p_00028] The state of conversion descriptors and message catalog descriptors in the new process image is undefined.
+[p_00029] For the new process image, the equivalent of:
+[p_00030] shall be executed at start-up.
+[p_00031] Signals set to the default action (SIG_DFL) in the calling process image shall be set to the default action in the new process image. Except for SIGCHLD, signals set to be ignored (SIG_IGN) by the calling process image shall be set to be ignored by the new process image. Signals set to be caught by the calling process image shall be set to the default action in the new process image (see [A93][I94]&lt;signal.h&gt;[/I94][/A93]).
+[p_00032] If the SIGCHLD signal is set to be ignored by the calling process image, it is unspecified whether the SIGCHLD signal is set to be ignored or to the default action in the new process image.
+[p_00033] [S95][[A96]XSI[/A96]][/S95] [IMG97] After a successful call to any of the [I98]exec[/I98] functions, alternate signal stacks are not preserved and the SA_ONSTACK flag shall be cleared for all signals. [IMG99]
+[p_00034] After a successful call to any of the [I100]exec[/I100] functions, any functions previously registered by the [A101][I102]atexit[/I102]()[/A101], [A103][I104]at_quick_exit[/I104]()[/A103], or [A105][I106]pthread_atfork[/I106]()[/A105] functions are no longer registered.
+[p_00035] [S107][[A108]XSI[/A108]][/S107] [IMG109] If the ST_NOSUID bit is set for the file system containing the new process image file, then the effective user ID, effective group ID, saved set-user-ID, and saved set-group-ID are unchanged in the new process image. Otherwise, [IMG110] if the set-user-ID mode bit of the new process image file is set, the effective user ID of the new process image shall be set to the user ID of the new process image file. Similarly, if the set-group-ID mode bit of the new process image file is set, the effective group ID of the new process image shall be set to the group ID of the new process image file. The real user ID, real group ID, and supplementary group IDs of the new process image shall remain the same as those of the calling process image. The effective user ID and effective group ID of the new process image shall be saved (as the saved set-user-ID and the saved set-group-ID) for use by [A111][I112]setuid[/I112]()[/A111].
+[p_00036] [S113][[A114]XSI[/A114]][/S113] [IMG115] Any shared memory segments attached to the calling process image shall not be attached to the new process image. [IMG116]
+[p_00037] Any named semaphores open in the calling process shall be closed as if by appropriate calls to [A117][I118]sem_close[/I118]()[/A117]. Any unnamed semaphores open in the calling process shall be destroyed as if by calls to [A119][I120]sem_destroy[/I120]()[/A119].
+[p_00038] [S121][[A122]TYM[/A122]][/S121] [IMG123] Any blocks of typed memory that were mapped in the calling process are unmapped, as if [A124][I125]munmap[/I125]()[/A124] was implicitly called to unmap them. [IMG126]
+[p_00039] [S127][[A128]ML[/A128]][/S127] [IMG129] Memory locks established by the calling process via calls to [A130][I131]mlockall[/I131]()[/A130] or [A132][I133]mlock[/I133]()[/A132] shall be removed. If locked pages in the address space of the calling process are also mapped into the address spaces of other processes and are locked by those processes, the locks established by the other processes shall be unaffected by the call by this process to the [I134]exec[/I134] function. If the [I135]exec[/I135] function fails, the effect on memory locks is unspecified. [IMG136]
+[p_00040] Memory mappings created in the process are unmapped before the address space is rebuilt for the new process image.
+[p_00041] When the calling process image does not use the SCHED_FIFO, SCHED_RR, [S137][[A138]SS[/A138]][/S137] [IMG139] &nbsp;or SCHED_SPORADIC [IMG140] &nbsp;scheduling policies, the scheduling policy and parameters of the new process image and the initial thread in that new process image are implementation-defined.
+[p_00042] [S141][[A142]PS[/A142]][/S141] [IMG143] When the calling process image uses the SCHED_FIFO, SCHED_RR, or SCHED_SPORADIC scheduling policies, the process policy and scheduling parameter settings shall not be changed by a call to an [I144]exec[/I144] function. [IMG145] [S146][[A147]TPS[/A147]][/S146] [IMG148] &nbsp;The initial thread in the new process image shall inherit the process scheduling policy and parameters. It shall have the default system contention scope, but shall inherit its allocation domain from the calling process image. [IMG149]
+[p_00043] Per-process timers created by the calling process shall be deleted before replacing the current process image with the new process image.
+[p_00044] [S150][[A151]MSG[/A151]][/S150] [IMG152] All open message queue descriptors in the calling process shall be closed, as described in [A153][I154]mq_close[/I154]()[/A153]. [IMG155]
+[p_00045] Any outstanding asynchronous I/O operations may be canceled. Those asynchronous I/O operations that are not canceled shall complete as if the [I156]exec[/I156] function had not yet occurred, but any associated signal notifications shall be suppressed. It is unspecified whether the [I157]exec[/I157] function itself blocks awaiting such I/O completion. In no event, however, shall the new process image created by the [I158]exec[/I158] function be affected by the presence of outstanding asynchronous I/O operations at the time the [I159]exec[/I159] function is called. Whether any I/O is canceled, and which I/O may be canceled upon [I160]exec[/I160], is implementation-defined.
+[p_00046] [S161][[A162]CPT[/A162]][/S161] [IMG163] The new process image shall inherit the CPU-time clock of the calling process image. This inheritance means that the process CPU-time clock of the process being [I164]exec[/I164]-ed shall not be reinitialized or altered as a result of the [I165]exec[/I165] function other than to reflect the time spent by the process executing the [I166]exec[/I166] function itself. [IMG167]
+[p_00047] [S168][[A169]TCT[/A169]][/S168] [IMG170] The initial value of the CPU-time clock of the initial thread of the new process image shall be set to zero. [IMG171]
+[p_00048] The thread ID of the initial thread in the new process image is unspecified.
+[p_00049] The size and location of the stack on which the initial thread in the new process image runs is unspecified.
+[p_00050] The initial thread in the new process image shall have its cancellation type set to PTHREAD_CANCEL_DEFERRED and its cancellation state set to PTHREAD_CANCEL_ENABLED.
+[p_00051] The initial thread in the new process image shall have all thread-specific data values set to NULL and all thread-specific data keys shall be removed by the call to [I172]exec[/I172] without running destructors.
+[p_00052] The initial thread in the new process image shall be joinable, as if created with the [I173]detachstate[/I173] attribute set to PTHREAD_CREATE_JOINABLE.
+[p_00053] The new process shall inherit at least the following attributes from the calling process image:
+[p_00054] [S174][[A175]XSI[/A175]][/S174] [IMG176] Nice value (see [A177][I178]nice[/I178]()[/A177]) [IMG179]
+[p_00055] [S180][[A181]XSI[/A181]][/S180] [IMG182] [I183]semadj[/I183] values (see [A184][I185]semop[/I185]()[/A184]) [IMG186]
+[p_00056] Process ID
+[p_00057] Parent process ID
+[p_00058] Process group ID
+[p_00059] Session membership
+[p_00060] Real user ID
+[p_00061] Real group ID
+[p_00062] Supplementary group IDs
+[p_00063] Time left until an alarm clock signal (see [A187][I188]alarm[/I188]()[/A187])
+[p_00064] Current working directory
+[p_00065] Root directory
+[p_00066] File mode creation mask (see [A189][I190]umask[/I190]()[/A189])
+[p_00067] File size limit (see [A191][I192]getrlimit[/I192]()[/A191] and [A193][I194]setrlimit[/I194]()[/A193])
+[p_00068] Process signal mask (see [A195][I196]pthread_sigmask[/I196]()[/A195])
+[p_00069] Pending signal (see [A197][I198]sigpending[/I198]()[/A197])
+[p_00070] [I199]tms_utime[/I199], [I200]tms_stime[/I200], [I201]tms_cutime[/I201], and [I202]tms_cstime[/I202] (see [A203][I204]times[/I204]()[/A203])
+[p_00071] Resource limits
+[p_00072] Controlling terminal
+[p_00073] The initial thread of the new process shall inherit at least the following attributes from the calling thread:
+[p_00074] Signal mask (see [A205][I206]sigprocmask[/I206]()[/A205] and [A207][I208]pthread_sigmask[/I208]()[/A207])
+[p_00075] Pending signals (see [A209][I210]sigpending[/I210]()[/A209])
+[p_00076] All other process attributes defined in this volume of POSIX.1-2024 shall be inherited in the new process image from the old process image. All other thread attributes defined in this volume of POSIX.1-2024 shall be inherited in the initial thread in the new process image from the calling thread in the old process image. The inheritance of process or thread attributes not defined by this volume of POSIX.1-2024 is implementation-defined.
+[p_00077] A call to any [I211]exec[/I211] function from a process with more than one thread shall result in all threads being terminated and the new executable image being loaded and executed. No destructor functions or cleanup handlers shall be called.
+[p_00078] Upon successful completion, the [I212]exec[/I212] functions shall mark for update the last data access timestamp of the file. If an [I213]exec[/I213] function failed but was able to locate the process image file, whether the last data access timestamp is marked for update is unspecified. Should the [I214]exec[/I214] function succeed, the process image file shall be considered to have been opened with [A215][I216]open[/I216]()[/A215]. The corresponding [A217][I218]close[/I218]()[/A217] shall be considered to occur at a time after this open, but before process termination or successful completion of a subsequent call to one of the [I219]exec[/I219] functions, [A220][I221]posix_spawn[/I221]()[/A220], or [A222][I223]posix_spawnp[/I223]()[/A222]. The [I224]argv[/I224][] and [I225]envp[/I225][] arrays of pointers and the strings to which those arrays point shall not be modified by a call to one of the [I226]exec[/I226] functions, except as a consequence of replacing the process image.
+[p_00079] The saved resource limits in the new process image are set to be a copy of the process' corresponding hard and soft limits.
+[h4_00080] [A227][/A227]RETURN VALUE
+[p_00081] If one of the [I228]exec[/I228] functions returns to the calling process image, an error has occurred; the return value shall be -1, and [I229]errno[/I229] shall be set to indicate the error.
+[h4_00082] [A230][/A230]ERRORS
+[p_00083] The [I231]exec[/I231] functions shall fail if:
+[dt_00084] [E2BIG]
+[dd_00085] The number of bytes used by the new process image's argument list and environment list is greater than the system-imposed limit of {ARG_MAX} bytes.
+[dt_00086] [EACCES]
+[dd_00087] The new process image file is not a regular file and the implementation does not support execution of files of its type.
+[dt_00088] [EINVAL]
+[dd_00089] The new process image file has appropriate privileges and has a recognized executable binary format, but the system does not support execution of a file with this format.
+[p_00090] The [I232]exec[/I232] functions, except for [I233]fexecve[/I233](), shall fail if:
+[dt_00091] [EACCES]
+[dd_00092] Search permission is denied for a directory listed in the new process image file's path prefix, or the new process image file denies execution permission.
+[dt_00093] [ELOOP]
+[dd_00094] A loop exists in symbolic links encountered during resolution of the [I234]path[/I234] or [I235]file[/I235] argument.
+[dt_00095] [ENAMETOOLONG]
+[dd_00096] The length of a component of a pathname is longer than {NAME_MAX}.
+[dt_00097] [ENOENT]
+[dd_00098] A component of [I236]path[/I236] or [I237]file[/I237] does not name an existing file or [I238]path[/I238] or [I239]file[/I239] is an empty string.
+[dt_00099] [ENOTDIR]
+[dd_00100] A component of the new process image file's path prefix names an existing file that is neither a directory nor a symbolic link to a directory, or the new process image file's pathname contains at least one non-&lt;slash&gt; character and ends with one or more trailing &lt;slash&gt; characters and the last pathname component names an existing file that is neither a directory nor a symbolic link to a directory.
+[p_00101] The [I240]exec[/I240] functions, except for [I241]execlp[/I241]() and [I242]execvp[/I242](), shall fail if:
+[dt_00102] [ENOEXEC]
+[dd_00103] The new process image file has the appropriate access permission but has an unrecognized format.
+[p_00104] The [I243]fexecve[/I243]() function shall fail if:
+[dt_00105] [EBADF]
+[dd_00106] The [I244]fd[/I244] argument is not a valid file descriptor open for executing.
+[p_00107] The [I245]exec[/I245] functions may fail if:
+[dt_00108] [ENOMEM]
+[dd_00109] The new process image requires more memory than is allowed by the hardware or system-imposed memory management constraints.
+[p_00110] The [I246]exec[/I246] functions, except for [I247]fexecve[/I247](), may fail if:
+[dt_00111] [ELOOP]
+[dd_00112] More than {SYMLOOP_MAX} symbolic links were encountered during resolution of the [I248]path[/I248] or [I249]file[/I249] argument.
+[dt_00113] [ENAMETOOLONG]
+[dd_00114] The length of the [I250]path[/I250] argument or the length of the pathname constructed from the [I251]file[/I251] argument exceeds {PATH_MAX}, or pathname resolution of a symbolic link produced an intermediate result with a length that exceeds {PATH_MAX}.
+[dt_00115] [ETXTBSY]
+[dd_00116] The new process image file is a pure procedure (shared text) file that is currently open for writing by some process.
+[h4_00117] [A252][/A252]EXAMPLES
+[h5_00118] [A253][/A253]Using execl()
+[p_00119] The following example executes the [A254][I255]ls[/I255][/A254] command, specifying the pathname of the executable ([B256]/bin/ls[/B256]) and using arguments supplied directly to the command to produce single-column output.
+[h5_00120] [A257][/A257]Using execle()
+[p_00121] The following example is similar to [A258]Using execl()[/A258]. In addition, it specifies the environment for the new process image using the [I259]env[/I259] argument.
+[h5_00122] [A260][/A260]Using execlp()
+[p_00123] The following example searches for the location of the [A261][I262]ls[/I262][/A261] command among the directories specified by the [I263]PATH[/I263] environment variable.
+[h5_00124] [A264][/A264]Using execv()
+[p_00125] The following example passes arguments to the [A265][I266]ls[/I266][/A265] command in the [I267]cmd[/I267] array.
+[h5_00126] [A268][/A268]Using execve()
+[p_00127] The following example passes arguments to the [A269][I270]ls[/I270][/A269] command in the [I271]cmd[/I271] array, and specifies the environment for the new process image using the [I272]env[/I272] argument.
+[h5_00128] [A273][/A273]Using execvp()
+[p_00129] The following example searches for the location of the [A274][I275]ls[/I275][/A274] command among the directories specified by the [I276]PATH[/I276] environment variable, and passes arguments to the [A277][I278]ls[/I278][/A277] command in the [I279]cmd[/I279] array.
+[h4_00130] [A280][/A280]APPLICATION USAGE
+[p_00131] As the state of conversion descriptors and message catalog descriptors in the new process image is undefined, conforming applications should not rely on their use and should close them prior to calling one of the [I281]exec[/I281] functions.
+[p_00132] Applications that require other than the default POSIX locale as the global locale in the new process image should call [A282][I283]setlocale[/I283]()[/A282] with the appropriate parameters.
+[p_00133] When assigning a new value to the [I284]environ[/I284] variable, applications should ensure that the environment to which it will point contains at least the following:
+[p_00134] Any implementation-defined variables required by the implementation to provide a conforming environment. See the _CS_V8_ENV entry in [A285][I286]&lt;unistd.h&gt;[/I286][/A285] and [A287][I288]confstr[/I288]()[/A287] for details.
+[p_00135] A value for [I289]PATH[/I289] which finds conforming versions of all standard utilities before any other versions.
+[p_00136] The same constraint applies to the [I290]envp[/I290] array passed to [I291]execle[/I291]() or [I292]execve[/I292](), in order to ensure that the new process image is invoked in a conforming environment.
+[p_00137] Applications should not execute programs with file descriptor 0 not open for reading or with file descriptor 1 or 2 not open for writing, as this might cause the executed program to misbehave. In order not to pass on these file descriptors to an executed program, applications should not just close them but should reopen them on, for example, [B293]/dev/null[/B293]. Some implementations may reopen them automatically, but applications should not rely on this being done.
+[p_00138] If an application wants to perform an integrity test of the file being executed before executing it, the file will need to be opened with read permission to perform the integrity test.
+[p_00139] Since execute permission is checked by [I294]fexecve[/I294](), the file description [I295]fd[/I295] need not have been opened with the O_EXEC flag. However, if the file to be executed denies read and write permission for the process preparing to do the [I296]exec[/I296], the only way to provide the [I297]fd[/I297] to [I298]fexecve[/I298]() will be to use the O_EXEC flag when opening [I299]fd[/I299]. In this case, the application will not be able to perform an integrity test since it will not be able to read the contents of the file.
+[p_00140] Note that when a file descriptor is opened with O_RDONLY, O_RDWR, or O_WRONLY mode, the file descriptor can be used to read, read and write, or write the file, respectively, even if the mode of the file changes after the file was opened. Using the O_EXEC open mode is different; [I300]fexecve[/I300]() will ignore the mode that was used when the file descriptor was opened and the [I301]exec[/I301] will fail if the mode of the file associated with [I302]fd[/I302] does not grant execute permission to the calling process at the time [I303]fexecve[/I303]() is called.
+[h4_00141] [A304][/A304]RATIONALE
+[p_00142] Early proposals required that the value of [I305]argc[/I305] passed to [I306]main[/I306]() be &quot;one or greater&quot;. This was driven by the same requirement in drafts of the ISO&nbsp;C standard. In fact, historical implementations have passed a value of zero when no arguments are supplied to the caller of the [I307]exec[/I307] functions. This requirement was removed from the ISO&nbsp;C standard and subsequently removed from this volume of POSIX.1-2024 as well. The wording, in particular the use of the word [I308]should[/I308], requires a Strictly Conforming POSIX Application to pass at least one argument to the [I309]exec[/I309] function, thus guaranteeing that [I310]argc[/I310] be one or greater when invoked by such an application. In fact, this is good practice, since many existing applications reference [I311]argv[/I311][0] without first checking the value of [I312]argc[/I312].
+[p_00143] The requirement on a Strictly Conforming POSIX Application also states that the value passed as the first argument be a filename string associated with the process being started. Although some existing applications pass a pathname rather than a filename string in some circumstances, a filename string is more generally useful, since the common usage of [I313]argv[/I313][0] is in printing diagnostics. In some cases the filename passed is not the actual filename of the file; for example, many implementations of the [I314]login[/I314] utility use a convention of prefixing a &lt;hyphen-minus&gt; ([CODE315]) to the actual filename, which indicates to the command interpreter being invoked that it is a &quot;login shell&quot;.
+[p_00144] Also, note that the [A316][I317]test[/I317][/A316] and [I318][[/I318] utilities require specific strings for the [I319]argv[/I319][0] argument to have deterministic behavior across all implementations.
+[p_00145] Historically, there have been two ways that implementations can [I320]exec[/I320] shell scripts.
+[p_00146] One common historical implementation is that the [I321]execl[/I321](), [I322]execv[/I322](), [I323]execle[/I323](), and [I324]execve[/I324]() functions return an [ENOEXEC] error for any file not recognizable as executable, including a shell script. When the [I325]execlp[/I325]() and [I326]execvp[/I326]() functions encounter such a file, they assume the file to be a shell script and invoke a known command interpreter to interpret such files. This is now required by POSIX.1-2024. These implementations of [I327]execvp[/I327]() and [I328]execlp[/I328]() only give the [ENOEXEC] error in the rare case of a problem with the command interpreter's executable file. Because of these implementations, the [ENOEXEC] error is not mentioned for [I329]execlp[/I329]() or [I330]execvp[/I330](), although implementations can still give it.
+[p_00147] Another way that some historical implementations handle shell scripts is by recognizing the first two bytes of the file as the character string [CODE331] and using the remainder of the first line of the file as the name of the command interpreter to execute.
+[p_00148] One potential source of confusion noted by the standard developers is over how the contents of a process image file affect the behavior of the [I332]exec[/I332] family of functions. The following is a description of the actions taken:
+[p_00149] If the process image file is a valid executable (in a format that is executable and valid and having appropriate privileges) for this system, then the system executes the file.
+[p_00150] If the process image file has appropriate privileges and is in a format that is executable but not valid for this system (such as a recognized binary for another architecture), then this is an error and [I333]errno[/I333] is set to [EINVAL] (see later RATIONALE on [EINVAL]).

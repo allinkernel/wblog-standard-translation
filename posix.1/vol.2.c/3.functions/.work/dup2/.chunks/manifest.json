@@ -1,0 +1,1486 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_116_01\" id=\"tag_17_116_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "dup, dup2, dup3 — duplicate an open file descriptor",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_116_02\" id=\"tag_17_116_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/unistd.h.html\">unistd.h</a>&gt;<br>\n<br>\nint dup(int</tt> <i>fildes</i><tt>);<br>\nint dup2(int</tt> <i>fildes</i><tt>, int</tt> <i>fildes2</i><tt>);<br>\nint dup3(int</tt> <i>fildes</i><tt>, int</tt> <i>fildes2</i><tt>, int</tt> <i>flag</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_116_03\" id=\"tag_17_116_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The [I5]dup[/I5]() function provides an alternative interface to the service provided by [A6][I7]fcntl[/I7]()[/A6] using the F_DUPFD command. The call [I8]dup[/I8]([I9]fildes[/I9]) shall be equivalent\nto:",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A6": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "The [I10]dup2[/I10]() function shall cause the file descriptor [I11]fildes2[/I11] to refer to the same open file description as the file\ndescriptor [I12]fildes[/I12] and to share any locks, and shall return [I13]fildes2[/I13]. If [I14]fildes2[/I14] is already a valid open file\ndescriptor, it shall be closed first, unless [I15]fildes[/I15] is equal to [I16]fildes2[/I16] in which case [I17]dup2[/I17]() shall return\n[I18]fildes2[/I18] without closing it. If the close operation fails to close [I19]fildes2[/I19], [I20]dup2[/I20]() shall return -1 without\nchanging the open file description to which [I21]fildes2[/I21] refers. If [I22]fildes[/I22] is not a valid file descriptor, [I23]dup2[/I23]()\nshall return -1 and shall not close [I24]fildes2[/I24]. If [I25]fildes2[/I25] is less than 0 or greater than or equal to {OPEN_MAX},\n[I26]dup2[/I26]() shall return -1 with [I27]errno[/I27] set to [EBADF].",
+    "placeholders": {
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I12": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I13": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I14": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "Upon successful completion, if [I28]fildes[/I28] is not equal to [I29]fildes2[/I29], the FD_CLOEXEC and FD_CLOFORK flags associated with\n[I30]fildes2[/I30] shall be cleared. If [I31]fildes[/I31] is equal to [I32]fildes2[/I32], the FD_CLOEXEC and FD_CLOFORK flags associated with\n[I33]fildes2[/I33] shall not be changed.",
+    "placeholders": {
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The [I34]dup3[/I34]() function shall be equivalent to the [I35]dup2[/I35]() function, except that it shall be an error if [I36]fildes[/I36]\nis equal to [I37]fildes2[/I37], and the state of FD_CLOEXEC and FD_CLOFORK on the [I38]fildes2[/I38] file descriptor shall be determined\nsolely by the [I39]flag[/I39] argument, which can be constructed from a bitwise-inclusive OR of flags from the following list:",
+    "placeholders": {
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00010",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     3
+    ],
+    "text": "O_CLOEXEC",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00011",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     5
+    ],
+    "text": "Atomically set the FD_CLOEXEC flag on [I40]fildes2[/I40].",
+    "placeholders": {
+     "I40": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00012",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     7
+    ],
+    "text": "O_CLOFORK",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00013",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11,
+     9
+    ],
+    "text": "Atomically set the FD_CLOFORK flag on [I41]fildes2[/I41].",
+    "placeholders": {
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "[S42][[A43]TYM[/A43]][/S42] [IMG44]\nIf [I45]fildes[/I45] refers to a typed memory object, the result of the [I46]dup2[/I46]() or [I47]dup3[/I47]() functions is unspecified.\n[IMG48]",
+    "placeholders": {
+     "S42": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A43": {
+      "open": "<a href=\"javascript:open_code(&#x27;TYM&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG44": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I46": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG48": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00015",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A49][/A49]RETURN VALUE",
+    "placeholders": {
+     "A49": {
+      "open": "<a name=\"tag_17_116_04\" id=\"tag_17_116_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion a non-negative integer, namely the file descriptor, shall be returned; otherwise, -1 shall be\nreturned and [I50]errno[/I50] set to indicate the error.",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00017",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A51][/A51]ERRORS",
+    "placeholders": {
+     "A51": {
+      "open": "<a name=\"tag_17_116_05\" id=\"tag_17_116_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I52]dup[/I52]() function shall fail if:",
+    "placeholders": {
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00019",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00020",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The [I53]fildes[/I53] argument is not a valid open file descriptor.",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00021",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EMFILE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00022",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "All file descriptors available to the process are currently open.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I54]dup2[/I54]() and [I55]dup3[/I55]() functions shall fail if:",
+    "placeholders": {
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00024",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00025",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The [I56]fildes[/I56] argument is not a valid open file descriptor or the argument [I57]fildes2[/I57] is negative or greater than or\nequal to {OPEN_MAX}.",
+    "placeholders": {
+     "I56": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I57": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00026",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     7
+    ],
+    "text": "[EINTR]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00027",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     9
+    ],
+    "text": "The function was interrupted by a signal.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00028",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "The [I58]dup3[/I58]() function shall fail if:",
+    "placeholders": {
+     "I58": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00029",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00030",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "The [I59]fildes[/I59] and [I60]fildes2[/I60] arguments are equal.",
+    "placeholders": {
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I60": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00031",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13
+    ],
+    "text": "The [I61]dup2[/I61]() and [I62]dup3[/I62]() functions may fail if:",
+    "placeholders": {
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00032",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     3
+    ],
+    "text": "[EIO]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00033",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     5
+    ],
+    "text": "An I/O error occurred while attempting to close [I63]fildes2[/I63].",
+    "placeholders": {
+     "I63": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     17
+    ],
+    "text": "The [I64]dup3[/I64]() function may fail if:",
+    "placeholders": {
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00035",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     3
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00036",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     5
+    ],
+    "text": "The value of the [I65]flag[/I65] argument is invalid.",
+    "placeholders": {
+     "I65": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00037",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A66][/A66]EXAMPLES",
+    "placeholders": {
+     "A66": {
+      "open": "<a name=\"tag_17_116_06\" id=\"tag_17_116_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00038",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A67][/A67]Redirecting Standard Output to a File",
+    "placeholders": {
+     "A67": {
+      "open": "<a name=\"tag_17_116_06_01\" id=\"tag_17_116_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following example closes standard output for the current processes, re-assigns standard output to go to the file referenced\nby [I68]pfd[/I68], and closes the original file descriptor to clean up.",
+    "placeholders": {
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00040",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     7
+    ],
+    "text": "[A69][/A69]Redirecting Error Messages",
+    "placeholders": {
+     "A69": {
+      "open": "<a name=\"tag_17_116_06_02\" id=\"tag_17_116_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     9
+    ],
+    "text": "The following example redirects messages from [I70]stderr[/I70] to [I71]stdout[/I71].",
+    "placeholders": {
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00042",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A72][/A72]APPLICATION USAGE",
+    "placeholders": {
+     "A72": {
+      "open": "<a name=\"tag_17_116_07\" id=\"tag_17_116_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Implementations may use file descriptors that must be inherited into child processes for the child process to remain conforming,\nsuch as for message catalog or tracing purposes. Therefore, an application that calls [I73]dup2[/I73]() with an arbitrary integer for\n[I74]fildes2[/I74] risks non-conforming behavior, and [I75]dup2[/I75]() can only portably be used to overwrite file descriptor values that\nthe application has obtained through explicit actions, or for the three file descriptors corresponding to the standard file\nstreams. In order to avoid a race condition of leaking an unintended file descriptor into a child process or executed program, an\napplication should consider opening all file descriptors with the FD_CLOFORK or FD_CLOEXEC flag, or both flags, set unless the file\ndescriptor is intended to be inherited by child processes or executed programs, respectively.",
+    "placeholders": {
+     "I73": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I75": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00044",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A76][/A76]RATIONALE",
+    "placeholders": {
+     "A76": {
+      "open": "<a name=\"tag_17_116_08\" id=\"tag_17_116_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00045",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "The [I77]dup[/I77]() function is redundant. Its services are also provided by the [A78][I79]fcntl[/I79]()[/A78] function. It has been included in this volume of POSIX.1-2024 primarily for historical\nreasons, since many existing applications use it. On the other hand, the [I80]dup2[/I80]() function provides unique services, as no\nother interface is able to atomically replace an existing file descriptor.",
+    "placeholders": {
+     "I77": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A78": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00046",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The [I81]dup2[/I81]() function is not marked obsolescent because it presents a type-safe version of functionality provided in a\ntype-unsafe version by [A82][I83]fcntl[/I83]()[/A82]. It is used in the POSIX Ada binding.",
+    "placeholders": {
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A82": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00047",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "The [I84]dup2[/I84]() function is not intended for use in critical regions as a synchronization mechanism.",
+    "placeholders": {
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00048",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "In the description of [EBADF], the case of [I85]fildes[/I85] being out of range is covered by the given case of [I86]fildes[/I86] not\nbeing valid. The descriptions for [I87]fildes[/I87] and [I88]fildes2[/I88] are different because the only kind of invalidity that is\nrelevant for [I89]fildes2[/I89] is whether it is out of range; that is, it does not matter whether [I90]fildes2[/I90] refers to an open\nfile when the [I91]dup2[/I91]() call is made.",
+    "placeholders": {
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I88": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I90": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00049",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "The [I92]dup3[/I92]() function with the O_CLOEXEC and O_CLOFORK flags is necessary to avoid a data race in multi-threaded\napplications. Without O_CLOFORK, a file descriptor is leaked into a child process created by one thread in the window between\nanother thread creating a file descriptor with [I93]dup2[/I93]() and then using [A94][I95]fcntl[/I95]()[/A94] to\nset the FD_CLOFORK flag. Without O_CLOEXEC, a file descriptor intentionally inherited by child processes is similarly leaked into\nan executed program if FD_CLOEXEC is not set atomically. The safe counterpart for avoiding the same race with [I96]dup[/I96]() is the\nuse of the F_DUPFD_CLOFORK or F_DUPFD_CLOEXEC action of the [A97][I98]fcntl[/I98]()[/A97] function.",
+    "placeholders": {
+     "I92": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I93": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A94": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I95": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I96": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A97": {
+      "open": "<a href=\"../functions/fcntl.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I98": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00050",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A99][/A99]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A99": {
+      "open": "<a name=\"tag_17_116_09\" id=\"tag_17_116_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00051",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00052",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A100][/A100]SEE ALSO",
+    "placeholders": {
+     "A100": {
+      "open": "<a name=\"tag_17_116_10\" id=\"tag_17_116_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00053",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A101][I102]close[/I102]()[/A101], [A103][I104]fcntl[/I104]()[/A103], [A105][I106]open[/I106]()[/A105]",
+    "placeholders": {
+     "A101": {
+      "open": "<a href=\"../functions/close.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I102": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A103": {
+      "open": "<a href=\"../functions/fcntl.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I104": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A105": {
+      "open": "<a href=\"../functions/open.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I106": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A107][I108]&lt;unistd.h&gt;[/I108][/A107]",
+    "placeholders": {
+     "A107": {
+      "open": "<a href=\"../basedefs/unistd.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I108": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00055",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A109][/A109]CHANGE HISTORY",
+    "placeholders": {
+     "A109": {
+      "open": "<a name=\"tag_17_116_11\" id=\"tag_17_116_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00056",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00057",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A110][/A110]Issue 7",
+    "placeholders": {
+     "A110": {
+      "open": "<a name=\"tag_17_116_12\" id=\"tag_17_116_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00058",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "SD5-XSH-ERN-187 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00059",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0075 [149,428] and XSH/TC1-2008/0076 [149] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00060",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A111][/A111]Issue 8",
+    "placeholders": {
+     "A111": {
+      "open": "<a name=\"tag_17_116_13\" id=\"tag_17_116_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00061",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Austin Group Defects 411, 1318, 1483, and 1577 are applied, adding [I112]dup3[/I112]() and FD_CLOFORK.",
+    "placeholders": {
+     "I112": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00062",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

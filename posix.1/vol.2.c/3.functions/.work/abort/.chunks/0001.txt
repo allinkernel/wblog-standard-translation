@@ -1,0 +1,44 @@
+[h4_00001] [A1][/A1]NAME
+[blockquote_00002] abort — generate an abnormal process abort
+[h4_00003] [A2][/A2]SYNOPSIS
+[p_00004] [CODE3]
+[h4_00005] [A4][/A4]DESCRIPTION
+[p_00006] The [I5]abort[/I5]() function shall cause abnormal process termination to occur, unless a SIGABRT signal that it generates is caught and the signal handler does not return.
+[p_00007] [S6][[A7]CX[/A7]][/S6] [IMG8] The abnormal termination processing shall include the default actions defined for SIGABRT and may include an attempt to effect [A9][I10]fclose[/I10]()[/A9] on all open streams. [IMG11]
+[p_00008] The SIGABRT signal shall be sent to the calling [S12][[A13]CX[/A13]][/S12] [IMG14] &nbsp;thread [IMG15] &nbsp;as if by means of [A16][I17]raise[/I17]()[/A16] with the argument SIGABRT. [S18][[A19]CX[/A19]][/S18] [IMG20] If this signal does not terminate the process (for example, if the signal is caught and the handler returns), [I21]abort[/I21]() may change the disposition of SIGABRT to SIG_DFL and send the signal (in the same way) again. If a second signal is sent and it does not terminate the process, the behavior is unspecified, except that the [I22]abort[/I22]() call shall not return. [IMG23]
+[p_00009] [S24][[A25]CX[/A25]][/S24] [IMG26] The status made available to [A27][I28]wait[/I28]()[/A27], [A29][I30]waitid[/I30]()[/A29], or [A31][I32]waitpid[/I32]()[/A31] by [I33]abort[/I33]() shall be that of a process terminated by the SIGABRT signal. [IMG34] The [I35]abort[/I35]() function shall override blocking or ignoring the SIGABRT signal.
+[h4_00010] [A36][/A36]RETURN VALUE
+[p_00011] The [I37]abort[/I37]() function shall not return.
+[h4_00012] [A38][/A38]ERRORS
+[p_00013] No errors are defined.
+[h4_00014] [A39][/A39]EXAMPLES
+[p_00015] None.
+[h4_00016] [A40][/A40]APPLICATION USAGE
+[p_00017] Catching the signal is intended to provide the application developer with a portable means to abort processing, free from possible interference from any implementation-supplied functions.
+[h4_00018] [A41][/A41]RATIONALE
+[p_00019] Historically, [I42]abort[/I42]() has been implemented by calling other signal manipulation functions such as [A43][I44]raise[/I44]()[/A43], [A45][I46]sigaction[/I46]()[/A45], and [A47][I48]pthread_sigmask[/I48]()[/A47]. This means that its operation can be affected by concurrent actions in other threads. For example, if [I49]abort[/I49]() attempts to terminate the process by calling [A50][I51]sigaction[/I51]()[/A50] to change the disposition for SIGABRT to SIG_DFL and then calling [A52][I53]raise[/I53]()[/A52], another thread could change the disposition in between those two calls, resulting in the process not being terminated. If this happens, the only requirement is that [I54]abort[/I54]() does not return. An implementation could call those functions in a loop (which could in theory then execute indefinitely), or could terminate the process by calling [A55][I56]_exit[/I56]()[/A55] (which would ensure termination but result in the wrong wait status). To avoid these issues, implementations are encouraged to implement [I57]abort[/I57]() in a manner such that its operation cannot be affected by concurrent actions in other threads. For example, it could first halt the execution of all other threads, or it could terminate the process using a &quot;terminate as if by a signal&quot; system call instead of by raising (a second) SIGABRT.
+[p_00020] The ISO/IEC&nbsp;9899:1999 standard required (and the current standard still requires) the [I58]abort[/I58]() function to be async-signal-safe. Since POSIX.1-2024 defers to the ISO&nbsp;C standard, this required a change to the DESCRIPTION from &quot;shall include the effect of [A59][I60]fclose[/I60]()[/A59]&quot; to &quot;may include an attempt to effect [A61][I62]fclose[/I62]()[/A61].&quot;
+[p_00021] The revised wording permits some backwards-compatibility and avoids a potential deadlock situation.
+[p_00022] The Open Group Base Resolution bwg2002-003 is applied, removing the following XSI shaded paragraph from the DESCRIPTION:
+[p_00023] &quot;On XSI-conformant systems, in addition the abnormal termination processing shall include the effect of [A63][I64]fclose[/I64]()[/A63] on message catalog descriptors.&quot;
+[p_00024] There were several reasons to remove this paragraph:
+[p_00025] No special processing of open message catalogs needs to be performed prior to abnormal process termination.
+[p_00026] The main reason to specifically mention that [I65]abort[/I65]() includes the effect of [A66][I67]fclose[/I67]()[/A66] on open streams is to flush output queued on the stream. Message catalogs in this context are read-only and, therefore, do not need to be flushed.
+[p_00027] The effect of [A68][I69]fclose[/I69]()[/A68] on a message catalog descriptor is unspecified. Message catalog descriptors are allowed, but not required to be implemented using a file descriptor, but there is no mention in POSIX.1-2024 of a message catalog descriptor using a standard I/O stream FILE object as would be expected by [A70][I71]fclose[/I71]()[/A70].
+[h4_00028] [A72][/A72]FUTURE DIRECTIONS
+[p_00029] A future version of this standard may require [I73]abort[/I73]() to be implemented in a manner such that its operation cannot be affected by concurrent actions in other threads.
+[h4_00030] [A74][/A74]SEE ALSO
+[p_00031] [A75][I76]exit[/I76]()[/A75], [A77][I78]kill[/I78]()[/A77], [A79][I80]raise[/I80]()[/A79], [A81][I82]signal[/I82]()[/A81], [A83][I84]wait[/I84]()[/A83], [A85][I86]waitid[/I86]()[/A85]
+[p_00032] XBD [A87][I88]&lt;stdlib.h&gt;[/I88][/A87]
+[h4_00033] [A89][/A89]CHANGE HISTORY
+[p_00034] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00035] [A90][/A90]Issue 6
+[p_00036] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00037] Changes are made to the DESCRIPTION for alignment with the ISO/IEC&nbsp;9899:1999 standard.
+[p_00038] The Open Group Base Resolution bwg2002-003 is applied.
+[p_00039] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;1-2002, item XSH/TC1/D6/10 is applied, changing the DESCRIPTION of abnormal termination processing and adding to the RATIONALE section.
+[p_00040] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/9 is applied, changing &quot;implementation-defined functions&quot; to &quot;implementation-supplied functions&quot; in the APPLICATION USAGE section.
+[h4_00041] [A91][/A91]Issue 8
+[p_00042] Austin Group Defect 906 is applied, clarifying how the behavior of [I92]abort[/I92]() may be affected by concurrent actions in other threads.
+[p_00043] Austin Group Defect 1302 is applied, aligning this function with the ISO/IEC&nbsp;9899:2018 standard.
+[p_00044] &nbsp;

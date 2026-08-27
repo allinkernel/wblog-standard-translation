@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：open()</h1>
+
+<h2>0. 总览</h2>
+<p>open() 建立文件与文件描述符之间的连接：它创建引用某个文件的打开文件描述，并返回一个引用该打开文件描述的文件描述符，供 read()、write() 等 I/O 函数使用。所属头文件为 <code>&lt;fcntl.h&gt;</code>（<code>&lt;sys/stat.h&gt;</code> 为可选，供 mode_t 使用）。原型关键点：<code>int open(const char *path, int oflag, ...);</code> —— 第三个参数仅在设置了 O_CREAT 时需要，类型为 <b>mode_t</b>；成功返回非负文件描述符，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>oflag 由五选一的文件访问模式（O_RDONLY、O_WRONLY、O_RDWR、O_EXEC、O_SEARCH）与任意组合的其他标志按位或而成。核心行为：新描述符按文件描述符分配规则取最小可用编号，文件偏移初始化为文件开始处；O_CREAT 创建普通文件时，权限位按 mode 参数与进程文件模式创建掩码（umask）补码相与后设置；O_EXCL 与 O_CREAT 组合使创建原子化，文件已存在即失败；O_TRUNC 在文件以 O_RDWR 或 O_WRONLY 成功打开时将普通文件长度截断为 0；O_APPEND 使每次写之前偏移移到文件末尾；O_NONBLOCK 影响 FIFO 与设备文件的阻塞语义；O_CLOEXEC/O_CLOFORK 原子设置 FD_CLOEXEC/FD_CLOFORK 标志，避免多线程竞争。openat() 是 open() 的相对路径变体，以 fd 所指目录为基准，传 AT_FDCWD 时等价于 open()。</p>
+
+<h2>2. 易错点</h2>
+<p><b>访问模式必须恰好指定一个</b>，五个值之一，否则行为未定义；O_RDONLY 历史上值为零，无法检测其与其他标志的冲突。O_EXCL 未配 O_CREAT 时结果未定义；配 O_CREAT 时若 path 是符号链接则一律 [EEXIST]，这是防符号链接攻击的关键语义。O_TRUNC 在既无 O_RDWR 也无 O_WRONLY 时结果未定义，且对 FIFO 和终端无效果。O_DIRECTORY 指向非目录返回 [ENOTDIR]；O_NOFOLLOW 遇符号链接返回 [ELOOP]。错误码常见：无权限 [EACCES]、描述符耗尽 [EMFILE]、路径不存在 [ENOENT]、系统打开文件数超限 [ENFILE]。以 O_WRONLY 打开 FIFO 且无读者时，阻塞或返回 [ENXIO] 取决于 O_NONBLOCK。失败返回 -1 时不得创建或修改任何文件。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+
+int fd;
+mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+
+/* 打开或创建 /tmp/file，存在则截断为 0，失败则处理错误 */
+fd = open("/tmp/file", O_WRONLY | O_CREAT | O_TRUNC, mode);
+if (fd == -1) {
+    /* 处理错误（如 EACCES、ENOENT） */
+} else {
+    /* 使用 fd 进行写入，之后 close(fd) */
+}
+</code></pre>

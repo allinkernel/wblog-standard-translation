@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：pwrite()</h1>
+
+<h2>0. 总览</h2>
+<p>pwrite() 将缓冲区中的字节写入文件中给定的位置，且不改变文件偏移，是与 write() 等价的定位写变体。所属头文件为 <code>&lt;unistd.h&gt;</code>。原型关键点：<code>ssize_t pwrite(int fildes, const void *buf, size_t nbyte, off_t offset);</code> —— 前三个参数与 write() 相同，第四个参数 offset 指定文件内的期望位置；成功返回实际写入的字节数（绝不应大于 nbyte），失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>除"写入给定位置且不改变文件偏移（无论是否设置 O_APPEND）"外，pwrite() 完全等同于 write()：写入从 offset 处开始；若最后写入字节的位置大于等于文件长度，文件长度被设置为该位置加一；空间不足时只写入可容纳的字节数并返回该数量，一个字节都写不下则失败（[EFBIG]；超过进程软文件大小限制时，XSI 下还为该线程产生 SIGXFSZ 信号）；写任何数据前被信号中断返回 -1/[EINTR]，已写部分数据后被中断则返回已写入字节数；成功写入（nbyte 大于 0）时更新最后数据修改和最后文件状态更改时间戳，普通文件的 S_ISUID/S_ISGID 位可被清除。关键差异：即使描述符设置了 O_APPEND，pwrite() 也不追加，而是写到指定 offset。尝试在无法寻址的文件上调用 pwrite() 应导致错误（[ESPIPE]）。</p>
+
+<h2>2. 易错点</h2>
+<p>offset 为负且文件是普通文件或块特殊文件时返回 [EINVAL]，且文件偏移应保持不变。规范有意不规定管道、FIFO 和套接字上除 [ESPIPE] 之外的 pwrite() 错误——管道/FIFO 没有文件偏移，pwrite() 根本不适于它们。与 write() 相同的坑依然存在：短写（返回小于 nbyte）必须循环重试；nbyte 大于 {SSIZE_MAX} 结果实现定义；写入无读者的管道或 FIFO 会产生 [EPIPE] 并触发 SIGPIPE，但那是 write() 的错误语义，对 pwrite() 而言管道本就不可寻址。描述符必须以写方式打开（否则 [EBADF]）；多线程并发写同一普通文件时，除每次写原子外规范不规定其他行为，应用应自行并发控制。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+const char rec[100];
+ssize_t n;
+int fd; /* 已以 O_WRONLY 打开的普通文件 */
+
+/* 在固定位置写入一条记录，不影响文件偏移，可安全用于多线程 */
+n = pwrite(fd, rec, sizeof rec, 4096);
+if (n == -1) {
+    /* 处理错误（如 ESPIPE、EINVAL、ENOSPC） */
+} else if (n &lt; (ssize_t)sizeof rec) {
+    /* 短写：需要从 offset+n 处继续重试 */
+}
+</code></pre>

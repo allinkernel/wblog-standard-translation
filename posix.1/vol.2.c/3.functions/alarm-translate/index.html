@@ -1,0 +1,82 @@
+<h1>XSH 函数：alarm()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="alarm" id="alarm"></a> <a name="tag_17_17" id="tag_17_17"></a>
+<a name="tag_17_17_01" id="tag_17_17_01"></a><h4>名称 (NAME)</h4>
+<blockquote>alarm — 调度一个报警信号</blockquote>
+<a name="tag_17_17_02" id="tag_17_17_02"></a><h4>概要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;unistd.h&gt;<br>
+<br>
+unsigned alarm(unsigned</code> <i>seconds</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_17_03" id="tag_17_17_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>alarm</i>() 函数应使系统在 <i>seconds</i> 指定的实时秒数经过后为进程生成 SIGALRM 信号。处理器调度延迟可能阻止进程在信号一生成就处理它。</p>
+<p>如果 <i>seconds</i> 为 0，则待决的报警请求（如果有）被取消。</p>
+<p>报警请求不会堆叠；只能以这种方式调度一次 SIGALRM 生成。如果 SIGALRM 信号尚未生成，则该调用应导致重新调度生成 SIGALRM 信号的时间。</p>
+</blockquote>
+<a name="tag_17_17_04" id="tag_17_17_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果存在一个时间尚未用完的先前 <i>alarm</i>() 请求，则 <i>alarm</i>() 应返回一个非零值，即到先前请求本应生成 SIGALRM 信号之前的秒数。否则，<i>alarm</i>() 应返回 0。</p>
+</blockquote>
+<a name="tag_17_17_05" id="tag_17_17_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>alarm</i>() 函数总是成功的，并且没有保留返回值来指示错误。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_17_06" id="tag_17_17_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_17_07" id="tag_17_17_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>fork() 函数清除子进程中的待决报警。由 <i>exec</i> 函数之一创建的新进程映像继承旧进程映像中到报警信号剩余的时间。</p>
+<p>应用程序开发者应注意，<i>seconds</i> 参数的类型和 <i>alarm</i>() 的返回值是 <b>unsigned</b>。这意味着严格符合规范的 POSIX 系统接口应用程序不能传递大于 {UINT_MAX} 最小保证值的值（ISO C 标准将其设置为 65535），任何传递更大值的应用程序都在限制其可移植性。曾考虑过不同的类型，但历史实现（包括具有 16 位 <b>int</b> 类型的实现）始终使用 <b>unsigned</b> 或 <b>int</b>。</p>
+<p>应用程序开发者应注意，当同一进程同时使用 <i>alarm</i>() 和 sleep() 函数时可能发生的交互。</p>
+</blockquote>
+<a name="tag_17_17_08" id="tag_17_17_08"></a><h4>原理说明 (RATIONALE)</h4>
+<blockquote>
+<p>许多历史实现（包括 Version 7 和 System V）允许报警提前最多一秒发生。其他实现允许报警提前最多半秒或一个时钟滴答发生，或者根本不允许提前发生。后者被认为最合适，因为它提供了最可预测的行为，尤其是因为信号总是可以因调度而无限期延迟。因此，应用程序可以选择 <i>seconds</i> 参数作为它们希望在信号之前经过的最短时间量。</p>
+<p>此处和其他地方（sleep()、times()）的术语 &quot;realtime&quot; 旨在表示英语常用用法中的 &quot;wall clock&quot; 时间，与 &quot;realtime operating systems&quot; 无关。它与 <i>虚拟时间</i> 形成对比，如果只使用 <i>time</i> 一词，可能会被误解。</p>
+<p>在一些实现中，包括 4.3 BSD，非常大的 <i>seconds</i> 参数值被静默向下舍入到实现特定的最大值。该最大值足够大（大约几个月），以至于效果不明显。</p>
+<p>多线程应用程序中报警的生成有两个可能的选择：为调用线程生成或为进程生成。第一个选项不会特别有用，因为报警状态是按进程维护的，并且由最后一次调用 <i>alarm</i>() 建立的报警是唯一会处于活动状态的报警。</p>
+<p>此外，允许为线程生成异步信号将给整个信号模型引入一个例外。这需要有令人信服的理由才能证明合理。</p>
+</blockquote>
+<a name="tag_17_17_09" id="tag_17_17_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_17_10" id="tag_17_17_10"></a><h4>另见 (SEE ALSO)</h4>
+<blockquote>
+<p><a href="#">alarm</a>、exec、fork()、pause()、sigaction()、sleep()、timer_create()</p>
+<p>XBD &lt;signal.h&gt;、&lt;unistd.h&gt;</p>
+</blockquote>
+<a name="tag_17_17_11" id="tag_17_17_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于 Issue 1。源自 SVID 的 Issue 1。</p>
+</blockquote>
+<a name="tag_17_17_12" id="tag_17_17_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p>以下对 POSIX 实现的新要求源自与 Single UNIX Specification 的一致性：</p>
+<ul>
+<li>
+<p>DESCRIPTION（说明）已更新，以表明与 <i>setitimer</i>()、<i>ualarm</i>() 和 <i>usleep</i>() 函数的交互是未指定的。</p>
+</li>
+</ul>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 第 XSH/TC2/D6/16 项，在 RATIONALE（原理说明）中将 &quot;an implementation-defined maximum value&quot; 替换为 &quot;an implementation-specific maximum value&quot;。</p>
+</blockquote>
+<a name="tag_17_17_13" id="tag_17_17_13"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 1330，移除了过时的接口。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

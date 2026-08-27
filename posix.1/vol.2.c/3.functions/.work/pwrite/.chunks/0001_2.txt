@@ -1,0 +1,39 @@
+# start_index 151
+[h4_00151] [A184][/A184]CHANGE HISTORY
+[p_00152] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00153] [A185][/A185]Issue 5
+[p_00154] The DESCRIPTION is updated for alignment with the POSIX Realtime Extension and the POSIX Threads Extension.
+[p_00155] Large File Summit extensions are added.
+[p_00156] The [I186]pwrite[/I186]() function is added.
+[h4_00157] [A187][/A187]Issue 6
+[p_00158] The DESCRIPTION states that the [I188]write[/I188]() function does not block the thread. Previously this said &quot;process&quot; rather than &quot;thread&quot;.
+[p_00159] The DESCRIPTION and ERRORS sections are updated so that references to STREAMS are marked as part of the XSI STREAMS Option Group.
+[p_00160] The following new requirements on POSIX implementations derive from alignment with the Single UNIX Specification:
+[li_00161] The DESCRIPTION now states that if [I189]write[/I189]() is interrupted by a signal after it has successfully written some data, it returns the number of bytes written. In the POSIX.1-1988 standard, it was optional whether [I190]write[/I190]() returned the number of bytes written, or whether it returned -1 with [I191]errno[/I191] set to [EINTR]. This is a FIPS requirement.
+[li_00162] The following changes are made to support large files:  For regular files, no data transfer occurs past the offset maximum established in the open file description associated with the [I192]fildes[/I192]. A second [EFBIG] error condition is added.
+[li_00163] The [EIO] error condition is added.
+[li_00164] The [EPIPE] error condition is added for when a pipe has only one end open.
+[li_00165] The [ENXIO] optional error condition is added.
+[p_00166] Text referring to sockets is added to the DESCRIPTION.
+[p_00167] The following changes were made to align with the IEEE&nbsp;P1003.1a draft standard:
+[li_00168] The effect of reading zero bytes is clarified.
+[p_00169] The DESCRIPTION is updated for alignment with IEEE&nbsp;Std&nbsp;1003.1j-2000 by specifying that [I193]write[/I193]() results are unspecified for typed memory objects.
+[p_00170] The following error conditions are added for operations on sockets: [EAGAIN], [EWOULDBLOCK], [ECONNRESET], [ENOTCONN], and [EPIPE].
+[p_00171] The [EIO] error is made optional.
+[p_00172] The [ENOBUFS] error is added for sockets.
+[p_00173] The following error conditions are added for operations on sockets: [EACCES], [ENETDOWN], and [ENETUNREACH].
+[p_00174] The [A194][I195]writev[/I195]()[/A194] function is split out into a separate reference page.
+[p_00175] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/146 is applied, updating text in the ERRORS section from &quot;a SIGPIPE signal is generated to the calling process&quot; to &quot;a SIGPIPE signal shall also be sent to the thread&quot;.
+[p_00176] IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/147 is applied, making a correction to the RATIONALE.
+[h4_00177] [A196][/A196]Issue 7
+[p_00178] The [I197]pwrite[/I197]() function is moved from the XSI option to the Base.
+[p_00179] Functionality relating to the XSI STREAMS option is marked obsolescent.
+[p_00180] SD5-XSH-ERN-160 is applied, updating the DESCRIPTION to clarify the requirements for the [I198]pwrite[/I198]() function, and to change the use of the phrase &quot;file pointer&quot; to &quot;file offset&quot;.
+[p_00181] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0742 [219], XSH/TC1-2008/0743 [215], XSH/TC1-2008/0744 [79], and XSH/TC1-2008/0745 [215] are applied.
+[p_00182] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0401 [676,710] and XSH/TC2-2008/0402 [966] are applied.
+[h4_00183] [A199][/A199]Issue 8
+[p_00184] Austin Group Defect 308 is applied, clarifying the handling of [EFBIG] errors.
+[p_00185] Austin Group Defect 1330 is applied, removing obsolescent interfaces.
+[p_00186] Austin Group Defect 1430 is applied, clarifying that requirements relating to data interleaving on pipes and FIFOs apply to write operations in other threads, not just other processes, and changing some uses of &quot;pipe&quot; to &quot;pipe or FIFO&quot;.
+[p_00187] Austin Group Defect 1669 is applied, removing XSI shading from part of the [EFBIG] error relating to the file size limit for the process.
+[p_00188] &nbsp;

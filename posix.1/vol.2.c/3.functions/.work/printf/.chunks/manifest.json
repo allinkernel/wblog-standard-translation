@@ -1,0 +1,6686 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_175_01\" id=\"tag_17_175_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "asprintf, dprintf, fprintf, printf, snprintf, sprintf — print formatted output",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_175_02\" id=\"tag_17_175_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/stdio.h.html\">stdio.h</a>&gt;<br>\n<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_175_03\" id=\"tag_17_175_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3
+    ],
+    "text": "The [I5]fprintf[/I5]() function shall place output on the named output [I6]stream[/I6]. The [I7]printf[/I7]() function shall place\noutput on the standard output stream [I8]stdout[/I8]. The [I9]sprintf[/I9]() function shall place output followed by the null byte,\n[CODE10], in consecutive bytes starting at *[I11]s[/I11]; it is the user's responsibility to ensure that enough space is\navailable.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I9": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE10": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'\\0'</tt>"
+     },
+     "I11": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00007",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5
+    ],
+    "text": "[S12][[A13]CX[/A13]][/S12] [IMG14] The\n[I15]asprintf[/I15]() function shall be equivalent to [I16]sprintf[/I16](), except that the output string shall be written to dynamically\nallocated memory, allocated as if by a call to [A17][I18]malloc[/I18]()[/A17], of sufficient length to hold\nthe resulting string, including a terminating null byte. If the call to [I19]asprintf[/I19]() is successful, the address of this\ndynamically allocated string shall be stored in the location referenced by [I20]ptr[/I20].",
+    "placeholders": {
+     "S12": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A13": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG14": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A17": {
+      "open": "<a href=\"../functions/malloc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00008",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "The [I21]dprintf[/I21]() function shall be equivalent to the [I22]fprintf[/I22]() function, except that [I23]dprintf[/I23]() shall write\noutput to the file associated with the file descriptor specified by the [I24]fildes[/I24] argument rather than place output on a\nstream. [IMG25]",
+    "placeholders": {
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG25": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00009",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The [I26]snprintf[/I26]() function shall be equivalent to [I27]sprintf[/I27](), with the addition of the [I28]n[/I28] argument which limits\nthe number of bytes written to the buffer referred to by [I29]s[/I29]. If [I30]n[/I30] is zero, nothing shall be written and [I31]s[/I31] may\nbe a null pointer. Otherwise, output bytes beyond the [I32]n[/I32]-1st shall be discarded instead of being written to the array, and a\nnull byte is written at the end of the bytes actually written into the array.",
+    "placeholders": {
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I28": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I30": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00010",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "If copying takes place between objects that overlap as a result of a call to [I33]sprintf[/I33]() or [I34]snprintf[/I34](), the results\nare undefined.",
+    "placeholders": {
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00011",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "Each of these functions converts, formats, and prints its arguments under control of the [I35]format[/I35]. The application shall\nensure that the format is a character string, beginning and ending in its initial shift state, if any. The format is composed of\nzero or more directives: [I36]ordinary characters[/I36], which are simply copied to the output stream, and [I37]conversion\nspecifications[/I37], each of which shall result in the fetching of zero or more arguments. The results are undefined if there are\ninsufficient arguments for the format. If the format is exhausted while arguments remain, the excess arguments shall be evaluated\nbut are otherwise ignored.",
+    "placeholders": {
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I36": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00012",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "[S38][[A39]CX[/A39]][/S38] [IMG40]\nConversions can be applied to the [I41]n[/I41]th argument after the [I42]format[/I42] in the argument list, rather than to the next unused\nargument. In this case, the conversion specifier character [CODE43] (see below) is replaced by the sequence\n[CODE44][I45]n[/I45][CODE46], where [I47]n[/I47] is a decimal integer in the range [1,{NL_ARGMAX}], giving the position of the\nargument in the argument list. This feature provides for the definition of format strings that select arguments in an order\nappropriate to specific languages (see the EXAMPLES section).",
+    "placeholders": {
+     "S38": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A39": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG40": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE43": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%</tt>"
+     },
+     "CODE44": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I45": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE46": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00013",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "The [I48]format[/I48] can contain either numbered argument conversion specifications (that is, those introduced by\n[CODE49][I50]n[/I50][CODE51] and optionally containing the [CODE52][I53]m[/I53][CODE54] forms of field width and precision), or\nunnumbered argument conversion specifications (that is, those introduced by the [CODE55] character and optionally containing the\n[CODE56] form of field width and precision), but not both. The only exception to this is that [CODE57] can be mixed with the\n[CODE58][I59]n[/I59][CODE60] form. The results of mixing numbered and unnumbered argument specifications in a format string are\nundefined. When numbered argument specifications are used, specifying the [I61]N[/I61]th argument requires that all the leading\narguments, from the first to the ([I62]N-1[/I62])th, are specified in the format string.",
+    "placeholders": {
+     "I48": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE49": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE51": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "CODE52": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"*</tt>"
+     },
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE54": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "CODE55": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%</tt>"
+     },
+     "CODE56": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>*</tt>"
+     },
+     "CODE57": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%%</tt>"
+     },
+     "CODE58": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE60": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00014",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "In format strings containing the [CODE63][I64]n[/I64][CODE65] form of conversion specification, numbered arguments in the\nargument list can be referenced from the format string as many times as required. [IMG66]",
+    "placeholders": {
+     "CODE63": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I64": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE65": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "IMG66": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00015",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     21
+    ],
+    "text": "In format strings containing the [CODE67] form of conversion specification, each conversion specification uses the first\nunused argument in the argument list.",
+    "placeholders": {
+     "CODE67": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00016",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     23
+    ],
+    "text": "[S68][[A69]CX[/A69]][/S68] [IMG70] All\nforms of the [I71]fprintf[/I71]() functions allow for the insertion of a language-dependent radix character in the output string. The\nradix character is defined in the current locale (category [I72]LC_NUMERIC ).[/I72] In the POSIX locale, or in a locale where the radix\ncharacter is not defined, the radix character shall default to a &lt;period&gt; ([CODE73]). [IMG74]",
+    "placeholders": {
+     "S68": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A69": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG70": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I71": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE73": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'.'</tt>"
+     },
+     "IMG74": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00017",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     25
+    ],
+    "text": "Each conversion specification is introduced by the [CODE75] character [S76][[A77]CX[/A77]][/S76] [IMG78] &nbsp;or by the\ncharacter sequence [CODE79][I80]n[/I80][CODE81], [IMG82] &nbsp;after\nwhich the following appear in sequence:",
+    "placeholders": {
+     "CODE75": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'%'</tt>"
+     },
+     "S76": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A77": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG78": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE79": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE81": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "IMG82": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00018",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27,
+     1,
+     1
+    ],
+    "text": "Zero or more [I83]flags[/I83] (in any order), which modify the meaning of the conversion specification.",
+    "placeholders": {
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00019",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27,
+     3,
+     1
+    ],
+    "text": "An optional minimum [I84]field width[/I84]. If the converted value has fewer bytes than the field width, it shall be padded with\n&lt;space&gt; characters by default on the left; it shall be padded on the right if the left-adjustment flag ([CODE85]),\ndescribed below, is given to the field width. The field width takes the form of an &lt;asterisk&gt; ([CODE86]), [S87][[A88]CX[/A88]][/S87] [IMG89] &nbsp;or in\nconversion specifications introduced by [CODE90][I91]n[/I91][CODE92] the [CODE93][I94]m[/I94][CODE95] string, [IMG96] described below, or a decimal integer.",
+    "placeholders": {
+     "I84": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE85": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'-'</tt>"
+     },
+     "CODE86": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'*'</tt>"
+     },
+     "S87": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A88": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG89": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE90": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I91": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE92": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "CODE93": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"*</tt>"
+     },
+     "I94": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE95": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "IMG96": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00020",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27,
+     5,
+     1
+    ],
+    "text": "An optional [I97]precision[/I97] that gives the minimum number of digits to appear for the [CODE98], [CODE99], [CODE100],\n[CODE101], [CODE102], and [CODE103] conversion specifiers; the number of digits to appear after the radix character for the\n[CODE104], [CODE105], [CODE106], [CODE107], [CODE108], and [CODE109] conversion specifiers; the maximum number of significant\ndigits for the [CODE110] and [CODE111] conversion specifiers; or the maximum number of bytes to be printed from a string in the\n[CODE112] [S113][[A114]XSI[/A114]][/S113] [IMG115] &nbsp;and [CODE116] [IMG117] &nbsp;conversion specifiers. The\nprecision takes the form of a &lt;period&gt; ([CODE118]) followed either by an &lt;asterisk&gt; ([CODE119]), [S120][[A121]CX[/A121]][/S120] [IMG122] &nbsp;or in\nconversion specifications introduced by [CODE123][I124]n[/I124][CODE125] the [CODE126][I127]m[/I127][CODE128] string, [IMG129] described below, or an optional decimal digit string, where a null digit\nstring is treated as zero. If a precision appears with any other conversion specifier, the behavior is undefined.",
+    "placeholders": {
+     "I97": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE98": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE99": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE100": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE101": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE102": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE103": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "CODE104": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE105": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     },
+     "CODE106": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE107": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     },
+     "CODE108": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE109": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE110": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE111": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     },
+     "CODE112": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>s</tt>"
+     },
+     "S113": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A114": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG115": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE116": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>S</tt>"
+     },
+     "IMG117": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "CODE118": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'.'</tt>"
+     },
+     "CODE119": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'*'</tt>"
+     },
+     "S120": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A121": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG122": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE123": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I124": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE125": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "CODE126": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"*</tt>"
+     },
+     "I127": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE128": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "IMG129": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00021",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27,
+     7,
+     1
+    ],
+    "text": "An optional length modifier that specifies the size of the argument.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00022",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     27,
+     9,
+     1
+    ],
+    "text": "A [I130]conversion specifier[/I130] character that indicates the type of conversion to be applied.",
+    "placeholders": {
+     "I130": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00023",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     29
+    ],
+    "text": "A field width, or precision, or both, may be indicated by an &lt;asterisk&gt; ([CODE131]). In this case an argument of type\n[B132]int[/B132] supplies the field width or precision. Applications shall ensure that arguments specifying field width, or precision, or\nboth appear in that order before the argument, if any, to be converted. A negative field width is taken as a [CODE133] flag\nfollowed by a positive field width. A negative precision is taken as if the precision were omitted. [S134][[A135]CX[/A135]][/S134] [IMG136] &nbsp;In format\nstrings containing conversion specifications introduced by [CODE137][I138]n[/I138][CODE139], in addition to being indicated by the\ndecimal digit string, a field width may be indicated by the sequence [CODE140][I141]m[/I141][CODE142] and precision by the sequence\n[CODE143][I144]m[/I144][CODE145], where [I146]m[/I146] is a decimal integer in the range [1,{NL_ARGMAX}] giving the position in the\nargument list (after the [I147]format[/I147] argument) of an integer argument containing the field width or precision, for example:",
+    "placeholders": {
+     "CODE131": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'*'</tt>"
+     },
+     "B132": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE133": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'-'</tt>"
+     },
+     "S134": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A135": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG136": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE137": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I138": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE139": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "CODE140": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"*</tt>"
+     },
+     "I141": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE142": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "CODE143": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\".*</tt>"
+     },
+     "I144": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE145": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "I146": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I147": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00024",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     35
+    ],
+    "text": "The flag characters and their meanings are:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00025",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     3
+    ],
+    "text": "[CODE148]",
+    "placeholders": {
+     "CODE148": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00026",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     5
+    ],
+    "text": "[S149][[A150]CX[/A150]][/S149] [IMG151]\n(The &lt;apostrophe&gt;.) The integer portion of the result of a decimal conversion ([CODE152], [CODE153], [CODE154],\n[CODE155], [CODE156], [CODE157], or [CODE158]) shall be formatted with thousands' grouping characters. For other\nconversions the behavior is undefined. The non-monetary grouping character is used. [IMG159]",
+    "placeholders": {
+     "S149": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A150": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG151": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE152": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%i</tt>"
+     },
+     "CODE153": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%d</tt>"
+     },
+     "CODE154": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%u</tt>"
+     },
+     "CODE155": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%f</tt>"
+     },
+     "CODE156": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%F</tt>"
+     },
+     "CODE157": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%g</tt>"
+     },
+     "CODE158": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%G</tt>"
+     },
+     "IMG159": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00027",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     7
+    ],
+    "text": "[CODE160]",
+    "placeholders": {
+     "CODE160": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>-</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00028",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     9
+    ],
+    "text": "The result of the conversion shall be left-justified within the field. The conversion is right-justified if this flag is not\nspecified.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00029",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     11
+    ],
+    "text": "[CODE161]",
+    "placeholders": {
+     "CODE161": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>+</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00030",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     13
+    ],
+    "text": "The result of a signed conversion shall always begin with a sign ([CODE162] or [CODE163]). The conversion shall begin\nwith a sign only when a negative value is converted if this flag is not specified.",
+    "placeholders": {
+     "CODE162": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'+'</tt>"
+     },
+     "CODE163": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'-'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00031",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     15
+    ],
+    "text": "&lt;space&gt;",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00032",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     17
+    ],
+    "text": "If the first character of a signed conversion is not a sign or if a signed conversion results in no characters, a &lt;space&gt;\nshall be prefixed to the result. This means that if the &lt;space&gt; and [CODE164] flags both appear, the &lt;space&gt; flag\nshall be ignored.",
+    "placeholders": {
+     "CODE164": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'+'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00033",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     19
+    ],
+    "text": "[CODE165]",
+    "placeholders": {
+     "CODE165": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>#</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00034",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     21
+    ],
+    "text": "Specifies that the value is to be converted to an alternative form. For [CODE166] conversion, it shall increase the precision,\nif and only if necessary, to force the first digit of the result to be a zero (if the value and precision are both 0, a single 0 is\nprinted). For [CODE167] or [CODE168] conversion specifiers, a non-zero result shall have 0x (or 0X) prefixed to it. For\n[CODE169], [CODE170], [CODE171], [CODE172], [CODE173], [CODE174], [CODE175], and [CODE176] conversion specifiers, the\nresult shall always contain a radix character, even if no digits follow the radix character. Without this flag, a radix character\nappears in the result of these conversions only if a digit follows it. For [CODE177] and [CODE178] conversion specifiers,\ntrailing zeros shall [I179]not[/I179] be removed from the result as they normally are. For other conversion specifiers, the behavior is\nundefined.",
+    "placeholders": {
+     "CODE166": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE167": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE168": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "CODE169": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE170": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     },
+     "CODE171": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE172": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     },
+     "CODE173": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE174": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE175": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE176": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     },
+     "CODE177": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE178": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     },
+     "I179": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00035",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     23
+    ],
+    "text": "[CODE180]",
+    "placeholders": {
+     "CODE180": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>0</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00036",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     37,
+     25
+    ],
+    "text": "For [CODE181], [CODE182], [CODE183], [CODE184], [CODE185], [CODE186], [CODE187], [CODE188], [CODE189], [CODE190],\n[CODE191], [CODE192], [CODE193], and [CODE194] conversion specifiers, leading zeros (following any indication of sign or base)\nare used to pad to the field width rather than performing space padding, except when converting an infinity or NaN. If the\n[CODE195] and [CODE196] flags both appear, the [CODE197] flag is ignored. For [CODE198], [CODE199], [CODE200],\n[CODE201], [CODE202], and [CODE203] conversion specifiers, if a precision is specified, the [CODE204] flag shall be ignored.\n[S205][[A206]CX[/A206]][/S205] [IMG207]\n&nbsp;If the [CODE208] and &lt;apostrophe&gt; flags both appear, the grouping characters are inserted before zero padding. For\nother conversions, the behavior is undefined. [IMG209]",
+    "placeholders": {
+     "CODE181": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE182": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE183": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE184": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE185": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE186": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "CODE187": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE188": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     },
+     "CODE189": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE190": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     },
+     "CODE191": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE192": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE193": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE194": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     },
+     "CODE195": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'0'</tt>"
+     },
+     "CODE196": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'-'</tt>"
+     },
+     "CODE197": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'0'</tt>"
+     },
+     "CODE198": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE199": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE200": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE201": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE202": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE203": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "CODE204": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'0'</tt>"
+     },
+     "S205": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A206": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG207": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE208": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'0'</tt>"
+     },
+     "IMG209": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     39
+    ],
+    "text": "The length modifiers and their meanings are:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00038",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     3
+    ],
+    "text": "[CODE210]",
+    "placeholders": {
+     "CODE210": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>hh</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00039",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     5
+    ],
+    "text": "Specifies that a following [CODE211], [CODE212], [CODE213], [CODE214], [CODE215], or [CODE216] conversion specifier\napplies to a [B217]signed char[/B217] or [B218]unsigned char[/B218] argument (the argument will have been promoted according to the integer\npromotions, but its value shall be converted to [B219]signed char[/B219] or [B220]unsigned char[/B220] before printing); or that a following\n[CODE221] conversion specifier applies to a pointer to a [B222]signed char[/B222] argument.",
+    "placeholders": {
+     "CODE211": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE212": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE213": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE214": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE215": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE216": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "B217": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B218": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B219": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B220": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE221": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     },
+     "B222": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00040",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     7
+    ],
+    "text": "[CODE223]",
+    "placeholders": {
+     "CODE223": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>h</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00041",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     9
+    ],
+    "text": "Specifies that a following [CODE224], [CODE225], [CODE226], [CODE227], [CODE228], or [CODE229] conversion specifier\napplies to a [B230]short[/B230] or [B231]unsigned short[/B231] argument (the argument will have been promoted according to the integer\npromotions, but its value shall be converted to [B232]short[/B232] or [B233]unsigned short[/B233] before printing); or that a following\n[CODE234] conversion specifier applies to a pointer to a [B235]short[/B235] argument.",
+    "placeholders": {
+     "CODE224": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE225": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE226": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE227": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE228": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE229": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "B230": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B231": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B232": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B233": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE234": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     },
+     "B235": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00042",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     11
+    ],
+    "text": "[CODE236]&nbsp;(ell)",
+    "placeholders": {
+     "CODE236": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>l</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00043",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     13
+    ],
+    "text": "Specifies that a following [CODE237], [CODE238], [CODE239], [CODE240], [CODE241], or [CODE242] conversion specifier\napplies to a [B243]long[/B243] or [B244]unsigned long[/B244] argument; that a following [CODE245] conversion specifier applies to a pointer to\na [B246]long[/B246] argument; that a following [CODE247] conversion specifier applies to a [B248]wint_t[/B248] argument; that a following\n[CODE249] conversion specifier applies to a pointer to a [B250]wchar_t[/B250] argument; or has no effect on a following [CODE251],\n[CODE252], [CODE253], [CODE254], [CODE255], [CODE256], [CODE257], or [CODE258] conversion specifier.",
+    "placeholders": {
+     "CODE237": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE238": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE239": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE240": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE241": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE242": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "B243": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B244": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE245": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     },
+     "B246": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE247": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>c</tt>"
+     },
+     "B248": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE249": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>s</tt>"
+     },
+     "B250": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE251": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE252": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     },
+     "CODE253": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE254": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     },
+     "CODE255": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE256": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE257": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE258": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00044",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     15
+    ],
+    "text": "[CODE259]&nbsp;(ell-ell)",
+    "placeholders": {
+     "CODE259": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>ll</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00045",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     17
+    ],
+    "text": "Specifies that a following [CODE260], [CODE261], [CODE262], [CODE263], [CODE264], or [CODE265] conversion specifier applies\nto a [B266]long long[/B266] or [B267]unsigned long long[/B267] argument; or that a following [CODE268] conversion specifier applies to a\npointer to a [B269]long long[/B269] argument.",
+    "placeholders": {
+     "CODE260": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE261": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE262": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE263": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE264": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE265": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "B266": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B267": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE268": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     },
+     "B269": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00046",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     19
+    ],
+    "text": "[CODE270]",
+    "placeholders": {
+     "CODE270": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>j</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00047",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     21
+    ],
+    "text": "Specifies that a following [CODE271], [CODE272], [CODE273], [CODE274], [CODE275], or [CODE276] conversion specifier\napplies to an [B277]intmax_t[/B277] or [B278]uintmax_t[/B278] argument; or that a following [CODE279] conversion specifier applies to a\npointer to an [B280]intmax_t[/B280] argument.",
+    "placeholders": {
+     "CODE271": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE272": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE273": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE274": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE275": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE276": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "B277": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B278": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE279": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     },
+     "B280": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00048",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     23
+    ],
+    "text": "[CODE281]",
+    "placeholders": {
+     "CODE281": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>z</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00049",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     25
+    ],
+    "text": "Specifies that a following [CODE282], [CODE283], [CODE284], [CODE285], [CODE286], or [CODE287] conversion specifier\napplies to a [B288]size_t[/B288] or the corresponding signed integer type argument; or that a following [CODE289] conversion specifier\napplies to a pointer to a signed integer type corresponding to a [B290]size_t[/B290] argument.",
+    "placeholders": {
+     "CODE282": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE283": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE284": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE285": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE286": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE287": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "B288": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE289": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     },
+     "B290": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00050",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     27
+    ],
+    "text": "[CODE291]",
+    "placeholders": {
+     "CODE291": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>t</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00051",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     29
+    ],
+    "text": "Specifies that a following [CODE292], [CODE293], [CODE294], [CODE295], [CODE296], or [CODE297] conversion specifier\napplies to a [B298]ptrdiff_t[/B298] or the corresponding [B299]unsigned[/B299] type argument; or that a following [CODE300] conversion\nspecifier applies to a pointer to a [B301]ptrdiff_t[/B301] argument.",
+    "placeholders": {
+     "CODE292": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE293": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     },
+     "CODE294": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     },
+     "CODE295": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     },
+     "CODE296": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE297": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     },
+     "B298": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B299": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE300": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     },
+     "B301": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00052",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     31
+    ],
+    "text": "[CODE302]",
+    "placeholders": {
+     "CODE302": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>L</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00053",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     41,
+     33
+    ],
+    "text": "Specifies that a following [CODE303], [CODE304], [CODE305], [CODE306], [CODE307], [CODE308], [CODE309], or [CODE310]\nconversion specifier applies to a [B311]long double[/B311] argument.",
+    "placeholders": {
+     "CODE303": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE304": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     },
+     "CODE305": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE306": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     },
+     "CODE307": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE308": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE309": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE310": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     },
+     "B311": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     43
+    ],
+    "text": "If a length modifier appears with any conversion specifier other than as specified above, the behavior is undefined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00055",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     45
+    ],
+    "text": "The conversion specifiers and their meanings are:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00056",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     3
+    ],
+    "text": "[CODE312],&nbsp;[CODE313]",
+    "placeholders": {
+     "CODE312": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>d</tt>"
+     },
+     "CODE313": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>i</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00057",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     5
+    ],
+    "text": "The [B314]int[/B314] argument shall be converted to a signed decimal in the style [CODE315][I316]dddd[/I316][CODE317]. The precision\nspecifies the minimum number of digits to appear; if the value being converted can be represented in fewer digits, it shall be\nexpanded with leading zeros. The default precision is 1. The result of converting zero with an explicit precision of zero shall be\nno characters.",
+    "placeholders": {
+     "B314": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE315": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"[-]</tt>"
+     },
+     "I316": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE317": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00058",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     7
+    ],
+    "text": "[CODE318]",
+    "placeholders": {
+     "CODE318": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>o</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00059",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     9
+    ],
+    "text": "The [B319]unsigned[/B319] argument shall be converted to unsigned octal format in the style [CODE320][I321]dddd[/I321][CODE322]. The\nprecision specifies the minimum number of digits to appear; if the value being converted can be represented in fewer digits, it\nshall be expanded with leading zeros. The default precision is 1. The result of converting zero with an explicit precision of zero\nshall be no characters.",
+    "placeholders": {
+     "B319": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE320": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"</tt>"
+     },
+     "I321": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE322": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00060",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     11
+    ],
+    "text": "[CODE323]",
+    "placeholders": {
+     "CODE323": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>u</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00061",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     13
+    ],
+    "text": "The [B324]unsigned[/B324] argument shall be converted to unsigned decimal format in the style [CODE325][I326]dddd[/I326][CODE327]. The\nprecision specifies the minimum number of digits to appear; if the value being converted can be represented in fewer digits, it\nshall be expanded with leading zeros. The default precision is 1. The result of converting zero with an explicit precision of zero\nshall be no characters.",
+    "placeholders": {
+     "B324": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE325": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"</tt>"
+     },
+     "I326": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE327": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00062",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     15
+    ],
+    "text": "[CODE328]",
+    "placeholders": {
+     "CODE328": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00063",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     17
+    ],
+    "text": "The [B329]unsigned[/B329] argument shall be converted to unsigned hexadecimal format in the style [CODE330][I331]dddd[/I331][CODE332];\nthe letters [CODE333] are used. The precision specifies the minimum number of digits to appear; if the value being\nconverted can be represented in fewer digits, it shall be expanded with leading zeros. The default precision is 1. The result of\nconverting zero with an explicit precision of zero shall be no characters.",
+    "placeholders": {
+     "B329": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE330": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"</tt>"
+     },
+     "I331": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE332": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"</tt>"
+     },
+     "CODE333": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"abcdef\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00064",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     19
+    ],
+    "text": "[CODE334]",
+    "placeholders": {
+     "CODE334": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>X</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00065",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     21
+    ],
+    "text": "Equivalent to the [CODE335] conversion specifier, except that letters [CODE336] are used instead of\n[CODE337].",
+    "placeholders": {
+     "CODE335": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>x</tt>"
+     },
+     "CODE336": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"ABCDEF\"</tt>"
+     },
+     "CODE337": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"abcdef\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00066",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     23
+    ],
+    "text": "[CODE338],&nbsp;[CODE339]",
+    "placeholders": {
+     "CODE338": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE339": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00067",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     25,
+     11
+    ],
+    "text": "A [B340]double[/B340] argument representing an infinity shall be converted in one of the styles [CODE341] or\n[CODE342]; which style is implementation-defined. A [B343]double[/B343] argument representing a NaN shall be converted in\none of the styles [CODE344][I345]n-char-sequence[/I345][CODE346] or [CODE347]; which style, and the meaning of any\n[I348]n-char-sequence[/I348], is implementation-defined. The [CODE349] conversion specifier produces [CODE350],\n[CODE351], or [CODE352] instead of [CODE353], [CODE354], or [CODE355], respectively.",
+    "placeholders": {
+     "B340": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE341": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"[-]inf\"</tt>"
+     },
+     "CODE342": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"[-]infinity\"</tt>"
+     },
+     "B343": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE344": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"[-]nan(</tt>"
+     },
+     "I345": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE346": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>)\"</tt>"
+     },
+     "CODE347": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"[-]nan\"</tt>"
+     },
+     "I348": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE349": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE350": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"INF\"</tt>"
+     },
+     "CODE351": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"INFINITY\"</tt>"
+     },
+     "CODE352": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"NAN\"</tt>"
+     },
+     "CODE353": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"inf\"</tt>"
+     },
+     "CODE354": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"infinity\"</tt>"
+     },
+     "CODE355": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"nan\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00068",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     27
+    ],
+    "text": "[CODE356],&nbsp;[CODE357]",
+    "placeholders": {
+     "CODE356": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE357": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     29,
+     19
+    ],
+    "text": "A [B358]double[/B358] argument representing an infinity or NaN shall be converted in the style of an [CODE359] or [CODE360]\nconversion specifier.",
+    "placeholders": {
+     "B358": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE359": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE360": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00070",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     31
+    ],
+    "text": "[CODE361],&nbsp;[CODE362]",
+    "placeholders": {
+     "CODE361": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE362": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     33,
+     19,
+     1,
+     1
+    ],
+    "text": "If [CODE363]&gt;[I364]X[/I364]&gt;=-4, the conversion shall be with style [CODE365] (or [CODE366]) and precision\n[CODE367]-([I368]X[/I368]+1).",
+    "placeholders": {
+     "CODE363": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>P</tt>"
+     },
+     "I364": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE365": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE366": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE367": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>P</tt>"
+     },
+     "I368": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00072",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     33,
+     19,
+     3,
+     1
+    ],
+    "text": "Otherwise, the conversion shall be with style [CODE369] (or [CODE370]) and precision [CODE371]-1.",
+    "placeholders": {
+     "CODE369": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE370": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     },
+     "CODE371": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>P</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     33,
+     21
+    ],
+    "text": "Finally, unless the [CODE372] flag is used, any trailing zeros shall be removed from the fractional portion of the result and\nthe decimal-point character shall be removed if there is no fractional portion remaining.",
+    "placeholders": {
+     "CODE372": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'#'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00074",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     33,
+     23
+    ],
+    "text": "A [B373]double[/B373] argument representing an infinity or NaN shall be converted in the style of an [CODE374] or [CODE375]\nconversion specifier.",
+    "placeholders": {
+     "B373": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE374": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE375": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00075",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     35
+    ],
+    "text": "[CODE376],&nbsp;[CODE377]",
+    "placeholders": {
+     "CODE376": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE377": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     37,
+     33
+    ],
+    "text": "A [B378]double[/B378] argument representing an infinity or NaN shall be converted in the style of an [CODE379] or [CODE380]\nconversion specifier.",
+    "placeholders": {
+     "B378": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE379": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE380": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00077",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     39
+    ],
+    "text": "[CODE381]",
+    "placeholders": {
+     "CODE381": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>c</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     41,
+     5
+    ],
+    "text": "If an [CODE382] (ell) qualifier is present, [S383][[A384]CX[/A384]][/S383] [IMG385] &nbsp;the [B386]wint_t[/B386] argument shall be converted to a multi-byte\nsequence as if by a call to [A387][I388]wcrtomb[/I388]()[/A387] with a pointer to storage of at least\nMB_CUR_MAX bytes, the [B389]wint_t[/B389] argument converted to [B390]wchar_t[/B390], and an initial shift state, and the resulting byte(s)\nwritten. [IMG391]",
+    "placeholders": {
+     "CODE382": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>l</tt>"
+     },
+     "S383": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A384": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG385": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "B386": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A387": {
+      "open": "<a href=\"../functions/wcrtomb.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I388": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B389": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B390": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "IMG391": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00079",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     43
+    ],
+    "text": "[CODE392]",
+    "placeholders": {
+     "CODE392": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>s</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00080",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     45,
+     3
+    ],
+    "text": "If an [CODE393] (ell) qualifier is present, the argument shall be a pointer to an array of type [B394]wchar_t[/B394]. Wide characters\nfrom the array shall be converted to characters (each as if by a call to the [A395][I396]wcrtomb[/I396]()[/A395] function, with the conversion state described by an [B397]mbstate_t[/B397] object\ninitialized to zero before the first wide character is converted) up to and including a terminating null wide character. The\nresulting characters shall be written up to (but not including) the terminating null character (byte). If no precision is\nspecified, the application shall ensure that the array contains a null wide character. If a precision is specified, no more than\nthat many characters (bytes) shall be written (including shift sequences, if any), and the array shall contain a null wide\ncharacter if, to equal the character sequence length given by the precision, the function would need to access a wide character one\npast the end of the array. In no case shall a partial character be written.",
+    "placeholders": {
+     "CODE393": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>l</tt>"
+     },
+     "B394": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A395": {
+      "open": "<a href=\"../functions/wcrtomb.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I396": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B397": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00081",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     47
+    ],
+    "text": "[CODE398]",
+    "placeholders": {
+     "CODE398": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>p</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00082",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     49
+    ],
+    "text": "The argument shall be a pointer to [B399]void[/B399]. The value of the pointer is converted to a sequence of printable characters, in\nan implementation-defined manner.",
+    "placeholders": {
+     "B399": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00083",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     51
+    ],
+    "text": "[CODE400]",
+    "placeholders": {
+     "CODE400": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>n</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00084",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     53
+    ],
+    "text": "The argument shall be a pointer to an integer into which is written the number of bytes written to the output so far by this\ncall to one of the [I401]fprintf[/I401]() functions. No argument is converted.",
+    "placeholders": {
+     "I401": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00085",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     55
+    ],
+    "text": "[CODE402]",
+    "placeholders": {
+     "CODE402": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>C</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00086",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     57
+    ],
+    "text": "[S403][[A404]XSI[/A404]][/S403] [IMG405]\nEquivalent to [CODE406]. [IMG407]",
+    "placeholders": {
+     "S403": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A404": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG405": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE406": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>lc</tt>"
+     },
+     "IMG407": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00087",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     59
+    ],
+    "text": "[CODE408]",
+    "placeholders": {
+     "CODE408": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>S</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00088",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     61
+    ],
+    "text": "[S409][[A410]XSI[/A410]][/S409] [IMG411]\nEquivalent to [CODE412]. [IMG413]",
+    "placeholders": {
+     "S409": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A410": {
+      "open": "<a href=\"javascript:open_code(&#x27;XSI&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG411": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "CODE412": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>ls</tt>"
+     },
+     "IMG413": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00089",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     63
+    ],
+    "text": "[CODE414]",
+    "placeholders": {
+     "CODE414": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dd_00090",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     47,
+     65
+    ],
+    "text": "Write a [CODE415] character; no argument shall be converted. The application shall ensure that the complete conversion\nspecification is [CODE416].",
+    "placeholders": {
+     "CODE415": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'%'</tt>"
+     },
+     "CODE416": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%%</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00091",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     49
+    ],
+    "text": "If a conversion specification does not match one of the above forms, the behavior is undefined. If any argument is not the\ncorrect type for the corresponding conversion specification, the behavior is undefined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     51
+    ],
+    "text": "In no case shall a nonexistent or small field width cause truncation of a field; if the result of a conversion is wider than the\nfield width, the field shall be expanded to contain the conversion result. Characters generated by [I417]fprintf[/I417]() and\n[I418]printf[/I418]() are printed as if [A419][I420]fputc[/I420]()[/A419] had been called.",
+    "placeholders": {
+     "I417": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I418": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A419": {
+      "open": "<a href=\"../functions/fputc.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I420": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00093",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     53
+    ],
+    "text": "For the [CODE421] and [CODE422] conversion specifiers, if FLT_RADIX is a power of 2, the value shall be correctly rounded to a\nhexadecimal floating number with the given precision.",
+    "placeholders": {
+     "CODE421": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE422": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00094",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     55
+    ],
+    "text": "For [CODE423] and [CODE424] conversions, if FLT_RADIX is not a power of 2 and the result is not exactly representable in the\ngiven precision, the result should be one of the two adjacent numbers in hexadecimal floating style with the given precision, with\nthe extra stipulation that the error should have a correct sign for the current rounding direction.",
+    "placeholders": {
+     "CODE423": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>a</tt>"
+     },
+     "CODE424": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>A</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00095",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     57
+    ],
+    "text": "For the [CODE425], [CODE426], [CODE427], [CODE428], [CODE429], and [CODE430] conversion specifiers, if the number of\nsignificant decimal digits is at most DECIMAL_DIG, then the result should be correctly rounded. If the number of significant\ndecimal digits is more than DECIMAL_DIG but the source value is exactly representable with DECIMAL_DIG digits, then the result\nshould be an exact representation with trailing zeros. Otherwise, the source value is bounded by two adjacent decimal strings\n[I431]L[/I431] &lt; [I432]U[/I432], both having DECIMAL_DIG significant digits; the value of the resultant decimal string [I433]D[/I433] should\nsatisfy [I434]L[/I434] &lt;= [I435]D[/I435] &lt;= [I436]U[/I436], with the extra stipulation that the error should have a correct sign for the\ncurrent rounding direction.",
+    "placeholders": {
+     "CODE425": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>e</tt>"
+     },
+     "CODE426": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>E</tt>"
+     },
+     "CODE427": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>f</tt>"
+     },
+     "CODE428": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>F</tt>"
+     },
+     "CODE429": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE430": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     },
+     "I431": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I432": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I433": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I434": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I435": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I436": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     59
+    ],
+    "text": "[S437][[A438]CX[/A438]][/S437] [IMG439] The\nlast data modification and last file status change timestamps of the file shall be marked for update:",
+    "placeholders": {
+     "S437": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A438": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG439": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     61,
+     1,
+     1
+    ],
+    "text": "Between the call to a successful execution of [I440]fprintf[/I440]() or [I441]printf[/I441]() and the next successful completion of a call\nto [A442][I443]fflush[/I443]()[/A442] or [A444][I445]fclose[/I445]()[/A444] on the same\nstream or a call to [A446][I447]exit[/I447]()[/A446] or [A448][I449]abort[/I449]()[/A448]",
+    "placeholders": {
+     "I440": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I441": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A442": {
+      "open": "<a href=\"../functions/fflush.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I443": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A444": {
+      "open": "<a href=\"../functions/fclose.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I445": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A446": {
+      "open": "<a href=\"../functions/exit.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I447": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A448": {
+      "open": "<a href=\"../functions/abort.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I449": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     61,
+     3,
+     1
+    ],
+    "text": "Upon successful completion of a call to [I450]dprintf[/I450]()",
+    "placeholders": {
+     "I450": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00099",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A451][/A451]RETURN VALUE",
+    "placeholders": {
+     "A451": {
+      "open": "<a name=\"tag_17_175_04\" id=\"tag_17_175_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "Upon successful completion, the [S452][[A453]CX[/A453]][/S452] [IMG454] [I455]dprintf[/I455](), [IMG456] [I457]fprintf[/I457](),\nand [I458]printf[/I458]() functions shall return the number of bytes transmitted.",
+    "placeholders": {
+     "S452": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A453": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG454": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I455": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG456": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I457": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I458": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     3
+    ],
+    "text": "[S459][[A460]CX[/A460]][/S459] [IMG461]\nUpon successful completion, the [I462]asprintf[/I462]() function shall return the number of bytes written to the allocated string stored\nin the location referenced by [I463]ptr[/I463], excluding the terminating null byte. [IMG464]",
+    "placeholders": {
+     "S459": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A460": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG461": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I462": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I463": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG464": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00102",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     5
+    ],
+    "text": "Upon successful completion, the [I465]sprintf[/I465]() function shall return the number of bytes written to [I466]s[/I466], excluding the\nterminating null byte.",
+    "placeholders": {
+     "I465": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I466": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00103",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     7
+    ],
+    "text": "Upon successful completion, the [I467]snprintf[/I467]() function shall return the number of bytes that would be written to [I468]s[/I468]\nhad [I469]n[/I469] been sufficiently large excluding the terminating null byte.",
+    "placeholders": {
+     "I467": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I468": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I469": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     9
+    ],
+    "text": "If an error was encountered, these functions shall return a negative value [S470][[A471]CX[/A471]][/S470] [IMG472] &nbsp;and set\n[I473]errno[/I473] to indicate the error. For [I474]asprintf[/I474](), if memory allocation was not possible, or if some other error occurs,\nthe function shall return a negative value, and the contents of the location referenced by [I475]ptr[/I475] are undefined, but shall not\nrefer to allocated memory. [IMG476]",
+    "placeholders": {
+     "S470": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A471": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG472": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I473": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I474": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I475": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG476": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00105",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     11
+    ],
+    "text": "If the value of [I477]n[/I477] is zero on a call to [I478]snprintf[/I478](), nothing shall be written, the number of bytes that would have\nbeen written had [I479]n[/I479] been sufficiently large excluding the terminating null shall be returned, and [I480]s[/I480] may be a null\npointer.",
+    "placeholders": {
+     "I477": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I478": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I479": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I480": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00106",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A481][/A481]ERRORS",
+    "placeholders": {
+     "A481": {
+      "open": "<a name=\"tag_17_175_05\" id=\"tag_17_175_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00107",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "For the conditions under which [S482][[A483]CX[/A483]][/S482] [IMG484] [I485]dprintf[/I485](), [IMG486] [I487]fprintf[/I487](),\nand [I488]printf[/I488]() fail and may fail, refer to [A489][I490]fputc[/I490]()[/A489] or [A491][I492]fputwc[/I492]()[/A491].",
+    "placeholders": {
+     "S482": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A483": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG484": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I485": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG486": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I487": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I488": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A489": {
+      "open": "<a href=\"../functions/fputc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I490": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A491": {
+      "open": "<a href=\"../functions/fputwc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I492": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00108",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3
+    ],
+    "text": "In addition, all forms of [I493]fprintf[/I493]() shall fail if:",
+    "placeholders": {
+     "I493": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00109",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5,
+     3
+    ],
+    "text": "[EILSEQ]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00110",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5,
+     5
+    ],
+    "text": "[S494][[A495]CX[/A495]][/S494] [IMG496] A\nwide-character code that does not correspond to a valid character has been detected. [IMG497]",
+    "placeholders": {
+     "S494": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A495": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG496": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG497": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00111",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5,
+     7
+    ],
+    "text": "[EOVERFLOW]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00112",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5,
+     9
+    ],
+    "text": "[S498][[A499]CX[/A499]][/S498] [IMG500]\nThe value to be returned is greater than {INT_MAX}. [IMG501]",
+    "placeholders": {
+     "S498": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A499": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG500": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG501": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00113",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7
+    ],
+    "text": "[S502][[A503]CX[/A503]][/S502] [IMG504] The\n[I505]asprintf[/I505]() function shall fail if:",
+    "placeholders": {
+     "S502": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A503": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG504": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I505": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00114",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     3
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00115",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9,
+     5
+    ],
+    "text": "Insufficient storage space is available.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00116",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11
+    ],
+    "text": "The [I506]dprintf[/I506]() function may fail if:",
+    "placeholders": {
+     "I506": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00117",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     3
+    ],
+    "text": "[EBADF]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00118",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13,
+     5
+    ],
+    "text": "The [I507]fildes[/I507] argument is not a valid file descriptor.",
+    "placeholders": {
+     "I507": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00119",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     17
+    ],
+    "text": "The [S508][[A509]CX[/A509]][/S508] [IMG510]\n[I511]dprintf[/I511](), [IMG512] [I513]fprintf[/I513](), and [I514]printf[/I514]() functions\nmay fail if:",
+    "placeholders": {
+     "S508": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A509": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG510": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I511": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG512": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     },
+     "I513": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I514": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00120",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     3
+    ],
+    "text": "[ENOMEM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00121",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19,
+     5
+    ],
+    "text": "[S515][[A516]CX[/A516]][/S515] [IMG517]\nInsufficient storage space is available. [IMG518]",
+    "placeholders": {
+     "S515": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A516": {
+      "open": "<a href=\"javascript:open_code(&#x27;CX&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG517": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "IMG518": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00122",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A519][/A519]EXAMPLES",
+    "placeholders": {
+     "A519": {
+      "open": "<a name=\"tag_17_175_06\" id=\"tag_17_175_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00123",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "[A520][/A520]Printing Language-Independent Date and Time",
+    "placeholders": {
+     "A520": {
+      "open": "<a name=\"tag_17_175_06_01\" id=\"tag_17_175_06_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00124",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     3
+    ],
+    "text": "The following statement can be used to print date and time using a language-independent format:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00125",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     7
+    ],
+    "text": "For American usage, [I521]format[/I521] could be a pointer to the following string:",
+    "placeholders": {
+     "I521": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00126",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     11
+    ],
+    "text": "This example would produce the following message:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00127",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     15
+    ],
+    "text": "For German usage, [I522]format[/I522] could be a pointer to the following string:",
+    "placeholders": {
+     "I522": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00128",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     19
+    ],
+    "text": "This definition of [I523]format[/I523] would produce the following message:",
+    "placeholders": {
+     "I523": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00129",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     23
+    ],
+    "text": "[A524][/A524]Printing File Information",
+    "placeholders": {
+     "A524": {
+      "open": "<a name=\"tag_17_175_06_02\" id=\"tag_17_175_06_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00130",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     25
+    ],
+    "text": "The following example prints information about the type, permissions, and number of links of a specific file in a directory.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00131",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     27
+    ],
+    "text": "The first two calls to [I525]printf[/I525]() use data decoded from a previous [A526][I527]stat[/I527]()[/A526] call.\nThe user-defined [I528]strperm[/I528]() function shall return a string similar to the one at the beginning of the output for the\nfollowing command:",
+    "placeholders": {
+     "I525": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A526": {
+      "open": "<a href=\"../functions/stat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I527": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I528": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00132",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     31
+    ],
+    "text": "The next call to [I529]printf[/I529]() outputs the owner's name if it is found using [A530][I531]getpwuid[/I531]()[/A530]; the [A532][I533]getpwuid[/I533]()[/A532] function shall\nreturn a [B534]passwd[/B534] structure from which the name of the user is extracted. If the user name is not found, the program instead\nprints out the numeric value of the user ID.",
+    "placeholders": {
+     "I529": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A530": {
+      "open": "<a href=\"../functions/getpwuid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I531": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A532": {
+      "open": "<a href=\"../functions/getpwuid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I533": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B534": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00133",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     33
+    ],
+    "text": "The next call prints out the group name if it is found using [A535][I536]getgrgid[/I536]()[/A535];\n[A537][I538]getgrgid[/I538]()[/A537] is very similar to [A539][I540]getpwuid[/I540]()[/A539] except that it shall return group information based on the group number. Once\nagain, if the group is not found, the program prints the numeric value of the group for the entry.",
+    "placeholders": {
+     "A535": {
+      "open": "<a href=\"../functions/getgrgid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I536": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A537": {
+      "open": "<a href=\"../functions/getgrgid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I538": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A539": {
+      "open": "<a href=\"../functions/getpwuid.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I540": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00134",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     35
+    ],
+    "text": "The final call to [I541]printf[/I541]() prints the size of the file.",
+    "placeholders": {
+     "I541": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00135",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     39
+    ],
+    "text": "[A542][/A542]Printing a Localized Date String",
+    "placeholders": {
+     "A542": {
+      "open": "<a name=\"tag_17_175_06_03\" id=\"tag_17_175_06_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00136",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     41
+    ],
+    "text": "The following example gets a localized date string. The [A543][I544]nl_langinfo[/I544]()[/A543]\nfunction shall return the localized date string, which specifies the order and layout of the date. The [A545][I546]strftime[/I546]()[/A545] function takes this information and, using the [B547]tm[/B547] structure for values,\nplaces the date and time information into [I548]datestring[/I548]. The [I549]printf[/I549]() function then outputs [I550]datestring[/I550] and the\nname of the entry.",
+    "placeholders": {
+     "A543": {
+      "open": "<a href=\"../functions/nl_langinfo.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I544": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A545": {
+      "open": "<a href=\"../functions/strftime.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I546": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B547": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I548": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I549": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I550": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00137",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     45
+    ],
+    "text": "[A551][/A551]Printing Error Information",
+    "placeholders": {
+     "A551": {
+      "open": "<a name=\"tag_17_175_06_04\" id=\"tag_17_175_06_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00138",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     47
+    ],
+    "text": "The following example uses [I552]fprintf[/I552]() to write error information to standard error.",
+    "placeholders": {
+     "I552": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00139",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     49
+    ],
+    "text": "In the first group of calls, the program tries to open the password lock file named [B553]LOCKFILE[/B553]. If the file already exists,\nthis is an error, as indicated by the O_EXCL flag on the [A554][I555]open[/I555]()[/A554] function. If the call\nfails, the program assumes that someone else is updating the password file, and the program exits.",
+    "placeholders": {
+     "B553": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A554": {
+      "open": "<a href=\"../functions/open.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I555": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00140",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     51
+    ],
+    "text": "The next group of calls saves a new password file as the current password file by creating a link between [B556]LOCKFILE[/B556] and\nthe new password file [B557]PASSWDFILE[/B557].",
+    "placeholders": {
+     "B556": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B557": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00141",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     55
+    ],
+    "text": "[A558][/A558]Printing Usage Information",
+    "placeholders": {
+     "A558": {
+      "open": "<a name=\"tag_17_175_06_05\" id=\"tag_17_175_06_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00142",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     57
+    ],
+    "text": "The following example checks to make sure the program has the necessary arguments, and uses [I559]fprintf[/I559]() to print usage\ninformation if the expected number of arguments is not present.",
+    "placeholders": {
+     "I559": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00143",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     61
+    ],
+    "text": "[A560][/A560]Formatting a Decimal String",
+    "placeholders": {
+     "A560": {
+      "open": "<a name=\"tag_17_175_06_06\" id=\"tag_17_175_06_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00144",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     63
+    ],
+    "text": "The following example prints a key and data pair on [I561]stdout[/I561]. Note use of the &lt;asterisk&gt; ([CODE562]) in the format\nstring; this ensures the correct number of decimal places for the element based on the number of elements requested.",
+    "placeholders": {
+     "I561": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE562": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>'*'</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00145",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     67
+    ],
+    "text": "[A563][/A563]Creating a Pathname",
+    "placeholders": {
+     "A563": {
+      "open": "<a name=\"tag_17_175_06_07\" id=\"tag_17_175_06_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00146",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     69
+    ],
+    "text": "The following example creates a pathname using information from a previous [A564][I565]getpwnam[/I565]()[/A564] function that returned the password database entry of the user.",
+    "placeholders": {
+     "A564": {
+      "open": "<a href=\"../functions/getpwnam.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I565": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00147",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     73
+    ],
+    "text": "[A566][/A566]Reporting an Event",
+    "placeholders": {
+     "A566": {
+      "open": "<a name=\"tag_17_175_06_08\" id=\"tag_17_175_06_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00148",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     75
+    ],
+    "text": "The following example loops until an event has timed out. The [A567][I568]pause[/I568]()[/A567] function\nwaits forever unless it receives a signal. The [I569]fprintf[/I569]() statement should never occur due to the possible return values of\n[A570][I571]pause[/I571]()[/A570].",
+    "placeholders": {
+     "A567": {
+      "open": "<a href=\"../functions/pause.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I568": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I569": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A570": {
+      "open": "<a href=\"../functions/pause.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I571": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00149",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     79
+    ],
+    "text": "[A572][/A572]Printing Monetary Information",
+    "placeholders": {
+     "A572": {
+      "open": "<a name=\"tag_17_175_06_09\" id=\"tag_17_175_06_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00150",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     81
+    ],
+    "text": "The following example uses [A573][I574]strfmon[/I574]()[/A573] to convert a number and store it as a\nformatted monetary string named [I575]convbuf[/I575]. If the first number is printed, the program prints the format and the description;\notherwise, it just prints the number.",
+    "placeholders": {
+     "A573": {
+      "open": "<a href=\"../functions/strfmon.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I574": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I575": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h5_00151",
+    "type": "h5",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     85
+    ],
+    "text": "[A576][/A576]Printing Wide Characters",
+    "placeholders": {
+     "A576": {
+      "open": "<a name=\"tag_17_175_06_10\" id=\"tag_17_175_06_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00152",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     87
+    ],
+    "text": "The following example prints a series of wide characters. Suppose that [CODE577] expands to three bytes:",
+    "placeholders": {
+     "CODE577": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"L`@`\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00153",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     91
+    ],
+    "text": "In the last line of the example, after processing three characters, nine bytes have been output. The fourth character must then\nbe examined to determine whether it converts to one byte or more. If it converts to more than one byte, the output is only nine\nbytes. Since there is no fourth character in the array, the behavior is undefined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00154",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A578][/A578]APPLICATION USAGE",
+    "placeholders": {
+     "A578": {
+      "open": "<a name=\"tag_17_175_07\" id=\"tag_17_175_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00155",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "If the application calling [I579]fprintf[/I579]() has any objects of type [B580]wint_t[/B580] or [B581]wchar_t[/B581], it must also include the\n[A582][I583]&lt;wchar.h&gt;[/I583][/A582] header to have these objects defined.",
+    "placeholders": {
+     "I579": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B580": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "B581": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "A582": {
+      "open": "<a href=\"../basedefs/wchar.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I583": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00156",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     3
+    ],
+    "text": "The space allocated by a successful call to [I584]asprintf[/I584]() should be subsequently freed by a call to [A585][I586]free[/I586]()[/A585].",
+    "placeholders": {
+     "I584": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A585": {
+      "open": "<a href=\"../functions/free.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I586": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00157",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A587][/A587]RATIONALE",
+    "placeholders": {
+     "A587": {
+      "open": "<a name=\"tag_17_175_08\" id=\"tag_17_175_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00158",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "If an implementation detects that there are insufficient arguments for the format, it is recommended that the function should\nfail and report an [EINVAL] error.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00159",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The behavior specified for the [CODE588] conversion differs slightly from the specification in the ISO&nbsp;C standard, in\nthat printing the null wide character produces a null byte instead of 0 bytes of output as would be required by a strict reading of\nthe ISO&nbsp;C standard's direction to behave as if applying the [CODE589] specifier to a [B590]wchar_t[/B590] array whose first\nelement is the null wide character. Requiring a multi-byte output for every possible wide character, including the null character,\nmatches historical practice, and provides consistency with [CODE591] in [I592]fprintf[/I592]() and with both [CODE593] and\n[CODE594] in [A595][I596]fwprintf[/I596]()[/A595]. It is anticipated that a future edition of the\nISO&nbsp;C standard will change to match the behavior specified here.",
+    "placeholders": {
+     "CODE588": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%lc</tt>"
+     },
+     "CODE589": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%ls</tt>"
+     },
+     "B590": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "CODE591": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%c</tt>"
+     },
+     "I592": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE593": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%c</tt>"
+     },
+     "CODE594": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%lc</tt>"
+     },
+     "A595": {
+      "open": "<a href=\"../functions/fwprintf.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I596": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00160",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A597][/A597]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A597": {
+      "open": "<a name=\"tag_17_175_09\" id=\"tag_17_175_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00161",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00162",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A598][/A598]SEE ALSO",
+    "placeholders": {
+     "A598": {
+      "open": "<a name=\"tag_17_175_10\" id=\"tag_17_175_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00163",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A599][I600]2.5 Standard I/O Streams[/I600][/A599], [A601][I602]fputc[/I602]()[/A601], [A603][I604]fscanf[/I604]()[/A603], [A605][I606]setlocale[/I606]()[/A605], [A607][I608]strfmon[/I608]()[/A607], [A609][I610]strlcat[/I610]()[/A609], [A611][I612]wcrtomb[/I612]()[/A611], [A613][I614]wcslcat[/I614]()[/A613]",
+    "placeholders": {
+     "A599": {
+      "open": "<a href=\"../functions/V2_chap02.html#tag_16_05\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I600": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A601": {
+      "open": "<a href=\"../functions/fputc.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I602": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A603": {
+      "open": "<a href=\"../functions/fscanf.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I604": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A605": {
+      "open": "<a href=\"../functions/setlocale.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I606": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A607": {
+      "open": "<a href=\"../functions/strfmon.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I608": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A609": {
+      "open": "<a href=\"../functions/strlcat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I610": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A611": {
+      "open": "<a href=\"../functions/wcrtomb.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I612": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A613": {
+      "open": "<a href=\"../functions/wcslcat.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I614": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00164",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A615][I616]7. Locale[/I616][/A615], [A617][I618]&lt;inttypes.h&gt;[/I618][/A617], [A619][I620]&lt;stdio.h&gt;[/I620][/A619],\n[A621][I622]&lt;wchar.h&gt;[/I622][/A621]",
+    "placeholders": {
+     "A615": {
+      "open": "<a href=\"../basedefs/V1_chap07.html#tag_07\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I616": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A617": {
+      "open": "<a href=\"../basedefs/inttypes.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I618": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A619": {
+      "open": "<a href=\"../basedefs/stdio.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I620": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A621": {
+      "open": "<a href=\"../basedefs/wchar.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I622": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00165",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A623][/A623]CHANGE HISTORY",
+    "placeholders": {
+     "A623": {
+      "open": "<a name=\"tag_17_175_11\" id=\"tag_17_175_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00166",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 1. Derived from Issue 1 of the SVID.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00167",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A624][/A624]Issue 5",
+    "placeholders": {
+     "A624": {
+      "open": "<a name=\"tag_17_175_12\" id=\"tag_17_175_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00168",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "Aligned with ISO/IEC&nbsp;9899:1990/Amendment 1:1995 (E). Specifically, the [CODE625] (ell) qualifier can now be used with\n[CODE626] and [CODE627] conversion specifiers.",
+    "placeholders": {
+     "CODE625": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>l</tt>"
+     },
+     "CODE626": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>c</tt>"
+     },
+     "CODE627": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>s</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00169",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The [I628]snprintf[/I628]() function is new in Issue 5.",
+    "placeholders": {
+     "I628": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00170",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A629][/A629]Issue 6",
+    "placeholders": {
+     "A629": {
+      "open": "<a name=\"tag_17_175_13\" id=\"tag_17_175_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00171",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "Extensions beyond the ISO&nbsp;C standard are marked.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00172",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00173",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The following changes are made for alignment with the ISO/IEC&nbsp;9899:1999 standard:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00174",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     1,
+     1
+    ],
+    "text": "The prototypes for [I630]fprintf[/I630](), [I631]printf[/I631](), [I632]snprintf[/I632](), and [I633]sprintf[/I633]() are updated, and the XSI shading\nis removed from [I634]snprintf[/I634]().",
+    "placeholders": {
+     "I630": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I631": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I632": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I633": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I634": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00175",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     3,
+     1
+    ],
+    "text": "The description of [I635]snprintf[/I635]() is aligned with the ISO&nbsp;C standard. Note that this supersedes the [I636]snprintf[/I636]()\ndescription in The Open Group Base Resolution bwg98-006, which changed the behavior from Issue 5.",
+    "placeholders": {
+     "I635": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I636": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00176",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7,
+     5,
+     1
+    ],
+    "text": "The DESCRIPTION is updated.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00177",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "The DESCRIPTION is updated to use the terms &quot;conversion specifier&quot; and &quot;conversion specification&quot; consistently.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00178",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "ISO/IEC&nbsp;9899:1999 standard, Technical Corrigendum 1 is incorporated.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00179",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "An example of printing wide characters is added.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00180",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A637][/A637]Issue 7",
+    "placeholders": {
+     "A637": {
+      "open": "<a name=\"tag_17_175_14\" id=\"tag_17_175_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00181",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #161 is applied, updating the DESCRIPTION of the 0 flag.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00182",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Interpretation 1003.1-2001 #170 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00183",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     5
+    ],
+    "text": "ISO/IEC&nbsp;9899:1999 standard, Technical Corrigendum 2 #68 (SD5-XSH-ERN-70) is applied, revising the description of [CODE638]\nand [CODE639].",
+    "placeholders": {
+     "CODE638": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>g</tt>"
+     },
+     "CODE639": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>G</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00184",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     7
+    ],
+    "text": "SD5-XSH-ERN-174 is applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00185",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     9
+    ],
+    "text": "The [I640]dprintf[/I640]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 1.",
+    "placeholders": {
+     "I640": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00186",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     11
+    ],
+    "text": "Functionality relating to the [CODE641] form of conversion specification and the &lt;apostrophe&gt; flag is moved from the\nXSI option to the Base.",
+    "placeholders": {
+     "CODE641": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%n$</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00187",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     13
+    ],
+    "text": "Changes are made related to support for finegrained timestamps.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00188",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     15
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0163 [302], XSH/TC1-2008/0164 [316], XSH/TC1-2008/0165 [316],\nXSH/TC1-2008/0166 [451,291], and XSH/TC1-2008/0167 [14] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00189",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     17
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0126 [894], XSH/TC2-2008/0127 [557], and XSH/TC2-2008/0128 [936] are\napplied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00190",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     71
+    ],
+    "text": "[A642][/A642]Issue 8",
+    "placeholders": {
+     "A642": {
+      "open": "<a name=\"tag_17_175_15\" id=\"tag_17_175_15\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00191",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     1
+    ],
+    "text": "Austin Group Defect 986 is applied, adding [A643][I644]strlcat[/I644]()[/A643] and [A645][I646]wcslcat[/I646]()[/A645] to the SEE ALSO section.",
+    "placeholders": {
+     "A643": {
+      "open": "<a href=\"../functions/strlcat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I644": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A645": {
+      "open": "<a href=\"../functions/wcslcat.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I646": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00192",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     3
+    ],
+    "text": "Austin Group Defect 1020 is applied, clarifying that the [I647]snprintf[/I647]() argument [I648]n[/I648] limits the number of bytes written\nto [I649]s[/I649]; it is not necessarily the same as the size of [I650]s[/I650].",
+    "placeholders": {
+     "I647": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I648": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I649": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I650": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00193",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     5
+    ],
+    "text": "Austin Group Defect 1021 is applied, changing &quot;output error&quot; to &quot;error&quot; in the RETURN VALUE section.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00194",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     7
+    ],
+    "text": "Austin Group Defect 1137 is applied, clarifying the use of [CODE651][I652]n[/I652][CODE653] and [CODE654][I655]m[/I655][CODE656] in\nconversion specifications.",
+    "placeholders": {
+     "CODE651": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"%</tt>"
+     },
+     "I652": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE653": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     },
+     "CODE654": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>\"*</tt>"
+     },
+     "I655": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "CODE656": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>$\"</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00195",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     9
+    ],
+    "text": "Austin Group Defect 1205 is applied, changing the description of the [CODE657] conversion specifier.",
+    "placeholders": {
+     "CODE657": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00196",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     11
+    ],
+    "text": "Austin Group Defect 1219 is applied, removing the [I658]snprintf[/I658]()-specific [EOVERFLOW] error.",
+    "placeholders": {
+     "I658": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00197",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     13
+    ],
+    "text": "Austin Group Defect 1496 is applied, adding the [I659]asprintf[/I659]() function.",
+    "placeholders": {
+     "I659": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00198",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     15
+    ],
+    "text": "Austin Group Defect 1562 is applied, clarifying that it is the application's responsibility to ensure that the format is a\ncharacter string, beginning and ending in its initial shift state, if any.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00199",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     73,
+     17
+    ],
+    "text": "Austin Group Defect 1647 is applied, changing the description of the [CODE660] conversion specifier and updating the statement\nthat this volume of POSIX.1-2024 defers to the ISO&nbsp;C standard so that it excludes the [CODE661] conversion when passed a\nnull wide character.",
+    "placeholders": {
+     "CODE660": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>c</tt>"
+     },
+     "CODE661": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<tt>%lc</tt>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00200",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     79
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

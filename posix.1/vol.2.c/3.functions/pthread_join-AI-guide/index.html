@@ -1,0 +1,27 @@
+<h1>XSH 函数导读：pthread_join()</h1>
+
+<h2>0. 总览</h2>
+<p><code>pthread_join()</code> 用于挂起调用线程，直到目标线程终止，并回收其资源、取得退出状态。头文件为 <code>&lt;pthread.h&gt;</code>。原型关键点：<code>int pthread_join(pthread_t thread, void **value_ptr);</code>——第一个参数是目标线程 ID，第二个参数是接收退出值的指针，可为 NULL。成功返回 0，失败返回错误号，且不应返回 [EINTR]。</p>
+
+<h2>1. 机制</h2>
+<p>调用后，调用线程阻塞等待目标线程终止；目标线程终止后，它传给 <code>pthread_exit()</code> 的值（void *）会被复制到 <code>value_ptr</code> 指向的位置，随后目标线程被回收，不再占用资源。未被汇合的已终止线程会以"僵尸线程"形态留存，其存储无法释放。POSIX 规定：以 <code>PTHREAD_CREATE_JOINABLE</code> 创建的线程最终都应被 <code>pthread_join()</code> 或 <code>pthread_detach()</code> 处理。<code>pthread_join()</code> 是延迟取消的取消点：若调用线程被取消，目标线程不会被分离，二者不会同时发生，故无竞争。</p>
+
+<h2>2. 易错点</h2>
+<p>对同一目标线程的 <code>pthread_join()</code> 多次同时调用结果未定义，每个 joinable 线程只能被 join 一次，重复 join 是未定义行为；对 detached（已分离）线程或非 joinable 线程调用行为未定义；目标线程指向调用线程自身同样未定义（实现通常报 [EDEADLK]）。<code>value_ptr</code> 指向的位置只在成功返回后有效，且不能用于取回 <code>thrd_create()</code> 创建的线程的 <code>int</code> 退出状态。join 也是线程间"汇合"同步的手段，别忘了在退出前 join 所有子线程。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+
+void *worker(void *arg) {
+    return (void *)42;   /* 退出值 */
+}
+
+int main(void) {
+    pthread_t th;
+    void *ret = NULL;
+    pthread_create(&amp;th, NULL, worker, NULL);
+    pthread_join(th, &amp;ret);          /* 等待并回收 */
+    printf("返回值: %ld\n", (long)ret);
+    return 0;
+}</code></pre>

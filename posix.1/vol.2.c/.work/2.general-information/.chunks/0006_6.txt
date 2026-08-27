@@ -1,0 +1,31 @@
+# start_index 151
+has an associated [B764]mbstate_t[/B764] object that stores the current parse state of the stream. A successful call to [A765][I766]fgetpos[/I766]()[/A765] shall store a representation of the value of this [B767]mbstate_t[/B767] object as part
+of the value of the [B768]fpos_t[/B768] object. A later successful call to [A769][I770]fsetpos[/I770]()[/A769] using
+the same stored [B771]fpos_t[/B771] value shall restore the value of the associated [B772]mbstate_t[/B772] object as well as the position
+within the controlled stream.
+[p_00799] Implementations that support multiple encoding rules associate an encoding rule with the stream. The encoding rule
+shall be determined by the setting of the [I773]LC_CTYPE[/I773] category in the current locale at the time when the stream becomes
+wide-oriented. As with the stream's orientation, the encoding rule associated with a stream cannot be changed once it has been set,
+except by a successful call to [A774][I775]freopen[/I775]()[/A774] which clears the encoding rule and resets
+the orientation to unoriented.
+[p_00800] Although wide-oriented streams are conceptually sequences of wide characters, the external file associated with a
+wide-oriented stream [S776][[A777]CX[/A777]][/S776] [IMG778] &nbsp;that was not opened with [A779][I780]open_wmemstream[/I780]()[/A779] [IMG781] is
+a sequence of (possibly multi-byte) characters generalized as follows:
+[li_00801] Multi-byte encodings within files may contain embedded null bytes (unlike multi-byte encodings valid for use
+internal to the program).
+[li_00802] A file need not begin nor end in the initial shift state.
+[p_00803] Moreover, the encodings used for characters may differ among files. Both the nature and choice of such encodings
+are implementation-defined.
+[p_00804] [S782][[A783]CX[/A783]][/S782] [IMG784] On streams that were not opened with [A785][I786]open_wmemstream[/I786]()[/A785],
+[IMG787] the wide-character input functions read characters from the stream
+and convert them to wide characters as if they were read by successive calls to the [A788][I789]fgetwc[/I789]()[/A788] function. Each conversion shall occur as if by a call to the [A790][I791]mbrtowc[/I791]()[/A790] function, with the conversion state described by the stream's own [B792]mbstate_t[/B792]
+object, [S793][[A794]CX[/A794]][/S793] [IMG795] &nbsp;except the encoding rule associated with the stream is used instead of the encoding rule implied by the [I796]LC_CTYPE[/I796]
+category of the current locale. [IMG797]
+[p_00805] [S798][[A799]CX[/A799]][/S798] [IMG800] On streams that were not opened with [A801][I802]open_wmemstream[/I802]()[/A801],
+[IMG803] the wide-character output functions convert wide characters to
+(possibly multi-byte) characters and write them to the stream as if they were written by successive calls to the [A804][I805]fputwc[/I805]()[/A804] function. Each conversion shall occur as if by a call to the [A806][I807]wcrtomb[/I807]()[/A806] function, with the conversion state described by the stream's own [B808]mbstate_t[/B808]
+object, [S809][[A810]CX[/A810]][/S809] [IMG811] &nbsp;except the encoding rule associated with the stream is used instead of the encoding rule implied by the [I812]LC_CTYPE[/I812]
+category of the current locale. [IMG813]
+[p_00806] An &quot;encoding error&quot; shall occur if the character sequence presented to the underlying [A814][I815]mbrtowc[/I815]()[/A814] function does not form a valid (generalized) character, or if the code value
+passed to the underlying [A816][I817]wcrtomb[/I817]()[/A816] function does not correspond to a valid
+(generalized) character. The wide-character input/output functions and the byte input/output functions store the value of the macro

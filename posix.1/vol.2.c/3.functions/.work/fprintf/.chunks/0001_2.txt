@@ -1,0 +1,51 @@
+# start_index 151
+[h5_00151] [A576][/A576]Printing Wide Characters
+[p_00152] The following example prints a series of wide characters. Suppose that [CODE577] expands to three bytes:
+[p_00153] In the last line of the example, after processing three characters, nine bytes have been output. The fourth character must then be examined to determine whether it converts to one byte or more. If it converts to more than one byte, the output is only nine bytes. Since there is no fourth character in the array, the behavior is undefined.
+[h4_00154] [A578][/A578]APPLICATION USAGE
+[p_00155] If the application calling [I579]fprintf[/I579]() has any objects of type [B580]wint_t[/B580] or [B581]wchar_t[/B581], it must also include the [A582][I583]&lt;wchar.h&gt;[/I583][/A582] header to have these objects defined.
+[p_00156] The space allocated by a successful call to [I584]asprintf[/I584]() should be subsequently freed by a call to [A585][I586]free[/I586]()[/A585].
+[h4_00157] [A587][/A587]RATIONALE
+[p_00158] If an implementation detects that there are insufficient arguments for the format, it is recommended that the function should fail and report an [EINVAL] error.
+[p_00159] The behavior specified for the [CODE588] conversion differs slightly from the specification in the ISO&nbsp;C standard, in that printing the null wide character produces a null byte instead of 0 bytes of output as would be required by a strict reading of the ISO&nbsp;C standard's direction to behave as if applying the [CODE589] specifier to a [B590]wchar_t[/B590] array whose first element is the null wide character. Requiring a multi-byte output for every possible wide character, including the null character, matches historical practice, and provides consistency with [CODE591] in [I592]fprintf[/I592]() and with both [CODE593] and [CODE594] in [A595][I596]fwprintf[/I596]()[/A595]. It is anticipated that a future edition of the ISO&nbsp;C standard will change to match the behavior specified here.
+[h4_00160] [A597][/A597]FUTURE DIRECTIONS
+[p_00161] None.
+[h4_00162] [A598][/A598]SEE ALSO
+[p_00163] [A599][I600]2.5 Standard I/O Streams[/I600][/A599], [A601][I602]fputc[/I602]()[/A601], [A603][I604]fscanf[/I604]()[/A603], [A605][I606]setlocale[/I606]()[/A605], [A607][I608]strfmon[/I608]()[/A607], [A609][I610]strlcat[/I610]()[/A609], [A611][I612]wcrtomb[/I612]()[/A611], [A613][I614]wcslcat[/I614]()[/A613]
+[p_00164] XBD [A615][I616]7. Locale[/I616][/A615], [A617][I618]&lt;inttypes.h&gt;[/I618][/A617], [A619][I620]&lt;stdio.h&gt;[/I620][/A619], [A621][I622]&lt;wchar.h&gt;[/I622][/A621]
+[h4_00165] [A623][/A623]CHANGE HISTORY
+[p_00166] First released in Issue 1. Derived from Issue 1 of the SVID.
+[h4_00167] [A624][/A624]Issue 5
+[p_00168] Aligned with ISO/IEC&nbsp;9899:1990/Amendment 1:1995 (E). Specifically, the [CODE625] (ell) qualifier can now be used with [CODE626] and [CODE627] conversion specifiers.
+[p_00169] The [I628]snprintf[/I628]() function is new in Issue 5.
+[h4_00170] [A629][/A629]Issue 6
+[p_00171] Extensions beyond the ISO&nbsp;C standard are marked.
+[p_00172] The normative text is updated to avoid use of the term &quot;must&quot; for application requirements.
+[p_00173] The following changes are made for alignment with the ISO/IEC&nbsp;9899:1999 standard:
+[p_00174] The prototypes for [I630]fprintf[/I630](), [I631]printf[/I631](), [I632]snprintf[/I632](), and [I633]sprintf[/I633]() are updated, and the XSI shading is removed from [I634]snprintf[/I634]().
+[p_00175] The description of [I635]snprintf[/I635]() is aligned with the ISO&nbsp;C standard. Note that this supersedes the [I636]snprintf[/I636]() description in The Open Group Base Resolution bwg98-006, which changed the behavior from Issue 5.
+[p_00176] The DESCRIPTION is updated.
+[p_00177] The DESCRIPTION is updated to use the terms &quot;conversion specifier&quot; and &quot;conversion specification&quot; consistently.
+[p_00178] ISO/IEC&nbsp;9899:1999 standard, Technical Corrigendum 1 is incorporated.
+[p_00179] An example of printing wide characters is added.
+[h4_00180] [A637][/A637]Issue 7
+[p_00181] Austin Group Interpretation 1003.1-2001 #161 is applied, updating the DESCRIPTION of the 0 flag.
+[p_00182] Austin Group Interpretation 1003.1-2001 #170 is applied.
+[p_00183] ISO/IEC&nbsp;9899:1999 standard, Technical Corrigendum 2 #68 (SD5-XSH-ERN-70) is applied, revising the description of [CODE638] and [CODE639].
+[p_00184] SD5-XSH-ERN-174 is applied.
+[p_00185] The [I640]dprintf[/I640]() function is added from The Open Group Technical Standard, 2006, Extended API Set Part 1.
+[p_00186] Functionality relating to the [CODE641] form of conversion specification and the &lt;apostrophe&gt; flag is moved from the XSI option to the Base.
+[p_00187] Changes are made related to support for finegrained timestamps.
+[p_00188] POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0163 [302], XSH/TC1-2008/0164 [316], XSH/TC1-2008/0165 [316], XSH/TC1-2008/0166 [451,291], and XSH/TC1-2008/0167 [14] are applied.
+[p_00189] POSIX.1-2008, Technical Corrigendum 2, XSH/TC2-2008/0126 [894], XSH/TC2-2008/0127 [557], and XSH/TC2-2008/0128 [936] are applied.
+[h4_00190] [A642][/A642]Issue 8
+[p_00191] Austin Group Defect 986 is applied, adding [A643][I644]strlcat[/I644]()[/A643] and [A645][I646]wcslcat[/I646]()[/A645] to the SEE ALSO section.
+[p_00192] Austin Group Defect 1020 is applied, clarifying that the [I647]snprintf[/I647]() argument [I648]n[/I648] limits the number of bytes written to [I649]s[/I649]; it is not necessarily the same as the size of [I650]s[/I650].
+[p_00193] Austin Group Defect 1021 is applied, changing &quot;output error&quot; to &quot;error&quot; in the RETURN VALUE section.
+[p_00194] Austin Group Defect 1137 is applied, clarifying the use of [CODE651][I652]n[/I652][CODE653] and [CODE654][I655]m[/I655][CODE656] in conversion specifications.
+[p_00195] Austin Group Defect 1205 is applied, changing the description of the [CODE657] conversion specifier.
+[p_00196] Austin Group Defect 1219 is applied, removing the [I658]snprintf[/I658]()-specific [EOVERFLOW] error.
+[p_00197] Austin Group Defect 1496 is applied, adding the [I659]asprintf[/I659]() function.
+[p_00198] Austin Group Defect 1562 is applied, clarifying that it is the application's responsibility to ensure that the format is a character string, beginning and ending in its initial shift state, if any.
+[p_00199] Austin Group Defect 1647 is applied, changing the description of the [CODE660] conversion specifier and updating the statement that this volume of POSIX.1-2024 defers to the ISO&nbsp;C standard so that it excludes the [CODE661] conversion when passed a null wide character.
+[p_00200] &nbsp;

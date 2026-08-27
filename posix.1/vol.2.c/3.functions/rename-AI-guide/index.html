@@ -1,0 +1,26 @@
+<h1>XSH 函数导读：rename()</h1>
+
+<h2>0. 总览</h2>
+<p><code>rename()</code> 用于重命名文件，也支持重命名目录。头文件为 <code>&lt;stdio.h&gt;</code>；扩展函数 <code>renameat()</code> 还需 <code>&lt;fcntl.h&gt;</code>。原型：<code>int rename(const char *old, const char *new)</code>、<code>int renameat(int oldfd, const char *old, int newfd, const char *new)</code>。</p>
+
+<h2>1. 机制</h2>
+<p>函数把 <code>old</code> 命名的文件改名为 <code>new</code>。对符号链接操作的是链接本身，不解析最后一个组件：<code>old</code> 是符号链接则重命名该链接，<code>new</code> 是符号链接则移除该链接。若 <code>new</code> 已存在，则移除它再把 <code>old</code> 重命名为 <code>new</code>，且整个操作要求原子：名为 <code>new</code> 的目录项在整个重命名期间保持对其他线程可见。<code>old</code> 与 <code>new</code> 解析到同一目录项时成功且不执行其他操作。若 <code>old</code> 是目录而 <code>new</code> 是文件（或反之），或 <code>new</code> 是非空目录，则失败。<code>old</code> 不应命名 <code>new</code> 的祖先目录，任一最终组件为 dot 或 dot-dot 的路径也失败。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li>同名 <code>new</code> 会被静默覆盖（原子替换），与“先 unlink 再 link”不同；需要保留旧内容时务必先备份。</li>
+<li>跨文件系统时失败 [EXDEV]（实现不支持文件系统间硬链接时）。</li>
+<li>目录对目录：<code>new</code> 必须不存在或是空目录，否则 [EEXIST] 或 [ENOTEMPTY]；类型不匹配时返回 [EISDIR]/[ENOTDIR]。</li>
+<li><code>old</code> 是 <code>new</code> 的祖先目录或出现 dot/dot-dot 最终组件时返回 [EINVAL]。</li>
+<li>失败时（[EIO] 以外）<code>new</code> 命名的任何文件不受影响。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void) {
+    /* new 已存在时会被原子替换 */
+    if (rename("/home/cnd/mod1", "/home/cnd/mod2") == -1)
+        perror("rename");
+    return 0;
+}</code></pre>

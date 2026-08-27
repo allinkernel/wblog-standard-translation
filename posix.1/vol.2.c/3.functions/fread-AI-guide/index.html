@@ -1,0 +1,39 @@
+<h1>XSH 函数导读：fread()</h1>
+
+<h2>0. 总览</h2>
+<p><code>fread()</code> 从流中做二进制输入：读取至多 <i>nitems</i> 个元素到 <i>ptr</i> 指向的数组中，每个元素大小为 <i>size</i> 字节。头文件为 <code>&lt;stdio.h&gt;</code>。原型关键点：<code>size_t fread(void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream)</code>——返回成功读取的<b>元素数</b>，而不是字节数。</p>
+
+<h2>1. 机制</h2>
+<p>规范把读取描述为“对每个对象调用 <code>fgetc()</code> 函数 <i>size</i> 次”，字节按读取顺序存入恰好覆盖该对象的 <b>unsigned char</b> 数组中。流的文件位置指示符按成功读取的字节数前进；若发生错误，位置指示符的结果值未指定。读取的对象个数只有遇到错误、文件末尾或 <i>size</i> 为零时才小于 <i>nitems</i>；若 <i>size</i> 或 <i>nitems</i> 为 0，则返回 0，数组内容和流状态保持不变。若发生错误，流的错误指示符被设置并设置 <i>errno</i>。错误条件与文件末尾条件需要用 <code>ferror()</code> 或 <code>feof()</code> 区分。</p>
+
+<h2>2. 易错点</h2>
+<ul>
+<li><b>短读</b>：返回值小于请求的元素数就是“未读满”的信号，必须检查；不要假设一次 <code>fread()</code> 会读满所有元素。</li>
+<li>用 <code>fread(buf, sizeof(buf), 1, fp)</code> 读定长记录时，返回值 0 并不等于“一个字节都没读到”——错误发生时可能已读了 0 到 <code>sizeof(buf)-1</code> 个字节，这部分数据的值未指定。</li>
+<li>区分 EOF 与错误：返回值小于 <i>nitems</i> 时，用 <code>feof()</code> 判断是否读到末尾，用 <code>ferror()</code> 判断是否出错，二者不可混用。</li>
+<li>用 <code>fwrite()</code> 写的文件是应用程序相关的：元素长度、字节顺序（大小端）因机器而异，换一台处理器或换一个程序未必能读回。</li>
+<li>读取半途出错时，未读满的“部分元素”的值未指定，不应使用。</li>
+</ul>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    FILE *fp = fopen("data.bin", "rb");
+    char buf[100];
+    size_t n;
+
+    if (fp == NULL) {
+        perror("fopen");
+        return 1;
+    }
+    n = fread(buf, 1, sizeof(buf), fp); /* 按字节读，n 即字节数 */
+    if (n &lt; sizeof(buf)) {
+        if (ferror(fp)) perror("fread");
+        else if (feof(fp)) puts("提前到达文件末尾");
+    }
+    fclose(fp);
+    return 0;
+}
+</code></pre>

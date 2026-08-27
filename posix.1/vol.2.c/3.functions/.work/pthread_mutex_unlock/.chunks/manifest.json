@@ -1,0 +1,2068 @@
+{
+ "0001": {
+  "title": "",
+  "nodes": [
+   {
+    "id": "h4_00001",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     11
+    ],
+    "text": "[A1][/A1]NAME",
+    "placeholders": {
+     "A1": {
+      "open": "<a name=\"tag_17_442_01\" id=\"tag_17_442_01\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "blockquote_00002",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     13
+    ],
+    "text": "pthread_mutex_lock, pthread_mutex_trylock, pthread_mutex_unlock — lock and unlock a mutex",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00003",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     15
+    ],
+    "text": "[A2][/A2]SYNOPSIS",
+    "placeholders": {
+     "A2": {
+      "open": "<a name=\"tag_17_442_02\" id=\"tag_17_442_02\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00004",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     17,
+     1
+    ],
+    "text": "[CODE3]",
+    "placeholders": {
+     "CODE3": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<code><tt>#include &lt;<a href=\"../basedefs/pthread.h.html\">pthread.h</a>&gt;<br>\n<br>\nint pthread_mutex_lock(pthread_mutex_t *</tt><i>mutex</i><tt>);<br>\nint pthread_mutex_trylock(pthread_mutex_t *</tt><i>mutex</i><tt>);<br>\nint pthread_mutex_unlock(pthread_mutex_t *</tt><i>mutex</i><tt>);<br></tt></code>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00005",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     19
+    ],
+    "text": "[A4][/A4]DESCRIPTION",
+    "placeholders": {
+     "A4": {
+      "open": "<a name=\"tag_17_442_03\" id=\"tag_17_442_03\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00006",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     1
+    ],
+    "text": "The mutex object referenced by [I5]mutex[/I5] shall be locked by a call to [I6]pthread_mutex_lock[/I6]() that returns zero or\n[EOWNERDEAD]. If the mutex is already locked by another thread, the calling thread shall block until the mutex becomes available.\nThis operation shall return with the mutex object referenced by [I7]mutex[/I7] in the locked state with the calling thread as its\nowner. If a thread attempts to relock a mutex that it has already locked, [I8]pthread_mutex_lock[/I8]() shall behave as described in\nthe [B9]Relock[/B9] column of the following table. If a thread attempts to unlock a mutex that it has not locked or a mutex which is\nunlocked, [I10]pthread_mutex_unlock[/I10]() shall behave as described in the [B11]Unlock When Not Owner[/B11] column of the following\ntable.",
+    "placeholders": {
+     "I5": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I6": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I7": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I8": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B9": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     },
+     "I10": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "B11": {
+      "open": "<b>",
+      "close": "</b>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "td_00007",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     3,
+     1
+    ],
+    "text": "NORMAL",
+    "placeholders": {},
+    "context": "行 1: NORMAL"
+   },
+   {
+    "id": "td_00008",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     3,
+     3
+    ],
+    "text": "non-robust",
+    "placeholders": {},
+    "context": "列头: Robustness"
+   },
+   {
+    "id": "td_00009",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     3,
+     5
+    ],
+    "text": "deadlock",
+    "placeholders": {},
+    "context": "列头: Relock"
+   },
+   {
+    "id": "td_00010",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     3,
+     7
+    ],
+    "text": "undefined behavior",
+    "placeholders": {},
+    "context": "列头: Unlock When Not Owner"
+   },
+   {
+    "id": "td_00011",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     5,
+     1
+    ],
+    "text": "NORMAL",
+    "placeholders": {},
+    "context": "行 2: NORMAL"
+   },
+   {
+    "id": "td_00012",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     5,
+     3
+    ],
+    "text": "robust",
+    "placeholders": {},
+    "context": "列头: Robustness"
+   },
+   {
+    "id": "td_00013",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     5,
+     5
+    ],
+    "text": "deadlock",
+    "placeholders": {},
+    "context": "列头: Relock"
+   },
+   {
+    "id": "td_00014",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     5,
+     7
+    ],
+    "text": "error returned",
+    "placeholders": {},
+    "context": "列头: Unlock When Not Owner"
+   },
+   {
+    "id": "td_00015",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     7,
+     1
+    ],
+    "text": "ERRORCHECK",
+    "placeholders": {},
+    "context": "行 3: ERRORCHECK"
+   },
+   {
+    "id": "td_00016",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     7,
+     3
+    ],
+    "text": "either",
+    "placeholders": {},
+    "context": "列头: Robustness"
+   },
+   {
+    "id": "td_00017",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     7,
+     5
+    ],
+    "text": "error returned",
+    "placeholders": {},
+    "context": "列头: Relock"
+   },
+   {
+    "id": "td_00018",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     7,
+     7
+    ],
+    "text": "error returned",
+    "placeholders": {},
+    "context": "列头: Unlock When Not Owner"
+   },
+   {
+    "id": "td_00019",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     9,
+     1
+    ],
+    "text": "RECURSIVE",
+    "placeholders": {},
+    "context": "行 4: RECURSIVE"
+   },
+   {
+    "id": "td_00020",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     9,
+     3
+    ],
+    "text": "either",
+    "placeholders": {},
+    "context": "列头: Robustness"
+   },
+   {
+    "id": "td_00021",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     9,
+     5
+    ],
+    "text": "recursive (see below)",
+    "placeholders": {},
+    "context": "列头: Relock"
+   },
+   {
+    "id": "td_00022",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     9,
+     7
+    ],
+    "text": "error returned",
+    "placeholders": {},
+    "context": "列头: Unlock When Not Owner"
+   },
+   {
+    "id": "td_00023",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     11,
+     1
+    ],
+    "text": "DEFAULT",
+    "placeholders": {},
+    "context": "行 5: DEFAULT"
+   },
+   {
+    "id": "td_00024",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     11,
+     3
+    ],
+    "text": "non-robust",
+    "placeholders": {},
+    "context": "列头: Robustness"
+   },
+   {
+    "id": "td_00025",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     11,
+     5
+    ],
+    "text": "undefined behavior[S12]†[/S12]",
+    "placeholders": {
+     "S12": {
+      "open": "<small>",
+      "close": "</small>",
+      "translate": true
+     }
+    },
+    "context": "列头: Relock"
+   },
+   {
+    "id": "td_00026",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     11,
+     7
+    ],
+    "text": "undefined behavior[S13]†[/S13]",
+    "placeholders": {
+     "S13": {
+      "open": "<small>",
+      "close": "</small>",
+      "translate": true
+     }
+    },
+    "context": "列头: Unlock When Not Owner"
+   },
+   {
+    "id": "td_00027",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     13,
+     1
+    ],
+    "text": "DEFAULT",
+    "placeholders": {},
+    "context": "行 6: DEFAULT"
+   },
+   {
+    "id": "td_00028",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     13,
+     3
+    ],
+    "text": "robust",
+    "placeholders": {},
+    "context": "列头: Robustness"
+   },
+   {
+    "id": "td_00029",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     13,
+     5
+    ],
+    "text": "undefined behavior[S14]†[/S14]",
+    "placeholders": {
+     "S14": {
+      "open": "<small>",
+      "close": "</small>",
+      "translate": true
+     }
+    },
+    "context": "列头: Relock"
+   },
+   {
+    "id": "td_00030",
+    "type": "td",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     3,
+     1,
+     13,
+     7
+    ],
+    "text": "error returned",
+    "placeholders": {},
+    "context": "列头: Unlock When Not Owner"
+   },
+   {
+    "id": "dt_00031",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     3
+    ],
+    "text": "†",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00032",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     5,
+     5
+    ],
+    "text": "If the mutex type is PTHREAD_MUTEX_DEFAULT, the behavior of [I15]pthread_mutex_lock[/I15]() may correspond to one of the three\nother standard mutex types as described in the table above. If it does not correspond to one of those three, the behavior is\nundefined for the cases marked †.",
+    "placeholders": {
+     "I15": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00033",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     7
+    ],
+    "text": "Where the table indicates recursive behavior, the mutex shall maintain the concept of a lock count. When a thread\nsuccessfully acquires a mutex for the first time, the lock count shall be set to one. Every time a thread relocks this mutex, the\nlock count shall be incremented by one. Each time the thread unlocks the mutex, the lock count shall be decremented by one. When\nthe lock count reaches zero, the mutex shall become available for other threads to acquire.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00034",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     9
+    ],
+    "text": "The [I16]pthread_mutex_trylock[/I16]() function shall be equivalent to [I17]pthread_mutex_lock[/I17](), except that if the\nmutex object referenced by [I18]mutex[/I18] is currently locked (by any thread, including the current thread), the call shall return\nimmediately. If the mutex type is PTHREAD_MUTEX_RECURSIVE and the mutex is currently owned by the calling thread, the mutex lock\ncount shall be incremented by one and the [I19]pthread_mutex_trylock[/I19]() function shall immediately return success.",
+    "placeholders": {
+     "I16": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I17": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I18": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I19": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00035",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     11
+    ],
+    "text": "The [I20]pthread_mutex_unlock[/I20]() function shall release the mutex object referenced by [I21]mutex[/I21]. The manner in\nwhich a mutex is released is dependent upon the mutex's type attribute. If there are threads blocked on the mutex object referenced\nby [I22]mutex[/I22] when [I23]pthread_mutex_unlock[/I23]() is called, resulting in the mutex becoming available, the scheduling policy\nshall determine which thread shall acquire the mutex.",
+    "placeholders": {
+     "I20": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I21": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I22": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I23": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00036",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     13
+    ],
+    "text": "(In the case of PTHREAD_MUTEX_RECURSIVE mutexes, the mutex shall become available when the count reaches zero and\nthe calling thread no longer has any locks on this mutex.)",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00037",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     15
+    ],
+    "text": "If a signal is delivered to a thread waiting for a mutex, upon return from the signal handler the thread shall\nresume waiting for the mutex as if it was not interrupted.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00038",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     17
+    ],
+    "text": "If [I24]mutex[/I24] is a robust mutex and the process containing the owning thread terminated while holding the mutex\nlock, a call to [I25]pthread_mutex_lock[/I25]() shall return the error value [EOWNERDEAD]. If [I26]mutex[/I26] is a robust mutex and the\nowning thread terminated while holding the mutex lock, a call to [I27]pthread_mutex_lock[/I27]() may return the error value\n[EOWNERDEAD] even if the process in which the owning thread resides has not terminated. In these cases, the mutex shall be locked\nby the calling thread but the state it protects is marked as inconsistent. The application should ensure that the state is made\nconsistent for reuse and when that is complete call [A28][I29]pthread_mutex_consistent[/I29]()[/A28]. If the application is unable to recover the\nstate, it should unlock the mutex without a prior call to [A30][I31]pthread_mutex_consistent[/I31]()[/A30], after which the mutex is marked permanently\nunusable.",
+    "placeholders": {
+     "I24": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I25": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I26": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I27": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A28": {
+      "open": "<a href=\"../functions/pthread_mutex_consistent.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I29": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A30": {
+      "open": "<a href=\"../functions/pthread_mutex_consistent.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I31": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00039",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     21,
+     19
+    ],
+    "text": "If [I32]mutex[/I32] does not refer to an initialized mutex object, the behavior of [I33]pthread_mutex_lock[/I33](),\n[I34]pthread_mutex_trylock[/I34](), and [I35]pthread_mutex_unlock[/I35]() is undefined.",
+    "placeholders": {
+     "I32": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I33": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I34": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I35": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00040",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     23
+    ],
+    "text": "[A36][/A36]RETURN VALUE",
+    "placeholders": {
+     "A36": {
+      "open": "<a name=\"tag_17_442_04\" id=\"tag_17_442_04\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00041",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     25,
+     1
+    ],
+    "text": "If successful, the [I37]pthread_mutex_lock[/I37](), [I38]pthread_mutex_trylock[/I38](), and [I39]pthread_mutex_unlock[/I39]() functions\nshall return zero; otherwise, an error number shall be returned to indicate the error.",
+    "placeholders": {
+     "I37": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I38": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I39": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00042",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     27
+    ],
+    "text": "[A40][/A40]ERRORS",
+    "placeholders": {
+     "A40": {
+      "open": "<a name=\"tag_17_442_05\" id=\"tag_17_442_05\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00043",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     1
+    ],
+    "text": "The [I41]pthread_mutex_lock[/I41]() and [I42]pthread_mutex_trylock[/I42]() functions shall fail if:",
+    "placeholders": {
+     "I41": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I42": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00044",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     3
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00045",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     5
+    ],
+    "text": "The mutex could not be acquired because the maximum number of recursive locks for [I43]mutex[/I43] has been exceeded.",
+    "placeholders": {
+     "I43": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00046",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     7
+    ],
+    "text": "[EAGAIN]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00047",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     9
+    ],
+    "text": "The mutex is a robust mutex and the system resources available for robust mutexes owned would be exceeded.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00048",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     11
+    ],
+    "text": "[EINVAL]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00049",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     13
+    ],
+    "text": "[S44][[A45]RPP|TPP[/A45]][/S44] [IMG46] The [I47]mutex[/I47] was created with the protocol attribute having the value PTHREAD_PRIO_PROTECT and the calling thread's\npriority is higher than the mutex's current priority ceiling. [IMG48]",
+    "placeholders": {
+     "S44": {
+      "open": "<sup>",
+      "close": "</sup>",
+      "translate": true
+     },
+     "A45": {
+      "open": "<a href=\"javascript:open_code(&#x27;RPP&#x27;)\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "IMG46": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-start.gif\" alt=\"[Option Start]\" border=\"0\">"
+     },
+     "I47": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "IMG48": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<img src=\"../images/opt-end.gif\" alt=\"[Option End]\" border=\"0\">"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00050",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     15
+    ],
+    "text": "[ENOTRECOVERABLE]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00051",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     17
+    ],
+    "text": "The state protected by the mutex is not recoverable.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dt_00052",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     19
+    ],
+    "text": "[EOWNERDEAD]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00053",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     3,
+     21
+    ],
+    "text": "The mutex is a robust mutex and the process containing the previous owning thread terminated while holding the mutex lock. The\nmutex lock shall be acquired by the calling thread and it is up to the new owner to make the state consistent.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00054",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     5
+    ],
+    "text": "The [I49]pthread_mutex_lock[/I49]() function shall fail if:",
+    "placeholders": {
+     "I49": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00055",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     3
+    ],
+    "text": "[EDEADLK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00056",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     7,
+     5
+    ],
+    "text": "The mutex type is PTHREAD_MUTEX_ERRORCHECK and the current thread already owns the mutex.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00057",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     9
+    ],
+    "text": "The [I50]pthread_mutex_trylock[/I50]() function shall fail if:",
+    "placeholders": {
+     "I50": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00058",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     3
+    ],
+    "text": "[EBUSY]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00059",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     11,
+     5
+    ],
+    "text": "The [I51]mutex[/I51] could not be acquired because it was already locked.",
+    "placeholders": {
+     "I51": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00060",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     13
+    ],
+    "text": "The [I52]pthread_mutex_unlock[/I52]() function shall fail if:",
+    "placeholders": {
+     "I52": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00061",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     3
+    ],
+    "text": "[EPERM]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00062",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     15,
+     5
+    ],
+    "text": "The mutex type is PTHREAD_MUTEX_ERRORCHECK or PTHREAD_MUTEX_RECURSIVE, or the mutex is a robust mutex, and the current thread\ndoes not own the mutex.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00063",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     19
+    ],
+    "text": "The [I53]pthread_mutex_lock[/I53]() and [I54]pthread_mutex_trylock[/I54]() functions may fail if:",
+    "placeholders": {
+     "I53": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I54": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00064",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     21,
+     3
+    ],
+    "text": "[EOWNERDEAD]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00065",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     21,
+     5
+    ],
+    "text": "The mutex is a robust mutex and the previous owning thread terminated while holding the mutex lock. The mutex lock shall be\nacquired by the calling thread and it is up to the new owner to make the state consistent.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00066",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     23
+    ],
+    "text": "The [I55]pthread_mutex_lock[/I55]() function may fail if:",
+    "placeholders": {
+     "I55": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "dt_00067",
+    "type": "dt",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     25,
+     3
+    ],
+    "text": "[EDEADLK]",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "dd_00068",
+    "type": "dd",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     25,
+     5
+    ],
+    "text": "A deadlock condition was detected.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00069",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     29,
+     27
+    ],
+    "text": "These functions shall not return an error code of [EINTR].",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00070",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     35
+    ],
+    "text": "[A56][/A56]EXAMPLES",
+    "placeholders": {
+     "A56": {
+      "open": "<a name=\"tag_17_442_06\" id=\"tag_17_442_06\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00071",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     37,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00072",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     39
+    ],
+    "text": "[A57][/A57]APPLICATION USAGE",
+    "placeholders": {
+     "A57": {
+      "open": "<a name=\"tag_17_442_07\" id=\"tag_17_442_07\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00073",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     41,
+     1
+    ],
+    "text": "Applications that have assumed that non-zero return values are errors will need updating for use with robust mutexes, since a\nvalid return for a thread acquiring a mutex which is protecting a currently inconsistent state is [EOWNERDEAD]. Applications that\ndo not check the error returns, due to ruling out the possibility of such errors arising, should not use robust mutexes. If an\napplication is supposed to work with normal and robust mutexes it should check all return values for error conditions and if\nnecessary take appropriate action.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00074",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     43
+    ],
+    "text": "[A58][/A58]RATIONALE",
+    "placeholders": {
+     "A58": {
+      "open": "<a name=\"tag_17_442_08\" id=\"tag_17_442_08\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00075",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     1
+    ],
+    "text": "Mutex objects are intended to serve as a low-level primitive from which other thread synchronization functions can be built. As\nsuch, the implementation of mutexes should be as efficient as possible, and this has ramifications on the features available at the\ninterface.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00076",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     3
+    ],
+    "text": "The mutex functions and the particular default settings of the mutex attributes have been motivated by the desire\nto not preclude fast, inlined implementations of mutex locking and unlocking.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00077",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     5
+    ],
+    "text": "Since most attributes only need to be checked when a thread is going to be blocked, the use of attributes does not\nslow the (common) mutex-locking case.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00078",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     7
+    ],
+    "text": "Likewise, while being able to extract the thread ID of the owner of a mutex might be desirable, it would require\nstoring the current thread ID when each mutex is locked, and this could incur unacceptable levels of overhead. Similar arguments\napply to a [I59]mutex_tryunlock[/I59] operation.",
+    "placeholders": {
+     "I59": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00079",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     9
+    ],
+    "text": "For further rationale on the extended mutex types, see XRAT [A60][I61]Threads Extensions[/I61][/A60].",
+    "placeholders": {
+     "A60": {
+      "open": "<a href=\"../xrat/V4_xsh_chap01.html#tag_22_02_09_08\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I61": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00080",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     45,
+     11
+    ],
+    "text": "If an implementation detects that the value specified by the [I62]mutex[/I62] argument does not refer to an initialized\nmutex object, it is recommended that the function should fail and report an [EINVAL] error.",
+    "placeholders": {
+     "I62": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00081",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     47
+    ],
+    "text": "[A63][/A63]FUTURE DIRECTIONS",
+    "placeholders": {
+     "A63": {
+      "open": "<a name=\"tag_17_442_09\" id=\"tag_17_442_09\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00082",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     49,
+     1
+    ],
+    "text": "None.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00083",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     51
+    ],
+    "text": "[A64][/A64]SEE ALSO",
+    "placeholders": {
+     "A64": {
+      "open": "<a name=\"tag_17_442_10\" id=\"tag_17_442_10\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00084",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     1
+    ],
+    "text": "[A65][I66]pthread_mutex_clocklock[/I66]()[/A65], [A67][I68]pthread_mutex_consistent[/I68]()[/A67], [A69][I70]pthread_mutex_destroy[/I70]()[/A69], [A71][I72]pthread_mutexattr_getrobust[/I72]()[/A71]",
+    "placeholders": {
+     "A65": {
+      "open": "<a href=\"../functions/pthread_mutex_clocklock.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I66": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A67": {
+      "open": "<a href=\"../functions/pthread_mutex_consistent.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I68": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A69": {
+      "open": "<a href=\"../functions/pthread_mutex_destroy.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I70": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A71": {
+      "open": "<a href=\"../functions/pthread_mutexattr_getrobust.html#\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I72": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00085",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     53,
+     3
+    ],
+    "text": "XBD [A73][I74]4.15.2 Memory Synchronization[/I74][/A73], [A75][I76]&lt;pthread.h&gt;[/I76][/A75]",
+    "placeholders": {
+     "A73": {
+      "open": "<a href=\"../basedefs/V1_chap04.html#tag_04_15_02\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I74": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "A75": {
+      "open": "<a href=\"../basedefs/pthread.h.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I76": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "h4_00086",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     55
+    ],
+    "text": "[A77][/A77]CHANGE HISTORY",
+    "placeholders": {
+     "A77": {
+      "open": "<a name=\"tag_17_442_11\" id=\"tag_17_442_11\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00087",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     57,
+     1
+    ],
+    "text": "First released in Issue 5. Included for alignment with the POSIX Threads Extension.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00088",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     59
+    ],
+    "text": "[A78][/A78]Issue 6",
+    "placeholders": {
+     "A78": {
+      "open": "<a name=\"tag_17_442_12\" id=\"tag_17_442_12\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00089",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     1
+    ],
+    "text": "The [I79]pthread_mutex_lock[/I79](), [I80]pthread_mutex_trylock[/I80](), and [I81]pthread_mutex_unlock[/I81]() functions are marked as part\nof the Threads option.",
+    "placeholders": {
+     "I79": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I80": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I81": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00090",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     3
+    ],
+    "text": "The following new requirements on POSIX implementations derive from alignment with the Single UNIX\nSpecification:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "li_00091",
+    "type": "li",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     5,
+     1
+    ],
+    "text": "The behavior when attempting to relock a mutex is defined.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00092",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     7
+    ],
+    "text": "The [A82][I83]pthread_mutex_timedlock[/I83]()[/A82] function is added to\nthe SEE ALSO section for alignment with IEEE&nbsp;Std&nbsp;1003.1d-1999.",
+    "placeholders": {
+     "A82": {
+      "open": "<a href=\"../functions/pthread_mutex_timedlock.html\">",
+      "close": "</a>",
+      "translate": true
+     },
+     "I83": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00093",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     61,
+     9
+    ],
+    "text": "IEEE&nbsp;Std&nbsp;1003.1-2001/Cor&nbsp;2-2004, item XSH/TC2/D6/98 is applied, updating the ERRORS section so that\nthe [EDEADLK] error includes detection of a deadlock condition. The RATIONALE section is also reworded to take into account\nnon-XSI-conformant systems.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00094",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     63
+    ],
+    "text": "[A84][/A84]Issue 7",
+    "placeholders": {
+     "A84": {
+      "open": "<a name=\"tag_17_442_13\" id=\"tag_17_442_13\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00095",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     1
+    ],
+    "text": "SD5-XSH-ERN-43 is applied, marking the &quot;shall fail&quot; case of the [EINVAL] error as dependent on the Thread Priority Protection\noption.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00096",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     3
+    ],
+    "text": "Changes are made from The Open Group Technical Standard, 2006, Extended API Set Part 3.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00097",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     5
+    ],
+    "text": "The [I85]pthread_mutex_lock[/I85](), [I86]pthread_mutex_trylock[/I86](), and [I87]pthread_mutex_unlock[/I87]() functions are\nmoved from the Threads option to the Base.",
+    "placeholders": {
+     "I85": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I86": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     },
+     "I87": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00098",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     7
+    ],
+    "text": "The following extended mutex types are moved from the XSI option to the Base:",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "blockquote_00099",
+    "type": "blockquote",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     9
+    ],
+    "text": "[PRE88]",
+    "placeholders": {
+     "PRE88": {
+      "open": "",
+      "close": "",
+      "translate": false,
+      "raw": "<pre>\nPTHREAD_MUTEX_NORMAL\nPTHREAD_MUTEX_ERRORCHECK\nPTHREAD_MUTEX_RECURSIVE\nPTHREAD_MUTEX_DEFAULT\n</pre>"
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00100",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     11
+    ],
+    "text": "The DESCRIPTION is updated to clarify the behavior when [I89]mutex[/I89] does not refer to an initialized mutex.",
+    "placeholders": {
+     "I89": {
+      "open": "<i>",
+      "close": "</i>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00101",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     13
+    ],
+    "text": "The ERRORS section is updated to account properly for all of the various mutex types.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00102",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     65,
+     15
+    ],
+    "text": "POSIX.1-2008, Technical Corrigendum 1, XSH/TC1-2008/0461 [121], XSH/TC1-2008/0462 [92,428], and XSH/TC1-2008/0463\n[121] are applied.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "h4_00103",
+    "type": "h4",
+    "path": [
+     2,
+     3,
+     2,
+     67
+    ],
+    "text": "[A90][/A90]Issue 8",
+    "placeholders": {
+     "A90": {
+      "open": "<a name=\"tag_17_442_14\" id=\"tag_17_442_14\">",
+      "close": "</a>",
+      "translate": true
+     }
+    },
+    "context": null
+   },
+   {
+    "id": "p_00104",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     1
+    ],
+    "text": "Austin Group Defect 354 is applied, adding the [EAGAIN] error for exceeding system resources available for robust mutexes\nowned.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00105",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     69,
+     3
+    ],
+    "text": "Austin Group Defect 1115 is applied, changing &quot;the thread&quot; to &quot;the calling thread&quot;.",
+    "placeholders": {},
+    "context": null
+   },
+   {
+    "id": "p_00106",
+    "type": "p",
+    "path": [
+     2,
+     3,
+     2,
+     75
+    ],
+    "text": "&nbsp;",
+    "placeholders": {},
+    "context": null
+   }
+  ]
+ }
+}

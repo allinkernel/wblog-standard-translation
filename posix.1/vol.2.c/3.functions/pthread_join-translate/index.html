@@ -1,0 +1,135 @@
+<h1>XSH 函数：pthread_join()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="pthread_join" id="pthread_join"></a> <a name="tag_17_434" id="tag_17_434"></a>
+
+<a name="tag_17_434_01" id="tag_17_434_01"></a><h4>名称 (NAME)</h4>
+<blockquote>pthread_join — 等待线程终止 (wait for thread termination)</blockquote>
+<a name="tag_17_434_02" id="tag_17_434_02"></a><h4>简介 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;pthread.h&gt;<br>
+<br>
+int pthread_join(pthread_t</code> <i>thread</i><code>, void **</code><i>value_ptr</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_434_03" id="tag_17_434_03"></a><h4>描述 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>pthread_join</i>() 函数应挂起调用线程的执行，直到目标 <i>thread</i> 终止，除非目标 <i>thread</i> 已经终止。从一次成功的、带有非 NULL <i>value_ptr</i> 参数的 <i>pthread_join</i>() 调用返回时，终止线程传递给 pthread_exit() 的值应在 <i>value_ptr</i> 所引用的位置中可用。当 <i>pthread_join</i>() 成功返回时，目标线程已终止。对指定同一目标线程的 <i>pthread_join</i>() 的多次同时调用的结果未定义。如果调用 <i>pthread_join</i>() 的线程被取消，则目标线程不应被分离。</p>
+<p>僵尸线程是否计入 {PTHREAD_THREADS_MAX} 未指定。</p>
+<p>如果 <i>pthread_join</i>() 的 <i>thread</i> 参数所指定的值未指向可汇合的（joinable）线程，则行为未定义。</p>
+<p>如果 <i>pthread_join</i>() 的 <i>thread</i> 参数所指定的值指向调用线程，则行为未定义。</p>
+<p>如果 <i>thread</i> 指向一个使用 thrd_create() 创建、并且通过从其启动例程返回而终止或已经终止的线程，则 <i>pthread_join</i>() 的行为未定义。如果 <i>thread</i> 指向一个通过调用 thrd_exit() 终止或已经终止的线程，则 <i>pthread_join</i>() 的行为未定义。</p>
+</blockquote>
+<a name="tag_17_434_04" id="tag_17_434_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>如果成功，<i>pthread_join</i>() 函数应返回零；否则，应返回错误号以指示错误。</p>
+</blockquote>
+<a name="tag_17_434_05" id="tag_17_434_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p><i>pthread_join</i>() 函数在以下情况下可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EDEADLK]</dt>
+<dd>检测到死锁。</dd>
+</dl>
+<p><i>pthread_join</i>() 函数不应返回 [EINTR] 错误码。</p>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_434_06" id="tag_17_434_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>以下是线程创建和删除的示例：</p>
+<pre><code class="language-plaintext">typedef struct {
+    int *ar;
+    long n;
+} subarray;
+ 
+void *
+incer(void *arg)
+{
+    long i;
+ 
+    for (i = 0; i &lt; ((subarray *)arg)-&gt;n; i++)
+        ((subarray *)arg)-&gt;ar[i]++;
+}
+ 
+int main(void)
+{
+    int        ar[1000000];
+    pthread_t  th1, th2;
+    subarray   sb1, sb2;
+ 
+    sb1.ar = &amp;ar[0];
+    sb1.n  = 500000;
+    (void) pthread_create(&amp;th1, NULL, incer, &amp;sb1);
+ 
+    sb2.ar = &amp;ar[500000];
+    sb2.n  = 500000;
+    (void) pthread_create(&amp;th2, NULL, incer, &amp;sb2);
+ 
+    (void) pthread_join(th1, NULL);
+    (void) pthread_join(th2, NULL);
+    return 0;
+}</code></pre></blockquote>
+<a name="tag_17_434_07" id="tag_17_434_07"></a><h4>应用用法 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_434_08" id="tag_17_434_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p><i>pthread_join</i>() 函数是一种已被证明在多线程应用程序中有用的便利设施。诚然，如果未提供此函数，程序员可以通过将额外状态作为 <i>start_routine</i>() 参数的一部分传入来模拟它。终止线程将设置一个标志以指示终止，并广播一个作为该状态一部分的条件；进行汇合的线程将等待该条件变量。虽然这种技术允许线程等待更复杂的条件（例如，等待多个线程终止），但等待单个线程终止被认为具有广泛的用途。此外，包含 <i>pthread_join</i>() 函数丝毫不会妨碍程序员编写此类复杂的等待。因此，尽管它不是原语，但将 <i>pthread_join</i>() 纳入本卷 POSIX.1-2024 被认为是有价值的。</p>
+<p><i>pthread_join</i>() 函数提供了一种简单机制，允许应用程序等待线程终止。在线程终止后，应用程序可以选择清理该线程所使用的资源。例如，在 <i>pthread_join</i>() 返回后，任何由应用程序提供的栈存储都可以被回收。</p>
+<p>对于每个以 <i>detachstate</i> 属性设置为 PTHREAD_CREATE_JOINABLE 创建的线程，最终都应调用 <i>pthread_join</i>() 或 pthread_detach() 函数，以便可以回收与该线程关联的存储。</p>
+<p>由于以下原因，<i>pthread_join</i>() 与取消之间的交互是良好定义的：</p>
+<ul>
+<li>
+<p>与所有其他非 async-cancel-safe 函数一样，<i>pthread_join</i>() 函数只能在延迟可取消类型下调用。</p>
+</li>
+<li>
+<p>在禁用可取消状态下不能发生取消。</p>
+</li>
+</ul>
+<p>因此，只需考虑默认可取消状态。如规定所述，<i>pthread_join</i>() 调用要么被取消，要么成功，但不会两者兼有。区别对应用程序是显而易见的，因为要么运行取消处理程序，要么 <i>pthread_join</i>() 返回。由于 <i>pthread_join</i>() 是在延迟可取消状态下调用的，因此不存在竞争条件。</p>
+<p>如果实现检测到 <i>pthread_join</i>() 的 <i>thread</i> 参数所指定的值未指向可汇合的线程，则建议该函数应失败并报告 [EINVAL] 错误。</p>
+<p>如果实现检测到 <i>pthread_join</i>() 的 <i>thread</i> 参数所指定的值指向调用线程，则建议该函数应失败并报告 [EDEADLK] 错误。</p>
+<p>如果实现检测到在线程 ID 的生命周期结束后使用它，则建议该函数应失败并报告 [ESRCH] 错误。</p>
+<p><i>pthread_join</i>() 函数不能用于获取使用 thrd_create() 创建并通过从其启动例程返回而终止的线程的退出状态，也不能用于获取通过调用 thrd_exit() 终止的线程的退出状态，因为此类线程具有 <b>int</b> 退出状态，而不是 <i>pthread_join</i>() 通过其 <i>value_ptr</i> 参数返回的 <b>void *</b>。</p>
+</blockquote>
+<a name="tag_17_434_09" id="tag_17_434_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_434_10" id="tag_17_434_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>pthread_create(), thrd_create(), thrd_exit(), wait()</p>
+<p>XBD 4.15.2 内存同步, &lt;pthread.h&gt;</p>
+</blockquote>
+<a name="tag_17_434_11" id="tag_17_434_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次在 Issue 5 中发布。为与 POSIX 线程扩展保持一致而纳入。</p>
+</blockquote>
+<a name="tag_17_434_12" id="tag_17_434_12"></a><h4>第 6 版 (Issue 6)</h4>
+<blockquote>
+<p><i>pthread_join</i>() 函数被标记为 Threads 选项的一部分。</p>
+<p>应用了 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/97，更新了 ERRORS 部分，使 [EINVAL] 错误变为可选，并从中删除了 &quot;the implementation has detected&quot; 字样。</p>
+</blockquote>
+<a name="tag_17_434_13" id="tag_17_434_13"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p><i>pthread_join</i>() 函数从 Threads 选项移至 Base。</p>
+<p>应用了 Austin Group Interpretation 1003.1-2001 #142，移除了 [ESRCH] 错误条件。</p>
+<p>删除了针对非可汇合线程的 [EINVAL] 错误；此情况导致未定义行为。</p>
+<p>删除了针对调用线程的 [EDEADLK] 错误；此情况导致未定义行为。</p>
+</blockquote>
+<a name="tag_17_434_14" id="tag_17_434_14"></a><h4>第 8 版 (Issue 8)</h4>
+<blockquote>
+<p>应用了 Austin Group Defect 792，将 &quot;已退出但仍未被汇合的线程&quot; 改为 &quot;僵尸线程&quot;。</p>
+<p>应用了 Austin Group Defect 1302，更新了本页以说明 &lt;threads.h&gt; 接口的增加。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

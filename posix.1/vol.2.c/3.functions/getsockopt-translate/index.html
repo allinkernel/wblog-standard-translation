@@ -1,0 +1,93 @@
+<h1>XSH 函数：getsockopt()</h1>
+
+
+
+<a name="top" id="top"></a> <a name="getsockopt" id="getsockopt"></a> <a name="tag_17_236" id="tag_17_236"></a>
+<a name="tag_17_236_01" id="tag_17_236_01"></a><h4>名称 (NAME)</h4>
+<blockquote>getsockopt — 获取套接字选项 (getsockopt — get the socket options)</blockquote>
+<a name="tag_17_236_02" id="tag_17_236_02"></a><h4>摘要 (SYNOPSIS)</h4>
+<blockquote>
+<p><code><code>#include &lt;sys/socket.h&gt;<br>
+<br>
+int getsockopt(int</code> <i>socket</i><code>, int</code> <i>level</i><code>, int</code> <i>option_name,</i> <code><br>
+       void *restrict</code> <i>option_value</i><code>, socklen_t *restrict</code>
+<i>option_len</i><code>);<br></code></code></p>
+</blockquote>
+<a name="tag_17_236_03" id="tag_17_236_03"></a><h4>说明 (DESCRIPTION)</h4>
+<blockquote>
+<p><i>getsockopt</i>() 函数操作与套接字关联的选项。</p>
+<p><i>getsockopt</i>() 函数应检索由 <i>option_name</i> 参数指定的、针对由 <i>socket</i> 参数指定的套接字的选项的值。如果选项值的大小大于 <i>option_len</i>，则存储在由 <i>option_value</i> 参数指向的对象中的值应被静默截断。否则，应修改由 <i>option_len</i> 参数指向的对象，以指示值的实际长度。</p>
+<p><i>level</i> 参数指定选项所在的协议层。要在套接字层检索选项，请将 <i>level</i> 参数指定为 SOL_SOCKET。要在其他层检索选项，请为控制该选项的协议提供相应的层标识符。例如，要指示选项由 TCP（传输控制协议）解释，请将 <i>level</i> 设置为 &lt;netinet/in.h&gt; 头文件中定义的 IPPROTO_TCP。</p>
+<p>所使用的套接字可能要求进程拥有适当的权限才能使用 <i>getsockopt</i>() 函数。</p>
+<p><i>option_name</i> 参数指定要检索的单个选项。它可以是 &lt;sys/socket.h&gt; 中定义并在 2.10.16 选项的使用 中描述的套接字层选项之一。</p>
+</blockquote>
+<a name="tag_17_236_04" id="tag_17_236_04"></a><h4>返回值 (RETURN VALUE)</h4>
+<blockquote>
+<p>成功完成后，<i>getsockopt</i>() 应返回 0；否则，应返回 -1，并设置 <i>errno</i> 以指示错误。</p>
+</blockquote>
+<a name="tag_17_236_05" id="tag_17_236_05"></a><h4>错误 (ERRORS)</h4>
+<blockquote>
+<p>在以下情况下，<i>getsockopt</i>() 函数应失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EBADF]</dt>
+<dd><i>socket</i> 参数不是有效的文件描述符。</dd>
+<dt>[EINVAL]</dt>
+<dd>指定的选项在指定的套接字层无效。</dd>
+<dt>[ENOPROTOOPT]</dt>
+<dd>协议不支持该选项。</dd>
+<dt>[ENOTSOCK]</dt>
+<dd><i>socket</i> 参数不引用套接字。</dd>
+</dl>
+<p>在以下情况下，<i>getsockopt</i>() 函数可以失败：</p>
+<dl compact="None">
+<dd></dd>
+<dt>[EACCES]</dt>
+<dd>调用进程没有适当的权限。</dd>
+<dt>[EINVAL]</dt>
+<dd>套接字已被关闭。</dd>
+<dt>[ENOBUFS]</dt>
+<dd>系统中可用于完成该函数的资源不足。</dd>
+</dl>
+</blockquote>
+
+<em>The following sections are informative.</em>
+<a name="tag_17_236_06" id="tag_17_236_06"></a><h4>示例 (EXAMPLES)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_236_07" id="tag_17_236_07"></a><h4>应用程序使用 (APPLICATION USAGE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_236_08" id="tag_17_236_08"></a><h4>理由 (RATIONALE)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_236_09" id="tag_17_236_09"></a><h4>未来方向 (FUTURE DIRECTIONS)</h4>
+<blockquote>
+<p>无。</p>
+</blockquote>
+<a name="tag_17_236_10" id="tag_17_236_10"></a><h4>参见 (SEE ALSO)</h4>
+<blockquote>
+<p>2.10.16 选项的使用、bind()、close()、endprotoent()、setsockopt()、socket()</p>
+<p>XBD &lt;sys/socket.h&gt;、&lt;netinet/in.h&gt;</p>
+</blockquote>
+<a name="tag_17_236_11" id="tag_17_236_11"></a><h4>变更历史 (CHANGE HISTORY)</h4>
+<blockquote>
+<p>首次发布于第 6 版。源自 XNS 第 5.2 版规范。</p>
+<p>为与 ISO/IEC 9899:1999 标准保持一致，将 <b>restrict</b> 关键字添加到 <i>getsockopt</i>() 原型中。</p>
+<p>应用 IEEE Std 1003.1-2001/Cor 2-2004 的条目 XSH/TC2/D6/47，更新 DESCRIPTION 中对 SO_LINGER 的描述，使其阻塞调用线程而不是进程。</p>
+</blockquote>
+<a name="tag_17_236_12" id="tag_17_236_12"></a><h4>第 7 版 (Issue 7)</h4>
+<blockquote>
+<p>应用 Austin Group Interpretation 1003.1-2001 #158，移除现在位于 2.10.16 选项的使用 中与套接字选项相关的文本。</p>
+</blockquote>
+<em>End of informative text.</em>
+
+<p> </p>
+<a href="#top"><span>return to top of page</span></a><br>
+
+
+
+

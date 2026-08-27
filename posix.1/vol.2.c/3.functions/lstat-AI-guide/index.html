@@ -1,0 +1,20 @@
+<h1>XSH 函数导读：lstat()</h1>
+
+<h2>0. 总览</h2>
+<p>lstat() 获取路径名所指文件的状态；与 stat() 的唯一区别是：当 path 指代符号链接时，lstat() 返回该链接本身的信息，而不是其目标文件。头文件为 <code>&lt;sys/stat.h&gt;</code>；原型为 <code>int lstat(const char *restrict path, struct stat *restrict buf)</code>。成功返回 0，失败返回 -1 并设置 errno。</p>
+
+<h2>1. 机制</h2>
+<p>lstat() 与 stat() 等价，唯一例外是符号链接：stat() 沿链接继续路径名解析并报告目标文件，lstat() 则报告链接自身的状态。对符号链接，st_mode 中的文件类型位有意义（配合 S_ISLNK() 等文件类型宏使用），但其中的文件模式位未指定；st_ino、st_dev、st_uid、st_gid、st_atim、st_ctim、st_mtim 有意义，st_nlink 为指向该符号链接的硬链接数，st_size 则是链接中保存的路径名长度（不含结尾空字符）——这使 lstat() 成为探测"该路径是否为符号链接"的标准手段。以目录描述符为基础的等价物是带 AT_SYMLINK_NOFOLLOW 标志的 fstatat()。</p>
+
+<h2>2. 易错点</h2>
+<p>最常犯的错误是混淆 stat() 与 lstat()：想判断文件类型却用 stat()，会把符号链接误判为目标文件的类型；反之想检查目标却误用 lstat()。还要注意 lstat() 只作用于最后一个路径组件：路径前缀中的符号链接仍会被解析。另外，符号链接的 st_size 是"链接内容的长度"而非目标文件大小，不要用它预估目标文件。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;sys/stat.h&gt;
+
+struct stat st;
+if (lstat("link", &amp;st) == -1)
+    return 1;
+if (S_ISLNK(st.st_mode))
+    /* 是符号链接，st.st_size 为链接内路径名长度 */;
+</code></pre>

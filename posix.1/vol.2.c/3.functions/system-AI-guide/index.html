@@ -1,0 +1,24 @@
+<h1>XSH 函数导读：system()</h1>
+
+<h2>0. 总览</h2>
+<p>system() 发出命令：把 command 指向的字符串交给命令处理器（sh 实用程序）执行。它声明于 <code>&lt;stdlib.h&gt;</code>，原型为 <code>int system(const char *command);</code>。若 command 是空指针，则探测宿主环境是否具有命令处理器——在 POSIX 下该调用应始终返回非零。</p>
+
+<h2>1. 机制</h2>
+<p>system() 应表现为使用 fork() 创建了子进程，子进程以 <code>execl(&lt;shell path&gt;, "sh", "-c", "--", command, (char *)0)</code> 调用 sh 实用程序，其中 &lt;shell path&gt; 是未指定的路径名。在等待命令终止期间，system() 忽略 SIGINT 和 SIGQUIT 信号并阻塞 SIGCHLD 信号，且在子进程终止之前不返回。当 command 非空时，返回命令语言解释器以 waitpid() 格式给出的终止状态；若子进程已创建但解释器未能执行，返回值如同使用 exit(127) 或 _exit(127) 终止；若无法创建子进程或无法获得其终止状态，返回 -1 并设置 errno。</p>
+
+<h2>2. 易错点</h2>
+<p>system() 依赖系统存在 sh 实用程序，且无法可移植地获知 shell 的具体路径。它不应被已设置用户（或组）ID 特权的程序使用——应改用 fork() 与 exec 函数族，防止用户环境被操纵从而执行未预期的命令。返回值需用 &lt;sys/wait.h&gt; 中的宏（如 WIFEXITED、WEXITSTATUS）解码，不能直接当作普通整数。等待期间父进程忽略 SIGINT/SIGQUIT，意味着键入中断字符可能只终止被执行的命令而不终止应用程序，交互式场景必须仔细检查返回状态。多线程中并发调用 system() 时信号处置的保存与恢复是未指定的；在线程处于 system() 调用中时取消该线程，子进程可能被遗留继续运行。</p>
+
+<h2>3. 示例</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sys/wait.h&gt;
+
+int main(void) {
+    int st = system("ls -l");
+    if (st == -1)
+        perror("system");
+    else if (WIFEXITED(st))
+        printf("exit status: %d\n", WEXITSTATUS(st));
+    return 0;
+}</code></pre>
